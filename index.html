@@ -663,14 +663,25 @@ html, body, *{ scrollbar-width:none; -ms-overflow-style:none; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.16.0';
-// Starter entries for Achtsamkeit: only used when the app has no saved data yet (a genuinely fresh
-// browser) — after that, each person's own additions and deletions are theirs alone; there is no
-// shared backend, so these can't be pushed out later to people who already have data.
+const APP_VERSION = '1.17.0';
+// Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
+// fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
   { id:'seed-atem', title:'3-Minuten Atemübung', url:null, notes:'4 Sekunden einatmen, 4 halten, 6 ausatmen. So lange wiederholen, bis du ruhiger wirst.', media:null, ts:1 },
   { id:'seed-bodyscan', title:'Body-Scan zum Einschlafen', url:null, notes:'Von den Zehen bis zum Kopf jeden Körperteil kurz wahrnehmen und bewusst entspannen.', media:null, ts:2 },
+  { id:'seed-lemon', title:'Lemonmeditation', url:null, notes:null, media:null, audio:'audio/lemonmeditation.m4a', ts:3, builtIn:true },
 ];
+// Built-in meditations whose audio ships with the app (a file next to index.html, so it costs no app storage).
+// Unlike the samples above they are also added for people who already have data, unless they deleted them.
+function ensureBuiltInMeditations(st){
+  if(!Array.isArray(st.meditationen)) st.meditationen = [];
+  const deleted = st.geloescht || {};
+  DEFAULT_MEDITATIONEN.filter(m=>m.builtIn).forEach(m=>{
+    const tomb = deleted['m:' + m.id];
+    if(!st.meditationen.some(x=>x.id === m.id) && !(tomb && tomb.d)) st.meditationen.push({ ...m });
+  });
+  return st;
+}
 const APP_BUILD = '2026-10-10';
 /* ================= i18n ================= */
 const I18N = {
@@ -792,6 +803,7 @@ function loadState(){
 }
 let state = loadState();
 if(!state.tagebuch) state.tagebuch = { jahre:{} }; // migrate older saved states that predate the diary
+ensureBuiltInMeditations(state);
 if(loadHadStorageProblem) showStorageWarning();
 let localStorageOk = true;
 let shrinkAfterFailTried = false;
@@ -837,6 +849,7 @@ function renderMeditationen(){
         <button class="icon-del" title="${d.delete}" onclick="deleteMeditation('${m.id}')">✕</button>
       </div>
       ${m.notes ? `<div class="meta">${escapeHtml(m.notes)}</div>` : ''}
+      ${m.audio ? `<div class="medi-media"><audio controls preload="metadata" src="${escapeHtml(m.audio)}"></audio></div>` : ''}
       ${m.media ? `<div class="medi-media">${m.media.type.startsWith('video/')
           ? `<video controls src="${m.media.dataUrl}"></video>`
           : `<audio controls src="${m.media.dataUrl}"></audio>`}</div>` : ''}
@@ -3090,6 +3103,7 @@ function syncMerge(local, remote){
 function syncApplyState(newState){
   applyingRemote = true;
   try{
+    ensureBuiltInMeditations(newState); // data from a device with an older app version may not have them yet
     newState.settings = state.settings; // every device keeps its own language
     state = newState;
     saveState();
