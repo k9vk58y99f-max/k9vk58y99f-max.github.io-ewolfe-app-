@@ -284,6 +284,7 @@ table.goal-table{ border-collapse:separate; border-spacing:0; width:100%; min-wi
   .modal{ border-radius:22px; max-height:80vh; }
 }
 /* Verlauf, Bewerten and Achtsamkeit are whole pages above the bottom bar, not floating windows */
+.modal-backdrop:not(.page-modal){ z-index:110; } /* windows (settings, details, breathing …) always lie above the pages */
 .page-modal{ background:var(--ew-navy); backdrop-filter:none; -webkit-backdrop-filter:none; align-items:stretch; }
 .home-new{ margin:-6px 16px 22px; }
 .home-new .primary-btn{ width:100%; padding:14px 18px; font-size:15px; }
@@ -330,6 +331,18 @@ input[type=range]::-webkit-slider-thumb{
 .medi-attach-hint{ font-size:11px; color:var(--ew-text-dim); margin:5px 2px 0; }
 .medi-staged-file{ display:flex; align-items:center; justify-content:space-between; gap:8px; background:var(--ew-navy-2); border-radius:10px; padding:8px 10px; margin-top:8px; font-size:12.5px; }
 .medi-media{ margin-top:8px; max-width:100%; }
+.breath-start-btn{ margin-top:10px; width:100%; display:flex; align-items:center; justify-content:center; }
+.breath-start-btn .ui-ico{ width:14px; height:14px; }
+.breath-modal{ text-align:center; }
+.breath-stage{ position:relative; width:min(78vw, 300px); margin:10px auto 6px; }
+.breath-svg{ display:block; width:100%; height:auto; }
+#breath-dot{ filter:drop-shadow(0 0 8px rgba(51,230,196,0.9)); }
+.breath-center{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; }
+#breath-phase{ font-size:20px; font-weight:700; color:#fff; }
+#breath-count{ font-size:42px; font-weight:700; color:var(--ew-turquoise); line-height:1.1; margin-top:2px; }
+.breath-meta{ color:var(--ew-text-dim); font-size:13px; margin:6px 0 16px; min-height:18px; }
+.breath-actions{ display:flex; gap:10px; }
+.breath-actions button{ flex:1; }
 .medi-media audio, .medi-media video{ width:100%; max-width:100%; border-radius:8px; display:block; }
 .goal-item, .event-item{ background:var(--ew-panel-2); border-radius:14px; padding:12px 14px; margin-bottom:10px; }
 .goal-item .row1{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
@@ -433,6 +446,8 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-page-nav{ display:flex; align-items:center; gap:16px; }
 .tb-page-num{ font-size:12px; color:var(--ew-text-dim); min-width:60px; text-align:center; }
 .tb-toolbar{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:560px; }
+.ui-ico{ width:16px; height:16px; vertical-align:-3px; margin-right:6px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex:none; }
+.ui-ico.after{ margin:0 0 0 6px; }
 .tb-tool-btn{ font-size:12px; padding:8px 13px; border-radius:10px; border:1px solid var(--ew-line); background:var(--ew-panel); color:var(--ew-text-dim); cursor:pointer; }
 .tb-tool-btn.active{ border-color:var(--ew-turquoise); color:var(--ew-turquoise); font-weight:600; }
 .tb-newpage-menu{ display:none; flex-wrap:wrap; gap:8px; justify-content:center; max-width:560px; background:var(--ew-panel-2); border-radius:12px; padding:10px; }
@@ -457,7 +472,8 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-page-empty{ background:#efe9db; }
 
 .tb-page-mini-tools{ position:absolute; top:8px; right:8px; display:flex; gap:4px; z-index:2; }
-.tb-mini-btn{ width:26px; height:26px; border-radius:7px; border:1px solid rgba(0,0,0,0.12); background:rgba(255,255,255,0.75); font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; }
+.tb-mini-btn{ width:26px; height:26px; border-radius:7px; border:1px solid rgba(0,0,0,0.12); background:rgba(255,255,255,0.75); color:#2a2152; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; }
+.tb-mini-btn .ui-ico{ width:15px; height:15px; margin:0; }
 .tb-mini-btn.active{ border-color:var(--ew-turquoise); background:#fff; }
 
 .tb-pagelist{ max-width:520px; margin:0 auto; }
@@ -568,6 +584,30 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
       <div class="settings-head" id="t-set-backup">Backup</div>
       <button class="ghost-btn settings-row" id="export-btn">⬇ <span id="t-export-label">Backup herunterladen</span></button>
       <label class="ghost-btn settings-row" id="import-btn" title="Backup wiederherstellen" style="cursor:pointer;position:relative;overflow:hidden;">⬆ <span id="t-import-label">Backup wiederherstellen</span><input type="file" id="import-file-input" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;"></label>
+    </div>
+  </div>
+</div>
+
+<!-- Box Breathing: a dot travels around a square, 4 seconds per side -->
+<div class="modal-backdrop" id="breath-modal">
+  <div class="modal breath-modal">
+    <div class="modal-top">
+      <h2 class="modal-title">Box Breathing</h2>
+      <button class="icon-btn" onclick="breathStop()">✕</button>
+    </div>
+    <div class="breath-stage">
+      <svg viewBox="0 0 240 240" class="breath-svg" aria-hidden="true">
+        <defs><linearGradient id="gradBreath" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b8a4ff"/><stop offset="100%" stop-color="#5a2bef"/></linearGradient></defs>
+        <rect x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3"/>
+        <rect id="breath-inner" x="30" y="30" width="180" height="180" rx="18" fill="url(#gradBreath)" fill-opacity="0.45"/>
+        <circle id="breath-dot" cx="30" cy="210" r="11" fill="#33e6c4"/>
+      </svg>
+      <div class="breath-center"><div id="breath-phase">Einatmen</div><div id="breath-count">4</div></div>
+    </div>
+    <div class="breath-meta" id="breath-meta"></div>
+    <div class="breath-actions">
+      <button class="ghost-btn" id="breath-pause-btn" onclick="breathTogglePause()">Pause</button>
+      <button class="primary-btn" id="breath-stop-btn" onclick="breathStop()">Beenden</button>
     </div>
   </div>
 </div>
@@ -703,7 +743,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 <div class="modal-backdrop" id="wheel-snapshot-modal">
   <div class="modal modal-wide" style="padding:0;overflow:hidden;background:linear-gradient(135deg, var(--ew-uv-navy) 0%, var(--ew-uv-navy-2) 45%, var(--ew-uv-violet) 100%);">
     <div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:18px 20px 4px;">
-      <button class="ghost-btn" id="wheel-snapshot-del" onclick="deleteWheelSnapshot()" style="margin-right:auto;padding:7px 12px;font-size:12.5px;color:#f3efff;">🗑 Löschen</button>
+      <button class="ghost-btn" id="wheel-snapshot-del" onclick="deleteWheelSnapshot()" style="margin-right:auto;padding:7px 12px;font-size:12.5px;color:#f3efff;display:inline-flex;align-items:center;">Löschen</button>
       <span id="wheel-snapshot-date" style="font-weight:600;color:#f3efff;font-size:15px;"></span>
       <button class="icon-btn" onclick="closeModal('wheel-snapshot-modal')">✕</button>
     </div>
@@ -745,12 +785,13 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.20.0';
+const APP_VERSION = '1.21.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
   { id:'seed-atem', title:'3-Minuten Atemübung', url:null, notes:'4 Sekunden einatmen, 4 halten, 6 ausatmen. So lange wiederholen, bis du ruhiger wirst.', media:null, ts:1 },
   { id:'seed-bodyscan', title:'Body-Scan zum Einschlafen', url:null, notes:'Von den Zehen bis zum Kopf jeden Körperteil kurz wahrnehmen und bewusst entspannen.', media:null, ts:2 },
+  { id:'seed-box', title:'Box Breathing', url:null, notes:null, notesKey:'mediBoxNote', media:null, tool:'box', ts:4, builtIn:true },
   { id:'seed-lemon', title:'Lemonmeditation', url:null, notes:null, notesKey:'mediLemonNote', media:null, audio:'audio/lemonmeditation.m4a', ts:3, builtIn:true },
 ];
 // Built-in meditations whose audio ships with the app (a file next to index.html, so it costs no app storage).
@@ -770,7 +811,7 @@ function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn 
 const APP_BUILD = '2026-10-10';
 /* ================= i18n ================= */
 const I18N = {
-  de:{ appName:'eWolfe', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'🗑 Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
+  de:{ appName:'eWolfe', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
     sceneHint:'Tippe auf einen Bereich für Details.', newEval:'Neue Bewertung', evalTitle:'Neue Bewertung',
     evalSub:'Wie schätzt du deine fünf Lebensbereiche gerade ein? Es gibt keine falschen Werte.', save:'Speichern',
     bereiche:{gesundheit:'Gesundheit',beziehungen:'Beziehungen',finanzen:'Finanzen',berufung:'Berufung',sinn:'Spiritualität'},
@@ -791,17 +832,17 @@ const I18N = {
     goalLabel:'Ziel', addMoreGoal:'+ Weiteres Ziel', saveGoals:'Ziele speichern',
     achievedCategory:'Erreichte Ziele', noAchievedGoals:'Noch keine erreichten Ziele in diesem Bereich.', achievedOn:'Erreicht am',
     diaryTitle:'Tagebuch', diaryLibrary:'Bibliothek', diaryOpen:'Aufschlagen', diaryToLibrary:'Zur Bibliothek',
-    diaryNoEntries:'Noch keine vergangenen Tagebücher.', diaryNewPage:'+ Neue Seite',
+    diaryNoEntries:'Noch keine vergangenen Tagebücher.', diaryNewPage:'Neue Seite',
     diaryPageLined:'Liniert', diaryPageGrid:'Kariert', diaryPageDotted:'Punkte', diaryPageBlank:'Leer',
-    diaryWrite:'✏️ Schreiben', diaryDraw:'🖌 Zeichnen', diaryAddImage:'🖼 Bild', diaryFontPrint:'Druckschrift', diaryFontHand:'Handschrift',
+    diaryWrite:'Schreiben', diaryDraw:'Zeichnen', diaryAddImage:'Bild', diaryFontPrint:'Druckschrift', diaryFontHand:'Handschrift',
     diaryColor:'Farbe', diaryMaterial:'Material', diaryFont:'Schrift', diaryTitlePh:'Titel des Tagebuchs',
     diaryMatPlain:'Schlicht', diaryMatLeather:'Leder', diaryMatLinen:'Leinen', diaryMatPaper:'Papier',
     diaryUploadCover:'Eigenes Coverbild', diaryPage:'Seite',
-    diaryEraseFree:'🧽 Pixel-Radierer', diaryEraseObj:'🗑 Objekt-Radierer',
-    diaryDeletePage:'🗑 Seite löschen', diaryDeletePageConfirm:'Diese Seite wirklich löschen? Das kann nicht rückgängig gemacht werden.',
-    diaryPagesOverview:'📑 Seiten',
-    diaryViewMode:'👁 Ansicht', diaryEditMode:'✏️ Bearbeiten',
-    diaryDefaultType:'Bevorzugter Seitentyp für neue Seiten', diaryChangeBg:'🎨 Hintergrund ändern', diarySettings:'Einstellungen', diaryResetDefault:'Auf Standard zurücksetzen',
+    diaryEraseFree:'Pixel-Radierer', diaryEraseObj:'Objekt-Radierer',
+    diaryDeletePage:'Seite löschen', diaryDeletePageConfirm:'Diese Seite wirklich löschen? Das kann nicht rückgängig gemacht werden.',
+    diaryPagesOverview:'Seiten',
+    diaryViewMode:'Ansicht', diaryEditMode:'Bearbeiten',
+    diaryDefaultType:'Bevorzugter Seitentyp für neue Seiten', diaryChangeBg:'Hintergrund ändern', diarySettings:'Einstellungen', diaryResetDefault:'Auf Standard zurücksetzen',
     exportBackup:'Backup herunterladen', importBackup:'Backup wiederherstellen',
     storageWarning:'⚠️ Der Speicher ist voll oder gesperrt: Neue Änderungen werden NICHT gespeichert und gehen beim Neuladen verloren. Bitte lade jetzt ein Backup herunter.',
     storageAlmost:'⚠️ Der Speicher ist fast voll. Bitte lade jetzt ein Backup herunter, sonst können neue Änderungen verloren gehen.',
@@ -814,10 +855,10 @@ const I18N = {
     importSuccess:'Backup erfolgreich wiederhergestellt.', importError:'Diese Datei konnte nicht gelesen werden. Ist es eine gültige eWolfe-Backup-Datei?',
     exportError:'Backup konnte nicht heruntergeladen werden.',
     dialogOk:'OK', dialogCancel:'Abbrechen', restoreFromBackup:'⬆ Backup wiederherstellen',
-    mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort (mindestens 6 Zeichen)', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
+    mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort (mindestens 6 Zeichen)', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediBoxNote:'Atme im Takt eines Quadrats: 4 Sekunden einatmen, 4 Sekunden halten, 4 Sekunden ausatmen, 4 Sekunden halten. Folge einfach dem Punkt – schon wenige Runden beruhigen Atem und Gedanken.', breathStart:'Starten', breathPause:'Pause', breathResume:'Weiter', breathStop:'Beenden', breathIn:'Einatmen', breathHold:'Halten', breathOut:'Ausatmen', breathRound:'Runde', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
     tblTitle:'Ziele im Überblick', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'Erklärungen', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahmen', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
     areaDesc:{ gesundheit:'Fitness, Ernährung, Erholung, Entspannung, Lebenserwartung', beziehungen:'Familie, Partnerschaft, Freunde, Zuwendung zu sich selbst', finanzen:'Einkommen, Wohlstand, Vermögen, Investitionen', berufung:'Aufgaben, Leistungen, Karriere, Erfolg', sinn:'Persönlichkeit, Sinn, Selbstverwirklichung, Erfüllung, Glück' } },
-  en:{ appName:'eWolfe', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'🗑 Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
+  en:{ appName:'eWolfe', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
     sceneHint:'Tap an area for details.', newEval:'New assessment', evalTitle:'New assessment',
     evalSub:'How do you rate your five life areas right now? There are no wrong values.', save:'Save',
     bereiche:{gesundheit:'Health',beziehungen:'Relationships',finanzen:'Finances',berufung:'Purpose',sinn:'Spirituality'},
@@ -838,17 +879,17 @@ const I18N = {
     goalLabel:'Goal', addMoreGoal:'+ Another goal', saveGoals:'Save goals',
     achievedCategory:'Achieved goals', noAchievedGoals:'No achieved goals in this area yet.', achievedOn:'Achieved on',
     diaryTitle:'Diary', diaryLibrary:'Library', diaryOpen:'Open', diaryToLibrary:'Back to library',
-    diaryNoEntries:'No past diaries yet.', diaryNewPage:'+ New page',
+    diaryNoEntries:'No past diaries yet.', diaryNewPage:'New page',
     diaryPageLined:'Lined', diaryPageGrid:'Grid', diaryPageDotted:'Dotted', diaryPageBlank:'Blank',
-    diaryWrite:'✏️ Write', diaryDraw:'🖌 Draw', diaryAddImage:'🖼 Image', diaryFontPrint:'Print', diaryFontHand:'Handwriting',
+    diaryWrite:'Write', diaryDraw:'Draw', diaryAddImage:'Image', diaryFontPrint:'Print', diaryFontHand:'Handwriting',
     diaryColor:'Color', diaryMaterial:'Material', diaryFont:'Font', diaryTitlePh:'Diary title',
     diaryMatPlain:'Plain', diaryMatLeather:'Leather', diaryMatLinen:'Linen', diaryMatPaper:'Paper',
     diaryUploadCover:'Custom cover image', diaryPage:'Page',
-    diaryEraseFree:'🧽 Pixel eraser', diaryEraseObj:'🗑 Object eraser',
-    diaryDeletePage:'🗑 Delete page', diaryDeletePageConfirm:'Really delete this page? This cannot be undone.',
-    diaryPagesOverview:'📑 Pages',
-    diaryViewMode:'👁 View', diaryEditMode:'✏️ Write',
-    diaryDefaultType:'Preferred page type for new pages', diaryChangeBg:'🎨 Change background', diarySettings:'Settings', diaryResetDefault:'Reset to default',
+    diaryEraseFree:'Pixel eraser', diaryEraseObj:'Object eraser',
+    diaryDeletePage:'Delete page', diaryDeletePageConfirm:'Really delete this page? This cannot be undone.',
+    diaryPagesOverview:'Pages',
+    diaryViewMode:'View', diaryEditMode:'Write',
+    diaryDefaultType:'Preferred page type for new pages', diaryChangeBg:'Change background', diarySettings:'Settings', diaryResetDefault:'Reset to default',
     exportBackup:'Download backup', importBackup:'Restore backup',
     storageWarning:'⚠️ Storage is full or blocked: new changes are NOT saved and will be lost on reload. Please download a backup now.',
     storageAlmost:'⚠️ Storage is almost full. Please download a backup now, otherwise new changes could be lost.',
@@ -861,7 +902,7 @@ const I18N = {
     importSuccess:'Backup restored successfully.', importError:'This file could not be read. Is it a valid eWolfe backup file?',
     exportError:'The backup could not be downloaded.',
     dialogOk:'OK', dialogCancel:'Cancel', restoreFromBackup:'⬆ Restore backup',
-    mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. Without signing in, everything stays on this device only, as before.', syncEmail:'Email', syncPassword:'Password (at least 6 characters)', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'The connection is encrypted and the servers are in Frankfurt (EU). Your password is not stored in the app.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password is too weak (at least 6 characters).', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', gateWelcome:'Welcome to eWolfe', gateIntroUp:'Create your account. Your data is then stored safely and stays the same on all your devices.', gateIntroIn:'Welcome back! Sign in with your account.', gateHaveAccount:'I already have an account – sign in', gateNoAccount:'No account yet? Create one', gateForgot:'Forgot password?', gateForgotTitle:'Forgot password', gateForgotIntro:'Enter your email. We will send you a link to set a new password.', gateForgotSend:'Send link', gateForgotSent:'If there is an account with this email, a message with a link is on its way. Open the link and set a new password. Please also check your spam folder.', gateBackToSignIn:'Back to sign in', gateNewPwTitle:'New password', gateNewPwIntro:'Set a new password for {email} now.', gateNewPwPh:'New password (at least 6 characters)', gateNewPwSave:'Save password', gateNewPwDone:'Your new password is saved. You are signed in and can use it on all your devices from now on.', gateLinkExpired:'The link has expired or was already used. Please request a new one via Forgot password.', eSamePw:'The new password must be different from the old one.', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file', mediLemonNote:'Before you begin: have some lemon essential oil ready. If you do not have any at hand, simply use the fresh peel of a citrus fruit – its scent will guide you through the meditation just as well.',
+    mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. Without signing in, everything stays on this device only, as before.', syncEmail:'Email', syncPassword:'Password (at least 6 characters)', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'The connection is encrypted and the servers are in Frankfurt (EU). Your password is not stored in the app.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password is too weak (at least 6 characters).', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', gateWelcome:'Welcome to eWolfe', gateIntroUp:'Create your account. Your data is then stored safely and stays the same on all your devices.', gateIntroIn:'Welcome back! Sign in with your account.', gateHaveAccount:'I already have an account – sign in', gateNoAccount:'No account yet? Create one', gateForgot:'Forgot password?', gateForgotTitle:'Forgot password', gateForgotIntro:'Enter your email. We will send you a link to set a new password.', gateForgotSend:'Send link', gateForgotSent:'If there is an account with this email, a message with a link is on its way. Open the link and set a new password. Please also check your spam folder.', gateBackToSignIn:'Back to sign in', gateNewPwTitle:'New password', gateNewPwIntro:'Set a new password for {email} now.', gateNewPwPh:'New password (at least 6 characters)', gateNewPwSave:'Save password', gateNewPwDone:'Your new password is saved. You are signed in and can use it on all your devices from now on.', gateLinkExpired:'The link has expired or was already used. Please request a new one via Forgot password.', eSamePw:'The new password must be different from the old one.', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file', mediBoxNote:'Breathe along a square: breathe in for 4 seconds, hold for 4, breathe out for 4, hold for 4. Simply follow the dot – just a few rounds calm your breath and your thoughts.', breathStart:'Start', breathPause:'Pause', breathResume:'Resume', breathStop:'Stop', breathIn:'Breathe in', breathHold:'Hold', breathOut:'Breathe out', breathRound:'Round', mediLemonNote:'Before you begin: have some lemon essential oil ready. If you do not have any at hand, simply use the fresh peel of a citrus fruit – its scent will guide you through the meditation just as well.',
     tblTitle:'Goals at a glance', tblAchTitle:'Achieved goals at a glance', tblAchCount:'Achieved', tblAchLabel:'Achieved', tblAchNone:'No achieved goals yet.', tblAchHint:'Most recently achieved goals come first. Tap a cell to open the achieved goals of that area.', tblArea:'Areas', tblDesc:'Descriptions', tblStand:'Date', tblPts:'pts', tblReason:'Reason', tblActions:'Actions', tblHint:'Tap a cell to open that area. Under the percentage: change since the previous assessment.',
     areaDesc:{ gesundheit:'Fitness, nutrition, recovery, relaxation, life expectancy', beziehungen:'Family, partnership, friends, caring for yourself', finanzen:'Income, prosperity, assets, investments', berufung:'Tasks, achievements, career, success', sinn:'Personality, meaning, self-fulfilment, contentment, happiness' } }
 };
@@ -934,6 +975,7 @@ function renderMeditationen(){
         ${m.builtIn ? '' : `<button class="icon-del" title="${d.delete}" onclick="deleteMeditation('${m.id}')">✕</button>`}
       </div>
       ${(m.notesKey ? d[m.notesKey] : m.notes) ? `<div class="meta">${escapeHtml(m.notesKey ? d[m.notesKey] : m.notes)}</div>` : ''}
+      ${m.tool === 'box' ? `<button class="primary-btn breath-start-btn" onclick="breathOpen()">${ico('play')}${d.breathStart}</button>` : ''}
       ${m.audio ? `<div class="medi-media"><audio controls preload="metadata" src="${escapeHtml(m.audio)}"></audio></div>` : ''}
       ${m.media ? `<div class="medi-media">${m.media.type.startsWith('video/')
           ? `<video controls src="${m.media.dataUrl}"></video>`
@@ -995,6 +1037,52 @@ document.getElementById('medi-save-btn').onclick = ()=>{
   mediStagedFile = null; document.getElementById('medi-staged-file').style.display = 'none';
   renderMeditationen();
 };
+/* ---- Box Breathing: 4 s in, 4 s hold, 4 s out, 4 s hold; the dot goes up, across, down and back ---- */
+const BREATH_SIDE = 4;
+let breath = { start:0, pausedAt:0, raf:0, lastPhase:-1 };
+function breathOpen(){
+  breath = { start:performance.now(), pausedAt:0, raf:0, lastPhase:-1 };
+  document.getElementById('breath-pause-btn').textContent = t().breathPause;
+  document.getElementById('breath-stop-btn').textContent = t().breathStop;
+  openModal('breath-modal');
+  breath.raf = requestAnimationFrame(breathFrame);
+}
+function breathStop(){
+  cancelAnimationFrame(breath.raf);
+  breath.raf = 0;
+  closeModal('breath-modal');
+}
+function breathTogglePause(){
+  const btn = document.getElementById('breath-pause-btn');
+  if(breath.pausedAt){
+    breath.start += performance.now() - breath.pausedAt; breath.pausedAt = 0;
+    btn.textContent = t().breathPause;
+    breath.raf = requestAnimationFrame(breathFrame);
+  }else{
+    breath.pausedAt = performance.now();
+    cancelAnimationFrame(breath.raf);
+    btn.textContent = t().breathResume;
+  }
+}
+function breathFrame(now){
+  if(!document.getElementById('breath-modal').classList.contains('open')){ breath.raf = 0; return; } // closed some other way
+  const d = t();
+  const el = (now - breath.start) / 1000, cycle = 4 * BREATH_SIDE;
+  const inCycle = el % cycle, phase = Math.floor(inCycle / BREATH_SIDE), f = (inCycle - phase * BREATH_SIDE) / BREATH_SIDE;
+  const lo = 30, hi = 210, span = hi - lo;
+  const pos = [ [lo, hi - span*f], [lo + span*f, lo], [hi, lo + span*f], [hi - span*f, hi] ][phase];
+  const dot = document.getElementById('breath-dot');
+  dot.setAttribute('cx', pos[0]); dot.setAttribute('cy', pos[1]);
+  const fill = [f, 1, 1 - f, 0][phase], size = 60 + 120 * fill; // the inner square breathes with you
+  const inner = document.getElementById('breath-inner');
+  inner.setAttribute('x', 120 - size/2); inner.setAttribute('y', 120 - size/2); inner.setAttribute('width', size); inner.setAttribute('height', size);
+  document.getElementById('breath-phase').textContent = [d.breathIn, d.breathHold, d.breathOut, d.breathHold][phase];
+  document.getElementById('breath-count').textContent = BREATH_SIDE - Math.floor(f * BREATH_SIDE);
+  const secs = Math.floor(el), mm = String(Math.floor(secs / 60)).padStart(2, '0'), ss = String(secs % 60).padStart(2, '0');
+  document.getElementById('breath-meta').textContent = d.breathRound + ' ' + (Math.floor(el / cycle) + 1) + ' · ' + mm + ':' + ss;
+  if(phase !== breath.lastPhase){ if(breath.lastPhase >= 0 && navigator.vibrate) try{ navigator.vibrate(25); }catch(e){} breath.lastPhase = phase; }
+  breath.raf = requestAnimationFrame(breathFrame);
+}
 function deleteMeditation(id){
   if(isBuiltInMeditation(id)) return; // part of the app, not removable
   state.meditationen = (state.meditationen||[]).filter(m=>m.id!==id);
@@ -1198,6 +1286,28 @@ async function readFileText(file){
     r.readAsText(file);
   });
 }
+/* ---- Line icons in the app style (instead of emoji), drawn with the current text colour ---- */
+const UI_ICONS = {
+  pencil:'<path d="M4 20l4-1L19 8l-3-3L5 16l-1 4Z"/><path d="M14 7l3 3"/>',
+  pen:'<path d="M12 19l7-7 3 3-7 7-3-3Z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5Z"/><path d="M2 2l7.6 7.6"/><circle cx="11" cy="11" r="2"/>',
+  eraser:'<path d="M20 20H9l-5-5a2 2 0 0 1 0-2.8L13.2 3a2 2 0 0 1 2.8 0L21 8a2 2 0 0 1 0 2.8L12 20"/><path d="M7.5 10.5l6 6"/>',
+  objErase:'<rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M9 9l6 6M15 9l-6 6"/>',
+  trash:'<path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13"/><path d="M9 7V4h6v3"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  pages:'<rect x="8" y="3" width="12" height="15" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/>',
+  eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
+  image:'<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-9 9"/>',
+  palette:'<path d="M12 3a9 9 0 1 0 0 18c1.2 0 2-.8 2-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3Z"/><circle cx="7.5" cy="11" r=".9"/><circle cx="10" cy="7" r=".9"/><circle cx="15" cy="7.5" r=".9"/>',
+  hand:'<path d="M3 17c3-1 4-9 6-9s-1 9 1 9 3-5 5-5-1 5 1 5 3-2 5-3"/>',
+  gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M2.5 12h3M18.5 12h3M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/>',
+  reset:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
+  arrowR:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  arrowL:'<path d="M19 12H5M11 6l-6 6 6 6"/>',
+  play:'<path d="M7 4.5v15l12.5-7.5Z" fill="currentColor"/>',
+  pause:'<path d="M8 5v14M16 5v14"/>'
+};
+function ico(name, cls){ return '<svg class="ui-ico' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + UI_ICONS[name] + '</svg>'; }
+
 /* ---- Deletions that travel between devices. Without this, the union merge of the sync would bring every deleted
    wheel, goal, event, meditation or diary page back from another device. state.geloescht maps 'kind:id' to { t, d }:
    t = when it was decided, d = 1 deleted / 0 brought back again (by a backup). The newer decision wins. ---- */
@@ -1478,9 +1588,14 @@ function navSync(){
 }
 function navGo(tab, open){
   if(tab !== 'home' && navActive() === tab) return;
+  const wasElsewhere = navActive() !== 'home';
   if(document.getElementById('tb-overlay').classList.contains('open')) closeTagebuch();
   document.querySelectorAll('.modal-backdrop.open').forEach(m=>{ if(!(m.id === 'sync-modal' && syncGateNeeded())) m.classList.remove('open'); });
-  if(open) open(); else window.scrollTo({ top:0, behavior:'smooth' });
+  const fromElsewhere = wasElsewhere;
+  if(open) open(); else window.scrollTo({ top:0, behavior: fromElsewhere ? 'auto' : 'smooth' });
+  // every page starts at the top when you switch to it
+  if(NAV_PAGES[tab]){ const sc = document.querySelector('#' + NAV_PAGES[tab] + ' .modal'); if(sc) sc.scrollTop = 0; }
+  if(tab === 'diary'){ const sc = document.getElementById('tb-body'); if(sc) sc.scrollTop = 0; }
   navSync();
 }
 function navInit(){
@@ -1959,7 +2074,7 @@ function openWheelSnapshot(idx){
   const snap = wheelSnapshotsCache[idx];
   if(!snap) return;
   wheelSnapshotOpen = idx;
-  document.getElementById('wheel-snapshot-del').textContent = t().wheelDelete;
+  document.getElementById('wheel-snapshot-del').innerHTML = ico('trash') + t().wheelDelete;
   const d = t();
   const svg = document.getElementById('wheel-snapshot-svg');
 
@@ -2505,7 +2620,7 @@ function tbRender(){
   document.getElementById('tb-title').textContent = d.diaryTitle;
   const modeBtn = document.getElementById('tb-mode-toggle-btn');
   modeBtn.style.display = (tbView==='page') ? 'inline-block' : 'none';
-  modeBtn.textContent = tbEditMode ? d.diaryViewMode : d.diaryEditMode;
+  modeBtn.innerHTML = tbEditMode ? ico('eye') + d.diaryViewMode : ico('pencil') + d.diaryEditMode;
   const body = document.getElementById('tb-body');
   if(tbView==='library') body.innerHTML = tbRenderLibrary();
   else if(tbView==='cover') body.innerHTML = tbRenderCover();
@@ -2582,10 +2697,10 @@ function tbRenderCover(){
       </div>
     </div>
     <div class="tb-cover-actions">
-      <button class="primary-btn" onclick="tbOpenFirstPage()">${d.diaryOpen} →</button>
+      <button class="primary-btn" onclick="tbOpenFirstPage()">${d.diaryOpen}${ico('arrowR','after')}</button>
       <button class="ghost-btn" onclick="tbView='library'; tbRender();">${d.diaryToLibrary}</button>
     </div>
-    <button class="tb-settings-toggle" onclick="tbCoverSettingsOpen=!tbCoverSettingsOpen; tbRender();">⚙ ${d.diarySettings}</button>
+    <button class="tb-settings-toggle" onclick="tbCoverSettingsOpen=!tbCoverSettingsOpen; tbRender();">${ico('gear')}${d.diarySettings}</button>
     <div class="tb-cover-edit${tbCoverSettingsOpen?' open':''}">
       <input class="small-input" id="tb-cover-title-input" placeholder="${d.diaryTitlePh}" value="${escapeHtml(diary.cover.title||'')}" style="max-width:280px;">
       <span class="tb-row-label">${d.diaryColor}</span>
@@ -2597,7 +2712,7 @@ function tbRenderCover(){
       <span class="tb-row-label">${d.diaryDefaultType}</span>
       <div class="tb-chip-row">${typeChips}</div>
       <label class="ghost-btn" style="cursor:pointer;">${d.diaryUploadCover}<input type="file" accept="image/*" id="tb-cover-img-input" style="display:none;"></label>
-      <button class="ghost-btn" style="font-size:11.5px;" onclick="tbResetCoverDefault()">↺ ${d.diaryResetDefault}</button>
+      <button class="ghost-btn" style="font-size:11.5px;" onclick="tbResetCoverDefault()">${ico('reset')}${d.diaryResetDefault}</button>
     </div>
   </div>`;
 }
@@ -2787,10 +2902,10 @@ function tbRenderPageSlot(idx){
   if(tbImgsMigrated) saveState(); // persist the one-time conversion so it only ever runs once per image
   const miniTools = tbEditMode ? `
       <div class="tb-page-mini-tools">
-        <button class="tb-mini-btn ${page.font==='hand'?'active':''}" onclick="tbToggleHandFont(${idx})" title="${d.diaryFontHand}">🖊</button>
-        <label class="tb-mini-btn" title="${d.diaryAddImage}" style="cursor:pointer;">🖼<input type="file" accept="image/*" id="tb-img-input-${idx}" style="display:none;"></label>
-        <button class="tb-mini-btn" onclick="tbCyclePageType(${idx})" title="${d.diaryChangeBg}">🎨</button>
-        <button class="tb-mini-btn" onclick="tbDeletePage(${idx})" title="${d.diaryDeletePage}">🗑</button>
+        <button class="tb-mini-btn ${page.font==='hand'?'active':''}" onclick="tbToggleHandFont(${idx})" title="${d.diaryFontHand}">${ico('hand')}</button>
+        <label class="tb-mini-btn" title="${d.diaryAddImage}" style="cursor:pointer;">${ico('image')}<input type="file" accept="image/*" id="tb-img-input-${idx}" style="display:none;"></label>
+        <button class="tb-mini-btn" onclick="tbCyclePageType(${idx})" title="${d.diaryChangeBg}">${ico('palette')}</button>
+        <button class="tb-mini-btn" onclick="tbDeletePage(${idx})" title="${d.diaryDeletePage}">${ico('trash')}</button>
       </div>` : '';
   return `<div class="tb-page type-${page.type}" data-page-idx="${idx}">
       <textarea class="tb-page-text ${page.font==='hand'?'font-hand':''} ${(tbMode!=='text'||!tbEditMode)?'inactive':''}" id="tb-page-text-${idx}" placeholder="" ${tbEditMode?'':'readonly'}
@@ -2827,12 +2942,12 @@ function tbRenderPage(){
   const typeBtns = TB_PAGE_TYPES.map(pt=>`<button class="tb-tool-btn" onclick="tbAddPage('${pt}')">${d['diaryPage'+pt.charAt(0).toUpperCase()+pt.slice(1)]}</button>`).join('');
   const toolbarHtml = tbEditMode ? `
       <div class="tb-toolbar">
-        <button class="tb-tool-btn ${tbMode==='text'?'active':''}" onclick="tbSetMode('text')">${d.diaryWrite}</button>
-        <button class="tb-tool-btn ${tbMode==='draw'?'active':''}" onclick="tbSetMode('draw')">${d.diaryDraw}</button>
-        <button class="tb-tool-btn ${tbMode==='eraseFree'?'active':''}" onclick="tbSetMode('eraseFree')">${d.diaryEraseFree}</button>
-        <button class="tb-tool-btn ${tbMode==='eraseObj'?'active':''}" onclick="tbSetMode('eraseObj')">${d.diaryEraseObj}</button>
-        <button class="tb-tool-btn" onclick="document.getElementById('tb-newpage-menu').classList.toggle('open')">${d.diaryNewPage}</button>
-        <button class="tb-tool-btn" onclick="tbView='pages'; tbRender();">${d.diaryPagesOverview}</button>
+        <button class="tb-tool-btn ${tbMode==='text'?'active':''}" onclick="tbSetMode('text')">${ico('pencil')}${d.diaryWrite}</button>
+        <button class="tb-tool-btn ${tbMode==='draw'?'active':''}" onclick="tbSetMode('draw')">${ico('pen')}${d.diaryDraw}</button>
+        <button class="tb-tool-btn ${tbMode==='eraseFree'?'active':''}" onclick="tbSetMode('eraseFree')">${ico('eraser')}${d.diaryEraseFree}</button>
+        <button class="tb-tool-btn ${tbMode==='eraseObj'?'active':''}" onclick="tbSetMode('eraseObj')">${ico('objErase')}${d.diaryEraseObj}</button>
+        <button class="tb-tool-btn" onclick="document.getElementById('tb-newpage-menu').classList.toggle('open')">${ico('plus')}${d.diaryNewPage}</button>
+        <button class="tb-tool-btn" onclick="tbView='pages'; tbRender();">${ico('pages')}${d.diaryPagesOverview}</button>
       </div>
       <div class="tb-newpage-menu" id="tb-newpage-menu">${typeBtns}</div>` : '';
 
@@ -2882,7 +2997,7 @@ function tbRenderPagesOverview(){
     return `<div class="tb-pagelist-row" onclick="tbJumpToPage(${i})"><span>${label}</span>${del}</div>`;
   }).join('');
   return `<div class="tb-pagelist">${rows}</div>
-    <button class="ghost-btn" style="width:100%;margin-top:10px;" onclick="tbView='page'; tbRender();">← ${d.diaryPage}</button>`;
+    <button class="ghost-btn" style="width:100%;margin-top:10px;" onclick="tbView='page'; tbRender();">${ico('arrowL')}${d.diaryPage}</button>`;
 }
 function tbJumpToPage(idx){ tbPageIdx=idx; tbView='page'; tbRender(); }
 
@@ -3278,7 +3393,7 @@ function syncEditorOpen(){
   // never swap the data out from under something the person is in the middle of editing
   if(document.getElementById('tb-overlay').classList.contains('open')) return true;
   const pristine = localIsPristine();
-  const viewOnly = ['sync-modal', 'goals-page', 'medi-modal', 'settings-modal'];
+  const viewOnly = ['sync-modal', 'goals-page', 'medi-modal', 'settings-modal', 'breath-modal'];
   return [...document.querySelectorAll('.modal-backdrop.open')].some(m=> !viewOnly.includes(m.id) && !(pristine && m.id === 'eval-modal'));
 }
 function syncMerge(local, remote){
