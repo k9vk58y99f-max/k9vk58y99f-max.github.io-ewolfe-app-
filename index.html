@@ -663,7 +663,7 @@ html, body, *{ scrollbar-width:none; -ms-overflow-style:none; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.15.0';
+const APP_VERSION = '1.16.0';
 // Starter entries for Achtsamkeit: only used when the app has no saved data yet (a genuinely fresh
 // browser) — after that, each person's own additions and deletions are theirs alone; there is no
 // shared backend, so these can't be pushed out later to people who already have data.
@@ -718,7 +718,7 @@ const I18N = {
     importSuccess:'Backup erfolgreich wiederhergestellt.', importError:'Diese Datei konnte nicht gelesen werden. Ist es eine gültige eWolfe-Backup-Datei?',
     exportError:'Backup konnte nicht heruntergeladen werden.',
     dialogOk:'OK', dialogCancel:'Abbrechen', restoreFromBackup:'⬆ Backup wiederherstellen',
-    mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen',
+    mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort (mindestens 6 Zeichen)', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen',
     tblTitle:'Ziele im Überblick', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'Erklärungen', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahmen', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
     areaDesc:{ gesundheit:'Fitness, Ernährung, Erholung, Entspannung, Lebenserwartung', beziehungen:'Familie, Partnerschaft, Freunde, Zuwendung zu sich selbst', finanzen:'Einkommen, Wohlstand, Vermögen, Investitionen', berufung:'Aufgaben, Leistungen, Karriere, Erfolg', sinn:'Persönlichkeit, Sinn, Selbstverwirklichung, Erfüllung, Glück' } },
   en:{ appName:'eWolfe', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
@@ -765,7 +765,7 @@ const I18N = {
     importSuccess:'Backup restored successfully.', importError:'This file could not be read. Is it a valid eWolfe backup file?',
     exportError:'The backup could not be downloaded.',
     dialogOk:'OK', dialogCancel:'Cancel', restoreFromBackup:'⬆ Restore backup',
-    mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. Without signing in, everything stays on this device only, as before.', syncEmail:'Email', syncPassword:'Password (at least 6 characters)', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'The connection is encrypted and the servers are in Frankfurt (EU). Your password is not stored in the app.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password is too weak (at least 6 characters).', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', gateWelcome:'Welcome to eWolfe', gateIntroUp:'Create your account. Your data is then stored safely and stays the same on all your devices.', gateIntroIn:'Welcome back! Sign in with your account.', gateHaveAccount:'I already have an account – sign in', gateNoAccount:'No account yet? Create one', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file',
+    mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. Without signing in, everything stays on this device only, as before.', syncEmail:'Email', syncPassword:'Password (at least 6 characters)', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'The connection is encrypted and the servers are in Frankfurt (EU). Your password is not stored in the app.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password is too weak (at least 6 characters).', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', gateWelcome:'Welcome to eWolfe', gateIntroUp:'Create your account. Your data is then stored safely and stays the same on all your devices.', gateIntroIn:'Welcome back! Sign in with your account.', gateHaveAccount:'I already have an account – sign in', gateNoAccount:'No account yet? Create one', gateForgot:'Forgot password?', gateForgotTitle:'Forgot password', gateForgotIntro:'Enter your email. We will send you a link to set a new password.', gateForgotSend:'Send link', gateForgotSent:'If there is an account with this email, a message with a link is on its way. Open the link and set a new password. Please also check your spam folder.', gateBackToSignIn:'Back to sign in', gateNewPwTitle:'New password', gateNewPwIntro:'Set a new password for {email} now.', gateNewPwPh:'New password (at least 6 characters)', gateNewPwSave:'Save password', gateNewPwDone:'Your new password is saved. You are signed in and can use it on all your devices from now on.', gateLinkExpired:'The link has expired or was already used. Please request a new one via Forgot password.', eSamePw:'The new password must be different from the old one.', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file',
     tblTitle:'Goals at a glance', tblAchTitle:'Achieved goals at a glance', tblAchCount:'Achieved', tblAchLabel:'Achieved', tblAchNone:'No achieved goals yet.', tblAchHint:'Most recently achieved goals come first. Tap a cell to open the achieved goals of that area.', tblArea:'Areas', tblDesc:'Descriptions', tblStand:'Date', tblPts:'pts', tblReason:'Reason', tblActions:'Actions', tblHint:'Tap a cell to open that area. Under the percentage: change since the previous assessment.',
     areaDesc:{ gesundheit:'Fitness, nutrition, recovery, relaxation, life expectancy', beziehungen:'Family, partnership, friends, caring for yourself', finanzen:'Income, prosperity, assets, investments', berufung:'Tasks, achievements, career, success', sinn:'Personality, meaning, self-fulfilment, contentment, happiness' } }
 };
@@ -2921,8 +2921,33 @@ function sbUid(){ return sbSession && sbSession.user && sbSession.user.id; }
    A device that has never been signed in starts with "create account"; once somebody has signed in
    here, it only asks to sign in again (with the e-mail already filled in). ---- */
 const LASTEMAIL_KEY = 'ewolfe_last_email';
-let syncAuthMode = null; // 'in' | 'up' – chosen on the gate, null = pick automatically
-function syncGateNeeded(){ return !sbSession; }
+let syncAuthMode = null; // 'in' | 'up' | 'forgot' – chosen on the gate, null = pick automatically
+let syncRecovery = false; // signed in through a "forgot password" link: a new password has to be set first
+let syncGateNote = '';    // one-off message for the sign-in window, e.g. an expired link
+function syncGateNeeded(){ return !sbSession || syncRecovery; }
+function syncAppUrl(){ return /^https?:$/.test(location.protocol) ? location.origin + location.pathname : ''; }
+/* The e-mail link from "forgot password" leads back to the app with the sign-in in the address (#access_token=…&type=recovery).
+   It is taken out of the address right away, the person is signed in and asked for a new password. */
+async function syncHandleAuthLink(){
+  const h = new URLSearchParams(location.hash.replace(/^#/, ''));
+  if(!h.get('access_token') && !h.get('error') && !h.get('error_code')) return;
+  try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+  const showNote = ()=>{ syncGateNote = t().gateLinkExpired; syncAuthMode = 'forgot'; if(document.getElementById('sync-modal').classList.contains('open')) renderSyncModal(); };
+  if(!h.get('access_token')){ showNote(); return; }
+  try{
+    const tok = h.get('access_token');
+    const user = await sbRequest('/auth/v1/user', { auth:false, headers:{ 'Authorization':'Bearer ' + tok } });
+    sbSaveSession(sbNormalizeSession({ access_token:tok, refresh_token:h.get('refresh_token'), expires_at:+h.get('expires_at') || 0, expires_in:+h.get('expires_in') || 3600, user }));
+    if(user && user.email){ try{ localStorage.setItem(LASTEMAIL_KEY, user.email); }catch(e){} }
+    syncRecovery = h.get('type') === 'recovery';
+    syncSet('idle');
+    if(!syncRecovery){ syncLeaveGate(); syncNow(); return; }
+    if(document.getElementById('sync-modal').classList.contains('open')) syncShowGate(); // otherwise the end of the intro shows it
+  }catch(e){
+    console.error('eWolfe: sign-in link failed', e);
+    showNote();
+  }
+}
 function syncLastEmail(){ try{ return localStorage.getItem(LASTEMAIL_KEY) || ''; }catch(e){ return ''; } }
 function syncKnownDevice(){ return !!(syncLastEmail() || syncMetaLoad().userId); }
 function syncShowGate(){
@@ -3197,6 +3222,7 @@ function syncErrText(e){
   if(e.status === 0) return d.eNetwork;
   if(code === 'invalid_credentials' || msg.includes('invalid login')) return d.eBadLogin;
   if(code === 'user_already_exists' || msg.includes('already registered')) return d.eExists;
+  if(code === 'same_password' || msg.includes('different from the old')) return d.eSamePw;
   if(code === 'weak_password' || msg.includes('password should be')) return d.eWeak;
   if(code === 'email_not_confirmed' || msg.includes('not confirmed')) return d.eNotConfirmed;
   if(e.status === 429 || code.includes('rate_limit')) return d.eRate;
@@ -3226,8 +3252,25 @@ function syncUpdateUi(){
 }
 function renderSyncModal(){
   const d = t(), body = document.getElementById('sync-body');
-  document.getElementById('t-sync-title').textContent = sbSession ? d.syncTitle : d.gateWelcome;
-  if(sbSession){
+  const mode = syncAuthMode || (syncKnownDevice() ? 'in' : 'up');
+  document.getElementById('t-sync-title').textContent = syncRecovery ? d.gateNewPwTitle : sbSession ? d.syncTitle : mode === 'forgot' ? d.gateForgotTitle : d.gateWelcome;
+  const langBtn = `<div style="text-align:center;margin-top:12px;"><button class="gate-lang" id="sync-lang-btn">${state.settings.lang === 'de' ? 'English' : 'Deutsch'}</button></div>`;
+  const wireLang = ()=>{ document.getElementById('sync-lang-btn').onclick = ()=>{ state.settings.lang = state.settings.lang === 'de' ? 'en' : 'de'; saveState(); applyLang(); }; };
+  if(syncRecovery){
+    body.innerHTML = `
+      <p class="modal-sub">${escapeHtml(d.gateNewPwIntro.replace('{email}', (sbSession && sbSession.user && sbSession.user.email) || ''))}</p>
+      <div class="form-block">
+        <input type="email" autocomplete="username" value="${escapeHtml((sbSession && sbSession.user && sbSession.user.email) || '')}" style="display:none;">
+        <input class="small-input" id="sync-pass" type="password" autocomplete="new-password" placeholder="${d.gateNewPwPh}" style="width:100%;margin-bottom:6px;">
+        <div id="sync-form-msg" class="sync-msg"></div>
+        <button class="primary-btn" style="width:100%;" id="sync-main-btn">${d.gateNewPwSave}</button>
+        ${langBtn}
+      </div>`;
+    document.getElementById('sync-main-btn').onclick = syncSaveNewPassword;
+    document.getElementById('sync-pass').addEventListener('keydown', e=>{ if(e.key === 'Enter') syncSaveNewPassword(); });
+    wireLang();
+    setTimeout(()=>{ try{ document.getElementById('sync-pass').focus({ preventScroll:true }); }catch(e){} }, 50);
+  }else if(sbSession){
     body.innerHTML = `
       <p class="modal-sub">${d.syncAs} <strong>${escapeHtml((sbSession.user && sbSession.user.email) || '')}</strong></p>
       <div id="sync-status-line" class="sync-msg"></div>
@@ -3236,8 +3279,21 @@ function renderSyncModal(){
       <div class="medi-attach-hint" style="margin-top:10px;">${d.syncKeepLocal}</div>`;
     document.getElementById('sync-now-btn').onclick = ()=>syncNow();
     document.getElementById('sync-out-btn').onclick = async ()=>{ await sbSignOut(); syncSet('off'); syncAuthMode = null; syncShowGate(); };
+  }else if(mode === 'forgot'){
+    body.innerHTML = `
+      <p class="modal-sub">${d.gateForgotIntro}</p>
+      <div class="form-block">
+        <input class="small-input" id="sync-email" type="email" autocomplete="username" placeholder="${d.syncEmail}" style="width:100%;margin-bottom:6px;" value="${escapeHtml(syncLastEmail())}">
+        <div id="sync-form-msg" class="sync-msg"></div>
+        <button class="primary-btn" style="width:100%;" id="sync-main-btn">${d.gateForgotSend}</button>
+        <button class="gate-link" id="sync-switch-btn">${d.gateBackToSignIn}</button>
+        ${langBtn}
+      </div>`;
+    document.getElementById('sync-main-btn').onclick = syncSendReset;
+    document.getElementById('sync-switch-btn').onclick = ()=>{ syncAuthMode = 'in'; syncGateNote = ''; renderSyncModal(); };
+    document.getElementById('sync-email').addEventListener('keydown', e=>{ if(e.key === 'Enter') syncSendReset(); });
+    wireLang();
   }else{
-    const mode = syncAuthMode || (syncKnownDevice() ? 'in' : 'up');
     const up = mode === 'up';
     body.innerHTML = `
       <p class="modal-sub">${up ? d.gateIntroUp : d.gateIntroIn}</p>
@@ -3246,17 +3302,21 @@ function renderSyncModal(){
         <input class="small-input" id="sync-pass" type="password" autocomplete="${up ? 'new-password' : 'current-password'}" placeholder="${d.syncPassword}" style="width:100%;margin-bottom:6px;">
         <div id="sync-form-msg" class="sync-msg"></div>
         <button class="primary-btn" style="width:100%;" id="sync-main-btn">${up ? d.syncSignUp : d.syncSignIn}</button>
+        ${up ? '' : `<button class="gate-link" id="sync-forgot-btn" style="padding-bottom:0;">${d.gateForgot}</button>`}
         <button class="gate-link" id="sync-switch-btn">${up ? d.gateHaveAccount : d.gateNoAccount}</button>
         <div class="medi-attach-hint" style="margin-top:6px;">${d.syncPrivacy}</div>
-        <div style="text-align:center;margin-top:12px;"><button class="gate-lang" id="sync-lang-btn">${state.settings.lang === 'de' ? 'English' : 'Deutsch'}</button></div>
+        ${langBtn}
       </div>`;
     document.getElementById('sync-main-btn').onclick = ()=>syncDoAuth(mode);
-    document.getElementById('sync-switch-btn').onclick = ()=>{ syncAuthMode = up ? 'in' : 'up'; renderSyncModal(); };
-    document.getElementById('sync-lang-btn').onclick = ()=>{ state.settings.lang = state.settings.lang === 'de' ? 'en' : 'de'; saveState(); applyLang(); };
+    document.getElementById('sync-switch-btn').onclick = ()=>{ syncAuthMode = up ? 'in' : 'up'; syncGateNote = ''; renderSyncModal(); };
+    if(!up) document.getElementById('sync-forgot-btn').onclick = ()=>{ syncAuthMode = 'forgot'; syncGateNote = ''; renderSyncModal(); };
+    wireLang();
     document.getElementById('sync-pass').addEventListener('keydown', e=>{ if(e.key === 'Enter') syncDoAuth(mode); });
     const focusEl = document.getElementById(!up && syncLastEmail() ? 'sync-pass' : 'sync-email');
     setTimeout(()=>{ try{ focusEl.focus({ preventScroll:true }); }catch(e){} }, 50);
   }
+  const noteEl = document.getElementById('sync-form-msg');
+  if(syncGateNote && noteEl && !sbSession){ noteEl.textContent = syncGateNote; noteEl.className = 'sync-msg err'; }
   syncUpdateUi();
 }
 async function syncDoAuth(mode){
@@ -3276,6 +3336,7 @@ async function syncDoAuth(mode){
       await sbSignIn(email, pass);
     }
     try{ localStorage.setItem(LASTEMAIL_KEY, email); }catch(e){}
+    syncGateNote = '';
     syncLastAt = 0;
     syncAuthMode = null;
     syncSet('idle');
@@ -3290,9 +3351,44 @@ async function syncDoAuth(mode){
     btns.forEach(b=>{ if(b) b.disabled = false; });
   }
 }
+async function syncSendReset(){
+  const email = document.getElementById('sync-email').value.trim();
+  const msgEl = document.getElementById('sync-form-msg'), btn = document.getElementById('sync-main-btn');
+  const setMsg = (txt, cls)=>{ msgEl.textContent = txt; msgEl.className = 'sync-msg' + (cls ? ' ' + cls : ''); };
+  syncGateNote = '';
+  if(!email){ setMsg(t().eEmail, 'err'); return; }
+  btn.disabled = true;
+  try{
+    const back = syncAppUrl();
+    await sbRequest('/auth/v1/recover' + (back ? '?redirect_to=' + encodeURIComponent(back) : ''), { method:'POST', body:{ email }, auth:false });
+    try{ localStorage.setItem(LASTEMAIL_KEY, email); }catch(e){}
+    setMsg(t().gateForgotSent, 'ok');
+  }catch(e){
+    setMsg(syncErrText(e), 'err');
+  }finally{ btn.disabled = false; }
+}
+async function syncSaveNewPassword(){
+  const pass = document.getElementById('sync-pass').value;
+  const msgEl = document.getElementById('sync-form-msg'), btn = document.getElementById('sync-main-btn');
+  const setMsg = (txt, cls)=>{ msgEl.textContent = txt; msgEl.className = 'sync-msg' + (cls ? ' ' + cls : ''); };
+  if(pass.length < 6){ setMsg(t().eWeak, 'err'); return; }
+  btn.disabled = true;
+  try{
+    await sbRequest('/auth/v1/user', { method:'PUT', body:{ password:pass } });
+  }catch(e){
+    if(!sbSession){ syncRecovery = false; syncGateNote = t().gateLinkExpired; syncAuthMode = 'forgot'; renderSyncModal(); return; }
+    setMsg(syncErrText(e), 'err'); btn.disabled = false; return;
+  }
+  syncRecovery = false; syncAuthMode = null; syncGateNote = '';
+  syncLeaveGate();
+  await uiNotice(t().gateNewPwDone);
+  await syncNow();
+  if(sbSession && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
+}
 function openSyncModal(){ renderSyncModal(); openModal('sync-modal'); }
 function syncInit(){
   sbLoadSession();
+  syncHandleAuthLink();
   document.getElementById('sync-btn').onclick = openSyncModal;
   if(sbSession){
     syncSet('idle');
