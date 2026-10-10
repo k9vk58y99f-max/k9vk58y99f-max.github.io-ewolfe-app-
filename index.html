@@ -74,6 +74,17 @@ button, input, select, textarea{ font-family:inherit; }
 .icon-btn:hover{ color:var(--ew-turquoise); border-color:var(--ew-turquoise); }
 #tb-library-btn{ color:var(--ew-text); }
 #tb-library-btn svg{ display:block; }
+#sync-btn{ position:relative; }
+#sync-btn svg{ width:20px; height:20px; display:block; }
+#sync-btn::after{ content:''; position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:transparent; }
+#sync-btn[data-state="idle"]::after{ background:var(--ew-turquoise); }
+#sync-btn[data-state="syncing"]::after{ background:var(--ew-uv-lilac); animation:syncPulse 1s ease-in-out infinite; }
+#sync-btn[data-state="pending"]::after{ background:#f0b35a; }
+#sync-btn[data-state="error"]::after{ background:#ef8e8e; }
+@keyframes syncPulse{ 0%,100%{ opacity:.35; } 50%{ opacity:1; } }
+.sync-msg{ font-size:12.5px; margin:8px 2px; min-height:16px; color:var(--ew-text-dim); }
+.sync-msg.err{ color:#ef8e8e; }
+.sync-msg.ok{ color:var(--ew-turquoise); }
 .ico-buddha{ width:22px; height:22px; display:block; }
 .ico-buddha-btn:hover .ico-buddha{ filter:drop-shadow(0 0 4px rgba(51,230,196,0.5)); }
 .primary-btn{
@@ -422,6 +433,9 @@ input[type=range]::-webkit-slider-thumb{
         <circle cx="24" cy="29.8" r="1.6" fill="#0d0f3a" opacity="0.4"/>
       </svg>
     </button>
+    <button class="icon-btn" id="sync-btn" title="Cloud-Sync" data-state="off">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.6-7.96A5.5 5.5 0 0 1 17 9.5a4.25 4.25 0 0 1 .5 8.5H7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+    </button>
     <button class="icon-btn" id="export-btn" title="Backup herunterladen">⬇</button>
     <label class="icon-btn" id="import-btn" title="Backup wiederherstellen" style="cursor:pointer;position:relative;overflow:hidden;">⬆<input type="file" id="import-file-input" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;"></label>
     <button class="primary-btn" id="new-bewertung-btn">Neue Bewertung</button>
@@ -465,6 +479,15 @@ input[type=range]::-webkit-slider-thumb{
 </div>
 
 <!-- Spiritualität: a place to collect meditations and links that are good for you -->
+<div class="modal-backdrop" id="sync-modal">
+  <div class="modal">
+    <div class="modal-top">
+      <h2 class="modal-title" id="t-sync-title">Cloud-Sync</h2>
+      <button class="icon-btn" onclick="closeModal('sync-modal')">✕</button>
+    </div>
+    <div id="sync-body"></div>
+  </div>
+</div>
 <div class="modal-backdrop" id="medi-modal">
   <div class="modal">
     <div class="modal-top">
@@ -633,7 +656,7 @@ input[type=range]::-webkit-slider-thumb{
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.12.0';
+const APP_VERSION = '1.13.0';
 // Starter entries for Achtsamkeit: only used when the app has no saved data yet (a genuinely fresh
 // browser) — after that, each person's own additions and deletions are theirs alone; there is no
 // shared backend, so these can't be pushed out later to people who already have data.
@@ -688,7 +711,7 @@ const I18N = {
     importSuccess:'Backup erfolgreich wiederhergestellt.', importError:'Diese Datei konnte nicht gelesen werden. Ist es eine gültige eWolfe-Backup-Datei?',
     exportError:'Backup konnte nicht heruntergeladen werden.',
     dialogOk:'OK', dialogCancel:'Abbrechen', restoreFromBackup:'⬆ Backup wiederherstellen',
-    mediTitle:'Achtsamkeit', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen',
+    mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen',
     tblTitle:'Ziele im Überblick', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'Erklärungen', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahmen', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
     areaDesc:{ gesundheit:'Fitness, Ernährung, Erholung, Entspannung, Lebenserwartung', beziehungen:'Familie, Partnerschaft, Freunde, Zuwendung zu sich selbst', finanzen:'Einkommen, Wohlstand, Vermögen, Investitionen', berufung:'Aufgaben, Leistungen, Karriere, Erfolg', sinn:'Persönlichkeit, Sinn, Selbstverwirklichung, Erfüllung, Glück' } },
   en:{ appName:'eWolfe', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
@@ -735,7 +758,7 @@ const I18N = {
     importSuccess:'Backup restored successfully.', importError:'This file could not be read. Is it a valid eWolfe backup file?',
     exportError:'The backup could not be downloaded.',
     dialogOk:'OK', dialogCancel:'Cancel', restoreFromBackup:'⬆ Restore backup',
-    mediTitle:'Mindfulness', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file',
+    mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. Without signing in, everything stays on this device only, as before.', syncEmail:'Email', syncPassword:'Password (at least 6 characters)', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'The connection is encrypted and the servers are in Frankfurt (EU). Your password is not stored in the app.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password is too weak (at least 6 characters).', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file',
     tblTitle:'Goals at a glance', tblAchTitle:'Achieved goals at a glance', tblAchCount:'Achieved', tblAchLabel:'Achieved', tblAchNone:'No achieved goals yet.', tblAchHint:'Most recently achieved goals come first. Tap a cell to open the achieved goals of that area.', tblArea:'Areas', tblDesc:'Descriptions', tblStand:'Date', tblPts:'pts', tblReason:'Reason', tblActions:'Actions', tblHint:'Tap a cell to open that area. Under the percentage: change since the previous assessment.',
     areaDesc:{ gesundheit:'Fitness, nutrition, recovery, relaxation, life expectancy', beziehungen:'Family, partnership, friends, caring for yourself', finanzen:'Income, prosperity, assets, investments', berufung:'Tasks, achievements, career, success', sinn:'Personality, meaning, self-fulfilment, contentment, happiness' } }
 };
@@ -780,6 +803,7 @@ function saveState(){
     if(!shrinkAfterFailTried){ shrinkAfterFailTried = true; shrinkStoredImages(); }
   }
   try{ renderOverviewTable(); renderAchievedTable(); }catch(e){ console.error('eWolfe: overview tables failed to render', e); }
+  try{ syncOnLocalChange(); }catch(e){}
 }
 function showStorageWarning(kind){
   const b = document.getElementById('storage-warning');
@@ -1248,6 +1272,7 @@ function applyLang(){
   document.getElementById('medi-url-input').placeholder = d.mediUrlPh;
   document.getElementById('medi-notes-input').placeholder = d.mediNotesPh;
   document.getElementById('medi-save-btn').textContent = d.save;
+  try{ syncUpdateUi(); if(document.getElementById('sync-modal').classList.contains('open')) renderSyncModal(); }catch(e){}
   document.getElementById('medi-attach-label-text').textContent = d.mediAttach;
   document.getElementById('medi-attach-hint').textContent = d.mediAttachLimit;
   document.getElementById('medi-staged-remove').title = d.mediRemoveFile;
@@ -2808,6 +2833,382 @@ function tbBindHandlers(){
 }
 
 /* ================= Init ================= */
+/* ================= Cloud-Sync (Supabase) =================
+   Optional. Signed out, the app works exactly as before (everything stays on this device).
+   Signed in, the whole app state is kept in one row per person (table user_data, protected by
+   row-level security: each person can only ever read/write their own row). The two values below
+   are meant to be public (the key is a "publishable" one); they only open the door that the
+   database rules allow.
+   Safety rules this follows, because a diary must never be lost to a sync:
+   - nothing is overwritten blindly: every write names the revision it is based on, and the
+     server refuses it if somebody else wrote in between (then we merge and try again)
+   - a device that has nothing of its own (new or wiped) only ever RECEIVES, it never uploads emptiness
+   - when both sides have their own changes they are merged with the same union merge as the
+     backup import ("Zusammenführen"), which never deletes anything */
+const SUPABASE_URL = 'https://egoeosnqzrzikbwwoouo.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_JLZ4f6Sq4kCLl1jMTQqcZg_WXCM3hlP';
+const AUTH_KEY = 'ewolfe_auth_v1', SYNCMETA_KEY = 'ewolfe_sync_v1';
+
+let sbSession = null;      // { access_token, refresh_token, expires_at, user:{id,email} }
+let syncStatus = 'off';    // off | idle | syncing | pending | error
+let syncMsg = '';
+let syncLastAt = 0;
+let syncBusy = false, syncAgain = false, syncTimer = null, syncRetryTimer = null, applyingRemote = false;
+
+function sbLoadSession(){ try{ const r = localStorage.getItem(AUTH_KEY); sbSession = r ? JSON.parse(r) : null; }catch(e){ sbSession = null; } }
+function sbSaveSession(s){ sbSession = s; try{ if(s) localStorage.setItem(AUTH_KEY, JSON.stringify(s)); else localStorage.removeItem(AUTH_KEY); }catch(e){} }
+function syncMetaLoad(){ try{ return JSON.parse(localStorage.getItem(SYNCMETA_KEY) || 'null') || {}; }catch(e){ return {}; } }
+function syncMetaSave(m){ try{ localStorage.setItem(SYNCMETA_KEY, JSON.stringify(m)); }catch(e){} }
+function sbUid(){ return sbSession && sbSession.user && sbSession.user.id; }
+
+class SbError extends Error{
+  constructor(status, code, message){ super(message); this.status = status; this.code = code; }
+}
+function sbNormalizeSession(r, prev){
+  return {
+    access_token: r.access_token, refresh_token: r.refresh_token,
+    expires_at: r.expires_at || (Math.floor(Date.now()/1000) + (r.expires_in || 3600)),
+    user: r.user ? { id:r.user.id, email:r.user.email } : (prev ? prev.user : null)
+  };
+}
+async function sbRequest(path, o){
+  o = o || {};
+  const auth = o.auth !== false;
+  const h = Object.assign({ 'apikey': SUPABASE_KEY }, o.headers || {});
+  if(o.body !== undefined) h['Content-Type'] = 'application/json';
+  if(auth){
+    const tok = await sbAccessToken();
+    if(!tok) throw new SbError(401, 'no_session', 'not signed in');
+    h['Authorization'] = 'Bearer ' + tok;
+  }
+  let res;
+  try{ res = await fetch(SUPABASE_URL + path, { method:o.method || 'GET', headers:h, body: o.body !== undefined ? JSON.stringify(o.body) : undefined }); }
+  catch(e){ throw new SbError(0, 'network', 'network'); }
+  if(res.status === 401 && auth && !o.retried){
+    await sbRefresh();
+    return sbRequest(path, Object.assign({}, o, { retried:true }));
+  }
+  let json = null;
+  const txt = await res.text();
+  if(txt){ try{ json = JSON.parse(txt); }catch(e){ json = null; } }
+  if(!res.ok){
+    const code = json && (json.error_code || json.code) || '';
+    const msg = json && (json.msg || json.message || json.error_description || json.error) || ('HTTP ' + res.status);
+    throw new SbError(res.status, String(code), String(msg));
+  }
+  return json;
+}
+async function sbAccessToken(){
+  if(!sbSession) return null;
+  if(sbSession.expires_at - 60 < Date.now()/1000) await sbRefresh();
+  return sbSession ? sbSession.access_token : null;
+}
+let sbRefreshing = null;
+function sbRefresh(){
+  if(!sbSession) return Promise.resolve();
+  if(sbRefreshing) return sbRefreshing;
+  const prev = sbSession;
+  sbRefreshing = (async()=>{
+    try{
+      const r = await sbRequest('/auth/v1/token?grant_type=refresh_token', { method:'POST', body:{ refresh_token: prev.refresh_token }, auth:false });
+      sbSaveSession(sbNormalizeSession(r, prev));
+    }catch(e){
+      if(e.status === 400 || e.status === 401 || e.status === 403){ sbSaveSession(null); } // refresh no longer valid: signed out, local data stays
+      throw e;
+    }finally{ sbRefreshing = null; }
+  })();
+  return sbRefreshing;
+}
+async function sbSignIn(email, password){
+  const r = await sbRequest('/auth/v1/token?grant_type=password', { method:'POST', body:{ email, password }, auth:false });
+  sbSaveSession(sbNormalizeSession(r));
+}
+async function sbSignUp(email, password){
+  const r = await sbRequest('/auth/v1/signup', { method:'POST', body:{ email, password }, auth:false });
+  if(r && r.access_token){ sbSaveSession(sbNormalizeSession(r)); return 'session'; }
+  return 'confirm'; // e-mail confirmation is switched on in the project: no session yet
+}
+async function sbSignOut(){
+  try{ await sbRequest('/auth/v1/logout?scope=local', { method:'POST' }); }catch(e){}
+  sbSaveSession(null);
+}
+
+/* ---- what is synced, and how to tell whether it changed ---- */
+function syncPayload(st){
+  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch };
+}
+function syncHash(st){
+  const s = JSON.stringify(syncPayload(st));
+  let h = 0x811c9dc5;
+  for(let i=0; i<s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); }
+  return (h >>> 0).toString(16) + '-' + s.length;
+}
+function syncNormalize(d){
+  const o = (d && typeof d === 'object') ? d : {};
+  if(!o.bewertungen || typeof o.bewertungen !== 'object') o.bewertungen = {};
+  if(!o.ziele || typeof o.ziele !== 'object') o.ziele = {};
+  AREAS.forEach(a=>{
+    if(!Array.isArray(o.bewertungen[a])) o.bewertungen[a] = [];
+    if(!Array.isArray(o.ziele[a])) o.ziele[a] = [];
+  });
+  if(!Array.isArray(o.ereignisse)) o.ereignisse = [];
+  if(!Array.isArray(o.meditationen)) o.meditationen = [];
+  if(!o.tagebuch || typeof o.tagebuch !== 'object' || !o.tagebuch.jahre) o.tagebuch = { jahre:{} };
+  return o;
+}
+function localIsPristine(){
+  // nothing of the person's own on this device yet (brand new, or storage was wiped)
+  return AREAS.every(a=>(state.bewertungen[a] || []).length === 0)
+    && AREAS.every(a=>(state.ziele[a] || []).length === 0)
+    && !(state.ereignisse || []).length
+    && (state.meditationen || []).every(m=>String(m.id).startsWith('seed-'))
+    && backupSummary(state).diaryPages === 0;
+}
+function syncEditorOpen(){
+  // never swap the data out from under something the person is in the middle of editing
+  if(document.getElementById('tb-overlay').classList.contains('open')) return true;
+  const pristine = localIsPristine();
+  return [...document.querySelectorAll('.modal-backdrop.open')].some(m=> m.id !== 'sync-modal' && !(pristine && m.id === 'eval-modal'));
+}
+function syncMerge(local, remote){
+  const r = mergeBackupInto(local, remote);
+  // the union merge keeps the local copy of a goal that exists on both sides; "achieved" must win
+  AREAS.forEach(a=>{
+    (remote.ziele[a] || []).forEach(rg=>{
+      if(rg.status !== 'erreicht') return;
+      const i = r.state.ziele[a].findIndex(g=>g.id === rg.id);
+      if(i >= 0 && r.state.ziele[a][i].status !== 'erreicht') r.state.ziele[a][i] = JSON.parse(JSON.stringify(rg));
+    });
+  });
+  return r;
+}
+function syncApplyState(newState){
+  applyingRemote = true;
+  try{
+    newState.settings = state.settings; // every device keeps its own language
+    state = newState;
+    saveState();
+    closeModal('eval-modal');
+    applyTheme(); applyLang();
+    renderPanels(); renderScene(false);
+    if(document.getElementById('medi-modal').classList.contains('open')) renderMeditationen();
+  }finally{ applyingRemote = false; }
+}
+
+/* ---- the table ---- */
+async function syncGetHead(){
+  const r = await sbRequest('/rest/v1/user_data?select=revision,updated_at&user_id=eq.' + sbUid());
+  return (Array.isArray(r) && r[0]) || null;
+}
+async function syncGetFull(){
+  const r = await sbRequest('/rest/v1/user_data?select=data,revision,updated_at&user_id=eq.' + sbUid());
+  return (Array.isArray(r) && r[0]) || null;
+}
+async function syncInsert(data){
+  try{
+    const r = await sbRequest('/rest/v1/user_data?select=revision', { method:'POST', body:{ user_id:sbUid(), data }, headers:{ 'Prefer':'return=representation' } });
+    return (Array.isArray(r) && r[0]) || null;
+  }catch(e){ if(e.status === 409) return null; throw e; } // somebody created the row first: caller looks again
+}
+async function syncPatch(rev, data){
+  const r = await sbRequest('/rest/v1/user_data?select=revision&user_id=eq.' + sbUid() + '&revision=eq.' + rev, { method:'PATCH', body:{ data }, headers:{ 'Prefer':'return=representation' } });
+  return (Array.isArray(r) && r[0]) || null; // empty = the revision moved on, nothing was written
+}
+
+/* ---- the sync itself ---- */
+function syncCounts(st){
+  return { cw: Math.max(0, ...AREAS.map(a=>(st.bewertungen[a] || []).length)), cp: backupSummary(st).diaryPages };
+}
+function syncRemember(uid, revision, hash, counts){
+  syncMetaSave(Object.assign({ userId:uid, revision, hash }, counts));
+}
+async function syncNow(){
+  if(!sbSession) return;
+  if(syncBusy){ syncAgain = true; return; }
+  syncBusy = true; syncSet('syncing');
+  clearTimeout(syncTimer); clearTimeout(syncRetryTimer);
+  let failed = null, deferred = false, firstPairing = '';
+  try{
+    const uid = sbUid();
+    let done = false;
+    for(let attempt = 0; attempt < 5 && !done; attempt++){
+      const meta = syncMetaLoad();
+      const metaOk = meta.userId === uid;
+      const localHash = syncHash(state);
+      const localCounts = syncCounts(state);
+      const pristine = localIsPristine();
+      const head = await syncGetHead();
+      if(!head){
+        const row = await syncInsert(syncPayload(state));
+        if(row){ syncRemember(uid, row.revision, localHash, localCounts); if(!metaOk) firstPairing = 'uploaded'; done = true; }
+        continue;
+      }
+      // Two safety nets before this device may overwrite what is in the account:
+      // 1) a device with nothing of its own (new, or its storage was wiped) never uploads, it only receives
+      // 2) wheels and diary pages are never removed by normal use, so if there are suddenly clearly fewer
+      //    than at the last sync, something went wrong locally: merge with the account instead of uploading
+      const shrunk = metaOk && (localCounts.cw < (meta.cw || 0) || localCounts.cp <= (meta.cp || 0) - 2);
+      if(metaOk && !pristine && !shrunk && head.revision === meta.revision){
+        if(localHash === meta.hash){ done = true; continue; } // nothing changed anywhere
+        const row = await syncPatch(head.revision, syncPayload(state));
+        if(row){ syncRemember(uid, row.revision, localHash, localCounts); done = true; }
+        continue; // else: somebody wrote in between, look again
+      }
+      // the account has changed since this device last synced, or this device is new to it, or it needs protecting
+      if(syncEditorOpen()){ deferred = true; break; }
+      const full = await syncGetFull();
+      if(!full) continue;
+      const remote = syncNormalize(full.data);
+      if(pristine || (metaOk && !shrunk && localHash === meta.hash)){
+        syncApplyState(remote); // this device has nothing newer of its own: just receive
+        syncRemember(uid, full.revision, syncHash(state), syncCounts(state));
+        if(!metaOk) firstPairing = 'pulled';
+        done = true; continue;
+      }
+      if(!metaOk){
+        const other = meta.userId && meta.userId !== uid;
+        const ok = await uiDialog(other ? t().syncOtherAccount.replace('{email}', sbSession.user.email || '') : t().syncFirstMerge, { confirm:true, okText:t().syncMergeOk });
+        if(!ok){ sbSaveSession(null); syncSet('off'); renderSyncModal(); return; } // not now: stay signed out, nothing touched
+        firstPairing = 'merged';
+      }
+      const merged = syncMerge(state, remote);
+      syncApplyState(merged.state);
+      const row = await syncPatch(full.revision, syncPayload(state));
+      if(row){ syncRemember(uid, row.revision, syncHash(state), syncCounts(state)); done = true; }
+      // else: lost a race; the merged result is already local, loop and merge with the newer version
+    }
+    if(!done && !deferred) failed = new SbError(409, 'conflict', 'conflict');
+  }catch(e){
+    console.error('eWolfe: sync failed', e);
+    failed = e;
+  }finally{
+    syncBusy = false;
+  }
+  if(failed){
+    if(!sbSession){ syncSet('off', t().eSession); renderSyncModal(); }
+    else{
+      syncSet('error', syncErrText(failed));
+      syncRetryTimer = setTimeout(syncNow, failed.status === 0 ? 30000 : 60000);
+    }
+    return;
+  }
+  if(deferred){
+    syncSet('pending', t().stDeferred);
+    syncRetryTimer = setTimeout(syncNow, 20000);
+    return;
+  }
+  syncLastAt = Date.now();
+  syncSet('idle');
+  if(firstPairing){
+    await uiNotice(firstPairing === 'merged' ? t().syncDoneMerged : firstPairing === 'pulled' ? t().syncDonePulled : t().syncDoneUploaded);
+  }
+  if(syncAgain){ syncAgain = false; setTimeout(syncNow, 500); }
+}
+function syncOnLocalChange(){
+  if(!sbSession || applyingRemote) return;
+  if(!syncBusy) syncSet('pending');
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(syncNow, 6000); // a short pause after the last change, not on every keystroke
+}
+function syncErrText(e){
+  const d = t(), code = String(e.code || '').toLowerCase(), msg = String(e.message || '').toLowerCase();
+  if(e.status === 0) return d.eNetwork;
+  if(code === 'invalid_credentials' || msg.includes('invalid login')) return d.eBadLogin;
+  if(code === 'user_already_exists' || msg.includes('already registered')) return d.eExists;
+  if(code === 'weak_password' || msg.includes('password should be')) return d.eWeak;
+  if(code === 'email_not_confirmed' || msg.includes('not confirmed')) return d.eNotConfirmed;
+  if(e.status === 429 || code.includes('rate_limit')) return d.eRate;
+  if(code === 'validation_failed' || code === 'email_address_invalid' || msg.includes('invalid email') || msg.includes('unable to validate email')) return d.eEmail;
+  if(code === 'no_session') return d.eSession;
+  if(code === 'conflict') return d.eConflict;
+  return d.eGeneric + ' ' + (e.message || e.status);
+}
+
+/* ---- the small UI: a cloud button with a status dot, and one modal ---- */
+function syncSet(status, msg){ syncStatus = status; syncMsg = msg || ''; syncUpdateUi(); }
+function syncStatusLine(){
+  const d = t();
+  if(!sbSession) return '';
+  if(syncStatus === 'syncing') return d.stSyncing;
+  if(syncStatus === 'error') return d.stError + ' ' + syncMsg;
+  if(syncStatus === 'pending') return syncMsg || d.stPending;
+  return syncLastAt ? d.syncLast + ' ' + new Date(syncLastAt).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) : d.syncNever;
+}
+function syncUpdateUi(){
+  const b = document.getElementById('sync-btn');
+  if(!b) return;
+  b.dataset.state = sbSession ? syncStatus : 'off';
+  b.title = t().syncBtnTitle + (sbSession ? ' – ' + syncStatusLine() : '');
+  const line = document.getElementById('sync-status-line');
+  if(line){ line.textContent = syncStatusLine(); line.className = 'sync-msg' + (syncStatus === 'error' ? ' err' : ''); }
+}
+function renderSyncModal(){
+  const d = t(), body = document.getElementById('sync-body');
+  document.getElementById('t-sync-title').textContent = d.syncTitle;
+  if(sbSession){
+    body.innerHTML = `
+      <p class="modal-sub">${d.syncAs} <strong>${escapeHtml((sbSession.user && sbSession.user.email) || '')}</strong></p>
+      <div id="sync-status-line" class="sync-msg"></div>
+      <button class="primary-btn" style="width:100%;" id="sync-now-btn">${d.syncNowBtn}</button>
+      <button class="ghost-btn" style="width:100%;margin-top:8px;" id="sync-out-btn">${d.syncSignOut}</button>
+      <div class="medi-attach-hint" style="margin-top:10px;">${d.syncKeepLocal}</div>`;
+    document.getElementById('sync-now-btn').onclick = ()=>syncNow();
+    document.getElementById('sync-out-btn').onclick = async ()=>{ await sbSignOut(); syncSet('off'); renderSyncModal(); };
+  }else{
+    body.innerHTML = `
+      <p class="modal-sub">${d.syncIntro}</p>
+      <div class="form-block">
+        <input class="small-input" id="sync-email" type="email" autocomplete="username" placeholder="${d.syncEmail}" style="width:100%;margin-bottom:8px;">
+        <input class="small-input" id="sync-pass" type="password" autocomplete="current-password" placeholder="${d.syncPassword}" style="width:100%;margin-bottom:6px;">
+        <div id="sync-form-msg" class="sync-msg"></div>
+        <button class="primary-btn" style="width:100%;" id="sync-signin-btn">${d.syncSignIn}</button>
+        <button class="ghost-btn" style="width:100%;margin-top:8px;" id="sync-signup-btn">${d.syncSignUp}</button>
+        <div class="medi-attach-hint" style="margin-top:10px;">${d.syncPrivacy}</div>
+      </div>`;
+    document.getElementById('sync-signin-btn').onclick = ()=>syncDoAuth('in');
+    document.getElementById('sync-signup-btn').onclick = ()=>syncDoAuth('up');
+    document.getElementById('sync-pass').addEventListener('keydown', e=>{ if(e.key === 'Enter') syncDoAuth('in'); });
+  }
+  syncUpdateUi();
+}
+async function syncDoAuth(mode){
+  const email = document.getElementById('sync-email').value.trim();
+  const pass = document.getElementById('sync-pass').value;
+  const msgEl = document.getElementById('sync-form-msg');
+  const setMsg = (txt, cls)=>{ msgEl.textContent = txt; msgEl.className = 'sync-msg' + (cls ? ' ' + cls : ''); };
+  setMsg('');
+  if(!email || !pass){ setMsg(t().eFill, 'err'); return; }
+  const btns = [document.getElementById('sync-signin-btn'), document.getElementById('sync-signup-btn')];
+  btns.forEach(b=>b.disabled = true);
+  try{
+    if(mode === 'up'){
+      const r = await sbSignUp(email, pass);
+      if(r === 'confirm'){ setMsg(t().eConfirmMail, 'ok'); return; }
+    }else{
+      await sbSignIn(email, pass);
+    }
+    syncLastAt = 0;
+    syncSet('idle');
+    renderSyncModal();
+    syncNow();
+  }catch(e){
+    setMsg(syncErrText(e), 'err');
+  }finally{
+    btns.forEach(b=>{ if(b) b.disabled = false; });
+  }
+}
+function openSyncModal(){ renderSyncModal(); openModal('sync-modal'); }
+function syncInit(){
+  sbLoadSession();
+  document.getElementById('sync-btn').onclick = openSyncModal;
+  if(sbSession){
+    syncSet('idle');
+    setTimeout(syncNow, 4000); // after the opening animation
+  }else syncUpdateUi();
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && sbSession && Date.now() - syncLastAt > 45000) syncNow(); });
+  window.addEventListener('online', ()=>{ if(sbSession) syncNow(); });
+}
+
 function init(){
   document.documentElement.style.setProperty('--tb-title-bg', 'url("' + TB_TITLE_BG + '")');
   document.querySelector('.logo-dog').src = ICON_FULL;
@@ -2822,6 +3223,7 @@ function init(){
     renderScene(true);
     renderPanels();
   }
+  syncInit();
 }
 init();
 </script>
