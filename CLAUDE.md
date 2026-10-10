@@ -19,7 +19,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.18.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.19.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
@@ -27,6 +27,9 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Tagebuch, Achtsamkeit). Oben rechts nur das Konto-Symbol (`#sync-btn`, mit Sync-Statuspunkt) → Fenster
   „Einstellungen" (`#settings-modal`, `openSettings()`): Konto & Cloud-Sync, Sprache, Backup herunterladen/
   wiederherstellen, Animation abspielen.
+  Die Leiste bleibt immer sichtbar (z-index 300); Verlauf, Bewerten und Achtsamkeit sind Seiten
+  (`.page-modal`), das Tagebuch endet über der Leiste. `navGo()` wechselt die Seite, `navSync()` setzt den
+  aktiven Knopf und erlaubt Zoomen nur im Tagebuch (Viewport-Meta + `touch-action`, Klasse `zoom-ok`).
 - `STORE_KEY = 'ewolfe_data_v1'`: der gesamte App-Stand liegt als ein Objekt `state` in localStorage.
   Felder: `bewertungen`, `ziele`, `ereignisse`, `meditationen`, `tagebuch.jahre`, `settings`.
 - `saveState()` speichert lokal, rendert die Übersichtstabellen und stößt den Sync an.
