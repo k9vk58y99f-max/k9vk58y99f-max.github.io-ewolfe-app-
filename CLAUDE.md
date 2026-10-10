@@ -19,17 +19,20 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.19.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.20.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
-- Navigation (seit 1.18.0): feste Leiste am unteren Rand (`#bottom-nav`: Lebensrad, Verlauf, Bewerten,
-  Tagebuch, Achtsamkeit). Oben rechts nur das Konto-Symbol (`#sync-btn`, mit Sync-Statuspunkt) → Fenster
-  „Einstellungen" (`#settings-modal`, `openSettings()`): Konto & Cloud-Sync, Sprache, Backup herunterladen/
-  wiederherstellen, Animation abspielen.
-  Die Leiste bleibt immer sichtbar (z-index 300); Verlauf, Bewerten und Achtsamkeit sind Seiten
-  (`.page-modal`), das Tagebuch endet über der Leiste. `navGo()` wechselt die Seite, `navSync()` setzt den
-  aktiven Knopf und erlaubt Zoomen nur im Tagebuch (Viewport-Meta + `touch-action`, Klasse `zoom-ok`).
+- Aufbau (seit 1.20.0): Leiste am unteren Rand (`#bottom-nav`) mit vier Seiten: **Lebensrad** (Startseite:
+  Rad, Knopf „Neues Lebensrad erstellen" → Bewertungsseite `#eval-modal`, darunter „Frühere Lebensräder" mit
+  Vergleichen und Löschen), **Ziele** (`#goals-page`: Ziele, erreichte Ziele, Ereignisse im Überblick),
+  **Tagebuch**, **Achtsamkeit**. Seiten haben kein ✕; gewechselt wird über die Leiste (`navGo()`/`navSync()`).
+  Zoomen nur im Tagebuch. Tippen aufs App-Icon oben links spielt die Animation (`replayIntro()`).
+- Oben rechts das Konto-Symbol (`#sync-btn`) → „Einstellungen" (`#settings-modal`): Mitteilungen, Konto &
+  Cloud-Sync, Sprache, Backup. Der türkise Punkt erscheint nur bei Mitteilungen (`appNotes()`): neue
+  App-Version (`checkForUpdate()` liest `APP_VERSION` der veröffentlichten Seite, „Jetzt aktualisieren")
+  oder Sync-Fehler.
+- Gelöschte Lebensräder: Grabstein `b:<bereich>:<ts>` in `state.geloescht`.
 - `STORE_KEY = 'ewolfe_data_v1'`: der gesamte App-Stand liegt als ein Objekt `state` in localStorage.
   Felder: `bewertungen`, `ziele`, `ereignisse`, `meditationen`, `tagebuch.jahre`, `settings`.
 - `saveState()` speichert lokal, rendert die Übersichtstabellen und stößt den Sync an.
