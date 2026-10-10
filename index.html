@@ -319,7 +319,9 @@ input[type=range]::-webkit-slider-thumb{
 .compare-swatch{ width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:6px; vertical-align:middle; }
 #compare-bar{ position:sticky; bottom:0; background:var(--ew-panel); padding-top:10px; margin-top:2px; border-top:1px solid var(--ew-line); }
 
-::-webkit-scrollbar{ width:0; }
+/* no scroll bar anywhere: scrolling still works, only the bar on the right is hidden */
+html, body, *{ scrollbar-width:none; -ms-overflow-style:none; }
+::-webkit-scrollbar{ display:none; width:0; height:0; background:transparent; }
 
 /* ========== Tagebuch (Diary) ========== */
 .tb-overlay{ position:fixed; inset:0; z-index:200; background:var(--ew-navy); display:none; flex-direction:column; }
@@ -656,7 +658,7 @@ input[type=range]::-webkit-slider-thumb{
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.13.0';
+const APP_VERSION = '1.14.1';
 // Starter entries for Achtsamkeit: only used when the app has no saved data yet (a genuinely fresh
 // browser) — after that, each person's own additions and deletions are theirs alone; there is no
 // shared backend, so these can't be pushed out later to people who already have data.
@@ -664,7 +666,7 @@ const DEFAULT_MEDITATIONEN = [
   { id:'seed-atem', title:'3-Minuten Atemübung', url:null, notes:'4 Sekunden einatmen, 4 halten, 6 ausatmen. So lange wiederholen, bis du ruhiger wirst.', media:null, ts:1 },
   { id:'seed-bodyscan', title:'Body-Scan zum Einschlafen', url:null, notes:'Von den Zehen bis zum Kopf jeden Körperteil kurz wahrnehmen und bewusst entspannen.', media:null, ts:2 },
 ];
-const APP_BUILD = '2026-09-28';
+const APP_BUILD = '2026-10-10';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -892,6 +894,7 @@ document.getElementById('medi-save-btn').onclick = ()=>{
 };
 function deleteMeditation(id){
   state.meditationen = (state.meditationen||[]).filter(m=>m.id!==id);
+  delMark('m', id);
   saveState();
   renderMeditationen();
 }
@@ -1091,6 +1094,48 @@ async function readFileText(file){
     r.readAsText(file);
   });
 }
+/* ---- Deletions that travel between devices. Without this, the union merge of the sync would bring every deleted
+   goal, event, meditation or diary page back from another device. state.geloescht maps 'kind:id' to { t, d }:
+   t = when it was decided, d = 1 deleted / 0 brought back again (by a backup). The newer decision wins. ---- */
+function delMark(kind, id, deleted){
+  if(!state.geloescht || typeof state.geloescht !== 'object') state.geloescht = {};
+  state.geloescht[kind + ':' + id] = { t:Date.now(), d: deleted === false ? 0 : 1 };
+}
+function delUnion(a, b){
+  const out = Object.assign({}, a || {});
+  Object.entries(b || {}).forEach(([k, e])=>{ if(e && (!out[k] || (e.t || 0) > (out[k].t || 0))) out[k] = e; });
+  return out;
+}
+function delApply(st){
+  // removes everything the deletion list says is deleted
+  const g = st.geloescht || {};
+  const gone = (kind, id)=>{ const e = g[kind + ':' + id]; return !!(e && e.d); };
+  AREAS.forEach(a=>{
+    const goals = st.ziele[a] || [];
+    const kept = goals.filter(x=>!gone('z', x.id));
+    if(kept.length === goals.length) return;
+    kept.filter(x=>x.status==='aktiv').sort((x,y)=>x.priority-y.priority).forEach((x,i)=>x.priority=i+1);
+    st.ziele[a] = kept;
+  });
+  st.ereignisse = (st.ereignisse || []).filter(e=>!gone('e', e.id));
+  st.meditationen = (st.meditationen || []).filter(m=>!gone('m', m.id));
+  Object.values((st.tagebuch && st.tagebuch.jahre) || {}).forEach(y=>{
+    if(Array.isArray(y.seiten)) y.seiten = y.seiten.filter(p=>p.type==='titel' || !gone('s', p.id));
+  });
+  return st;
+}
+function delReviveAll(st){
+  // a restored backup wins: whatever it brought back is no longer marked as deleted
+  const g = st.geloescht;
+  if(!g) return;
+  const now = Date.now();
+  const revive = (kind, id)=>{ const k = kind + ':' + id; if(g[k] && g[k].d) g[k] = { t:now, d:0 }; };
+  AREAS.forEach(a=>(st.ziele[a] || []).forEach(x=>revive('z', x.id)));
+  (st.ereignisse || []).forEach(e=>revive('e', e.id));
+  (st.meditationen || []).forEach(m=>revive('m', m.id));
+  Object.values((st.tagebuch && st.tagebuch.jahre) || {}).forEach(y=>(y.seiten || []).forEach(p=>revive('s', p.id)));
+}
+
 /* ---- Merge a backup INTO the current data: adds whatever is missing, never deletes or overwrites anything that is
    already there (except that of two versions of the same diary page the fuller one is kept). Meant for rebuilding the
    most complete state from several partial backup files. ---- */
@@ -1182,6 +1227,7 @@ async function importBackupFile(file){
   if(choice === 'merge'){
     const r = mergeBackupInto(state, imported);
     state = r.state;
+    delReviveAll(state);
     saveState();
     shrinkStoredImages();
     closeModal('eval-modal');
@@ -1198,7 +1244,9 @@ async function importBackupFile(file){
     return;
   }
   if(diaryAtRisk) imported.tagebuch = JSON.parse(JSON.stringify(state.tagebuch)); // automatic, not a choice the person has to make
+  imported.geloescht = delUnion(state.geloescht, imported.geloescht);
   state = imported;
+  delReviveAll(state);
   saveState();
   shrinkStoredImages(); // an old backup may still contain oversized photos
   closeModal('eval-modal'); // in case the first-run creation menu is open behind this
@@ -2084,6 +2132,7 @@ function deleteGoal(id){
   const idx = goals.findIndex(x=>x.id===id);
   if(idx<0) return;
   goals.splice(idx,1);
+  delMark('z', id);
   const active = goals.filter(x=>x.status==='aktiv').sort((a,b)=>a.priority-b.priority);
   active.forEach((x,i)=>x.priority=i+1);
   saveState();
@@ -2169,6 +2218,7 @@ function deleteEvent(id){
   const idx = state.ereignisse.findIndex(e=>e.id===id);
   if(idx<0) return;
   state.ereignisse.splice(idx,1);
+  delMark('e', id);
   saveState();
   renderEvents();
 }
@@ -2602,6 +2652,7 @@ async function tbDeletePage(idx){
   if(!page || page.type==='titel') return; // the fixed title page can't be removed
   if(!(await uiConfirm(t().diaryDeletePageConfirm))) return;
   diary.seiten.splice(idx,1);
+  delMark('s', page.id);
   if(tbPageIdx>=diary.seiten.length) tbPageIdx = diary.seiten.length-1;
   else if(idx<tbPageIdx) tbPageIdx--;
   saveState();
@@ -2935,7 +2986,7 @@ async function sbSignOut(){
 
 /* ---- what is synced, and how to tell whether it changed ---- */
 function syncPayload(st){
-  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch };
+  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {} };
 }
 function syncHash(st){
   const s = JSON.stringify(syncPayload(st));
@@ -2954,6 +3005,7 @@ function syncNormalize(d){
   if(!Array.isArray(o.ereignisse)) o.ereignisse = [];
   if(!Array.isArray(o.meditationen)) o.meditationen = [];
   if(!o.tagebuch || typeof o.tagebuch !== 'object' || !o.tagebuch.jahre) o.tagebuch = { jahre:{} };
+  if(!o.geloescht || typeof o.geloescht !== 'object') o.geloescht = {};
   return o;
 }
 function localIsPristine(){
@@ -2980,6 +3032,9 @@ function syncMerge(local, remote){
       if(i >= 0 && r.state.ziele[a][i].status !== 'erreicht') r.state.ziele[a][i] = JSON.parse(JSON.stringify(rg));
     });
   });
+  // what was deleted on either side stays deleted
+  r.state.geloescht = delUnion(local.geloescht, remote.geloescht);
+  delApply(r.state);
   return r;
 }
 function syncApplyState(newState){
@@ -3060,6 +3115,8 @@ async function syncNow(){
       if(!full) continue;
       const remote = syncNormalize(full.data);
       if(pristine || (metaOk && !shrunk && localHash === meta.hash)){
+        remote.geloescht = delUnion(state.geloescht, remote.geloescht); // e.g. a sample meditation removed before signing in
+        delApply(remote);
         syncApplyState(remote); // this device has nothing newer of its own: just receive
         syncRemember(uid, full.revision, syncHash(state), syncCounts(state));
         if(!metaOk) firstPairing = 'pulled';

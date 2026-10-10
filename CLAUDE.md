@@ -15,7 +15,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.13.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.14.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
@@ -53,9 +53,10 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
      letzten Sync (`syncCounts`), wird nicht hochgeladen, sondern mit der Cloud zusammengeführt.
   4. Während Tagebuch oder ein Bearbeitungsfenster offen ist, wird nichts Fremdes eingespielt.
   5. Jedes Gerät behält seine eigene Sprache (`settings` wird nicht synchronisiert).
-- Bekannte Grenzen: Gelöschte Ziele/Ereignisse/Meditationen kommen beim Zusammenführen mit
-  einem anderen Gerät zurück; „Passwort vergessen" fehlt; es wird jeweils der ganze Stand
-  übertragen.
+  6. Löschungen reisen mit: `state.geloescht` (`'z:'/'e:'/'m:'/'s:' + id` → `{t, d}`) wird
+     synchronisiert, `syncMerge()` entfernt Gelöschtes (`delApply`). Ein eingespieltes Backup
+     holt Gelöschtes bewusst zurück (`delReviveAll`).
+- Bekannte Grenzen: „Passwort vergessen" fehlt; es wird jeweils der ganze Stand übertragen.
 
 ## Testen
 Bisher wurde mit Playwright (Chromium, headless) getestet: App als `file://` laden, ca. 4 Sekunden
@@ -65,7 +66,6 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 
 ## Offene Wünsche
 - „Passwort vergessen" (Mail-Link zurück auf die App-Adresse, neues Passwort setzen)
-- Löschungen geräteübergreifend synchronisieren
 - Offline-Modus (Service Worker) und dauerhaften Speicher anfordern
 - Eventuell eigene Domain statt der GitHub-Adresse
 - Später: Community, Onboarding, Kalender-Export, Teilen, Admin-Bereich, KI-Funktionen, Abo
