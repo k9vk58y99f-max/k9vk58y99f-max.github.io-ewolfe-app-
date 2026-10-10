@@ -15,7 +15,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.14.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.15.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
@@ -41,6 +41,11 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Row-Level-Security: jede Person liest/schreibt nur ihre eigene Zeile; `anon` hat keinen Zugriff.
   Ein Trigger erhöht `revision` und setzt `updated_at` bei jedem Update.
 - Login per E-Mail + Passwort, „Confirm email" ist im Dashboard ausgeschaltet.
+- **Anmeldung ist Pflicht** (seit 1.15.0): Ohne Sitzung wird das Sync-Fenster nach der Intro-Animation
+  zur nicht schließbaren Sperre (`syncShowGate()`, CSS-Klasse `gate`). Neues Gerät → „Konto erstellen",
+  Gerät mit früherer Anmeldung (`ewolfe_last_email` bzw. Sync-Meta) → „Anmelden" mit vorausgefüllter
+  E-Mail. Auch nach Abmelden oder abgelaufener Sitzung erscheint die Sperre. Ohne Internet kann man
+  sich nicht neu anmelden (bewusst so gewünscht).
   Site URL im Dashboard = die GitHub-Pages-Adresse oben (bei Adresswechsel anpassen!).
 - Im Code: Abschnitt „Cloud-Sync (Supabase)", ohne Bibliothek direkt per `fetch` gegen
   `/auth/v1/...` und `/rest/v1/user_data`. Der Schlüssel im Code ist der öffentliche
@@ -60,7 +65,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 
 ## Testen
 Bisher wurde mit Playwright (Chromium, headless) getestet: App als `file://` laden, ca. 4 Sekunden
-Intro-Animation abwarten, dann über `page.evaluate` und Klicks prüfen. Für den Sync wurde der
+Intro-Animation abwarten (danach erscheint die Anmelde-Sperre, solange keine Sitzung besteht), dann über `page.evaluate` und Klicks prüfen. Für den Sync wurde der
 Supabase-Server mit `context.route(...)` nachgebaut (Konten, Revisionen, abgelaufene Tokens).
 Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nutzers nie riskieren.
 
