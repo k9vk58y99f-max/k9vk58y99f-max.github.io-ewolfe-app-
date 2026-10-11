@@ -416,7 +416,19 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-cover.mat-linen, .tb-page-titel.mat-linen{ background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 3px); }
 .tb-cover.mat-paper, .tb-page-titel.mat-paper{ background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px); background-size:6px 6px; }
 .tb-cover-actions{ display:flex; gap:10px; }
-.tb-settings-toggle{ font-size:12px; padding:7px 14px; border-radius:20px; border:1px solid var(--ew-line); background:var(--ew-panel); color:var(--ew-text-dim); cursor:pointer; }
+.tb-cover-actions{ align-items:center; }
+.tb-gear-btn{ width:44px; height:44px; flex:none; border-radius:12px; border:1px solid var(--ew-line); background:var(--ew-panel); color:var(--ew-text-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.tb-gear-btn .ui-ico{ width:20px; height:20px; margin:0; }
+.tb-gear-btn:hover{ color:var(--ew-turquoise); border-color:var(--ew-turquoise); }
+.tb-cover-pop{ position:fixed; left:50%; transform:translateX(-50%); bottom:calc(var(--nav-h) + 14px); z-index:5; width:min(400px, calc(100vw - 24px)); max-height:calc(100% - var(--nav-h) - 90px); overflow-y:auto; display:flex; flex-direction:column; align-items:center; gap:12px; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:20px; padding:14px 16px 18px; box-shadow:0 18px 48px rgba(0,0,0,0.55); }
+.tb-cover-pop-head{ display:flex; align-items:center; justify-content:space-between; width:100%; font-weight:600; font-size:15px; }
+.tb-cover-pop-head span{ display:flex; align-items:center; }
+.tb-cover-pop .small-input{ width:100%; max-width:none; }
+.tb-cover-pop-actions{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.tb-cover-pop-actions .ghost-btn{ display:inline-flex; align-items:center; font-size:12.5px; }
+.tb-shelf-cell{ position:relative; width:fit-content; margin:0 auto; }
+.tb-shelf-gear{ position:absolute; top:6px; right:6px; z-index:1; width:30px; height:30px; border-radius:9px; border:none; background:rgba(10,14,31,0.7); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(4px); }
+.tb-shelf-gear .ui-ico{ width:16px; height:16px; margin:0; }
 .tb-cover-edit{ display:none; flex-direction:column; align-items:center; gap:12px; width:100%; max-width:340px; background:var(--ew-panel-2); border-radius:16px; padding:16px; }
 .tb-cover-edit.open{ display:flex; }
 .tb-row-label{ font-size:11.5px; color:var(--ew-text-dim); align-self:flex-start; }
@@ -819,7 +831,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.24.0';
+const APP_VERSION = '1.25.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2661,6 +2673,7 @@ function tbRender(){
   topnav.innerHTML = tbView==='page' ? tbPageNavHtml() : '';
   document.getElementById('tb-title').style.display = tbView==='page' ? 'none' : '';
   if(tbView!=='page'){ tbToolsOpen = false; tbToolsSub = ''; }
+  if(tbView==='page' || tbView==='pages') tbCoverSettingsOpen = false;
   const body = document.getElementById('tb-body');
   if(tbView==='library') body.innerHTML = tbRenderLibrary();
   else if(tbView==='cover') body.innerHTML = tbRenderCover();
@@ -2688,7 +2701,7 @@ function tbRenderLibrary(){
     const fontFamily = c.titleFont==='hand' ? "'Caveat',cursive" : "'Inter',sans-serif";
     const hasCustomTitle = !!c.title;
     const pages = diary.seiten.filter(p=>p.type!=='titel').length;
-    return `<button class="tb-shelf-item" onclick="tbOpenYear('${y}')">
+    return `<div class="tb-shelf-cell"><button class="tb-shelf-gear" onclick="tbEditYearCover('${y}')" title="${d.diarySettings}" aria-label="${d.diarySettings}">${ico('gear')}</button><button class="tb-shelf-item" onclick="tbOpenYear('${y}')">
       <div class="tb-shelf-cover${matClass}" style="${bg}">
         <div class="tb-cover-caption">
           <div class="tb-cover-title" style="font-family:${fontFamily};">${escapeHtml(c.title || d.diaryTitle)}</div>
@@ -2696,12 +2709,14 @@ function tbRenderLibrary(){
         </div>
       </div>
       <div class="tb-shelf-year">${y} · ${pages} ${d.diaryPage}${pages===1?'':(state.settings.lang==='de'?'n':'s')}</div>
-    </button>`;
+    </button></div>`;
   }).join('');
-  return `<div class="tb-shelf">${items}</div>`;
+  return `<div class="tb-shelf">${items}</div>${tbCoverSettingsHtml()}`;
 }
+function tbEditYearCover(year){ tbYear = year; tbEnsureYear(year); tbCoverSettingsOpen = true; tbRender(); }
 function tbOpenYear(year){
   tbYear = year;
+  tbCoverSettingsOpen = false;
   const diary = tbEnsureYear(year);
   if(tbRepaginateDiary(diary)) saveState();
   tbView = 'cover'; // stays on the cover for every year, current one included, until opened
@@ -2724,11 +2739,7 @@ function tbRenderCover(){
   const matClass = usingIconDefault ? '' : ` mat-${c.material}`;
   const fontFamily = c.titleFont==='hand' ? "'Caveat',cursive" : "'Inter',sans-serif";
   const hasCustomTitle = !!diary.cover.title;
-  const swatches = TB_COLORS.map(col=>`<button class="tb-swatch${(c.colorChosen && !c.image && c.color===col)?' active':''}" style="background:${col};" onclick="tbSetCoverColor('${col}')"></button>`).join('');
-  const mats = TB_MATERIALS.map(m=>`<button class="tb-chip-btn${c.material===m?' active':''}" onclick="tbSetCoverMaterial('${m}')">${d['diaryMat'+m.charAt(0).toUpperCase()+m.slice(1)]}</button>`).join('');
-  const fonts = `<button class="tb-chip-btn${c.titleFont!=='hand'?' active':''}" onclick="tbSetCoverFont('print')">${d.diaryFontPrint}</button>
-    <button class="tb-chip-btn${c.titleFont==='hand'?' active':''}" onclick="tbSetCoverFont('hand')">${d.diaryFontHand}</button>`;
-  const typeChips = TB_PAGE_TYPES.map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${d['diaryPage'+pt.charAt(0).toUpperCase()+pt.slice(1)]}</button>`).join('');
+  const setup = tbCoverSetupOpen(diary);
   return `<div class="tb-cover-wrap">
     <div class="tb-cover${matClass}" style="${bg}">
       <div class="tb-cover-caption">
@@ -2739,10 +2750,29 @@ function tbRenderCover(){
     <div class="tb-cover-actions">
       <button class="primary-btn" onclick="tbOpenFirstPage()">${d.diaryOpen}${ico('arrowR','after')}</button>
       <button class="ghost-btn" onclick="tbView='library'; tbRender();">${d.diaryToLibrary}</button>
+      ${setup ? `<button class="tb-gear-btn" onclick="tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}">${ico('gear')}</button>` : ''}
     </div>
-    <button class="tb-settings-toggle" onclick="tbCoverSettingsOpen=!tbCoverSettingsOpen; tbRender();">${ico('gear')}${d.diarySettings}</button>
-    <div class="tb-cover-edit${tbCoverSettingsOpen?' open':''}">
-      <input class="small-input" id="tb-cover-title-input" placeholder="${d.diaryTitlePh}" value="${escapeHtml(diary.cover.title||'')}" style="max-width:280px;">
+  </div>${setup ? tbCoverSettingsHtml() : ''}`;
+}
+// the cover can be designed while a diary is new (until it is opened for the first time); afterwards only in the library
+function tbCoverSetupOpen(diary){
+  return !diary.setupDone && !diary.seiten.some(p=>p.type!=='titel' && ((p.text||'').trim() || (p.strokes||[]).length || (p.images||[]).length));
+}
+/* ---- Cover settings as a pop-up (like the tools menu), for the year in tbYear ---- */
+function tbCoverSettingsHtml(){
+  if(!tbCoverSettingsOpen) return '';
+  const d = t();
+  const diary = tbEnsureYear(tbYear);
+  const c = diary.cover;
+  const swatches = TB_COLORS.map(col=>`<button class="tb-swatch${(c.colorChosen && !c.image && c.color===col)?' active':''}" style="background:${col};" onclick="tbSetCoverColor('${col}')"></button>`).join('');
+  const mats = TB_MATERIALS.map(m=>`<button class="tb-chip-btn${c.material===m?' active':''}" onclick="tbSetCoverMaterial('${m}')">${d['diaryMat'+m.charAt(0).toUpperCase()+m.slice(1)]}</button>`).join('');
+  const fonts = `<button class="tb-chip-btn${c.titleFont!=='hand'?' active':''}" onclick="tbSetCoverFont('print')">${d.diaryFontPrint}</button>
+    <button class="tb-chip-btn${c.titleFont==='hand'?' active':''}" onclick="tbSetCoverFont('hand')">${d.diaryFontHand}</button>`;
+  const typeChips = TB_STYLE_ORDER.map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
+  return `<div class="tb-tools-backdrop" onclick="tbCoverSettingsOpen=false; tbRender();"></div>
+    <div class="tb-cover-pop" role="dialog">
+      <div class="tb-cover-pop-head"><span>${ico('gear')}${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();">✕</button></div>
+      <input class="small-input" id="tb-cover-title-input" placeholder="${d.diaryTitlePh}" value="${escapeHtml(c.title||'')}">
       <span class="tb-row-label">${d.diaryColor}</span>
       <div class="tb-swatches">${swatches}</div>
       <span class="tb-row-label">${d.diaryMaterial}</span>
@@ -2751,10 +2781,11 @@ function tbRenderCover(){
       <div class="tb-chip-row">${fonts}</div>
       <span class="tb-row-label">${d.diaryDefaultType}</span>
       <div class="tb-chip-row">${typeChips}</div>
-      <label class="ghost-btn" style="cursor:pointer;">${d.diaryUploadCover}<input type="file" accept="image/*" id="tb-cover-img-input" style="display:none;"></label>
-      <button class="ghost-btn" style="font-size:11.5px;" onclick="tbResetCoverDefault()">${ico('reset')}${d.diaryResetDefault}</button>
-    </div>
-  </div>`;
+      <div class="tb-cover-pop-actions">
+        <label class="ghost-btn" style="cursor:pointer;">${ico('image')}${d.diaryUploadCover}<input type="file" accept="image/*" id="tb-cover-img-input" style="display:none;"></label>
+        <button class="ghost-btn" onclick="tbResetCoverDefault()">${ico('reset')}${d.diaryResetDefault}</button>
+      </div>
+    </div>`;
 }
 function tbSetCoverColor(col){ const c=tbEnsureYear(tbYear).cover; c.color=col; c.image=null; c.colorChosen=true; saveState(); tbRender(); }
 function tbSetCoverMaterial(m){ tbEnsureYear(tbYear).cover.material=m; saveState(); tbRender(); }
@@ -2770,6 +2801,8 @@ function tbOpenFirstPage(){
   // the current (still being written) diary resumes exactly where you left off;
   // a past year's book is opened for reading, so it starts from its first page
   tbPageIdx = (tbYear === tbCurrentYearStr()) ? diary.seiten.length-1 : 0;
+  if(!diary.setupDone){ diary.setupDone = true; saveState(); } // from now on the cover is designed in the library
+  tbCoverSettingsOpen = false;
   tbView = 'page';
   tbFlip('next');
 }
@@ -3264,11 +3297,12 @@ function tbBindSlot(idx){
   });
 }
 function tbBindHandlers(){
-  if(tbView==='cover'){
+  if(tbView==='cover' || tbView==='library'){
     const titleInput = document.getElementById('tb-cover-title-input');
     if(titleInput) titleInput.addEventListener('input', e=>{
       tbEnsureYear(tbYear).cover.title = e.target.value; saveState();
     });
+    if(titleInput) titleInput.addEventListener('change', ()=>tbRender()); // show the new title on the cover / shelf
     const imgInput = document.getElementById('tb-cover-img-input');
     if(imgInput) imgInput.addEventListener('change', e=>{
       const file = e.target.files[0]; if(!file) return;
