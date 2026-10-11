@@ -288,6 +288,14 @@ table.goal-table{ border-collapse:separate; border-spacing:0; width:100%; min-wi
 .page-modal{ background:var(--ew-navy); backdrop-filter:none; -webkit-backdrop-filter:none; align-items:stretch; }
 .home-new{ margin:-6px 16px 22px; }
 .home-new .primary-btn{ width:100%; padding:14px 18px; font-size:15px; }
+.home-goals-btn{ width:100%; margin-top:10px; padding:12px 18px; font-size:14.5px; }
+.area-card{ background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:16px; padding:14px 16px; margin-bottom:10px; }
+.area-card-name{ font-weight:700; font-size:15px; color:var(--ew-turquoise); margin-bottom:4px; }
+.area-card-text{ font-size:14px; line-height:1.5; color:var(--ew-text); opacity:.9; }
+.areas-how{ font-size:17px; margin:24px 0 12px; }
+.area-step{ display:flex; gap:12px; align-items:flex-start; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:16px; padding:14px 16px; margin-bottom:10px; }
+.area-step-num{ flex:none; width:28px; height:28px; border-radius:50%; background:var(--ew-turquoise); color:var(--ew-uv-navy); font-weight:700; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.areas-cta{ width:100%; margin-top:14px; padding:14px 18px; font-size:15px; }
 .wheel-hist-home #wheel-history-list{ max-height:none; }
 .wheel-hist-home #compare-bar{ background:transparent; border-top:none; padding-bottom:10px; }
 #goals-page .goal-table-card{ margin:0 0 20px; }
@@ -544,6 +552,10 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 <!-- Navigation at the bottom edge of the screen -->
 <nav class="bottom-nav" id="bottom-nav">
   <div class="bottom-nav-inner">
+    <button class="nav-item" id="areas-btn" data-nav="areas">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="12" cy="12" r="2.3"/><circle cx="12" cy="4.2" r="2.7"/><circle cx="19.4" cy="9.6" r="2.7"/><circle cx="16.6" cy="18.3" r="2.7"/><circle cx="7.4" cy="18.3" r="2.7"/><circle cx="4.6" cy="9.6" r="2.7"/></g></svg>
+      <span id="nav-areas-label">Bereiche</span>
+    </button>
     <button class="nav-item active" id="home-btn" data-nav="home">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 12V2.4M12 12l9.1-3M12 12l5.6 7.8M12 12l-5.6 7.8M12 12 2.9 9" stroke="currentColor" stroke-width="1.1" stroke-opacity=".55"/><path fill="currentColor" d="M12 5.6 18.1 10l-2.3 7.2H8.2L5.9 10Z"/></svg>
       <span id="nav-home-label">Lebensrad</span>
@@ -581,7 +593,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
   </div>
 </div>
 
-<div class="home-new" id="home-new-wrap"><button class="primary-btn" id="new-bewertung-btn">Neues Lebensrad erstellen</button></div>
+<div class="home-new" id="home-new-wrap"><button class="primary-btn" id="new-bewertung-btn">Neues Lebensrad erstellen</button><button class="ghost-btn home-goals-btn" id="home-goals-btn">Ziele bearbeiten</button></div>
 <div class="goal-table-card wheel-hist-home" id="wheel-hist-home">
   <h3 id="t-wheel-hist-title">Frühere Lebensräder</h3>
   <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
@@ -594,6 +606,11 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
     </div>
 </div>
 <div class="app-footer" id="app-version"></div>
+
+<!-- Lebensbereiche: what the five areas mean and how the wheel works (first page of the bottom bar) -->
+<div class="modal-backdrop page-modal" id="areas-page">
+  <div class="modal" id="areas-body"></div>
+</div>
 
 <!-- Ziele: goals, achieved goals and events, a page of the bottom bar -->
 <div class="modal-backdrop page-modal" id="goals-page">
@@ -833,7 +850,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.25.2';
+const APP_VERSION = '1.26.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -859,7 +876,7 @@ function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn 
 const APP_BUILD = '2026-10-11';
 /* ================= i18n ================= */
 const I18N = {
-  de:{ appName:'eWolfe', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
+  de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.' }, areasHowTitle:'So erstellst du dein erstes Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
     sceneHint:'Tippe auf einen Bereich für Details.', newEval:'Neue Bewertung', evalTitle:'Neue Bewertung',
     evalSub:'Wie schätzt du deine fünf Lebensbereiche gerade ein? Es gibt keine falschen Werte.', save:'Speichern',
     bereiche:{gesundheit:'Gesundheit',beziehungen:'Beziehungen',finanzen:'Finanzen',berufung:'Berufung',sinn:'Spiritualität'},
@@ -906,7 +923,7 @@ const I18N = {
     mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort (mindestens 6 Zeichen)', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediBoxNote:'Atme im Takt eines Quadrats: 4 Sekunden einatmen, 4 Sekunden halten, 4 Sekunden ausatmen, 4 Sekunden halten. Folge einfach dem Punkt – schon wenige Runden beruhigen Atem und Gedanken.', breathStart:'Starten', breathPause:'Pause', breathResume:'Weiter', breathStop:'Beenden', breathIn:'Einatmen', breathHold:'Halten', breathOut:'Ausatmen', breathRound:'Runde', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
     tblTitle:'Ziele im Überblick', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'Erklärungen', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahmen', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
     areaDesc:{ gesundheit:'Fitness, Ernährung, Erholung, Entspannung, Lebenserwartung', beziehungen:'Familie, Partnerschaft, Freunde, Zuwendung zu sich selbst', finanzen:'Einkommen, Wohlstand, Vermögen, Investitionen', berufung:'Aufgaben, Leistungen, Karriere, Erfolg', sinn:'Persönlichkeit, Sinn, Selbstverwirklichung, Erfüllung, Glück' } },
-  en:{ appName:'eWolfe', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
+  en:{ appName:'eWolfe', navAreas:'Areas', areasTitle:'Areas of life', areasIntro:'Your wheel of life is made of five areas. Together they show you how balanced your life is right now.', areasText:{ gesundheit:'Your physical and mental fitness, your energy, your diet, your sleep and restful breaks.', beziehungen:'Your relationship with yourself, your partnership, family, friendships and social contacts.', finanzen:'Your financial security, your savings, your spending habits and how you handle money.', berufung:'Fulfilment at work, career and personal growth – and the feeling of doing something meaningful rather than just earning money.', sinn:'Inner peace, mindfulness, your values and the meaning you find – the connection to yourself or to something greater.' }, areasHowTitle:'How to create your first wheel of life', areasStep1Title:'Rate', areasStep1:'Go through the five areas one by one and move the slider to the value from 1 to 100 that most honestly describes where you are right now.', areasStep2Title:'The result', areasStep2:'The rounder your wheel, the more balanced your life. Spikes and dents show you at a glance where you are losing energy right now – and where it is worth starting.', areasStartFirst:'Create your first wheel of life', areasContinue:'Continue with your wheels of life', goalsEdit:'Edit goals', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
     sceneHint:'Tap an area for details.', newEval:'New assessment', evalTitle:'New assessment',
     evalSub:'How do you rate your five life areas right now? There are no wrong values.', save:'Save',
     bereiche:{gesundheit:'Health',beziehungen:'Relationships',finanzen:'Finances',berufung:'Purpose',sinn:'Spirituality'},
@@ -1551,6 +1568,9 @@ function applyLang(){
   document.getElementById('new-bewertung-btn').textContent = d.newWheel;
   document.getElementById('nav-home-label').textContent = d.navHome;
   document.getElementById('nav-goals-label').textContent = d.navGoals;
+  document.getElementById('nav-areas-label').textContent = d.navAreas;
+  document.getElementById('home-goals-btn').textContent = d.goalsEdit;
+  if(document.getElementById('areas-page').classList.contains('open')) renderAreasPage();
   document.getElementById('t-goals-title').textContent = d.goalsTitle;
   document.getElementById('t-set-notes').textContent = d.setNotes;
   document.getElementById('nav-diary-label').textContent = d.navDiary;
@@ -1617,7 +1637,7 @@ document.getElementById('lang-en-btn').onclick = ()=>setLang('en');
 
 /* ---- Bottom bar: its five buttons switch between pages (Lebensrad, Verlauf, Bewerten, Tagebuch, Achtsamkeit).
    The bar always stays visible; the button of the page that is showing lights up. ---- */
-const NAV_PAGES = { goals:'goals-page', medi:'medi-modal' };
+const NAV_PAGES = { areas:'areas-page', goals:'goals-page', medi:'medi-modal' };
 function navActive(){
   if(document.getElementById('tb-overlay').classList.contains('open')) return 'diary';
   for(const [tab, id] of Object.entries(NAV_PAGES)) if(document.getElementById(id).classList.contains('open')) return tab;
@@ -1828,6 +1848,7 @@ function renderPanels(){
   renderAchievedTable();
   renderEventsOverview();
   renderWheelHistory();
+  if(document.getElementById('areas-page').classList.contains('open')) renderAreasPage();
   document.getElementById('last-eval-hint').textContent = '';
 }
 
@@ -2016,6 +2037,35 @@ document.getElementById('import-file-input').addEventListener('change', e=>{
 });
 document.getElementById('eval-restore-btn').onclick = ()=>{ document.getElementById('import-file-input').click(); };
 document.getElementById('goals-btn').onclick = ()=>{ renderPanels(); openModal('goals-page'); };
+document.getElementById('home-goals-btn').onclick = ()=>document.getElementById('goals-btn').click();
+
+/* ================= Lebensbereiche: the five areas explained, and how the wheel works ================= */
+const AREAS_SEEN_KEY = 'ewolfe_areas_seen_v1';
+function renderAreasPage(){
+  const d = t(), first = isFirstRun();
+  document.getElementById('areas-body').innerHTML = `
+    <div class="modal-top"><h2 class="modal-title">${d.areasTitle}</h2></div>
+    <p class="modal-sub">${d.areasIntro}</p>
+    ${AREAS.map(a=>`<div class="area-card"><div class="area-card-name">${d.bereiche[a]}</div><div class="area-card-text">${d.areasText[a]}</div></div>`).join('')}
+    <h3 class="areas-how">${d.areasHowTitle}</h3>
+    <div class="area-step"><span class="area-step-num">1</span><div><div class="area-card-name">${d.areasStep1Title}</div><div class="area-card-text">${d.areasStep1}</div></div></div>
+    <div class="area-step"><span class="area-step-num">2</span><div><div class="area-card-name">${d.areasStep2Title}</div><div class="area-card-text">${d.areasStep2}</div></div></div>
+    <button class="primary-btn areas-cta" id="areas-cta-btn">${first ? d.areasStartFirst : d.areasContinue}</button>`;
+  document.getElementById('areas-cta-btn').onclick = ()=>{
+    navGo('home');
+    if(isFirstRun()) openEvalModal(); // the first wheel is created right away
+  };
+}
+document.getElementById('areas-btn').onclick = ()=>{ renderAreasPage(); openModal('areas-page'); };
+// shown once by itself: for new people as their start page, and once after this update for everybody else
+function maybeShowAreasIntro(){
+  let seen = false;
+  try{ seen = !!localStorage.getItem(AREAS_SEEN_KEY); }catch(e){}
+  if(seen || syncGateNeeded()) return false;
+  try{ localStorage.setItem(AREAS_SEEN_KEY, String(Date.now())); }catch(e){}
+  navGo('areas', ()=>{ renderAreasPage(); openModal('areas-page'); });
+  return true;
+}
 
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
@@ -3819,7 +3869,7 @@ async function syncDoAuth(mode){
     if(wasGate) syncLeaveGate(); else renderSyncModal();
     await syncNow();
     // a brand-new person (nothing in the account either) goes on to create their first Lebensrad
-    if(wasGate && sbSession && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
+    if(wasGate && sbSession && !maybeShowAreasIntro() && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
   }catch(e){
     setMsg(syncErrText(e), 'err');
   }finally{
@@ -3858,7 +3908,7 @@ async function syncSaveNewPassword(){
   syncLeaveGate();
   await uiNotice(t().gateNewPwDone);
   await syncNow();
-  if(sbSession && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
+  if(sbSession && !maybeShowAreasIntro() && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
 }
 function openSyncModal(){ renderSyncModal(); openModal('sync-modal'); }
 function renderSettingsSync(){
@@ -3902,10 +3952,10 @@ function init(){
   navInit();
   if(isFirstRun()){
     // no data yet: play the intro, then sign in (required) or open the creation menu instead of revealing a wheel
-    renderScene(true, ()=> setTimeout(()=>{ if(syncGateNeeded()) syncShowGate(); else openEvalModal(); }, 200));
+    renderScene(true, ()=> setTimeout(()=>{ if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()) openEvalModal(); }, 200));
   } else {
     // returning user: play the intro every time the app opens, then reveal last time's wheel (and ask to sign in if needed)
-    renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); });
+    renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); else maybeShowAreasIntro(); });
     renderPanels();
   }
 }
