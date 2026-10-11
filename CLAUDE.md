@@ -19,7 +19,8 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   „Box Breathing" (`seed-box`, Feld `tool:'box'`) öffnet eine geführte Atemübung (`breathOpen()`, Fenster
   `#breath-modal`: Punkt wandert ums Quadrat, je 4 s ein/halten/aus/halten).
   Dazu Handpan-Musik, live im Browser erzeugt (Web Audio, `hpStart()`/`hpStop()`, D-Kurd-Skala, festes Stück
-  `hpPiece()` mit 38 Atemrunden = 608 s im Takt der Atmung, weicher Übergang beim Neustart). Stummschalten
+  `hpPiece()` mit 38 Atemrunden = 608 s: fließende Arpeggien, ein Akkord je Atemphase, Ein-/Ausatem-Geräusche
+  aus gefiltertem Rauschen (`hpBreath()`), weicher Übergang beim Neustart). Stummschalten
   wird je Gerät gemerkt (`ewolfe_breath_music`). Spielt auf dem iPhone auch im Lautlos-Modus
   (`navigator.audioSession` bzw. stilles <audio>-Element).
 - Symbole: eigene Linien-Icons statt Emojis über `ico(name)` / `UI_ICONS` (Tagebuch, Löschen …).
@@ -27,7 +28,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.27.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.28.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
