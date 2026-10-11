@@ -144,8 +144,8 @@ button, input, select, textarea{ font-family:inherit; }
 .scene-head p{ margin:0; font-size:13px; color:rgba(216,206,255,0.65); }
 .scene-stage{ position:relative; }
 #scene-svg{ display:block; width:100%; height:auto; }
-.bereich-label{ font-family:'Inter',sans-serif; font-weight:600; fill:#f3efff; }
-.bereich-value{ font-family:'Inter',sans-serif; font-weight:500; fill:var(--ew-uv-lilac); }
+.bereich-label{ font-family:'Inter',sans-serif; font-weight:400; fill:#fff; }
+.bereich-value{ font-family:'Inter',sans-serif; font-weight:400; fill:var(--ew-uv-lilac); }
 .scene-foot{ display:flex; justify-content:space-between; align-items:center; padding:10px 22px 20px; }
 .scene-foot .hint{ font-size:12px; color:rgba(216,206,255,0.5); }
 
@@ -963,7 +963,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.35.1';
+const APP_VERSION = '1.35.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2366,9 +2366,27 @@ function ptFor(i, value){
 }
 /* Labels around a wheel, always at least the normal text size on screen (the drawing is 800 units wide, so the
    font size in units depends on how wide the wheel is shown). Top: above its point, sides: next to it, bottom: below. */
+function wheelShownWidth(svg){
+  // the width the wheel is laid out with (not affected by animations); before it is visible: the width it will get
+  return svg.clientWidth || (svg.parentElement && svg.parentElement.clientWidth) || Math.min(window.innerWidth - 32, 520);
+}
+// exactly normal text size on screen, also after the phone is turned or the window changes size
+function wheelLabelsResize(){
+  ['scene-svg', 'wheel-compare-svg', 'wheel-snapshot-svg'].forEach(id=>{
+    const svg = document.getElementById(id); if(!svg) return;
+    const w = svg.clientWidth; if(!w) return;
+    const zoom = id === 'wheel-compare-svg' ? 1.15 : 1;
+    const fs = Math.max(14, Math.min(40, 15 * 800 / w)) / zoom;
+    svg.querySelectorAll('text.bereich-label, text.bereich-value').forEach(el=>{
+      const old = parseFloat(el.getAttribute('font-size')); if(!old || Math.abs(old - fs) < 0.3) return;
+      el.setAttribute('font-size', fs.toFixed(1));
+    });
+  });
+}
+window.addEventListener('resize', ()=>{ clearTimeout(wheelLabelsResize.t); wheelLabelsResize.t = setTimeout(wheelLabelsResize, 200); });
 function wheelLabelsSvg(svg, valueOf, zoom){
   const d = t();
-  const w = svg.getBoundingClientRect().width || Math.min(window.innerWidth - 44, 520);
+  const w = wheelShownWidth(svg);
   const fs = Math.max(14, Math.min(40, 15 * 800 / w)) / (zoom || 1), lh = fs * 1.15;
   let out = '';
   AREAS.forEach((a,i)=>{
