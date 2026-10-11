@@ -342,12 +342,12 @@ input[type=range]::-webkit-slider-thumb{
 .breath-start-btn{ margin-top:10px; width:100%; display:flex; align-items:center; justify-content:center; }
 .breath-start-btn .ui-ico{ width:14px; height:14px; }
 .breath-modal{ text-align:center; }
-.breath-stage{ position:relative; width:min(78vw, 300px); margin:10px auto 6px; }
+.breath-stage{ position:relative; width:min(76vw, 290px); margin:6px auto 4px; }
 .breath-svg{ display:block; width:100%; height:auto; }
 #breath-dot{ filter:drop-shadow(0 0 8px rgba(51,230,196,0.9)); }
-.breath-center{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; }
-#breath-phase{ font-size:20px; font-weight:700; color:#fff; }
-#breath-count{ font-size:42px; font-weight:700; color:var(--ew-turquoise); line-height:1.1; margin-top:2px; }
+.breath-center{ display:flex; align-items:baseline; justify-content:center; gap:12px; margin-top:2px; }
+#breath-phase{ font-size:20px; font-weight:700; color:#fff; min-width:110px; text-align:right; }
+#breath-count{ font-size:34px; font-weight:700; color:var(--ew-turquoise); line-height:1.1; min-width:30px; text-align:left; }
 .breath-meta{ color:var(--ew-text-dim); font-size:13px; margin:6px 0 16px; min-height:18px; }
 .breath-actions{ display:flex; gap:10px; }
 .breath-actions button{ flex:1; }
@@ -664,13 +664,21 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
     </div>
     <div class="breath-stage">
       <svg viewBox="0 0 240 240" class="breath-svg" aria-hidden="true">
-        <defs><linearGradient id="gradBreath" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b8a4ff"/><stop offset="100%" stop-color="#5a2bef"/></linearGradient></defs>
+        <defs>
+          <linearGradient id="lpOuter" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#4a20d6"/><stop offset="100%" stop-color="#b8a4ff"/></linearGradient>
+          <linearGradient id="lpMid" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#6f4cf5"/><stop offset="100%" stop-color="#d9ceff"/></linearGradient>
+          <linearGradient id="lpInner" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#9b80ff"/><stop offset="100%" stop-color="#f3eaff"/></linearGradient>
+          <linearGradient id="lpBud" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#c2b0ff"/><stop offset="100%" stop-color="#ffffff"/></linearGradient>
+          <radialGradient id="lpCenter"><stop offset="0%" stop-color="#b6fff0"/><stop offset="70%" stop-color="#33e6c4"/><stop offset="100%" stop-color="#1fa58c"/></radialGradient>
+          <radialGradient id="lpGlow"><stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.45"/><stop offset="100%" stop-color="#b8a4ff" stop-opacity="0"/></radialGradient>
+        </defs>
         <rect x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3"/>
-        <rect id="breath-inner" x="30" y="30" width="180" height="180" rx="18" fill="url(#gradBreath)" fill-opacity="0.45"/>
+        <circle id="breath-glow" cx="120" cy="120" r="80" fill="url(#lpGlow)"/>
+        <g id="breath-lotus" transform="translate(120 120)"></g>
         <circle id="breath-dot" cx="30" cy="210" r="11" fill="#33e6c4"/>
       </svg>
-      <div class="breath-center"><div id="breath-phase">Einatmen</div><div id="breath-count">4</div></div>
     </div>
+    <div class="breath-center"><div id="breath-phase">Einatmen</div><div id="breath-count">4</div></div>
     <div class="breath-meta" id="breath-meta"></div>
     <div class="breath-actions">
       <button class="ghost-btn breath-music-btn" id="breath-music-btn" onclick="breathToggleMusic()"></button>
@@ -854,7 +862,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.28.0';
+const APP_VERSION = '1.29.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1191,10 +1199,10 @@ function hpBreath(ctx, dry, wet, kind, t){
   const dur = 3.7;
   if(kind === 'in'){
     bp.frequency.setValueAtTime(650, t); bp.frequency.linearRampToValueAtTime(1500, t + dur);
-    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.05, t + 1.2); g.gain.linearRampToValueAtTime(0.085, t + 2.8); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.026, t + 1.2); g.gain.linearRampToValueAtTime(0.042, t + 2.8); g.gain.linearRampToValueAtTime(0.0001, t + dur);
   }else{
     bp.frequency.setValueAtTime(1000, t); bp.frequency.linearRampToValueAtTime(420, t + dur);
-    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.1, t + 0.45); g.gain.linearRampToValueAtTime(0.045, t + 2.4); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.062, t + 0.45); g.gain.linearRampToValueAtTime(0.028, t + 2.4); g.gain.linearRampToValueAtTime(0.0001, t + dur);
   }
   src.connect(hp2); hp2.connect(bp); bp.connect(g); g.connect(dry);
   const w = ctx.createGain(); w.gain.value = 0.25; g.connect(w); w.connect(wet); // a little room around the breath
@@ -1274,7 +1282,52 @@ function hpStop(instant){
 /* ---- Box Breathing: 4 s in, 4 s hold, 4 s out, 4 s hold; the dot goes up, across, down and back ---- */
 const BREATH_SIDE = 4;
 let breath = { start:0, pausedAt:0, raf:0, lastPhase:-1 };
+/* A lotus seen from above: four rings of petals around a turquoise centre. "open" goes from 0 (closed bud)
+   to 1 (fully open); the outer petals open first, the inner ones follow, like a real flower. */
+const LOTUS_LAYERS = [ // count, length, width, angle offset, gradient, how late this ring follows
+  { n:8, L:84, W:25, off:0,     fill:'url(#lpOuter)', lag:0 },
+  { n:8, L:68, W:22, off:22.5,  fill:'url(#lpMid)',   lag:0.12 },
+  { n:8, L:50, W:18, off:11.25, fill:'url(#lpInner)', lag:0.24 },
+  { n:6, L:31, W:13, off:30,    fill:'url(#lpBud)',   lag:0.36 }
+];
+let lotusPetals = [];
+function breathLotusBuild(){
+  const g = document.getElementById('breath-lotus');
+  if(g.childNodes.length) return;
+  const NS = 'http://www.w3.org/2000/svg';
+  lotusPetals = [];
+  LOTUS_LAYERS.forEach((ly, li)=>{
+    for(let k = 0; k < ly.n; k++){
+      const p = document.createElementNS(NS, 'path'), L = ly.L, W = ly.W;
+      p.setAttribute('d', `M0 0C${-W*0.95} ${-L*0.22} ${-W*1.02} ${-L*0.72} 0 ${-L}C${W*1.02} ${-L*0.72} ${W*0.95} ${-L*0.22} 0 0Z`);
+      p.setAttribute('fill', ly.fill);
+      p.setAttribute('stroke', 'rgba(255,255,255,0.28)'); p.setAttribute('stroke-width', '0.7');
+      g.appendChild(p);
+      lotusPetals.push({ el:p, angle:ly.off + k * 360 / ly.n, li });
+    }
+  });
+  const c = document.createElementNS(NS, 'circle'); c.setAttribute('r', '11'); c.setAttribute('fill', 'url(#lpCenter)'); g.appendChild(c);
+  for(let k = 0; k < 7; k++){ // little seeds in the middle
+    const s = document.createElementNS(NS, 'circle'), a = k * Math.PI * 2 / 7;
+    s.setAttribute('cx', (k ? 5.5 * Math.cos(a) : 0).toFixed(2)); s.setAttribute('cy', (k ? 5.5 * Math.sin(a) : 0).toFixed(2)); s.setAttribute('r', '1.3'); s.setAttribute('fill', '#e9fff9');
+    g.appendChild(s);
+  }
+}
+function breathLotusSet(open){
+  const ease = x=>x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x);
+  lotusPetals.forEach(p=>{
+    const ly = LOTUS_LAYERS[p.li];
+    const o = ease((open * (1 + ly.lag) - ly.lag)); // later rings start a little later and still finish together
+    const len = 0.3 + 0.7 * o, wid = 0.5 + 0.5 * o, twist = (1 - o) * 14 * (p.li % 2 ? -1 : 1);
+    p.el.setAttribute('transform', `rotate(${(p.angle + twist).toFixed(2)}) scale(${wid.toFixed(3)} ${len.toFixed(3)})`);
+  });
+  const glow = document.getElementById('breath-glow');
+  glow.setAttribute('r', (40 + 52 * ease(open)).toFixed(1));
+  glow.setAttribute('opacity', (0.35 + 0.65 * ease(open)).toFixed(2));
+}
 function breathOpen(){
+  breathLotusBuild();
+  breathLotusSet(0);
   breath = { start:performance.now(), pausedAt:0, raf:0, lastPhase:-1 };
   document.getElementById('breath-pause-btn').textContent = t().breathPause;
   document.getElementById('breath-stop-btn').textContent = t().breathStop;
@@ -1325,9 +1378,7 @@ function breathFrame(now){
   const pos = [ [lo, hi - span*f], [lo + span*f, lo], [hi, lo + span*f], [hi - span*f, hi] ][phase];
   const dot = document.getElementById('breath-dot');
   dot.setAttribute('cx', pos[0]); dot.setAttribute('cy', pos[1]);
-  const fill = [f, 1, 1 - f, 0][phase], size = 60 + 120 * fill; // the inner square breathes with you
-  const inner = document.getElementById('breath-inner');
-  inner.setAttribute('x', 120 - size/2); inner.setAttribute('y', 120 - size/2); inner.setAttribute('width', size); inner.setAttribute('height', size);
+  breathLotusSet([f, 1, 1 - f, 0][phase]); // the lotus opens as you breathe in and closes as you breathe out
   document.getElementById('breath-phase').textContent = [d.breathIn, d.breathHold, d.breathOut, d.breathHold][phase];
   document.getElementById('breath-count').textContent = BREATH_SIDE - Math.floor(f * BREATH_SIDE);
   const secs = Math.floor(el), mm = String(Math.floor(secs / 60)).padStart(2, '0'), ss = String(secs % 60).padStart(2, '0');
