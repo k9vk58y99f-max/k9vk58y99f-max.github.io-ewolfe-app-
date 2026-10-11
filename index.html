@@ -908,7 +908,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.32.0';
+const APP_VERSION = '1.32.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1099,7 +1099,7 @@ function lotusPetalPath(L, W){ return `M0 0C${-W*0.75} ${-L*0.12} ${-W*1.05} ${-
 function lotusEase(x){ return x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x); }
 function lotusPetalTf(ri, angle, open, lv, wv){
   const ly = LOTUS_RINGS[ri], o = lotusEase(open * (1 + ly.lag) - ly.lag);
-  const len = (0.42 + 0.58 * o) * (lv || 1), wid = (0.72 + 0.28 * o) * (wv || 1), twist = (1 - o) * 16 * (ri % 2 ? -1 : 1);
+  const len = (0.546 + 0.454 * o) * (lv || 1), wid = (0.936 + 0.064 * o) * (wv || 1), twist = (1 - o) * 16 * (ri % 2 ? -1 : 1);
   return `rotate(${(angle + twist).toFixed(2)}) scale(${wid.toFixed(3)} ${len.toFixed(3)})`;
 }
 // small natural differences between the petals: a little longer or shorter, wider or narrower, slightly turned
@@ -1107,7 +1107,7 @@ function lotusPetalVar(ri, k){
   const h = n=>{ const x = Math.sin((ri + 1) * 127.1 + (k + 1) * 311.7 + n * 74.7) * 43758.5453; return x - Math.floor(x); };
   return { lv:1 + (h(1) - 0.5) * 0.13, wv:1 + (h(2) - 0.5) * 0.16, av:(h(3) - 0.5) * 6 };
 }
-function lotusSepalTf(angle, open){ return `rotate(${angle}) scale(0.9 ${(0.72 + 0.28 * lotusEase(open)).toFixed(3)})`; }
+function lotusSepalTf(angle, open){ return `rotate(${angle}) scale(0.9 ${(0.936 + 0.064 * lotusEase(open)).toFixed(3)})`; }
 function lotusCenterTf(open){ const o = lotusEase(open * 1.5 - 0.5); return { tf:`scale(${(0.2 + 0.8 * o).toFixed(3)})`, op:(0.1 + 0.9 * o).toFixed(2) }; }
 function lotusMarkup(P, open){
   const L = LOTUS_LEAF;
@@ -1172,9 +1172,9 @@ function lemonPictureSvg(id){
     + `<radialGradient id="${P}f"><stop offset="0%" stop-color="#fff6a8"/><stop offset="100%" stop-color="#ffdd1f"/></radialGradient>`
     + `<linearGradient id="${P}r" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffe94d"/><stop offset="100%" stop-color="#f5c000"/></linearGradient>`
     + `<linearGradient id="${P}lf" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${L.dark}"/><stop offset="100%" stop-color="${L.light}"/></linearGradient>`
-    + `</defs><circle r="94" fill="url(#${P}g)"/>`
-    + leafG(18, -36, 34, 80, 27) + leafG(30, -26, 76, 66, 21)
-    + `<g transform="translate(-6 8)"><circle r="68" fill="url(#${P}r)"/><circle r="62" fill="#fffbe0"/><circle r="57" fill="#fff3b0"/>${seg}<circle r="7" fill="#fffbe0"/></g></svg>`;
+    + `</defs><circle r="94" fill="url(#${P}g)"/><g transform="translate(-8 14) scale(0.84)">`
+    + leafG(18, -36, 34, 96, 32.4) + leafG(30, -26, 76, 79.2, 25.2)
+    + `<g transform="translate(-6 8)"><circle r="68" fill="url(#${P}r)"/><circle r="62" fill="#fffbe0"/><circle r="57" fill="#fff3b0"/>${seg}<circle r="7" fill="#fffbe0"/></g></g></svg>`;
 }
 
 function renderMeditationen(){
