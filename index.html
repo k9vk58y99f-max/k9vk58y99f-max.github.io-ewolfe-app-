@@ -453,15 +453,29 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-tools-fab{ position:fixed; right:18px; bottom:calc(var(--nav-h) + 18px); z-index:5; width:56px; height:56px; border-radius:50%; border:none; background:var(--ew-turquoise); color:var(--ew-uv-navy); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 28px rgba(0,0,0,0.45), 0 0 0 4px rgba(51,230,196,0.18); cursor:pointer; -webkit-tap-highlight-color:transparent; }
 .tb-tools-fab .ui-ico{ width:24px; height:24px; margin:0; stroke-width:2; }
 .tb-fab-x{ font-size:20px; font-weight:700; }
+.tb-del-fab{ position:fixed; left:18px; bottom:calc(var(--nav-h) + 24px); z-index:5; width:44px; height:44px; border-radius:50%; border:1px solid var(--ew-line); background:var(--ew-panel); color:var(--ew-text-dim); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 22px rgba(0,0,0,0.4); cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.tb-del-fab .ui-ico{ width:20px; height:20px; margin:0; }
+.tb-del-fab:hover{ color:#ef8e8e; border-color:#ef8e8e; }
+.tb-tools-row{ display:flex; align-items:center; border-radius:12px; }
+.tb-tools-row .tb-tools-item{ flex:1; }
+.tb-tools-row.active{ background:rgba(51,230,196,0.10); }
+.tb-tools-row.active .tb-tools-item{ color:var(--ew-turquoise); font-weight:600; background:transparent; }
+.tb-tools-chevbtn{ border:none; background:transparent; color:var(--ew-text-dim); padding:8px 10px; border-radius:10px; cursor:pointer; display:flex; }
+.tb-tools-chevbtn:hover{ background:var(--ew-panel-2); }
+.tb-chev{ display:inline-flex; margin-left:auto; transition:transform .15s ease; }
+.tb-chev .ui-ico{ width:18px; height:18px; margin:0; }
+.tb-chev.open{ transform:rotate(180deg); }
+.tb-tools-subitem.active{ border-color:var(--ew-turquoise); color:var(--ew-turquoise); font-weight:600; }
+.font-hand-label{ font-family:'Caveat',cursive; font-size:16px; font-weight:600; line-height:1; }
 .tb-tools-backdrop{ position:fixed; inset:0; z-index:4; background:rgba(6,8,18,0.35); }
-.tb-tools-menu{ position:fixed; right:18px; bottom:calc(var(--nav-h) + 86px); z-index:5; width:min(250px, calc(100vw - 36px)); max-height:calc(100% - var(--nav-h) - 160px); overflow-y:auto; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:18px; padding:8px; box-shadow:0 18px 48px rgba(0,0,0,0.55); }
+.tb-tools-menu{ position:fixed; right:18px; bottom:calc(var(--nav-h) + 86px); z-index:5; width:min(272px, calc(100vw - 36px)); max-height:calc(100% - var(--nav-h) - 160px); overflow-y:auto; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:18px; padding:8px; box-shadow:0 18px 48px rgba(0,0,0,0.55); }
 .tb-tools-item{ display:flex; align-items:center; width:100%; text-align:left; gap:4px; padding:11px 12px; border:none; border-radius:12px; background:transparent; color:var(--ew-text); font:inherit; font-size:14.5px; cursor:pointer; }
 .tb-tools-item .ui-ico{ width:20px; height:20px; margin-right:10px; }
 .tb-tools-item:hover{ background:var(--ew-panel-2); }
 .tb-tools-item.active{ color:var(--ew-turquoise); background:rgba(51,230,196,0.10); font-weight:600; }
 .tb-tools-sep{ height:1px; background:var(--ew-line); margin:6px 8px; }
-.tb-tools-sub{ display:flex; flex-wrap:wrap; gap:6px; padding:2px 8px 8px 42px; }
-.tb-tools-subitem{ font:inherit; font-size:12.5px; padding:7px 11px; border-radius:10px; border:1px solid var(--ew-line); background:var(--ew-panel-2); color:var(--ew-text); cursor:pointer; }
+.tb-tools-sub{ display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:2px 6px 8px 34px; }
+.tb-tools-subitem{ font:inherit; font-size:12.5px; padding:7px 10px; border-radius:10px; border:1px solid var(--ew-line); background:var(--ew-panel-2); color:var(--ew-text); cursor:pointer; }
 .tb-tools-subitem:hover{ border-color:var(--ew-turquoise); }
 .tb-page-num{ font-size:12px; color:var(--ew-text-dim); min-width:60px; text-align:center; }
 .tb-toolbar{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:560px; }
@@ -805,7 +819,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.23.0';
+const APP_VERSION = '1.24.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -853,14 +867,14 @@ const I18N = {
     achievedCategory:'Erreichte Ziele', noAchievedGoals:'Noch keine erreichten Ziele in diesem Bereich.', achievedOn:'Erreicht am',
     diaryTitle:'Tagebuch', diaryLibrary:'Bibliothek', diaryOpen:'Aufschlagen', diaryToLibrary:'Zur Bibliothek',
     diaryNoEntries:'Noch keine vergangenen Tagebücher.', diaryNewPage:'Neue Seite',
-    diaryPageLined:'Liniert', diaryPageGrid:'Kariert', diaryPageDotted:'Punkte', diaryPageBlank:'Leer',
+    diaryPageLined:'Liniert', diaryPageGrid:'Kariert', diaryPageDotted:'Gepunktet', diaryPageBlank:'Leer',
     diaryWrite:'Schreiben', diaryDraw:'Zeichnen', diaryAddImage:'Bild', diaryFontPrint:'Druckschrift', diaryFontHand:'Handschrift',
     diaryColor:'Farbe', diaryMaterial:'Material', diaryFont:'Schrift', diaryTitlePh:'Titel des Tagebuchs',
     diaryMatPlain:'Schlicht', diaryMatLeather:'Leder', diaryMatLinen:'Leinen', diaryMatPaper:'Papier',
     diaryUploadCover:'Eigenes Coverbild', diaryPage:'Seite',
     diaryEraseFree:'Pixel-Radierer', diaryEraseObj:'Objekt-Radierer',
     diaryDeletePage:'Seite löschen', diaryDeletePageConfirm:'Diese Seite wirklich löschen? Das kann nicht rückgängig gemacht werden.',
-    diaryPagesOverview:'Seiten', diaryTools:'Werkzeuge',
+    diaryPagesOverview:'Seiten', diaryTools:'Werkzeuge', diaryPageStyle:'Seitenansicht', diaryFontChoose:'Schrift wählen',
     diaryViewMode:'Ansicht', diaryEditMode:'Bearbeiten',
     diaryDefaultType:'Bevorzugter Seitentyp für neue Seiten', diaryChangeBg:'Hintergrund ändern', diarySettings:'Einstellungen', diaryResetDefault:'Auf Standard zurücksetzen',
     exportBackup:'Backup herunterladen', importBackup:'Backup wiederherstellen',
@@ -907,7 +921,7 @@ const I18N = {
     diaryUploadCover:'Custom cover image', diaryPage:'Page',
     diaryEraseFree:'Pixel eraser', diaryEraseObj:'Object eraser',
     diaryDeletePage:'Delete page', diaryDeletePageConfirm:'Really delete this page? This cannot be undone.',
-    diaryPagesOverview:'Pages', diaryTools:'Tools',
+    diaryPagesOverview:'Pages', diaryTools:'Tools', diaryPageStyle:'Page style', diaryFontChoose:'Choose font',
     diaryViewMode:'View', diaryEditMode:'Write',
     diaryDefaultType:'Preferred page type for new pages', diaryChangeBg:'Change background', diarySettings:'Settings', diaryResetDefault:'Reset to default',
     exportBackup:'Download backup', importBackup:'Restore backup',
@@ -1324,7 +1338,8 @@ const UI_ICONS = {
   arrowR:'<path d="M5 12h14M13 6l6 6-6 6"/>',
   arrowL:'<path d="M19 12H5M11 6l-6 6 6 6"/>',
   play:'<path d="M7 4.5v15l12.5-7.5Z" fill="currentColor"/>',
-  pause:'<path d="M8 5v14M16 5v14"/>'
+  pause:'<path d="M8 5v14M16 5v14"/>',
+  chevron:'<path d="M6 9l6 6 6-6"/>'
 };
 function ico(name, cls){ return '<svg class="ui-ico' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + UI_ICONS[name] + '</svg>'; }
 
@@ -2645,7 +2660,7 @@ function tbRender(){
   const topnav = document.getElementById('tb-topnav');
   topnav.innerHTML = tbView==='page' ? tbPageNavHtml() : '';
   document.getElementById('tb-title').style.display = tbView==='page' ? 'none' : '';
-  if(tbView!=='page') tbToolsOpen = false;
+  if(tbView!=='page'){ tbToolsOpen = false; tbToolsSub = ''; }
   const body = document.getElementById('tb-body');
   if(tbView==='library') body.innerHTML = tbRenderLibrary();
   else if(tbView==='cover') body.innerHTML = tbRenderCover();
@@ -2927,10 +2942,7 @@ function tbRenderPageSlot(idx){
   if(tbImgsMigrated) saveState(); // persist the one-time conversion so it only ever runs once per image
   const miniTools = tbEditMode ? `
       <div class="tb-page-mini-tools">
-        <button class="tb-mini-btn ${page.font==='hand'?'active':''}" onclick="tbToggleHandFont(${idx})" title="${d.diaryFontHand}">${ico('hand')}</button>
         <label class="tb-mini-btn" title="${d.diaryAddImage}" style="cursor:pointer;">${ico('image')}<input type="file" accept="image/*" id="tb-img-input-${idx}" style="display:none;"></label>
-        <button class="tb-mini-btn" onclick="tbCyclePageType(${idx})" title="${d.diaryChangeBg}">${ico('palette')}</button>
-        <button class="tb-mini-btn" onclick="tbDeletePage(${idx})" title="${d.diaryDeletePage}">${ico('trash')}</button>
       </div>` : '';
   return `<div class="tb-page type-${page.type}" data-page-idx="${idx}">
       <textarea class="tb-page-text ${page.font==='hand'?'font-hand':''} ${(tbMode!=='text'||!tbEditMode)?'inactive':''}" id="tb-page-text-${idx}" placeholder="" ${tbEditMode?'':'readonly'}
@@ -2968,29 +2980,58 @@ function tbPageNavHtml(){
     <button class="icon-btn tb-nav-btn" onclick="tbNextPage()" ${hasNext?'':'disabled'}>›</button>`;
 }
 /* ---- Tools: one floating button (shows the current tool); tapping it opens the tool menu ---- */
-let tbToolsOpen = false, tbNewPageOpen = false;
+let tbToolsOpen = false, tbToolsSub = ''; // tbToolsSub: which row is folded open ('font' | 'new' | 'style')
 const TB_TOOLS = [['text','pencil','diaryWrite'], ['draw','pen','diaryDraw'], ['eraseFree','eraser','diaryEraseFree'], ['eraseObj','objErase','diaryEraseObj']];
+const TB_STYLE_ORDER = ['blank','lined','grid','dotted'];
+function tbTypeLabel(pt){ return t()['diaryPage' + pt.charAt(0).toUpperCase() + pt.slice(1)]; }
 function tbToolsHtml(){
   const d = t();
+  const page = tbEnsureYear(tbYear).seiten[tbPageIdx] || {};
   const cur = TB_TOOLS.find(x=>x[0]===tbMode) || TB_TOOLS[0];
-  const tools = TB_TOOLS.map(([m,icon,label])=>`<button class="tb-tools-item ${tbMode===m?'active':''}" onclick="tbPickTool('${m}')">${ico(icon)}${d[label]}</button>`).join('');
-  const types = tbNewPageOpen ? `<div class="tb-tools-sub">${TB_PAGE_TYPES.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbNewPageOpen=false;tbAddPage('${pt}')">${d['diaryPage'+pt.charAt(0).toUpperCase()+pt.slice(1)]}</button>`).join('')}</div>` : '';
+  const chev = sub => `<span class="tb-chev ${tbToolsSub===sub?'open':''}">${ico('chevron')}</span>`;
+  const subRow = (sub, items) => tbToolsSub===sub ? `<div class="tb-tools-sub">${items}</div>` : '';
+  const tools = TB_TOOLS.map(([m,icon,label])=>{
+    if(m !== 'text') return `<button class="tb-tools-item ${tbMode===m?'active':''}" onclick="tbPickTool('${m}')">${ico(icon)}${d[label]}</button>`;
+    // "Schreiben" picks the tool; its little arrow folds open the choice of font
+    return `<div class="tb-tools-row ${tbMode===m?'active':''}">
+        <button class="tb-tools-item" onclick="tbPickTool('text')">${ico(icon)}${d[label]}</button>
+        <button class="tb-tools-chevbtn" onclick="tbToolsFold('font')" title="${d.diaryFontChoose}" aria-label="${d.diaryFontChoose}">${chev('font')}</button>
+      </div>` + subRow('font', [['print', d.diaryFontPrint], ['hand', d.diaryFontHand]].map(([f,lab])=>
+        `<button class="tb-tools-subitem ${(page.font==='hand') === (f==='hand') ? 'active' : ''} ${f==='hand' ? 'font-hand-label' : ''}" onclick="tbSetFont('${f}')">${lab}</button>`).join(''));
+  }).join('');
+  const isTitle = page.type === 'titel';
   const menu = tbToolsOpen ? `<div class="tb-tools-backdrop" onclick="tbToggleTools(false)"></div>
     <div class="tb-tools-menu">
       ${tools}
       <div class="tb-tools-sep"></div>
-      <button class="tb-tools-item ${tbNewPageOpen?'active':''}" onclick="tbNewPageOpen=!tbNewPageOpen;tbRender();">${ico('plus')}${d.diaryNewPage}</button>
-      ${types}
-      <button class="tb-tools-item" onclick="tbToolsOpen=false;tbNewPageOpen=false;tbView='pages';tbRender();">${ico('pages')}${d.diaryPagesOverview}</button>
+      <button class="tb-tools-item ${tbToolsSub==='new'?'active':''}" onclick="tbToolsFold('new')">${ico('plus')}${d.diaryNewPage}${chev('new')}</button>
+      ${subRow('new', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('${pt}')">${tbTypeLabel(pt)}</button>`).join(''))}
+      <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbView='pages';tbRender();">${ico('pages')}${d.diaryPagesOverview}</button>
+      ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='style'?'active':''}" onclick="tbToolsFold('style')">${ico('palette')}${d.diaryPageStyle}${chev('style')}</button>
+      ${subRow('style', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem ${page.type===pt?'active':''}" onclick="tbSetPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join(''))}`}
     </div>` : '';
-  return `${menu}<button class="tb-tools-fab ${tbToolsOpen?'open':''}" onclick="tbToggleTools()" title="${d.diaryTools}" aria-label="${d.diaryTools}">${tbToolsOpen ? '<span class="tb-fab-x">✕</span>' : ico(cur[1])}</button>`;
+  const del = isTitle ? '' : `<button class="tb-del-fab" onclick="tbDeletePage(tbPageIdx)" title="${d.diaryDeletePage}" aria-label="${d.diaryDeletePage}">${ico('trash')}</button>`;
+  return `${menu}${del}<button class="tb-tools-fab ${tbToolsOpen?'open':''}" onclick="tbToggleTools()" title="${d.diaryTools}" aria-label="${d.diaryTools}">${tbToolsOpen ? '<span class="tb-fab-x">✕</span>' : ico(cur[1])}</button>`;
 }
 function tbToggleTools(open){
   tbToolsOpen = open === undefined ? !tbToolsOpen : open;
-  if(!tbToolsOpen) tbNewPageOpen = false;
+  if(!tbToolsOpen) tbToolsSub = '';
   tbRender();
 }
-function tbPickTool(m){ tbMode = m; tbToolsOpen = false; tbNewPageOpen = false; tbRender(); }
+function tbToolsFold(sub){ tbToolsSub = tbToolsSub === sub ? '' : sub; tbRender(); }
+function tbPickTool(m){ tbMode = m; tbToolsOpen = false; tbToolsSub = ''; tbRender(); }
+function tbSetFont(f){
+  const page = tbEnsureYear(tbYear).seiten[tbPageIdx];
+  if(page && page.type !== 'titel'){ page.font = f === 'hand' ? 'hand' : null; saveState(); }
+  tbMode = 'text'; tbToolsOpen = false; tbToolsSub = '';
+  tbRender();
+}
+function tbSetPageType(pt){
+  const page = tbEnsureYear(tbYear).seiten[tbPageIdx];
+  if(page && page.type !== 'titel'){ page.type = pt; saveState(); }
+  tbToolsOpen = false; tbToolsSub = '';
+  tbRender();
+}
 function tbSetMode(m){ tbMode=m; tbRender(); }
 function tbToggleHandFont(idx){
   const page = tbEnsureYear(tbYear).seiten[idx];
