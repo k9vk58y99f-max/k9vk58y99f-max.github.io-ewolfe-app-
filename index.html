@@ -463,6 +463,8 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-body.tb-body-cover{ overflow:hidden; display:flex; padding:14px 18px 18px; }
 .tb-body-cover .tb-cover-wrap{ flex:1; min-height:0; }
 .tb-body-cover .tb-cover{ width:min(440px,100%); height:100%; aspect-ratio:auto; }
+.tb-cover-tap{ cursor:pointer; -webkit-tap-highlight-color:transparent; transition:transform .15s ease; }
+.tb-cover-tap:active{ transform:scale(0.985); } /* tapping the cover opens the diary */
 .tb-cover-bottom{ position:relative; z-index:1; width:100%; display:flex; flex-direction:column; align-items:center; gap:16px; padding:0 14px 6%; }
 .tb-cover-bottom .tb-cover-caption{ padding-bottom:0; }
 .tb-cover-bottom .tb-cover-actions{ flex-wrap:wrap; justify-content:center; }
@@ -961,7 +963,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.34.0';
+const APP_VERSION = '1.34.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -3314,17 +3316,14 @@ function tbRenderCover(){
   const hasCustomTitle = !!diary.cover.title;
   const setup = tbCoverSetupOpen(diary);
   return `<div class="tb-cover-wrap">
-    <div class="tb-cover${matClass}" style="${bg}">
+    <div class="tb-cover tb-cover-tap${matClass}" style="${bg}" role="button" tabindex="0" aria-label="${d.diaryOpen}"
+      onclick="tbOpenFirstPage()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tbOpenFirstPage();}">
       <div class="tb-cover-bottom">
         <div class="tb-cover-caption">
           <div class="tb-cover-title" style="font-family:${fontFamily};">${escapeHtml(diary.cover.title || d.diaryTitle)}</div>
           ${hasCustomTitle ? '' : `<div class="tb-cover-year">${tbYear}</div>`}
         </div>
-        <div class="tb-cover-actions">
-          <button class="primary-btn" onclick="tbOpenFirstPage()">${d.diaryOpen}${ico('arrowR','after')}</button>
-          <button class="ghost-btn" onclick="tbView='library'; tbRender();">${d.diaryToLibrary}</button>
-          ${setup ? `<button class="tb-gear-btn" onclick="tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}">${ico('gear')}</button>` : ''}
-        </div>
+        ${setup ? `<div class="tb-cover-actions"><button class="tb-gear-btn" onclick="event.stopPropagation(); tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}">${ico('gear')}</button></div>` : ''}
       </div>
     </div>
   </div>${setup ? tbCoverSettingsHtml() : ''}`;
