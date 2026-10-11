@@ -412,6 +412,8 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-cover-caption{ position:relative; z-index:1; padding-bottom:9%; width:100%; }
 .tb-cover-caption .tb-cover-title{ color:var(--ew-turquoise); }
 .tb-cover-caption .tb-cover-year{ font-weight:600; font-size:26px; color:var(--ew-turquoise); opacity:.85; margin-top:8px; letter-spacing:.08em; }
+/* on the standard icon cover the year is in the darkest blue of the background (the title stays turquoise) */
+.icon-default .tb-cover-caption .tb-cover-year{ color:#000b45; opacity:1; text-shadow:0 1px 1px rgba(255,255,255,0.18); }
 .tb-cover.mat-leather, .tb-page-titel.mat-leather{ background-image: repeating-linear-gradient(135deg, rgba(0,0,0,0.10) 0 2px, transparent 2px 7px); }
 .tb-cover.mat-linen, .tb-page-titel.mat-linen{ background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 3px); }
 .tb-cover.mat-paper, .tb-page-titel.mat-paper{ background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px); background-size:6px 6px; }
@@ -831,7 +833,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.25.1';
+const APP_VERSION = '1.25.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2697,7 +2699,7 @@ function tbRenderLibrary(){
     // exactly the cover the book has (icon design, own image or chosen colour), just smaller
     const usingIconDefault = !c.image && !c.colorChosen;
     const bg = c.image ? `background-image:url(${c.image});` : (c.colorChosen ? `background-color:${c.color};` : `background-image:var(--tb-title-bg);`);
-    const matClass = usingIconDefault ? '' : ` mat-${c.material}`;
+    const matClass = usingIconDefault ? ' icon-default' : ` mat-${c.material}`;
     const fontFamily = c.titleFont==='hand' ? "'Caveat',cursive" : "'Inter',sans-serif";
     const hasCustomTitle = !!c.title;
     const pages = diary.seiten.filter(p=>p.type!=='titel').length;
@@ -2736,7 +2738,7 @@ function tbRenderCover(){
   const usingIconDefault = !c.image && !c.colorChosen;
   const bg = c.image ? `background-image:url(${c.image});`
     : (c.colorChosen ? `background-color:${c.color};` : `background-image:var(--tb-title-bg);`);
-  const matClass = usingIconDefault ? '' : ` mat-${c.material}`;
+  const matClass = usingIconDefault ? ' icon-default' : ` mat-${c.material}`;
   const fontFamily = c.titleFont==='hand' ? "'Caveat',cursive" : "'Inter',sans-serif";
   const hasCustomTitle = !!diary.cover.title;
   const setup = tbCoverSetupOpen(diary);
