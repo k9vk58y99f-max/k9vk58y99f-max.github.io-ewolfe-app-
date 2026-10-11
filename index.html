@@ -908,7 +908,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.32.3';
+const APP_VERSION = '1.32.4';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2477,8 +2477,10 @@ function renderAreasPage(){
     <h3 class="areas-how">${d.areasHowTitle}</h3>
     <div class="area-step"><span class="area-step-num">1</span><div><div class="area-card-name">${d.areasStep1Title}</div><div class="area-card-text">${d.areasStep1}</div></div></div>
     <div class="area-step"><span class="area-step-num">2</span><div><div class="area-card-name">${d.areasStep2Title}</div><div class="area-card-text">${d.areasStep2}</div></div></div>
-    <button class="primary-btn areas-cta" id="areas-cta-btn">${first ? d.areasStartFirst : d.areasContinue}</button>`;
-  document.getElementById('areas-cta-btn').onclick = ()=>{
+    ${first ? `<button class="primary-btn areas-cta" id="areas-cta-btn">${d.areasStartFirst}</button>` : ''}`;
+  // only people without a wheel yet get the button; everybody else switches pages with the bar
+  const cta = document.getElementById('areas-cta-btn');
+  if(cta) cta.onclick = ()=>{
     navGo('home');
     if(isFirstRun()) openEvalModal(); // the first wheel is created right away
   };
