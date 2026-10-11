@@ -893,7 +893,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.31.0';
+const APP_VERSION = '1.31.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1074,10 +1074,10 @@ function hideStorageWarning(){
    lily pads. lotusMarkup() draws it at a given openness (0 = closed bud, 1 = open); lotusApply() moves the
    same drawing to another openness without rebuilding it (used for the breathing animation). ---- */
 const LOTUS_RINGS = [ // count, length, width, angle offset, colour at the base, colour at the tip, how late this ring follows
-  { n:10, L:88, W:22, off:0,  c0:'#8e98ff', c1:'#f3f4ff', lag:0 },
-  { n:10, L:74, W:20, off:18, c0:'#7b78ff', c1:'#dedcff', lag:0.10 },
-  { n:9,  L:58, W:17, off:9,  c0:'#6852f3', c1:'#bcb2ff', lag:0.20 },
-  { n:8,  L:42, W:14, off:22, c0:'#5a2bef', c1:'#a08dff', lag:0.30 }
+  { n:10, L:88, W:22, off:0,  c0:'#6d6ef3', c1:'#3a2fd0', lag:0 },     // outer petals: deep blue-violet
+  { n:10, L:74, W:20, off:18, c0:'#8d8dff', c1:'#5548ea', lag:0.10 },
+  { n:9,  L:58, W:17, off:9,  c0:'#b5b3ff', c1:'#7d73fb', lag:0.20 },
+  { n:8,  L:42, W:14, off:22, c0:'#e2e0ff', c1:'#aca5ff', lag:0.30 }   // inner petals: light lavender
 ];
 const LOTUS_LEAF = { light:'#9fc56a', dark:'#3f7a3a', vein:'rgba(220,255,190,0.25)', edge:'rgba(30,70,30,0.5)' };
 function lotusPetalPath(L, W){ return `M0 0C${-W*0.75} ${-L*0.12} ${-W*1.05} ${-L*0.5} ${-W*0.32} ${-L*0.88}Q0 ${-L*1.04} ${W*0.32} ${-L*0.88}C${W*1.05} ${-L*0.5} ${W*0.75} ${-L*0.12} 0 0Z`; }
@@ -1092,8 +1092,8 @@ function lotusCenterTf(open){ const o = lotusEase(open * 1.5 - 0.5); return { tf
 function lotusMarkup(P, open){
   const L = LOTUS_LEAF;
   let defs = `<radialGradient id="${P}g"><stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.5"/><stop offset="100%" stop-color="#b8a4ff" stop-opacity="0"/></radialGradient>`
-    + `<radialGradient id="${P}c"><stop offset="0%" stop-color="#ffe680"/><stop offset="60%" stop-color="#ffc928"/><stop offset="100%" stop-color="#f2a900"/></radialGradient>`
-    + `<linearGradient id="${P}st" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#f4b400"/><stop offset="100%" stop-color="#fff0a0"/></linearGradient>`
+    + `<radialGradient id="${P}c"><stop offset="0%" stop-color="#fff6a8"/><stop offset="55%" stop-color="#ffdd1f"/><stop offset="100%" stop-color="#f5c000"/></radialGradient>`
+    + `<linearGradient id="${P}st" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#ffcc00"/><stop offset="100%" stop-color="#fff59a"/></linearGradient>`
     + `<radialGradient id="${P}pad" cx="0" cy="0" r="1"><stop offset="0%" stop-color="${L.light}"/><stop offset="100%" stop-color="${L.dark}"/></radialGradient>`
     + `<linearGradient id="${P}sep" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${L.dark}"/><stop offset="100%" stop-color="${L.light}"/></linearGradient>`
     + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.8" flood-color="#160a4a" flood-opacity="0.4"/></filter>`;
@@ -1113,11 +1113,11 @@ function lotusMarkup(P, open){
     let g = '';
     for(let k = 0; k < ly.n; k++){
       const a = ly.off + k * 360 / ly.n;
-      g += `<g class="lt-pet" data-r="${ri}" data-a="${a}" transform="${lotusPetalTf(ri, a, open)}"><path d="${lotusPetalPath(ly.L, ly.W)}" fill="url(#${P}p${ri})" stroke="rgba(60,30,170,0.28)" stroke-width="0.8"/><path d="M0 ${-ly.L*0.14}L0 ${-ly.L*0.8}" stroke="rgba(255,255,255,0.5)" stroke-width="0.9" stroke-linecap="round"/><path d="M${-ly.W*0.35} ${-ly.L*0.25}Q${-ly.W*0.45} ${-ly.L*0.55} ${-ly.W*0.15} ${-ly.L*0.8}" stroke="rgba(255,255,255,0.28)" stroke-width="0.7" fill="none"/></g>`;
+      g += `<g class="lt-pet" data-r="${ri}" data-a="${a}" transform="${lotusPetalTf(ri, a, open)}"><path d="${lotusPetalPath(ly.L, ly.W)}" fill="url(#${P}p${ri})" stroke="rgba(30,15,120,0.35)" stroke-width="0.8"/><path d="M0 ${-ly.L*0.14}L0 ${-ly.L*0.8}" stroke="rgba(255,255,255,0.38)" stroke-width="0.9" stroke-linecap="round"/><path d="M${-ly.W*0.35} ${-ly.L*0.25}Q${-ly.W*0.45} ${-ly.L*0.55} ${-ly.W*0.15} ${-ly.L*0.8}" stroke="rgba(255,255,255,0.28)" stroke-width="0.7" fill="none"/></g>`;
     }
     body += `<g filter="url(#${P}sh)">${g}</g>`;
   });
-  let st = ''; for(let k = 0; k < 34; k++){ const len = k % 2 ? 21 : 24; st += `<g transform="rotate(${(k * 360 / 34).toFixed(2)})"><path d="M-1.5 -8L0 ${-len}L1.5 -8Z" fill="url(#${P}st)"/><circle cy="${-len}" r="1.9" fill="#ffe066"/></g>`; }
+  let st = ''; for(let k = 0; k < 34; k++){ const len = k % 2 ? 21 : 24; st += `<g transform="rotate(${(k * 360 / 34).toFixed(2)})"><path d="M-1.5 -8L0 ${-len}L1.5 -8Z" fill="url(#${P}st)"/><circle cy="${-len}" r="1.9" fill="#ffe94d"/></g>`; }
   const c = lotusCenterTf(open);
   body += `<g class="lt-center" transform="${c.tf}" opacity="${c.op}">${st}<circle r="9" fill="url(#${P}c)"/><circle r="2.4" fill="#fff4b0" opacity="0.9"/></g>`;
   return `<defs>${defs}</defs>${body}`;
