@@ -351,6 +351,9 @@ input[type=range]::-webkit-slider-thumb{
 .breath-meta{ color:var(--ew-text-dim); font-size:13px; margin:6px 0 16px; min-height:18px; }
 .breath-actions{ display:flex; gap:10px; }
 .breath-actions button{ flex:1; }
+.breath-actions .breath-music-btn{ flex:none; width:48px; display:flex; align-items:center; justify-content:center; padding:0; }
+.breath-music-btn .ui-ico{ width:20px; height:20px; margin:0; }
+.breath-music-btn.off{ color:var(--ew-text-dim); }
 .medi-media audio, .medi-media video{ width:100%; max-width:100%; border-radius:8px; display:block; }
 .goal-item, .event-item{ background:var(--ew-panel-2); border-radius:14px; padding:12px 14px; margin-bottom:10px; }
 .goal-item .row1{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
@@ -670,6 +673,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
     </div>
     <div class="breath-meta" id="breath-meta"></div>
     <div class="breath-actions">
+      <button class="ghost-btn breath-music-btn" id="breath-music-btn" onclick="breathToggleMusic()"></button>
       <button class="ghost-btn" id="breath-pause-btn" onclick="breathTogglePause()">Pause</button>
       <button class="primary-btn" id="breath-stop-btn" onclick="breathStop()">Beenden</button>
     </div>
@@ -850,7 +854,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.26.0';
+const APP_VERSION = '1.27.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -920,7 +924,7 @@ const I18N = {
     importSuccess:'Backup erfolgreich wiederhergestellt.', importError:'Diese Datei konnte nicht gelesen werden. Ist es eine gültige eWolfe-Backup-Datei?',
     exportError:'Backup konnte nicht heruntergeladen werden.',
     dialogOk:'OK', dialogCancel:'Abbrechen', restoreFromBackup:'⬆ Backup wiederherstellen',
-    mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort (mindestens 6 Zeichen)', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediBoxNote:'Atme im Takt eines Quadrats: 4 Sekunden einatmen, 4 Sekunden halten, 4 Sekunden ausatmen, 4 Sekunden halten. Folge einfach dem Punkt – schon wenige Runden beruhigen Atem und Gedanken.', breathStart:'Starten', breathPause:'Pause', breathResume:'Weiter', breathStop:'Beenden', breathIn:'Einatmen', breathHold:'Halten', breathOut:'Ausatmen', breathRound:'Runde', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
+    mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort (mindestens 6 Zeichen)', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediBoxNote:'Atme im Takt eines Quadrats: 4 Sekunden einatmen, 4 Sekunden halten, 4 Sekunden ausatmen, 4 Sekunden halten. Folge einfach dem Punkt – schon wenige Runden beruhigen Atem und Gedanken. Dazu klingt sanfte Handpan-Musik im Takt deiner Atmung.', breathStart:'Starten', breathPause:'Pause', breathResume:'Weiter', breathStop:'Beenden', breathIn:'Einatmen', breathHold:'Halten', breathOut:'Ausatmen', breathRound:'Runde', breathMusicOn:'Musik ausschalten', breathMusicOff:'Musik einschalten', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
     tblTitle:'Ziele im Überblick', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'Erklärungen', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahmen', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
     areaDesc:{ gesundheit:'Fitness, Ernährung, Erholung, Entspannung, Lebenserwartung', beziehungen:'Familie, Partnerschaft, Freunde, Zuwendung zu sich selbst', finanzen:'Einkommen, Wohlstand, Vermögen, Investitionen', berufung:'Aufgaben, Leistungen, Karriere, Erfolg', sinn:'Persönlichkeit, Sinn, Selbstverwirklichung, Erfüllung, Glück' } },
   en:{ appName:'eWolfe', navAreas:'Areas', areasTitle:'Areas of life', areasIntro:'Your wheel of life is made of five areas. Together they show you how balanced your life is right now.', areasText:{ gesundheit:'Your physical and mental fitness, your energy, your diet, your sleep and restful breaks.', beziehungen:'Your relationship with yourself, your partnership, family, friendships and social contacts.', finanzen:'Your financial security, your savings, your spending habits and how you handle money.', berufung:'Fulfilment at work, career and personal growth – and the feeling of doing something meaningful rather than just earning money.', sinn:'Inner peace, mindfulness, your values and the meaning you find – the connection to yourself or to something greater.' }, areasHowTitle:'How to create your first wheel of life', areasStep1Title:'Rate', areasStep1:'Go through the five areas one by one and move the slider to the value from 1 to 100 that most honestly describes where you are right now.', areasStep2Title:'The result', areasStep2:'The rounder your wheel, the more balanced your life. Spikes and dents show you at a glance where you are losing energy right now – and where it is worth starting.', areasStartFirst:'Create your first wheel of life', areasContinue:'Continue with your wheels of life', goalsEdit:'Edit goals', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
@@ -967,7 +971,7 @@ const I18N = {
     importSuccess:'Backup restored successfully.', importError:'This file could not be read. Is it a valid eWolfe backup file?',
     exportError:'The backup could not be downloaded.',
     dialogOk:'OK', dialogCancel:'Cancel', restoreFromBackup:'⬆ Restore backup',
-    mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. Without signing in, everything stays on this device only, as before.', syncEmail:'Email', syncPassword:'Password (at least 6 characters)', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'The connection is encrypted and the servers are in Frankfurt (EU). Your password is not stored in the app.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password is too weak (at least 6 characters).', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', gateWelcome:'Welcome to eWolfe', gateIntroUp:'Create your account. Your data is then stored safely and stays the same on all your devices.', gateIntroIn:'Welcome back! Sign in with your account.', gateHaveAccount:'I already have an account – sign in', gateNoAccount:'No account yet? Create one', gateForgot:'Forgot password?', gateForgotTitle:'Forgot password', gateForgotIntro:'Enter your email. We will send you a link to set a new password.', gateForgotSend:'Send link', gateForgotSent:'If there is an account with this email, a message with a link is on its way. Open the link and set a new password. Please also check your spam folder.', gateBackToSignIn:'Back to sign in', gateNewPwTitle:'New password', gateNewPwIntro:'Set a new password for {email} now.', gateNewPwPh:'New password (at least 6 characters)', gateNewPwSave:'Save password', gateNewPwDone:'Your new password is saved. You are signed in and can use it on all your devices from now on.', gateLinkExpired:'The link has expired or was already used. Please request a new one via Forgot password.', eSamePw:'The new password must be different from the old one.', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file', mediBoxNote:'Breathe along a square: breathe in for 4 seconds, hold for 4, breathe out for 4, hold for 4. Simply follow the dot – just a few rounds calm your breath and your thoughts.', breathStart:'Start', breathPause:'Pause', breathResume:'Resume', breathStop:'Stop', breathIn:'Breathe in', breathHold:'Hold', breathOut:'Breathe out', breathRound:'Round', mediLemonNote:'Before you begin: have some lemon essential oil ready. If you do not have any at hand, simply use the fresh peel of a citrus fruit – its scent will guide you through the meditation just as well.',
+    mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. Without signing in, everything stays on this device only, as before.', syncEmail:'Email', syncPassword:'Password (at least 6 characters)', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'The connection is encrypted and the servers are in Frankfurt (EU). Your password is not stored in the app.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password is too weak (at least 6 characters).', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', gateWelcome:'Welcome to eWolfe', gateIntroUp:'Create your account. Your data is then stored safely and stays the same on all your devices.', gateIntroIn:'Welcome back! Sign in with your account.', gateHaveAccount:'I already have an account – sign in', gateNoAccount:'No account yet? Create one', gateForgot:'Forgot password?', gateForgotTitle:'Forgot password', gateForgotIntro:'Enter your email. We will send you a link to set a new password.', gateForgotSend:'Send link', gateForgotSent:'If there is an account with this email, a message with a link is on its way. Open the link and set a new password. Please also check your spam folder.', gateBackToSignIn:'Back to sign in', gateNewPwTitle:'New password', gateNewPwIntro:'Set a new password for {email} now.', gateNewPwPh:'New password (at least 6 characters)', gateNewPwSave:'Save password', gateNewPwDone:'Your new password is saved. You are signed in and can use it on all your devices from now on.', gateLinkExpired:'The link has expired or was already used. Please request a new one via Forgot password.', eSamePw:'The new password must be different from the old one.', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file', mediBoxNote:'Breathe along a square: breathe in for 4 seconds, hold for 4, breathe out for 4, hold for 4. Simply follow the dot – just a few rounds calm your breath and your thoughts. Gentle handpan music plays along with your breathing.', breathStart:'Start', breathPause:'Pause', breathResume:'Resume', breathStop:'Stop', breathIn:'Breathe in', breathHold:'Hold', breathOut:'Breathe out', breathRound:'Round', breathMusicOn:'Turn music off', breathMusicOff:'Turn music on', mediLemonNote:'Before you begin: have some lemon essential oil ready. If you do not have any at hand, simply use the fresh peel of a citrus fruit – its scent will guide you through the meditation just as well.',
     tblTitle:'Goals at a glance', tblAchTitle:'Achieved goals at a glance', tblAchCount:'Achieved', tblAchLabel:'Achieved', tblAchNone:'No achieved goals yet.', tblAchHint:'Most recently achieved goals come first. Tap a cell to open the achieved goals of that area.', tblArea:'Areas', tblDesc:'Descriptions', tblStand:'Date', tblPts:'pts', tblReason:'Reason', tblActions:'Actions', tblHint:'Tap a cell to open that area. Under the percentage: change since the previous assessment.',
     areaDesc:{ gesundheit:'Fitness, nutrition, recovery, relaxation, life expectancy', beziehungen:'Family, partnership, friends, caring for yourself', finanzen:'Income, prosperity, assets, investments', berufung:'Tasks, achievements, career, success', sinn:'Personality, meaning, self-fulfilment, contentment, happiness' } }
 };
@@ -1102,6 +1106,129 @@ document.getElementById('medi-save-btn').onclick = ()=>{
   mediStagedFile = null; document.getElementById('medi-staged-file').style.display = 'none';
   renderMeditationen();
 };
+/* ---- Handpan music for Box Breathing, made right here with the browser's audio engine (no file to load).
+   A D-Kurd handpan: every note is a fundamental with its octave and fifth above, a soft attack and a long ring,
+   plus a gentle room echo. The piece follows the breathing: the deep "ding" when breathing in starts, a second
+   tone when breathing out starts, a calm melody in between. It is 38 breathing rounds long (just over 10 minutes),
+   fades out at the end and starts again, fading in. ---- */
+const HP_SCALE = [146.83, 220.00, 233.08, 261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 523.25]; // D3 | A3 Bb3 C4 D4 E4 F4 G4 A4 C5
+const HP_ROUNDS = 38, HP_LEN = HP_ROUNDS * 16; // 608 s
+const HP_PREF_KEY = 'ewolfe_breath_music';
+let hp = null, hpPieceCache = null;
+function hpMusicOn(){ try{ return localStorage.getItem(HP_PREF_KEY) !== '0'; }catch(e){ return true; } }
+function hpPiece(){
+  if(hpPieceCache) return hpPieceCache;
+  let seed = 20261011; // fixed, so the piece is the same every time
+  const rnd = ()=>{ seed |= 0; seed = seed + 0x6D2B79F5 | 0; let x = Math.imul(seed ^ seed >>> 15, 1 | seed); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296; };
+  const notes = []; let idx = 5;
+  for(let r = 0; r < HP_ROUNDS; r++){
+    const t0 = r * 16;
+    notes.push({ t:t0, f:HP_SCALE[0], v:0.55, pan:0 });          // breathing in
+    notes.push({ t:t0 + 8, f:HP_SCALE[1], v:0.36, pan:0 });      // breathing out
+    const k = 3 + Math.floor(rnd() * 3);
+    for(let i = 0; i < k; i++){
+      let at = t0 + 1 + Math.floor(rnd() * 28) / 2;
+      if(Math.abs(at - t0 - 8) < 0.75) at += 1;
+      idx = Math.max(2, Math.min(HP_SCALE.length - 1, idx + Math.round((rnd() - 0.5) * 3.2)));
+      const pan = (rnd() - 0.5) * 0.6;
+      notes.push({ t:at, f:HP_SCALE[idx], v:0.17 + rnd() * 0.16, pan });
+      if(rnd() < 0.16) notes.push({ t:at + 0.14, f:HP_SCALE[Math.max(2, idx - 2)], v:0.13, pan:-pan });
+    }
+  }
+  return hpPieceCache = notes.sort((a,b)=>a.t - b.t);
+}
+function hpImpulse(ctx){
+  const len = Math.floor(ctx.sampleRate * 3.2), buf = ctx.createBuffer(2, len, ctx.sampleRate);
+  for(let ch = 0; ch < 2; ch++){ const d = buf.getChannelData(ch); for(let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6); }
+  return buf;
+}
+function hpNote(ctx, dry, wet, n, t){
+  const out = ctx.createGain();
+  let node = out;
+  if(ctx.createStereoPanner){ const p = ctx.createStereoPanner(); p.pan.value = n.pan || 0; out.connect(p); node = p; }
+  node.connect(dry); node.connect(wet);
+  // fundamental, octave and fifth above, a touch of the fourth partial – what makes a steel tongue sound like a handpan
+  [[1, 1, 4.2], [2.004, 0.42, 2.3], [2.997, 0.15, 1.3], [4.01, 0.05, 0.7]].forEach(([m, a, dec])=>{
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'sine'; o.frequency.value = n.f * m;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(n.v * a, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dec);
+    o.connect(g); g.connect(out);
+    o.start(t); o.stop(t + dec + 0.05);
+  });
+}
+// builds the sound chain: notes → (dry + room echo) → fade → volume → gentle limiter → speaker
+function hpChain(ctx){
+  const fade = ctx.createGain(), vol = ctx.createGain(), comp = ctx.createDynamicsCompressor(), wet = ctx.createConvolver(), wetGain = ctx.createGain();
+  fade.gain.value = 0; vol.gain.value = HP_VOL;
+  comp.threshold.value = -14; comp.ratio.value = 3; comp.attack.value = 0.01; comp.release.value = 0.4;
+  wet.buffer = hpImpulse(ctx); wetGain.gain.value = 0.38;
+  wet.connect(wetGain); wetGain.connect(fade);
+  fade.connect(vol); vol.connect(comp); comp.connect(ctx.destination);
+  return { fade, vol, dry:fade, wet };
+}
+const HP_VOL = 0.8;
+// first start: fade in from silence. Every restart: the end of the piece sinks to a soft level and the new
+// round grows out of it again – a smooth hand-over instead of a gap of silence
+function hpEnvelope(fade, start, restart){
+  fade.gain.setValueAtTime(restart ? 0.3 : 0, start);
+  fade.gain.linearRampToValueAtTime(1, start + (restart ? 5 : 3));
+  fade.gain.setValueAtTime(1, start + HP_LEN - 8);
+  fade.gain.linearRampToValueAtTime(0.3, start + HP_LEN);
+}
+function hpStart(){
+  hpStop(true);
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC) return;
+  try{ if(navigator.audioSession) navigator.audioSession.type = 'playback'; }catch(e){} // play even when the iPhone is on silent
+  let unlock = null;
+  try{ // older iPhones: a silent sound in an <audio> element switches to "playback" as well
+    const n = 4000, b = new ArrayBuffer(44 + n * 2), v = new DataView(b), w = (o, str)=>{ for(let i = 0; i < str.length; i++) v.setUint8(o + i, str.charCodeAt(i)); };
+    w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, 8000, true); v.setUint32(28, 16000, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, n * 2, true);
+    unlock = new Audio(URL.createObjectURL(new Blob([b], { type:'audio/wav' })));
+    unlock.loop = true; unlock.play().catch(()=>{});
+  }catch(e){ unlock = null; }
+  const ctx = new AC();
+  const ch = hpChain(ctx);
+  if(!hpMusicOn()) ch.vol.gain.value = 0;
+  const start = ctx.currentTime + 0.08;
+  hpEnvelope(ch.fade, start);
+  hp = { ctx, ch, unlock, notes:hpPiece(), i:0, pieceStart:start, timer:0 };
+  if(ctx.state === 'suspended') ctx.resume().catch(()=>{});
+  hpTick();
+  hp.timer = setInterval(hpTick, 200);
+}
+function hpTick(){
+  if(!hp) return;
+  const now = hp.ctx.currentTime, ahead = now + 1.5;
+  for(;;){
+    if(hp.i >= hp.notes.length){ hp.pieceStart += HP_LEN; hp.i = 0; hpEnvelope(hp.ch.fade, hp.pieceStart, true); continue; } // start again
+    const n = hp.notes[hp.i], at = hp.pieceStart + n.t;
+    if(at > ahead) break;
+    if(at >= now - 0.05) hpNote(hp.ctx, hp.ch.dry, hp.ch.wet, n, at);
+    hp.i++;
+  }
+}
+function hpPause(p){ if(!hp) return; (p ? hp.ctx.suspend() : hp.ctx.resume()).catch(()=>{}); }
+function hpSetVolume(on){
+  if(!hp) return;
+  const g = hp.ch.vol.gain, now = hp.ctx.currentTime;
+  g.cancelScheduledValues(now); g.setValueAtTime(g.value, now); g.linearRampToValueAtTime(on ? HP_VOL : 0, now + 0.4);
+}
+function hpStop(instant){
+  if(!hp) return;
+  const h = hp; hp = null;
+  clearInterval(h.timer);
+  try{ if(h.unlock){ h.unlock.pause(); h.unlock.src = ''; } }catch(e){}
+  try{
+    const now = h.ctx.currentTime, g = h.ch.vol.gain;
+    g.cancelScheduledValues(now); g.setValueAtTime(g.value, now); g.linearRampToValueAtTime(0, now + (instant ? 0.05 : 0.6));
+  }catch(e){}
+  setTimeout(()=>{ try{ h.ctx.close(); }catch(e){} }, instant ? 100 : 700);
+}
+
 /* ---- Box Breathing: 4 s in, 4 s hold, 4 s out, 4 s hold; the dot goes up, across, down and back ---- */
 const BREATH_SIDE = 4;
 let breath = { start:0, pausedAt:0, raf:0, lastPhase:-1 };
@@ -1110,27 +1237,45 @@ function breathOpen(){
   document.getElementById('breath-pause-btn').textContent = t().breathPause;
   document.getElementById('breath-stop-btn').textContent = t().breathStop;
   openModal('breath-modal');
+  hpStart(); // the tap that opened the exercise also allows sound on phones
+  breathMusicUi();
   breath.raf = requestAnimationFrame(breathFrame);
 }
 function breathStop(){
   cancelAnimationFrame(breath.raf);
   breath.raf = 0;
+  hpStop();
   closeModal('breath-modal');
+}
+function breathMusicUi(){
+  const b = document.getElementById('breath-music-btn'), on = hpMusicOn();
+  b.innerHTML = ico(on ? 'volume' : 'mute');
+  b.classList.toggle('off', !on);
+  b.title = on ? t().breathMusicOn : t().breathMusicOff;
+  b.setAttribute('aria-label', b.title);
+}
+function breathToggleMusic(){
+  const on = !hpMusicOn();
+  try{ localStorage.setItem(HP_PREF_KEY, on ? '1' : '0'); }catch(e){}
+  hpSetVolume(on);
+  breathMusicUi();
 }
 function breathTogglePause(){
   const btn = document.getElementById('breath-pause-btn');
   if(breath.pausedAt){
     breath.start += performance.now() - breath.pausedAt; breath.pausedAt = 0;
     btn.textContent = t().breathPause;
+    hpPause(false);
     breath.raf = requestAnimationFrame(breathFrame);
   }else{
     breath.pausedAt = performance.now();
+    hpPause(true);
     cancelAnimationFrame(breath.raf);
     btn.textContent = t().breathResume;
   }
 }
 function breathFrame(now){
-  if(!document.getElementById('breath-modal').classList.contains('open')){ breath.raf = 0; return; } // closed some other way
+  if(!document.getElementById('breath-modal').classList.contains('open')){ breath.raf = 0; hpStop(); return; } // closed some other way
   const d = t();
   const el = (now - breath.start) / 1000, cycle = 4 * BREATH_SIDE;
   const inCycle = el % cycle, phase = Math.floor(inCycle / BREATH_SIDE), f = (inCycle - phase * BREATH_SIDE) / BREATH_SIDE;
@@ -1370,7 +1515,9 @@ const UI_ICONS = {
   arrowL:'<path d="M19 12H5M11 6l-6 6 6 6"/>',
   play:'<path d="M7 4.5v15l12.5-7.5Z" fill="currentColor"/>',
   pause:'<path d="M8 5v14M16 5v14"/>',
-  chevron:'<path d="M6 9l6 6 6-6"/>'
+  chevron:'<path d="M6 9l6 6 6-6"/>',
+  volume:'<path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.8 5.2a9.6 9.6 0 0 1 0 13.6"/>',
+  mute:'<path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M22 9l-6 6M16 9l6 6"/>'
 };
 function ico(name, cls){ return '<svg class="ui-ico' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + UI_ICONS[name] + '</svg>'; }
 
@@ -1644,6 +1791,7 @@ function navActive(){
   return 'home';
 }
 function navSync(){
+  if(hp && !document.getElementById('breath-modal').classList.contains('open')) hpStop(); // music only while the exercise is open
   const active = navActive();
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active', b.dataset.nav === active));
   // zooming is only allowed in the diary
@@ -1682,7 +1830,7 @@ function navInit(){
 
 /* ================= Modals ================= */
 function openModal(id){ document.getElementById(id).classList.add('open'); navSync(); }
-function closeModal(id){ if(id === 'sync-modal' && syncGateNeeded()) return; document.getElementById(id).classList.remove('open'); navSync(); }
+function closeModal(id){ if(id === 'sync-modal' && syncGateNeeded()) return; document.getElementById(id).classList.remove('open'); if(id === 'breath-modal') hpStop(); navSync(); }
 // Tapping the dark backdrop closes a modal — but only if the press STARTED on the backdrop too.
 // Dragging a slider and letting go beside the window makes some browsers (Safari/Firefox, touch)
 // send a "click" to the backdrop, which used to close the window mid-swipe.
