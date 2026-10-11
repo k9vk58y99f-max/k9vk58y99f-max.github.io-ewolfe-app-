@@ -35,10 +35,16 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Merker `ewolfe_lang_chosen`).
 - Symbole: eigene Linien-Icons statt Emojis über `ico(name)` / `UI_ICONS` (Tagebuch, Löschen …).
 - Fenster (`.modal-backdrop` ohne `.page-modal`) liegen immer über den Seiten (z-index 110 statt 100).
+- Hauptfarbe (seit 1.33.0): Mintgrün `#58d48f` (rgba 88,212,143) statt des früheren Türkis `#33e6c4`.
+  Die CSS-Variable heißt weiterhin `--ew-turquoise`.
+- Ziele-Seite: Hinweis unter der Überschrift (`goalsSub`: bis zu 5 Ziele je Bereich, kleine, mittlere, höchstens ein
+  langfristiges). Die Tabellen laufen dort von Rand zu Rand; jede Bereichsspalte ist so breit, dass die nächste
+  rechts gerade noch hereinschaut (`#goals-page … col.col-area`, Breite über `cqw`).
+- Lebensräder vergleichen: Nach „Anzeigen" endet der Auswahlmodus automatisch (Rahmen verschwinden).
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.32.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.33.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
