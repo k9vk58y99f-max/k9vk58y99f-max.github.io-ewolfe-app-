@@ -41,10 +41,19 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   langfristiges). Die Tabellen laufen dort von Rand zu Rand; jede Bereichsspalte ist so breit, dass die nächste
   rechts gerade noch hereinschaut (`#goals-page … col.col-area`, Breite über `cqw`).
 - Lebensräder vergleichen: Nach „Anzeigen" endet der Auswahlmodus automatisch (Rahmen verschwinden).
+- Nur drei Textgrößen (seit 1.34.0, Variablen `--fs-h` 22px, `--fs-sub` 17px, `--fs-text` 15px, Block „Three text sizes
+  only" am Ende des CSS): Überschriften groß und weiß, Unterüberschriften kleiner und grün, sonst normaler Text in weiß.
+  Ausnahmen: Beschriftung der unteren Leiste, Versionszeile, Atemzähler, die Tagebuchseiten selbst.
+- Beschriftung der Lebensräder (`wheelLabelsSvg()`/`wheelLabelsFit()`): Schriftgröße in Zeichnungs-Einheiten wird aus der
+  angezeigten Breite berechnet, damit sie auf dem Bildschirm mindestens 15px ist; seitliche Namen stehen neben dem Punkt.
+- Tagebuch-Titelblatt: Das Buch füllt den Platz, „Aufschlagen"/„Zur Bibliothek" liegen auf dem Buch, nichts scrollt
+  (`.tb-body-cover`).
+- Fotos im Tagebuch: antippen → Rahmen, roter Löschknopf (mit Rückfrage) und grüner Griff unten rechts zum Vergrößern/
+  Verkleinern (`.tb-img-box`, `tbSelImg`, `tbSelectImg()`); Verschieben wie bisher. Breite bleibt in `wPct` gespeichert.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.33.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.34.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code

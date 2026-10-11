@@ -29,6 +29,7 @@
   --ew-panel-2:#1a2242;
   --ew-line:rgba(255,255,255,0.09);
   --ew-text:#ffffff;
+  --fs-h:22px; --fs-sub:17px; --fs-text:15px; /* the only three text sizes: headings, subheadings, text */
   --ew-text-dim:rgba(255,255,255,0.66);
   --ew-radius:18px;
   --safe-t:env(safe-area-inset-top,0px);
@@ -296,7 +297,7 @@ table.goal-table{ border-collapse:separate; border-spacing:0; width:100%; min-wi
 .area-card-text{ font-size:14px; line-height:1.5; color:var(--ew-text); opacity:.9; }
 .areas-how{ font-size:17px; margin:24px 0 12px; }
 .area-step{ display:flex; gap:12px; align-items:flex-start; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:16px; padding:14px 16px; margin-bottom:10px; }
-.area-step-num{ flex:none; width:28px; height:28px; border-radius:50%; background:var(--ew-turquoise); color:var(--ew-uv-navy); font-weight:700; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.area-step-num{ flex:none; width:28px; height:28px; border-radius:50%; background:var(--ew-turquoise); color:var(--ew-uv-navy); font-weight:700; display:flex; align-items:center; justify-content:center; font-size:var(--fs-text); }
 .areas-cta{ width:100%; margin-top:14px; padding:14px 18px; font-size:15px; }
 .wheel-hist-home #wheel-history-list{ max-height:none; }
 .wheel-hist-home #compare-bar{ background:transparent; border-top:none; padding-bottom:10px; }
@@ -307,10 +308,10 @@ table.goal-table{ border-collapse:separate; border-spacing:0; width:100%; min-wi
 #goals-page .goal-table-hint{ margin:10px 22px 4px; }
 #goals-page .goal-table-scroll{ border-radius:0; container-type:inline-size; }
 .goal-table col.col-label{ width:104px; }
-#goals-page .goal-table col.col-label{ width:88px; }
-#goals-page .goal-table col.col-area{ width:calc(100cqw - 88px - 30px); }
-#goals-page table.goal-table{ width:calc(88px + 5 * (100cqw - 118px)); min-width:0; }
-#goals-page .goal-table .rowlabel{ padding-left:12px; padding-right:6px; font-size:12px; overflow-wrap:normal; }
+#goals-page .goal-table col.col-label{ width:104px; }
+#goals-page .goal-table col.col-area{ width:calc(100cqw - 104px - 30px); }
+#goals-page table.goal-table{ width:calc(104px + 5 * (100cqw - 134px)); min-width:0; }
+#goals-page .goal-table .rowlabel{ padding-left:12px; padding-right:6px; overflow-wrap:normal; }
 .ev-ov-item{ display:block; width:100%; text-align:left; font:inherit; color:var(--ew-text); background:rgba(255,255,255,0.05); border:1px solid var(--ew-line); border-radius:14px; padding:12px 14px; margin-bottom:10px; cursor:pointer; }
 .ev-ov-item:hover{ border-color:var(--ew-turquoise); }
 .ev-ov-top{ display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
@@ -458,6 +459,14 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-cover.mat-paper, .tb-page-titel.mat-paper{ background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px); background-size:6px 6px; }
 .tb-cover-actions{ display:flex; gap:10px; }
 .tb-cover-actions{ align-items:center; }
+/* Cover view (since 1.34.0): the book fills the space between the header and the bar, the buttons sit on the book itself */
+.tb-body.tb-body-cover{ overflow:hidden; display:flex; padding:14px 18px 18px; }
+.tb-body-cover .tb-cover-wrap{ flex:1; min-height:0; }
+.tb-body-cover .tb-cover{ width:min(440px,100%); height:100%; aspect-ratio:auto; }
+.tb-cover-bottom{ position:relative; z-index:1; width:100%; display:flex; flex-direction:column; align-items:center; gap:16px; padding:0 14px 6%; }
+.tb-cover-bottom .tb-cover-caption{ padding-bottom:0; }
+.tb-cover-bottom .tb-cover-actions{ flex-wrap:wrap; justify-content:center; }
+.tb-cover-bottom .ghost-btn, .tb-cover-bottom .tb-gear-btn{ background:rgba(8,11,40,0.55); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
 .tb-gear-btn{ width:36px; height:36px; flex:none; border-radius:12px; border:1px solid var(--ew-line); background:transparent; color:var(--ew-text); display:flex; align-items:center; justify-content:center; cursor:pointer; }
 .tb-gear-btn .ui-ico{ width:19px; height:19px; margin:0; }
 .tb-gear-btn:hover{ color:var(--ew-turquoise); border-color:var(--ew-turquoise); }
@@ -495,7 +504,16 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-page-text.inactive{ pointer-events:none; }
 .tb-page-canvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:none; pointer-events:none; }
 .tb-page-canvas.active{ pointer-events:auto; cursor:crosshair; }
-.tb-page-img{ position:absolute; cursor:grab; border-radius:4px; box-shadow:0 4px 14px rgba(0,0,0,0.3); touch-action:none; }
+.tb-img-box{ position:absolute; cursor:grab; touch-action:none; user-select:none; -webkit-user-select:none; }
+.tb-page-img{ display:block; width:100%; border-radius:4px; box-shadow:0 4px 14px rgba(0,0,0,0.3); pointer-events:none; }
+/* a tapped photo gets a frame, a delete button (top right) and a handle to make it bigger or smaller (bottom right) */
+.tb-img-box.sel{ outline:2px solid var(--ew-turquoise); outline-offset:3px; border-radius:4px; z-index:3; }
+.tb-img-del, .tb-img-resize{ display:none; position:absolute; width:34px; height:34px; border-radius:50%; align-items:center; justify-content:center; box-shadow:0 3px 10px rgba(0,0,0,0.35); }
+.tb-img-box.sel .tb-img-del, .tb-img-box.sel .tb-img-resize{ display:flex; }
+.tb-img-del{ top:-17px; right:-17px; border:none; background:#e5484d; color:#fff; cursor:pointer; padding:0; }
+.tb-img-del svg{ width:18px; height:18px; }
+.tb-img-resize{ right:-17px; bottom:-17px; background:var(--ew-turquoise); cursor:nwse-resize; touch-action:none; }
+.tb-img-resize::before{ content:''; width:12px; height:12px; border-right:2.5px solid var(--ew-uv-navy); border-bottom:2.5px solid var(--ew-uv-navy); }
 .tb-page-nav{ display:flex; align-items:center; gap:16px; }
 .tb-topnav{ display:flex; align-items:center; gap:10px; flex:1; justify-content:center; }
 .tb-topnav:empty{ display:none; }
@@ -564,10 +582,34 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 .tb-pagelist{ max-width:520px; margin:0 auto; }
 .tb-pagelist-row{ display:flex; justify-content:space-between; align-items:center; padding:12px 14px; background:var(--ew-panel-2); border-radius:12px; margin-bottom:8px; cursor:pointer; font-size:13.5px; }
+/* ================= Three text sizes only (since 1.34.0) =================
+   Headings: big and white. Subheadings: a little smaller and green. Everything else: normal text in white.
+   Exceptions on purpose: the labels of the bottom bar, the version line, the breathing count and the diary pages themselves. */
+body{ font-size:var(--fs-text); }
+.meta, .event-item .meta{ font-size:var(--fs-text); color:var(--ew-text); }
+.modal-title, .scene-head h1, .tb-topbar h2{ font-size:var(--fs-h); font-weight:700; color:#fff; }
+.goal-table-card h3, .areas-how, .area-card-name, .medi-card-title, .settings-head, .panel h3, .tb-cover-pop-head{
+  font-size:var(--fs-sub); font-weight:700; color:var(--ew-turquoise); text-transform:none; letter-spacing:0; }
+.modal-sub, .scene-head p, .scene-foot .hint, .area-card-text, .medi-card-body p, .dialog-box p, .note-item, .sync-msg,
+.settings-row, .seg-btn, .primary-btn, .ghost-btn, .gate-link, .goal-table-hint, .ev-ov-title, .ev-ov-date, .ev-ov-area,
+.slider-row label, .hist-item, .chip, .medi-attach-btn, .medi-attach-hint, .medi-add-toggle, .medi-start-btn, .breath-meta,
+.goal-item .title, .goal-item .meta, .goal-slot .goal-slot-label, .mini-btn, .small-input, .tag-opt, .event-impact, .note,
+.wheel-hist-date, .tb-shelf-year, .tb-empty, .tb-row-label, .tb-chip-btn, .tb-tools-item, .tb-tools-subitem, .tb-tool-btn,
+.tb-pagelist-row, .tb-cover-pop-actions .ghost-btn, .home-goals-btn, .home-new .primary-btn, .areas-cta, .lang-pick .primary-btn,
+#wheel-compare-legend, #wheel-snapshot-date, .modal label, .modal input, .modal textarea, .modal select{ font-size:var(--fs-text); }
+.modal-sub, .scene-head p, .scene-foot .hint, .area-card-text, .medi-card-body p, .goal-table-hint, .ev-ov-date, .medi-attach-hint,
+.breath-meta, .goal-item .meta, .goal-slot .goal-slot-label, .note, .tb-shelf-year, .tb-empty, .tb-row-label, .sync-msg,
+.slider-row label{ color:var(--ew-text); opacity:1; }
+.modal-sub{ line-height:1.5; margin:4px 0 20px; }
+/* goals tables: every cell normal text; the first column stays green */
+table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .goal-table tr.tbl-desc td, .goal-table .tbl-delta{ font-size:var(--fs-text); }
+.goal-table .rowlabel, .goal-table tr.tbl-head th.rowlabel{ font-size:var(--fs-text); font-weight:600; color:var(--ew-turquoise); }
+.goal-table tr.tbl-band th.rowlabel{ font-weight:600; }
+.goal-table .tbl-pctval{ font-size:var(--fs-sub); }
 </style>
 </head>
 <body data-theme="dark">
-<div id="storage-warning" style="display:none; background:#7a2323; color:#fff; padding:10px 16px; padding-top:calc(10px + var(--safe-t)); font-size:12.5px; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; text-align:center;">
+<div id="storage-warning" style="display:none; background:#7a2323; color:#fff; padding:10px 16px; padding-top:calc(10px + var(--safe-t)); font-size:var(--fs-text); align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; text-align:center;">
   <span id="storage-warning-text">⚠️ Deine Daten konnten nicht gespeichert werden. Bitte lade jetzt ein Backup herunter.</span>
   <button onclick="exportBackup()" style="background:#fff;color:#7a2323;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">⬇ Backup herunterladen</button>
 </div>
@@ -628,7 +670,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 <div class="goal-table-card wheel-hist-home" id="wheel-hist-home">
   <h3 id="t-wheel-hist-title">Frühere Lebensräder</h3>
   <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
-      <button class="ghost-btn" id="compare-toggle-btn" style="padding:7px 14px;font-size:12px;">Vergleichen</button>
+      <button class="ghost-btn" id="compare-toggle-btn" style="padding:7px 14px;">Vergleichen</button>
     </div>
     <div id="wheel-history-pinned"></div>
     <div id="wheel-history-list"></div>
@@ -750,7 +792,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
     <p class="modal-sub" id="t-eval-sub">Wie schätzt du deine fünf Lebensbereiche gerade ein? Es gibt keine falschen Werte.</p>
     <div id="eval-sliders"></div>
     <button class="primary-btn" style="width:100%;padding:13px;margin-top:6px;" id="save-eval-btn">Speichern</button>
-    <button class="ghost-btn" style="width:100%;margin-top:10px;font-size:12.5px;" id="eval-restore-btn">⬆ Backup wiederherstellen</button>
+    <button class="ghost-btn" style="width:100%;margin-top:10px;" id="eval-restore-btn">⬆ Backup wiederherstellen</button>
   </div>
 </div>
 
@@ -862,8 +904,8 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
         <div class="note">Ein Ereignis verändert deinen Lebensrad-Wert nicht automatisch. Du entscheidest bei der nächsten Bewertung selbst, ob sich etwas verändert hat.</div>
         <button class="primary-btn" style="width:100%;margin-top:10px;" id="ev-save-btn" onclick="addEvent(false)">Ereignis speichern</button>
         <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="ghost-btn" style="flex:1;font-size:12.5px;" id="ev-save-more-btn" onclick="addEvent(true)">Speichern &amp; weiteres Ereignis</button>
-          <button class="ghost-btn" style="font-size:12.5px;" id="ev-cancel-btn" onclick="closeEventForm()">Abbrechen</button>
+          <button class="ghost-btn" style="flex:1;" id="ev-save-more-btn" onclick="addEvent(true)">Speichern &amp; weiteres Ereignis</button>
+          <button class="ghost-btn" style="" id="ev-cancel-btn" onclick="closeEventForm()">Abbrechen</button>
         </div>
       </div>
       <button class="ghost-btn" style="width:100%;" id="event-add-toggle">+ Neues Ereignis</button>
@@ -876,7 +918,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 <div class="modal-backdrop" id="wheel-snapshot-modal">
   <div class="modal modal-wide" style="padding:0;overflow:hidden;background:linear-gradient(135deg, var(--ew-uv-navy) 0%, var(--ew-uv-navy-2) 45%, var(--ew-uv-violet) 100%);">
     <div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:18px 20px 4px;">
-      <button class="ghost-btn" id="wheel-snapshot-del" onclick="deleteWheelSnapshot()" style="margin-right:auto;padding:7px 12px;font-size:12.5px;color:#f3efff;display:inline-flex;align-items:center;">Löschen</button>
+      <button class="ghost-btn" id="wheel-snapshot-del" onclick="deleteWheelSnapshot()" style="margin-right:auto;padding:7px 12px;color:#f3efff;display:inline-flex;align-items:center;">Löschen</button>
       <span id="wheel-snapshot-date" style="font-weight:600;color:#f3efff;font-size:15px;"></span>
       <button class="icon-btn" onclick="closeModal('wheel-snapshot-modal')">✕</button>
     </div>
@@ -888,7 +930,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 <div class="modal-backdrop" id="wheel-compare-modal">
   <div class="modal modal-wide" style="padding:0;overflow:hidden;background:linear-gradient(135deg, var(--ew-uv-navy) 0%, var(--ew-uv-navy-2) 45%, var(--ew-uv-violet) 100%);">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:18px 20px 4px;flex-wrap:wrap;">
-      <div id="wheel-compare-legend" style="display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:#f3efff;"></div>
+      <div id="wheel-compare-legend" style="display:flex;flex-wrap:wrap;gap:12px;color:#f3efff;"></div>
       <button class="icon-btn" onclick="closeModal('wheel-compare-modal')">✕</button>
     </div>
     <svg id="wheel-compare-svg" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;"></svg>
@@ -911,7 +953,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
     <h2 id="tb-title">Tagebuch</h2>
     <div class="tb-topnav" id="tb-topnav"></div>
     <div style="display:flex;gap:8px;align-items:center;">
-      <button class="ghost-btn" id="tb-mode-toggle-btn" style="padding:7px 12px;font-size:12px;"></button>
+      <button class="ghost-btn" id="tb-mode-toggle-btn" style="padding:7px 12px;"></button>
     </div>
   </div>
   <div class="tb-body" id="tb-body"></div>
@@ -919,7 +961,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.33.0';
+const APP_VERSION = '1.34.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -965,7 +1007,7 @@ const I18N = {
     compareOn:'Vergleichen', compareOff:'Abbrechen', compareShow:'Vergleich anzeigen',
     goalLabel:'Ziel', addMoreGoal:'+ Weiteres Ziel', saveGoals:'Ziele speichern',
     achievedCategory:'Erreichte Ziele', noAchievedGoals:'Noch keine erreichten Ziele in diesem Bereich.', achievedOn:'Erreicht am',
-    diaryTitle:'Tagebuch', diaryLibrary:'Bibliothek', diaryOpen:'Aufschlagen', diaryToLibrary:'Zur Bibliothek',
+    diaryTitle:'Tagebuch', diaryLibrary:'Bibliothek', diaryOpen:'Aufschlagen', diaryImgDelete:'Foto löschen', diaryImgResize:'Größe ändern', diaryImgDeleteConfirm:'Dieses Foto wirklich löschen?', diaryToLibrary:'Zur Bibliothek',
     diaryNoEntries:'Noch keine vergangenen Tagebücher.', diaryNewPage:'Neue Seite',
     diaryPageLined:'Liniert', diaryPageGrid:'Kariert', diaryPageDotted:'Gepunktet', diaryPageBlank:'Leer',
     diaryWrite:'Schreiben', diaryDraw:'Zeichnen', diaryAddImage:'Bild', diaryFontPrint:'Druckschrift', diaryFontHand:'Handschrift',
@@ -990,7 +1032,7 @@ const I18N = {
     exportError:'Backup konnte nicht heruntergeladen werden.',
     dialogOk:'OK', dialogCancel:'Abbrechen', restoreFromBackup:'⬆ Backup wiederherstellen',
     mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort (mindestens 6 Zeichen)', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediBoxNote:'Atme im Takt eines Quadrats: 4 Sekunden einatmen, 4 Sekunden halten, 4 Sekunden ausatmen, 4 Sekunden halten. Folge einfach dem Punkt – schon wenige Runden beruhigen Atem und Gedanken. Dazu klingt sanfte Handpan-Musik im Takt deiner Atmung.', breathStart:'Starten', breathPause:'Pause', breathResume:'Weiter', breathStop:'Beenden', breathIn:'Einatmen', breathHold:'Halten', breathOut:'Ausatmen', breathRound:'Runde', breathMusicOn:'Musik ausschalten', breathMusicOff:'Musik einschalten', mediAdd:'Meditation oder Übung hinzufügen', mediStart:'Starten', langPickTitle:'Willkommen bei eWolfe', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
-    tblTitle:'Ziele im Überblick', goalsSub:'Setze dir bis zu 5 Ziele pro Lebensbereich: kleine, schnell erreichbare Ziele, mittlere Ziele und höchstens ein langfristiges Ziel.', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahme', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
+    tblTitle:'Ziele im Überblick', goalsSub:'Bis zu 5 Ziele pro Lebensbereich – am besten eine gute Mischung: ein paar kleine Ziele, die du schnell erreichst, einige mittlere und höchstens ein großes, langfristiges Ziel.', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahme', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
     areaDesc:{ gesundheit:'Fitness, Ernährung, Erholung, Entspannung, Lebenserwartung', beziehungen:'Familie, Partnerschaft, Freunde, Zuwendung zu sich selbst', finanzen:'Einkommen, Wohlstand, Vermögen, Investitionen', berufung:'Aufgaben, Leistungen, Karriere, Erfolg', sinn:'Persönlichkeit, Sinn, Selbstverwirklichung, Erfüllung, Glück' } },
   en:{ appName:'eWolfe', navAreas:'Areas', areasTitle:'Areas of life', areasIntro:'Your wheel of life is made of five areas. Together they show you how balanced your life is right now.', areasText:{ gesundheit:'Your physical and mental fitness, your energy, your diet, your sleep and restful breaks.', beziehungen:'Your relationship with yourself, your partnership, family, friendships and social contacts.', finanzen:'Your financial security, your savings, your spending habits and how you handle money.', berufung:'Fulfilment at work, career and personal growth – and the feeling of doing something meaningful rather than just earning money.', sinn:'Inner peace, mindfulness, your values and the meaning you find – the connection to yourself or to something greater.' }, areasHowTitle:'How to create your wheel of life', areasStep1Title:'Rate', areasStep1:'Go through the five areas one by one and move the slider to the value from 1 to 100 that most honestly describes where you are right now.', areasStep2Title:'The result', areasStep2:'The rounder your wheel, the more balanced your life. Spikes and dents show you at a glance where you are losing energy right now – and where it is worth starting.', areasStartFirst:'Create your first wheel of life', areasContinue:'Continue with your wheels of life', goalsEdit:'Edit goals', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
     sceneHint:'Tap an area for details.', newEval:'New assessment', evalTitle:'New assessment',
@@ -1012,7 +1054,7 @@ const I18N = {
     compareOn:'Compare', compareOff:'Cancel', compareShow:'Show comparison',
     goalLabel:'Goal', addMoreGoal:'+ Another goal', saveGoals:'Save goals',
     achievedCategory:'Achieved goals', noAchievedGoals:'No achieved goals in this area yet.', achievedOn:'Achieved on',
-    diaryTitle:'Diary', diaryLibrary:'Library', diaryOpen:'Open', diaryToLibrary:'Back to library',
+    diaryTitle:'Diary', diaryLibrary:'Library', diaryOpen:'Open', diaryImgDelete:'Delete photo', diaryImgResize:'Resize', diaryImgDeleteConfirm:'Really delete this photo?', diaryToLibrary:'Back to library',
     diaryNoEntries:'No past diaries yet.', diaryNewPage:'New page',
     diaryPageLined:'Lined', diaryPageGrid:'Grid', diaryPageDotted:'Dotted', diaryPageBlank:'Blank',
     diaryWrite:'Write', diaryDraw:'Draw', diaryAddImage:'Image', diaryFontPrint:'Print', diaryFontHand:'Handwriting',
@@ -1037,7 +1079,7 @@ const I18N = {
     exportError:'The backup could not be downloaded.',
     dialogOk:'OK', dialogCancel:'Cancel', restoreFromBackup:'⬆ Restore backup',
     mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. Without signing in, everything stays on this device only, as before.', syncEmail:'Email', syncPassword:'Password (at least 6 characters)', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'The connection is encrypted and the servers are in Frankfurt (EU). Your password is not stored in the app.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password is too weak (at least 6 characters).', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', gateWelcome:'Welcome to eWolfe', gateIntroUp:'Create your account. Your data is then stored safely and stays the same on all your devices.', gateIntroIn:'Welcome back! Sign in with your account.', gateHaveAccount:'I already have an account – sign in', gateNoAccount:'No account yet? Create one', gateForgot:'Forgot password?', gateForgotTitle:'Forgot password', gateForgotIntro:'Enter your email. We will send you a link to set a new password.', gateForgotSend:'Send link', gateForgotSent:'If there is an account with this email, a message with a link is on its way. Open the link and set a new password. Please also check your spam folder.', gateBackToSignIn:'Back to sign in', gateNewPwTitle:'New password', gateNewPwIntro:'Set a new password for {email} now.', gateNewPwPh:'New password (at least 6 characters)', gateNewPwSave:'Save password', gateNewPwDone:'Your new password is saved. You are signed in and can use it on all your devices from now on.', gateLinkExpired:'The link has expired or was already used. Please request a new one via Forgot password.', eSamePw:'The new password must be different from the old one.', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file', mediBoxNote:'Breathe along a square: breathe in for 4 seconds, hold for 4, breathe out for 4, hold for 4. Simply follow the dot – just a few rounds calm your breath and your thoughts. Gentle handpan music plays along with your breathing.', breathStart:'Start', breathPause:'Pause', breathResume:'Resume', breathStop:'Stop', breathIn:'Breathe in', breathHold:'Hold', breathOut:'Breathe out', breathRound:'Round', breathMusicOn:'Turn music off', breathMusicOff:'Turn music on', mediAdd:'Add a meditation or exercise', mediStart:'Start', langPickTitle:'Welcome to eWolfe', mediLemonNote:'Before you begin: have some lemon essential oil ready. If you do not have any at hand, simply use the fresh peel of a citrus fruit – its scent will guide you through the meditation just as well.',
-    tblTitle:'Goals at a glance', goalsSub:'Set yourself up to 5 goals per area of life: small goals you can reach quickly, medium goals and at most one long-term goal.', tblAchTitle:'Achieved goals at a glance', tblAchCount:'Achieved', tblAchLabel:'Achieved', tblAchNone:'No achieved goals yet.', tblAchHint:'Most recently achieved goals come first. Tap a cell to open the achieved goals of that area.', tblArea:'Areas', tblDesc:'', tblStand:'Date', tblPts:'pts', tblReason:'Reason', tblActions:'Action', tblHint:'Tap a cell to open that area. Under the percentage: change since the previous assessment.',
+    tblTitle:'Goals at a glance', goalsSub:'Up to 5 goals per area of life – ideally a good mix: a few small goals you can reach quickly, some medium ones and at most one big, long-term goal.', tblAchTitle:'Achieved goals at a glance', tblAchCount:'Achieved', tblAchLabel:'Achieved', tblAchNone:'No achieved goals yet.', tblAchHint:'Most recently achieved goals come first. Tap a cell to open the achieved goals of that area.', tblArea:'Areas', tblDesc:'', tblStand:'Date', tblPts:'pts', tblReason:'Reason', tblActions:'Action', tblHint:'Tap a cell to open that area. Under the percentage: change since the previous assessment.',
     areaDesc:{ gesundheit:'Fitness, nutrition, recovery, relaxation, life expectancy', beziehungen:'Family, partnership, friends, caring for yourself', finanzen:'Income, prosperity, assets, investments', berufung:'Tasks, achievements, career, success', sinn:'Personality, meaning, self-fulfilment, contentment, happiness' } }
 };
 const AREAS = ['gesundheit','beziehungen','finanzen','berufung','sinn'];
@@ -1175,7 +1217,7 @@ function lemonPictureSvg(id){
     seg += `<path d="M${p(r0,a0)}L${p(r1,a0)}A${r1} ${r1} 0 0 1 ${p(r1,a1)}L${p(r0,a1)}Z" fill="url(#${P}f)"/>`;
     seg += `<ellipse cx="${mx}" cy="${my}" rx="3.6" ry="8" transform="rotate(${(k*36+18)+90} ${mx} ${my})" fill="rgba(255,255,255,0.35)"/>`;
   }
-  // two leaves, a little different in size, width and angle, in the green of the lily pads
+  // two leaves, a little different in size, width and angle, in the green of the lily pads, turned to the bottom right
   const leaf = (len, wid)=>`M0 0C${wid} ${-len*0.22} ${wid*0.95} ${-len*0.72} 0 ${-len}C${-wid*0.85} ${-len*0.7} ${-wid*0.95} ${-len*0.25} 0 0Z`;
   const leafG = (x, y, rot, len, wid)=>`<g transform="translate(${x} ${y}) rotate(${rot})"><path d="${leaf(len, wid)}" fill="url(#${P}lf)" stroke="${L.edge}" stroke-width="1"/><path d="M0 -4L0 ${-len*0.9}" stroke="rgba(230,255,200,0.55)" stroke-width="1.4" stroke-linecap="round"/>${[0.3,0.5,0.7].map(t=>`<path d="M0 ${-len*t}l${wid*0.55} ${-len*0.12}M0 ${-len*(t+0.04)}l${-wid*0.5} ${-len*0.11}" stroke="rgba(230,255,200,0.3)" stroke-width="0.9" fill="none"/>`).join('')}</g>`;
   return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs>`
@@ -1183,8 +1225,8 @@ function lemonPictureSvg(id){
     + `<radialGradient id="${P}f"><stop offset="0%" stop-color="#fff6a8"/><stop offset="100%" stop-color="#ffdd1f"/></radialGradient>`
     + `<linearGradient id="${P}r" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffe94d"/><stop offset="100%" stop-color="#f5c000"/></linearGradient>`
     + `<linearGradient id="${P}lf" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${L.dark}"/><stop offset="100%" stop-color="${L.light}"/></linearGradient>`
-    + `</defs><circle r="94" fill="url(#${P}g)"/><g transform="translate(-8 14) scale(0.84)">`
-    + leafG(18, -36, 34, 96, 32.4) + leafG(30, -26, 76, 79.2, 25.2)
+    + `</defs><circle r="94" fill="url(#${P}g)"/><g transform="translate(-14 -6) scale(0.84)">`
+    + leafG(30, 18, 122, 96, 32.4) + leafG(18, 26, 152, 79.2, 25.2) // pointing to the bottom right
     + `<g transform="translate(-6 8)"><circle r="68" fill="url(#${P}r)"/><circle r="62" fill="#fffbe0"/><circle r="57" fill="#fff3b0"/>${seg}<circle r="7" fill="#fffbe0"/></g></g></svg>`;
 }
 
@@ -1214,7 +1256,7 @@ function renderMeditationen(){
       : escapeHtml(m.title);
     return `<div class="event-item">
       <div class="row1">
-        <div class="title" style="font-weight:600;font-size:14px;">${titleHtml}</div>
+        <div class="title" style="font-weight:600;font-size:var(--fs-text);">${titleHtml}</div>
         ${m.builtIn ? '' : `<button class="icon-del" title="${d.delete}" onclick="deleteMeditation('${m.id}')">✕</button>`}
       </div>
       ${(m.notesKey ? d[m.notesKey] : m.notes) ? `<div class="meta">${escapeHtml(m.notesKey ? d[m.notesKey] : m.notes)}</div>` : ''}
@@ -2299,6 +2341,40 @@ function ptFor(i, value){
   const r = (value/100)*MAXR;
   return { x: CX + r*Math.cos(ang), y: CY + r*Math.sin(ang) };
 }
+/* Labels around a wheel, always at least the normal text size on screen (the drawing is 800 units wide, so the
+   font size in units depends on how wide the wheel is shown). Top: above its point, sides: next to it, bottom: below. */
+function wheelLabelsSvg(svg, valueOf, zoom){
+  const d = t();
+  const w = svg.getBoundingClientRect().width || Math.min(window.innerWidth - 44, 520);
+  const fs = Math.max(14, Math.min(40, 15 * 800 / w)) / (zoom || 1), lh = fs * 1.15;
+  let out = '';
+  AREAS.forEach((a,i)=>{
+    const v = ptFor(i,100), val = valueOf ? valueOf(a) : null;
+    const lines = [['bereich-label', d.bereiche[a]]];
+    if(val !== null && val !== undefined) lines.push(['bereich-value', val + '%']);
+    const n = lines.length;
+    let x = v.x, anchor = 'middle', y0;
+    if(i===0) y0 = v.y - 14 - (n-1) * lh;
+    else if(i===1 || i===4){ anchor = i===1 ? 'start' : 'end'; x = v.x + (i===1 ? 14 : -14); y0 = v.y + fs * 0.35 - (n-1) * lh / 2; }
+    else y0 = v.y + 14 + fs * 0.8;
+    lines.forEach(([cls, txt], k)=>{
+      out += `<text x="${x.toFixed(1)}" y="${(y0 + k * lh).toFixed(1)}" text-anchor="${anchor}" class="${cls}" font-size="${fs.toFixed(1)}">${escapeHtml(String(txt))}</text>`;
+    });
+  });
+  return out;
+}
+// keeps every label inside the drawing (a long name next to a side point is moved inwards a little)
+function wheelLabelsFit(svg, lo, hi){
+  lo = lo === undefined ? 6 : lo; hi = hi === undefined ? 794 : hi;
+  svg.querySelectorAll('text.bereich-label, text.bereich-value').forEach(el=>{
+    let b; try{ b = el.getBBox(); }catch(e){ return; }
+    if(!b || !b.width) return;
+    let dx = 0;
+    if(b.x < lo) dx = lo - b.x;
+    else if(b.x + b.width > hi) dx = hi - (b.x + b.width);
+    if(dx) el.setAttribute('x', (parseFloat(el.getAttribute('x')) + dx).toFixed(1));
+  });
+}
 function labelPtFor(i){
   const ang = axisAngle(i);
   if(i===2 || i===3){ // Finanzen, Berufung: centered directly under their point (same 42px offset as the others)
@@ -2342,25 +2418,28 @@ function renderScene(animate, onIntroDone){
     grid += `<line x1="${CX}" y1="${CY}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>`;
   }
 
-  let labels = '';
-  AREAS.forEach((a,i)=>{
-    const lp = labelPtFor(i);
-    const v = currentValue(a);
-    labels += `<text x="${lp.x}" y="${lp.y-6}" text-anchor="middle" class="bereich-label" font-size="14">${d.bereiche[a]}</text>`;
-    labels += `<text x="${lp.x}" y="${lp.y+12}" text-anchor="middle" class="bereich-value" font-size="13">${v}%</text>`;
-  });
+  const labels = wheelLabelsSvg(svg, a=>currentValue(a));
 
   let dataPts = AREAS.map((a,i)=>{ const p=ptFor(i,currentValue(a)); return p.x+','+p.y; }).join(' ');
 
   svg.innerHTML = bg + grid +
     `<polygon points="${dataPts}" fill="url(#gradWheel)" stroke="#b8a4ff" stroke-width="2" opacity="0" id="data-polygon"/>` +
     labels;
+  wheelLabelsFit(svg);
 
+  const labelEls = svg.querySelectorAll('text.bereich-label'), valueEls = svg.querySelectorAll('text.bereich-value');
   AREAS.forEach((a,i)=>{
-    const lp = labelPtFor(i);
-    const hit = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    hit.setAttribute('cx', lp.x); hit.setAttribute('cy', lp.y-30);
-    hit.setAttribute('r', 34); hit.setAttribute('fill','transparent');
+    // tap area over the name and value of each area
+    let bx, by, bw, bh;
+    try{
+      const b1 = labelEls[i].getBBox(), b2 = valueEls[i] ? valueEls[i].getBBox() : b1;
+      bx = Math.min(b1.x, b2.x) - 8; by = Math.min(b1.y, b2.y) - 8;
+      bw = Math.max(b1.x + b1.width, b2.x + b2.width) - bx + 8; bh = Math.max(b1.y + b1.height, b2.y + b2.height) - by + 8;
+    }catch(e){}
+    if(!bw){ const lp = labelPtFor(i); bx = lp.x - 60; by = lp.y - 50; bw = 120; bh = 70; }
+    const hit = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    hit.setAttribute('x', bx); hit.setAttribute('y', by); hit.setAttribute('width', bw); hit.setAttribute('height', bh);
+    hit.setAttribute('fill','transparent');
     hit.style.cursor='pointer';
     hit.addEventListener('click', ()=>openDetail(a));
     svg.appendChild(hit);
@@ -2571,11 +2650,7 @@ function openWheelCompare(){
     grid += `<line x1="${CX}" y1="${CY}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>`;
   }
 
-  let labels = '';
-  AREAS.forEach((a,i)=>{
-    const lp = labelPtFor(i);
-    labels += `<text x="${lp.x}" y="${lp.y-6}" text-anchor="middle" class="bereich-label" font-size="14">${d.bereiche[a]}</text>`;
-  });
+  const labels = wheelLabelsSvg(svg, null, 1.15); // this drawing is shown 1.15 times larger
 
   let polys = '';
   // draw oldest first (back) and newest last (front); the newest also gets extra fill opacity
@@ -2588,6 +2663,7 @@ function openWheelCompare(){
   }
 
   svg.innerHTML = bg + `<g transform="translate(400,310) scale(1.15) translate(-400,-310) translate(0,35)">${grid}${polys}${labels}</g>`;
+  wheelLabelsFit(svg, 400 - 394 / 1.15, 400 + 394 / 1.15);
 
   document.getElementById('wheel-compare-legend').innerHTML = snaps.map((s,i)=>{
     const col = COMPARE_COLORS[i] || COMPARE_COLORS[COMPARE_COLORS.length-1];
@@ -2650,16 +2726,11 @@ function openWheelSnapshot(idx){
     grid += `<line x1="${CX}" y1="${CY}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>`;
   }
 
-  let labels = '';
-  AREAS.forEach((a,i)=>{
-    const lp = labelPtFor(i);
-    const v = snap.values[a];
-    labels += `<text x="${lp.x}" y="${lp.y-6}" text-anchor="middle" class="bereich-label" font-size="14">${d.bereiche[a]}</text>`;
-    labels += `<text x="${lp.x}" y="${lp.y+12}" text-anchor="middle" class="bereich-value" font-size="13">${v}%</text>`;
-  });
+  const labels = wheelLabelsSvg(svg, a=>snap.values[a]);
 
   const dataPts = AREAS.map((a,i)=>{ const p=ptFor(i,snap.values[a]); return p.x+','+p.y; }).join(' ');
   svg.innerHTML = bg + grid + `<polygon points="${dataPts}" fill="url(#gradWheelSnap)" stroke="#b8a4ff" stroke-width="2" opacity="0.9"/>` + labels;
+  wheelLabelsFit(svg);
 
   document.getElementById('wheel-snapshot-date').textContent =
     new Date(snap.ts).toLocaleDateString(state.settings.lang==='de'?'de-DE':'en-US',{day:'2-digit',month:'short',year:'numeric'});
@@ -3021,7 +3092,7 @@ function renderEvents(){
   list.innerHTML = evs.map(e=>`
     <div class="event-item">
       <div class="row1">
-        <div class="title" style="font-weight:600;font-size:14px;">${escapeHtml(e.title)}</div>
+        <div class="title" style="font-weight:600;font-size:var(--fs-text);">${escapeHtml(e.title)}</div>
         <button class="icon-del" title="${d0.delete}" onclick="deleteEvent('${e.id}')">✕</button>
       </div>
       <div class="meta">${e.date||''}</div>
@@ -3174,7 +3245,9 @@ function tbRender(){
   document.getElementById('tb-title').style.display = tbView==='page' ? 'none' : '';
   if(tbView!=='page'){ tbToolsOpen = false; tbToolsSub = ''; }
   if(tbView==='page' || tbView==='pages') tbCoverSettingsOpen = false;
+  if(tbView!=='page' || (tbSelImg && tbSelImg.page!==tbPageIdx)) tbSelImg = null;
   const body = document.getElementById('tb-body');
+  body.classList.toggle('tb-body-cover', tbView==='cover'); // the cover fills the screen, nothing to scroll
   if(tbView==='library') body.innerHTML = tbRenderLibrary();
   else if(tbView==='cover') body.innerHTML = tbRenderCover();
   else if(tbView==='pages') body.innerHTML = tbRenderPagesOverview();
@@ -3242,15 +3315,17 @@ function tbRenderCover(){
   const setup = tbCoverSetupOpen(diary);
   return `<div class="tb-cover-wrap">
     <div class="tb-cover${matClass}" style="${bg}">
-      <div class="tb-cover-caption">
-        <div class="tb-cover-title" style="font-family:${fontFamily};">${escapeHtml(diary.cover.title || d.diaryTitle)}</div>
-        ${hasCustomTitle ? '' : `<div class="tb-cover-year">${tbYear}</div>`}
+      <div class="tb-cover-bottom">
+        <div class="tb-cover-caption">
+          <div class="tb-cover-title" style="font-family:${fontFamily};">${escapeHtml(diary.cover.title || d.diaryTitle)}</div>
+          ${hasCustomTitle ? '' : `<div class="tb-cover-year">${tbYear}</div>`}
+        </div>
+        <div class="tb-cover-actions">
+          <button class="primary-btn" onclick="tbOpenFirstPage()">${d.diaryOpen}${ico('arrowR','after')}</button>
+          <button class="ghost-btn" onclick="tbView='library'; tbRender();">${d.diaryToLibrary}</button>
+          ${setup ? `<button class="tb-gear-btn" onclick="tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}">${ico('gear')}</button>` : ''}
+        </div>
       </div>
-    </div>
-    <div class="tb-cover-actions">
-      <button class="primary-btn" onclick="tbOpenFirstPage()">${d.diaryOpen}${ico('arrowR','after')}</button>
-      <button class="ghost-btn" onclick="tbView='library'; tbRender();">${d.diaryToLibrary}</button>
-      ${setup ? `<button class="tb-gear-btn" onclick="tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}">${ico('gear')}</button>` : ''}
     </div>
   </div>${setup ? tbCoverSettingsHtml() : ''}`;
 }
@@ -3470,7 +3545,12 @@ function tbRenderPageSlot(idx){
       delete img.x; delete img.y; delete img.w;
       tbImgsMigrated = true;
     }
-    return `<img class="tb-page-img" data-page-idx="${idx}" data-idx="${i}" src="${img.src}" style="left:${img.xPct}%;top:${img.yPct}%;width:${img.wPct}%;">`;
+    const sel = tbSelImg && tbSelImg.page===idx && tbSelImg.i===i;
+    return `<div class="tb-img-box${sel?' sel':''}" data-page-idx="${idx}" data-idx="${i}" style="left:${img.xPct}%;top:${img.yPct}%;width:${img.wPct}%;">
+      <img class="tb-page-img" src="${img.src}" draggable="false" alt="">
+      <button class="tb-img-del" title="${d.diaryImgDelete}" aria-label="${d.diaryImgDelete}">${ico('trash')}</button>
+      <span class="tb-img-resize" title="${d.diaryImgResize}" aria-label="${d.diaryImgResize}"></span>
+    </div>`;
   }).join('');
   if(tbImgsMigrated) saveState(); // persist the one-time conversion so it only ever runs once per image
   const miniTools = tbEditMode ? `
@@ -3745,9 +3825,52 @@ function tbBindSlot(idx){
     }).catch(err=>console.error('eWolfe: could not read the image', err));
   });
 
-  document.querySelectorAll(`.tb-page-img[data-page-idx="${idx}"]`).forEach(imgEl=>{
+  // tapping anywhere else on the page lets go of a selected photo
+  const pageBox = document.querySelector(`.tb-page[data-page-idx="${idx}"]`);
+  if(pageBox) pageBox.addEventListener('pointerdown', e=>{
+    if(tbSelImg && tbSelImg.page===idx && !e.target.closest('.tb-img-box')) tbSelectImg(null);
+  }, true);
+  document.querySelectorAll(`.tb-img-box[data-page-idx="${idx}"]`).forEach(imgEl=>{
     const imgIdx = parseInt(imgEl.dataset.idx,10);
+    imgEl.querySelector('.tb-img-del').addEventListener('pointerdown', e=>{ e.stopPropagation(); e.preventDefault(); });
+    imgEl.querySelector('.tb-img-del').addEventListener('click', async e=>{
+      e.stopPropagation();
+      if(!(await uiConfirm(t().diaryImgDeleteConfirm))) return;
+      page.images.splice(imgIdx,1);
+      tbSelImg = null;
+      saveState(); tbRender();
+    });
+    // bigger / smaller: drag the round handle at the bottom right (the photo keeps its proportions)
+    imgEl.querySelector('.tb-img-resize').addEventListener('pointerdown', e=>{
+      e.stopPropagation(); e.preventDefault();
+      const img = page.images[imgIdx]; if(!img) return;
+      const pageRect = imgEl.parentElement.getBoundingClientRect();
+      const startX = e.clientX, startY = e.clientY, startW = imgEl.offsetWidth;
+      const ratio = (imgEl.offsetHeight || 1) / (startW || 1);
+      const handle = e.currentTarget;
+      try{ handle.setPointerCapture(e.pointerId); }catch(err){}
+      const widthFor = ev=>{
+        // follow the finger along the photo's diagonal
+        const dx = ev.clientX - startX, dy = ev.clientY - startY;
+        const dw = (dx + dy * ratio) / (1 + ratio * ratio);
+        const maxW = pageRect.width - (pageRect.width * img.xPct / 100);
+        return Math.max(pageRect.width * 0.08, Math.min(Math.max(maxW, pageRect.width * 0.08), startW + dw));
+      };
+      const onMove = ev=>{ imgEl.style.width = widthFor(ev) + 'px'; };
+      const onUp = ev=>{
+        img.wPct = (widthFor(ev) / pageRect.width) * 100;
+        imgEl.style.width = img.wPct + '%';
+        saveState();
+        handle.removeEventListener('pointermove', onMove);
+        handle.removeEventListener('pointerup', onUp);
+        handle.removeEventListener('pointercancel', onUp);
+      };
+      handle.addEventListener('pointermove', onMove);
+      handle.addEventListener('pointerup', onUp);
+      handle.addEventListener('pointercancel', onUp);
+    });
     imgEl.addEventListener('pointerdown', e=>{
+      if(e.target.closest('.tb-img-del, .tb-img-resize')) return;
       if(tbMode==='eraseObj'){
         page.images.splice(imgIdx,1);
         saveState(); tbRender();
@@ -3766,6 +3889,7 @@ function tbBindSlot(idx){
       const grabY = e.clientY - (pageRect.top + pageRect.height*img.yPct/100);
       const clamp = (v,min,max)=> Math.max(min, Math.min(max, v));
       let dragging = true;
+      const downX = e.clientX, downY = e.clientY;
       try{ imgEl.setPointerCapture(e.pointerId); }catch(err){}
       const posFor = ev=>{
         const w = imgEl.offsetWidth || 0, h = imgEl.offsetHeight || 0;
@@ -3782,10 +3906,16 @@ function tbBindSlot(idx){
       const onUp = ev=>{
         if(!dragging) return;
         dragging=false;
-        const p = posFor(ev);
-        img.xPct = (p.x/pageRect.width)*100; img.yPct = (p.y/pageRect.height)*100; // store relative to the page, not fixed pixels
-        imgEl.style.left = img.xPct+'%'; imgEl.style.top = img.yPct+'%'; // snap the live element to match what's now persisted
-        saveState();
+        const moved = Math.hypot(ev.clientX - downX, ev.clientY - downY) > 6;
+        if(moved){
+          const p = posFor(ev);
+          img.xPct = (p.x/pageRect.width)*100; img.yPct = (p.y/pageRect.height)*100; // store relative to the page, not fixed pixels
+          imgEl.style.left = img.xPct+'%'; imgEl.style.top = img.yPct+'%'; // snap the live element to match what's now persisted
+          saveState();
+        } else {
+          imgEl.style.left = img.xPct+'%'; imgEl.style.top = img.yPct+'%';
+        }
+        tbSelectImg({ page:idx, i:imgIdx }); // a tap (or a move) selects the photo: frame, delete and resize appear
         imgEl.removeEventListener('pointermove', onMove);
         imgEl.removeEventListener('pointerup', onUp);
         imgEl.removeEventListener('pointercancel', onUp);
@@ -3794,6 +3924,13 @@ function tbBindSlot(idx){
       imgEl.addEventListener('pointerup', onUp);
       imgEl.addEventListener('pointercancel', onUp);
     });
+  });
+}
+var tbSelImg = null; // the photo that was tapped: { page, i }
+function tbSelectImg(sel){
+  tbSelImg = sel;
+  document.querySelectorAll('.tb-img-box').forEach(b=>{
+    b.classList.toggle('sel', !!sel && +b.dataset.pageIdx===sel.page && +b.dataset.idx===sel.i);
   });
 }
 function tbBindHandlers(){
