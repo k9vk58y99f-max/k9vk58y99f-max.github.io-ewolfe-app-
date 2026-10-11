@@ -24,12 +24,18 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   aus gefiltertem Rauschen (`hpBreath()`), weicher Übergang beim Neustart). Stummschalten
   wird je Gerät gemerkt (`ewolfe_breath_music`). Spielt auf dem iPhone auch im Lautlos-Modus
   (`navigator.audioSession` bzw. stilles <audio>-Element).
+- Achtsamkeit (seit 1.30.0): eingebaute Übungen als Karten mit Bild + Titel (`mediToggleCard()`), aufgeklappt
+  Text + gleicher „Starten"-Knopf. Bilder als SVG: `lotusPictureSvg()`, `lemonPictureSvg()`. Lemonmeditation
+  spielt im Fenster `#medi-player-modal` (`mediPlayerOpen()`). Das Formular zum Hinzufügen ist eingeklappt
+  (`mediShowForm()`), mit „Abbrechen".
+- Sprachwahl beim allerersten Öffnen eines neuen Geräts im Anmeldefenster (`syncNeedsLangPick()`,
+  Merker `ewolfe_lang_chosen`).
 - Symbole: eigene Linien-Icons statt Emojis über `ico(name)` / `UI_ICONS` (Tagebuch, Löschen …).
 - Fenster (`.modal-backdrop` ohne `.page-modal`) liegen immer über den Seiten (z-index 110 statt 100).
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.29.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.30.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
