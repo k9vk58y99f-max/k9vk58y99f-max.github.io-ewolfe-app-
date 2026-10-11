@@ -699,16 +699,9 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
     <div class="breath-stage">
       <svg viewBox="0 0 240 240" class="breath-svg" aria-hidden="true">
         <defs>
-          <linearGradient id="lpOuter" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#4a20d6"/><stop offset="100%" stop-color="#b8a4ff"/></linearGradient>
-          <linearGradient id="lpMid" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#6f4cf5"/><stop offset="100%" stop-color="#d9ceff"/></linearGradient>
-          <linearGradient id="lpInner" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#9b80ff"/><stop offset="100%" stop-color="#f3eaff"/></linearGradient>
-          <linearGradient id="lpBud" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#c2b0ff"/><stop offset="100%" stop-color="#ffffff"/></linearGradient>
-          <radialGradient id="lpCenter"><stop offset="0%" stop-color="#b6fff0"/><stop offset="70%" stop-color="#33e6c4"/><stop offset="100%" stop-color="#1fa58c"/></radialGradient>
-          <radialGradient id="lpGlow"><stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.45"/><stop offset="100%" stop-color="#b8a4ff" stop-opacity="0"/></radialGradient>
-        </defs>
+</defs>
         <rect x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3"/>
-        <circle id="breath-glow" cx="120" cy="120" r="80" fill="url(#lpGlow)"/>
-        <g id="breath-lotus" transform="translate(120 120)"></g>
+        <g id="breath-lotus" transform="translate(120 120) scale(0.86)"></g>
         <circle id="breath-dot" cx="30" cy="210" r="11" fill="#33e6c4"/>
       </svg>
     </div>
@@ -900,7 +893,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.30.1';
+const APP_VERSION = '1.31.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1077,18 +1070,65 @@ function hideStorageWarning(){
 }
 /* ================= Spiritualität: meditations & links ================= */
 // a still, open lotus (same look as in Box Breathing) and a lemon slice – the pictures of the two exercises
-function lotusPictureSvg(id){
-  const P = 'lp' + id;
-  const layers = [[8,84,25,0,'#4a20d6','#b8a4ff'],[8,68,22,22.5,'#6f4cf5','#d9ceff'],[8,50,18,11.25,'#9b80ff','#f3eaff'],[6,31,13,30,'#c2b0ff','#ffffff']];
-  let defs = '', petals = '';
-  layers.forEach(([n,L,W,off,c0,c1], li)=>{
-    defs += `<linearGradient id="${P}${li}" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${c0}"/><stop offset="100%" stop-color="${c1}"/></linearGradient>`;
-    for(let k = 0; k < n; k++) petals += `<path transform="rotate(${off + k*360/n})" d="M0 0C${-W*0.95} ${-L*0.22} ${-W*1.02} ${-L*0.72} 0 ${-L}C${W*1.02} ${-L*0.72} ${W*0.95} ${-L*0.22} 0 0Z" fill="url(#${P}${li})" stroke="rgba(255,255,255,0.28)" stroke-width="0.7"/>`;
-  });
-  let seeds = '<circle r="1.6" fill="#e9fff9"/>';
-  for(let k = 0; k < 6; k++){ const a = k*Math.PI/3 - Math.PI/2; seeds += `<circle cx="${(6.5*Math.cos(a)).toFixed(2)}" cy="${(6.5*Math.sin(a)).toFixed(2)}" r="1.6" fill="#e9fff9"/>`; }
-  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs>${defs}<radialGradient id="${P}c"><stop offset="0%" stop-color="#b6fff0"/><stop offset="70%" stop-color="#33e6c4"/><stop offset="100%" stop-color="#1fa58c"/></radialGradient><radialGradient id="${P}g"><stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.5"/><stop offset="100%" stop-color="#b8a4ff" stop-opacity="0"/></radialGradient></defs><circle r="94" fill="url(#${P}g)"/>${petals}<circle r="13" fill="url(#${P}c)"/>${seeds}</svg>`;
+/* ---- The blue lotus: a water lily seen from above, in the app's violet with a golden centre, lying on green
+   lily pads. lotusMarkup() draws it at a given openness (0 = closed bud, 1 = open); lotusApply() moves the
+   same drawing to another openness without rebuilding it (used for the breathing animation). ---- */
+const LOTUS_RINGS = [ // count, length, width, angle offset, colour at the base, colour at the tip, how late this ring follows
+  { n:10, L:88, W:22, off:0,  c0:'#8e98ff', c1:'#f3f4ff', lag:0 },
+  { n:10, L:74, W:20, off:18, c0:'#7b78ff', c1:'#dedcff', lag:0.10 },
+  { n:9,  L:58, W:17, off:9,  c0:'#6852f3', c1:'#bcb2ff', lag:0.20 },
+  { n:8,  L:42, W:14, off:22, c0:'#5a2bef', c1:'#a08dff', lag:0.30 }
+];
+const LOTUS_LEAF = { light:'#9fc56a', dark:'#3f7a3a', vein:'rgba(220,255,190,0.25)', edge:'rgba(30,70,30,0.5)' };
+function lotusPetalPath(L, W){ return `M0 0C${-W*0.75} ${-L*0.12} ${-W*1.05} ${-L*0.5} ${-W*0.32} ${-L*0.88}Q0 ${-L*1.04} ${W*0.32} ${-L*0.88}C${W*1.05} ${-L*0.5} ${W*0.75} ${-L*0.12} 0 0Z`; }
+function lotusEase(x){ return x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x); }
+function lotusPetalTf(ri, angle, open){
+  const ly = LOTUS_RINGS[ri], o = lotusEase(open * (1 + ly.lag) - ly.lag);
+  const len = 0.42 + 0.58 * o, wid = 0.72 + 0.28 * o, twist = (1 - o) * 16 * (ri % 2 ? -1 : 1);
+  return `rotate(${(angle + twist).toFixed(2)}) scale(${wid.toFixed(3)} ${len.toFixed(3)})`;
 }
+function lotusSepalTf(angle, open){ return `rotate(${angle}) scale(0.9 ${(0.72 + 0.28 * lotusEase(open)).toFixed(3)})`; }
+function lotusCenterTf(open){ const o = lotusEase(open * 1.5 - 0.5); return { tf:`scale(${(0.2 + 0.8 * o).toFixed(3)})`, op:(0.1 + 0.9 * o).toFixed(2) }; }
+function lotusMarkup(P, open){
+  const L = LOTUS_LEAF;
+  let defs = `<radialGradient id="${P}g"><stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.5"/><stop offset="100%" stop-color="#b8a4ff" stop-opacity="0"/></radialGradient>`
+    + `<radialGradient id="${P}c"><stop offset="0%" stop-color="#ffe680"/><stop offset="60%" stop-color="#ffc928"/><stop offset="100%" stop-color="#f2a900"/></radialGradient>`
+    + `<linearGradient id="${P}st" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#f4b400"/><stop offset="100%" stop-color="#fff0a0"/></linearGradient>`
+    + `<radialGradient id="${P}pad" cx="0" cy="0" r="1"><stop offset="0%" stop-color="${L.light}"/><stop offset="100%" stop-color="${L.dark}"/></radialGradient>`
+    + `<linearGradient id="${P}sep" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${L.dark}"/><stop offset="100%" stop-color="${L.light}"/></linearGradient>`
+    + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.8" flood-color="#160a4a" flood-opacity="0.4"/></filter>`;
+  // lily pads lying still on the water under the flower
+  let body = '';
+  [[-42,34,58,215],[46,40,52,330],[8,-52,46,95]].forEach(([x,y,r,rot])=>{
+    const a1 = (90 - 13) * Math.PI / 180, a2 = (90 + 13) * Math.PI / 180;
+    let veins = ''; for(let k = 0; k < 9; k++){ const a = (k * 40 + 110) * Math.PI / 180; veins += `<path d="M0 0L${(r*0.92*Math.cos(a)).toFixed(1)} ${(r*0.92*Math.sin(a)).toFixed(1)}" stroke="${L.vein}" stroke-width="0.8"/>`; }
+    body += `<g transform="translate(${x} ${y}) rotate(${rot})"><path d="M0 0L${(r*Math.cos(a1)).toFixed(1)} ${(r*Math.sin(a1)).toFixed(1)}A${r} ${r} 0 1 0 ${(r*Math.cos(a2)).toFixed(1)} ${(r*Math.sin(a2)).toFixed(1)}Z" fill="url(#${P}pad)" stroke="${L.edge}" stroke-width="1"/>${veins}</g>`;
+  });
+  const go = lotusEase(open);
+  body += `<circle class="lt-glow" r="${(42 + 54 * go).toFixed(1)}" fill="url(#${P}g)" opacity="${(0.45 + 0.55 * go).toFixed(2)}"/>`;
+  let sep = ''; for(let k = 0; k < 5; k++){ const a = 36 + k * 72; sep += `<path class="lt-sep" data-a="${a}" transform="${lotusSepalTf(a, open)}" d="${lotusPetalPath(60, 15)}" fill="url(#${P}sep)" stroke="${L.edge}" stroke-width="0.8"/>`; }
+  body += `<g filter="url(#${P}sh)">${sep}</g>`;
+  LOTUS_RINGS.forEach((ly, ri)=>{
+    defs += `<linearGradient id="${P}p${ri}" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${ly.c0}"/><stop offset="65%" stop-color="${ly.c1}"/><stop offset="100%" stop-color="${ly.c1}"/></linearGradient>`;
+    let g = '';
+    for(let k = 0; k < ly.n; k++){
+      const a = ly.off + k * 360 / ly.n;
+      g += `<g class="lt-pet" data-r="${ri}" data-a="${a}" transform="${lotusPetalTf(ri, a, open)}"><path d="${lotusPetalPath(ly.L, ly.W)}" fill="url(#${P}p${ri})" stroke="rgba(60,30,170,0.28)" stroke-width="0.8"/><path d="M0 ${-ly.L*0.14}L0 ${-ly.L*0.8}" stroke="rgba(255,255,255,0.5)" stroke-width="0.9" stroke-linecap="round"/><path d="M${-ly.W*0.35} ${-ly.L*0.25}Q${-ly.W*0.45} ${-ly.L*0.55} ${-ly.W*0.15} ${-ly.L*0.8}" stroke="rgba(255,255,255,0.28)" stroke-width="0.7" fill="none"/></g>`;
+    }
+    body += `<g filter="url(#${P}sh)">${g}</g>`;
+  });
+  let st = ''; for(let k = 0; k < 34; k++){ const len = k % 2 ? 21 : 24; st += `<g transform="rotate(${(k * 360 / 34).toFixed(2)})"><path d="M-1.5 -8L0 ${-len}L1.5 -8Z" fill="url(#${P}st)"/><circle cy="${-len}" r="1.9" fill="#ffe066"/></g>`; }
+  const c = lotusCenterTf(open);
+  body += `<g class="lt-center" transform="${c.tf}" opacity="${c.op}">${st}<circle r="9" fill="url(#${P}c)"/><circle r="2.4" fill="#fff4b0" opacity="0.9"/></g>`;
+  return `<defs>${defs}</defs>${body}`;
+}
+function lotusApply(els, open){
+  els.pet.forEach(e=>e.setAttribute('transform', lotusPetalTf(+e.dataset.r, +e.dataset.a, open)));
+  els.sep.forEach(e=>e.setAttribute('transform', lotusSepalTf(+e.dataset.a, open)));
+  const c = lotusCenterTf(open); els.center.setAttribute('transform', c.tf); els.center.setAttribute('opacity', c.op);
+  const go = lotusEase(open); els.glow.setAttribute('r', (42 + 54 * go).toFixed(1)); els.glow.setAttribute('opacity', (0.45 + 0.55 * go).toFixed(2));
+}
+function lotusPictureSvg(id){ return `<svg viewBox="-104 -104 208 208" aria-hidden="true">${lotusMarkup('lp' + id, 1)}</svg>`; }
 function lemonPictureSvg(id){
   const P = 'lm' + id;
   let seg = '';
@@ -1417,49 +1457,14 @@ function hpStop(instant){
 /* ---- Box Breathing: 4 s in, 4 s hold, 4 s out, 4 s hold; the dot goes up, across, down and back ---- */
 const BREATH_SIDE = 4;
 let breath = { start:0, pausedAt:0, raf:0, lastPhase:-1 };
-/* A lotus seen from above: four rings of petals around a turquoise centre. "open" goes from 0 (closed bud)
-   to 1 (fully open); the outer petals open first, the inner ones follow, like a real flower. */
-const LOTUS_LAYERS = [ // count, length, width, angle offset, gradient, how late this ring follows
-  { n:8, L:84, W:25, off:0,     fill:'url(#lpOuter)', lag:0 },
-  { n:8, L:68, W:22, off:22.5,  fill:'url(#lpMid)',   lag:0.12 },
-  { n:8, L:50, W:18, off:11.25, fill:'url(#lpInner)', lag:0.24 },
-  { n:6, L:31, W:13, off:30,    fill:'url(#lpBud)',   lag:0.36 }
-];
-let lotusPetals = [];
+// the blue lotus in the middle of the square: closed bud when breathing starts, open after breathing in
+let lotusEls = null;
 function breathLotusBuild(){
   const g = document.getElementById('breath-lotus');
-  if(g.childNodes.length) return;
-  const NS = 'http://www.w3.org/2000/svg';
-  lotusPetals = [];
-  LOTUS_LAYERS.forEach((ly, li)=>{
-    for(let k = 0; k < ly.n; k++){
-      const p = document.createElementNS(NS, 'path'), L = ly.L, W = ly.W;
-      p.setAttribute('d', `M0 0C${-W*0.95} ${-L*0.22} ${-W*1.02} ${-L*0.72} 0 ${-L}C${W*1.02} ${-L*0.72} ${W*0.95} ${-L*0.22} 0 0Z`);
-      p.setAttribute('fill', ly.fill);
-      p.setAttribute('stroke', 'rgba(255,255,255,0.28)'); p.setAttribute('stroke-width', '0.7');
-      g.appendChild(p);
-      lotusPetals.push({ el:p, angle:ly.off + k * 360 / ly.n, li });
-    }
-  });
-  const c = document.createElementNS(NS, 'circle'); c.setAttribute('r', '11'); c.setAttribute('fill', 'url(#lpCenter)'); g.appendChild(c);
-  for(let k = 0; k < 7; k++){ // little seeds in the middle: one in the centre, six evenly around it
-    const s = document.createElementNS(NS, 'circle'), a = (k - 1) * Math.PI * 2 / 6 - Math.PI / 2;
-    s.setAttribute('cx', (k ? 5.5 * Math.cos(a) : 0).toFixed(2)); s.setAttribute('cy', (k ? 5.5 * Math.sin(a) : 0).toFixed(2)); s.setAttribute('r', '1.3'); s.setAttribute('fill', '#e9fff9');
-    g.appendChild(s);
-  }
+  if(!g.childNodes.length) g.innerHTML = lotusMarkup('lb', 0);
+  lotusEls = { pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), glow:g.querySelector('.lt-glow') };
 }
-function breathLotusSet(open){
-  const ease = x=>x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x);
-  lotusPetals.forEach(p=>{
-    const ly = LOTUS_LAYERS[p.li];
-    const o = ease((open * (1 + ly.lag) - ly.lag)); // later rings start a little later and still finish together
-    const len = 0.3 + 0.7 * o, wid = 0.5 + 0.5 * o, twist = (1 - o) * 14 * (p.li % 2 ? -1 : 1);
-    p.el.setAttribute('transform', `rotate(${(p.angle + twist).toFixed(2)}) scale(${wid.toFixed(3)} ${len.toFixed(3)})`);
-  });
-  const glow = document.getElementById('breath-glow');
-  glow.setAttribute('r', (40 + 52 * ease(open)).toFixed(1));
-  glow.setAttribute('opacity', (0.35 + 0.65 * ease(open)).toFixed(2));
-}
+function breathLotusSet(open){ if(lotusEls) lotusApply(lotusEls, open); }
 function breathOpen(){
   breathLotusBuild();
   breathLotusSet(0);

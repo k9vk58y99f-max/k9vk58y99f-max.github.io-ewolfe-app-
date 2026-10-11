@@ -17,15 +17,16 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Nutzern ergänzt und aktuell gehalten. Sie lassen sich nicht löschen und kosten keinen App-Speicher.
   Ihre Einleitung steht zweisprachig im `I18N` (Feld `notesKey`, z. B. `mediLemonNote`).
   „Box Breathing" (`seed-box`, Feld `tool:'box'`) öffnet eine geführte Atemübung (`breathOpen()`, Fenster
-  `#breath-modal`: Punkt wandert ums Quadrat, je 4 s ein/halten/aus/halten; in der Mitte eine Lotusblüte von
-  oben, die sich beim Einatmen öffnet und beim Ausatmen schließt: `breathLotusBuild()`/`breathLotusSet(0..1)`).
+  `#breath-modal`: Punkt wandert ums Quadrat, je 4 s ein/halten/aus/halten; in der Mitte ein Blauer Lotus
+  (Seerose von oben, Violett mit goldener Mitte, auf grünen Seerosenblättern), der sich beim Einatmen öffnet und
+  beim Ausatmen schließt: Zeichnung `lotusMarkup(prefix, offen)`, Bewegung `lotusApply()`, Farben `LOTUS_RINGS`/`LOTUS_LEAF`).
   Dazu Handpan-Musik, live im Browser erzeugt (Web Audio, `hpStart()`/`hpStop()`, D-Kurd-Skala, festes Stück
   `hpPiece()` mit 38 Atemrunden = 608 s: fließende Arpeggien, ein Akkord je Atemphase, Ein-/Ausatem-Geräusche
   aus gefiltertem Rauschen (`hpBreath()`), weicher Übergang beim Neustart). Stummschalten
   wird je Gerät gemerkt (`ewolfe_breath_music`). Spielt auf dem iPhone auch im Lautlos-Modus
   (`navigator.audioSession` bzw. stilles <audio>-Element).
 - Achtsamkeit (seit 1.30.0): eingebaute Übungen als Karten mit Bild + Titel (`mediToggleCard()`), aufgeklappt
-  Text + gleicher „Starten"-Knopf. Bilder als SVG: `lotusPictureSvg()`, `lemonPictureSvg()`. Lemonmeditation
+  Text + gleicher „Starten"-Knopf. Bilder als SVG: `lotusPictureSvg()` (derselbe Lotus, offen), `lemonPictureSvg()`. Lemonmeditation
   spielt im Fenster `#medi-player-modal` (`mediPlayerOpen()`). Das Formular zum Hinzufügen ist eingeklappt
   (`mediShowForm()`), mit „Abbrechen".
 - Sprachwahl beim allerersten Öffnen eines neuen Geräts im Anmeldefenster (`syncNeedsLangPick()`,
@@ -35,7 +36,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.30.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.31.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
