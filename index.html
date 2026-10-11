@@ -963,7 +963,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.35.0';
+const APP_VERSION = '1.35.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1210,7 +1210,8 @@ function lotusApply(els, open){
 }
 function lotusPictureSvg(id){ return `<svg viewBox="-104 -104 208 208" aria-hidden="true">${lotusMarkup('lp' + id, 1)}</svg>`; }
 function lemonPictureSvg(id){
-  return `<svg viewBox="-96 -96 192 192" aria-hidden="true">${lemonMarkup('lm' + id)}</svg>`;
+  // the frame is fitted tightly around lemon and leaves, so the picture is exactly as wide as the lotus picture next to it
+  return `<svg viewBox="-77 -70 167 167" aria-hidden="true">${lemonMarkup('lm' + id)}</svg>`;
 }
 /* Player picture: the lemon on a square like the Box Breathing lake, in its light blue tones, with a diagonal stroke
    and colour gradient (like the app icon) instead of rings */
