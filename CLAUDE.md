@@ -39,7 +39,8 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   (`BLOSSOM_MAX_OPEN`)
   und mit einem Kirschzweig statt des Lotus (`blossomMarkup()`/`blossomApply()`, nach einem Foto des Nutzers):
   schlanker dunkler Zweig diagonal, zartrosa Blüten nur von oben (zwei ganz leicht schräg), große Blüte in der Mitte,
-  kleine Gruppen geschlossener Knospen aus drei Papier-Schuppen (`budTop`), keine Blätter; jede Blüte/Knospe hängt an
+  kleine Gruppen geschlossener Knospen (`budTop`: prall eiförmig, matt, rotbrauner Kelch, zeigt vom Zweig weg über
+  `awayAngle`), keine Blätter; ein Ästchen läuft von der Mitte nach rechts unten zu einer weiteren Blüte; jede Blüte/Knospe hängt an
   einem kurzen braunen Stiel zum nächsten Zweigpunkt (`stalkTo`), Ästchen beginnen exakt auf dem Ast (`TW`); alle
   Blüten im Farbton `pt` mit Glanz, heller Randkante und feinen Adern; Papier-Stil wie der Lotus. Blüten öffnen sich aus runden Knospen (`.lt-bud`), leicht versetzt (`lag`). Ein Katalog-/Auswahl-
   Verfahren mit Stellen A–H wurde ausprobiert und wieder entfernt; Musik je Rhythmus `hpPiece(key)`), 5-4-3-2-1 (`groundOpen()`), Dankbarkeit am Abend (`gratOpen()`, auf Wunsch ins Tagebuch dieses
@@ -94,7 +95,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.47.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.47.3`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
