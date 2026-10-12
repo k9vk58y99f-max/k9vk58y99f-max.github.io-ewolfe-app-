@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.45.2';
+const APP_VERSION = '1.45.3';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1459,10 +1459,10 @@ function blossomMarkup(P, open, plan){
   // an uneven, gnarled branch from beyond the bottom left corner, with twigs reaching up to the flowers
   const B = (segs, w0, w1)=>`<path d="${taperPath(segs, w0, w1)}" fill="url(#${P}br)"/>`;
   let body = `<g filter="url(#${P}shb)">`
-    + B([[[-118,112],[-96,98],[-84,80],[-62,72]], [[-62,72],[-44,66],[-38,48],[-18,40]], [[-18,40],[0,34],[6,14],[26,4]], [[26,4],[42,-4],[44,-24],[60,-34]], [[60,-34],[70,-40],[72,-50],[84,-56]]], 8, 2)
+    + B([[[-118,112],[-96,98],[-84,80],[-62,72]], [[-62,72],[-44,66],[-38,48],[-18,40]], [[-18,40],[0,34],[6,14],[26,4]], [[26,4],[42,-4],[44,-24],[60,-34]], [[60,-34],[68,-40],[72,-48],[80,-54]]], 8, 2.2)
     + B([[[-58,70],[-68,56],[-64,34],[-56,14]]], 3.4, 1.3)
     + B([[[-20,40],[-24,22],[-12,4],[-8,-28]], [[-8,-28],[-6,-40],[-11,-52],[-9,-62]]], 3.8, 1.1)
-    + B([[[-21,30],[-30,14],[-27,-10],[-27,-30]]], 2.6, 1.1)
+    + B([[[-17,14],[-25,2],[-27,-14],[-27,-30]]], 2.4, 1.1)
     + B([[[26,4],[32,-12],[36,-28],[37,-44]]], 2.8, 1.2)
     + B([[[6,22],[22,28],[40,29],[61,34]]], 2.4, 1)
     + B([[[-84,84],[-94,72],[-90,60],[-92,48]]], 2.2, 0.9)
@@ -1570,13 +1570,17 @@ function blossomMarkup(P, open, plan){
         return place(x, y, rot, r * 2.3, `<g filter="url(#${P}sh)">${stalk(r * 2.3, r * 1.1, 3)}${budMarkup(r, it)}</g>`);
       };
       const blossomAt = (it, x, y, rot, op)=>{
-        const f = Object.assign({}, it, { x:0, y:0, lag:0 });
+        // on the branch the direction comes from the twig, so a side view's own tilt (r) is not used
+        const f = Object.assign({}, it, { x:0, y:0, lag:0, r:0 });
         if(f.t === 's') return place(x, y, rot, f.L * 0.8, side(f, op));
         return place(x, y, rot, f.L * 0.62, `<g filter="url(#${P}sh)">${stalk(f.L * 0.62, 0, 3)}</g>` + front(f, op));
       };
       let parts = '', knots = '';
-      BLOSSOM_SPOTS.forEach(([k, x, y, dir])=>{
+      BLOSSOM_SPOTS.forEach(([k, x, y, dir, wb])=>{
         const pick = plan.pick[k]; if(!pick) return;
+        // a short piece that narrows from the thickness of the branch to the thickness of the stalk
+        const rd = dir * Math.PI / 180, ux = Math.sin(rd), uy = -Math.cos(rd), len = 4 + wb * 1.4;
+        knots += `<path d="${taperPath([[[x - ux * 1.2, y - uy * 1.2], [x + ux * len * 0.33, y + uy * len * 0.33], [x + ux * len * 0.66, y + uy * len * 0.66], [x + ux * len, y + uy * len]]], wb * 1.25, 1.5)}" fill="url(#${P}br)"/>`;
         const kb = pick.k != null ? BUD_CAT[pick.k] : null, bl = pick.b != null ? BLOSSOM_CAT[pick.b] : null;
         if(plan.state === 'open' && bl) parts += blossomAt(bl, x, y, dir, bl.open || open);
         else if(kb) parts += bud(kb, x, y, dir);
@@ -1612,7 +1616,9 @@ function blossomMarkup(P, open, plan){
 // the places on the branch where blossoms can sit (branch coordinates, see blossomMarkup)
 // [letter, x, y, direction]: the direction is the way the twig runs at its end (0 = straight up), so buds and
 // blossoms grow out of the twig the natural way
-const BLOSSOM_SPOTS = [['A', -27, -30, -14], ['B', -9, -62, 11], ['C', 37, -44, 4], ['D', 84, -56, 28], ['E', 61, 34, 103], ['F', 30, -4, -22], ['G', -16, 12, -60], ['H', 54, -80, -42]];
+// 5th value: how thick the branch is there, so the stalk can grow out of it with a smooth transition
+const BLOSSOM_SPOTS = [['A', -27, -30, -14, 1.5], ['B', -9, -62, 11, 1.5], ['C', 37, -44, 4, 1.7], ['D', 80, -54, 40, 2.6], ['E', 61, 34, 103, 1.4], ['F', 30, -4, -22, 3.4], ['G', -16, 12, -60, 3]];
+BLOSSOM_SPOTS.push(['H', 54, -80, -42, 1.3]);
 /* The catalogue of blossoms (B…) and buds (K…) the person picks from (numbers as on the overview pages). */
 const BLOSSOM_CAT = {
   1:{t:'f',L:40,rot:-6,g:'pt',wf:0.64,n:20}, 2:{t:'f',L:40,rot:12,g:'pl',wf:0.58,n:14}, 3:{t:'f',L:40,rot:-20,g:'pd',wf:0.66,n:18},
