@@ -37,26 +37,11 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   4-7-8-Atmung (`breathOpen('b478')`, gleiches Fenster wie Box Breathing, aber statt des Sees ein blauer Himmel mit
   Wolken (`.breath-sky`, der Zweig wird am Quadrat abgeschnitten über `#breath-clip`); Blüten öffnen sich höchstens zu 90 %
   (`BLOSSOM_MAX_OPEN`)
-  und mit einem Kirschzweig statt des Lotus (nach einem Vorbild-Bild des Nutzers): `blossomMarkup()`/`blossomApply()`,
-  knorriger, unregelmäßiger, sich verjüngender Ast (`taperPath()`), der unten links aus dem Bild läuft; sieben
-  unterschiedliche Blüten (Liste `FL`: Farbe `pt`/`pl`/`pd`, Blattbreite, Staubfäden, Blick von vorn, schräg über `tilt`
-  oder von der Seite; nie ganz flach: vorn leicht verkürzt (`fy`) mit Schatten in der Mitte, seitlich als Kelch mit
-  verkürzten, gebogenen Vorderblättern und nach unten hängenden Kelchblättern), öffnen sich aus runden Knospen `.lt-bud` ganz leicht nacheinander (`lag` 0–0,1); Kirschblätter mit
-  gesägtem Rand (`cherryLeaf()`, grün oder jung-bronze, gebogene Mittelrippe, teils gefaltet oder schräg gesehen);
-  Blüten von vorn/schräg öffnen sich nur zu etwa 85 % (Kelch statt Teller); seitliche Blüten als echte
-  Seitenansicht (Blütenboden, zurückgebogene Kelchblätter, zwei Blätter hinten, drei gewölbte vorn: `cupPetal`);
-  eine gemeinsame Knospenform (`budMarkup`); Bildausschnitt näher herangeholt (`translate(-40 34) scale(1.43)`).
-  Eine Neuanordnung mit großer Blüte in der Mitte (1.43.0) gefiel nicht und wurde zurückgenommen; stattdessen wählt der
-  Nutzer aus einem Katalog: `blossomMarkup(P, open, plan)` zeichnet mit `plan.mode` 'branch' (Zweig mit Stellen A–H nach Zeichnung des Nutzers,
-  `BLOSSOM_SPOTS`; Zweig schlank und rotbraun, vorerst ohne Blätter; Knospen im Stil gemalter Vorlagen: länglich,
-  pink zu hell, rotbrauner Kelch), 'flower' oder 'bud' einzelne Teile; Auswahl im Format „a2-3“ = Stelle A: Knospe 2, Blüte 3;
-  Katalog in `BLOSSOM_CAT` (Blüten) und `BUD_CAT` (Knospen, inkl. 18a–18f); `plan.mode 'compose'` mit `plan.pick`
-  ({ A:{k, b}, … }) setzt die Auswahl an die Stellen, gedreht in Zweigrichtung (4. Wert in `BLOSSOM_SPOTS`). Knospe und
-  Blüte einer Stelle sind dieselbe Blume: `plan.state` 'closed' zeigt die Knospe, 'open' die Blüte (ohne Blüte bleibt
-  sie Knospe); Stiele laufen genau im Zweig zusammen (Knoten am Ansatz). Aktuelle Auswahl: A K14, B K17→B12, C K18→B1, D K21→B14, E K11→B8, F K18c→B3, G K6→B9, H K2
-  (noch nicht in der 4-7-8-Übung eingebaut); Zweig ohne dunkle Knoten, Gabelung zu A genau an G (von G verdeckt);
-  an jeder Stelle ein kurzer, sich verjüngender Übergang von Zweigdicke zu Stieldicke (5. Wert in `BLOSSOM_SPOTS`); Rhythmen in `HP_PATTERNS`, Musik je Rhythmus
-  `hpPiece(key)`), 5-4-3-2-1 (`groundOpen()`), Dankbarkeit am Abend (`gratOpen()`, auf Wunsch ins Tagebuch dieses
+  und mit einem Kirschzweig statt des Lotus (`blossomMarkup()`/`blossomApply()`, nach einem Foto des Nutzers):
+  schlanker dunkler Zweig diagonal, zartrosa Blüten nur von oben (zwei ganz leicht schräg), große Blüte in der Mitte,
+  kleine Gruppen geschlossener Knospen aus drei Papier-Schuppen (`budTop`), keine Blätter, keine Stiele, Papier-Stil
+  wie der Lotus. Blüten öffnen sich aus runden Knospen (`.lt-bud`), leicht versetzt (`lag`). Ein Katalog-/Auswahl-
+  Verfahren mit Stellen A–H wurde ausprobiert und wieder entfernt; Musik je Rhythmus `hpPiece(key)`), 5-4-3-2-1 (`groundOpen()`), Dankbarkeit am Abend (`gratOpen()`, auf Wunsch ins Tagebuch dieses
   Jahres: `gratToDiary()`), Stille Meditation (`timerOpen()`, Gong `hpGong()`, Musik „calm“ ohne Atemgeräusche).
   Start immer über `mediRun(id)`: Stimmung vorher (`moodAsk()`), Übung, beim Schließen (`achSessionEnd()` aus
   `closeModal`) „erledigt“ (ab 30 s) und Stimmung nachher. Alles steht in `state.achtsamkeit.log` (wird synchronisiert,
@@ -108,7 +93,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.45.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.47.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
