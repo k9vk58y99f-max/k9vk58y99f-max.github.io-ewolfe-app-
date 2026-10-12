@@ -42,7 +42,8 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   unterschiedliche Blüten (Liste `FL`: Farbe `pt`/`pl`/`pd`, Blattbreite, Staubfäden, Blick von vorn, schräg über `tilt`
   oder von der Seite; nie ganz flach: vorn leicht verkürzt (`fy`) mit Schatten in der Mitte, seitlich als Kelch mit
   verkürzten, gebogenen Vorderblättern und nach unten hängenden Kelchblättern), öffnen sich aus runden Knospen `.lt-bud` ganz leicht nacheinander (`lag` 0–0,1); Kirschblätter mit
-  gesägtem Rand (`cherryLeaf()`, grün oder jung-bronze); Rhythmen in `HP_PATTERNS`, Musik je Rhythmus
+  gesägtem Rand (`cherryLeaf()`, grün oder jung-bronze, gebogene Mittelrippe, teils gefaltet oder schräg gesehen);
+  Blüten von vorn/schräg öffnen sich nur zu etwa 85 % (Kelch statt Teller); Rhythmen in `HP_PATTERNS`, Musik je Rhythmus
   `hpPiece(key)`), 5-4-3-2-1 (`groundOpen()`), Dankbarkeit am Abend (`gratOpen()`, auf Wunsch ins Tagebuch dieses
   Jahres: `gratToDiary()`), Stille Meditation (`timerOpen()`, Gong `hpGong()`, Musik „calm“ ohne Atemgeräusche).
   Start immer über `mediRun(id)`: Stimmung vorher (`moodAsk()`), Übung, beim Schließen (`achSessionEnd()` aus
@@ -51,8 +52,9 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   (`impulses` im `I18N`), „Tage in Folge“ (`achStreak()`) und „Tägliche Erinnerung“ (`remindAdd()`: .ics-Datei mit
   täglichem Termin für den eigenen Kalender, kein Server nötig). Unten: Auswertung der Stimmung (`achMoodHtml()`).
   Papier-Stil wie der Lotus: jede Lage (Blätter, Schale, helles Fruchtfleisch, Spalten …) eine eigene Gruppe mit weichem
-  Schlagschatten (`feDropShadow`); so auch Zitrone (`lemonMarkup()`, Spalten mit kleinen Saftzellen) und Kirschzweig (4-7-8). Die Herzen der Dankbarkeit
-  (`heartsPictureSvg()`) sind Papier-Herzen aus je drei Lagen, ohne Blätter. Weitere Bilder (Verläufe, Blätter mit Adern: `natLeaf()`, die Adern sind per clipPath auf die Blattform zugeschnitten): Mond (für eigene Übungen), Lavendel
+  Schlagschatten (`feDropShadow`); so auch Zitrone (`lemonMarkup()`, Spalten mit kleinen Saftzellen) und Kirschzweig (4-7-8). Dankbarkeit zeigt ein Glas voller
+  Glücksmomente (`jarPictureSvg()`: Zettel, Sterne, Herzen im Glas, Deckel, Schleife, Papier-Lagen). Die Papier-Herzen
+  (`heartsPictureSvg()`, je zwei Lagen, scharfe Kanten) sind das Bild „Herz“ für eigene Übungen. Weitere Bilder (Verläufe, Blätter mit Adern: `natLeaf()`, die Adern sind per clipPath auf die Blattform zugeschnitten): Mond (für eigene Übungen), Lavendel
   (für einen späteren Body-Scan), Steine mit Keimling (5-4-3-2-1), Klangschale (Stille).
   Der Body-Scan mit Computerstimme wurde in 1.38.2 wieder entfernt (`RETIRED_BUILTINS` nimmt ihn aus allen Listen);
   er soll später mit einer eigenen Aufnahme zurückkommen (wie die Lemonmeditation, Audio im Ordner `audio/`). Eigene Übungen sind
@@ -93,7 +95,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.40.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.41.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code

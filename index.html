@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.40.2';
+const APP_VERSION = '1.41.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1383,7 +1383,7 @@ function blossomPetalTf(ds, open){
   const lag = +ds.lag || 0, o = lotusEase(open * (1 + lag) - lag), lv = +ds.lv || 1;
   if(ds.t === 'f'){ // seen from the front: petals spread out from a small closed bud and turn into place
     // closed: the petals are tucked away in the bud; open: still slightly cupped, so a little shorter than flat (fy)
-    const len = (0.12 + 0.8 * o) * lv * (+ds.fy || 1), wid = (0.45 + 0.6 * o) * (+ds.wv || 1), twist = (1 - o) * 40;
+    const len = (0.12 + 0.68 * o) * lv * (+ds.fy || 1), wid = (0.45 + 0.62 * o) * (+ds.wv || 1), twist = (1 - o) * 40; // at most about 85 %: a cup, never a plate
     return `translate(${ds.cx} ${ds.cy}) rotate(${(+ds.a + twist).toFixed(2)}) scale(${(wid * ds.s).toFixed(3)} ${(len * ds.s).toFixed(3)})`;
   }
   // seen from the side: the petals open into a cup – only part of the way, the front ones foreshortened and curved
@@ -1405,20 +1405,30 @@ function taperPath(segs, w0, w1){
   const f = a=>a.map(p=>p[0].toFixed(1) + ' ' + p[1].toFixed(1));
   return 'M' + f(L).join('L') + 'L' + f(R.reverse()).join('L') + 'Z';
 }
-// a cherry leaf: oval with a pointed tip and a finely sawn edge; fresh green or young bronze
-function cherryLeaf(P, x, y, rot, len, wid, bronze){
-  const id = `${P}lc${++leafClipSeq}`, n = 22, Lp = [], Rp = [];
+/* A cherry leaf: oval with a pointed tip and a finely sawn edge; fresh green or young bronze. To look natural the
+   midrib is gently curved (bend), the two halves are not equal, a leaf can be half folded (fold: the far half darker
+   and narrower) and seen at an angle (persp: squeezed across). */
+function cherryLeaf(P, x, y, rot, len, wid, bronze, o){
+  o = o || {};
+  const bend = o.bend || 0, fold = o.fold || 0, persp = o.persp || 1;
+  const id = `${P}lc${++leafClipSeq}`, n = 24, mid = [], Lp = [], Rp = [];
   for(let i = 0; i <= n; i++){
-    const t = i / n, w = wid * Math.pow(Math.sin(Math.PI * Math.min(1, t * 1.08)), 0.75) * (1 - 0.35 * t) * (t > 0.92 ? (1 - t) / 0.08 : 1);
-    const tooth = (i % 2 && t > 0.08 && t < 0.95) ? 1.6 : 0;
-    Lp.push([-(w + tooth), -len * t]); Rp.push([w + tooth, -len * t]);
+    const t = i / n, mx = bend * len * Math.sin(Math.PI * t * 0.9) * t, my = -len * t;
+    const w = wid * Math.pow(Math.sin(Math.PI * Math.min(1, t * 1.08)), 0.75) * (1 - 0.35 * t) * (t > 0.92 ? (1 - t) / 0.08 : 1);
+    const tooth = (i % 2 && t > 0.08 && t < 0.95) ? 1.5 : 0;
+    mid.push([mx, my]);
+    Lp.push([mx - (w * 1.06 + tooth), my]);
+    Rp.push([mx + (w * (0.94 - fold * 0.45) + tooth * (1 - fold * 0.6)), my]);
   }
-  const d = 'M' + Lp.map(p=>p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L') + 'L' + Rp.reverse().map(p=>p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L') + 'Z';
-  const veins = [0.2,0.34,0.48,0.62,0.76].map(t=>`<path d="M0 ${-len*t}Q${wid*0.4} ${-len*(t+0.06)} ${wid*0.85} ${-len*(t+0.13)}M0 ${-len*t}Q${-wid*0.4} ${-len*(t+0.06)} ${-wid*0.85} ${-len*(t+0.13)}" stroke="rgba(235,255,210,0.3)" stroke-width="0.9" fill="none"/>`).join('');
-  return `<g transform="translate(${x} ${y}) rotate(${rot})"><clipPath id="${id}"><path d="${d}"/></clipPath>`
+  const pts = a=>a.map(p=>p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L');
+  const d = 'M' + pts(Lp) + 'L' + pts(Rp.slice().reverse()) + 'Z';
+  const half = 'M' + pts(mid) + 'L' + pts(Rp.slice().reverse()) + 'Z';
+  const veins = [0.2,0.34,0.48,0.62,0.76].map(t=>{ const m = mid[Math.round(t * n)]; return `<path d="M${m[0].toFixed(1)} ${m[1].toFixed(1)}q${wid*0.4} ${-len*0.06} ${wid*0.85} ${-len*0.13}M${m[0].toFixed(1)} ${m[1].toFixed(1)}q${-wid*0.4} ${-len*0.06} ${-wid*0.9} ${-len*0.13}" stroke="rgba(235,255,210,0.3)" stroke-width="0.9" fill="none"/>`; }).join('');
+  return `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${persp} 1)"><clipPath id="${id}"><path d="${d}"/></clipPath>`
     + `<path d="M0 6L0 0" stroke="#5a3526" stroke-width="2.2" stroke-linecap="round"/>`
     + `<path d="${d}" fill="url(#${P}${bronze ? 'lb' : 'lg'})" stroke="rgba(30,60,20,0.45)" stroke-width="0.6" stroke-linejoin="round"/>`
-    + `<g clip-path="url(#${id})"><path d="M0 0L0 ${-len*0.95}" stroke="rgba(235,255,210,0.55)" stroke-width="1.2" stroke-linecap="round"/>${veins}</g></g>`;
+    + `<g clip-path="url(#${id})">${fold ? `<path d="${half}" fill="#10300c" fill-opacity="${(0.12 + fold * 0.18).toFixed(2)}"/>` : ''}`
+    + `<path d="M${pts(mid)}" stroke="rgba(235,255,210,0.55)" stroke-width="1.2" fill="none" stroke-linecap="round"/>${veins}</g></g>`;
 }
 function blossomMarkup(P, open){
   const defs = `<linearGradient id="${P}br" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7a4e3a"/><stop offset="55%" stop-color="#5a3526"/><stop offset="100%" stop-color="#3e2418"/></linearGradient>`
@@ -1449,8 +1459,9 @@ function blossomMarkup(P, open){
     + `<ellipse cx="-44" cy="62" rx="3.4" ry="2.2" fill="#2e1a10"/><ellipse cx="14" cy="16" rx="2.8" ry="1.9" fill="#2e1a10"/><ellipse cx="50" cy="-26" rx="2.2" ry="1.6" fill="#2e1a10"/>`
     + `<circle cx="-62" cy="72" r="4.5" fill="#5a3526"/><circle cx="26" cy="4" r="4" fill="#5a3526"/></g>`;
   // cherry leaves: fresh green and young bronze ones
-  body += [[-60,64,-52,30,11,0],[30,-4,58,28,10,1],[-24,-28,-74,22,8,0],[60,-44,-14,24,9,1],[-90,58,-30,20,7,0]]
-    .map(([x,y,r,l,w,b])=>`<g filter="url(#${P}shl)">${cherryLeaf(P, x, y, r, l, w, b)}</g>`).join('');
+  // [x, y, angle, length, width, bronze, bend, fold, perspective] – each leaf seen a little differently
+  body += [[-60,64,-52,32,11,0,0.12,0,1],[30,-4,58,28,10,1,-0.1,0.6,0.85],[-24,-28,-74,22,8,0,0.08,0,0.45],[60,-44,-14,25,9,1,0.14,0.3,0.7],[-90,58,-30,20,7,0,-0.12,0.8,1],[8,18,118,18,7,0,0.1,0,0.6]]
+    .map(([x,y,r,l,w,b,bend,fold,persp])=>`<g filter="url(#${P}shl)">${cherryLeaf(P, x, y, r, l, w, b, { bend, fold, persp })}</g>`).join('');
   // closed buds on short stalks
   const bud = (x, y, rot, sc)=>`<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})"><path d="M0 0C-8 -4 -10 -16 -1 -24C9 -17 9 -5 0 0Z" fill="url(#${P}bud)"/><path d="M-1 -4Q3 -12 -1 -21" stroke="#fff" stroke-opacity="0.45" stroke-width="1" fill="none"/><path d="M0 3C-6 1 -8 -5 -6 -9C-3 -4 0 -2 0 3ZM0 3C6 1 8 -5 6 -9C3 -4 0 -2 0 3Z" fill="#6b8a3a"/></g>`;
   body += bud(-92, 48, -10, 0.85) + bud(56, -72, 8, 0.8) + bud(-36, -54, -34, 0.62) + bud(78, -54, 46, 0.62);
@@ -2102,13 +2113,52 @@ function stonesPictureSvg(id){
 function heartsPictureSvg(id){
   const P = 'hs' + id;
   const heart = `M0 34C-24 18 -40 4 -40 -14C-40 -28 -29 -38 -16 -38C-8 -38 -3 -34 0 -27C3 -34 8 -38 16 -38C29 -38 40 -28 40 -14C40 4 24 18 0 34Z`;
-  const layer = (sc, dy, g, hl)=>`<g filter="url(#${P}sh)"><g transform="translate(0 ${dy}) scale(${sc})"><path d="${heart}" fill="url(#${P}${g})" stroke="rgba(150,20,70,0.28)" stroke-width="${(0.8 / sc).toFixed(2)}"/>${hl ? `<path d="M-30 -20C-28 -28 -22 -32 -14 -32" stroke="#fff" stroke-opacity="0.55" stroke-width="${(2.6 / sc).toFixed(2)}" fill="none" stroke-linecap="round"/>` : ''}</g></g>`;
-  const h = (x, y, s, rot, tone)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">${layer(1, 0, tone + '1', true)}${layer(0.72, -2.5, tone + '2', false)}${layer(0.44, -4, tone + '3', false)}</g>`;
+  const layer = (sc, dy, g)=>`<g filter="url(#${P}sh)"><g transform="translate(0 ${dy}) scale(${sc})"><path d="${heart}" fill="url(#${P}${g})" stroke="rgba(150,20,70,0.35)" stroke-width="${(0.6 / sc).toFixed(2)}" stroke-linejoin="round"/></g></g>`;
+  const h = (x, y, s, rot, tone)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">${layer(1, 0, tone + '1')}${layer(0.66, -3, tone + '2')}</g>`;
   const grads = { b:['#ff86a9','#d81b60','#ffb3c9','#f06292','#ffe0ea','#ff9ab8'], a:['#b5b3ff','#5548ea','#d2d0ff','#8d8dff','#efeeff','#b5b3ff'], c:['#ffd0de','#f06292','#ffe6ee','#ff9ab8','#fff7fa','#ffc4d6'] };
   let defs = '';
   Object.entries(grads).forEach(([k, c])=>{ for(let i = 0; i < 3; i++) defs += `<linearGradient id="${P}${k}${i+1}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c[i*2]}"/><stop offset="100%" stop-color="${c[i*2+1]}"/></linearGradient>`; });
-  return natPic(`<defs>${defs}<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.8" flood-color="#5a0f30" flood-opacity="0.42"/></filter></defs>`
+  return natPic(`<defs>${defs}<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0.4" dy="1.1" stdDeviation="0.8" flood-color="#4a0a28" flood-opacity="0.5"/></filter></defs>`
     + h(30, -20, 1.2, 16, 'a') + h(-12, 4, 1.6, -9, 'b') + h(30, 34, 0.82, 10, 'c'));
+}
+/* gratitude: a jar full of happy moments – folded paper notes, little stars and hearts in a glass jar with a lid
+   and a bow. Layered paper like the lotus: back of the glass, the things inside, the front of the glass with its
+   highlights, the lid, the bow, every layer with a soft shadow. */
+function jarPictureSvg(id){
+  const P = 'jr' + id;
+  const sh = (inner, f)=>`<g filter="url(#${P}${f || 'sh'})">${inner}</g>`;
+  const body = `M-46 -40C-52 -34 -54 -24 -54 -10L-54 52C-54 66 -44 74 -30 74L30 74C44 74 54 66 54 52L54 -10C54 -24 52 -34 46 -40Z`;
+  const note = (x, y, r, c1, c2)=>`<g transform="translate(${x} ${y}) rotate(${r})"><path d="M-11 -7L11 -7L11 7L-11 7Z" fill="${c1}"/><path d="M-11 -7L0 1L11 -7Z" fill="${c2}"/><path d="M-11 7L0 -1L11 7" stroke="${c2}" stroke-width="0.8" fill="none"/></g>`;
+  const star = (x, y, r, sc)=>`<path transform="translate(${x} ${y}) rotate(${r}) scale(${sc})" d="M0 -10L2.9 -3.6L9.8 -3.1L4.6 1.4L6.1 8.1L0 4.6L-6.1 8.1L-4.6 1.4L-9.8 -3.1L-2.9 -3.6Z" fill="url(#${P}st)"/>`;
+  const heart = (x, y, r, sc, c)=>`<path transform="translate(${x} ${y}) rotate(${r}) scale(${sc})" d="M0 8C-6 4 -10 1 -10 -3C-10 -6.5 -7.3 -9 -4 -9C-2 -9 -0.8 -8 0 -6.5C0.8 -8 2 -9 4 -9C7.3 -9 10 -6.5 10 -3C10 1 6 4 0 8Z" fill="${c}"/>`;
+  // the things inside, stacked from the bottom up
+  const inside = sh(note(-28, 58, -12, '#ffd0de', '#ff9ab8') + note(4, 60, 8, '#fff3a6', '#ffd91a') + note(30, 56, -18, '#d2d0ff', '#8d8dff') + star(-6, 46, 10, 1.1))
+    + sh(note(-24, 36, 18, '#c9f2dc', '#58d48f') + heart(18, 38, -10, 1.3, '#ff7aa2') + note(30, 24, 6, '#ffd0de', '#ff9ab8') + star(-34, 18, -16, 0.9))
+    + sh(note(-2, 20, -6, '#fff3a6', '#ffd91a') + heart(-26, 0, 14, 1.1, '#b5b3ff') + star(22, 2, 12, 1) + note(4, -2, 22, '#d2d0ff', '#8d8dff'))
+    + sh(star(-8, -18, -8, 0.8) + heart(28, -22, 8, 0.9, '#ff9ab8') + note(-30, -20, -20, '#c9f2dc', '#58d48f') + note(10, -26, 14, '#ffd0de', '#ff9ab8'));
+  return natPic(`<defs>`
+    + `<linearGradient id="${P}g" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#bfe9ff" stop-opacity="0.32"/><stop offset="45%" stop-color="#e6f7ff" stop-opacity="0.04"/><stop offset="100%" stop-color="#8fd3ff" stop-opacity="0.28"/></linearGradient>`
+    + `<linearGradient id="${P}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9fd6ff" stop-opacity="0.22"/><stop offset="100%" stop-color="#4a7fd6" stop-opacity="0.35"/></linearGradient>`
+    + `<linearGradient id="${P}l" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8d8dff"/><stop offset="100%" stop-color="#3a2fd0"/></linearGradient>`
+    + `<linearGradient id="${P}st" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff3a6"/><stop offset="100%" stop-color="#f5b800"/></linearGradient>`
+    + `<linearGradient id="${P}rb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb3c9"/><stop offset="100%" stop-color="#e0336a"/></linearGradient>`
+    + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.4" flood-color="#1a1050" flood-opacity="0.38"/></filter>`
+    + `<filter id="${P}gs" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs>`
+    + `<ellipse cx="0" cy="80" rx="58" ry="6" fill="#000" fill-opacity="0.3" filter="url(#${P}gs)"/>`
+    // back of the glass
+    + `<path d="${body}" fill="url(#${P}b)"/>`
+    + inside
+    // front of the glass: a light tint, the rim and the highlights
+    + sh(`<path d="${body}" fill="url(#${P}g)" stroke="#e6f7ff" stroke-opacity="0.75" stroke-width="2"/>`
+      + `<path d="M-42 -12L-42 50C-42 58 -38 62 -32 64" stroke="#fff" stroke-opacity="0.7" stroke-width="5" fill="none" stroke-linecap="round"/>`
+      + `<path d="M40 -6L40 18" stroke="#fff" stroke-opacity="0.45" stroke-width="3.5" fill="none" stroke-linecap="round"/>`)
+    + sh(`<rect x="-46" y="-48" width="92" height="12" rx="5" fill="#cfeeff" fill-opacity="0.8" stroke="#ffffff" stroke-opacity="0.8" stroke-width="1.2"/>`)
+    // the lid
+    + sh(`<rect x="-50" y="-66" width="100" height="20" rx="7" fill="url(#${P}l)"/><path d="M-44 -60L44 -60" stroke="#fff" stroke-opacity="0.3" stroke-width="2.4" stroke-linecap="round"/>`)
+    // the bow
+    + sh(`<path d="M-48 -42L48 -42" stroke="url(#${P}rb)" stroke-width="5"/>`
+      + `<path d="M28 -42C20 -58 2 -54 10 -44Z" fill="url(#${P}rb)"/><path d="M28 -42C38 -60 54 -50 44 -42Z" fill="url(#${P}rb)"/>`
+      + `<path d="M28 -42L20 -24M28 -42L36 -22" stroke="url(#${P}rb)" stroke-width="4" stroke-linecap="round"/><circle cx="28" cy="-42" r="4.5" fill="#e0336a"/>`));
 }
 // silent meditation: a golden singing bowl on a violet cushion, with its wooden striker
 function bowlPictureSvg(id){
@@ -2146,7 +2196,8 @@ function ownPictureSvg(key, id){
         + `<path d="M-84 76V18C-62 -2 -52 -50 -8 -58C34 -66 60 -38 54 -10C50 8 30 14 18 4C8 -4 14 -22 28 -20C14 -34 -14 -26 -20 2C-26 30 -4 50 30 46C56 42 72 30 84 18V76Z" fill="url(#${P}g)"/>`
         + `<path d="M-60 6C-48 -22 -30 -44 -4 -48" stroke="#fff" stroke-opacity="0.7" stroke-width="5" fill="none" stroke-linecap="round"/>`
         + `<path d="M-84 60Q-60 50 -36 60T12 60T60 60T96 60" stroke="#e6fbff" stroke-opacity="0.5" stroke-width="4" fill="none"/>`);
-    case 'heart': return natPic(`<defs><radialGradient id="${P}g" cx="0.35" cy="0.3" r="0.9"><stop offset="0%" stop-color="#ffd0de"/><stop offset="50%" stop-color="#ff7aa2"/><stop offset="100%" stop-color="#e0336a"/></radialGradient></defs>`
+    case 'heart': return heartsPictureSvg(P);
+    case 'heartGloss': return natPic(`<defs><radialGradient id="${P}g" cx="0.35" cy="0.3" r="0.9"><stop offset="0%" stop-color="#ffd0de"/><stop offset="50%" stop-color="#ff7aa2"/><stop offset="100%" stop-color="#e0336a"/></radialGradient></defs>`
         + `<path d="M0 70C-48 40 -76 12 -76 -22C-76 -50 -54 -68 -30 -68C-14 -68 -5 -60 0 -50C5 -60 14 -68 30 -68C54 -68 76 -50 76 -22C76 12 48 40 0 70Z" fill="url(#${P}g)"/>`
         + `<path d="M-50 -38C-44 -48 -34 -52 -24 -50" stroke="#fff" stroke-opacity="0.75" stroke-width="7" fill="none" stroke-linecap="round"/>`);
     case 'star': return natPic(`<defs><linearGradient id="${P}a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff3a6"/><stop offset="100%" stop-color="#f5b800"/></linearGradient><linearGradient id="${P}b" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe680"/><stop offset="100%" stop-color="#d99a00"/></linearGradient></defs>`
@@ -2184,7 +2235,7 @@ function mediPicture(m){
   if(m.audio) return lemonPictureSvg(m.id);
   if(m.tool === 'b478') return blossomPictureSvg(m.id);
   if(m.tool === 'ground') return stonesPictureSvg(m.id);
-  if(m.tool === 'grat') return heartsPictureSvg(m.id);
+  if(m.tool === 'grat') return jarPictureSvg(m.id);
   if(m.tool === 'timer') return bowlPictureSvg(m.id);
   return '';
 }
@@ -2338,7 +2389,7 @@ function groundStep(dir){
 function gratOpen(){
   const d = t();
   document.getElementById('grat-title').textContent = d.exGratTitle;
-  document.getElementById('grat-pic').innerHTML = heartsPictureSvg('grat');
+  document.getElementById('grat-pic').innerHTML = jarPictureSvg('grat');
   [1,2,3].forEach(i=>{ const el = document.getElementById('grat-' + i); el.value = ''; el.placeholder = d.gratPh[i-1]; });
   document.getElementById('grat-diary-label').textContent = d.gratToDiary;
   document.getElementById('grat-save').textContent = d.gratSave;
