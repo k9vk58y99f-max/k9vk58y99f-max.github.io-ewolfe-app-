@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.44.0';
+const APP_VERSION = '1.44.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1431,7 +1431,7 @@ function cherryLeaf(P, x, y, rot, len, wid, bronze, o){
     + `<path d="M${pts(mid)}" stroke="rgba(235,255,210,0.55)" stroke-width="1.2" fill="none" stroke-linecap="round"/>${veins}</g></g>`;
 }
 /* blossomMarkup(P, open, plan): the cherry branch. With a plan it draws single parts for choosing them:
-   plan.mode 'branch' (the bare branch with the places A–G marked), 'flower' (one blossom: plan.f) or 'bud' (one bud:
+   plan.mode 'branch' (the bare branch with the places A–H marked), 'flower' (one blossom: plan.f) or 'bud' (one bud:
    plan.b). These parts are numbered on a catalogue page; the person then picks e.g. "a2-3" = place A: bud 2, blossom 3. */
 function blossomMarkup(P, open, plan){
   const defs = `<linearGradient id="${P}br" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8e4a42"/><stop offset="55%" stop-color="#6a2e2c"/><stop offset="100%" stop-color="#4a1c1e"/></linearGradient>`
@@ -1460,12 +1460,12 @@ function blossomMarkup(P, open, plan){
   let body = `<g filter="url(#${P}shb)">`
     + B([[[-118,112],[-96,98],[-84,80],[-62,72]], [[-62,72],[-44,66],[-38,48],[-18,40]], [[-18,40],[0,34],[6,14],[26,4]], [[26,4],[42,-4],[44,-24],[60,-34]], [[60,-34],[70,-40],[72,-50],[84,-56]]], 8, 2)
     + B([[[-58,70],[-68,56],[-64,34],[-56,14]]], 3.4, 1.3)
-    + B([[[-20,40],[-24,22],[-12,4],[-8,-28]]], 3.8, 1.4)
-    + B([[[-12,-2],[-24,-16],[-24,-38],[-36,-54]]], 2.4, 1)
-    + B([[[26,4],[34,-14],[36,-38],[46,-60]]], 2.8, 1.1)
-    + B([[[6,22],[14,26],[20,24],[28,30]]], 2.2, 1)
+    + B([[[-20,40],[-24,22],[-12,4],[-8,-28]], [[-8,-28],[-6,-40],[-11,-52],[-9,-62]]], 3.8, 1.1)
+    + B([[[-12,-2],[-20,-12],[-25,-22],[-27,-30]]], 2.4, 1.1)
+    + B([[[26,4],[32,-12],[36,-28],[37,-44]]], 2.8, 1.2)
+    + B([[[6,22],[22,28],[40,29],[61,34]]], 2.4, 1)
     + B([[[-84,84],[-94,72],[-90,60],[-92,48]]], 2.2, 0.9)
-    + B([[[62,-36],[58,-48],[60,-60],[56,-72]]], 1.9, 0.8)
+    + B([[[62,-36],[58,-50],[57,-66],[54,-80]]], 2.2, 0.9)
     + `<path d="M-80 86Q-60 70 -40 58M-6 30Q14 14 30 0" stroke="#c07a6a" stroke-opacity="0.4" stroke-width="1" fill="none" stroke-linecap="round"/>`
     // small nodes where twigs and stalks start, like on a real cherry twig
     + [[-62,72],[-18,40],[26,4],[60,-34],[-12,-2],[6,22],[30,-4]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="2.6" ry="2" fill="#5a1e22"/>`).join('') + `</g>`;
@@ -1531,10 +1531,10 @@ function blossomMarkup(P, open, plan){
       return `<g class="lt-pet" data-t="s" data-cx="${cx}" data-cy="${cy}" data-r="${r}" data-a0="${p[0]}" data-a1="${p[1]}" data-s="${p[2]}" data-fy="${p[3]}" data-k="${p[4]}" data-lv="${v.lv.toFixed(3)}" data-wv="${v.wv.toFixed(3)}" data-lag="${lag}" transform="${blossomPetalTf(ds, open)}">${shape}</g>`; };
     fi++;
     const c = lotusCenterTf(open * (1 + lag) - lag);
-    return `<g filter="url(#${P}shl)" transform="translate(${cx} ${cy}) rotate(${r})">`
-        + `<path d="M0 6C-7 7 -12 13 -12 19C-8 15 -4 12 0 10ZM0 6C7 7 12 13 12 19C8 15 4 12 0 10Z" fill="#6b8a3a"/>`
-        + `<path d="M0 8L0 22" stroke="#5a3526" stroke-width="2.6" stroke-linecap="round"/>`
-        + `<path d="M-5 -1C-5 5 -3 9 0 10C3 9 5 5 5 -1Z" fill="url(#${P}rc)"/></g>`
+    return `<g filter="url(#${P}sh)" transform="translate(${cx} ${cy}) rotate(${r})">`
+        + `<path d="M0 8Q3 ${(L*0.45).toFixed(1)} 0 ${(L*0.8).toFixed(1)}" stroke="#6a2e2c" stroke-width="1.6" fill="none" stroke-linecap="round"/>`
+        + `<path d="M-1 5C-7 6 -11 11 -11 16C-7 13 -4 10 -1 8ZM1 5C7 6 11 11 11 16C7 13 4 10 1 8Z" fill="#9c3448"/>`
+        + `<path d="M-5 -1C-5 5 -3 9 0 10C3 9 5 5 5 -1Z" fill="url(#${P}cal)"/></g>`
       + `<g filter="url(#${P}sh)">${pet(1)}${pet(2)}${pet(0)}</g>`
       + `<g transform="translate(${cx} ${cy}) rotate(${r}) translate(0 ${(-L*0.18).toFixed(1)})"><g class="lt-center" data-lag="${lag}" transform="${c.tf}" opacity="${c.op}"><g filter="url(#${P}sh)">${stamens(11, L * 0.55, L * 0.85, 34, fi)}</g></g></g>`
       + `<g filter="url(#${P}sh)">${pet(3)}${pet(4)}${pet(5)}</g>`;
@@ -1571,7 +1571,7 @@ function blossomMarkup(P, open, plan){
   return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${body}</g>`;
 }
 // the places on the branch where blossoms can sit (branch coordinates, see blossomMarkup)
-const BLOSSOM_SPOTS = [['A', -36, -54], ['B', -8, -28], ['C', 46, -60], ['D', 84, -56], ['E', 28, 30], ['F', 30, -4], ['G', -16, 12]];
+const BLOSSOM_SPOTS = [['A', -27, -30], ['B', -9, -62], ['C', 37, -44], ['D', 84, -56], ['E', 61, 34], ['F', 30, -4], ['G', -16, 12], ['H', 54, -80]];
 function blossomBudTf(open, lag){ const o = lotusEase(open * (1 + lag) - lag); return { tf:`scale(${(1 - 0.75 * o).toFixed(3)})`, op:Math.max(0, 1 - o * 2.2).toFixed(2) }; }
 function blossomApply(els, open){
   (els.buds || []).forEach(e=>{ const b = blossomBudTf(open, +e.dataset.lag || 0); e.setAttribute('transform', b.tf); e.setAttribute('opacity', b.op); });
