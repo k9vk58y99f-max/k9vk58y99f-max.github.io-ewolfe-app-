@@ -1123,7 +1123,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.52.1';
+const APP_VERSION = '1.53.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2005,25 +2005,47 @@ const BREATH_SIDE = 4;
 let breath = { start:0, pausedAt:0, raf:0, lastPhase:-1, pat:'box' };
 // the blue lotus in the middle of the square: closed bud when breathing starts, open after breathing in
 let lotusEls = null;
+/* 4-7-8: the cherry branch from the person's video – the stretch where the buds open one after the other, as 26 frames
+   with the video's own dark blue background (img/cherry-v/00…25), filling the square. Breathing in (4 s) runs through them, holding (7 s) stays on the open branch, breathing
+   out (8 s) runs back. Two frames lie on top of each other, the next one fading in, so the steps are not visible. */
+const CHERRY_FRAMES = 26;
+const cherryFrameUrl = i=>`img/cherry-v/${String(i).padStart(2, '0')}.webp`;
+let cherryPreloaded = null;
+function cherryPreload(){
+  if(cherryPreloaded) return;
+  cherryPreloaded = [];
+  for(let i = 0; i < CHERRY_FRAMES; i++){ const im = new Image(); im.src = cherryFrameUrl(i); cherryPreloaded.push(im); }
+}
 function breathLotusBuild(kind){
-  // Box Breathing: the blue lotus; 4-7-8: the cherry branch – both drawn in the paper look of the person's pictures,
-  // their petals really open and close with the breath
+  // Box Breathing: the blue lotus, drawn, its petals really open and close; 4-7-8: the cherry branch from the video
   kind = kind === 'blossom' ? 'blossom' : 'lotus';
   const g = document.getElementById('breath-lotus');
+  if(kind === 'blossom') cherryPreload();
   if(g.dataset.kind !== kind){
-    g.innerHTML = kind === 'blossom' ? blossomMarkup('bb', 0) : lotusMarkup('lb', 0); g.dataset.kind = kind;
+    g.innerHTML = kind === 'blossom'
+      ? `<image class="cv-a" href="${cherryFrameUrl(0)}" x="-98" y="-98" width="196" height="196"/><image class="cv-b" href="${cherryFrameUrl(1)}" x="-98" y="-98" width="196" height="196" opacity="0"/>`
+      : lotusMarkup('lb', 0);
+    g.dataset.kind = kind;
     g.setAttribute('transform', kind === 'blossom' ? 'translate(120 120) scale(0.92)' : 'translate(120 120) scale(0.86)'); // the branch fills the space where the lake would be
   }
-  lotusEls = { kind, pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), centers:[...g.querySelectorAll('.lt-center')], buds:[...g.querySelectorAll('.lt-bud')], glow:g.querySelector('.lt-glow') };
-  // the cherry branch stands against the sky, without the lake behind it
+  lotusEls = { kind, a:g.querySelector('.cv-a'), b:g.querySelector('.cv-b'), ia:0, ib:1, pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), centers:[...g.querySelectorAll('.lt-center')], buds:[...g.querySelectorAll('.lt-bud')], glow:g.querySelector('.lt-glow') };
+  // the cherry branch keeps the dark blue of its video as background (it fills the square), so no lake and no sky
   document.querySelectorAll('#breath-modal .breath-lake').forEach(el=>{ el.style.display = kind === 'blossom' ? 'none' : ''; });
-  document.querySelectorAll('#breath-modal .breath-sky').forEach(el=>{ el.style.display = kind === 'blossom' ? '' : 'none'; });
+  document.querySelectorAll('#breath-modal .breath-sky').forEach(el=>{ el.style.display = 'none'; });
   // the branch is cut off by the edge of the sky square
   const clip = document.getElementById('breath-clip');
   if(kind === 'blossom') clip.setAttribute('clip-path', 'url(#lakeClip)'); else clip.removeAttribute('clip-path');
 }
 const BLOSSOM_MAX_OPEN = 0.9; // the cherry blossoms never open completely
-function breathLotusSet(open){ if(lotusEls) (lotusEls.kind === 'blossom' ? (els, o)=>blossomApply(els, o * BLOSSOM_MAX_OPEN) : lotusApply)(lotusEls, open); }
+function breathLotusSet(open){
+  if(!lotusEls) return;
+  if(lotusEls.kind !== 'blossom'){ lotusApply(lotusEls, open); return; }
+  // evenly through the whole phase: 4 s to open, 8 s to close
+  const e = lotusEls, pos = Math.max(0, Math.min(1, open)) * (CHERRY_FRAMES - 1), k = Math.min(CHERRY_FRAMES - 2, Math.floor(pos)), f = pos - k;
+  if(e.ia !== k){ e.a.setAttribute('href', cherryFrameUrl(k)); e.ia = k; }
+  if(e.ib !== k + 1){ e.b.setAttribute('href', cherryFrameUrl(k + 1)); e.ib = k + 1; }
+  e.b.setAttribute('opacity', f.toFixed(3));
+}
 function breathOpen(pat){
   pat = HP_PATTERNS[pat] && pat !== 'calm' ? pat : 'box';
   breathLotusBuild(pat === 'b478' ? 'blossom' : 'lotus');
