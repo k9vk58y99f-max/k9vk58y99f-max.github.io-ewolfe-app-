@@ -59,7 +59,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   übereinander, jedes aus einem gefalteten Papier (`heartsPictureSvg()`/`origamiHeart()`, beide Hälften gleich
   gefaltet, sanfte Farbstufen); weitere Herzformen zur Auswahl in `heartShapeSvg(kind)`
   (round, slim, origami, petals, plump). Ein Glas voller Glücksmomente (`jarPictureSvg()`) liegt als Alternative bereit. Weitere Bilder (Verläufe, Blätter mit Adern: `natLeaf()`, die Adern sind per clipPath auf die Blattform zugeschnitten): Mond (für eigene Übungen), Lavendel
-  (für einen späteren Body-Scan), Bachkiesel mit Keimling (5-4-3-2-1: `stonesPictureSvg()`, Kieselform `pebblePath()`, jeder Kiesel zwei Papierlagen in eigener Steinfarbe), Klangschale auf Kissen mit Klöppel und Klangringen (Stille: `bowlPictureSvg()`, jede Lage mit Schatten).
+  (für einen späteren Body-Scan), Bachkiesel mit Keimling (5-4-3-2-1: `stonesPictureSvg()`, Kieselform `pebblePath()`, jeder Kiesel drei flache Papierlagen in den Blau-Violett-Tönen des Lotus, Vorschlag „K2“), Klangschale auf Kissen mit Klöppel, Klang als zwei mintgrüne Papier-Sicheln (Stille: `bowlPictureSvg()`, flache Papierlagen ohne Glanz, Vorschlag „S3“).
   Der Body-Scan mit Computerstimme wurde in 1.38.2 wieder entfernt (`RETIRED_BUILTINS` nimmt ihn aus allen Listen);
   er soll später mit einer eigenen Aufnahme zurückkommen (wie die Lemonmeditation, Audio im Ordner `audio/`). Eigene Übungen sind
   Karten mit wählbarem Bild (`MEDI_ICONS`/`ownPictureSvg()`, Feld `icon`).
@@ -99,7 +99,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.50.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.50.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
