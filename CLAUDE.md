@@ -46,8 +46,13 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Nur drei Textgrößen (seit 1.34.0, Variablen `--fs-h` 22px, `--fs-sub` 17px, `--fs-text` 15px, Block „Three text sizes
   only" am Ende des CSS): Überschriften groß und weiß, Unterüberschriften kleiner und grün, sonst normaler Text in weiß.
   Ausnahmen: Beschriftung der unteren Leiste, Versionszeile, Atemzähler, die Tagebuchseiten selbst.
-- Beschriftung der Lebensräder (`wheelLabelsSvg()`/`wheelLabelsFit()`): Schriftgröße in Zeichnungs-Einheiten wird aus der
-  angezeigten Breite berechnet, damit sie auf dem Bildschirm genau 15px ist (normale Stärke, nicht fett; `wheelLabelsResize()` bei Größenänderung); seitliche Namen stehen neben dem Punkt.
+- Lebensräder (seit 1.36.0): statt Wörtern Symbole je Bereich (`AREA_ICONS`/`areaIco()`: Gesundheit Herzschlag,
+  Beziehungen Herz, Finanzen steigender Chart, Berufung Kompass, Spiritualität Lotus) mit Prozentwert daneben
+  (`wheelLabelsSvg()`, Platzierung `wheelLabelsFit()`, Tippflächen `wheelLabBox()`). Größe aus der angezeigten Breite:
+  Symbol 26px, Zahl 15px. Rad größer (`CX 400, CY 330, MAXR 245`). Die Symbole stehen auch auf der Seite Lebensbereiche.
+- Vergleich: nur das neueste Rad gefüllt, ältere als Linien darüber (Mintgrün durchgezogen, Gelb gestrichelt) mit Punkten;
+  an jedem Bereich der neueste Wert und die Veränderung seit dem ältesten verglichenen Rad (+ grün / − rot).
+- Ränder (seit 1.36.0): Seiten 14px seitlich, Karten auf der Startseite 10px, Ziele-Tabellen mit schmalem Rand (8px).
 - Tagebuch-Titelblatt: Das Buch füllt den Platz, nichts scrollt (`.tb-body-cover`). Antippen des Titelblatts schlägt
   das Tagebuch auf (`.tb-cover-tap`); keine eigenen Knöpfe mehr (Bibliothek oben links in der Kopfzeile). Nur bei neuen
   Tagebüchern liegt das Zahnrad auf dem Buch. Schrift der ganzen App: Inter (Caveat nur für Handschrift im Tagebuch).
@@ -56,7 +61,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.35.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.36.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code

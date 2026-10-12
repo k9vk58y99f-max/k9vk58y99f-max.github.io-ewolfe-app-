@@ -146,6 +146,11 @@ button, input, select, textarea{ font-family:inherit; }
 #scene-svg{ display:block; width:100%; height:auto; }
 .bereich-label{ font-family:'Inter',sans-serif; font-weight:400; fill:#fff; }
 .bereich-value{ font-family:'Inter',sans-serif; font-weight:400; fill:var(--ew-uv-lilac); }
+.bereich-delta{ font-family:'Inter',sans-serif; font-weight:600; }
+.bereich-delta.up{ fill:var(--ew-turquoise); } .bereich-delta.down{ fill:#ff8f86; } .bereich-delta.same{ fill:rgba(255,255,255,0.72); }
+.wheel-lab-ico{ fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.wheel-lab{ pointer-events:none; }
+.area-ico{ width:22px; height:22px; vertical-align:-5px; margin-right:9px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .scene-foot{ display:flex; justify-content:space-between; align-items:center; padding:10px 22px 20px; }
 .scene-foot .hint{ font-size:12px; color:rgba(216,206,255,0.5); }
 
@@ -289,7 +294,7 @@ table.goal-table{ border-collapse:separate; border-spacing:0; width:100%; min-wi
 /* Verlauf, Bewerten and Achtsamkeit are whole pages above the bottom bar, not floating windows */
 .modal-backdrop:not(.page-modal){ z-index:110; } /* windows (settings, details, breathing …) always lie above the pages */
 .page-modal{ background:var(--ew-navy); backdrop-filter:none; -webkit-backdrop-filter:none; align-items:stretch; }
-.home-new{ margin:-6px 16px 22px; }
+.home-new{ margin:-6px 10px 22px; }
 .home-new .primary-btn{ width:100%; padding:14px 18px; font-size:15px; }
 .home-goals-btn{ width:100%; margin-top:10px; padding:12px 18px; font-size:14.5px; }
 .area-card{ background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:16px; padding:14px 16px; margin-bottom:10px; }
@@ -303,10 +308,10 @@ table.goal-table{ border-collapse:separate; border-spacing:0; width:100%; min-wi
 .wheel-hist-home #compare-bar{ background:transparent; border-top:none; padding-bottom:10px; }
 /* Ziele page: the tables run from edge to edge (no second frame left and right); every area column is so wide that the
    next one just peeks in from the right, so you can see there is more to fill in when scrolling sideways */
-#goals-page .goal-table-card{ margin:0 -22px 20px; padding:20px 0 12px; border-radius:0; }
-#goals-page .goal-table-card h3{ margin-left:22px; }
-#goals-page .goal-table-hint{ margin:10px 22px 4px; }
-#goals-page .goal-table-scroll{ border-radius:0; container-type:inline-size; }
+#goals-page .goal-table-card{ margin:0 -6px 18px; padding:18px 6px 10px; border-radius:18px; }
+#goals-page .goal-table-card h3{ margin-left:10px; }
+#goals-page .goal-table-hint{ margin:10px 10px 4px; }
+#goals-page .goal-table-scroll{ border-radius:12px; container-type:inline-size; }
 .goal-table col.col-label{ width:104px; }
 #goals-page .goal-table col.col-label{ width:104px; }
 #goals-page .goal-table col.col-area{ width:calc(100cqw - 104px - 30px); }
@@ -584,6 +589,15 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 .tb-pagelist{ max-width:520px; margin:0 auto; }
 .tb-pagelist-row{ display:flex; justify-content:space-between; align-items:center; padding:12px 14px; background:var(--ew-panel-2); border-radius:12px; margin-bottom:8px; cursor:pointer; font-size:13.5px; }
+/* ================= Narrower margins (since 1.36.0): pages 14px at the sides, cards on the start page 10px ================= */
+.page-modal > .modal{ padding-left:14px; padding-right:14px; }
+.scene-wrap{ margin:10px; }
+.wheel-hist-home.goal-table-card{ margin-left:10px; margin-right:10px; }
+.tb-body{ padding-left:12px; padding-right:12px; }
+.tb-body.tb-body-cover{ padding-left:12px; padding-right:12px; }
+.compare-swatch{ width:18px; height:5px; border-radius:3px; }
+.compare-swatch.dashed{ -webkit-mask:repeating-linear-gradient(90deg,#000 0 6px,transparent 6px 9px); mask:repeating-linear-gradient(90deg,#000 0 6px,transparent 6px 9px); }
+
 /* ================= Three text sizes only (since 1.34.0) =================
    Headings: big and white. Subheadings: a little smaller and green. Everything else: normal text in white.
    Exceptions on purpose: the labels of the bottom bar, the version line, the breathing count and the diary pages themselves. */
@@ -963,7 +977,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.35.2';
+const APP_VERSION = '1.36.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2357,64 +2371,87 @@ function renderPanels(){
 }
 
 /* ================= Scene: geometry ================= */
-const CX = 400, CY = 300, MAXR = 190;
+// since 1.36.0 the areas are shown as small icons instead of words, so the wheel itself can be bigger
+const CX = 400, CY = 330, MAXR = 245;
 function axisAngle(i){ return (-90 + i*72) * Math.PI/180; }
 function ptFor(i, value){
   const ang = axisAngle(i);
   const r = (value/100)*MAXR;
   return { x: CX + r*Math.cos(ang), y: CY + r*Math.sin(ang) };
 }
-/* Labels around a wheel, always at least the normal text size on screen (the drawing is 800 units wide, so the
-   font size in units depends on how wide the wheel is shown). Top: above its point, sides: next to it, bottom: below. */
+/* ---- Icons for the five areas (line icons like the rest of the app, drawn on a 24×24 grid) ---- */
+const AREA_ICONS = {
+  gesundheit:'<path d="M2.5 12.5h4.3l2.2-5.2 3.8 10.4 2.5-5.7h6.2"/>',
+  beziehungen:'<path d="M12 20.2s-7.8-4.7-7.8-10.4A4.5 4.5 0 0 1 12 7.1a4.5 4.5 0 0 1 7.8 2.7c0 5.7-7.8 10.4-7.8 10.4Z"/>',
+  finanzen:'<path d="M3.5 3.5v17h17"/><path d="M7 15.5l4.2-4.4 3.1 3.1 5.4-6"/><path d="M15.6 8.2h4.1v4.1"/>',
+  berufung:'<circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2 5.2-5.2 2 2-5.2Z"/><circle cx="12" cy="12" r="0.6"/>',
+  sinn:'<path d="M12 4.4c1.9 1.9 2.8 4.2 2.8 6.7S13.9 15.9 12 17.7c-1.9-1.8-2.8-4.1-2.8-6.6S10.1 6.3 12 4.4Z"/><path d="M9.4 17.3C6 16.8 3.7 14.2 3.4 9.6c2.5.2 4.5 1.3 5.9 3"/><path d="M14.6 17.3c3.4-.5 5.7-3.1 6-7.7-2.5.2-4.5 1.3-5.9 3"/><path d="M4.2 20.2c2.3.9 4.9 1.3 7.8 1.3s5.5-.4 7.8-1.3"/>'
+};
+function areaIco(a, cls){ return `<svg class="area-ico${cls ? ' ' + cls : ''}" viewBox="0 0 24 24" aria-hidden="true">${AREA_ICONS[a]}</svg>`; }
+/* Icon + percentage at each point of a wheel. Sizes are worked out from the width the wheel is shown at, so the
+   icon is 26px and the percentage normal text size on any screen. Top and bottom: icon and value side by side,
+   above / below the point; left and right: next to the point. */
 function wheelShownWidth(svg){
   // the width the wheel is laid out with (not affected by animations); before it is visible: the width it will get
-  return svg.clientWidth || (svg.parentElement && svg.parentElement.clientWidth) || Math.min(window.innerWidth - 32, 520);
+  return svg.clientWidth || (svg.parentElement && svg.parentElement.clientWidth) || Math.min(window.innerWidth - 28, 520);
 }
-// exactly normal text size on screen, also after the phone is turned or the window changes size
-function wheelLabelsResize(){
-  ['scene-svg', 'wheel-compare-svg', 'wheel-snapshot-svg'].forEach(id=>{
-    const svg = document.getElementById(id); if(!svg) return;
-    const w = svg.clientWidth; if(!w) return;
-    const zoom = id === 'wheel-compare-svg' ? 1.15 : 1;
-    const fs = Math.max(14, Math.min(40, 15 * 800 / w)) / zoom;
-    svg.querySelectorAll('text.bereich-label, text.bereich-value').forEach(el=>{
-      const old = parseFloat(el.getAttribute('font-size')); if(!old || Math.abs(old - fs) < 0.3) return;
-      el.setAttribute('font-size', fs.toFixed(1));
-    });
-  });
-}
-window.addEventListener('resize', ()=>{ clearTimeout(wheelLabelsResize.t); wheelLabelsResize.t = setTimeout(wheelLabelsResize, 200); });
-function wheelLabelsSvg(svg, valueOf, zoom){
+window.addEventListener('resize', ()=>{
+  clearTimeout(window.__wheelResizeT);
+  window.__wheelResizeT = setTimeout(()=>{ const svg = document.getElementById('scene-svg'); if(svg && svg.clientWidth && Math.abs(svg.clientWidth - (svg.__w || 0)) > 4) renderScene(false); }, 250);
+});
+function wheelLabelsSvg(svg, valueOf, deltaOf){
   const d = t();
   const w = wheelShownWidth(svg);
-  const fs = Math.max(14, Math.min(40, 15 * 800 / w)) / (zoom || 1), lh = fs * 1.15;
+  svg.__w = w;
+  const k = Math.max(0.9, 800 / w), fs = 15 * k, I = 26 * k, gap = 7 * k, off = 10 * k;
   let out = '';
   AREAS.forEach((a,i)=>{
-    const v = ptFor(i,100), val = valueOf ? valueOf(a) : null;
-    const lines = [['bereich-label', d.bereiche[a]]];
-    if(val !== null && val !== undefined) lines.push(['bereich-value', val + '%']);
-    const n = lines.length;
-    let x = v.x, anchor = 'middle', y0;
-    if(i===0) y0 = v.y - 14 - (n-1) * lh;
-    else if(i===1 || i===4){ anchor = i===1 ? 'start' : 'end'; x = v.x + (i===1 ? 14 : -14); y0 = v.y + fs * 0.35 - (n-1) * lh / 2; }
-    else y0 = v.y + 14 + fs * 0.8;
-    lines.forEach(([cls, txt], k)=>{
-      out += `<text x="${x.toFixed(1)}" y="${(y0 + k * lh).toFixed(1)}" text-anchor="${anchor}" class="${cls}" font-size="${fs.toFixed(1)}">${escapeHtml(String(txt))}</text>`;
-    });
+    const v = ptFor(i,100), val = valueOf ? valueOf(a) : null, dl = deltaOf ? deltaOf(a) : null;
+    const hasVal = val !== null && val !== undefined, hasDl = dl !== null && dl !== undefined;
+    let txt = '';
+    if(hasVal){
+      const x = I + gap;
+      if(hasDl){
+        const cls = dl > 0 ? 'up' : (dl < 0 ? 'down' : 'same');
+        const dt = dl > 0 ? '+' + dl : (dl < 0 ? '−' + Math.abs(dl) : '±0');
+        txt = `<text x="${x.toFixed(1)}" y="${(-fs*0.2).toFixed(1)}" class="bereich-value" font-size="${fs.toFixed(1)}">${val}%</text>`
+            + `<text x="${x.toFixed(1)}" y="${(fs*1.0).toFixed(1)}" class="bereich-delta ${cls}" font-size="${fs.toFixed(1)}">${dt}</text>`;
+      } else {
+        txt = `<text x="${x.toFixed(1)}" y="${(fs*0.36).toFixed(1)}" class="bereich-value" font-size="${fs.toFixed(1)}">${val}%</text>`;
+      }
+    }
+    // rough width first; wheelLabelsFit() measures and places it exactly afterwards
+    const W = I + (hasVal ? gap + fs * 2.3 : 0);
+    let gx, gy, mode;
+    if(i===0){ mode = 'c'; gx = v.x - W/2; gy = v.y - off - I/2; }
+    else if(i===1){ mode = 'l'; gx = v.x + off * 1.4; gy = v.y; }
+    else if(i===4){ mode = 'r'; gx = v.x - off * 1.4 - W; gy = v.y; }
+    else { mode = 'c'; gx = v.x - W/2; gy = v.y + off + I/2; }
+    out += `<g class="wheel-lab" data-i="${i}" data-mode="${mode}" data-vx="${(mode==='l' ? v.x + off*1.4 : mode==='r' ? v.x - off*1.4 : v.x).toFixed(1)}" data-x="${gx.toFixed(1)}" data-y="${gy.toFixed(1)}" transform="translate(${gx.toFixed(1)} ${gy.toFixed(1)})">`
+      + `<title>${escapeHtml(d.bereiche[a])}</title>`
+      + `<g transform="translate(0 ${(-I/2).toFixed(1)}) scale(${(I/24).toFixed(3)})" class="wheel-lab-ico">${AREA_ICONS[a]}</g>`
+      + txt + `</g>`;
   });
   return out;
 }
-// keeps every label inside the drawing (a long name next to a side point is moved inwards a little)
+// places every icon group exactly (centred / next to its point) and keeps it inside the drawing
 function wheelLabelsFit(svg, lo, hi){
-  lo = lo === undefined ? 6 : lo; hi = hi === undefined ? 794 : hi;
-  svg.querySelectorAll('text.bereich-label, text.bereich-value').forEach(el=>{
-    let b; try{ b = el.getBBox(); }catch(e){ return; }
+  lo = lo === undefined ? 26 : lo; hi = hi === undefined ? 774 : hi; // a little away from the rounded card edges
+  svg.querySelectorAll('g.wheel-lab').forEach(g=>{
+    let b; try{ b = g.getBBox(); }catch(e){ return; }
     if(!b || !b.width) return;
-    let dx = 0;
-    if(b.x < lo) dx = lo - b.x;
-    else if(b.x + b.width > hi) dx = hi - (b.x + b.width);
-    if(dx) el.setAttribute('x', (parseFloat(el.getAttribute('x')) + dx).toFixed(1));
+    const vx = parseFloat(g.dataset.vx), mode = g.dataset.mode, y = parseFloat(g.dataset.y);
+    let x = mode === 'c' ? vx - b.width/2 - b.x : mode === 'l' ? vx - b.x : vx - b.width - b.x;
+    if(x + b.x < lo) x = lo - b.x;
+    if(x + b.x + b.width > hi) x = hi - b.x - b.width;
+    g.dataset.x = x.toFixed(1);
+    g.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
   });
+}
+// the area of the drawing an icon group covers (for the tap areas)
+function wheelLabBox(svg, i){
+  const g = svg.querySelector(`g.wheel-lab[data-i="${i}"]`); if(!g) return null;
+  try{ const b = g.getBBox(); return { x:b.x + parseFloat(g.dataset.x), y:b.y + parseFloat(g.dataset.y), w:b.width, h:b.height }; }catch(e){ return null; }
 }
 function labelPtFor(i){
   const ang = axisAngle(i);
@@ -2468,15 +2505,11 @@ function renderScene(animate, onIntroDone){
     labels;
   wheelLabelsFit(svg);
 
-  const labelEls = svg.querySelectorAll('text.bereich-label'), valueEls = svg.querySelectorAll('text.bereich-value');
   AREAS.forEach((a,i)=>{
-    // tap area over the name and value of each area
+    // tap area over the icon and value of each area
     let bx, by, bw, bh;
-    try{
-      const b1 = labelEls[i].getBBox(), b2 = valueEls[i] ? valueEls[i].getBBox() : b1;
-      bx = Math.min(b1.x, b2.x) - 8; by = Math.min(b1.y, b2.y) - 8;
-      bw = Math.max(b1.x + b1.width, b2.x + b2.width) - bx + 8; bh = Math.max(b1.y + b1.height, b2.y + b2.height) - by + 8;
-    }catch(e){}
+    const lb = wheelLabBox(svg, i);
+    if(lb){ bx = lb.x - 12; by = lb.y - 12; bw = lb.w + 24; bh = lb.h + 24; }
     if(!bw){ const lp = labelPtFor(i); bx = lp.x - 60; by = lp.y - 50; bw = 120; bh = 70; }
     const hit = document.createElementNS('http://www.w3.org/2000/svg','rect');
     hit.setAttribute('x', bx); hit.setAttribute('y', by); hit.setAttribute('width', bw); hit.setAttribute('height', bh);
@@ -2605,7 +2638,7 @@ function renderAreasPage(){
   document.getElementById('areas-body').innerHTML = `
     <div class="modal-top"><h2 class="modal-title">${d.areasTitle}</h2></div>
     <p class="modal-sub">${d.areasIntro}</p>
-    ${AREAS.map(a=>`<div class="area-card"><div class="area-card-name">${d.bereiche[a]}</div><div class="area-card-text">${d.areasText[a]}</div></div>`).join('')}
+    ${AREAS.map(a=>`<div class="area-card"><div class="area-card-name">${areaIco(a)}${d.bereiche[a]}</div><div class="area-card-text">${d.areasText[a]}</div></div>`).join('')}
     <h3 class="areas-how">${d.areasHowTitle}</h3>
     <div class="area-step"><span class="area-step-num">1</span><div><div class="area-card-name">${d.areasStep1Title}</div><div class="area-card-text">${d.areasStep1}</div></div></div>
     <div class="area-step"><span class="area-step-num">2</span><div><div class="area-card-name">${d.areasStep2Title}</div><div class="area-card-text">${d.areasStep2}</div></div></div>
@@ -2631,7 +2664,7 @@ function maybeShowAreasIntro(){
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
 let compareSelection = [];
-const COMPARE_COLORS = ['#b8a4ff', '#3d10c9', '#58d48f']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
+const COMPARE_COLORS = ['#b8a4ff', '#58d48f', '#ffd23f']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
 const COMPARE_FILL_OPACITY = [0.34, 0.34, 0.34]; // all three equally transparent; only draw order (newest in front) differs
 document.getElementById('compare-toggle-btn').onclick = ()=>{
   compareMode = !compareMode;
@@ -2691,28 +2724,30 @@ function openWheelCompare(){
     grid += `<line x1="${CX}" y1="${CY}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>`;
   }
 
-  const labels = wheelLabelsSvg(svg, null, 1.15); // this drawing is shown 1.15 times larger
+  openModal('wheel-compare-modal'); // open first, so the icons can be sized for the width they are shown at
+  // newest value at each point and how much it changed since the oldest wheel in the comparison
+  const newest = snaps[0], oldest = snaps[snaps.length-1];
+  const labels = wheelLabelsSvg(svg, a=>newest.values[a], snaps.length > 1 ? a=>newest.values[a] - oldest.values[a] : null);
 
-  let polys = '';
-  // draw oldest first (back) and newest last (front); the newest also gets extra fill opacity
-  for(let i=snaps.length-1; i>=0; i--){
-    const s = snaps[i];
+  /* Small steps have to be visible: only the newest wheel is filled; the older ones are drawn as clear lines on top
+     (the second one solid, the third dashed), each with dots at its five points. */
+  const ptsOf = s=>AREAS.map((a,idx)=>{ const p=ptFor(idx, s.values[a]); return p.x.toFixed(1)+','+p.y.toFixed(1); }).join(' ');
+  const dotsOf = (s, col, r)=>AREAS.map((a,idx)=>{ const p=ptFor(idx, s.values[a]); return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r}" fill="${col}"/>`; }).join('');
+  let polys = `<polygon points="${ptsOf(newest)}" fill="${COMPARE_COLORS[0]}" fill-opacity="0.42" stroke="none"/>`;
+  for(let i=snaps.length-1; i>=1; i--){
     const col = COMPARE_COLORS[i] || COMPARE_COLORS[COMPARE_COLORS.length-1];
-    const fillOp = COMPARE_FILL_OPACITY[i] || COMPARE_FILL_OPACITY[COMPARE_FILL_OPACITY.length-1];
-    const dataPts = AREAS.map((a,idx)=>{ const p=ptFor(idx, s.values[a]); return p.x+','+p.y; }).join(' ');
-    polys += `<polygon points="${dataPts}" fill="${col}" fill-opacity="${fillOp}" stroke="${col}" stroke-width="2.5" stroke-opacity="1"/>`;
+    polys += `<polygon points="${ptsOf(snaps[i])}" fill="none" stroke="${col}" stroke-width="4" stroke-linejoin="round"${i===2 ? ' stroke-dasharray="14 9"' : ''}/>` + dotsOf(snaps[i], col, 6);
   }
+  polys += `<polygon points="${ptsOf(newest)}" fill="none" stroke="${COMPARE_COLORS[0]}" stroke-width="4" stroke-linejoin="round"/>` + dotsOf(newest, COMPARE_COLORS[0], 7);
 
-  svg.innerHTML = bg + `<g transform="translate(400,310) scale(1.15) translate(-400,-310) translate(0,35)">${grid}${polys}${labels}</g>`;
-  wheelLabelsFit(svg, 400 - 394 / 1.15, 400 + 394 / 1.15);
+  svg.innerHTML = bg + grid + polys + labels;
+  wheelLabelsFit(svg);
 
   document.getElementById('wheel-compare-legend').innerHTML = snaps.map((s,i)=>{
     const col = COMPARE_COLORS[i] || COMPARE_COLORS[COMPARE_COLORS.length-1];
     const ds = new Date(s.ts).toLocaleDateString(state.settings.lang==='de'?'de-DE':'en-US',{day:'2-digit',month:'short',year:'numeric'});
-    return `<span><span class="compare-swatch" style="background:${col}"></span>${ds}</span>`;
+    return `<span><span class="compare-swatch${i===2 ? ' dashed' : ''}" style="background:${col}"></span>${ds}</span>`;
   }).join('');
-
-  openModal('wheel-compare-modal');
 }
 
 let wheelSnapshotsCache = [];
@@ -2741,6 +2776,7 @@ function openWheelSnapshot(idx){
   document.getElementById('wheel-snapshot-del').innerHTML = ico('trash') + t().wheelDelete;
   const d = t();
   const svg = document.getElementById('wheel-snapshot-svg');
+  openModal('wheel-snapshot-modal'); // open first, so the icons can be sized for the width they are shown at
 
   let bg = `<defs>
     <linearGradient id="uvBgSnap" x1="0" y1="0" x2="1" y2="1">
@@ -2775,7 +2811,6 @@ function openWheelSnapshot(idx){
 
   document.getElementById('wheel-snapshot-date').textContent =
     new Date(snap.ts).toLocaleDateString(state.settings.lang==='de'?'de-DE':'en-US',{day:'2-digit',month:'short',year:'numeric'});
-  openModal('wheel-snapshot-modal');
 }
 
 /* ---- Intro: the eWolfe icon grows, shatters into low-poly triangle shards, revealing the Lebensrad ---- */
