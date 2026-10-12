@@ -16,9 +16,11 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Bilder der Übungen (seit 1.52.0): Papier-Bilder des Nutzers, freigestellt (transparenter Hintergrund) als WebP in `img/`:
   `lotus1-3` (Knospe, halb, offen), `cherry1-6` (Knospen → volle Blüte), `stones`, `heart`, `bowl`. `imgPic(datei)` packt
   ein Bild in ein kleines SVG (Karten, Player). `lotusPictureSvg`/`blossomPictureSvg`/`stonesPictureSvg`/`heartsPictureSvg`/
-  `bowlPictureSvg` liefern jetzt diese Bilder. Die Atem-Animation (`breathLotusBuild`/`breathLotusSet`, `BREATH_STAGES`)
-  blendet die Stufen mit dem Atem ineinander (Box: See dahinter, 4-7-8: Himmel). Die alten gezeichneten Fassungen
-  (`lotusMarkup`, `blossomMarkup`, Kiesel, Herzen, Klangschale) stehen noch im Code, werden dafür aber nicht mehr benutzt.
+  `bowlPictureSvg` liefern jetzt diese Bilder (Karten, Player). Die Atem-Animation dagegen ist gezeichnet, damit sich die
+  Blätter fließend bewegen (bloßes Überblenden der Bilder gefiel nicht): `lotusMarkup`/`blossomMarkup` im Origami-Stil
+  der Bilder (seit 1.52.1): Blütenblätter als gefaltete Spitzen, links hell, rechts dunkler (`lotusFoldPetal`, Farben `l`/`d`
+  in `LOTUS_RINGS`), Seerosenblätter aus grünen Keilen, goldene Mitte mit Staubfäden; Kirschzweig warm braun, Blüten
+  zweifarbig rosa mit gelb-oranger Mitte, Knospen kantig mit olivgrünem Kelch. `lotus1-3`/`cherry1-6` dienen als Vorlage.
   Die Zitrone ist weiterhin gezeichnet (`lemonMarkup`). Neue Bilder freistellen: Hintergrund ist ein gleichmäßiges
   Dunkelblau, per Farbabstand zum Rand-Median entfernen, weiche Schatten nur nahe am Motiv behalten.
 - Eingebaute Meditationen mit Audio (`builtIn:true` in `DEFAULT_MEDITATIONEN`, Feld `audio` = Pfad zur Datei,
@@ -111,7 +113,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.52.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.52.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
