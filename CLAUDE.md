@@ -36,7 +36,8 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Achtsamkeit 2.0 (seit 1.38.0, Abschnitt „Achtsamkeit 2.0“ im Code): weitere eingebaute Übungen (`MEDI_ORDER`):
   4-7-8-Atmung (`breathOpen('b478')`, gleiches Fenster wie Box Breathing, aber ohne See (`.breath-lake` ausgeblendet)
   und mit einem Kirschzweig statt des Lotus (nach einem Vorbild-Bild des Nutzers): `blossomMarkup()`/`blossomApply()`,
-  zwei Blüten von vorn (öffnen sich aus runden Knospen `.lt-bud`), eine von der Seite, zwei feste Knospen; Rhythmen in `HP_PATTERNS`, Musik je Rhythmus
+  knorriger, sich verjüngender Ast (`taperPath()`) mit Zweigen, fünf Blüten von vorn (öffnen sich aus runden Knospen
+  `.lt-bud`, kurz nacheinander über `data-lag`), zwei von der Seite, feste Knospen und kleine Blätter; Rhythmen in `HP_PATTERNS`, Musik je Rhythmus
   `hpPiece(key)`), 5-4-3-2-1 (`groundOpen()`), Dankbarkeit am Abend (`gratOpen()`, auf Wunsch ins Tagebuch dieses
   Jahres: `gratToDiary()`), Stille Meditation (`timerOpen()`, Gong `hpGong()`, Musik „calm“ ohne Atemgeräusche).
   Start immer über `mediRun(id)`: Stimmung vorher (`moodAsk()`), Übung, beim Schließen (`achSessionEnd()` aus
@@ -87,7 +88,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.39.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.39.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
