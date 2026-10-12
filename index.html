@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.45.1';
+const APP_VERSION = '1.45.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1462,14 +1462,13 @@ function blossomMarkup(P, open, plan){
     + B([[[-118,112],[-96,98],[-84,80],[-62,72]], [[-62,72],[-44,66],[-38,48],[-18,40]], [[-18,40],[0,34],[6,14],[26,4]], [[26,4],[42,-4],[44,-24],[60,-34]], [[60,-34],[70,-40],[72,-50],[84,-56]]], 8, 2)
     + B([[[-58,70],[-68,56],[-64,34],[-56,14]]], 3.4, 1.3)
     + B([[[-20,40],[-24,22],[-12,4],[-8,-28]], [[-8,-28],[-6,-40],[-11,-52],[-9,-62]]], 3.8, 1.1)
-    + B([[[-12,-2],[-20,-12],[-25,-22],[-27,-30]]], 2.4, 1.1)
+    + B([[[-21,30],[-30,14],[-27,-10],[-27,-30]]], 2.6, 1.1)
     + B([[[26,4],[32,-12],[36,-28],[37,-44]]], 2.8, 1.2)
     + B([[[6,22],[22,28],[40,29],[61,34]]], 2.4, 1)
     + B([[[-84,84],[-94,72],[-90,60],[-92,48]]], 2.2, 0.9)
     + B([[[62,-36],[58,-50],[57,-66],[54,-80]]], 2.2, 0.9)
     + `<path d="M-80 86Q-60 70 -40 58M-6 30Q14 14 30 0" stroke="#c07a6a" stroke-opacity="0.4" stroke-width="1" fill="none" stroke-linecap="round"/>`
-    // small nodes where twigs and stalks start, like on a real cherry twig
-    + [[-62,72],[-18,40],[26,4],[60,-34],[-12,-2],[6,22],[30,-4]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="2.6" ry="2" fill="#5a1e22"/>`).join('') + `</g>`;
+    + `</g>`;
   // cherry leaves: fresh green and young bronze ones
   // [x, y, angle, length, width, bronze, bend, fold, perspective] – each leaf seen a little differently
   if(false) body += [[-60,64,-52,32,11,0,0.12,0,1],[30,-4,58,28,10,1,-0.1,0.6,0.85],[-24,-28,-74,22,8,0,0.08,0,0.45],[60,-44,-14,25,9,1,0.14,0.3,0.7],[-90,58,-30,20,7,0,-0.12,0.8,1],[8,18,118,18,7,0,0.1,0,0.6]]
@@ -1568,7 +1567,7 @@ function blossomMarkup(P, open, plan){
               + `<g transform="translate(${cx} ${cy}) rotate(${br})">${budMarkup(rr, o || {})}</g>`;
           }).join('') + `</g>`);
         }
-        return place(x, y, rot, r * 3, `<g filter="url(#${P}sh)">${stalk(r * 3, r * 1.1, 4)}${budMarkup(r, it)}</g>`);
+        return place(x, y, rot, r * 2.3, `<g filter="url(#${P}sh)">${stalk(r * 2.3, r * 1.1, 3)}${budMarkup(r, it)}</g>`);
       };
       const blossomAt = (it, x, y, rot, op)=>{
         const f = Object.assign({}, it, { x:0, y:0, lag:0 });
@@ -1582,7 +1581,6 @@ function blossomMarkup(P, open, plan){
         if(plan.state === 'open' && bl) parts += blossomAt(bl, x, y, dir, bl.open || open);
         else if(kb) parts += bud(kb, x, y, dir);
         else if(bl) parts += blossomAt(bl, x, y, dir, 0);
-        knots += `<ellipse cx="${x}" cy="${y}" rx="1.9" ry="1.5" fill="#5a1e22"/>`; // where the stalk grows out of the twig
       });
       return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${branchBody}<g filter="url(#${P}shb)">${knots}</g>${parts}</g>`;
     }
@@ -1614,7 +1612,7 @@ function blossomMarkup(P, open, plan){
 // the places on the branch where blossoms can sit (branch coordinates, see blossomMarkup)
 // [letter, x, y, direction]: the direction is the way the twig runs at its end (0 = straight up), so buds and
 // blossoms grow out of the twig the natural way
-const BLOSSOM_SPOTS = [['A', -27, -30, -14], ['B', -9, -62, 11], ['C', 37, -44, 4], ['D', 84, -56, 63], ['E', 61, 34, 103], ['F', 30, -4, -22], ['G', -16, 12, -60], ['H', 54, -80, -12]];
+const BLOSSOM_SPOTS = [['A', -27, -30, -14], ['B', -9, -62, 11], ['C', 37, -44, 4], ['D', 84, -56, 28], ['E', 61, 34, 103], ['F', 30, -4, -22], ['G', -16, 12, -60], ['H', 54, -80, -42]];
 /* The catalogue of blossoms (B…) and buds (K…) the person picks from (numbers as on the overview pages). */
 const BLOSSOM_CAT = {
   1:{t:'f',L:40,rot:-6,g:'pt',wf:0.64,n:20}, 2:{t:'f',L:40,rot:12,g:'pl',wf:0.58,n:14}, 3:{t:'f',L:40,rot:-20,g:'pd',wf:0.66,n:18},
