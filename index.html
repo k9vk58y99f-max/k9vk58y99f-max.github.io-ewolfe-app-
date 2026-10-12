@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.44.1';
+const APP_VERSION = '1.45.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1545,6 +1545,34 @@ function blossomMarkup(P, open, plan){
       const marks = BLOSSOM_SPOTS.map(([k, x, y])=>`<g transform="translate(${x} ${y})"><circle r="6.5" fill="#fff" stroke="#6d4aff" stroke-width="1.6"/><text y="2.6" text-anchor="middle" font-size="7.5" font-weight="700" fill="#3a2fd0" font-family="Inter, Helvetica, Arial, sans-serif">${k}</text></g>`).join('');
       return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${branchBody}${marks}</g>`;
     }
+    if(plan.mode === 'compose'){
+      const SC = 0.5; // catalogue size → branch size
+      const place = (x, y, rot, attachY, inner, stalkFrom)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${SC}) translate(0 ${(-attachY).toFixed(1)})">`
+        + (stalkFrom !== undefined ? `<g filter="url(#${P}sh)"><path d="M0 ${attachY.toFixed(1)}Q3 ${(attachY * 0.5).toFixed(1)} 0 ${stalkFrom.toFixed(1)}" stroke="#6a2e2c" stroke-width="3" fill="none" stroke-linecap="round"/></g>` : '') + inner + `</g>`;
+      // a catalogue item, its stalk end on (x, y), growing in direction rot
+      const item = (it, x, y, rot, isBud)=>{
+        if(isBud && !it.open){
+          const r = it.r || 12;
+          if(it.many) return place(x, y, rot, 30, it.many.map(([bx, by, br, rr, o])=>`<g filter="url(#${P}sh)" transform="translate(${bx} ${by - 6}) rotate(${br})"><path d="M0 ${rr*1.1}Q${br > 0 ? -5 : 5} ${rr*2} 0 ${30 - by + 6}" stroke="#6a2e2c" stroke-width="1.5" fill="none" stroke-linecap="round"/>${budMarkup(rr, o || {})}</g>`).join(''));
+          return place(x, y, rot, r * 3, `<g filter="url(#${P}sh)"><path d="M0 ${r*1.1}Q5 ${r*2} 0 ${r*3}" stroke="#6a2e2c" stroke-width="1.5" fill="none" stroke-linecap="round"/>${budMarkup(r, it)}</g>`);
+        }
+        const f = Object.assign({}, it, { x:0, y:0, lag:0 });
+        if(f.t === 's') return place(x, y, rot, f.L * 0.8, side(f));
+        return place(x, y, rot, f.L * 0.62, front(f), 0);
+      };
+      let parts = '';
+      BLOSSOM_SPOTS.forEach(([k, x, y, dir])=>{
+        const pick = plan.pick[k]; if(!pick) return;
+        const kb = pick.k != null ? BUD_CAT[pick.k] : null, bl = pick.b != null ? BLOSSOM_CAT[pick.b] : null;
+        // blossom at the tip of the twig; a bud next to it branches off to the side on its own stalk
+        const budDir = bl ? dir + (dir <= 0 ? -58 : 58) : dir;
+        // with a blossom on the tip, the bud's stalk starts a little lower down on the twig
+        const back = bl ? 10 : 0, rad = dir * Math.PI / 180, bx = x - Math.sin(rad) * back, by = y + Math.cos(rad) * back;
+        if(kb) parts += item(kb, bx, by, budDir, true).replace(/<g class="lt-(pet|center|bud)"/g, '<g data-fixed="1" class="lt-$1"');
+        if(bl) parts += item(Object.assign({}, bl, { open:bl.open || open }), x, y, dir, false);
+      });
+      return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${branchBody}${parts}</g>`;
+    }
     if(plan.mode === 'flower'){ const f = Object.assign({ x:0, y:0, lag:0 }, plan.f); return `<defs>${defs}</defs>${f.t === 's' ? side(f) : front(f)}`; }
     if(plan.mode === 'bud'){
       const b = plan.b;
@@ -1571,7 +1599,29 @@ function blossomMarkup(P, open, plan){
   return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${body}</g>`;
 }
 // the places on the branch where blossoms can sit (branch coordinates, see blossomMarkup)
-const BLOSSOM_SPOTS = [['A', -27, -30], ['B', -9, -62], ['C', 37, -44], ['D', 84, -56], ['E', 61, 34], ['F', 30, -4], ['G', -16, 12], ['H', 54, -80]];
+// [letter, x, y, direction]: the direction is the way the twig runs at its end (0 = straight up), so buds and
+// blossoms grow out of the twig the natural way
+const BLOSSOM_SPOTS = [['A', -27, -30, -14], ['B', -9, -62, 11], ['C', 37, -44, 4], ['D', 84, -56, 63], ['E', 61, 34, 103], ['F', 30, -4, -22], ['G', -16, 12, -60], ['H', 54, -80, -12]];
+/* The catalogue of blossoms (B…) and buds (K…) the person picks from (numbers as on the overview pages). */
+const BLOSSOM_CAT = {
+  1:{t:'f',L:40,rot:-6,g:'pt',wf:0.64,n:20}, 2:{t:'f',L:40,rot:12,g:'pl',wf:0.58,n:14}, 3:{t:'f',L:40,rot:-20,g:'pd',wf:0.66,n:18},
+  6:{t:'f',L:40,rot:14,g:'pt',wf:0.6,n:14,tilt:[30,0.66]}, 8:{t:'f',L:40,rot:40,g:'pd',wf:0.62,n:12,tilt:[70,0.56]},
+  9:{t:'f',L:40,rot:0,g:'pw',wf:0.64,n:16,tilt:[10,0.75]}, 10:{t:'f',L:40,rot:22,g:'pm',wf:0.6,n:18,tilt:[-70,0.62]},
+  12:{t:'f',L:40,rot:8,g:'pl',wf:0.62,n:17,tilt:[-20,0.82]}, 14:{t:'s',L:40,r:-20,g:'pl',wf:0.6}, 15:{t:'s',L:40,r:20,g:'pd',wf:0.64},
+  18:{t:'f',L:40,rot:-10,g:'pt',wf:0.62,n:16,open:0.6}, 19:{t:'f',L:40,rot:20,g:'pd',wf:0.62,n:14,tilt:[40,0.62],open:0.55},
+  20:{t:'s',L:40,r:6,g:'pl',wf:0.6,open:0.5}
+};
+const BUD_CAT = {
+  2:{r:12,aspect:1.3}, 3:{r:13,aspect:0.85}, 4:{r:12,grad:'budP'}, 6:{r:12,grad:'budM'}, 7:{r:12,sep:1.6}, 8:{r:8},
+  11:{r:12,tip:1.35}, 12:{r:13,aspect:0.85,grad:'budP'}, 13:{r:12,rot:25},
+  14:{many:[[-9,2,-18,9,{}],[9,-4,16,10,{grad:'budD'}]]},
+  21:{open:0.22,t:'s',L:30,r:0,g:'pl',wf:0.6}, 17:{open:0.42,t:'s',L:30,r:-10,g:'pt',wf:0.6},
+  18:{open:0.32,t:'f',L:30,rot:0,g:'pt',wf:0.62,n:14},
+  '18a':{open:0.2,t:'f',L:30,rot:20,g:'pl',wf:0.6,n:12}, '18b':{open:0.26,t:'f',L:30,rot:-15,g:'pd',wf:0.64,n:12},
+  '18c':{open:0.38,t:'f',L:30,rot:8,g:'pm',wf:0.62,n:14}, '18d':{open:0.3,t:'f',L:30,rot:30,g:'pw',wf:0.6,n:13,tilt:[30,0.68]},
+  '18e':{open:0.34,t:'f',L:30,rot:-25,g:'pt',wf:0.64,n:15,tilt:[-50,0.62]}, '18f':{open:0.24,t:'f',L:30,rot:0,g:'pl',wf:0.66,n:12,tilt:[80,0.6]},
+  20:{r:12,rot:-60}
+};
 function blossomBudTf(open, lag){ const o = lotusEase(open * (1 + lag) - lag); return { tf:`scale(${(1 - 0.75 * o).toFixed(3)})`, op:Math.max(0, 1 - o * 2.2).toFixed(2) }; }
 function blossomApply(els, open){
   (els.buds || []).forEach(e=>{ const b = blossomBudTf(open, +e.dataset.lag || 0); e.setAttribute('transform', b.tf); e.setAttribute('opacity', b.op); });
