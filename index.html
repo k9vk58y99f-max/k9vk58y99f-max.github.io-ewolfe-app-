@@ -837,23 +837,6 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
   </div>
 </div>
 
-<!-- Body scan: guided steps with voice and soft music -->
-<div class="modal-backdrop" id="scan-modal">
-  <div class="modal breath-modal">
-    <div class="modal-top"><h2 class="modal-title" id="scan-title"></h2><button class="icon-btn" onclick="scanStop()">✕</button></div>
-    <div class="medi-player-img" id="scan-img"></div>
-    <div class="scan-step-n" id="scan-step-n"></div>
-    <p class="scan-text" id="scan-text"></p>
-    <div class="breath-meta" id="scan-meta"></div>
-    <div class="breath-actions">
-      <button class="ghost-btn breath-music-btn" id="scan-voice-btn" onclick="scanToggleVoice()"></button>
-      <button class="ghost-btn breath-music-btn" id="scan-music-btn" onclick="exToggleMusic()"></button>
-      <button class="ghost-btn" id="scan-pause-btn" onclick="scanTogglePause()"></button>
-      <button class="primary-btn" id="scan-stop-btn" onclick="scanStop()"></button>
-    </div>
-  </div>
-</div>
-
 <!-- 5-4-3-2-1: back to the here and now through the senses -->
 <div class="modal-backdrop" id="ground-modal">
   <div class="modal breath-modal">
@@ -1124,7 +1107,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.38.1';
+const APP_VERSION = '1.38.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1133,18 +1116,20 @@ const DEFAULT_MEDITATIONEN = [
   { id:'seed-box', title:'Box Breathing', url:null, notes:null, notesKey:'mediBoxNote', media:null, tool:'box', ts:4, builtIn:true },
   { id:'seed-lemon', title:'Lemonmeditation', url:null, notes:null, notesKey:'mediLemonNote', media:null, audio:'audio/lemonmeditation_v2.m4a', ts:3, builtIn:true },
   { id:'seed-478', title:'4-7-8-Atmung', titleKey:'ex478Title', url:null, notes:null, notesKey:'ex478Note', media:null, tool:'b478', ts:5, builtIn:true },
-  { id:'seed-scan', title:'Body-Scan', titleKey:'exScanTitle', url:null, notes:null, notesKey:'exScanNote', media:null, tool:'scan', ts:6, builtIn:true },
   { id:'seed-54321', title:'5-4-3-2-1', titleKey:'exGroundTitle', url:null, notes:null, notesKey:'exGroundNote', media:null, tool:'ground', ts:7, builtIn:true },
   { id:'seed-dank', title:'Dankbarkeit am Abend', titleKey:'exGratTitle', url:null, notes:null, notesKey:'exGratNote', media:null, tool:'grat', ts:8, builtIn:true },
   { id:'seed-stille', title:'Stille Meditation', titleKey:'exTimerTitle', url:null, notes:null, notesKey:'exTimerNote', media:null, tool:'timer', ts:9, builtIn:true },
 ];
 // order of the built-in exercises on the page
-const MEDI_ORDER = ['seed-lemon', 'seed-box', 'seed-478', 'seed-scan', 'seed-54321', 'seed-dank', 'seed-stille'];
+const MEDI_ORDER = ['seed-lemon', 'seed-box', 'seed-478', 'seed-54321', 'seed-dank', 'seed-stille'];
+// built-in exercises that were taken out again (removed from everybody's list; the body scan comes back later with a real recording)
+const RETIRED_BUILTINS = ['seed-scan'];
 // Built-in meditations whose audio ships with the app (a file next to index.html, so it costs no app storage).
 // Unlike the samples above they belong to the app: everybody has them, they cannot be deleted, and the
 // stored copy is always brought up to date with the definition here (text, audio file).
 function ensureBuiltInMeditations(st){
   if(!Array.isArray(st.meditationen)) st.meditationen = [];
+  st.meditationen = st.meditationen.filter(m=>!RETIRED_BUILTINS.includes(m.id));
   DEFAULT_MEDITATIONEN.filter(m=>m.builtIn).forEach(m=>{
     const i = st.meditationen.findIndex(x=>x.id === m.id);
     if(i < 0) st.meditationen.push({ ...m });
@@ -1902,7 +1887,7 @@ function moonPictureSvg(id){
     + `<path d="M-64 -20C-60 -40 -46 -54 -30 -60" stroke="#fff" stroke-opacity="0.6" stroke-width="5" fill="none" stroke-linecap="round"/></g>`
     + star(46, -50, 16) + star(74, -4, 10) + star(58, 18, 7) + `<circle cx="66" cy="-30" r="2.4" fill="#fff"/><circle cx="14" cy="-72" r="2" fill="#fff6c8"/>`);
 }
-// body scan: a sprig of lavender, calming, in the violet of the lotus
+// a sprig of lavender, calming, in the violet of the lotus (kept for a body scan with a real recording later)
 function lavenderPictureSvg(id){
   const P = 'lv' + id;
   const flor = (x, y, rot, s)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><ellipse rx="7" ry="11" fill="url(#${P}f)"/><ellipse cx="-2" cy="-4" rx="2.2" ry="4" fill="#fff" fill-opacity="0.35"/></g>`;
@@ -2029,7 +2014,6 @@ function mediPicture(m){
   if(m.tool === 'box') return lotusPictureSvg(m.id);
   if(m.audio) return lemonPictureSvg(m.id);
   if(m.tool === 'b478') return moonPictureSvg(m.id);
-  if(m.tool === 'scan') return lavenderPictureSvg(m.id);
   if(m.tool === 'ground') return stonesPictureSvg(m.id);
   if(m.tool === 'grat') return blossomPictureSvg(m.id);
   if(m.tool === 'timer') return bowlPictureSvg(m.id);
@@ -2064,7 +2048,7 @@ function moodAsk(after){
 
 /* ---- running an exercise: mood before, the exercise, then "done" (days in a row) and mood after ---- */
 let achSession = null;
-const ACH_MODALS = { box:'breath-modal', b478:'breath-modal', scan:'scan-modal', ground:'ground-modal', timer:'timer-modal', lemon:'medi-player-modal' };
+const ACH_MODALS = { box:'breath-modal', b478:'breath-modal', ground:'ground-modal', timer:'timer-modal', lemon:'medi-player-modal' };
 async function mediRun(id){
   const m = (state.meditationen || []).find(x=>x.id === id);
   if(!m) return;
@@ -2073,7 +2057,6 @@ async function mediRun(id){
   const before = await moodAsk(false);
   achSession = { id, tool, before, start:Date.now(), ended:false };
   if(tool === 'box' || tool === 'b478') breathOpen(tool);
-  else if(tool === 'scan') scanOpen();
   else if(tool === 'ground') groundOpen();
   else if(tool === 'timer') timerOpen();
   else if(tool === 'lemon') mediPlayerOpen(id);
@@ -2139,7 +2122,7 @@ function achMoodHtml(){
 }
 function mediTitle(m){ return m.titleKey ? t()[m.titleKey] : m.title; }
 
-/* ---- music on/off for the body scan and the silent meditation (same setting as Box Breathing) ---- */
+/* ---- music on/off for the silent meditation (same setting as Box Breathing) ---- */
 function exToggleMusic(){
   const on = !hpMusicOn();
   try{ localStorage.setItem(HP_PREF_KEY, on ? '1' : '0'); }catch(e){}
@@ -2148,80 +2131,11 @@ function exToggleMusic(){
 }
 function exMusicUi(){
   const on = hpMusicOn();
-  ['scan-music-btn', 'timer-music-btn'].forEach(id=>{
+  ['timer-music-btn'].forEach(id=>{
     const b = document.getElementById(id); if(!b) return;
     b.innerHTML = ico(on ? 'volume' : 'mute'); b.classList.toggle('off', !on);
     b.title = on ? t().breathMusicOn : t().breathMusicOff; b.setAttribute('aria-label', b.title);
   });
-}
-
-/* ---- body scan: twelve steps of 30 seconds, read out by the phone's voice ---- */
-const SCAN_STEP = 30, SCAN_VOICE_KEY = 'ewolfe_scan_voice';
-let scan = null;
-function scanVoiceOn(){ try{ return localStorage.getItem(SCAN_VOICE_KEY) !== '0'; }catch(e){ return true; } }
-function scanSpeak(text){
-  try{
-    if(!window.speechSynthesis) return;
-    speechSynthesis.cancel();
-    if(!scanVoiceOn()) return;
-    const u = new SpeechSynthesisUtterance(text), lang = state.settings.lang === 'de' ? 'de' : 'en';
-    u.lang = lang === 'de' ? 'de-DE' : 'en-GB'; u.rate = 0.88; u.pitch = 1;
-    const v = speechSynthesis.getVoices().filter(x=>x.lang && x.lang.toLowerCase().startsWith(lang));
-    const pick = v.find(x=>/anna|petra|helena|siri|female|samantha|serena|kate/i.test(x.name)) || v[0];
-    if(pick) u.voice = pick;
-    speechSynthesis.speak(u);
-  }catch(e){}
-}
-function scanOpen(){
-  const d = t();
-  document.getElementById('scan-title').textContent = d.exScanTitle;
-  document.getElementById('scan-img').innerHTML = playerSquareSvg(lavenderPictureSvg('player'), 'sc');
-  document.getElementById('scan-pause-btn').textContent = d.breathPause;
-  document.getElementById('scan-stop-btn').textContent = d.breathStop;
-  scan = { start:performance.now(), pausedAt:0, step:-1, timer:0 };
-  openModal('scan-modal');
-  hpStart('calm');
-  exMusicUi(); scanVoiceUi();
-  scanTick();
-  scan.timer = setInterval(scanTick, 250);
-}
-function scanTick(){
-  if(!scan) return;
-  const d = t(), steps = d.scanSteps;
-  if(!document.getElementById('scan-modal').classList.contains('open')){ scanStop(true); return; }
-  const now = scan.pausedAt || performance.now(), el = (now - scan.start) / 1000;
-  const i = Math.min(steps.length - 1, Math.floor(el / SCAN_STEP));
-  if(i !== scan.step){
-    scan.step = i;
-    document.getElementById('scan-text').textContent = steps[i];
-    document.getElementById('scan-step-n').textContent = d.scanStep.replace('{i}', i + 1).replace('{n}', steps.length);
-    if(!scan.pausedAt) scanSpeak(steps[i]);
-  }
-  const total = steps.length * SCAN_STEP;
-  document.getElementById('scan-meta').textContent = mediFmt(Math.min(el, total)) + ' / ' + mediFmt(total);
-  if(el >= total + 4) scanStop(); // the last step has been spoken and has had a moment of calm
-}
-function scanTogglePause(){
-  if(!scan) return;
-  const btn = document.getElementById('scan-pause-btn');
-  if(scan.pausedAt){ scan.start += performance.now() - scan.pausedAt; scan.pausedAt = 0; hpPause(false); btn.textContent = t().breathPause; scanSpeak(t().scanSteps[scan.step]); }
-  else { scan.pausedAt = performance.now(); hpPause(true); try{ speechSynthesis.cancel(); }catch(e){} btn.textContent = t().breathResume; }
-}
-function scanToggleVoice(){
-  try{ localStorage.setItem(SCAN_VOICE_KEY, scanVoiceOn() ? '0' : '1'); }catch(e){}
-  scanVoiceUi();
-  if(scan && !scan.pausedAt) scanSpeak(t().scanSteps[scan.step]); else try{ speechSynthesis.cancel(); }catch(e){}
-}
-function scanVoiceUi(){
-  const b = document.getElementById('scan-voice-btn'), on = scanVoiceOn();
-  b.innerHTML = ico(on ? 'voice' : 'voiceOff'); b.classList.toggle('off', !on);
-  b.title = t().scanVoice; b.setAttribute('aria-label', b.title);
-}
-function scanStop(already){
-  if(scan){ clearInterval(scan.timer); scan = null; }
-  try{ speechSynthesis.cancel(); }catch(e){}
-  hpStop();
-  if(!already) closeModal('scan-modal');
 }
 
 /* ---- 5-4-3-2-1 ---- */
@@ -2601,8 +2515,6 @@ const UI_ICONS = {
   pages:'<rect x="8" y="3" width="12" height="15" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/>',
   wheel:'<path d="M12 3l8.6 6.2-3.3 10.1H6.7L3.4 9.2Z"/><path d="M12 8.2l4.4 3.2-1.7 5.1H9.3l-1.7-5.1Z"/>',
   bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15Z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
-  voice:'<path d="M4 5.5h16v10H10l-4.5 3.5v-3.5H4Z"/><path d="M8.5 10.5h7M8.5 8h4"/>',
-  voiceOff:'<path d="M4 5.5h16v10H10l-4.5 3.5v-3.5H4Z"/><path d="M3 3l18 18"/>',
   eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
   image:'<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-9 9"/>',
   palette:'<path d="M12 3a9 9 0 1 0 0 18c1.2 0 2-.8 2-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3Z"/><circle cx="7.5" cy="11" r=".9"/><circle cx="10" cy="7" r=".9"/><circle cx="15" cy="7.5" r=".9"/>',
@@ -2794,7 +2706,6 @@ async function importBackupFile(file){
 }
 Object.assign(I18N.de, {
   ex478Title:'4-7-8-Atmung', ex478Note:'Zum Einschlafen und Runterkommen: 4 Sekunden einatmen, 7 Sekunden halten, 8 Sekunden langsam ausatmen. Der Lotus öffnet sich mit deinem Atem.',
-  exScanTitle:'Body-Scan', exScanNote:'Eine geführte Reise durch deinen Körper, von den Füßen bis zum Kopf, mit Stimme und leiser Musik. Etwa 6 Minuten, gut auch im Liegen.',
   exGroundTitle:'5-4-3-2-1', exGroundNote:'Hilft bei Stress und Gedankenkreisen: Du holst dich mit deinen Sinnen ins Hier und Jetzt zurück. Dauert nur 2 bis 3 Minuten.',
   exGratTitle:'Dankbarkeit am Abend', exGratNote:'Schreib drei Dinge auf, für die du heute dankbar bist, ob groß oder klein. Auf Wunsch landen sie direkt in deinem Tagebuch.',
   exTimerTitle:'Stille Meditation', exTimerNote:'Ein Timer für deine eigene Meditation: ein sanfter Gong zu Beginn und am Ende, auf Wunsch mit leiser Handpan-Musik.',
@@ -2812,8 +2723,6 @@ Object.assign(I18N.de, {
     berufung:['Nimm dir heute 20 Minuten für etwas, das du lernen möchtest.','Schreib heute auf, welche Tätigkeit dir diese Woche am meisten Energie gegeben hat.','Erledige heute zuerst die Aufgabe, die dir am wichtigsten ist.','Frag heute jemanden nach einer ehrlichen Rückmeldung zu deiner Arbeit.'],
     sinn:['Nimm dir heute 5 Minuten Stille, ganz ohne Ablenkung.','Schreib heute drei Werte auf, die dir im Leben wichtig sind.','Mach heute einen Spaziergang und achte nur auf das, was du hörst.','Tu heute etwas Gutes für jemanden, ohne es zu erzählen.']
   },
-  scanSteps:['Mach es dir bequem, im Sitzen oder Liegen. Schließ die Augen, wenn du magst, und atme ein paar Mal tief ein und aus.','Richte deine Aufmerksamkeit auf deine Füße. Spür die Zehen, die Fußsohlen, die Fersen. Lass sie ganz schwer werden.','Wandere weiter zu deinen Unterschenkeln und Knien. Nimm wahr, was du spürst, ohne etwas zu verändern.','Spür deine Oberschenkel und dein Becken. Lass alle Spannung los, mit jedem Ausatmen ein bisschen mehr.','Komm zu deinem Bauch. Spür, wie er sich beim Atmen sanft hebt und senkt.','Wandere zu deinem Rücken. Vom unteren Rücken langsam nach oben, Wirbel für Wirbel. Lass ihn weich werden.','Spür deine Brust und dein Herz. Atme ruhig und gleichmäßig.','Komm zu deinen Schultern. Lass sie bewusst sinken, weg von den Ohren.','Spür deine Arme, deine Hände und jeden einzelnen Finger. Lass sie ganz locker.','Wandere zu deinem Nacken und Hals. Lass auch hier jede Anspannung los.','Spür dein Gesicht: den Kiefer, die Lippen, die Augen, die Stirn. Lass alles weich werden.','Nimm jetzt deinen ganzen Körper wahr, von den Füßen bis zum Kopf. Bleib noch einen Moment in dieser Ruhe. Wenn du so weit bist, öffne langsam die Augen.'],
-  scanStep:'Schritt {i} von {n}', scanVoice:'Stimme',
   groundSteps:[['5','Dinge, die du siehst','Schau dich um und benenne fünf Dinge, die du gerade sehen kannst.'],['4','Dinge, die du spürst','Spür vier Dinge: den Boden unter den Füßen, deine Kleidung, die Luft auf der Haut …'],['3','Dinge, die du hörst','Lausche und finde drei Geräusche, nah oder fern.'],['2','Dinge, die du riechst','Nimm zwei Gerüche wahr. Wenn dir nichts einfällt, denk an zwei Lieblingsdüfte.'],['1','Ding, das du schmeckst','Spür einen Geschmack in deinem Mund, oder nimm einen Schluck Wasser.']],
   groundDone:'Gut gemacht. Du bist jetzt ganz im Hier und Jetzt.', groundNext:'Weiter', groundBack:'Zurück', groundFinish:'Fertig',
   gratPh:['Ich bin dankbar für …','Ich bin dankbar für …','Ich bin dankbar für …'], gratToDiary:'Ins Tagebuch übernehmen', gratSave:'Speichern', gratRecent:'Zuletzt', gratDiaryHead:'Dankbar am {date}:', gratSaved:'Schön! Deine drei Dinge sind gespeichert.', gratSavedDiary:'Schön! Deine drei Dinge stehen jetzt auch in deinem Tagebuch.', gratEmpty:'Schreib mindestens eine Sache auf.',
@@ -2822,7 +2731,6 @@ Object.assign(I18N.de, {
 });
 Object.assign(I18N.en, {
   ex478Title:'4-7-8 breathing', ex478Note:'To fall asleep and calm down: breathe in for 4 seconds, hold for 7, breathe out slowly for 8. The lotus opens with your breath.',
-  exScanTitle:'Body scan', exScanNote:'A guided journey through your body, from your feet to your head, with a voice and soft music. About 6 minutes, also nice lying down.',
   exGroundTitle:'5-4-3-2-1', exGroundNote:'Helps with stress and racing thoughts: your senses bring you back to the here and now. Takes only 2 to 3 minutes.',
   exGratTitle:'Evening gratitude', exGratNote:'Write down three things you are grateful for today, big or small. If you like, they go straight into your diary.',
   exTimerTitle:'Silent meditation', exTimerNote:'A timer for your own meditation: a gentle gong at the start and at the end, with soft handpan music if you like.',
@@ -2840,8 +2748,6 @@ Object.assign(I18N.en, {
     berufung:['Take 20 minutes today for something you want to learn.','Write down which task gave you the most energy this week.','Do the task that matters most to you first today.','Ask someone today for honest feedback on your work.'],
     sinn:['Take 5 minutes of silence today, without any distraction.','Write down three values that matter to you in life today.','Go for a walk today and pay attention only to what you hear.','Do something good for someone today without telling anyone.']
   },
-  scanSteps:['Make yourself comfortable, sitting or lying down. Close your eyes if you like, and take a few deep breaths.','Bring your attention to your feet. Feel your toes, the soles of your feet, your heels. Let them become heavy.','Move on to your lower legs and knees. Notice what you feel, without changing anything.','Feel your thighs and your hips. Let go of all tension, a little more with every breath out.','Come to your belly. Feel it gently rising and falling as you breathe.','Move to your back. From your lower back slowly upwards, vertebra by vertebra. Let it soften.','Feel your chest and your heart. Breathe calmly and evenly.','Come to your shoulders. Let them drop, away from your ears.','Feel your arms, your hands and every single finger. Let them be loose.','Move to your neck and throat. Let go of any tension here as well.','Feel your face: your jaw, your lips, your eyes, your forehead. Let everything soften.','Now notice your whole body, from your feet to your head. Stay in this calm for a moment. When you are ready, slowly open your eyes.'],
-  scanStep:'Step {i} of {n}', scanVoice:'Voice',
   groundSteps:[['5','things you can see','Look around and name five things you can see right now.'],['4','things you can feel','Feel four things: the floor under your feet, your clothes, the air on your skin …'],['3','things you can hear','Listen and find three sounds, near or far.'],['2','things you can smell','Notice two smells. If nothing comes to mind, think of two favourite scents.'],['1','thing you can taste','Notice a taste in your mouth, or take a sip of water.']],
   groundDone:'Well done. You are fully in the here and now.', groundNext:'Next', groundBack:'Back', groundFinish:'Done',
   gratPh:['I am grateful for …','I am grateful for …','I am grateful for …'], gratToDiary:'Add to my diary', gratSave:'Save', gratRecent:'Recently', gratDiaryHead:'Grateful on {date}:', gratSaved:'Lovely! Your three things are saved.', gratSavedDiary:'Lovely! Your three things are now in your diary as well.', gratEmpty:'Write down at least one thing.',
