@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.49.0';
+const APP_VERSION = '1.49.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1493,38 +1493,41 @@ function blossomMarkup(P, open, opts){
     return tilt ? `<g transform="translate(${cx} ${cy}) rotate(${tilt[0]}) scale(1 ${tilt[1]}) rotate(${-tilt[0]}) translate(${-cx} ${-cy})">${inner}</g>` : inner;
   };
   // small clusters of buds that stay closed
-  const BUDS = [[104,-94,6,0],[95,-99,5,0],[-80,8,5.5,40],[-64,-6,5,70], [-5,-59,5.5,50], [62,-92,5,30],[46,-90,5,60], [88,-18,5,45], [26,-14,5,20]];
-  BUDS.forEach(([x, y, r])=>{
+  // [x, y, size, (unused), number on the numbered picture]
+  const BUDS = [[104,-94,6,0,5],[95,-99,5,0,1],[-80,8,5.5,40,0],[-64,-6,5,70,16], [-5,-59,5.5,50,10], [62,-92,5,30,4],[46,-90,5,60,2], [88,-18,5,45,15], [26,-14,5,20,14]];
+  BUDS.forEach(([x, y, r, , num])=>{
     const a = awayAngle(x, y), rad = a * Math.PI / 180, fx = x - Math.sin(rad) * r * 1.05, fy = y + Math.cos(rad) * r * 1.05;
     stalkTo(fx, fy, 1.9);
     body += `<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${a.toFixed(1)})">${budTop(r)}</g>`;
-    spots.push([x, y]);
+    spots.push([x, y, num]);
   });
   // the blossoms, every one a little different; the big one in the middle (place F) last, so it lies on top
   [
-    { x:-62, y:12,  L:24, rot:-12, lag:0.04, g:'pt', wf:0.68, n:16, tilt:[-30, 0.86] },
-    { x:-20, y:-40, L:23, rot:20,  lag:0.02, late:1, g:'pt', wf:0.66, n:14 },
-    { x:72,  y:-34, L:22, rot:-30, lag:0.06, late:1, g:'pt', wf:0.68, n:14, tilt:[40, 0.88] },
-    { x:-32, y:46,  L:22, rot:8,   lag:0.09, g:'pt', wf:0.68, n:13 },
-    { x:48,  y:-64, L:20, rot:36,  lag:0.06, g:'pt', wf:0.64, n:12 },
+    { x:-56, y:8,   L:24, rot:-12, lag:0.04, g:'pt', wf:0.68, n:16, tilt:[-30, 0.86], budRot:12, num:19 },
+    { x:-22, y:-37, L:23, rot:20,  lag:0.02, late:1, g:'pt', wf:0.66, n:14, budRot:-18, num:11 },
+    { num:12, x:72,  y:-34, L:22, rot:-30, lag:0.06, late:1, g:'pt', wf:0.68, n:14, tilt:[40, 0.88] },
+    { num:20, x:-32, y:46,  L:22, rot:8,   lag:0.09, g:'pt', wf:0.68, n:13 },
+    { num:9, x:48,  y:-64, L:20, rot:36,  lag:0.06, g:'pt', wf:0.64, n:12 },
     // the late ones (closed buds at first)
-    { x:-72, y:0,   L:18, rot:10,  lag:0, late:1, g:'pt', wf:0.66, n:10 },
-    { x:-15, y:-63, L:18, rot:-20, lag:0.05, late:1, g:'pt', wf:0.66, n:10 },
-    { x:84,  y:-28, L:16, rot:30,  lag:0.1, late:1, g:'pt', wf:0.66, n:9 },
-    { x:54,  y:-96, L:17, rot:0,   lag:0.04, late:1, g:'pt', wf:0.66, n:9 },
-    { x:29,  y:54,  L:17, rot:40,  lag:0.08, late:1, g:'pt', wf:0.66, n:9 },
+    { num:17, x:-72, y:0,   L:18, rot:10,  lag:0, late:1, g:'pt', wf:0.66, n:10 },
+    { num:8, x:-15, y:-63, L:18, rot:-20, lag:0.05, late:1, g:'pt', wf:0.66, n:10 },
+    { num:13, x:84,  y:-28, L:16, rot:30,  lag:0.1, late:1, g:'pt', wf:0.66, n:9 },
+    { num:3, x:54,  y:-96, L:17, rot:0,   lag:0.04, late:1, g:'pt', wf:0.66, n:9 },
+    { num:22, x:29,  y:54,  L:17, rot:40,  lag:0.08, late:1, g:'pt', wf:0.66, n:9 },
     // the tip of the branch, top right
-    { x:84,  y:-78, L:20, rot:-14, lag:0.03, g:'pt', wf:0.66, n:12, tilt:[30, 0.9] },
-    { x:108, y:-80, L:15, rot:20,  lag:0.07, late:1, g:'pt', wf:0.66, n:8 },
-    { x:51,  y:44,  L:25, rot:12,  lag:0.08, g:'pt', wf:0.68, n:15, tilt:[-20, 0.88] },
-    { x:4,   y:6,   L:34, rot:-6,  lag:0,    g:'pt', wf:0.66, n:20, tilt:[20, 0.9], budRot:126 }
-  ].forEach(f=>{ stalkTo(f.x, f.y, 2.4); body += flower(f); spots.push([f.x, f.y]); });
+    { num:6, x:84,  y:-78, L:20, rot:-14, lag:0.03, g:'pt', wf:0.66, n:12, tilt:[30, 0.9] },
+    { num:7, x:108, y:-80, L:15, rot:20,  lag:0.07, late:1, g:'pt', wf:0.66, n:8 },
+    { num:21, x:51,  y:44,  L:25, rot:12,  lag:0.08, g:'pt', wf:0.68, n:15, tilt:[-20, 0.88] },
+    { num:18, x:-2,  y:17,  L:34, rot:-6,  lag:0,    g:'pt', wf:0.66, n:20, tilt:[20, 0.9], budRot:116 }
+  ].forEach(f=>{ stalkTo(f.x, f.y, 2.4); body += flower(f); spots.push([f.x, f.y, f.num]); });
   // numbers next to every bud (opts.labels), counted from top to bottom, left to right – visible ones only
   let labels = '';
   if(opts && opts.labels){
-    spots.map(([x, y])=>[x + SHIFT[0], y + SHIFT[1]]).filter(([x, y])=>x > -98 && x < 98 && y > -98 && y < 98)
-      .sort((a, b)=>Math.round(a[1] / 12) - Math.round(b[1] / 12) || a[0] - b[0])
-      .forEach(([x, y], i)=>{ labels += `<g transform="translate(${Math.min(92, x + 8).toFixed(1)} ${Math.max(-92, y - 8).toFixed(1)})"><circle r="6" fill="#fff" stroke="#3a2fd0" stroke-width="1.2"/><text y="2.4" text-anchor="middle" font-size="7" font-weight="700" fill="#3a2fd0" font-family="Inter, Helvetica, Arial, sans-serif">${i + 1}</text></g>`; });
+    const show = Array.isArray(opts.labels) ? opts.labels : null;
+    spots.filter(([x, y, num])=>num && (!show || show.includes(num))).forEach(([x, y, num])=>{
+      const lx = Math.min(95, x + SHIFT[0] + 5), ly = Math.max(-95, y + SHIFT[1] - 5);
+      labels += `<g transform="translate(${lx.toFixed(1)} ${ly.toFixed(1)})"><circle r="3.4" fill="#fff" stroke="#3a2fd0" stroke-width="0.7"/><text y="1.5" text-anchor="middle" font-size="4.2" font-weight="700" fill="#3a2fd0" font-family="Inter, Helvetica, Arial, sans-serif">${num}</text></g>`;
+    });
   }
   // the whole branch sits a little to the bottom left, so it reaches out of the picture there
   return `<defs>${defs}</defs><g transform="translate(${SHIFT[0]} ${SHIFT[1]})">${body.replace('%STALKS%', stalks)}</g>${labels}`;
