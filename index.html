@@ -1107,7 +1107,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.39.2';
+const APP_VERSION = '1.39.3';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1496,9 +1496,9 @@ function lemonMarkup(P){
   const L = LOTUS_LEAF;
   let seg = '';
   for(let k = 0; k < 10; k++){
-    const a0 = (k * 36 + 2) * Math.PI / 180, a1 = ((k + 1) * 36 - 2) * Math.PI / 180, r0 = 7, r1 = 61;
+    const a0 = (k * 36 + 3.4) * Math.PI / 180, a1 = ((k + 1) * 36 - 3.4) * Math.PI / 180, r0 = 8.4, r1 = 55.4;
     const p = (r, a)=>`${(r*Math.cos(a)).toFixed(2)} ${(r*Math.sin(a)).toFixed(2)}`;
-    const mx = (35*Math.cos((a0+a1)/2)).toFixed(2), my = (35*Math.sin((a0+a1)/2)).toFixed(2);
+    const mx = (32.2*Math.cos((a0+a1)/2)).toFixed(2), my = (32.2*Math.sin((a0+a1)/2)).toFixed(2);
     seg += `<path d="M${p(r0,a0)}L${p(r1,a0)}A${r1} ${r1} 0 0 1 ${p(r1,a1)}L${p(r0,a1)}Z" fill="url(#${P}f)" stroke="rgba(214,150,0,0.35)" stroke-width="0.7" stroke-linejoin="round"/>`;
     seg += `<ellipse cx="${mx}" cy="${my}" rx="3" ry="8" transform="rotate(${(k*36+18)+90} ${mx} ${my})" fill="rgba(255,255,255,0.32)"/>`;
   }
@@ -1514,9 +1514,9 @@ function lemonMarkup(P){
     + leafG(18, 26, 152, 79.2, 25.2) + leafG(30, 18, 122, 96, 32.4) // pointing to the bottom right
     + `<g transform="translate(-6 8)">`
     + `<g filter="url(#${P}sh)"><circle r="68" fill="url(#${P}r)"/><path d="M-52 -30A60 60 0 0 1 -20 -62" stroke="#fff6b0" stroke-opacity="0.7" stroke-width="3" fill="none" stroke-linecap="round"/></g>`
-    + `<g filter="url(#${P}sh)"><circle r="64.5" fill="url(#${P}w)"/></g>`
+    + `<g filter="url(#${P}sh)"><circle r="62" fill="url(#${P}w)"/></g>`
     + `<g filter="url(#${P}sh)">${seg}</g>`
-    + `<g filter="url(#${P}sh)"><circle r="5.5" fill="#fffbe6"/></g></g></g>`;
+    + `<g filter="url(#${P}sh)"><circle r="6.2" fill="#fffbe6"/></g></g></g>`;
 }
 
 function renderMeditationen(){
