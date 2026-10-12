@@ -150,6 +150,8 @@ button, input, select, textarea{ font-family:inherit; }
 .bereich-delta.up{ fill:var(--ew-turquoise); } .bereich-delta.down{ fill:#ff8f86; } .bereich-delta.same{ fill:rgba(255,255,255,0.72); }
 .wheel-lab-ico{ fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .wheel-lab{ pointer-events:none; }
+.goal-table .area-ico.tbl-ico{ width:20px; height:20px; margin-right:8px; vertical-align:-4px; }
+.slider-row .area-ico{ width:20px; height:20px; margin-right:8px; vertical-align:-5px; color:#fff; }
 .area-ico{ width:22px; height:22px; vertical-align:-5px; margin-right:9px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .scene-foot{ display:flex; justify-content:space-between; align-items:center; padding:10px 22px 20px; }
 .scene-foot .hint{ font-size:12px; color:rgba(216,206,255,0.5); }
@@ -507,6 +509,14 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-titel-caption-title{ font-weight:700; font-size:clamp(27px,6.5vw,40px); color:var(--ew-turquoise); letter-spacing:0.02em; text-shadow:0 2px 10px rgba(0,0,0,0.35); }
 .tb-titel-caption-year{ font-weight:600; font-size:clamp(18px,4.3vw,22px); color:var(--ew-turquoise); opacity:0.85; margin-top:6px; letter-spacing:0.08em; }
 .tb-page-text{ position:absolute; inset:0; width:100%; height:100%; padding:26px; font-family:'Inter',sans-serif; font-size:15px; line-height:28px; color:#2a2318; background:transparent; border:none; resize:none; outline:none; box-sizing:border-box; }
+.tb-areas{ position:absolute; inset:0; padding:16px 22px 14px; display:flex; flex-direction:column; gap:4px; }
+.tb-area-block{ flex:1; min-height:0; display:flex; flex-direction:column; border-bottom:1px solid rgba(42,35,24,0.12); }
+.tb-area-block:last-child{ border-bottom:none; }
+.tb-area-head{ font-weight:700; font-size:15px; color:#2f8f62; padding:6px 0 2px; display:flex; align-items:center; }
+.tb-area-head .area-ico{ width:20px; height:20px; margin-right:8px; vertical-align:0; }
+.tb-area-text{ flex:1; min-height:0; width:100%; border:none; outline:none; resize:none; background:transparent; padding:0; font-family:'Inter',sans-serif; font-size:15px; line-height:24px; color:#2a2318; overflow:hidden; }
+.tb-area-text.font-hand{ font-family:'Caveat',cursive; font-size:21px; line-height:24px; }
+.tb-areas.inactive{ pointer-events:none; }
 .tb-page-text.font-hand{ font-family:'Caveat',cursive; font-size:22px; line-height:28px; }
 .tb-page-text.inactive{ pointer-events:none; }
 .tb-page-canvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:none; pointer-events:none; }
@@ -592,10 +602,19 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 /* ================= Narrower margins (since 1.36.0): pages 14px at the sides, cards on the start page 10px ================= */
 .page-modal > .modal{ padding-left:14px; padding-right:14px; }
 .scene-wrap{ margin:10px; }
+.scene-head{ padding:16px 22px 0; }
+.scene-foot{ padding:2px 22px 14px; }
+.home-new{ margin-bottom:16px; }
 .wheel-hist-home.goal-table-card{ margin-left:10px; margin-right:10px; }
 .tb-body{ padding-left:12px; padding-right:12px; }
 .tb-body.tb-body-cover{ padding-left:12px; padding-right:12px; }
 .compare-swatch{ width:18px; height:5px; border-radius:3px; }
+
+/* comparing wheels: the window reaches almost to the top, so the wheel sits as high as on the start page */
+#wheel-compare-modal .modal{ min-height:calc(100% - 56px - var(--safe-t)); overflow-y:auto !important; }
+.compare-text{ margin:4px 22px 26px; color:#fff; line-height:1.55; }
+.compare-text p{ margin:0 0 10px; }
+.eval-close{ margin-left:auto; }
 
 /* ================= Three text sizes only (since 1.34.0) =================
    Headings: big and white. Subheadings: a little smaller and green. Everything else: normal text in white.
@@ -803,6 +822,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
   <div class="modal">
     <div class="modal-top">
       <h2 class="modal-title" id="t-eval-title">Neue Bewertung</h2>
+      <button class="icon-btn eval-close" id="eval-close-btn" onclick="closeModal('eval-modal')" aria-label="Schließen">✕</button>
     </div>
     <p class="modal-sub" id="t-eval-sub">Wie schätzt du deine fünf Lebensbereiche gerade ein? Es gibt keine falschen Werte.</p>
     <div id="eval-sliders"></div>
@@ -944,11 +964,12 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 <!-- Vergleich mehrerer Lebensräder -->
 <div class="modal-backdrop" id="wheel-compare-modal">
   <div class="modal modal-wide" style="padding:0;overflow:hidden;background:linear-gradient(135deg, var(--ew-uv-navy) 0%, var(--ew-uv-navy-2) 45%, var(--ew-uv-violet) 100%);">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:18px 20px 4px;flex-wrap:wrap;">
-      <div id="wheel-compare-legend" style="display:flex;flex-wrap:wrap;gap:12px;color:#f3efff;"></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:18px 20px 4px;">
+      <div id="wheel-compare-legend" style="display:flex;flex-wrap:wrap;gap:8px 14px;color:#f3efff;flex:1;padding-top:8px;"></div>
       <button class="icon-btn" onclick="closeModal('wheel-compare-modal')">✕</button>
     </div>
     <svg id="wheel-compare-svg" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;"></svg>
+    <p class="compare-text" id="wheel-compare-text"></p>
   </div>
 </div>
 
@@ -976,7 +997,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.36.1';
+const APP_VERSION = '1.37.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1019,6 +1040,7 @@ const I18N = {
     evNote:'Ein Ereignis verändert deinen Lebensrad-Wert nicht automatisch. Du entscheidest bei der nächsten Bewertung selbst, ob sich etwas verändert hat.',
     complete:'Fertig', delete:'Löschen',
     wheelHistTitle:'Frühere Lebensräder', noWheelHist:'Noch keine früheren Lebensräder gespeichert.',
+    cmpUp:'Du hast dich weiterentwickelt: In {n} von 5 Bereichen hast du dich verbessert.', cmpUp1:'Du hast dich weiterentwickelt: In einem Bereich hast du dich verbessert.', cmpUpAll:'Du hast dich weiterentwickelt: In allen fünf Bereichen hast du dich verbessert.', cmpDown:'Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.', cmpSame:'Dein Lebensrad ist stabil geblieben.', diaryInsertWheel:'Lebensrad einfügen', diaryAreasPage:'Lebensbereiche', evalClose:'Schließen',
     compareOn:'Vergleichen', compareOff:'Abbrechen', compareShow:'Vergleich anzeigen',
     goalLabel:'Ziel', addMoreGoal:'+ Weiteres Ziel', saveGoals:'Ziele speichern',
     achievedCategory:'Erreichte Ziele', noAchievedGoals:'Noch keine erreichten Ziele in diesem Bereich.', achievedOn:'Erreicht am',
@@ -1066,6 +1088,7 @@ const I18N = {
     evNote:'An event does not automatically change your wheel value. You decide at your next assessment whether something actually changed.',
     complete:'Done', delete:'Delete',
     wheelHistTitle:'Past wheels of life', noWheelHist:'No past wheels of life saved yet.',
+    cmpUp:'You have grown: you improved in {n} of 5 areas.', cmpUp1:'You have grown: you improved in one area.', cmpUpAll:'You have grown: you improved in all five areas.', cmpDown:'Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.', cmpSame:'Your wheel of life has stayed steady.', diaryInsertWheel:'Insert wheel of life', diaryAreasPage:'Areas of life', evalClose:'Close',
     compareOn:'Compare', compareOff:'Cancel', compareShow:'Show comparison',
     goalLabel:'Goal', addMoreGoal:'+ Another goal', saveGoals:'Save goals',
     achievedCategory:'Achieved goals', noAchievedGoals:'No achieved goals in this area yet.', achievedOn:'Achieved on',
@@ -1726,6 +1749,8 @@ function shrinkImageFile(file, maxSide, quality){
   });
 }
 let shrinkRunning = false;
+// how much has been written on an "areas" page (five fields)
+function tbAreaTextLen(p){ return p && p.bereiche ? Object.values(p.bereiche).join('').trim().length : 0; }
 async function shrinkStoredImages(){
   if(shrinkRunning) return false;
   shrinkRunning = true;
@@ -1765,7 +1790,7 @@ function backupSummary(st){
       if(p.type==='titel') return;
       const imgs = (p.images||[]).length;
       photos += imgs;
-      if((p.text && p.text.trim()) || (p.strokes && p.strokes.length) || imgs) written++;
+      if((p.text && p.text.trim()) || tbAreaTextLen(p) || (p.strokes && p.strokes.length) || imgs) written++;
     });
   });
   const diary = written
@@ -1868,6 +1893,7 @@ const UI_ICONS = {
   trash:'<path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13"/><path d="M9 7V4h6v3"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
   pages:'<rect x="8" y="3" width="12" height="15" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/>',
+  wheel:'<path d="M12 3l8.6 6.2-3.3 10.1H6.7L3.4 9.2Z"/><path d="M12 8.2l4.4 3.2-1.7 5.1H9.3l-1.7-5.1Z"/>',
   eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
   image:'<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-9 9"/>',
   palette:'<path d="M12 3a9 9 0 1 0 0 18c1.2 0 2-.8 2-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3Z"/><circle cx="7.5" cy="11" r=".9"/><circle cx="10" cy="7" r=".9"/><circle cx="15" cy="7.5" r=".9"/>',
@@ -1966,7 +1992,7 @@ function mergeBackupInto(cur, inc){
   const haveMedi = new Set(out.meditationen.map(m=>m.id));
   (inc.meditationen||[]).forEach(m=>{ if(!haveMedi.has(m.id)){ out.meditationen.push(copy(m)); haveMedi.add(m.id); added.medis = (added.medis||0)+1; } });
   // diary: whole years that are missing are added; inside a shared year missing pages are added
-  const score = pg=>((pg.text||'').length) + ((pg.strokes||[]).length*10) + ((pg.images||[]).length*50);
+  const score = pg=>((pg.text||'').length) + tbAreaTextLen(pg) + ((pg.strokes||[]).length*10) + ((pg.images||[]).length*50);
   const written = pg=>pg.type!=='titel' && score(pg)>0;
   const num = id=>parseInt(String(id).replace(/\D/g,'').slice(0,13),10)||0; // page ids carry their creation time
   if(!out.tagebuch || !out.tagebuch.jahre) out.tagebuch = { jahre:{} };
@@ -2220,6 +2246,7 @@ document.querySelectorAll('.modal-backdrop').forEach(m=>{
 /* ================= Bewertung modal ================= */
 function openEvalModal(){
   document.getElementById('eval-restore-btn').style.display = isFirstRun() ? '' : 'none'; // only offered while there's no data yet
+  document.getElementById('eval-close-btn').style.display = isFirstRun() ? 'none' : ''; // the first wheel has to be made; later ones can be cancelled
   const d = t();
   const wrap = document.getElementById('eval-sliders');
   wrap.innerHTML = '';
@@ -2227,7 +2254,7 @@ function openEvalModal(){
     const v = currentValue(a);
     const row = document.createElement('div');
     row.className = 'slider-row';
-    row.innerHTML = `<label>${d.bereiche[a]} <span class="val" id="lbl-${a}">${v}%</span></label>
+    row.innerHTML = `<label><span>${areaIco(a)}${d.bereiche[a]}</span> <span class="val" id="lbl-${a}">${v}%</span></label>
       <input type="range" min="1" max="100" value="${v}" id="sl-${a}">`;
     wrap.appendChild(row);
     row.querySelector('input').addEventListener('input', e=>{
@@ -2269,7 +2296,7 @@ function renderOverviewTable(){
     return `<tr class="tbl-band g${i+1} ${cls}"><th scope="row" class="rowlabel">${label}</th>${tds}</tr>`;
   };
   let html = `<div class="goal-table-card"><h3>${d.tblTitle}</h3><div class="goal-table-scroll"><table class="goal-table"><colgroup><col class="col-label">${AREAS.map(()=>'<col class="col-area">').join('')}</colgroup><tbody>`;
-  html += `<tr class="tbl-head"><th class="rowlabel">${d.tblArea}</th>${AREAS.map(a=>`<th class="tbl-click" data-area="${a}">${d.bereiche[a]}</th>`).join('')}</tr>`;
+  html += `<tr class="tbl-head"><th class="rowlabel">${d.tblArea}</th>${AREAS.map(a=>`<th class="tbl-click" data-area="${a}">${areaIco(a, 'tbl-ico')}${d.bereiche[a]}</th>`).join('')}</tr>`;
   html += `<tr class="tbl-desc"><th scope="row" class="rowlabel">${d.tblDesc}</th>${AREAS.map(a=>`<td class="tbl-click" data-area="${a}">${escapeHtml(d.areaDesc[a])}</td>`).join('')}</tr>`;
   const deltaFor = a => {
     const v = currentValue(a), p = previousValue(a);
@@ -2338,7 +2365,7 @@ function renderAchievedTable(){
     return `<tr class="tbl-band a${Math.min(k,4)+1}${key==='title' ? ' tbl-first' : ''}"><th scope="row" class="rowlabel">${label}</th>${tds}</tr>`;
   };
   let html = `<div class="goal-table-card"><h3>${d.tblAchTitle}</h3><div class="goal-table-scroll"><table class="goal-table achieved"><colgroup><col class="col-label">${AREAS.map(()=>'<col class="col-area">').join('')}</colgroup><tbody>`;
-  html += `<tr class="tbl-head"><th class="rowlabel">${d.tblArea}</th>${AREAS.map(a=>`<th class="tbl-click" data-area="${a}" data-done="1">${d.bereiche[a]}</th>`).join('')}</tr>`;
+  html += `<tr class="tbl-head"><th class="rowlabel">${d.tblArea}</th>${AREAS.map(a=>`<th class="tbl-click" data-area="${a}" data-done="1">${areaIco(a, 'tbl-ico')}${d.bereiche[a]}</th>`).join('')}</tr>`;
   html += `<tr class="tbl-pct"><th scope="row" class="rowlabel">${d.tblAchCount}</th>${AREAS.map(a=>`<td class="tbl-click" data-area="${a}" data-done="1"><div class="tbl-pctval">${done[a].length}</div></td>`).join('')}</tr>`;
   if(!maxN){
     html += `<tr class="tbl-band a1 tbl-first"><th class="rowlabel"></th><td class="tbl-note" colspan="5">${d.tblAchNone}</td></tr>`;
@@ -2370,8 +2397,34 @@ function renderPanels(){
 }
 
 /* ================= Scene: geometry ================= */
-// since 1.36.0 the areas are shown as small icons instead of words, so the wheel itself can be bigger
-const CX = 400, CY = 330, MAXR = 245;
+// since 1.36.0 the areas are shown as small icons instead of words, so the wheel itself can be bigger;
+// since 1.37.0 the value sits under the icon, so the wheel can be wider still. The size of the wheel and the height of
+// the drawing are worked out for every wheel from the width it is shown at (wheelGeo()).
+let CX = 400, CY = 330, MAXR = 245;
+let WHEEL_LAB = null; // sizes of icon / text for the wheel being drawn (in drawing units)
+function wheelMeasure(txt, fs){
+  const c = wheelMeasure.c || (wheelMeasure.c = document.createElement('canvas').getContext('2d'));
+  c.font = `400 ${fs}px Inter, -apple-system, Helvetica, Arial, sans-serif`;
+  return c.measureText(txt).width;
+}
+// sets CX / CY / MAXR for a drawing 800 units wide that is shown `px` pixels wide; returns the drawing's height
+function wheelGeoFor(px, withDelta, extraTop){
+  const k = Math.max(0.9, 800 / (px || 360));
+  const I = 26*k, fs = 15*k, g = 4*k, lh = fs*1.18, off = 9*k;
+  const H = I + g + fs*1.05 + (withDelta ? lh : 0);
+  const W = Math.max(I, wheelMeasure('100%', fs), withDelta ? wheelMeasure('+100', fs) * 1.05 : 0);
+  MAXR = Math.min(300, (400 - 22 - off - W) / Math.cos(18 * Math.PI/180));
+  CX = 400;
+  CY = (extraTop || 0) + 14 + H + off + MAXR;
+  WHEEL_LAB = { k, I, fs, g, lh, off, H, withDelta:!!withDelta };
+  return Math.round(CY + MAXR * Math.cos(36 * Math.PI/180) + off + H + 14);
+}
+function wheelGeo(svg, withDelta){
+  const h = wheelGeoFor(wheelShownWidth(svg), withDelta);
+  svg.setAttribute('viewBox', `0 0 800 ${h}`);
+  svg.__w = wheelShownWidth(svg);
+  return h;
+}
 function axisAngle(i){ return (-90 + i*72) * Math.PI/180; }
 function ptFor(i, value){
   const ang = axisAngle(i);
@@ -2398,60 +2451,49 @@ window.addEventListener('resize', ()=>{
   clearTimeout(window.__wheelResizeT);
   window.__wheelResizeT = setTimeout(()=>{ const svg = document.getElementById('scene-svg'); if(svg && svg.clientWidth && Math.abs(svg.clientWidth - (svg.__w || 0)) > 4) renderScene(false); }, 250);
 });
-function wheelLabelsSvg(svg, valueOf, deltaOf){
-  const d = t();
-  const w = wheelShownWidth(svg);
-  svg.__w = w;
-  const k = Math.max(0.9, 800 / w), fs = 15 * k, I = 26 * k, gap = 7 * k, off = 10 * k;
+/* Icon with the percentage underneath at each point (and, when comparing, the change under that). Everything is
+   centred on the icon, so the groups are narrow and the wheel can be wide. Returns the markup; the tap areas of the
+   groups are kept in WHEEL_LAB.boxes. `inline` = colours written into the drawing (for a picture in the diary). */
+function wheelLabelsSvg(svg, valueOf, deltaOf, inline){
+  const d = t(), L = WHEEL_LAB, lo = 24, hi = 776;
+  const boxes = [];
   let out = '';
   AREAS.forEach((a,i)=>{
     const v = ptFor(i,100), val = valueOf ? valueOf(a) : null, dl = deltaOf ? deltaOf(a) : null;
-    const hasVal = val !== null && val !== undefined, hasDl = dl !== null && dl !== undefined;
+    const hasVal = val !== null && val !== undefined, hasDl = hasVal && dl !== null && dl !== undefined;
+    const valTxt = hasVal ? val + '%' : '';
+    const dlTxt = hasDl ? (dl > 0 ? '+' + dl : (dl < 0 ? '−' + Math.abs(dl) : '±0')) : '';
+    const W = Math.max(L.I, hasVal ? wheelMeasure(valTxt, L.fs) : 0, hasDl ? wheelMeasure(dlTxt, L.fs) * 1.05 : 0);
+    const H = L.I + (hasVal ? L.g + L.fs*1.05 : 0) + (hasDl ? L.lh : 0);
+    let gx, gy;
+    if(i===0){ gx = v.x; gy = v.y - L.off - H; }
+    else if(i===1){ gx = v.x + L.off + W/2; gy = v.y - H/2; }
+    else if(i===4){ gx = v.x - L.off - W/2; gy = v.y - H/2; }
+    else { gx = v.x; gy = v.y + L.off; }
+    gx = Math.max(lo + W/2, Math.min(hi - W/2, gx));
+    boxes[i] = { x:gx - W/2, y:gy, w:W, h:H };
+    const icoAttr = inline ? ' fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"' : ' class="wheel-lab-ico"';
+    const font = inline ? ` font-family="Inter, -apple-system, Helvetica, Arial, sans-serif"` : '';
     let txt = '';
     if(hasVal){
-      const x = I + gap;
+      const y1 = L.I + L.g + L.fs*0.82;
+      txt += `<text x="0" y="${y1.toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}"${inline ? ` fill="#cdbdff"${font}` : ' class="bereich-value"'}>${valTxt}</text>`;
       if(hasDl){
         const cls = dl > 0 ? 'up' : (dl < 0 ? 'down' : 'same');
-        const dt = dl > 0 ? '+' + dl : (dl < 0 ? '−' + Math.abs(dl) : '±0');
-        txt = `<text x="${x.toFixed(1)}" y="${(-fs*0.2).toFixed(1)}" class="bereich-value" font-size="${fs.toFixed(1)}">${val}%</text>`
-            + `<text x="${x.toFixed(1)}" y="${(fs*1.0).toFixed(1)}" class="bereich-delta ${cls}" font-size="${fs.toFixed(1)}">${dt}</text>`;
-      } else {
-        txt = `<text x="${x.toFixed(1)}" y="${(fs*0.36).toFixed(1)}" class="bereich-value" font-size="${fs.toFixed(1)}">${val}%</text>`;
+        txt += `<text x="0" y="${(y1 + L.lh).toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}" class="bereich-delta ${cls}">${dlTxt}</text>`;
       }
     }
-    // rough width first; wheelLabelsFit() measures and places it exactly afterwards
-    const W = I + (hasVal ? gap + fs * 2.3 : 0);
-    let gx, gy, mode;
-    if(i===0){ mode = 'c'; gx = v.x - W/2; gy = v.y - off - I/2; }
-    else if(i===1){ mode = 'l'; gx = v.x + off * 1.4; gy = v.y; }
-    else if(i===4){ mode = 'r'; gx = v.x - off * 1.4 - W; gy = v.y; }
-    else { mode = 'c'; gx = v.x - W/2; gy = v.y + off + I/2; }
-    out += `<g class="wheel-lab" data-i="${i}" data-mode="${mode}" data-vx="${(mode==='l' ? v.x + off*1.4 : mode==='r' ? v.x - off*1.4 : v.x).toFixed(1)}" data-x="${gx.toFixed(1)}" data-y="${gy.toFixed(1)}" transform="translate(${gx.toFixed(1)} ${gy.toFixed(1)})">`
-      + `<title>${escapeHtml(d.bereiche[a])}</title>`
-      + `<g transform="translate(0 ${(-I/2).toFixed(1)}) scale(${(I/24).toFixed(3)})" class="wheel-lab-ico">${AREA_ICONS[a]}</g>`
+    out += `<g class="wheel-lab" data-i="${i}" transform="translate(${gx.toFixed(1)} ${gy.toFixed(1)})">`
+      + (inline ? '' : `<title>${escapeHtml(d.bereiche[a])}</title>`)
+      + `<g transform="translate(${(-L.I/2).toFixed(1)} 0) scale(${(L.I/24).toFixed(3)})"${icoAttr}>${AREA_ICONS[a]}</g>`
       + txt + `</g>`;
   });
+  L.boxes = boxes;
   return out;
 }
-// places every icon group exactly (centred / next to its point) and keeps it inside the drawing
-function wheelLabelsFit(svg, lo, hi){
-  lo = lo === undefined ? 26 : lo; hi = hi === undefined ? 774 : hi; // a little away from the rounded card edges
-  svg.querySelectorAll('g.wheel-lab').forEach(g=>{
-    let b; try{ b = g.getBBox(); }catch(e){ return; }
-    if(!b || !b.width) return;
-    const vx = parseFloat(g.dataset.vx), mode = g.dataset.mode, y = parseFloat(g.dataset.y);
-    let x = mode === 'c' ? vx - b.width/2 - b.x : mode === 'l' ? vx - b.x : vx - b.width - b.x;
-    if(x + b.x < lo) x = lo - b.x;
-    if(x + b.x + b.width > hi) x = hi - b.x - b.width;
-    g.dataset.x = x.toFixed(1);
-    g.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
-  });
-}
-// the area of the drawing an icon group covers (for the tap areas)
-function wheelLabBox(svg, i){
-  const g = svg.querySelector(`g.wheel-lab[data-i="${i}"]`); if(!g) return null;
-  try{ const b = g.getBBox(); return { x:b.x + parseFloat(g.dataset.x), y:b.y + parseFloat(g.dataset.y), w:b.width, h:b.height }; }catch(e){ return null; }
-}
+// kept for older calls: the groups are already placed exactly when they are drawn
+function wheelLabelsFit(){}
+function wheelLabBox(svg, i){ return WHEEL_LAB && WHEEL_LAB.boxes ? WHEEL_LAB.boxes[i] : null; }
 function labelPtFor(i){
   const ang = axisAngle(i);
   if(i===2 || i===3){ // Finanzen, Berufung: centered directly under their point (same 42px offset as the others)
@@ -2469,6 +2511,7 @@ let animRunning = false;
 function renderScene(animate, onIntroDone){
   const d = t();
   const svg = document.getElementById('scene-svg');
+  const vbH = wheelGeo(svg, false);
 
   let bg = `<defs>
     <linearGradient id="uvBg" x1="0" y1="0" x2="1" y2="1">
@@ -2481,7 +2524,7 @@ function renderScene(animate, onIntroDone){
       <stop offset="100%" stop-color="#5a2bef" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
-  <rect x="0" y="0" width="800" height="620" fill="url(#uvBg)"/>`;
+  <rect x="0" y="0" width="800" height="${vbH}" fill="url(#uvBg)"/>`;
 
   let grid = '';
   for(let ring=1; ring<=4; ring++){
@@ -2701,6 +2744,8 @@ function openWheelCompare(){
   const d = t();
   const snaps = compareSelection.map(i=>wheelSnapshotsCache[i]).slice().sort((a,b)=>b.ts-a.ts).slice(0,3);
   const svg = document.getElementById('wheel-compare-svg');
+  openModal('wheel-compare-modal'); // open first, so the wheel can be sized for the width it is shown at
+  const vbH = wheelGeo(svg, snaps.length > 1);
 
   let bg = `<defs>
     <linearGradient id="uvBgCmp" x1="0" y1="0" x2="1" y2="1">
@@ -2709,7 +2754,7 @@ function openWheelCompare(){
       <stop offset="100%" stop-color="#3d10c9"/>
     </linearGradient>
   </defs>
-  <rect x="0" y="0" width="800" height="620" fill="url(#uvBgCmp)"/>`;
+`; // no own background: the window's colour runs on evenly under the wheel and the text
 
   let grid = '';
   for(let ring=1; ring<=4; ring++){
@@ -2723,7 +2768,6 @@ function openWheelCompare(){
     grid += `<line x1="${CX}" y1="${CY}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>`;
   }
 
-  openModal('wheel-compare-modal'); // open first, so the icons can be sized for the width they are shown at
   // newest value at each point and how much it changed since the oldest wheel in the comparison
   const newest = snaps[0], oldest = snaps[snaps.length-1];
   const labels = wheelLabelsSvg(svg, a=>newest.values[a], snaps.length > 1 ? a=>newest.values[a] - oldest.values[a] : null);
@@ -2742,6 +2786,16 @@ function openWheelCompare(){
   svg.innerHTML = bg + grid + polys + labels;
   wheelLabelsFit(svg);
 
+  // a few words on how it went: improvements, and a kind word when something went down
+  let ups = 0, downs = 0;
+  if(snaps.length > 1) AREAS.forEach(a=>{ const dl = newest.values[a] - oldest.values[a]; if(dl > 0) ups++; else if(dl < 0) downs++; });
+  const parts = [];
+  if(snaps.length > 1){
+    if(ups) parts.push(ups === 1 ? d.cmpUp1 : ups === 5 ? d.cmpUpAll : d.cmpUp.replace('{n}', ups));
+    if(downs) parts.push(d.cmpDown);
+    if(!ups && !downs) parts.push(d.cmpSame);
+  }
+  document.getElementById('wheel-compare-text').innerHTML = parts.map(x=>`<p>${escapeHtml(x)}</p>`).join('');
   document.getElementById('wheel-compare-legend').innerHTML = snaps.map((s,i)=>{
     const col = COMPARE_COLORS[i] || COMPARE_COLORS[COMPARE_COLORS.length-1];
     const ds = new Date(s.ts).toLocaleDateString(state.settings.lang==='de'?'de-DE':'en-US',{day:'2-digit',month:'short',year:'numeric'});
@@ -2775,7 +2829,8 @@ function openWheelSnapshot(idx){
   document.getElementById('wheel-snapshot-del').innerHTML = ico('trash') + t().wheelDelete;
   const d = t();
   const svg = document.getElementById('wheel-snapshot-svg');
-  openModal('wheel-snapshot-modal'); // open first, so the icons can be sized for the width they are shown at
+  openModal('wheel-snapshot-modal'); // open first, so the wheel can be sized for the width it is shown at
+  const vbH = wheelGeo(svg, false);
 
   let bg = `<defs>
     <linearGradient id="uvBgSnap" x1="0" y1="0" x2="1" y2="1">
@@ -2788,7 +2843,7 @@ function openWheelSnapshot(idx){
       <stop offset="100%" stop-color="#5a2bef" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
-  <rect x="0" y="0" width="800" height="620" fill="url(#uvBgSnap)"/>`;
+  <rect x="0" y="0" width="800" height="${vbH}" fill="url(#uvBgSnap)"/>`;
 
   let grid = '';
   for(let ring=1; ring<=4; ring++){
@@ -3403,7 +3458,7 @@ function tbRenderCover(){
 }
 // the cover can be designed while a diary is new (until it is opened for the first time); afterwards only in the library
 function tbCoverSetupOpen(diary){
-  return !diary.setupDone && !diary.seiten.some(p=>p.type!=='titel' && ((p.text||'').trim() || (p.strokes||[]).length || (p.images||[]).length));
+  return !diary.setupDone && !diary.seiten.some(p=>p.type!=='titel' && ((p.text||'').trim() || tbAreaTextLen(p) || (p.strokes||[]).length || (p.images||[]).length));
 }
 /* ---- Cover settings as a pop-up (like the tools menu), for the year in tbYear ---- */
 function tbCoverSettingsHtml(){
@@ -3629,9 +3684,16 @@ function tbRenderPageSlot(idx){
       <div class="tb-page-mini-tools">
         <label class="tb-mini-btn" title="${d.diaryAddImage}" style="cursor:pointer;">${ico('image')}<input type="file" accept="image/*" id="tb-img-input-${idx}" style="display:none;"></label>
       </div>` : '';
+  const inactive = (tbMode!=='text'||!tbEditMode) ? 'inactive' : '';
+  const textPart = page.bereiche
+    ? `<div class="tb-areas ${inactive}">${AREAS.map(a=>`<div class="tb-area-block">
+          <div class="tb-area-head">${areaIco(a)}${d.bereiche[a]}</div>
+          <textarea class="tb-area-text ${page.font==='hand'?'font-hand':''}" data-page-idx="${idx}" data-area="${a}" ${tbEditMode?'':'readonly'}>${escapeHtml(page.bereiche[a]||'')}</textarea>
+        </div>`).join('')}</div>`
+    : `<textarea class="tb-page-text ${page.font==='hand'?'font-hand':''} ${inactive}" id="tb-page-text-${idx}" placeholder="" ${tbEditMode?'':'readonly'}
+        >${escapeHtml(page.text||'')}</textarea>`;
   return `<div class="tb-page type-${page.type}" data-page-idx="${idx}">
-      <textarea class="tb-page-text ${page.font==='hand'?'font-hand':''} ${(tbMode!=='text'||!tbEditMode)?'inactive':''}" id="tb-page-text-${idx}" placeholder="" ${tbEditMode?'':'readonly'}
-        >${escapeHtml(page.text||'')}</textarea>
+      ${textPart}
       <canvas class="tb-page-canvas ${(tbMode!=='text'&&tbEditMode)?'active':''}" id="tb-page-canvas-${idx}" width="560" height="746"></canvas>
       ${imgs}
       ${miniTools}
@@ -3690,7 +3752,9 @@ function tbToolsHtml(){
       ${tools}
       <div class="tb-tools-sep"></div>
       <button class="tb-tools-item ${tbToolsSub==='new'?'active':''}" onclick="tbToolsFold('new')">${ico('plus')}${d.diaryNewPage}${chev('new')}</button>
-      ${subRow('new', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('${pt}')">${tbTypeLabel(pt)}</button>`).join(''))}
+      ${subRow('new', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('${pt}')">${tbTypeLabel(pt)}</button>`).join('')
+        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbEnsureYear(tbYear).defaultPageType||'blank', true)">${d.diaryAreasPage}</button>`)}
+      ${(isTitle || isFirstRun()) ? '' : `<button class="tb-tools-item" onclick="tbInsertWheel()">${ico('wheel')}${d.diaryInsertWheel}</button>`}
       <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbView='pages';tbRender();">${ico('pages')}${d.diaryPagesOverview}</button>
       ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='style'?'active':''}" onclick="tbToolsFold('style')">${ico('palette')}${d.diaryPageStyle}${chev('style')}</button>
       ${subRow('style', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem ${page.type===pt?'active':''}" onclick="tbSetPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join(''))}`}
@@ -3731,12 +3795,48 @@ function tbCyclePageType(idx){
   page.type = TB_PAGE_TYPES[(i+1) % TB_PAGE_TYPES.length];
   saveState(); tbRender();
 }
-function tbAddPage(type){
+function tbAddPage(type, areas){
   const diary = tbEnsureYear(tbYear);
-  diary.seiten.push({ id:'p'+Date.now(), type, text:'', strokes:[], images:[] });
+  const pg = { id:'p'+Date.now(), type, text:'', strokes:[], images:[] };
+  if(areas) pg.bereiche = {}; // a page with the five areas as small headings, each with its own text
+  diary.seiten.push(pg);
   tbPageIdx = diary.seiten.length-1;
   saveState();
   tbRender();
+}
+/* The current wheel of life as a picture on the page: moves, resizes and deletes like a photo */
+function tbInsertWheel(){
+  const page = tbEnsureYear(tbYear).seiten[tbPageIdx];
+  tbToolsOpen = false; tbToolsSub = '';
+  if(!page || page.type === 'titel' || isFirstRun()){ tbRender(); return; }
+  page.images = page.images || [];
+  page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(wheelPictureSvg()), xPct:12, yPct:8, wPct:76 });
+  saveState(); tbRender();
+}
+// a stand-alone drawing of the current wheel (colours written in, so it also works as a picture)
+function wheelPictureSvg(){
+  const d = t();
+  const top = 70;
+  const h = wheelGeoFor(360, false, top);
+  const labels = wheelLabelsSvg(null, a=>currentValue(a), null, true);
+  let grid = '';
+  for(let ring=1; ring<=4; ring++){
+    const r = MAXR*ring/4; let pts='';
+    for(let i=0;i<5;i++){ const a=axisAngle(i); pts += (CX+r*Math.cos(a)).toFixed(1)+','+(CY+r*Math.sin(a)).toFixed(1)+' '; }
+    grid += `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>`;
+  }
+  for(let i=0;i<5;i++){ const p = ptFor(i,100); grid += `<line x1="${CX}" y1="${CY}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>`; }
+  const dataPts = AREAS.map((a,i)=>{ const p=ptFor(i,currentValue(a)); return p.x.toFixed(1)+','+p.y.toFixed(1); }).join(' ');
+  const latest = Math.max(0, ...AREAS.map(a=>{ const arr = state.bewertungen[a]; return arr.length ? arr[arr.length-1].ts : 0; }));
+  const ds = new Date(latest || Date.now()).toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
+  const font = 'Inter, -apple-system, Helvetica, Arial, sans-serif';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 ${h}" width="800" height="${h}">`
+    + `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#080b28"/><stop offset="45%" stop-color="#0d0f3a"/><stop offset="100%" stop-color="#3d10c9"/></linearGradient>`
+    + `<linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.6"/><stop offset="100%" stop-color="#5a2bef" stop-opacity="0.8"/></linearGradient></defs>`
+    + `<rect width="800" height="${h}" rx="44" fill="url(#bg)"/>`
+    + `<text x="44" y="78" font-family="${font}" font-size="40" font-weight="700" fill="#ffffff">${escapeHtml(d.navHome)}</text>`
+    + `<text x="756" y="78" text-anchor="end" font-family="${font}" font-size="32" fill="#58d48f">${ds}</text>`
+    + grid + `<polygon points="${dataPts}" fill="url(#wh)" stroke="#b8a4ff" stroke-width="3" opacity="0.92"/>` + labels + `</svg>`;
 }
 async function tbDeletePage(idx){
   const diary = tbEnsureYear(tbYear);
@@ -3842,6 +3942,19 @@ function tbBindSlot(idx){
     // separately debounced: once the page is visibly full, move the overflow to the next page
     clearTimeout(tbOverflowTimer);
     tbOverflowTimer = setTimeout(()=>tbHandleOverflow(idx), 220);
+  });
+
+  document.querySelectorAll(`.tb-area-text[data-page-idx="${idx}"]`).forEach(el=>{
+    el.__last = el.value;
+    el.addEventListener('input', ()=>{
+      // a field is full when its text no longer fits: then the last input is taken back
+      if(el.scrollHeight > el.clientHeight + 1){ const pos = Math.min(el.selectionStart, el.__last.length); el.value = el.__last; try{ el.setSelectionRange(pos, pos); }catch(e){} return; }
+      el.__last = el.value;
+      page.bereiche = page.bereiche || {};
+      page.bereiche[el.dataset.area] = el.value;
+      clearTimeout(tbTextSaveTimer);
+      tbTextSaveTimer = setTimeout(saveState, 500);
+    });
   });
 
   const canvas = document.getElementById('tb-page-canvas-'+idx);
