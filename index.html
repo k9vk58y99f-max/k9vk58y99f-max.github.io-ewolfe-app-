@@ -898,6 +898,9 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
         <defs>
 </defs>
         <!-- a lake under the lotus: blue from the app colours, light in the middle, deep at the edges, with slow ripples -->
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3f9df0"/><stop offset="55%" stop-color="#7cc4f7"/><stop offset="100%" stop-color="#cdeeff"/></linearGradient>
+        <linearGradient id="skySheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/><stop offset="50%" stop-color="#ffffff" stop-opacity="0"/><stop offset="100%" stop-color="#1e6fd0" stop-opacity="0.12"/></linearGradient>
+        <filter id="cloudSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.2"/></filter>
         <clipPath id="lakeClip"><rect x="30" y="30" width="180" height="180" rx="18"/></clipPath>
         <radialGradient id="lakeWater" cx="0.5" cy="0.5" r="0.75"><stop offset="0%" stop-color="#5eeee0"/><stop offset="35%" stop-color="#2cc8ee"/><stop offset="68%" stop-color="#1e8ff0"/><stop offset="100%" stop-color="#1a4fd6"/></radialGradient>
         <linearGradient id="lakeSheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e6fbff" stop-opacity="0.32"/><stop offset="40%" stop-color="#e6fbff" stop-opacity="0"/><stop offset="100%" stop-color="#2a3fd0" stop-opacity="0.28"/></linearGradient>
@@ -912,7 +915,13 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
           </g>
         </g>
         <rect class="breath-lake" x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3"/>
-        <g id="breath-lotus" transform="translate(120 120) scale(0.86)"></g>
+        <g class="breath-sky" clip-path="url(#lakeClip)" style="display:none;">
+          <rect x="30" y="30" width="180" height="180" fill="url(#skyGrad)"/>
+          <g fill="#fff" filter="url(#cloudSoft)"><ellipse cx="72" cy="66" rx="30" ry="9" opacity="0.75"/><ellipse cx="88" cy="60" rx="18" ry="10" opacity="0.8"/><ellipse cx="166" cy="96" rx="26" ry="7" opacity="0.6"/><ellipse cx="178" cy="91" rx="14" ry="8" opacity="0.65"/><ellipse cx="128" cy="178" rx="34" ry="8" opacity="0.45"/></g>
+          <rect x="30" y="30" width="180" height="180" fill="url(#skySheen)"/>
+        </g>
+        <g id="breath-clip"><g id="breath-lotus" transform="translate(120 120) scale(0.86)"></g></g>
+        <rect class="breath-sky" x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3" style="display:none;"/>
         <circle id="breath-dot" cx="30" cy="210" r="11" fill="#6d4aff"/>
       </svg>
     </div>
@@ -1107,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.40.1';
+const APP_VERSION = '1.40.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1502,7 +1511,7 @@ function blossomApply(els, open){
   els.pet.forEach(e=>e.setAttribute('transform', blossomPetalTf(e.dataset, open)));
   els.centers.forEach(e=>{ const lag = +e.dataset.lag || 0, c = lotusCenterTf(open * (1 + lag) - lag); e.setAttribute('transform', c.tf); e.setAttribute('opacity', c.op); });
 }
-function blossomPictureSvg(id){ return `<svg viewBox="-100 -100 200 200" aria-hidden="true">${blossomMarkup('bp' + id, 1)}</svg>`; }
+function blossomPictureSvg(id){ return `<svg viewBox="-100 -100 200 200" aria-hidden="true">${blossomMarkup('bp' + id, BLOSSOM_MAX_OPEN)}</svg>`; }
 function lotusPictureSvg(id){ return `<svg viewBox="-104 -104 208 208" aria-hidden="true">${lotusMarkup('lp' + id, 1)}</svg>`; }
 function lemonPictureSvg(id){
   // the frame is fitted tightly around lemon and leaves, so the picture is exactly as wide as the lotus picture next to it
@@ -1911,13 +1920,18 @@ function breathLotusBuild(kind){
   const g = document.getElementById('breath-lotus');
   if(g.dataset.kind !== kind){
     g.innerHTML = kind === 'blossom' ? blossomMarkup('bb', 0) : lotusMarkup('lb', 0); g.dataset.kind = kind;
-    g.setAttribute('transform', kind === 'blossom' ? 'translate(120 120) scale(1.12)' : 'translate(120 120) scale(0.86)'); // the branch fills the space where the lake would be
+    g.setAttribute('transform', kind === 'blossom' ? 'translate(120 120) scale(0.92)' : 'translate(120 120) scale(0.86)'); // the branch fills the space where the lake would be
   }
   lotusEls = { kind, pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), centers:[...g.querySelectorAll('.lt-center')], buds:[...g.querySelectorAll('.lt-bud')], glow:g.querySelector('.lt-glow') };
   // the cherry branch stands on its own, without the lake behind it
   document.querySelectorAll('#breath-modal .breath-lake').forEach(el=>{ el.style.display = kind === 'blossom' ? 'none' : ''; });
+  document.querySelectorAll('#breath-modal .breath-sky').forEach(el=>{ el.style.display = kind === 'blossom' ? '' : 'none'; });
+  // the branch is cut off by the edge of the sky square
+  const clip = document.getElementById('breath-clip');
+  if(kind === 'blossom') clip.setAttribute('clip-path', 'url(#lakeClip)'); else clip.removeAttribute('clip-path');
 }
-function breathLotusSet(open){ if(lotusEls) (lotusEls.kind === 'blossom' ? blossomApply : lotusApply)(lotusEls, open); }
+const BLOSSOM_MAX_OPEN = 0.9; // the cherry blossoms never open completely
+function breathLotusSet(open){ if(lotusEls) (lotusEls.kind === 'blossom' ? (els, o)=>blossomApply(els, o * BLOSSOM_MAX_OPEN) : lotusApply)(lotusEls, open); }
 function breathOpen(pat){
   pat = HP_PATTERNS[pat] && pat !== 'calm' ? pat : 'box';
   breathLotusBuild(pat === 'b478' ? 'blossom' : 'lotus');
@@ -2084,22 +2098,16 @@ function stonesPictureSvg(id){
     + o + `<path d="M2 -42Q0 -54 4 -64" stroke="#3f7a3a" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
     + natLeaf(P, 3, -60, -52, 30, 11) + natLeaf(P, 4, -62, 48, 26, 10));
 }
-// gratitude: soft, glossy hearts (rounded, with light on them – no leaves, no paper layers)
+// gratitude: hearts of layered coloured paper (each heart three layers, like the lotus petals), no leaves
 function heartsPictureSvg(id){
   const P = 'hs' + id;
   const heart = `M0 34C-24 18 -40 4 -40 -14C-40 -28 -29 -38 -16 -38C-8 -38 -3 -34 0 -27C3 -34 8 -38 16 -38C29 -38 40 -28 40 -14C40 4 24 18 0 34Z`;
-  const h = (x, y, s, rot, g)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><path d="${heart}" fill="url(#${P}${g})"/>`
-    + `<path d="${heart}" fill="url(#${P}rim)"/>`
-    + `<ellipse cx="-17" cy="-22" rx="11" ry="6.5" transform="rotate(-32 -17 -22)" fill="#fff" fill-opacity="0.75" filter="url(#${P}soft)"/>`
-    + `<ellipse cx="18" cy="-24" rx="4" ry="2.4" transform="rotate(28 18 -24)" fill="#fff" fill-opacity="0.45" filter="url(#${P}soft)"/></g>`;
-  return natPic(`<defs>`
-    + `<radialGradient id="${P}a" cx="0.35" cy="0.3" r="0.85"><stop offset="0%" stop-color="#e6e4ff"/><stop offset="55%" stop-color="#a7a3ff"/><stop offset="100%" stop-color="#5548ea"/></radialGradient>`
-    + `<radialGradient id="${P}b" cx="0.35" cy="0.3" r="0.85"><stop offset="0%" stop-color="#ffe0ea"/><stop offset="50%" stop-color="#ff86a9"/><stop offset="100%" stop-color="#d81b60"/></radialGradient>`
-    + `<radialGradient id="${P}c" cx="0.35" cy="0.3" r="0.85"><stop offset="0%" stop-color="#fff3f7"/><stop offset="55%" stop-color="#ffb3c9"/><stop offset="100%" stop-color="#f06292"/></radialGradient>`
-    + `<radialGradient id="${P}rim" cx="0.5" cy="0.45" r="0.6"><stop offset="75%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#7a0a3a" stop-opacity="0.22"/></radialGradient>`
-    + `<filter id="${P}soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>`
-    + `<filter id="${P}gs" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter></defs>`
-    + `<ellipse cx="0" cy="74" rx="56" ry="7" fill="#000" fill-opacity="0.28" filter="url(#${P}gs)"/>`
+  const layer = (sc, dy, g, hl)=>`<g filter="url(#${P}sh)"><g transform="translate(0 ${dy}) scale(${sc})"><path d="${heart}" fill="url(#${P}${g})" stroke="rgba(150,20,70,0.28)" stroke-width="${(0.8 / sc).toFixed(2)}"/>${hl ? `<path d="M-30 -20C-28 -28 -22 -32 -14 -32" stroke="#fff" stroke-opacity="0.55" stroke-width="${(2.6 / sc).toFixed(2)}" fill="none" stroke-linecap="round"/>` : ''}</g></g>`;
+  const h = (x, y, s, rot, tone)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">${layer(1, 0, tone + '1', true)}${layer(0.72, -2.5, tone + '2', false)}${layer(0.44, -4, tone + '3', false)}</g>`;
+  const grads = { b:['#ff86a9','#d81b60','#ffb3c9','#f06292','#ffe0ea','#ff9ab8'], a:['#b5b3ff','#5548ea','#d2d0ff','#8d8dff','#efeeff','#b5b3ff'], c:['#ffd0de','#f06292','#ffe6ee','#ff9ab8','#fff7fa','#ffc4d6'] };
+  let defs = '';
+  Object.entries(grads).forEach(([k, c])=>{ for(let i = 0; i < 3; i++) defs += `<linearGradient id="${P}${k}${i+1}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c[i*2]}"/><stop offset="100%" stop-color="${c[i*2+1]}"/></linearGradient>`; });
+  return natPic(`<defs>${defs}<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.8" flood-color="#5a0f30" flood-opacity="0.42"/></filter></defs>`
     + h(30, -20, 1.2, 16, 'a') + h(-12, 4, 1.6, -9, 'b') + h(30, 34, 0.82, 10, 'c'));
 }
 // silent meditation: a golden singing bowl on a violet cushion, with its wooden striker
