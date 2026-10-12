@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.47.1';
+const APP_VERSION = '1.47.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1417,7 +1417,7 @@ function blossomMarkup(P, open){
     + `<linearGradient id="${P}pq" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#d94a7c"/><stop offset="25%" stop-color="#f29ab7"/><stop offset="62%" stop-color="#fbd8e3"/><stop offset="100%" stop-color="#fff5f8"/></linearGradient>`
     + `<linearGradient id="${P}pt" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#c2185b"/><stop offset="22%" stop-color="#e8628c"/><stop offset="55%" stop-color="#f9b4c8"/><stop offset="100%" stop-color="#fff0f4"/></linearGradient>`
     + `<radialGradient id="${P}cup"><stop offset="0%" stop-color="#8a0d40" stop-opacity="0.5"/><stop offset="45%" stop-color="#b3165a" stop-opacity="0.2"/><stop offset="100%" stop-color="#b3165a" stop-opacity="0"/></radialGradient>`
-    + `<radialGradient id="${P}bud" cx="0.38" cy="0.32" r="0.75"><stop offset="0%" stop-color="#ffe6ee"/><stop offset="55%" stop-color="#f597b6"/><stop offset="100%" stop-color="#cf2f68"/></radialGradient>`
+    + `<linearGradient id="${P}bud" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#b3134f"/><stop offset="45%" stop-color="#e86a94"/><stop offset="100%" stop-color="#fcd6e2"/></linearGradient>`
     + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#5a0f30" flood-opacity="0.36"/></filter>`
     + `<filter id="${P}shb" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.3" stdDeviation="1.6" flood-color="#10141f" flood-opacity="0.45"/></filter>`;
   // the slender branch (picture coordinates −100…100); every fine twig starts exactly on the branch
@@ -1441,15 +1441,25 @@ function blossomMarkup(P, open){
   let stalks = '';
   const stalkTo = (x, y, w)=>{ const q = near(branchPts, x, y), mx = (q[0] + x) / 2 + (y - q[1]) * 0.15, my = (q[1] + y) / 2 - (x - q[0]) * 0.15;
     if(Math.hypot(x - q[0], y - q[1]) > 2) stalks += B([[[q[0], q[1]], [mx, my], [mx, my], [x, y]]], w, w * 0.55); };
-  // a bud seen from above: the closed petals lying over each other like three round paper scales
-  const budTop = (r, rot)=>{
-    let o = `<circle r="${(r*0.96).toFixed(1)}" fill="#cf2f68"/>`;
-    for(let k = 0; k < 3; k++){
-      const a = rot + k * 120, cx = (r*0.22*Math.sin(a*Math.PI/180)).toFixed(1), cy = (-r*0.22*Math.cos(a*Math.PI/180)).toFixed(1);
-      o += `<g transform="translate(${cx} ${cy}) rotate(${a})"><path d="M0 ${(r*0.62).toFixed(1)}C${(-r*0.9).toFixed(1)} ${(r*0.5).toFixed(1)} ${(-r*0.85).toFixed(1)} ${(-r*0.7).toFixed(1)} 0 ${(-r*0.78).toFixed(1)}C${(r*0.85).toFixed(1)} ${(-r*0.7).toFixed(1)} ${(r*0.9).toFixed(1)} ${(r*0.5).toFixed(1)} 0 ${(r*0.62).toFixed(1)}Z" fill="url(#${P}bud)" stroke="rgba(160,20,70,0.35)" stroke-width="0.6"/></g>`;
-    }
-    return o + `<ellipse cx="${(-r*0.3).toFixed(1)}" cy="${(-r*0.35).toFixed(1)}" rx="${(r*0.28).toFixed(1)}" ry="${(r*0.16).toFixed(1)}" transform="rotate(-35 ${(-r*0.3).toFixed(1)} ${(-r*0.35).toFixed(1)})" fill="#fff" fill-opacity="0.5"/>`;
+  /* A closed bud like on the photos: egg-shaped with a soft point, matte (no shine), deep pink at its foot and pale
+     towards the tip, the folded petals showing, a small red-brown calyx holding it. It points up here; it is turned
+     so that it points away from the branch, its foot sitting on its stalk. */
+  const budTop = (r)=>{
+    const f = v=>v.toFixed(1), w = r * 0.98, foot = r * 0.9, tip = -r * 1.18;
+    // a plump egg: full and round, only softly pointed at the tip
+    const egg = `M0 ${f(foot)}C${f(-w*1.32)} ${f(foot*0.95)} ${f(-w*1.3)} ${f(tip*0.3)} ${f(-w*0.12)} ${f(tip*0.98)}Q0 ${f(tip*1.02)} ${f(w*0.12)} ${f(tip*0.98)}C${f(w*1.3)} ${f(tip*0.3)} ${f(w*1.32)} ${f(foot*0.95)} 0 ${f(foot)}Z`;
+    return `<path d="${egg}" fill="url(#${P}bud)" stroke="rgba(150,15,65,0.35)" stroke-width="0.6"/>`
+      // the shaded side (the bud is round, the light comes from the top left)
+      + `<path d="M${f(w*0.2)} ${f(foot*0.95)}C${f(w*1.2)} ${f(foot*0.7)} ${f(w*1.05)} ${f(tip*0.4)} ${f(w*0.1)} ${f(tip*0.95)}C${f(w*0.7)} ${f(tip*0.35)} ${f(w*0.75)} ${f(foot*0.55)} ${f(w*0.2)} ${f(foot*0.95)}Z" fill="#8a0d40" fill-opacity="0.18"/>`
+      // the edges of the folded petals
+      + `<path d="M${f(-w*0.2)} ${f(foot*0.8)}C${f(-w*1.0)} ${f(foot*0.2)} ${f(-w*0.7)} ${f(tip*0.6)} ${f(w*0.08)} ${f(tip*0.97)}" stroke="#fff" stroke-opacity="0.45" stroke-width="0.8" fill="none"/>`
+      + `<path d="M${f(w*0.3)} ${f(foot*0.82)}C${f(w*0.85)} ${f(foot*0.1)} ${f(w*0.5)} ${f(tip*0.55)} ${f(w*0.05)} ${f(tip*0.8)}" stroke="#a8124c" stroke-opacity="0.35" stroke-width="0.7" fill="none"/>`
+      // the red-brown calyx with two small points
+      + `<path d="M${f(-w*0.62)} ${f(foot*0.62)}C${f(-w*0.5)} ${f(foot*1.05)} ${f(-w*0.15)} ${f(foot*1.25)} 0 ${f(foot*1.28)}C${f(w*0.15)} ${f(foot*1.25)} ${f(w*0.5)} ${f(foot*1.05)} ${f(w*0.62)} ${f(foot*0.62)}C${f(w*0.35)} ${f(foot*0.82)} ${f(-w*0.35)} ${f(foot*0.82)} ${f(-w*0.62)} ${f(foot*0.62)}Z" fill="#7a2a33"/>`
+      + `<path d="M${f(-w*0.6)} ${f(foot*0.66)}L${f(-w*0.78)} ${f(foot*0.2)}L${f(-w*0.3)} ${f(foot*0.72)}ZM${f(w*0.6)} ${f(foot*0.66)}L${f(w*0.78)} ${f(foot*0.2)}L${f(w*0.3)} ${f(foot*0.72)}Z" fill="#8e3340"/>`;
   };
+  // which way something at (x, y) points: away from the nearest point of the branch
+  const awayAngle = (x, y)=>{ const q = near(branchPts, x, y); return Math.atan2(x - q[0], -(y - q[1])) * 180 / Math.PI; };
   const stamens = (n, rMin, rMax, seed)=>{ let o = ''; for(let k = 0; k < n; k++){ const h = Math.sin(seed * 12.9 + k * 78.2) * 43758.5; const r = h - Math.floor(h); const a = k * 360 / n + seed * 9 + r * 8, len = rMin + r * (rMax - rMin); o += `<g transform="rotate(${a.toFixed(1)})"><path d="M0 -2L0 ${-len.toFixed(1)}" stroke="#b0245c" stroke-width="0.8" stroke-linecap="round"/><circle cy="${-len.toFixed(1)}" r="${(1.2 + r * 0.5).toFixed(2)}" fill="${k % 3 ? '#e04a76' : '#f5c242'}"/></g>`; } return o; };
   const petalShape = (L, grad, wf)=>{
     const W = L * wf, f = v=>v.toFixed(1);
@@ -1475,13 +1485,16 @@ function blossomMarkup(P, open){
     const c = lotusCenterTf(open * (1 + lag) - lag), b = blossomBudTf(open, lag);
     const inner = `<g filter="url(#${P}sh)">${g}</g>`
       + `<g transform="translate(${cx} ${cy})"><g class="lt-center" data-lag="${lag}" transform="${c.tf}" opacity="${c.op}"><circle r="${(L * 0.45).toFixed(1)}" fill="url(#${P}cup)"/><g filter="url(#${P}sh)">${stamens(n, L * 0.3, L * 0.52, fi)}<circle r="${(L * 0.08).toFixed(1)}" fill="#b0245c"/></g></g></g>`
-      + `<g transform="translate(${cx} ${cy})"><g class="lt-bud" data-lag="${lag}" transform="${b.tf}" opacity="${b.op}"><g filter="url(#${P}sh)">${budTop(L * 0.36, rot)}</g></g></g>`;
+      + `<g transform="translate(${cx} ${cy})"><g class="lt-bud" data-lag="${lag}" transform="${b.tf}" opacity="${b.op}"><g filter="url(#${P}sh)" transform="rotate(${awayAngle(cx, cy).toFixed(1)})">${budTop(L * 0.34)}</g></g></g>`;
     return tilt ? `<g transform="translate(${cx} ${cy}) rotate(${tilt[0]}) scale(1 ${tilt[1]}) rotate(${-tilt[0]}) translate(${-cx} ${-cy})">${inner}</g>` : inner;
   };
   // small clusters of buds that stay closed
   const BUDS = [[-72,0,7,10],[-80,8,5.5,40],[-64,-6,5,70], [-14,-56,7,20],[-4,-52,5.5,50], [54,-96,6.5,0],[62,-92,5,30],[46,-90,5,60], [84,-28,6,15],[88,-18,5,45], [-104,56,6,30],[-98,66,5,0], [26,-14,5,20]];
-  BUDS.forEach(([x, y, r])=>stalkTo(x, y, 1.9));
-  body += BUDS.map(([x,y,r,rot])=>`<g filter="url(#${P}sh)" transform="translate(${x} ${y})">${budTop(r, rot)}</g>`).join('');
+  BUDS.forEach(([x, y, r])=>{
+    const a = awayAngle(x, y), rad = a * Math.PI / 180, fx = x - Math.sin(rad) * r * 1.05, fy = y + Math.cos(rad) * r * 1.05;
+    stalkTo(fx, fy, 1.9);
+    body += `<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${a.toFixed(1)})">${budTop(r)}</g>`;
+  });
   // the blossoms, every one a little different; the big one in the middle (place F) last, so it lies on top
   [
     { x:-62, y:12,  L:24, rot:-12, lag:0.04, g:'pt', wf:0.68, n:16, tilt:[-30, 0.86] },
