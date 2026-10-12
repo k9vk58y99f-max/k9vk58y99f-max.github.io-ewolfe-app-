@@ -43,7 +43,9 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Zusammenführen nach `id` in `mergeBackupInto`). Oben auf der Seite: Impuls für den niedrigsten Bereich
   (`impulses` im `I18N`), „Tage in Folge“ (`achStreak()`) und „Tägliche Erinnerung“ (`remindAdd()`: .ics-Datei mit
   täglichem Termin für den eigenen Kalender, kein Server nötig). Unten: Auswertung der Stimmung (`achMoodHtml()`).
-  Eigene Übungen sind Karten mit wählbarem Symbol (`MEDI_ICONS`, Feld `icon`).
+  Bilder im Stil von Lotus und Zitrone (plastisch, Verläufe, Blätter mit Adern: `natLeaf()`): Mond (4-7-8), Lavendel
+  (Body-Scan), Steine mit Keimling (5-4-3-2-1), Kirschblüte (Dankbarkeit), Klangschale (Stille). Eigene Übungen sind
+  Karten mit wählbarem Bild (`MEDI_ICONS`/`ownPictureSvg()`, Feld `icon`).
 - Sprachwahl beim allerersten Öffnen eines neuen Geräts im Anmeldefenster (`syncNeedsLangPick()`,
   Merker `ewolfe_lang_chosen`).
 - Symbole: eigene Linien-Icons statt Emojis über `ico(name)` / `UI_ICONS` (Tagebuch, Löschen …).
@@ -80,7 +82,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.38.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.38.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code

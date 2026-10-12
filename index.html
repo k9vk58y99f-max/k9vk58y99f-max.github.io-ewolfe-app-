@@ -636,8 +636,8 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .medi-card-actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
 .medi-card-actions .ghost-btn{ display:inline-flex; align-items:center; }
 .medi-icon-pick{ display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 10px; }
-.medi-icon-opt{ width:42px; height:42px; border-radius:12px; border:1px solid var(--ew-line); background:var(--ew-panel); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; color:#fff; }
-.medi-icon-opt svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.medi-icon-opt{ width:52px; height:52px; border-radius:14px; border:1px solid var(--ew-line); background:var(--ew-panel); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:4px; }
+.medi-icon-opt svg{ width:100%; height:100%; display:block; }
 .medi-icon-opt.active{ border-color:var(--ew-turquoise); background:rgba(88,212,143,0.16); color:var(--ew-turquoise); }
 .mood-box h2{ margin-bottom:16px; text-align:center; }
 .mood-row{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
@@ -1124,7 +1124,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.38.0';
+const APP_VERSION = '1.38.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1445,7 +1445,7 @@ function renderMeditationen(){
      <button class="primary-btn medi-start-btn" onclick="mediRun('${m.id}')">${ico('play')}${d.mediStart}</button>`)).join('');
   // the person's own exercises: a card with the symbol they chose
   const own = all.filter(m=>!m.builtIn).slice().reverse().map(m=>card(m,
-    `<span class="medi-own-pic"><svg viewBox="0 0 24 24">${MEDI_ICONS[m.icon] || MEDI_ICONS.leaf}</svg></span>`,
+    ownPictureSvg(MEDI_ICONS[m.icon] ? m.icon : 'leaf', m.id),
     `${m.notes ? `<p>${escapeHtml(m.notes)}</p>` : ''}
      ${m.media ? `<div class="medi-media">${m.media.type.startsWith('video/') ? `<video controls src="${m.media.dataUrl}"></video>` : `<audio controls src="${m.media.dataUrl}"></audio>`}</div>` : ''}
      <div class="medi-card-actions">
@@ -1872,46 +1872,143 @@ function achStreak(){
   return n;
 }
 
-/* ---- pictures for the new exercises (same style as the lemon and the lotus: drawn objects, no frame) ---- */
+/* ---- pictures for the exercises, drawn like the blue lotus and the lemon: natural objects with soft
+   gradients, highlights and fine detail (leaves in the green of the lily pads, with veins) ---- */
+function natLeafDefs(P){
+  const L = LOTUS_LEAF;
+  return `<linearGradient id="${P}lf" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${L.dark}"/><stop offset="100%" stop-color="${L.light}"/></linearGradient>`;
+}
+function natLeaf(P, x, y, rot, len, wid){
+  const L = LOTUS_LEAF;
+  const d = `M0 0C${wid} ${-len*0.22} ${wid*0.95} ${-len*0.72} 0 ${-len}C${-wid*0.85} ${-len*0.7} ${-wid*0.95} ${-len*0.25} 0 0Z`;
+  const veins = [0.3,0.5,0.7].map(t=>`<path d="M0 ${-len*t}L${wid*0.55} ${-len*(t+0.12)}M0 ${-len*t}L${-wid*0.5} ${-len*(t+0.12)}" stroke="rgba(230,255,200,0.32)" stroke-width="1" stroke-linecap="round"/>`).join('');
+  return `<g transform="translate(${x} ${y}) rotate(${rot})"><path d="${d}" fill="url(#${P}lf)" stroke="${L.edge}" stroke-width="1"/><path d="M0 -4L0 ${-len*0.9}" stroke="rgba(230,255,200,0.55)" stroke-width="1.4" stroke-linecap="round"/>${veins}</g>`;
+}
+const natPic = inner=>`<svg viewBox="-90 -90 180 180" aria-hidden="true">${inner}</svg>`; // a little closer than the lemon, so all pictures look about the same size
+
+// 4-7-8: a crescent moon with craters and three twinkling stars
 function moonPictureSvg(id){
   const P = 'mo' + id;
-  const star = (x, y, r, c)=>`<path d="M${x} ${y-r}Q${x+r*0.18} ${y-r*0.18} ${x+r} ${y}Q${x+r*0.18} ${y+r*0.18} ${x} ${y+r}Q${x-r*0.18} ${y+r*0.18} ${x-r} ${y}Q${x-r*0.18} ${y-r*0.18} ${x} ${y-r}Z" fill="${c}"/>`;
-  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs><linearGradient id="${P}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff3a6"/><stop offset="100%" stop-color="#ffcf1f"/></linearGradient>`
-    + `<mask id="${P}m"><rect x="-96" y="-96" width="192" height="192" fill="#fff"/><circle cx="30" cy="-22" r="54" fill="#000"/></mask></defs>`
-    + `<circle cx="-10" cy="8" r="62" fill="url(#${P}g)" mask="url(#${P}m)"/>`
-    + star(50, -46, 15, '#ffffff') + star(70, 14, 10, '#58d48f') + star(30, 48, 8, '#b8a4ff') + `</svg>`;
+  const star = (x, y, r)=>`<path d="M${x} ${y-r}C${x+r*0.16} ${y-r*0.16} ${x+r*0.16} ${y-r*0.16} ${x+r} ${y}C${x+r*0.16} ${y+r*0.16} ${x+r*0.16} ${y+r*0.16} ${x} ${y+r}C${x-r*0.16} ${y+r*0.16} ${x-r*0.16} ${y+r*0.16} ${x-r} ${y}C${x-r*0.16} ${y-r*0.16} ${x-r*0.16} ${y-r*0.16} ${x} ${y-r}Z" fill="url(#${P}s)"/>`;
+  return natPic(`<defs>`
+    + `<radialGradient id="${P}g" cx="0.3" cy="0.3" r="0.85"><stop offset="0%" stop-color="#fffbe0"/><stop offset="45%" stop-color="#ffe680"/><stop offset="100%" stop-color="#f0b800"/></radialGradient>`
+    + `<radialGradient id="${P}s"><stop offset="0%" stop-color="#ffffff"/><stop offset="60%" stop-color="#fff6c8"/><stop offset="100%" stop-color="#ffdd1f"/></radialGradient>`
+    + `<mask id="${P}m"><rect x="-96" y="-96" width="192" height="192" fill="#fff"/><circle cx="26" cy="-24" r="56" fill="#000"/></mask></defs>`
+    + `<g mask="url(#${P}m)"><circle cx="-12" cy="6" r="66" fill="url(#${P}g)"/>`
+    + `<circle cx="-12" cy="6" r="66" fill="none" stroke="#e0a000" stroke-opacity="0.35" stroke-width="3"/>`
+    + `<circle cx="-48" cy="20" r="9" fill="#e8b400" fill-opacity="0.35"/><circle cx="-46" cy="18" r="9" fill="#fff6c8" fill-opacity="0.4"/>`
+    + `<circle cx="-28" cy="48" r="6" fill="#e8b400" fill-opacity="0.35"/><circle cx="-60" cy="-8" r="5" fill="#e8b400" fill-opacity="0.3"/>`
+    + `<circle cx="4" cy="54" r="4" fill="#e8b400" fill-opacity="0.3"/>`
+    + `<path d="M-64 -20C-60 -40 -46 -54 -30 -60" stroke="#fff" stroke-opacity="0.6" stroke-width="5" fill="none" stroke-linecap="round"/></g>`
+    + star(46, -50, 16) + star(74, -4, 10) + star(58, 18, 7) + `<circle cx="66" cy="-30" r="2.4" fill="#fff"/><circle cx="14" cy="-72" r="2" fill="#fff6c8"/>`);
 }
-function bodyPictureSvg(id){
-  const P = 'bd' + id;
-  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs><linearGradient id="${P}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b5b3ff"/><stop offset="100%" stop-color="#5548ea"/></linearGradient>`
-    + `<linearGradient id="${P}s" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#58d48f" stop-opacity="0"/><stop offset="50%" stop-color="#9ff5c6"/><stop offset="100%" stop-color="#58d48f" stop-opacity="0"/></linearGradient></defs>`
-    + `<circle cx="0" cy="-62" r="20" fill="url(#${P}g)"/>`
-    + `<path d="M-34 -34Q0 -46 34 -34Q44 -30 46 -18L52 30Q53 38 45 38Q38 38 37 31L32 -6L28 22L30 86Q30 92 22 92Q15 92 14 86L6 32H-6L-14 86Q-15 92 -22 92Q-30 92 -30 86L-28 22L-32 -6L-37 31Q-38 38 -45 38Q-53 38 -52 30L-46 -18Q-44 -30 -34 -34Z" fill="url(#${P}g)"/>`
-    + `<rect x="-80" y="4" width="160" height="7" rx="3.5" fill="url(#${P}s)"/></svg>`;
+// body scan: a sprig of lavender, calming, in the violet of the lotus
+function lavenderPictureSvg(id){
+  const P = 'lv' + id;
+  const flor = (x, y, rot, s)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><ellipse rx="7" ry="11" fill="url(#${P}f)"/><ellipse cx="-2" cy="-4" rx="2.2" ry="4" fill="#fff" fill-opacity="0.35"/></g>`;
+  const spike = (sx, sy, ex, ey, n, sc)=>{
+    let o = `<path d="M${sx} ${sy}Q${(sx+ex)/2 + 6} ${(sy+ey)/2} ${ex} ${ey}" stroke="url(#${P}st)" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+    for(let i = 0; i < n; i++){
+      const t = 0.42 + i * (0.58 / n), x = sx + (ex - sx) * t, y = sy + (ey - sy) * t, s = sc * (1 - i * 0.045);
+      o += flor(x - 7*s, y, -32, s) + flor(x + 7*s, y - 2, 32, s);
+    }
+    return o + flor(ex, ey - 6, 0, sc * 0.75);
+  };
+  return natPic(`<defs>${natLeafDefs(P)}`
+    + `<linearGradient id="${P}f" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c7c4ff"/><stop offset="55%" stop-color="#8d8dff"/><stop offset="100%" stop-color="#5548ea"/></linearGradient>`
+    + `<linearGradient id="${P}st" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#3f7a3a"/><stop offset="100%" stop-color="#9fc56a"/></linearGradient></defs>`
+    + natLeaf(P, -6, 78, -28, 58, 14) + natLeaf(P, 2, 82, 30, 50, 12)
+    + spike(-2, 88, 26, -80, 9, 1.05) + spike(-4, 88, -34, -60, 8, 0.92) + spike(0, 88, 54, -40, 6, 0.8));
 }
+// 5-4-3-2-1: river stones stacked in balance, a small sprout on top
 function stonesPictureSvg(id){
   const P = 'st' + id;
-  const st = [[0,62,60,20,'#7f8bd0','#4f58a8'],[2,26,48,18,'#9a98ec','#6460c8'],[-2,-6,38,15,'#b2acf8','#7c74e0'],[1,-32,28,12,'#c9c3ff','#958cf0'],[-1,-52,17,9,'#dedaff','#aaa2ff']];
-  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs>${st.map((x,i)=>`<linearGradient id="${P}${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${x[4]}"/><stop offset="100%" stop-color="${x[5]}"/></linearGradient>`).join('')}</defs>`
-    + st.map((x,i)=>`<ellipse cx="${x[0]}" cy="${x[1]}" rx="${x[2]}" ry="${x[3]}" fill="url(#${P}${i})"/>`).join('')
-    + `<path d="M48 -70c10 6 14 16 11 28c-11-3-17-12-11-28Z" fill="#58d48f"/></svg>`;
+  const st = [[0,58,62,22,'#8c95c8','#3f4a80'],[4,22,48,19,'#a5a6e0','#555a9c'],[-3,-8,37,15,'#bdb9f2','#6a68b8'],[2,-32,26,11,'#d4d0ff','#8480d0']];
+  let o = `<ellipse cx="2" cy="80" rx="66" ry="8" fill="#000" fill-opacity="0.22"/>`;
+  st.forEach((x,i)=>{
+    o += `<ellipse cx="${x[0]}" cy="${x[1]}" rx="${x[2]}" ry="${x[3]}" fill="url(#${P}${i})"/>`
+      + `<ellipse cx="${x[0] - x[2]*0.32}" cy="${x[1] - x[3]*0.42}" rx="${x[2]*0.42}" ry="${x[3]*0.28}" fill="#fff" fill-opacity="0.32"/>`
+      + [[0.3,0.2],[0.5,0.35],[-0.2,0.3],[0.15,-0.1]].map(([a,b])=>`<circle cx="${(x[0] + x[2]*a).toFixed(1)}" cy="${(x[1] + x[3]*b).toFixed(1)}" r="1.4" fill="#2a2f60" fill-opacity="0.3"/>`).join('');
+  });
+  return natPic(`<defs>${natLeafDefs(P)}${st.map((x,i)=>`<radialGradient id="${P}${i}" cx="0.35" cy="0.3" r="0.8"><stop offset="0%" stop-color="${x[4]}"/><stop offset="100%" stop-color="${x[5]}"/></radialGradient>`).join('')}</defs>`
+    + o + `<path d="M2 -42Q0 -54 4 -64" stroke="#3f7a3a" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
+    + natLeaf(P, 3, -60, -52, 30, 11) + natLeaf(P, 4, -62, 48, 26, 10));
 }
-function heartPictureSvg(id){
-  const P = 'ht' + id;
-  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs><linearGradient id="${P}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb3c9"/><stop offset="100%" stop-color="#ff5c8a"/></linearGradient></defs>`
-    + `<path d="M0 74C-48 42 -78 14 -78 -22C-78 -50 -56 -70 -32 -70C-16 -70 -6 -62 0 -50C6 -62 16 -70 32 -70C56 -70 78 -50 78 -22C78 14 48 42 0 74Z" fill="url(#${P}g)"/>`
-    + `<path d="M-40 -46c-10 2-18 10-20 20" stroke="#fff" stroke-opacity="0.55" stroke-width="7" fill="none" stroke-linecap="round"/>`
-    + `<path d="M62 -78l5 13 13 5-13 5-5 13-5-13-13-5 13-5Z" fill="#ffdd1f"/><path d="M80 -34l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" fill="#ffffff"/></svg>`;
+// gratitude: a cherry blossom with a bud and two leaves
+function blossomPictureSvg(id){
+  const P = 'bl' + id;
+  const petal = `M0 0C-27 -8 -41 -40 -25 -60C-16 -69 -7 -67 0 -58C7 -67 16 -69 25 -60C41 -40 27 -8 0 0Z`;
+  let petals = '';
+  for(let k = 0; k < 5; k++){
+    const rot = k * 72 + (k % 2 ? 3 : -2), sc = 1 + ((k * 37) % 5 - 2) * 0.02;
+    petals += `<g transform="rotate(${rot}) scale(${sc})"><path d="${petal}" fill="url(#${P}p)" stroke="#f27aa0" stroke-opacity="0.35" stroke-width="1"/>`
+      + `<path d="M0 -8L0 -46M0 -12L-9 -40M0 -12L9 -40" stroke="#ff8fb1" stroke-opacity="0.35" stroke-width="1" fill="none" stroke-linecap="round"/></g>`;
+  }
+  let stamens = '';
+  for(let k = 0; k < 12; k++){
+    const a = (k * 30 + 8) * Math.PI / 180, r = 17 + (k % 3) * 3;
+    stamens += `<path d="M0 0L${(r*Math.cos(a)).toFixed(1)} ${(r*Math.sin(a)).toFixed(1)}" stroke="#d9466f" stroke-width="1.2"/><circle cx="${(r*Math.cos(a)).toFixed(1)}" cy="${(r*Math.sin(a)).toFixed(1)}" r="2.6" fill="#ffdd1f"/>`;
+  }
+  return natPic(`<defs>${natLeafDefs(P)}`
+    + `<radialGradient id="${P}p" cx="0.5" cy="1" r="1.05" fx="0.5" fy="1"><stop offset="0%" stop-color="#ff7aa2"/><stop offset="35%" stop-color="#ffb3c9"/><stop offset="100%" stop-color="#fff0f5"/></radialGradient>`
+    + `<radialGradient id="${P}b" cx="0.4" cy="0.3"><stop offset="0%" stop-color="#ffd0de"/><stop offset="100%" stop-color="#ff6f98"/></radialGradient></defs>`
+    + natLeaf(P, 30, 30, 128, 70, 24) + natLeaf(P, 20, 40, 160, 58, 20)
+    + `<path d="M58 -58Q70 -70 74 -84" stroke="#6b4a2a" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="56" cy="-52" rx="9" ry="13" transform="rotate(35 56 -52)" fill="url(#${P}b)"/>`
+    + `<g transform="translate(-10 -4)">${petals}<circle r="9" fill="#ff5c8a"/>${stamens}<circle r="5" fill="#ffe680"/></g>`);
 }
+// silent meditation: a golden singing bowl on a violet cushion, with its wooden striker
 function bowlPictureSvg(id){
   const P = 'bw' + id;
-  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs><linearGradient id="${P}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffe08a"/><stop offset="100%" stop-color="#c98a12"/></linearGradient>`
-    + `<linearGradient id="${P}c" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8d8dff"/><stop offset="100%" stop-color="#3a2fd0"/></linearGradient></defs>`
-    + `<path d="M-46 -58q-8 12 0 24M-30 -66q-10 20 0 40M46 -58q8 12 0 24M30 -66q10 20 0 40" stroke="#58d48f" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.9"/>`
-    + `<ellipse cx="0" cy="62" rx="62" ry="16" fill="url(#${P}c)"/>`
-    + `<path d="M-66 -6H66Q62 50 0 56Q-62 50 -66 -6Z" fill="url(#${P}g)"/>`
-    + `<ellipse cx="0" cy="-6" rx="66" ry="13" fill="#ffe9a8"/><ellipse cx="0" cy="-5" rx="56" ry="9" fill="#b67a0e"/>`
-    + `<path d="M-50 12Q-44 36 -20 44" stroke="#fff" stroke-opacity="0.45" stroke-width="6" fill="none" stroke-linecap="round"/></svg>`;
+  return natPic(`<defs>`
+    + `<linearGradient id="${P}m" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7a4c0c"/><stop offset="22%" stop-color="#d9a237"/><stop offset="40%" stop-color="#ffe7a8"/><stop offset="58%" stop-color="#e9b347"/><stop offset="100%" stop-color="#6e4508"/></linearGradient>`
+    + `<radialGradient id="${P}i" cx="0.5" cy="0.2" r="0.9"><stop offset="0%" stop-color="#5c3806"/><stop offset="70%" stop-color="#b37a1c"/><stop offset="100%" stop-color="#f3cf78"/></radialGradient>`
+    + `<linearGradient id="${P}c" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8d8dff"/><stop offset="100%" stop-color="#3a2fd0"/></linearGradient>`
+    + `<linearGradient id="${P}w" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a3a1a"/><stop offset="50%" stop-color="#b98652"/><stop offset="100%" stop-color="#6e4a26"/></linearGradient>`
+    + `<linearGradient id="${P}r" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#58d48f" stop-opacity="0"/><stop offset="50%" stop-color="#9ff5c6"/><stop offset="100%" stop-color="#58d48f" stop-opacity="0"/></linearGradient></defs>`
+    + `<path d="M-50 -46Q0 -72 50 -46" stroke="url(#${P}r)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8"/>`
+    + `<path d="M-34 -33Q0 -51 34 -33" stroke="url(#${P}r)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.9"/>`
+    + `<path d="M-74 60Q-76 40 -50 38H50Q76 40 74 60Q72 76 0 78Q-72 76 -74 60Z" fill="url(#${P}c)"/>`
+    + `<path d="M-60 46Q0 40 60 46" stroke="#fff" stroke-opacity="0.25" stroke-width="3" fill="none" stroke-linecap="round"/>`
+    + `<path d="M-68 -10H68Q66 40 26 52Q0 58 -26 52Q-66 40 -68 -10Z" fill="url(#${P}m)"/>`
+    + `<ellipse cx="0" cy="-10" rx="68" ry="15" fill="#ffe08a"/><ellipse cx="0" cy="-9" rx="61" ry="11" fill="url(#${P}i)"/>`
+    + `<path d="M-56 4Q-50 30 -24 42" stroke="#fff" stroke-opacity="0.5" stroke-width="5" fill="none" stroke-linecap="round"/>`
+    + `<path d="M-60 -2Q0 8 60 -2" stroke="#7a4c0c" stroke-opacity="0.35" stroke-width="2" fill="none"/>`
+    + `<g transform="translate(30 64) rotate(-64)"><rect x="-5" y="-6" width="10" height="62" rx="5" fill="url(#${P}w)"/><rect x="-7" y="-26" width="14" height="24" rx="7" fill="#e9d6b4"/><rect x="-7" y="-26" width="5" height="24" rx="2.5" fill="#fff" fill-opacity="0.35"/></g>`);
+}
+// pictures for the person's own exercises (chosen when adding one)
+const MEDI_ICONS = { leaf:1, moon:1, sun:1, wave:1, heart:1, star:1, mountain:1, music:1 };
+function ownPictureSvg(key, id){
+  const P = 'op' + key + id;
+  switch(key){
+    case 'moon': return moonPictureSvg(P);
+    case 'sun': {
+      let rays = '';
+      for(let k = 0; k < 12; k++) rays += `<path d="M-7 -58L0 -84L7 -58Z" fill="url(#${P}r)" transform="rotate(${k*30})"/>`;
+      return natPic(`<defs><radialGradient id="${P}g" cx="0.35" cy="0.35"><stop offset="0%" stop-color="#fffbe0"/><stop offset="55%" stop-color="#ffdd1f"/><stop offset="100%" stop-color="#f5a800"/></radialGradient>`
+        + `<linearGradient id="${P}r" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#ffcf1f"/><stop offset="100%" stop-color="#ffefa0"/></linearGradient></defs>`
+        + rays + `<circle r="50" fill="url(#${P}g)"/><path d="M-34 -18Q-30 -34 -14 -40" stroke="#fff" stroke-opacity="0.6" stroke-width="6" fill="none" stroke-linecap="round"/>`);
+    }
+    case 'wave': return natPic(`<defs><linearGradient id="${P}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5eeee0"/><stop offset="45%" stop-color="#2cc8ee"/><stop offset="100%" stop-color="#1a4fd6"/></linearGradient></defs>`
+        + `<path d="M-84 76V18C-62 -2 -52 -50 -8 -58C34 -66 60 -38 54 -10C50 8 30 14 18 4C8 -4 14 -22 28 -20C14 -34 -14 -26 -20 2C-26 30 -4 50 30 46C56 42 72 30 84 18V76Z" fill="url(#${P}g)"/>`
+        + `<path d="M-60 6C-48 -22 -30 -44 -4 -48" stroke="#fff" stroke-opacity="0.7" stroke-width="5" fill="none" stroke-linecap="round"/>`
+        + `<path d="M-84 60Q-60 50 -36 60T12 60T60 60T96 60" stroke="#e6fbff" stroke-opacity="0.5" stroke-width="4" fill="none"/>`);
+    case 'heart': return natPic(`<defs><radialGradient id="${P}g" cx="0.35" cy="0.3" r="0.9"><stop offset="0%" stop-color="#ffd0de"/><stop offset="50%" stop-color="#ff7aa2"/><stop offset="100%" stop-color="#e0336a"/></radialGradient></defs>`
+        + `<path d="M0 70C-48 40 -76 12 -76 -22C-76 -50 -54 -68 -30 -68C-14 -68 -5 -60 0 -50C5 -60 14 -68 30 -68C54 -68 76 -50 76 -22C76 12 48 40 0 70Z" fill="url(#${P}g)"/>`
+        + `<path d="M-50 -38C-44 -48 -34 -52 -24 -50" stroke="#fff" stroke-opacity="0.75" stroke-width="7" fill="none" stroke-linecap="round"/>`);
+    case 'star': return natPic(`<defs><linearGradient id="${P}a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff3a6"/><stop offset="100%" stop-color="#f5b800"/></linearGradient><linearGradient id="${P}b" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe680"/><stop offset="100%" stop-color="#d99a00"/></linearGradient></defs>`
+        + `<path d="M0 -80L20 -26L78 -26L31 8L49 64L0 30L-49 64L-31 8L-78 -26L-20 -26Z" fill="url(#${P}a)"/>`
+        + `<path d="M0 -80L20 -26L78 -26L31 8L0 0Z M49 64L0 30L0 0L31 8Z M-49 64L-31 8L0 0L0 30Z" fill="url(#${P}b)" fill-opacity="0.55"/>`);
+    case 'mountain': return natPic(`<defs><linearGradient id="${P}a" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b5b3ff"/><stop offset="100%" stop-color="#3a2fd0"/></linearGradient><linearGradient id="${P}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8d8dff"/><stop offset="100%" stop-color="#2a2152"/></linearGradient><radialGradient id="${P}s"><stop offset="0%" stop-color="#fffbe0"/><stop offset="100%" stop-color="#ffdd1f"/></radialGradient></defs>`
+        + `<circle cx="50" cy="-50" r="18" fill="url(#${P}s)"/>`
+        + `<path d="M-90 70L-20 -50L50 70Z" fill="url(#${P}a)"/><path d="M-20 -50L-38 -19L-28 -24L-20 -14L-10 -26L-2 -19Z" fill="#fff"/>`
+        + `<path d="M-10 70L40 -14L90 70Z" fill="url(#${P}b)"/><path d="M40 -14L28 6L36 2L42 10L48 2L52 6Z" fill="#e6e4ff"/>`
+        + `<path d="M-90 70H90" stroke="#58d48f" stroke-width="6" stroke-linecap="round"/>`);
+    case 'music': return natPic(`<defs><linearGradient id="${P}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c7c4ff"/><stop offset="100%" stop-color="#5548ea"/></linearGradient></defs>`
+        + `<path d="M-24 46V-50L62 -68V30" stroke="url(#${P}g)" stroke-width="10" fill="none" stroke-linejoin="round"/><path d="M-24 -50L62 -68V-44L-24 -26Z" fill="url(#${P}g)"/>`
+        + `<ellipse cx="-42" cy="50" rx="22" ry="17" transform="rotate(-20 -42 50)" fill="url(#${P}g)"/><ellipse cx="44" cy="34" rx="22" ry="17" transform="rotate(-20 44 34)" fill="url(#${P}g)"/>`
+        + `<ellipse cx="-48" cy="44" rx="7" ry="4" transform="rotate(-20 -48 44)" fill="#fff" fill-opacity="0.5"/><ellipse cx="38" cy="28" rx="7" ry="4" transform="rotate(-20 38 28)" fill="#fff" fill-opacity="0.5"/>`);
+    default: return natPic(`<defs>${natLeafDefs(P)}</defs>` + natLeaf(P, -40, 70, 38, 150, 52));
+  }
 }
 // a picture on the light-blue square of the players (like the lemon)
 function playerSquareSvg(inner, P){
@@ -1932,27 +2029,16 @@ function mediPicture(m){
   if(m.tool === 'box') return lotusPictureSvg(m.id);
   if(m.audio) return lemonPictureSvg(m.id);
   if(m.tool === 'b478') return moonPictureSvg(m.id);
-  if(m.tool === 'scan') return bodyPictureSvg(m.id);
+  if(m.tool === 'scan') return lavenderPictureSvg(m.id);
   if(m.tool === 'ground') return stonesPictureSvg(m.id);
-  if(m.tool === 'grat') return heartPictureSvg(m.id);
+  if(m.tool === 'grat') return blossomPictureSvg(m.id);
   if(m.tool === 'timer') return bowlPictureSvg(m.id);
   return '';
 }
 
-/* ---- symbols for the person's own exercises ---- */
-const MEDI_ICONS = {
-  leaf:'<path d="M5 19C5 10 11 4 20 4c0 9-6 15-15 15Z"/><path d="M5 19l8-8"/>',
-  moon:'<path d="M19 14.5A8 8 0 0 1 9.5 5a8 8 0 1 0 9.5 9.5Z"/>',
-  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
-  wave:'<path d="M2.5 9c2.5-2 4.5-2 7 0s4.5 2 7 0 3.5-1.5 5-1"/><path d="M2.5 15c2.5-2 4.5-2 7 0s4.5 2 7 0 3.5-1.5 5-1"/>',
-  heart:'<path d="M12 20.2s-7.8-4.7-7.8-10.4A4.5 4.5 0 0 1 12 7.1a4.5 4.5 0 0 1 7.8 2.7c0 5.7-7.8 10.4-7.8 10.4Z"/>',
-  star:'<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8Z"/>',
-  mountain:'<path d="M2.5 19.5l7-12 4.5 7.5 2.5-3.5 5 8Z"/><path d="M7.8 10.4l1.7 1.6 1.5-1.4"/>',
-  music:'<path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>'
-};
 let mediIconChoice = 'leaf';
 function mediIconPickHtml(){
-  return Object.keys(MEDI_ICONS).map(k=>`<button type="button" class="medi-icon-opt${mediIconChoice===k?' active':''}" onclick="mediIconChoice='${k}'; document.getElementById('medi-icon-pick').innerHTML = mediIconPickHtml();" aria-label="${k}"><svg viewBox="0 0 24 24">${MEDI_ICONS[k]}</svg></button>`).join('');
+  return Object.keys(MEDI_ICONS).map(k=>`<button type="button" class="medi-icon-opt${mediIconChoice===k?' active':''}" onclick="mediIconChoice='${k}'; document.getElementById('medi-icon-pick').innerHTML = mediIconPickHtml();" aria-label="${k}">${ownPictureSvg(k, 'pick')}</button>`).join('');
 }
 
 /* ---- mood check: before and after an exercise (can always be skipped) ---- */
@@ -2089,7 +2175,7 @@ function scanSpeak(text){
 function scanOpen(){
   const d = t();
   document.getElementById('scan-title').textContent = d.exScanTitle;
-  document.getElementById('scan-img').innerHTML = playerSquareSvg(bodyPictureSvg('player'), 'sc');
+  document.getElementById('scan-img').innerHTML = playerSquareSvg(lavenderPictureSvg('player'), 'sc');
   document.getElementById('scan-pause-btn').textContent = d.breathPause;
   document.getElementById('scan-stop-btn').textContent = d.breathStop;
   scan = { start:performance.now(), pausedAt:0, step:-1, timer:0 };
@@ -2169,7 +2255,7 @@ function groundStep(dir){
 function gratOpen(){
   const d = t();
   document.getElementById('grat-title').textContent = d.exGratTitle;
-  document.getElementById('grat-pic').innerHTML = heartPictureSvg('grat');
+  document.getElementById('grat-pic').innerHTML = blossomPictureSvg('grat');
   [1,2,3].forEach(i=>{ const el = document.getElementById('grat-' + i); el.value = ''; el.placeholder = d.gratPh[i-1]; });
   document.getElementById('grat-diary-label').textContent = d.gratToDiary;
   document.getElementById('grat-save').textContent = d.gratSave;
