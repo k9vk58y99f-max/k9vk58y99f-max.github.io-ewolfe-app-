@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.49.5';
+const APP_VERSION = '1.50.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2115,19 +2115,56 @@ function lavenderPictureSvg(id){
     + natLeaf(P, -6, 78, -28, 58, 14) + natLeaf(P, 2, 82, 30, 50, 12)
     + spike(-2, 88, 26, -80, 9, 1.05) + spike(-4, 88, -34, -60, 8, 0.92) + spike(0, 88, 54, -40, 6, 0.8));
 }
-// 5-4-3-2-1: river stones stacked in balance, a small sprout on top
+// 5-4-3-2-1: river pebbles stacked in balance, a small sprout on top. Layered paper like the lotus and the lemon:
+// every pebble is cut from paper in its own stone colour, with a lighter layer on top and a soft shadow underneath
+function pebblePath(cx, cy, rx, ry, seed){
+  // a smooth, slightly irregular pebble: rounder on top, a little flatter underneath
+  const pts = [];
+  for(let i = 0; i < 12; i++){
+    const a = i / 12 * Math.PI * 2, k = 1 + 0.045 * Math.sin(a * 2 + seed) + 0.03 * Math.sin(a * 3 + seed * 1.7);
+    const y = Math.sin(a) * ry * k;
+    pts.push([cx + Math.cos(a) * rx * k, cy + (y > 0 ? y * 0.86 : y)]);
+  }
+  const f = v=>v.toFixed(1), n = pts.length, p = i=>pts[(i + n) % n];
+  let d = `M${f(pts[0][0])} ${f(pts[0][1])}`;
+  for(let i = 0; i < n; i++){
+    const a = p(i - 1), b = p(i), c = p(i + 1), e = p(i + 2);
+    d += `C${f(b[0] + (c[0] - a[0]) / 6)} ${f(b[1] + (c[1] - a[1]) / 6)} ${f(c[0] - (e[0] - b[0]) / 6)} ${f(c[1] - (e[1] - b[1]) / 6)} ${f(c[0])} ${f(c[1])}`;
+  }
+  return d + 'Z';
+}
 function stonesPictureSvg(id){
   const P = 'st' + id;
-  const st = [[0,58,62,22,'#8c95c8','#3f4a80'],[4,22,48,19,'#a5a6e0','#555a9c'],[-3,-8,37,15,'#bdb9f2','#6a68b8'],[2,-32,26,11,'#d4d0ff','#8480d0']];
-  let o = `<ellipse cx="2" cy="80" rx="66" ry="8" fill="#000" fill-opacity="0.22"/>`;
-  st.forEach((x,i)=>{
-    o += `<ellipse cx="${x[0]}" cy="${x[1]}" rx="${x[2]}" ry="${x[3]}" fill="url(#${P}${i})"/>`
-      + `<ellipse cx="${x[0] - x[2]*0.32}" cy="${x[1] - x[3]*0.42}" rx="${x[2]*0.42}" ry="${x[3]*0.28}" fill="#fff" fill-opacity="0.32"/>`
-      + [[0.3,0.2],[0.5,0.35],[-0.2,0.3],[0.15,-0.1]].map(([a,b])=>`<circle cx="${(x[0] + x[2]*a).toFixed(1)}" cy="${(x[1] + x[3]*b).toFixed(1)}" r="1.4" fill="#2a2f60" fill-opacity="0.3"/>`).join('');
-  });
-  return natPic(`<defs>${natLeafDefs(P)}${st.map((x,i)=>`<radialGradient id="${P}${i}" cx="0.35" cy="0.3" r="0.8"><stop offset="0%" stop-color="${x[4]}"/><stop offset="100%" stop-color="${x[5]}"/></radialGradient>`).join('')}</defs>`
-    + o + `<path d="M2 -42Q0 -54 4 -64" stroke="#3f7a3a" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
-    + natLeaf(P, 3, -60, -52, 30, 11) + natLeaf(P, 4, -62, 48, 26, 10));
+  // x, y, half width, half height, shape seed, colour light, colour dark
+  const st = [[0,56,60,21,1.2,'#8f9cd0','#47508a'],[5,20,46,17,2.6,'#f0d3a8','#b2895a'],[-3,-9,35,14,4.1,'#a8d2c6','#5a8f84'],[2,-31,24,10,5.3,'#f3eee4','#bdb2a0']];
+  const small = [[-62,74,10,5,0.7,'#f0d3a8','#b2895a'],[60,76,8,4,3.3,'#8f9cd0','#47508a']];
+  // a lighter tint of a stone colour, for the paper layer on top
+  const tint = (hex, k)=>'#' + [1,3,5].map(i=>Math.round(parseInt(hex.substr(i, 2), 16) + (255 - parseInt(hex.substr(i, 2), 16)) * k).toString(16).padStart(2, '0')).join('');
+  const sh = inner=>`<g filter="url(#${P}sh)">${inner}</g>`;
+  const pebble = (x, i)=>{
+    const [cx, cy, rx, ry, seed] = x;
+    // speckles of the stone, always in the same places
+    let dots = '';
+    for(let j = 0; j < 7; j++){
+      const h = Math.sin(seed * 51.3 + j * 17.9) * 43758.5453, r = h - Math.floor(h), a = j * 0.9 + seed;
+      dots += `<circle cx="${(cx + Math.cos(a) * rx * 0.62 * r).toFixed(1)}" cy="${(cy + 2 + Math.sin(a) * ry * 0.5 * r).toFixed(1)}" r="${(0.7 + r * 0.9).toFixed(1)}" fill="#2a2a3a" fill-opacity="0.22"/>`;
+    }
+    return sh(`<path d="${pebblePath(cx, cy, rx, ry, seed)}" fill="url(#${P}${i})" stroke="rgba(30,30,50,0.25)" stroke-width="0.6"/>`)
+      // the lighter paper layer on top, where the light falls
+      + sh(`<path d="${pebblePath(cx - rx * 0.12, cy - ry * 0.2, rx * 0.74, ry * 0.62, seed + 1)}" fill="url(#${P}${i}t)"/>`
+        + dots + `<path d="M${(cx - rx * 0.62).toFixed(1)} ${(cy - ry * 0.18).toFixed(1)}Q${(cx - rx * 0.5).toFixed(1)} ${(cy - ry * 0.62).toFixed(1)} ${(cx - rx * 0.12).toFixed(1)} ${(cy - ry * 0.7).toFixed(1)}" stroke="#fff" stroke-opacity="0.55" stroke-width="1.6" fill="none" stroke-linecap="round"/>`);
+  };
+  const all = st.concat(small);
+  const defs = all.map((x, i)=>`<linearGradient id="${P}${i}" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="${x[5]}"/><stop offset="100%" stop-color="${x[6]}"/></linearGradient>`
+    + `<linearGradient id="${P}${i}t" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="${tint(x[5], 0.45)}"/><stop offset="100%" stop-color="${x[5]}"/></linearGradient>`).join('');
+  return natPic(`<defs>${natLeafDefs(P)}${defs}`
+    + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#0a0e24" flood-opacity="0.6"/></filter>`
+    + `<filter id="${P}g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs>`
+    + `<ellipse cx="0" cy="80" rx="72" ry="7" fill="#000" fill-opacity="0.3" filter="url(#${P}g)"/>`
+    + small.map((x, i)=>pebble(x, st.length + i)).join('') + st.map(pebble).join('')
+    // the sprout: a thin stem and two small leaves, also cut from paper
+    + sh(`<path d="M2 -40Q0 -52 4 -62" stroke="#3f7a3a" stroke-width="2.6" fill="none" stroke-linecap="round"/>`)
+    + sh(natLeaf(P, 3, -59, -52, 30, 11)) + sh(natLeaf(P, 4, -61, 48, 26, 10)));
 }
 /* Heart shapes to choose from for gratitude (all layered paper, two layers each): 'round' classic, 'slim' tall and
    swung, 'origami' folded paper with creases, 'petals' two petals leaning together, 'plump' wide and chubby. */
@@ -2217,24 +2254,41 @@ function jarPictureSvg(id){
       + `<path d="M28 -42C20 -58 2 -54 10 -44Z" fill="url(#${P}rb)"/><path d="M28 -42C38 -60 54 -50 44 -42Z" fill="url(#${P}rb)"/>`
       + `<path d="M28 -42L20 -24M28 -42L36 -22" stroke="url(#${P}rb)" stroke-width="4" stroke-linecap="round"/><circle cx="28" cy="-42" r="4.5" fill="#e0336a"/>`));
 }
-// silent meditation: a golden singing bowl on a violet cushion, with its wooden striker
+// silent meditation: a golden singing bowl on a violet cushion, with its wooden striker and soft rings of sound.
+// Layered paper like the lotus: cushion, bowl, rim, inside of the bowl, striker and rings each cast a soft shadow
 function bowlPictureSvg(id){
   const P = 'bw' + id;
+  const sh = inner=>`<g filter="url(#${P}sh)">${inner}</g>`;
+  const wave = (rx, ry, y, w, op)=>`<path d="M${-rx} ${y}Q0 ${y - ry} ${rx} ${y}" stroke="url(#${P}r)" stroke-width="${w}" fill="none" stroke-linecap="round" opacity="${op}"/>`;
   return natPic(`<defs>`
-    + `<linearGradient id="${P}m" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7a4c0c"/><stop offset="22%" stop-color="#d9a237"/><stop offset="40%" stop-color="#ffe7a8"/><stop offset="58%" stop-color="#e9b347"/><stop offset="100%" stop-color="#6e4508"/></linearGradient>`
-    + `<radialGradient id="${P}i" cx="0.5" cy="0.2" r="0.9"><stop offset="0%" stop-color="#5c3806"/><stop offset="70%" stop-color="#b37a1c"/><stop offset="100%" stop-color="#f3cf78"/></radialGradient>`
+    + `<linearGradient id="${P}m" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8a5a12"/><stop offset="20%" stop-color="#d9a237"/><stop offset="38%" stop-color="#ffe7a8"/><stop offset="56%" stop-color="#eab84c"/><stop offset="100%" stop-color="#7a4c0c"/></linearGradient>`
+    + `<linearGradient id="${P}b" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a86f18"/><stop offset="40%" stop-color="#f6d27a"/><stop offset="100%" stop-color="#9a6412"/></linearGradient>`
+    + `<linearGradient id="${P}rim" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#e8b850"/><stop offset="40%" stop-color="#fff0c0"/><stop offset="100%" stop-color="#d9a237"/></linearGradient>`
+    + `<radialGradient id="${P}i" cx="0.5" cy="0.15" r="0.95"><stop offset="0%" stop-color="#5c3806"/><stop offset="65%" stop-color="#a86f18"/><stop offset="100%" stop-color="#e8b850"/></radialGradient>`
     + `<linearGradient id="${P}c" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8d8dff"/><stop offset="100%" stop-color="#3a2fd0"/></linearGradient>`
-    + `<linearGradient id="${P}w" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a3a1a"/><stop offset="50%" stop-color="#b98652"/><stop offset="100%" stop-color="#6e4a26"/></linearGradient>`
-    + `<linearGradient id="${P}r" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#58d48f" stop-opacity="0"/><stop offset="50%" stop-color="#9ff5c6"/><stop offset="100%" stop-color="#58d48f" stop-opacity="0"/></linearGradient></defs>`
-    + `<path d="M-50 -46Q0 -72 50 -46" stroke="url(#${P}r)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8"/>`
-    + `<path d="M-34 -33Q0 -51 34 -33" stroke="url(#${P}r)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.9"/>`
-    + `<path d="M-74 60Q-76 40 -50 38H50Q76 40 74 60Q72 76 0 78Q-72 76 -74 60Z" fill="url(#${P}c)"/>`
-    + `<path d="M-60 46Q0 40 60 46" stroke="#fff" stroke-opacity="0.25" stroke-width="3" fill="none" stroke-linecap="round"/>`
-    + `<path d="M-68 -10H68Q66 40 26 52Q0 58 -26 52Q-66 40 -68 -10Z" fill="url(#${P}m)"/>`
-    + `<ellipse cx="0" cy="-10" rx="68" ry="15" fill="#ffe08a"/><ellipse cx="0" cy="-9" rx="61" ry="11" fill="url(#${P}i)"/>`
-    + `<path d="M-56 4Q-50 30 -24 42" stroke="#fff" stroke-opacity="0.5" stroke-width="5" fill="none" stroke-linecap="round"/>`
-    + `<path d="M-60 -2Q0 8 60 -2" stroke="#7a4c0c" stroke-opacity="0.35" stroke-width="2" fill="none"/>`
-    + `<g transform="translate(30 64) rotate(-64)"><rect x="-5" y="-6" width="10" height="62" rx="5" fill="url(#${P}w)"/><rect x="-7" y="-26" width="14" height="24" rx="7" fill="#e9d6b4"/><rect x="-7" y="-26" width="5" height="24" rx="2.5" fill="#fff" fill-opacity="0.35"/></g>`);
+    + `<linearGradient id="${P}ct" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c7c4ff"/><stop offset="100%" stop-color="#7d75ea"/></linearGradient>`
+    + `<linearGradient id="${P}w" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c99a64"/><stop offset="100%" stop-color="#6e4a26"/></linearGradient>`
+    + `<linearGradient id="${P}r" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#58d48f" stop-opacity="0"/><stop offset="50%" stop-color="#b8f7d4"/><stop offset="100%" stop-color="#58d48f" stop-opacity="0"/></linearGradient>`
+    + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.7" flood-color="#1a1050" flood-opacity="0.45"/></filter>`
+    + `<filter id="${P}g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs>`
+    // rings of sound rising from the bowl
+    + sh(wave(58, 24, -42, 3.4, 0.55) + wave(44, 18, -32, 3.6, 0.8))
+    + `<ellipse cx="0" cy="80" rx="74" ry="7" fill="#000" fill-opacity="0.3" filter="url(#${P}g)"/>`
+    // the cushion: a puffy base and a lighter top layer with a seam
+    + sh(`<path d="M-76 62C-78 46 -66 38 -48 37L48 37C66 38 78 46 76 62C74 76 46 80 0 80C-46 80 -74 76 -76 62Z" fill="url(#${P}c)"/>`)
+    + sh(`<path d="M-66 52C-66 44 -56 40 -42 40L42 40C56 40 66 44 66 52C64 60 40 63 0 63C-40 63 -64 60 -66 52Z" fill="url(#${P}ct)"/>`
+      + `<path d="M-56 51C-30 56 30 56 56 51" stroke="#fff" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="3 3" fill="none"/>`)
+    // the bowl: body, a lighter band, the rim and the dark inside
+    + sh(`<path d="M-68 -10H68C67 22 52 44 26 51C10 55 -10 55 -26 51C-52 44 -67 22 -68 -10Z" fill="url(#${P}m)"/>`
+      + `<path d="M-60 26C-46 46 -24 50 -6 50" stroke="#ffe9a8" stroke-opacity="0.5" stroke-width="2" fill="none" stroke-linecap="round"/>`)
+    + sh(`<path d="M-67 -2C-30 12 30 12 67 -2L66 8C30 22 -30 22 -66 8Z" fill="url(#${P}b)"/>`
+      + `<path d="M-66 3C-30 17 30 17 66 3" stroke="#7a4c0c" stroke-opacity="0.4" stroke-width="0.8" fill="none"/>`)
+    + sh(`<ellipse cx="0" cy="-10" rx="68" ry="15" fill="url(#${P}rim)"/>`)
+    + sh(`<ellipse cx="0" cy="-9" rx="60" ry="11" fill="url(#${P}i)"/><path d="M-44 -12C-24 -18 20 -18 40 -12" stroke="#ffe08a" stroke-opacity="0.35" stroke-width="1.4" fill="none" stroke-linecap="round"/>`)
+    + `<path d="M-58 4C-56 22 -46 36 -30 44" stroke="#fff" stroke-opacity="0.55" stroke-width="4.5" fill="none" stroke-linecap="round"/>`
+    // the striker: a wooden stick with a light felt end, lying on the cushion
+    + sh(`<g transform="translate(34 64) rotate(-64)"><rect x="-4.5" y="-4" width="9" height="58" rx="4.5" fill="url(#${P}w)"/><path d="M-2 0L-2 50" stroke="#fff" stroke-opacity="0.3" stroke-width="1.4" stroke-linecap="round"/></g>`)
+    + sh(`<g transform="translate(34 64) rotate(-64)"><rect x="-7" y="-24" width="14" height="22" rx="7" fill="#efe1c6"/><rect x="-5.5" y="-22" width="4" height="18" rx="2" fill="#fff" fill-opacity="0.5"/></g>`));
 }
 // pictures for the person's own exercises (chosen when adding one)
 const MEDI_ICONS = { leaf:1, moon:1, sun:1, wave:1, heart:1, star:1, mountain:1, music:1 };
