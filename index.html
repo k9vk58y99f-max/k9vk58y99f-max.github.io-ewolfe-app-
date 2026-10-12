@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.47.3';
+const APP_VERSION = '1.47.4';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1427,7 +1427,7 @@ function blossomMarkup(P, open){
   const MAIN = [[[-124,112],[-104,86],[-72,80],[-50,52]], [[-50,52],[-36,30],[-8,30],[6,6]], [[6,6],[18,-16],[42,-18],[58,-42]], [[58,-42],[72,-66],[96,-64],[116,-96]]];
   const mainPts = bez(MAIN);
   // [where it starts (roughly), where it ends, bend, width at the start, width at the end]
-  const TW = [[[-46,46],[-70,4],-6,3.6,1.2], [[0,14],[-14,-48],-4,3.4,1.2], [[36,-18],[80,-24],-6,3,1.1], [[64,-54],[52,-92],-8,2.6,1], [[-86,82],[-104,60],-4,2.6,1], [[10,4],[54,46],8,3.2,1.1]]; // the last one: down to the right from the middle
+  const TW = [[[-46,46],[-70,4],-6,3.6,1.2], [[0,14],[-15,-55],-4,3.4,1.2], [[36,-18],[80,-24],-6,3,1.1], [[64,-54],[52,-92],-8,2.6,1], [[-86,82],[-104,60],-4,2.6,1], [[10,4],[47,40],8,3.2,1.1]]; // the last one: down to the right from the middle
   let branchPts = mainPts.slice();
   let twigs = '';
   TW.forEach(([s0, e, bend, w0, w1])=>{
@@ -1475,7 +1475,7 @@ function blossomMarkup(P, open){
   let fi = 0;
   // a blossom seen from above (tilt: only very slightly slanted), opening out of its round bud
   const flower = (f)=>{
-    const { x:cx, y:cy, L, rot, lag, g:grad, wf, n, tilt } = f;
+    const { x:cx, y:cy, L, rot, lag, g:grad, wf, n, tilt, budRot } = f;
     let g = '';
     for(let k = 0; k < 5; k++){
       const v = vary(8 + fi, k), a = rot + k * 72 + v.av, fy = (0.86 + ((k * 3 + fi) % 4) * 0.035).toFixed(3), ds = { t:'f', cx, cy, a, s:1, lv:v.lv, wv:v.wv, lag, fy };
@@ -1485,11 +1485,11 @@ function blossomMarkup(P, open){
     const c = lotusCenterTf(open * (1 + lag) - lag), b = blossomBudTf(open, lag);
     const inner = `<g filter="url(#${P}sh)">${g}</g>`
       + `<g transform="translate(${cx} ${cy})"><g class="lt-center" data-lag="${lag}" transform="${c.tf}" opacity="${c.op}"><circle r="${(L * 0.45).toFixed(1)}" fill="url(#${P}cup)"/><g filter="url(#${P}sh)">${stamens(n, L * 0.3, L * 0.52, fi)}<circle r="${(L * 0.08).toFixed(1)}" fill="#b0245c"/></g></g></g>`
-      + `<g transform="translate(${cx} ${cy})"><g class="lt-bud" data-lag="${lag}" transform="${b.tf}" opacity="${b.op}"><g filter="url(#${P}sh)" transform="rotate(${awayAngle(cx, cy).toFixed(1)})">${budTop(L * 0.34)}</g></g></g>`;
+      + `<g transform="translate(${cx} ${cy})"><g class="lt-bud" data-lag="${lag}" transform="${b.tf}" opacity="${b.op}"><g filter="url(#${P}sh)" transform="rotate(${(budRot !== undefined ? budRot : awayAngle(cx, cy)).toFixed(1)})">${budTop(L * 0.34)}</g></g></g>`;
     return tilt ? `<g transform="translate(${cx} ${cy}) rotate(${tilt[0]}) scale(1 ${tilt[1]}) rotate(${-tilt[0]}) translate(${-cx} ${-cy})">${inner}</g>` : inner;
   };
   // small clusters of buds that stay closed
-  const BUDS = [[34,58,6.5,0],[-72,0,7,10],[-80,8,5.5,40],[-64,-6,5,70], [-14,-56,7,20],[-4,-52,5.5,50], [54,-96,6.5,0],[62,-92,5,30],[46,-90,5,60], [84,-28,6,15],[88,-18,5,45], [-104,56,6,30],[-98,66,5,0], [26,-14,5,20]];
+  const BUDS = [[29,54,6.5,0],[-72,0,7,10],[-80,8,5.5,40],[-64,-6,5,70], [-15,-63,7,20],[-5,-59,5.5,50], [54,-96,6.5,0],[62,-92,5,30],[46,-90,5,60], [84,-28,6,15],[88,-18,5,45], [-104,56,6,30],[-98,66,5,0], [26,-14,5,20]];
   BUDS.forEach(([x, y, r])=>{
     const a = awayAngle(x, y), rad = a * Math.PI / 180, fx = x - Math.sin(rad) * r * 1.05, fy = y + Math.cos(rad) * r * 1.05;
     stalkTo(fx, fy, 1.9);
@@ -1502,8 +1502,8 @@ function blossomMarkup(P, open){
     { x:72,  y:-34, L:22, rot:-30, lag:0.05, g:'pt', wf:0.68, n:14, tilt:[40, 0.88] },
     { x:-32, y:46,  L:22, rot:8,   lag:0.09, g:'pt', wf:0.68, n:13 },
     { x:48,  y:-64, L:20, rot:36,  lag:0.06, g:'pt', wf:0.64, n:12 },
-    { x:58,  y:50,  L:25, rot:12,  lag:0.08, g:'pt', wf:0.68, n:15, tilt:[-20, 0.88] },
-    { x:4,   y:6,   L:34, rot:-6,  lag:0,    g:'pt', wf:0.66, n:20, tilt:[20, 0.9] }
+    { x:51,  y:44,  L:25, rot:12,  lag:0.08, g:'pt', wf:0.68, n:15, tilt:[-20, 0.88] },
+    { x:4,   y:6,   L:34, rot:-6,  lag:0,    g:'pt', wf:0.66, n:20, tilt:[20, 0.9], budRot:126 }
   ].forEach(f=>{ stalkTo(f.x, f.y, 2.4); body += flower(f); });
   return `<defs>${defs}</defs>${body.replace('%STALKS%', stalks)}`;
 }
