@@ -1107,7 +1107,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.38.3';
+const APP_VERSION = '1.39.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1363,6 +1363,62 @@ function lotusApply(els, open){
   const c = lotusCenterTf(open); els.center.setAttribute('transform', c.tf); els.center.setAttribute('opacity', c.op);
   const go = lotusEase(open); els.glow.setAttribute('r', (42 + 54 * go).toFixed(1)); els.glow.setAttribute('opacity', (0.45 + 0.55 * go).toFixed(2));
 }
+const BLOSSOM_RINGS = [ // like LOTUS_RINGS: five broad petals outside, two smaller rings inside
+  { n:5, L:84, W:40, off:0,  c0:'#ff7aa2', c1:'#ffe6ee', lag:0 },
+  { n:5, L:66, W:31, off:36, c0:'#ff6b98', c1:'#ffd0de', lag:0.12 },
+  { n:5, L:46, W:22, off:12, c0:'#ff5c8a', c1:'#ffbfd2', lag:0.24 }
+];
+// a cherry petal: rounded, with the small notch at its tip
+function blossomPetalPath(L, W){ return `M0 0C${-W*0.6} ${-L*0.15} ${-W} ${-L*0.6} ${-W*0.62} ${-L*0.92}C${-W*0.42} ${-L*1.02} ${-W*0.14} ${-L} 0 ${-L*0.9}C${W*0.14} ${-L} ${W*0.42} ${-L*1.02} ${W*0.62} ${-L*0.92}C${W} ${-L*0.6} ${W*0.6} ${-L*0.15} 0 0Z`; }
+function blossomPetalTf(ri, angle, open, lv, wv){
+  const ly = BLOSSOM_RINGS[ri], o = lotusEase(open * (1 + ly.lag) - ly.lag);
+  const len = (0.6 + 0.4 * o) * (lv || 1), wid = (1.05 - 0.05 * o) * (wv || 1), twist = (1 - o) * 22 * (ri % 2 ? -1 : 1);
+  return `rotate(${(angle + twist).toFixed(2)}) scale(${wid.toFixed(3)} ${len.toFixed(3)})`;
+}
+function blossomMarkup(P, open){
+  const L = LOTUS_LEAF;
+  let defs = `<radialGradient id="${P}g"><stop offset="0%" stop-color="#ffb3c9" stop-opacity="0.5"/><stop offset="100%" stop-color="#ffb3c9" stop-opacity="0"/></radialGradient>`
+    + `<linearGradient id="${P}lf" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${L.dark}"/><stop offset="100%" stop-color="${L.light}"/></linearGradient>`
+    + `<radialGradient id="${P}c"><stop offset="0%" stop-color="#ffe08a"/><stop offset="100%" stop-color="#e0336a"/></radialGradient>`
+    + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.8" flood-color="#5a0f30" flood-opacity="0.38"/></filter>`
+    + `<filter id="${P}shl" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.9" flood-color="#14300f" flood-opacity="0.45"/></filter>`
+    + `<clipPath id="${P}half"><rect x="-200" y="-200" width="200" height="400"/></clipPath>`;
+  // cherry leaves lying under the flower (they stay still, like the lily pads)
+  let body = '';
+  [[200, 96, 32], [318, 90, 30], [78, 84, 28]].forEach(([a, len, wid])=>{
+    const r = a * Math.PI / 180, x = 18 * Math.cos(r), y = 18 * Math.sin(r);
+    const lp = `M0 0C${wid} ${-len*0.22} ${wid*0.95} ${-len*0.72} 0 ${-len}C${-wid*0.85} ${-len*0.7} ${-wid*0.95} ${-len*0.25} 0 0Z`;
+    body += `<g filter="url(#${P}shl)"><g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${a + 90})"><path d="${lp}" fill="url(#${P}lf)" stroke="${L.edge}" stroke-width="0.8"/><path d="M0 -4L0 ${-len*0.9}" stroke="rgba(230,255,200,0.55)" stroke-width="1.3" stroke-linecap="round"/>${[0.35,0.55,0.75].map(t=>`<path d="M0 ${-len*t}L${wid*0.55} ${-len*(t+0.12)}M0 ${-len*t}L${-wid*0.5} ${-len*(t+0.12)}" stroke="rgba(230,255,200,0.3)" stroke-width="1" stroke-linecap="round"/>`).join('')}</g></g>`;
+  });
+  const go = lotusEase(open);
+  body += `<circle class="lt-glow" r="${(42 + 54 * go).toFixed(1)}" fill="url(#${P}g)" opacity="${(0.45 + 0.55 * go).toFixed(2)}"/>`;
+  BLOSSOM_RINGS.forEach((ly, ri)=>{
+    defs += `<linearGradient id="${P}p${ri}" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${ly.c0}"/><stop offset="70%" stop-color="${ly.c1}"/><stop offset="100%" stop-color="${ly.c1}"/></linearGradient>`;
+    const petal = `<path d="${blossomPetalPath(ly.L, ly.W)}" fill="url(#${P}p${ri})" stroke="rgba(200,40,90,0.3)" stroke-width="0.8"/>`
+      + `<path d="M0 ${-ly.L*0.12}L0 ${-ly.L*0.78}M0 ${-ly.L*0.2}L${-ly.W*0.32} ${-ly.L*0.72}M0 ${-ly.L*0.2}L${ly.W*0.32} ${-ly.L*0.72}" stroke="rgba(255,255,255,0.42)" stroke-width="0.8" stroke-linecap="round" fill="none"/>`;
+    let g = '';
+    const v0 = lotusPetalVar(ri + 4, 0);
+    for(let k = 0; k < ly.n; k++){
+      const v = lotusPetalVar(ri + 4, k), a = ly.off + k * 360 / ly.n + v.av;
+      g += `<g class="lt-pet" data-r="${ri}" data-a="${a.toFixed(2)}" data-lv="${v.lv.toFixed(3)}" data-wv="${v.wv.toFixed(3)}" transform="${blossomPetalTf(ri, a, open, v.lv, v.wv)}">${petal}</g>`;
+    }
+    // the first petal once more, half of it, so every petal lies on its neighbour the same way all round
+    const a0 = ly.off + v0.av;
+    g += `<g class="lt-pet" data-r="${ri}" data-a="${a0.toFixed(2)}" data-lv="${v0.lv.toFixed(3)}" data-wv="${v0.wv.toFixed(3)}" transform="${blossomPetalTf(ri, a0, open, v0.lv, v0.wv)}" clip-path="url(#${P}half)">${petal}</g>`;
+    body += `<g filter="url(#${P}sh)">${g}</g>`;
+  });
+  // the stamens: fine red threads with yellow tips
+  let st = ''; for(let k = 0; k < 22; k++){ const len = 15 + (k % 3) * 3; st += `<g transform="rotate(${(k * 360 / 22).toFixed(2)})"><path d="M0 -5L0 ${-len}" stroke="#d9466f" stroke-width="1.1" stroke-linecap="round"/><circle cy="${-len}" r="2.1" fill="#ffdd1f"/></g>`; }
+  const c = lotusCenterTf(open);
+  body += `<g class="lt-center" transform="${c.tf}" opacity="${c.op}"><g filter="url(#${P}sh)">${st}<circle r="6.5" fill="url(#${P}c)"/></g></g>`;
+  return `<defs>${defs}</defs>${body}`;
+}
+function blossomApply(els, open){
+  els.pet.forEach(e=>e.setAttribute('transform', blossomPetalTf(+e.dataset.r, +e.dataset.a, open, +e.dataset.lv, +e.dataset.wv)));
+  const c = lotusCenterTf(open); els.center.setAttribute('transform', c.tf); els.center.setAttribute('opacity', c.op);
+  const go = lotusEase(open); els.glow.setAttribute('r', (42 + 54 * go).toFixed(1)); els.glow.setAttribute('opacity', (0.45 + 0.55 * go).toFixed(2));
+}
+function blossomPictureSvg(id){ return `<svg viewBox="-110 -110 220 220" aria-hidden="true">${blossomMarkup('bp' + id, 1)}</svg>`; }
 function lotusPictureSvg(id){ return `<svg viewBox="-104 -104 208 208" aria-hidden="true">${lotusMarkup('lp' + id, 1)}</svg>`; }
 function lemonPictureSvg(id){
   // the frame is fitted tightly around lemon and leaves, so the picture is exactly as wide as the lotus picture next to it
@@ -1387,25 +1443,33 @@ function lemonPlayerSvg(){
 }
 // the lemon itself (defs + drawing, centred on 0 0), used on the card and in the player
 function lemonMarkup(P){
+  /* Like the blue lotus, the lemon is built from layers of coloured paper, each casting a soft shadow on the one
+     below: the two leaves at the bottom, then the yellow rind, the pale yellow pith, and the segments on top. */
   const L = LOTUS_LEAF;
   let seg = '';
   for(let k = 0; k < 10; k++){
-    const a0 = (k * 36 + 3) * Math.PI / 180, a1 = ((k + 1) * 36 - 3) * Math.PI / 180, r0 = 8, r1 = 54;
+    const a0 = (k * 36 + 4) * Math.PI / 180, a1 = ((k + 1) * 36 - 4) * Math.PI / 180, r0 = 9, r1 = 53;
     const p = (r, a)=>`${(r*Math.cos(a)).toFixed(2)} ${(r*Math.sin(a)).toFixed(2)}`;
     const mx = (31*Math.cos((a0+a1)/2)).toFixed(2), my = (31*Math.sin((a0+a1)/2)).toFixed(2);
-    seg += `<path d="M${p(r0,a0)}L${p(r1,a0)}A${r1} ${r1} 0 0 1 ${p(r1,a1)}L${p(r0,a1)}Z" fill="url(#${P}f)"/>`;
-    seg += `<ellipse cx="${mx}" cy="${my}" rx="3.6" ry="8" transform="rotate(${(k*36+18)+90} ${mx} ${my})" fill="rgba(255,255,255,0.35)"/>`;
+    seg += `<path d="M${p(r0,a0)}L${p(r1,a0)}A${r1} ${r1} 0 0 1 ${p(r1,a1)}L${p(r0,a1)}Z" fill="url(#${P}f)" stroke="rgba(214,150,0,0.35)" stroke-width="0.7" stroke-linejoin="round"/>`;
+    seg += `<ellipse cx="${mx}" cy="${my}" rx="3" ry="8" transform="rotate(${(k*36+18)+90} ${mx} ${my})" fill="rgba(255,255,255,0.32)"/>`;
   }
-  // two leaves, a little different in size, width and angle, in the green of the lily pads, turned to the bottom right
   const leaf = (len, wid)=>`M0 0C${wid} ${-len*0.22} ${wid*0.95} ${-len*0.72} 0 ${-len}C${-wid*0.85} ${-len*0.7} ${-wid*0.95} ${-len*0.25} 0 0Z`;
-  const leafG = (x, y, rot, len, wid)=>`<g transform="translate(${x} ${y}) rotate(${rot})"><path d="${leaf(len, wid)}" fill="url(#${P}lf)" stroke="${L.edge}" stroke-width="1"/><path d="M0 -4L0 ${-len*0.9}" stroke="rgba(230,255,200,0.55)" stroke-width="1.4" stroke-linecap="round"/>${[0.3,0.5,0.7].map(t=>`<path d="M0 ${-len*t}l${wid*0.55} ${-len*0.12}M0 ${-len*(t+0.04)}l${-wid*0.5} ${-len*0.11}" stroke="rgba(230,255,200,0.3)" stroke-width="0.9" fill="none"/>`).join('')}</g>`;
+  const leafG = (x, y, rot, len, wid)=>`<g filter="url(#${P}shl)"><g transform="translate(${x} ${y}) rotate(${rot})"><path d="${leaf(len, wid)}" fill="url(#${P}lf)" stroke="${L.edge}" stroke-width="0.8"/><path d="M0 -4L0 ${-len*0.9}" stroke="rgba(230,255,200,0.55)" stroke-width="1.4" stroke-linecap="round"/>${[0.3,0.5,0.7].map(t=>`<path d="M0 ${-len*t}L${wid*0.55} ${-len*(t+0.12)}M0 ${-len*t}L${-wid*0.5} ${-len*(t+0.12)}" stroke="rgba(230,255,200,0.3)" stroke-width="1" stroke-linecap="round"/>`).join('')}</g></g>`;
   return `<defs>`
-    + `<radialGradient id="${P}f"><stop offset="0%" stop-color="#fff6a8"/><stop offset="100%" stop-color="#ffdd1f"/></radialGradient>`
-    + `<linearGradient id="${P}r" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffe94d"/><stop offset="100%" stop-color="#f5c000"/></linearGradient>`
+    + `<radialGradient id="${P}f" cx="0.5" cy="0.5" r="0.6"><stop offset="0%" stop-color="#fff6b0"/><stop offset="100%" stop-color="#ffd91a"/></radialGradient>`
+    + `<linearGradient id="${P}r" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffe94d"/><stop offset="100%" stop-color="#f2b800"/></linearGradient>`
+    + `<radialGradient id="${P}w" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#fffbe6"/><stop offset="100%" stop-color="#fff0a6"/></radialGradient>`
     + `<linearGradient id="${P}lf" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${L.dark}"/><stop offset="100%" stop-color="${L.light}"/></linearGradient>`
+    + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.9" flood-color="#6b4600" flood-opacity="0.42"/></filter>`
+    + `<filter id="${P}shl" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.9" flood-color="#14300f" flood-opacity="0.45"/></filter>`
     + `</defs><g transform="translate(-14 -6) scale(0.84)">`
-    + leafG(30, 18, 122, 96, 32.4) + leafG(18, 26, 152, 79.2, 25.2) // pointing to the bottom right
-    + `<g transform="translate(-6 8)"><circle r="68" fill="url(#${P}r)"/><circle r="62" fill="#fffbe0"/><circle r="57" fill="#fff3b0"/>${seg}<circle r="7" fill="#fffbe0"/></g></g>`;
+    + leafG(18, 26, 152, 79.2, 25.2) + leafG(30, 18, 122, 96, 32.4) // pointing to the bottom right
+    + `<g transform="translate(-6 8)">`
+    + `<g filter="url(#${P}sh)"><circle r="68" fill="url(#${P}r)"/><path d="M-52 -30A60 60 0 0 1 -20 -62" stroke="#fff6b0" stroke-opacity="0.7" stroke-width="3" fill="none" stroke-linecap="round"/></g>`
+    + `<g filter="url(#${P}sh)"><circle r="61" fill="url(#${P}w)"/></g>`
+    + `<g filter="url(#${P}sh)">${seg}</g>`
+    + `<g filter="url(#${P}sh)"><circle r="6.5" fill="#fffbe6"/></g></g></g>`;
 }
 
 function renderMeditationen(){
@@ -1750,15 +1814,20 @@ const BREATH_SIDE = 4;
 let breath = { start:0, pausedAt:0, raf:0, lastPhase:-1, pat:'box' };
 // the blue lotus in the middle of the square: closed bud when breathing starts, open after breathing in
 let lotusEls = null;
-function breathLotusBuild(){
+function breathLotusBuild(kind){
+  // Box Breathing: the blue lotus; 4-7-8: the cherry blossom (both open and close with the breath)
+  kind = kind === 'blossom' ? 'blossom' : 'lotus';
   const g = document.getElementById('breath-lotus');
-  if(!g.childNodes.length) g.innerHTML = lotusMarkup('lb', 0);
-  lotusEls = { pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), glow:g.querySelector('.lt-glow') };
+  if(g.dataset.kind !== kind){
+    g.innerHTML = kind === 'blossom' ? blossomMarkup('bb', 0) : lotusMarkup('lb', 0); g.dataset.kind = kind;
+    g.setAttribute('transform', `translate(120 120) scale(${kind === 'blossom' ? 0.78 : 0.86})`); // the cherry leaves reach a little further out
+  }
+  lotusEls = { kind, pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), glow:g.querySelector('.lt-glow') };
 }
-function breathLotusSet(open){ if(lotusEls) lotusApply(lotusEls, open); }
+function breathLotusSet(open){ if(lotusEls) (lotusEls.kind === 'blossom' ? blossomApply : lotusApply)(lotusEls, open); }
 function breathOpen(pat){
   pat = HP_PATTERNS[pat] && pat !== 'calm' ? pat : 'box';
-  breathLotusBuild();
+  breathLotusBuild(pat === 'b478' ? 'blossom' : 'lotus');
   breathLotusSet(0);
   breath = { start:performance.now(), pausedAt:0, raf:0, lastPhase:-1, pat };
   document.getElementById('breath-title').textContent = pat === 'b478' ? t().ex478Title : 'Box Breathing';
@@ -1919,27 +1988,19 @@ function stonesPictureSvg(id){
     + o + `<path d="M2 -42Q0 -54 4 -64" stroke="#3f7a3a" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
     + natLeaf(P, 3, -60, -52, 30, 11) + natLeaf(P, 4, -62, 48, 26, 10));
 }
-// gratitude: a cherry blossom with a bud and two leaves
-function blossomPictureSvg(id){
-  const P = 'bl' + id;
-  const petal = `M0 0C-27 -8 -41 -40 -25 -60C-16 -69 -7 -67 0 -58C7 -67 16 -69 25 -60C41 -40 27 -8 0 0Z`;
-  let petals = '';
-  for(let k = 0; k < 5; k++){
-    const rot = k * 72 + (k % 2 ? 3 : -2), sc = 1 + ((k * 37) % 5 - 2) * 0.02;
-    petals += `<g transform="rotate(${rot}) scale(${sc})"><path d="${petal}" fill="url(#${P}p)" stroke="#f27aa0" stroke-opacity="0.35" stroke-width="1"/>`
-      + `<path d="M0 -8L0 -46M0 -12L-9 -40M0 -12L9 -40" stroke="#ff8fb1" stroke-opacity="0.35" stroke-width="1" fill="none" stroke-linecap="round"/></g>`;
-  }
-  let stamens = '';
-  for(let k = 0; k < 12; k++){
-    const a = (k * 30 + 8) * Math.PI / 180, r = 17 + (k % 3) * 3;
-    stamens += `<path d="M0 0L${(r*Math.cos(a)).toFixed(1)} ${(r*Math.sin(a)).toFixed(1)}" stroke="#d9466f" stroke-width="1.2"/><circle cx="${(r*Math.cos(a)).toFixed(1)}" cy="${(r*Math.sin(a)).toFixed(1)}" r="2.6" fill="#ffdd1f"/>`;
-  }
+// gratitude: three hearts of coloured paper, one on the other
+function heartsPictureSvg(id){
+  const P = 'hs' + id;
+  const heart = `M0 34C-24 18 -40 4 -40 -14C-40 -28 -29 -38 -16 -38C-8 -38 -3 -34 0 -27C3 -34 8 -38 16 -38C29 -38 40 -28 40 -14C40 4 24 18 0 34Z`;
+  const h = (x, y, s, rot, g, hl)=>`<g filter="url(#${P}sh)"><g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><path d="${heart}" fill="url(#${P}${g})" stroke="rgba(160,20,70,0.3)" stroke-width="0.8"/><path d="M-30 -20C-28 -28 -22 -32 -14 -32" stroke="#fff" stroke-opacity="${hl}" stroke-width="3.2" fill="none" stroke-linecap="round"/></g></g>`;
   return natPic(`<defs>${natLeafDefs(P)}`
-    + `<radialGradient id="${P}p" cx="0.5" cy="1" r="1.05" fx="0.5" fy="1"><stop offset="0%" stop-color="#ff7aa2"/><stop offset="35%" stop-color="#ffb3c9"/><stop offset="100%" stop-color="#fff0f5"/></radialGradient>`
-    + `<radialGradient id="${P}b" cx="0.4" cy="0.3"><stop offset="0%" stop-color="#ffd0de"/><stop offset="100%" stop-color="#ff6f98"/></radialGradient></defs>`
-    + natLeaf(P, 30, 30, 128, 70, 24) + natLeaf(P, 20, 40, 160, 58, 20)
-    + `<path d="M58 -58Q70 -70 74 -84" stroke="#6b4a2a" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="56" cy="-52" rx="9" ry="13" transform="rotate(35 56 -52)" fill="url(#${P}b)"/>`
-    + `<g transform="translate(-10 -4)">${petals}<circle r="9" fill="#ff5c8a"/>${stamens}<circle r="5" fill="#ffe680"/></g>`);
+    + `<linearGradient id="${P}a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c7c4ff"/><stop offset="100%" stop-color="#6d6ef3"/></linearGradient>`
+    + `<linearGradient id="${P}b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffc4d6"/><stop offset="100%" stop-color="#ff6b98"/></linearGradient>`
+    + `<linearGradient id="${P}c" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffe9f0"/><stop offset="100%" stop-color="#ff9ab8"/></linearGradient>`
+    + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.6" stdDeviation="2.2" flood-color="#5a0f30" flood-opacity="0.4"/></filter>`
+    + `<filter id="${P}shl" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.9" flood-color="#14300f" flood-opacity="0.45"/></filter></defs>`
+    + `<g filter="url(#${P}shl)">${natLeaf(P, 18, 28, 128, 52, 20)}</g><g filter="url(#${P}shl)">${natLeaf(P, 10, 34, 160, 44, 16)}</g>`
+    + h(26, -18, 1.25, 14, 'a', 0.5) + h(-14, 4, 1.55, -10, 'b', 0.6) + h(8, 28, 0.85, 6, 'c', 0.8));
 }
 // silent meditation: a golden singing bowl on a violet cushion, with its wooden striker
 function bowlPictureSvg(id){
@@ -2013,9 +2074,9 @@ function playerSquareSvg(inner, P){
 function mediPicture(m){
   if(m.tool === 'box') return lotusPictureSvg(m.id);
   if(m.audio) return lemonPictureSvg(m.id);
-  if(m.tool === 'b478') return moonPictureSvg(m.id);
+  if(m.tool === 'b478') return blossomPictureSvg(m.id);
   if(m.tool === 'ground') return stonesPictureSvg(m.id);
-  if(m.tool === 'grat') return blossomPictureSvg(m.id);
+  if(m.tool === 'grat') return heartsPictureSvg(m.id);
   if(m.tool === 'timer') return bowlPictureSvg(m.id);
   return '';
 }
@@ -2169,7 +2230,7 @@ function groundStep(dir){
 function gratOpen(){
   const d = t();
   document.getElementById('grat-title').textContent = d.exGratTitle;
-  document.getElementById('grat-pic').innerHTML = blossomPictureSvg('grat');
+  document.getElementById('grat-pic').innerHTML = heartsPictureSvg('grat');
   [1,2,3].forEach(i=>{ const el = document.getElementById('grat-' + i); el.value = ''; el.placeholder = d.gratPh[i-1]; });
   document.getElementById('grat-diary-label').textContent = d.gratToDiary;
   document.getElementById('grat-save').textContent = d.gratSave;
