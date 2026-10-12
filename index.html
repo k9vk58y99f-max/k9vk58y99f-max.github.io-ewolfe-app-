@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.47.4';
+const APP_VERSION = '1.48.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1411,6 +1411,7 @@ function taperPath(segs, w0, w1){
    leaves, no stalks. Breathing in, the blossoms open out of their buds one just after the other; breathing out they
    close again. The bud clusters stay closed. */
 function blossomMarkup(P, open){
+  const openAll = open;
   const defs = `<linearGradient id="${P}br" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5e4842"/><stop offset="55%" stop-color="#3f302c"/><stop offset="100%" stop-color="#2a1f1c"/></linearGradient>`
     // pinks: pale like the photo, and the deeper one of the big blossom in the middle
     + `<linearGradient id="${P}pp" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#e2668f"/><stop offset="22%" stop-color="#f5b3c7"/><stop offset="60%" stop-color="#fde6ee"/><stop offset="100%" stop-color="#fffafc"/></linearGradient>`
@@ -1475,21 +1476,22 @@ function blossomMarkup(P, open){
   let fi = 0;
   // a blossom seen from above (tilt: only very slightly slanted), opening out of its round bud
   const flower = (f)=>{
-    const { x:cx, y:cy, L, rot, lag, g:grad, wf, n, tilt, budRot } = f;
+    const { x:cx, y:cy, L, rot, lag, g:grad, wf, n, tilt, budRot, late } = f;
+    const open = late ? blossomLateOpen(openAll) : openAll, lt = late ? ' data-late="1"' : '';
     let g = '';
     for(let k = 0; k < 5; k++){
       const v = vary(8 + fi, k), a = rot + k * 72 + v.av, fy = (0.86 + ((k * 3 + fi) % 4) * 0.035).toFixed(3), ds = { t:'f', cx, cy, a, s:1, lv:v.lv, wv:v.wv, lag, fy };
-      g += `<g class="lt-pet" data-t="f" data-cx="${cx}" data-cy="${cy}" data-a="${a.toFixed(2)}" data-s="1" data-lv="${v.lv.toFixed(3)}" data-wv="${v.wv.toFixed(3)}" data-fy="${fy}" data-lag="${lag}" transform="${blossomPetalTf(ds, open)}">${petalShape(L, grad, wf)}</g>`;
+      g += `<g class="lt-pet"${lt} data-t="f" data-cx="${cx}" data-cy="${cy}" data-a="${a.toFixed(2)}" data-s="1" data-lv="${v.lv.toFixed(3)}" data-wv="${v.wv.toFixed(3)}" data-fy="${fy}" data-lag="${lag}" transform="${blossomPetalTf(ds, open)}">${petalShape(L, grad, wf)}</g>`;
     }
     fi++;
     const c = lotusCenterTf(open * (1 + lag) - lag), b = blossomBudTf(open, lag);
     const inner = `<g filter="url(#${P}sh)">${g}</g>`
-      + `<g transform="translate(${cx} ${cy})"><g class="lt-center" data-lag="${lag}" transform="${c.tf}" opacity="${c.op}"><circle r="${(L * 0.45).toFixed(1)}" fill="url(#${P}cup)"/><g filter="url(#${P}sh)">${stamens(n, L * 0.3, L * 0.52, fi)}<circle r="${(L * 0.08).toFixed(1)}" fill="#b0245c"/></g></g></g>`
-      + `<g transform="translate(${cx} ${cy})"><g class="lt-bud" data-lag="${lag}" transform="${b.tf}" opacity="${b.op}"><g filter="url(#${P}sh)" transform="rotate(${(budRot !== undefined ? budRot : awayAngle(cx, cy)).toFixed(1)})">${budTop(L * 0.34)}</g></g></g>`;
+      + `<g transform="translate(${cx} ${cy})"><g class="lt-center"${lt} data-lag="${lag}" transform="${c.tf}" opacity="${c.op}"><circle r="${(L * 0.45).toFixed(1)}" fill="url(#${P}cup)"/><g filter="url(#${P}sh)">${stamens(n, L * 0.3, L * 0.52, fi)}<circle r="${(L * 0.08).toFixed(1)}" fill="#b0245c"/></g></g></g>`
+      + `<g transform="translate(${cx} ${cy})"><g class="lt-bud"${lt} data-lag="${lag}" transform="${b.tf}" opacity="${b.op}"><g filter="url(#${P}sh)" transform="rotate(${(budRot !== undefined ? budRot : awayAngle(cx, cy)).toFixed(1)})">${budTop(L * 0.34)}</g></g></g>`;
     return tilt ? `<g transform="translate(${cx} ${cy}) rotate(${tilt[0]}) scale(1 ${tilt[1]}) rotate(${-tilt[0]}) translate(${-cx} ${-cy})">${inner}</g>` : inner;
   };
   // small clusters of buds that stay closed
-  const BUDS = [[29,54,6.5,0],[-72,0,7,10],[-80,8,5.5,40],[-64,-6,5,70], [-15,-63,7,20],[-5,-59,5.5,50], [54,-96,6.5,0],[62,-92,5,30],[46,-90,5,60], [84,-28,6,15],[88,-18,5,45], [-104,56,6,30],[-98,66,5,0], [26,-14,5,20]];
+  const BUDS = [[-80,8,5.5,40],[-64,-6,5,70], [-5,-59,5.5,50], [62,-92,5,30],[46,-90,5,60], [88,-18,5,45], [-104,56,6,30],[-98,66,5,0], [26,-14,5,20]];
   BUDS.forEach(([x, y, r])=>{
     const a = awayAngle(x, y), rad = a * Math.PI / 180, fx = x - Math.sin(rad) * r * 1.05, fy = y + Math.cos(rad) * r * 1.05;
     stalkTo(fx, fy, 1.9);
@@ -1498,20 +1500,30 @@ function blossomMarkup(P, open){
   // the blossoms, every one a little different; the big one in the middle (place F) last, so it lies on top
   [
     { x:-62, y:12,  L:24, rot:-12, lag:0.04, g:'pt', wf:0.68, n:16, tilt:[-30, 0.86] },
-    { x:-20, y:-40, L:23, rot:20,  lag:0.07, g:'pt', wf:0.66, n:14 },
-    { x:72,  y:-34, L:22, rot:-30, lag:0.05, g:'pt', wf:0.68, n:14, tilt:[40, 0.88] },
+    { x:-20, y:-40, L:23, rot:20,  lag:0.02, late:1, g:'pt', wf:0.66, n:14 },
+    { x:72,  y:-34, L:22, rot:-30, lag:0.06, late:1, g:'pt', wf:0.68, n:14, tilt:[40, 0.88] },
     { x:-32, y:46,  L:22, rot:8,   lag:0.09, g:'pt', wf:0.68, n:13 },
     { x:48,  y:-64, L:20, rot:36,  lag:0.06, g:'pt', wf:0.64, n:12 },
+    // the late ones (closed buds at first)
+    { x:-72, y:0,   L:18, rot:10,  lag:0, late:1, g:'pt', wf:0.66, n:10 },
+    { x:-15, y:-63, L:18, rot:-20, lag:0.05, late:1, g:'pt', wf:0.66, n:10 },
+    { x:84,  y:-28, L:16, rot:30,  lag:0.1, late:1, g:'pt', wf:0.66, n:9 },
+    { x:54,  y:-96, L:17, rot:0,   lag:0.04, late:1, g:'pt', wf:0.66, n:9 },
+    { x:29,  y:54,  L:17, rot:40,  lag:0.08, late:1, g:'pt', wf:0.66, n:9 },
     { x:51,  y:44,  L:25, rot:12,  lag:0.08, g:'pt', wf:0.68, n:15, tilt:[-20, 0.88] },
     { x:4,   y:6,   L:34, rot:-6,  lag:0,    g:'pt', wf:0.66, n:20, tilt:[20, 0.9], budRot:126 }
   ].forEach(f=>{ stalkTo(f.x, f.y, 2.4); body += flower(f); });
   return `<defs>${defs}</defs>${body.replace('%STALKS%', stalks)}`;
 }
 function blossomBudTf(open, lag){ const o = lotusEase(open * (1 + lag) - lag); return { tf:`scale(${(1 - 0.75 * o).toFixed(3)})`, op:Math.max(0, 1 - o * 2.2).toFixed(2) }; }
+// some buds open late: only once the others are half open, and at the end they are half open themselves – so after
+// breathing in there are three stages on the branch: open blossoms, half open ones and closed buds
+function blossomLateOpen(open){ return Math.max(0, Math.min(1, (open / BLOSSOM_MAX_OPEN - 0.5) / 0.5)) * 0.5; }
 function blossomApply(els, open){
-  (els.buds || []).forEach(e=>{ const b = blossomBudTf(open, +e.dataset.lag || 0); e.setAttribute('transform', b.tf); e.setAttribute('opacity', b.op); });
-  els.pet.forEach(e=>e.setAttribute('transform', blossomPetalTf(e.dataset, open)));
-  els.centers.forEach(e=>{ const lag = +e.dataset.lag || 0, c = lotusCenterTf(open * (1 + lag) - lag); e.setAttribute('transform', c.tf); e.setAttribute('opacity', c.op); });
+  const op = e=>e.dataset.late ? blossomLateOpen(open) : open;
+  (els.buds || []).forEach(e=>{ const b = blossomBudTf(op(e), +e.dataset.lag || 0); e.setAttribute('transform', b.tf); e.setAttribute('opacity', b.op); });
+  els.pet.forEach(e=>e.setAttribute('transform', blossomPetalTf(e.dataset, op(e))));
+  els.centers.forEach(e=>{ const lag = +e.dataset.lag || 0, c = lotusCenterTf(op(e) * (1 + lag) - lag); e.setAttribute('transform', c.tf); e.setAttribute('opacity', c.op); });
 }
 function blossomPictureSvg(id){ return `<svg viewBox="-100 -100 200 200" aria-hidden="true">${blossomMarkup('bp' + id, BLOSSOM_MAX_OPEN)}</svg>`; }
 function lotusPictureSvg(id){ return `<svg viewBox="-104 -104 208 208" aria-hidden="true">${lotusMarkup('lp' + id, 1)}</svg>`; }
