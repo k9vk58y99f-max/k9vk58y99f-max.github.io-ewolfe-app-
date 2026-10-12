@@ -33,6 +33,9 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   wie beim App-Icon (`lemonPlayerSvg()`). Lemonmeditation
   spielt im Fenster `#medi-player-modal` (`mediPlayerOpen()`). Das Formular zum Hinzufügen ist eingeklappt
   (`mediShowForm()`), mit „Abbrechen".
+- Längere Texte zu einer Übung (seit 1.51.0, `MEDI_INFO_KEYS` → `mediBoxInfo`, `ex478Info` im `I18N`: Einleitung,
+  Schritte, „Gut zu wissen"): stehen aufklappbar unter „Starten" (`mediInfoHtml()`, `mediToggleInfo()`). Nur beim
+  allerersten Öffnen einer Karte auf einem Gerät stehen sie offen (Merker `ewolfe_medi_info_seen`), danach eingeklappt.
 - Achtsamkeit 2.0 (seit 1.38.0, Abschnitt „Achtsamkeit 2.0“ im Code): weitere eingebaute Übungen (`MEDI_ORDER`):
   4-7-8-Atmung (`breathOpen('b478')`, gleiches Fenster wie Box Breathing, aber statt des Sees ein blauer Himmel mit
   Wolken (`.breath-sky`, der Zweig wird am Quadrat abgeschnitten über `#breath-clip`); Blüten öffnen sich höchstens zu 90 %
@@ -85,7 +88,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - „Neues Lebensrad erstellen" hat ein ✕ (`#eval-close-btn`), außer beim allerersten Lebensrad.
 - Vergleich: nur das neueste Rad gefüllt, ältere als Linien darüber (Mintgrün und Gelb, beide durchgezogen) mit Punkten;
   an jedem Bereich der neueste Wert und die Veränderung seit dem ältesten verglichenen Rad (+ grün / − rot).
-  Das Fenster reicht fast bis oben; darunter ein Satz (`cmpUp`/`cmpUp1`/`cmpUpAll`, bei Rückschritten `cmpDown`, sonst `cmpSame`).
+  Das Fenster reicht fast bis oben; darunter ein Satz, je fünf Varianten (`cmpUpV`/`cmpUp1V`/`cmpUpAllV`, bei Rückschritten `cmpDownV`, sonst `cmpSameV`); welche, hängt von den verglichenen Rädern ab (gleicher Vergleich = gleicher Satz).
 - Tagebuch (seit 1.37.0): Werkzeuge → „Lebensrad einfügen" (`tbInsertWheel()`, Bild als SVG `wheelPictureSvg()`,
   verschieben/vergrößern/löschen wie Fotos). „Neue Seite ▾ → Lebensbereiche" legt eine Seite mit fünf Feldern an
   (`page.bereiche = { bereich: Text }`, je Feld Symbol + Name als kleine Überschrift; ein volles Feld nimmt nichts mehr an).
@@ -99,7 +102,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.50.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.51.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
