@@ -22,8 +22,8 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   in `LOTUS_RINGS`), Seerosenblätter aus grünen Keilen, goldene Mitte mit Staubfäden; Kirschzweig warm braun, Blüten
   zweifarbig rosa mit gelb-oranger Mitte, Knospen kantig mit olivgrünem Kelch. `lotus1-3`/`cherry1-6` dienen als Vorlage.
 - 4-7-8 (seit 1.53.0): Kirschzweig aus dem Video des Nutzers (`IMG_1031.mov`, 512 px, 30 fps): das Stück 1,67–3,33 s, in dem die
-  Knospen aufgehen, als 26 Einzelbilder mit dem dunkelblauen Video-Hintergrund in `img/cherry-v/00…25.webp` (füllen das
-  Quadrat, kein Himmel). `breathLotusSet` läuft gleichmäßig durch die Phase: 4 s einatmen = Bild 0→25, 7 s halten = offen,
+  Knospen aufgehen, als 26 Einzelbilder in `img/cherry-v/00…25.webp`, seit 1.54.0 freigestellt vor dem blauen Himmel
+  (Durchsichtigkeit beim Überblenden gegen das erste/letzte Bild gerechnet, äußerster Pixelrand weggeschnitten). `breathLotusSet` läuft gleichmäßig durch die Phase: 4 s einatmen = Bild 0→25, 7 s halten = offen,
   8 s ausatmen = zurück; zwei Bilder übereinander, das nächste wird eingeblendet (`CHERRY_FRAMES`, `cherryFrameUrl`,
   `cherryPreload`). Einzelbilder aus Videos: kleines Swift-Werkzeug mit AVAssetImageGenerator (ffmpeg ist nicht installiert).
   Die Knospe unten in der Mitte (links neben der unteren rechten Blüte) bleibt in allen Bildern wie im ersten Bild
@@ -120,7 +120,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.53.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.54.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code

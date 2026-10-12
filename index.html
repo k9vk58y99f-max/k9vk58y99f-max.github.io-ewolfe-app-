@@ -1123,7 +1123,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.53.2';
+const APP_VERSION = '1.54.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2006,7 +2006,7 @@ let breath = { start:0, pausedAt:0, raf:0, lastPhase:-1, pat:'box' };
 // the blue lotus in the middle of the square: closed bud when breathing starts, open after breathing in
 let lotusEls = null;
 /* 4-7-8: the cherry branch from the person's video – the stretch where the buds open one after the other, as 26 frames
-   with the video's own dark blue background (img/cherry-v/00…25), filling the square. Breathing in (4 s) runs through them, holding (7 s) stays on the open branch, breathing
+   cut out of the video's dark blue (img/cherry-v/00…25, transparent background), in front of the blue sky. Breathing in (4 s) runs through them, holding (7 s) stays on the open branch, breathing
    out (8 s) runs back. Two frames lie on top of each other, the next one fading in, so the steps are not visible. */
 const CHERRY_FRAMES = 26;
 const cherryFrameUrl = i=>`img/cherry-v/${String(i).padStart(2, '0')}.webp`;
@@ -2029,9 +2029,9 @@ function breathLotusBuild(kind){
     g.setAttribute('transform', kind === 'blossom' ? 'translate(120 120) scale(0.92)' : 'translate(120 120) scale(0.86)'); // the branch fills the space where the lake would be
   }
   lotusEls = { kind, a:g.querySelector('.cv-a'), b:g.querySelector('.cv-b'), ia:0, ib:1, pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), centers:[...g.querySelectorAll('.lt-center')], buds:[...g.querySelectorAll('.lt-bud')], glow:g.querySelector('.lt-glow') };
-  // the cherry branch keeps the dark blue of its video as background (it fills the square), so no lake and no sky
+  // the cherry branch stands against the blue sky, without the lake
   document.querySelectorAll('#breath-modal .breath-lake').forEach(el=>{ el.style.display = kind === 'blossom' ? 'none' : ''; });
-  document.querySelectorAll('#breath-modal .breath-sky').forEach(el=>{ el.style.display = 'none'; });
+  document.querySelectorAll('#breath-modal .breath-sky').forEach(el=>{ el.style.display = kind === 'blossom' ? '' : 'none'; });
   // the branch is cut off by the edge of the sky square
   const clip = document.getElementById('breath-clip');
   if(kind === 'blossom') clip.setAttribute('clip-path', 'url(#lakeClip)'); else clip.removeAttribute('clip-path');
