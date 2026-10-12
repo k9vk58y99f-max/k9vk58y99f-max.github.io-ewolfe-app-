@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.45.0';
+const APP_VERSION = '1.45.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1434,6 +1434,7 @@ function cherryLeaf(P, x, y, rot, len, wid, bronze, o){
    plan.mode 'branch' (the bare branch with the places A–H marked), 'flower' (one blossom: plan.f) or 'bud' (one bud:
    plan.b). These parts are numbered on a catalogue page; the person then picks e.g. "a2-3" = place A: bud 2, blossom 3. */
 function blossomMarkup(P, open, plan){
+  const openAll = open;
   const defs = `<linearGradient id="${P}br" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8e4a42"/><stop offset="55%" stop-color="#6a2e2c"/><stop offset="100%" stop-color="#4a1c1e"/></linearGradient>`
     // three slightly different pinks, so the blossoms are not all alike
     + `<linearGradient id="${P}pt" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#c2185b"/><stop offset="22%" stop-color="#e8628c"/><stop offset="55%" stop-color="#f9b4c8"/><stop offset="100%" stop-color="#fff0f4"/></linearGradient>`
@@ -1499,7 +1500,8 @@ function blossomMarkup(P, open, plan){
   const vary = (a, b)=>{ const v = lotusPetalVar(a, b); return { lv:1 + (v.lv - 1) * 1.9, wv:1 + (v.wv - 1) * 1.9, av:v.av * 2.4 }; };
   let fi = 0;
   // a blossom from the front, or slightly slanted (squeezed along one direction), opening out of a round bud
-  const front = (f)=>{
+  const front = (f, op)=>{
+    const open = op === undefined ? openAll : op; // a single flower can have its own opening
     const { x:cx, y:cy, L, rot, lag, g:grad, wf, n, tilt } = f;
     let g = '';
     for(let k = 0; k < 5; k++){
@@ -1521,7 +1523,8 @@ function blossomMarkup(P, open, plan){
   const cupShape = (L, W)=>`<path d="${cupPetal(L, W)}" fill="url(#${P}po)" stroke="rgba(150,15,65,0.35)" stroke-width="0.6"/>`
     + `<path d="M${-W*0.8} ${-L*0.84}C${-W*0.5} ${-L*0.98} ${-W*0.2} ${-L*0.96} 0 ${-L*0.89}C${W*0.2} ${-L*0.96} ${W*0.5} ${-L*0.98} ${W*0.8} ${-L*0.84}" stroke="#fff" stroke-opacity="0.6" stroke-width="1.1" fill="none"/>`
     + `<path d="M0 ${-L*0.1}L0 ${-L*0.7}M${-W*0.1} ${-L*0.1}L${-W*0.45} ${-L*0.66}M${W*0.1} ${-L*0.1}L${W*0.45} ${-L*0.66}" stroke="rgba(150,15,65,0.25)" stroke-width="0.7" fill="none"/>`;
-  const side = (f)=>{
+  const side = (f, op)=>{
+    const open = op === undefined ? openAll : op;
     const { x:cx, y:cy, r, L, lag, wf } = f;
     // [closed angle, open angle, size, foreshortening, curve, shape, width]
     const SP = [[0,0,1.02,1,0,'in',wf],[-6,-30,0.95,1,4,'in',wf],[6,30,0.95,1,-4,'in',wf],
@@ -1546,32 +1549,42 @@ function blossomMarkup(P, open, plan){
       return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${branchBody}${marks}</g>`;
     }
     if(plan.mode === 'compose'){
+      /* At every place ONE flower: closed it is the chosen bud (K…), open the chosen blossom (B…). A place with only a
+         bud stays a bud; a place with only a blossom shows that blossom closed. plan.state: 'closed' or 'open'. */
       const SC = 0.5; // catalogue size → branch size
-      const place = (x, y, rot, attachY, inner, stalkFrom)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${SC}) translate(0 ${(-attachY).toFixed(1)})">`
-        + (stalkFrom !== undefined ? `<g filter="url(#${P}sh)"><path d="M0 ${attachY.toFixed(1)}Q3 ${(attachY * 0.5).toFixed(1)} 0 ${stalkFrom.toFixed(1)}" stroke="#6a2e2c" stroke-width="3" fill="none" stroke-linecap="round"/></g>` : '') + inner + `</g>`;
-      // a catalogue item, its stalk end on (x, y), growing in direction rot
-      const item = (it, x, y, rot, isBud)=>{
-        if(isBud && !it.open){
-          const r = it.r || 12;
-          if(it.many) return place(x, y, rot, 30, it.many.map(([bx, by, br, rr, o])=>`<g filter="url(#${P}sh)" transform="translate(${bx} ${by - 6}) rotate(${br})"><path d="M0 ${rr*1.1}Q${br > 0 ? -5 : 5} ${rr*2} 0 ${30 - by + 6}" stroke="#6a2e2c" stroke-width="1.5" fill="none" stroke-linecap="round"/>${budMarkup(rr, o || {})}</g>`).join(''));
-          return place(x, y, rot, r * 3, `<g filter="url(#${P}sh)"><path d="M0 ${r*1.1}Q5 ${r*2} 0 ${r*3}" stroke="#6a2e2c" stroke-width="1.5" fill="none" stroke-linecap="round"/>${budMarkup(r, it)}</g>`);
+      const stalkColor = '#6a2e2c';
+      // something drawn in catalogue coordinates, its stalk end (0, attachY) put exactly on the twig at (x, y)
+      const place = (x, y, rot, attachY, inner)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${SC}) translate(0 ${(-attachY).toFixed(1)})">${inner}</g>`;
+      const stalk = (fromY, toY, bend)=>`<path d="M0 ${fromY.toFixed(1)}Q${bend} ${((fromY + toY) / 2).toFixed(1)} 0 ${toY.toFixed(1)}" stroke="${stalkColor}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+      const bud = (it, x, y, rot)=>{
+        if(it.open) return blossomAt(it, x, y, rot, it.open);
+        const r = it.r || 12;
+        if(it.many){
+          // a little cluster: all stalks come together in one point on the twig
+          const base = 34;
+          return place(x, y, rot, base, `<g filter="url(#${P}sh)">` + it.many.map(([bx, by, br, rr, o])=>{
+            const cx = bx, cy = by - 8;
+            return `<path d="M${cx} ${(cy + rr * 1.1).toFixed(1)}Q${(cx * 0.4).toFixed(1)} ${((cy + base) / 2 + 4).toFixed(1)} 0 ${base}" stroke="${stalkColor}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
+              + `<g transform="translate(${cx} ${cy}) rotate(${br})">${budMarkup(rr, o || {})}</g>`;
+          }).join('') + `</g>`);
         }
-        const f = Object.assign({}, it, { x:0, y:0, lag:0 });
-        if(f.t === 's') return place(x, y, rot, f.L * 0.8, side(f));
-        return place(x, y, rot, f.L * 0.62, front(f), 0);
+        return place(x, y, rot, r * 3, `<g filter="url(#${P}sh)">${stalk(r * 3, r * 1.1, 4)}${budMarkup(r, it)}</g>`);
       };
-      let parts = '';
+      const blossomAt = (it, x, y, rot, op)=>{
+        const f = Object.assign({}, it, { x:0, y:0, lag:0 });
+        if(f.t === 's') return place(x, y, rot, f.L * 0.8, side(f, op));
+        return place(x, y, rot, f.L * 0.62, `<g filter="url(#${P}sh)">${stalk(f.L * 0.62, 0, 3)}</g>` + front(f, op));
+      };
+      let parts = '', knots = '';
       BLOSSOM_SPOTS.forEach(([k, x, y, dir])=>{
         const pick = plan.pick[k]; if(!pick) return;
         const kb = pick.k != null ? BUD_CAT[pick.k] : null, bl = pick.b != null ? BLOSSOM_CAT[pick.b] : null;
-        // blossom at the tip of the twig; a bud next to it branches off to the side on its own stalk
-        const budDir = bl ? dir + (dir <= 0 ? -58 : 58) : dir;
-        // with a blossom on the tip, the bud's stalk starts a little lower down on the twig
-        const back = bl ? 10 : 0, rad = dir * Math.PI / 180, bx = x - Math.sin(rad) * back, by = y + Math.cos(rad) * back;
-        if(kb) parts += item(kb, bx, by, budDir, true).replace(/<g class="lt-(pet|center|bud)"/g, '<g data-fixed="1" class="lt-$1"');
-        if(bl) parts += item(Object.assign({}, bl, { open:bl.open || open }), x, y, dir, false);
+        if(plan.state === 'open' && bl) parts += blossomAt(bl, x, y, dir, bl.open || open);
+        else if(kb) parts += bud(kb, x, y, dir);
+        else if(bl) parts += blossomAt(bl, x, y, dir, 0);
+        knots += `<ellipse cx="${x}" cy="${y}" rx="1.9" ry="1.5" fill="#5a1e22"/>`; // where the stalk grows out of the twig
       });
-      return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${branchBody}${parts}</g>`;
+      return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${branchBody}<g filter="url(#${P}shb)">${knots}</g>${parts}</g>`;
     }
     if(plan.mode === 'flower'){ const f = Object.assign({ x:0, y:0, lag:0 }, plan.f); return `<defs>${defs}</defs>${f.t === 's' ? side(f) : front(f)}`; }
     if(plan.mode === 'bud'){
