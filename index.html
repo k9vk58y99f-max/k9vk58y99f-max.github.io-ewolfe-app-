@@ -1107,7 +1107,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.39.3';
+const APP_VERSION = '1.40.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1395,70 +1395,101 @@ function taperPath(segs, w0, w1){
   const f = a=>a.map(p=>p[0].toFixed(1) + ' ' + p[1].toFixed(1));
   return 'M' + f(L).join('L') + 'L' + f(R.reverse()).join('L') + 'Z';
 }
+// a cherry leaf: oval with a pointed tip and a finely sawn edge; fresh green or young bronze
+function cherryLeaf(P, x, y, rot, len, wid, bronze){
+  const id = `${P}lc${++leafClipSeq}`, n = 22, Lp = [], Rp = [];
+  for(let i = 0; i <= n; i++){
+    const t = i / n, w = wid * Math.pow(Math.sin(Math.PI * Math.min(1, t * 1.08)), 0.75) * (1 - 0.35 * t) * (t > 0.92 ? (1 - t) / 0.08 : 1);
+    const tooth = (i % 2 && t > 0.08 && t < 0.95) ? 1.6 : 0;
+    Lp.push([-(w + tooth), -len * t]); Rp.push([w + tooth, -len * t]);
+  }
+  const d = 'M' + Lp.map(p=>p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L') + 'L' + Rp.reverse().map(p=>p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L') + 'Z';
+  const veins = [0.2,0.34,0.48,0.62,0.76].map(t=>`<path d="M0 ${-len*t}Q${wid*0.4} ${-len*(t+0.06)} ${wid*0.85} ${-len*(t+0.13)}M0 ${-len*t}Q${-wid*0.4} ${-len*(t+0.06)} ${-wid*0.85} ${-len*(t+0.13)}" stroke="rgba(235,255,210,0.3)" stroke-width="0.9" fill="none"/>`).join('');
+  return `<g transform="translate(${x} ${y}) rotate(${rot})"><clipPath id="${id}"><path d="${d}"/></clipPath>`
+    + `<path d="M0 6L0 0" stroke="#5a3526" stroke-width="2.2" stroke-linecap="round"/>`
+    + `<path d="${d}" fill="url(#${P}${bronze ? 'lb' : 'lg'})" stroke="rgba(30,60,20,0.45)" stroke-width="0.6" stroke-linejoin="round"/>`
+    + `<g clip-path="url(#${id})"><path d="M0 0L0 ${-len*0.95}" stroke="rgba(235,255,210,0.55)" stroke-width="1.2" stroke-linecap="round"/>${veins}</g></g>`;
+}
 function blossomMarkup(P, open){
   const defs = `<linearGradient id="${P}br" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7a4e3a"/><stop offset="55%" stop-color="#5a3526"/><stop offset="100%" stop-color="#3e2418"/></linearGradient>`
+    // three slightly different pinks, so the blossoms are not all alike
     + `<linearGradient id="${P}pt" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#c2185b"/><stop offset="22%" stop-color="#e8628c"/><stop offset="55%" stop-color="#f9b4c8"/><stop offset="100%" stop-color="#fff0f4"/></linearGradient>`
+    + `<linearGradient id="${P}pl" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#d6336c"/><stop offset="25%" stop-color="#f08aab"/><stop offset="60%" stop-color="#fcd2de"/><stop offset="100%" stop-color="#fffafb"/></linearGradient>`
+    + `<linearGradient id="${P}pd" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#9c0f4a"/><stop offset="25%" stop-color="#d94a7c"/><stop offset="60%" stop-color="#f497b5"/><stop offset="100%" stop-color="#ffdce7"/></linearGradient>`
     + `<linearGradient id="${P}pb" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#ad1457"/><stop offset="30%" stop-color="#e05584"/><stop offset="70%" stop-color="#f6a3bd"/><stop offset="100%" stop-color="#ffdbe6"/></linearGradient>`
     + `<radialGradient id="${P}bud" cx="0.4" cy="0.35"><stop offset="0%" stop-color="#ffc2d4"/><stop offset="70%" stop-color="#ec6f98"/><stop offset="100%" stop-color="#c2185b"/></radialGradient>`
-    + natLeafDefs(P)
+    + `<linearGradient id="${P}lg" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#3f7a3a"/><stop offset="100%" stop-color="#8fbf5a"/></linearGradient>`
+    + `<linearGradient id="${P}lb" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#4f6e2c"/><stop offset="60%" stop-color="#8a8a3c"/><stop offset="100%" stop-color="#b8864a"/></linearGradient>`
     + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.1" stdDeviation="1.4" flood-color="#5a0f30" flood-opacity="0.38"/></filter>`
     + `<filter id="${P}shb" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.8" flood-color="#1a0d05" flood-opacity="0.5"/></filter>`
     + `<filter id="${P}shl" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.6" flood-color="#14300f" flood-opacity="0.45"/></filter>`;
-  // the branch: a gnarled main branch from the bottom left to the top right, twigs reaching up to the flowers
+  // an uneven, gnarled branch from beyond the bottom left corner, with twigs reaching up to the flowers
   const B = (segs, w0, w1)=>`<path d="${taperPath(segs, w0, w1)}" fill="url(#${P}br)"/>`;
   let body = `<g filter="url(#${P}shb)">`
-    + B([[[-100,96],[-74,74],[-46,60],[-22,44]], [[-22,44],[4,28],[24,8],[40,-14]], [[40,-14],[54,-34],[68,-48],[84,-60]]], 13, 3)
-    + B([[[-56,66],[-66,50],[-68,30],[-64,10]]], 5.5, 2.2)
-    + B([[[-22,44],[-18,20],[-12,-4],[-6,-30]]], 6.5, 2.6)
-    + B([[[-12,-6],[-20,-24],[-26,-40],[-34,-56]]], 3.6, 1.6)
-    + B([[[40,-14],[40,-34],[42,-48],[46,-62]]], 4.6, 2)
-    + B([[[14,14],[20,22],[24,26],[28,30]]], 3.4, 1.6)
-    + B([[[-80,82],[-90,70],[-92,58],[-90,46]]], 3.4, 1.4)
-    + B([[[64,-46],[58,-58],[56,-70],[58,-82]]], 2.8, 1.2)
-    + `<path d="M-60 72Q-40 58 -24 50M8 22Q24 4 38 -12" stroke="#a06e55" stroke-opacity="0.45" stroke-width="1.6" fill="none" stroke-linecap="round"/>`
-    + `<ellipse cx="-36" cy="54" rx="3" ry="2" fill="#2e1a10"/><ellipse cx="22" cy="6" rx="2.6" ry="1.8" fill="#2e1a10"/></g>`;
-  // a few small leaves
-  body += [[-58,58,-48,24,10],[36,-22,52,22,9],[-30,-40,-70,18,8]].map(([x,y,r,l,w])=>`<g filter="url(#${P}shl)">${natLeaf(P, x, y, r, l, w)}</g>`).join('');
+    + B([[[-118,112],[-96,98],[-84,80],[-62,72]], [[-62,72],[-44,66],[-38,48],[-18,40]], [[-18,40],[0,34],[6,14],[26,4]], [[26,4],[42,-4],[44,-24],[60,-34]], [[60,-34],[70,-40],[72,-50],[84,-56]]], 15, 3)
+    + B([[[-58,70],[-68,56],[-64,34],[-56,14]]], 6, 2.2)
+    + B([[[-20,40],[-24,22],[-12,4],[-8,-28]]], 6.5, 2.4)
+    + B([[[-12,-2],[-24,-16],[-24,-38],[-36,-54]]], 3.8, 1.5)
+    + B([[[26,4],[34,-14],[36,-38],[46,-60]]], 4.8, 1.8)
+    + B([[[6,22],[14,26],[20,24],[28,30]]], 3.4, 1.5)
+    + B([[[-84,84],[-94,72],[-90,60],[-92,48]]], 3.4, 1.3)
+    + B([[[62,-36],[58,-48],[60,-60],[56,-72]]], 2.8, 1.1)
+    + `<path d="M-80 86Q-60 70 -40 58M-6 30Q14 14 30 0" stroke="#a06e55" stroke-opacity="0.45" stroke-width="1.6" fill="none" stroke-linecap="round"/>`
+    + `<ellipse cx="-44" cy="62" rx="3.4" ry="2.2" fill="#2e1a10"/><ellipse cx="14" cy="16" rx="2.8" ry="1.9" fill="#2e1a10"/><ellipse cx="50" cy="-26" rx="2.2" ry="1.6" fill="#2e1a10"/>`
+    + `<circle cx="-62" cy="72" r="4.5" fill="#5a3526"/><circle cx="26" cy="4" r="4" fill="#5a3526"/></g>`;
+  // cherry leaves: fresh green and young bronze ones
+  body += [[-60,64,-52,30,11,0],[30,-4,58,28,10,1],[-24,-28,-74,22,8,0],[60,-44,-14,24,9,1],[-90,58,-30,20,7,0]]
+    .map(([x,y,r,l,w,b])=>`<g filter="url(#${P}shl)">${cherryLeaf(P, x, y, r, l, w, b)}</g>`).join('');
   // closed buds on short stalks
   const bud = (x, y, rot, sc)=>`<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})"><path d="M0 0C-8 -4 -10 -16 -1 -24C9 -17 9 -5 0 0Z" fill="url(#${P}bud)"/><path d="M-1 -4Q3 -12 -1 -21" stroke="#fff" stroke-opacity="0.45" stroke-width="1" fill="none"/><path d="M0 3C-6 1 -8 -5 -6 -9C-3 -4 0 -2 0 3ZM0 3C6 1 8 -5 6 -9C3 -4 0 -2 0 3Z" fill="#6b8a3a"/></g>`;
-  body += bud(-90, 46, -8, 0.8) + bud(58, -82, 6, 0.75) + bud(-34, -58, -30, 0.6) + bud(86, -62, 50, 0.6);
-  const stamens = (n, rMin, rMax, spread)=>{ let o = ''; for(let k = 0; k < n; k++){ const a = spread ? -spread + k * (2 * spread / (n - 1)) : k * 360 / n + 7, len = rMin + ((k * 7) % 5) / 4 * (rMax - rMin); o += `<g transform="rotate(${a.toFixed(1)})"><path d="M0 -2L0 ${-len.toFixed(1)}" stroke="#a3124a" stroke-width="0.9" stroke-linecap="round"/><circle cy="${-len.toFixed(1)}" r="1.5" fill="${k % 3 ? '#e04a76' : '#f5c242'}"/></g>`; } return o; };
-  const petalShape = (L, grad)=>{ const W = L * BLOSSOM_PETAL_W; return `<path d="${blossomPetalPath(L, W)}" fill="url(#${P}${grad})" stroke="rgba(170,20,80,0.32)" stroke-width="0.6"/><path d="M0 ${-L*0.08}L0 ${-L*0.55}M0 ${-L*0.1}L${-W*0.32} ${-L*0.5}M0 ${-L*0.1}L${W*0.32} ${-L*0.5}" stroke="rgba(170,20,80,0.32)" stroke-width="0.7" stroke-linecap="round" fill="none"/>`; };
+  body += bud(-92, 48, -10, 0.85) + bud(56, -72, 8, 0.8) + bud(-36, -54, -34, 0.62) + bud(78, -54, 46, 0.62);
+  const stamens = (n, rMin, rMax, spread, seed)=>{ let o = ''; for(let k = 0; k < n; k++){ const h = Math.sin(seed * 12.9 + k * 78.2) * 43758.5; const r = h - Math.floor(h); const a = spread ? -spread + k * (2 * spread / (n - 1)) : k * 360 / n + seed * 9 + r * 8, len = rMin + r * (rMax - rMin); o += `<g transform="rotate(${a.toFixed(1)})"><path d="M0 -2L0 ${-len.toFixed(1)}" stroke="#a3124a" stroke-width="0.9" stroke-linecap="round"/><circle cy="${-len.toFixed(1)}" r="${(1.3 + r * 0.5).toFixed(2)}" fill="${k % 3 ? '#e04a76' : '#f5c242'}"/></g>`; } return o; };
+  const petalShape = (L, grad, wf)=>{ const W = L * wf; return `<path d="${blossomPetalPath(L, W)}" fill="url(#${P}${grad})" stroke="rgba(170,20,80,0.32)" stroke-width="0.6"/><path d="M0 ${-L*0.08}L0 ${-L*0.55}M0 ${-L*0.1}L${-W*0.32} ${-L*0.5}M0 ${-L*0.1}L${W*0.32} ${-L*0.5}" stroke="rgba(170,20,80,0.3)" stroke-width="0.7" stroke-linecap="round" fill="none"/>`; };
+  // stronger differences from petal to petal than on the lotus
+  const vary = (a, b)=>{ const v = lotusPetalVar(a, b); return { lv:1 + (v.lv - 1) * 1.9, wv:1 + (v.wv - 1) * 1.9, av:v.av * 2.4 }; };
   let fi = 0;
-  // a blossom from the front: five petals around a centre, opening out of a round bud
-  const front = (cx, cy, L, rot, lag)=>{
+  // a blossom from the front, or slightly slanted (squeezed along one direction), opening out of a round bud
+  const front = (f)=>{
+    const { x:cx, y:cy, L, rot, lag, g:grad, wf, n, tilt } = f;
     let g = '';
     for(let k = 0; k < 5; k++){
-      const v = lotusPetalVar(8 + fi, k), a = rot + k * 72 + v.av, ds = { t:'f', cx, cy, a, s:1, lv:v.lv, wv:v.wv, lag };
-      g += `<g class="lt-pet" data-t="f" data-cx="${cx}" data-cy="${cy}" data-a="${a.toFixed(2)}" data-s="1" data-lv="${v.lv.toFixed(3)}" data-wv="${v.wv.toFixed(3)}" data-lag="${lag}" transform="${blossomPetalTf(ds, open)}">${petalShape(L, 'pt')}</g>`;
+      const v = vary(8 + fi, k), a = rot + k * 72 + v.av, ds = { t:'f', cx, cy, a, s:1, lv:v.lv, wv:v.wv, lag };
+      g += `<g class="lt-pet" data-t="f" data-cx="${cx}" data-cy="${cy}" data-a="${a.toFixed(2)}" data-s="1" data-lv="${v.lv.toFixed(3)}" data-wv="${v.wv.toFixed(3)}" data-lag="${lag}" transform="${blossomPetalTf(ds, open)}">${petalShape(L, grad, wf)}</g>`;
     }
     fi++;
     const c = lotusCenterTf(open * (1 + lag) - lag), b = blossomBudTf(open, lag), br = L * 0.36;
-    return `<g filter="url(#${P}sh)">${g}</g>`
-      + `<g transform="translate(${cx} ${cy})"><g class="lt-center" data-lag="${lag}" transform="${c.tf}" opacity="${c.op}"><g filter="url(#${P}sh)">${stamens(16, L * 0.36, L * 0.52, 0)}<circle r="${(L * 0.09).toFixed(1)}" fill="#a3124a"/></g></g></g>`
+    const inner = `<g filter="url(#${P}sh)">${g}</g>`
+      + `<g transform="translate(${cx} ${cy})"><g class="lt-center" data-lag="${lag}" transform="${c.tf}" opacity="${c.op}"><g filter="url(#${P}sh)">${stamens(n, L * 0.32, L * 0.56, 0, fi)}<circle r="${(L * 0.09).toFixed(1)}" fill="#a3124a"/></g></g></g>`
       + `<g transform="translate(${cx} ${cy})"><g class="lt-bud" data-lag="${lag}" transform="${b.tf}" opacity="${b.op}"><g filter="url(#${P}sh)"><circle r="${br.toFixed(1)}" fill="url(#${P}bud)"/>${[0,72,144,216,288].map(a=>`<path transform="rotate(${a + 20})" d="M0 0Q${(br*0.4).toFixed(1)} ${(-br*0.55).toFixed(1)} 0 ${(-br).toFixed(1)}" stroke="#fff" stroke-opacity="0.45" stroke-width="1" fill="none"/>`).join('')}</g></g></g>`;
+    // slanted: the whole flower is seen at an angle (squeezed along the direction tilt[0])
+    return tilt ? `<g transform="translate(${cx} ${cy}) rotate(${tilt[0]}) scale(1 ${tilt[1]}) rotate(${-tilt[0]}) translate(${-cx} ${-cy})">${inner}</g>` : inner;
   };
   // a blossom from the side: back petals, stamens, front petals, green sepals; it opens out to both sides
-  const side = (cx, cy, r, L, lag)=>{
+  const side = (f)=>{
+    const { x:cx, y:cy, r, L, lag, wf } = f;
     const P5 = [['b',0,0,1],['b',-10,-42,0.95],['b',10,42,0.95],['f',-6,-66,0.9],['f',6,66,0.9]];
-    const pet = (i, grad)=>{ const p = P5[i], v = lotusPetalVar(12 + fi, i), ds = { t:'s', cx, cy, r, a0:p[1], a1:p[2], s:p[3], lv:v.lv, wv:v.wv, lag };
-      return `<g class="lt-pet" data-t="s" data-cx="${cx}" data-cy="${cy}" data-r="${r}" data-a0="${p[1]}" data-a1="${p[2]}" data-s="${p[3]}" data-lv="${v.lv.toFixed(3)}" data-wv="${v.wv.toFixed(3)}" data-lag="${lag}" transform="${blossomPetalTf(ds, open)}">${petalShape(L, grad)}</g>`; };
+    const pet = (i, grad)=>{ const p = P5[i], v = vary(12 + fi, i), ds = { t:'s', cx, cy, r, a0:p[1], a1:p[2], s:p[3], lv:v.lv, wv:v.wv, lag };
+      return `<g class="lt-pet" data-t="s" data-cx="${cx}" data-cy="${cy}" data-r="${r}" data-a0="${p[1]}" data-a1="${p[2]}" data-s="${p[3]}" data-lv="${v.lv.toFixed(3)}" data-wv="${v.wv.toFixed(3)}" data-lag="${lag}" transform="${blossomPetalTf(ds, open)}">${petalShape(L, grad, wf)}</g>`; };
     fi++;
     const c = lotusCenterTf(open * (1 + lag) - lag);
     return `<g filter="url(#${P}sh)">${pet(1,'pb')}${pet(2,'pb')}${pet(0,'pb')}</g>`
-      + `<g transform="translate(${cx} ${cy}) rotate(${r})"><g class="lt-center" data-lag="${lag}" transform="${c.tf}" opacity="${c.op}"><g filter="url(#${P}sh)">${stamens(9, L * 0.5, L * 0.66, 38)}</g></g></g>`
-      + `<g filter="url(#${P}sh)">${pet(3,'pt')}${pet(4,'pt')}</g>`
+      + `<g transform="translate(${cx} ${cy}) rotate(${r})"><g class="lt-center" data-lag="${lag}" transform="${c.tf}" opacity="${c.op}"><g filter="url(#${P}sh)">${stamens(9, L * 0.5, L * 0.68, 38, fi)}</g></g></g>`
+      + `<g filter="url(#${P}sh)">${pet(3, f.g)}${pet(4, f.g)}</g>`
       + `<g filter="url(#${P}shl)" transform="translate(${cx} ${cy}) rotate(${r})"><path d="M0 5C-8 3 -10 -5 -7 -9C-4 -4 0 -2 0 5ZM0 5C8 3 10 -5 7 -9C4 -4 0 -2 0 5Z" fill="#6b8a3a"/><ellipse cy="4" rx="4" ry="3.4" fill="#5a3526"/></g>`;
   };
-  // the flowers, from the back to the front; they open one shortly after the other
-  body += side(-36, -56, -32, 26, 0.22);
-  body += front(46, -64, 24, 18, 0.14);
-  body += side(70, -42, 40, 20, 0.3);
-  body += front(-66, 8, 25, -12, 0.08);
-  body += front(30, 30, 21, 40, 0.18);
-  body += front(-4, -32, 32, -6, 0);
-  body += front(-82, 70, 19, 20, 0.26);
-  return `<defs>${defs}</defs>${body}`;
+  // every blossom a little different: colour, petal width, stamens, angle of view; they open one just after the other
+  const FL = [
+    { t:'s', x:-36, y:-56, r:-32, L:27, lag:0.06, g:'pl', wf:0.6 },
+    { t:'f', x:46,  y:-64, L:25, rot:18,  lag:0.04, g:'pl', wf:0.56, n:13, tilt:[28, 0.62] },
+    { t:'s', x:66,  y:-46, r:40, L:21, lag:0.09, g:'pd', wf:0.64 },
+    { t:'f', x:-56, y:10,  L:26, rot:-12, lag:0.02, g:'pd', wf:0.66, n:18, tilt:[-24, 0.78] },
+    { t:'f', x:30,  y:30,  L:22, rot:40,  lag:0.07, g:'pt', wf:0.6,  n:12, tilt:[70, 0.56] },
+    { t:'f', x:-6,  y:-32, L:34, rot:-6,  lag:0,    g:'pt', wf:0.64, n:20, tilt:null },
+    { t:'f', x:-30, y:62,  L:20, rot:24,  lag:0.1,  g:'pl', wf:0.62, n:11, tilt:[-60, 0.66] }
+  ];
+  FL.forEach(f=>{ body += f.t === 's' ? side(f) : front(f); });
+  // everything a little bigger than the frame: the branch runs out of the picture at the bottom left
+  return `<defs>${defs}</defs><g transform="translate(-2 6) scale(1.1)">${body}</g>`;
 }
 function blossomBudTf(open, lag){ const o = lotusEase(open * (1 + lag) - lag); return { tf:`scale(${(1 - 0.75 * o).toFixed(3)})`, op:(1 - o).toFixed(2) }; }
 function blossomApply(els, open){
@@ -1499,12 +1530,20 @@ function lemonMarkup(P){
     const a0 = (k * 36 + 3.4) * Math.PI / 180, a1 = ((k + 1) * 36 - 3.4) * Math.PI / 180, r0 = 8.4, r1 = 55.4;
     const p = (r, a)=>`${(r*Math.cos(a)).toFixed(2)} ${(r*Math.sin(a)).toFixed(2)}`;
     const mx = (32.2*Math.cos((a0+a1)/2)).toFixed(2), my = (32.2*Math.sin((a0+a1)/2)).toFixed(2);
-    seg += `<path d="M${p(r0,a0)}L${p(r1,a0)}A${r1} ${r1} 0 0 1 ${p(r1,a1)}L${p(r0,a1)}Z" fill="url(#${P}f)" stroke="rgba(214,150,0,0.35)" stroke-width="0.7" stroke-linejoin="round"/>`;
-    seg += `<ellipse cx="${mx}" cy="${my}" rx="3" ry="8" transform="rotate(${(k*36+18)+90} ${mx} ${my})" fill="rgba(255,255,255,0.32)"/>`;
+    seg += `<path d="M${p(r0,a0)}L${p(r1,a0)}A${r1} ${r1} 0 0 1 ${p(r1,a1)}L${p(r0,a1)}Z" fill="url(#${P}f)" stroke="rgba(214,150,0,0.5)" stroke-width="0.8" stroke-linejoin="round"/>`;
+    // the juice cells: small drops lying along the segment, lighter and darker ones
+    for(let j = 0; j < 9; j++){
+      const h = Math.sin((k + 1) * 91.7 + j * 37.3) * 43758.5453, rnd = h - Math.floor(h);
+      const rr = 16 + (j % 3) * 12 + rnd * 8, aa = a0 + (a1 - a0) * (0.22 + ((j * 0.37 + rnd * 0.4) % 0.56));
+      if(rr > r1 - 5) continue;
+      const vx = (rr*Math.cos(aa)).toFixed(2), vy = (rr*Math.sin(aa)).toFixed(2);
+      seg += `<ellipse cx="${vx}" cy="${vy}" rx="${(1.5 + rnd * 0.8).toFixed(2)}" ry="${(4.2 + rnd * 2.2).toFixed(2)}" transform="rotate(${(aa * 180 / Math.PI + 90).toFixed(1)} ${vx} ${vy})" fill="${j % 2 ? 'rgba(255,255,255,0.42)' : 'rgba(245,190,0,0.32)'}"/>`;
+    }
+    seg += `<path d="M${p(r0 + 3,(a0+a1)/2)}L${p(r1 - 6,(a0+a1)/2)}" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-linecap="round"/>`;
   }
   const leafG = (x, y, rot, len, wid)=>`<g filter="url(#${P}shl)">${natLeaf(P, x, y, rot, len, wid)}</g>`;
   return `<defs>`
-    + `<radialGradient id="${P}f" cx="0.5" cy="0.5" r="0.6"><stop offset="0%" stop-color="#fff6b0"/><stop offset="100%" stop-color="#ffd91a"/></radialGradient>`
+    + `<radialGradient id="${P}f" cx="0" cy="0" r="58" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff8c4"/><stop offset="55%" stop-color="#ffe55a"/><stop offset="100%" stop-color="#ffcf0a"/></radialGradient>`
     + `<linearGradient id="${P}r" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffe94d"/><stop offset="100%" stop-color="#f2b800"/></linearGradient>`
     + `<radialGradient id="${P}w" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#fffbe6"/><stop offset="100%" stop-color="#fff0a6"/></radialGradient>`
     + `<linearGradient id="${P}lf" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${L.dark}"/><stop offset="100%" stop-color="${L.light}"/></linearGradient>`
