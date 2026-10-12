@@ -43,7 +43,9 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   (`impulses` im `I18N`), „Tage in Folge“ (`achStreak()`) und „Tägliche Erinnerung“ (`remindAdd()`: .ics-Datei mit
   täglichem Termin für den eigenen Kalender, kein Server nötig). Unten: Auswertung der Stimmung (`achMoodHtml()`).
   Bilder im Stil von Lotus und Zitrone (plastisch, Verläufe, Blätter mit Adern: `natLeaf()`): Mond (4-7-8), Lavendel
-  (für einen späteren Body-Scan), Steine mit Keimling (5-4-3-2-1), Kirschblüte (Dankbarkeit), Klangschale (Stille). Eigene Übungen sind
+  (für einen späteren Body-Scan), Steine mit Keimling (5-4-3-2-1), Kirschblüte (Dankbarkeit), Klangschale (Stille).
+  Der Body-Scan mit Computerstimme wurde in 1.38.2 wieder entfernt (`RETIRED_BUILTINS` nimmt ihn aus allen Listen);
+  er soll später mit einer eigenen Aufnahme zurückkommen (wie die Lemonmeditation, Audio im Ordner `audio/`). Eigene Übungen sind
   Karten mit wählbarem Bild (`MEDI_ICONS`/`ownPictureSvg()`, Feld `icon`).
 - Sprachwahl beim allerersten Öffnen eines neuen Geräts im Anmeldefenster (`syncNeedsLangPick()`,
   Merker `ewolfe_lang_chosen`).
