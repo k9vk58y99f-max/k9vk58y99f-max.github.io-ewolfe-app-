@@ -26,6 +26,8 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Quadrat, kein Himmel). `breathLotusSet` läuft gleichmäßig durch die Phase: 4 s einatmen = Bild 0→25, 7 s halten = offen,
   8 s ausatmen = zurück; zwei Bilder übereinander, das nächste wird eingeblendet (`CHERRY_FRAMES`, `cherryFrameUrl`,
   `cherryPreload`). Einzelbilder aus Videos: kleines Swift-Werkzeug mit AVAssetImageGenerator (ffmpeg ist nicht installiert).
+  Die Knospe unten in der Mitte (links neben der unteren rechten Blüte) bleibt in allen Bildern wie im ersten Bild
+  (dort machte das Video aus einer Knospe zwei und ließ lose Blütenblätter liegen; Ausschnitt mit weichem Rand ersetzt).
   Die Zitrone ist weiterhin gezeichnet (`lemonMarkup`). Neue Bilder freistellen: Hintergrund ist ein gleichmäßiges
   Dunkelblau, per Farbabstand zum Rand-Median entfernen, weiche Schatten nur nahe am Motiv behalten.
 - Eingebaute Meditationen mit Audio (`builtIn:true` in `DEFAULT_MEDITATIONEN`, Feld `audio` = Pfad zur Datei,
@@ -118,7 +120,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.53.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.53.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
