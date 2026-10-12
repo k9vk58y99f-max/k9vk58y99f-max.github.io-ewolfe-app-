@@ -33,6 +33,17 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   wie beim App-Icon (`lemonPlayerSvg()`). Lemonmeditation
   spielt im Fenster `#medi-player-modal` (`mediPlayerOpen()`). Das Formular zum Hinzufügen ist eingeklappt
   (`mediShowForm()`), mit „Abbrechen".
+- Achtsamkeit 2.0 (seit 1.38.0, Abschnitt „Achtsamkeit 2.0“ im Code): weitere eingebaute Übungen (`MEDI_ORDER`):
+  4-7-8-Atmung (`breathOpen('b478')`, gleiches Fenster wie Box Breathing; Rhythmen in `HP_PATTERNS`, Musik je Rhythmus
+  `hpPiece(key)`), Body-Scan (`scanOpen()`, 12 Schritte à 30 s, Stimme über die Sprachausgabe des Geräts, Merker
+  `ewolfe_scan_voice`), 5-4-3-2-1 (`groundOpen()`), Dankbarkeit am Abend (`gratOpen()`, auf Wunsch ins Tagebuch dieses
+  Jahres: `gratToDiary()`), Stille Meditation (`timerOpen()`, Gong `hpGong()`, Musik „calm“ ohne Atemgeräusche).
+  Start immer über `mediRun(id)`: Stimmung vorher (`moodAsk()`), Übung, beim Schließen (`achSessionEnd()` aus
+  `closeModal`) „erledigt“ (ab 30 s) und Stimmung nachher. Alles steht in `state.achtsamkeit.log` (wird synchronisiert,
+  Zusammenführen nach `id` in `mergeBackupInto`). Oben auf der Seite: Impuls für den niedrigsten Bereich
+  (`impulses` im `I18N`), „Tage in Folge“ (`achStreak()`) und „Tägliche Erinnerung“ (`remindAdd()`: .ics-Datei mit
+  täglichem Termin für den eigenen Kalender, kein Server nötig). Unten: Auswertung der Stimmung (`achMoodHtml()`).
+  Eigene Übungen sind Karten mit wählbarem Symbol (`MEDI_ICONS`, Feld `icon`).
 - Sprachwahl beim allerersten Öffnen eines neuen Geräts im Anmeldefenster (`syncNeedsLangPick()`,
   Merker `ewolfe_lang_chosen`).
 - Symbole: eigene Linien-Icons statt Emojis über `ico(name)` / `UI_ICONS` (Tagebuch, Löschen …).
@@ -69,7 +80,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.37.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.38.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code

@@ -616,6 +616,57 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .compare-text p{ margin:0 0 10px; }
 .eval-close{ margin-left:auto; }
 
+/* ================= Achtsamkeit 2.0 (since 1.38.0) ================= */
+.medi-top{ background:linear-gradient(135deg, var(--ew-uv-navy) 0%, var(--ew-uv-navy-2) 45%, var(--ew-uv-violet) 100%); border-radius:18px; padding:16px 16px 14px; margin-bottom:14px; }
+.medi-top h3{ margin:0 0 6px; }
+.medi-impulse-area{ display:flex; align-items:center; gap:8px; color:var(--ew-uv-lilac); margin-bottom:8px; }
+.medi-impulse-area .area-ico{ margin:0; color:#fff; }
+.medi-impulse-text{ margin:0 0 12px; line-height:1.5; }
+.medi-impulse-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+.medi-streak{ display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:16px; padding:12px 14px; margin-bottom:14px; }
+.medi-streak-n{ font-weight:700; color:var(--ew-turquoise); }
+.medi-streak-sub{ color:var(--ew-text); opacity:.8; }
+.medi-streak .ghost-btn{ padding:8px 12px; white-space:nowrap; }
+.medi-mood-card{ background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:16px; padding:14px 16px; margin:4px 0 14px; }
+.medi-mood-card h3{ margin:0 0 6px; }
+.medi-mood-card p{ margin:0 0 6px; line-height:1.5; }
+.goal-table-card-h{ font-size:var(--fs-sub); font-weight:700; color:var(--ew-turquoise); margin:0 0 6px; }
+.medi-own-pic{ width:56px; height:56px; margin:4px; border-radius:16px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #3a2fd0, #6d6ef3 60%, #58d48f); }
+.medi-own-pic svg{ width:30px; height:30px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.medi-card-actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+.medi-card-actions .ghost-btn{ display:inline-flex; align-items:center; }
+.medi-icon-pick{ display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 10px; }
+.medi-icon-opt{ width:42px; height:42px; border-radius:12px; border:1px solid var(--ew-line); background:var(--ew-panel); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; color:#fff; }
+.medi-icon-opt svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.medi-icon-opt.active{ border-color:var(--ew-turquoise); background:rgba(88,212,143,0.16); color:var(--ew-turquoise); }
+.mood-box h2{ margin-bottom:16px; text-align:center; }
+.mood-row{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.mood-opt{ display:flex; align-items:center; gap:12px; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:14px; padding:9px 14px; color:#fff; cursor:pointer; font:inherit; font-size:var(--fs-text); text-align:left; }
+.mood-opt svg{ width:30px; height:30px; flex:none; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; }
+.mood-opt:active, .mood-opt:hover{ border-color:var(--ew-turquoise); color:var(--ew-turquoise); }
+.scan-step-n{ text-align:center; color:var(--ew-turquoise); font-weight:600; margin-bottom:6px; }
+.scan-text{ text-align:center; line-height:1.6; min-height:96px; margin:0 6px 6px; }
+.ground-num{ width:120px; height:120px; margin:10px auto 14px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:56px; font-weight:700; color:#fff; background:radial-gradient(circle at 35% 30%, #8d8dff, #3a2fd0 70%); box-shadow:0 0 0 8px rgba(109,74,255,0.18), 0 0 40px rgba(109,74,255,0.45); }
+.ground-label{ text-align:center; font-weight:700; color:var(--ew-turquoise); font-size:var(--fs-sub); margin-bottom:8px; }
+.ground-text{ text-align:center; line-height:1.55; margin:0 8px 14px; min-height:72px; }
+.ground-dots{ display:flex; justify-content:center; gap:8px; margin-bottom:16px; }
+.ground-dots i{ width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.22); }
+.ground-dots i.on{ background:var(--ew-turquoise); }
+.grat-pic{ width:84px; margin:0 auto 10px; }
+.grat-pic svg{ width:100%; height:auto; display:block; }
+.grat-input{ width:100%; margin-bottom:8px; }
+.grat-check{ display:flex; align-items:center; gap:8px; margin:6px 2px 14px; }
+.grat-check input{ width:18px; height:18px; accent-color:var(--ew-turquoise); }
+.grat-recent{ margin-top:16px; }
+.grat-recent-item{ background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:14px; padding:10px 14px; margin-bottom:8px; line-height:1.5; }
+.grat-recent-item b{ color:var(--ew-turquoise); font-weight:600; }
+.timer-chips{ display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin:4px 0 10px; }
+.timer-chips button{ border:1px solid var(--ew-line); background:var(--ew-panel); color:#fff; border-radius:999px; padding:8px 14px; cursor:pointer; font:inherit; }
+.timer-chips button.active{ border-color:var(--ew-turquoise); background:rgba(88,212,143,0.16); color:var(--ew-turquoise); }
+.timer-clock{ text-align:center; font-size:42px; font-weight:700; letter-spacing:.02em; margin:2px 0 14px; font-variant-numeric:tabular-nums; }
+.remind-label{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+.remind-label input{ max-width:140px; }
+
 /* ================= Three text sizes only (since 1.34.0) =================
    Headings: big and white. Subheadings: a little smaller and green. Everything else: normal text in white.
    Exceptions on purpose: the labels of the bottom bar, the version line, the breathing count and the diary pages themselves. */
@@ -777,11 +828,86 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
   </div>
 </div>
 
+<!-- Mood check before / after an exercise -->
+<div class="modal-backdrop" id="mood-modal">
+  <div class="modal mood-box">
+    <h2 class="modal-title" id="mood-q"></h2>
+    <div class="mood-row" id="mood-row"></div>
+    <button class="ghost-btn" id="mood-skip" style="width:100%;"></button>
+  </div>
+</div>
+
+<!-- Body scan: guided steps with voice and soft music -->
+<div class="modal-backdrop" id="scan-modal">
+  <div class="modal breath-modal">
+    <div class="modal-top"><h2 class="modal-title" id="scan-title"></h2><button class="icon-btn" onclick="scanStop()">✕</button></div>
+    <div class="medi-player-img" id="scan-img"></div>
+    <div class="scan-step-n" id="scan-step-n"></div>
+    <p class="scan-text" id="scan-text"></p>
+    <div class="breath-meta" id="scan-meta"></div>
+    <div class="breath-actions">
+      <button class="ghost-btn breath-music-btn" id="scan-voice-btn" onclick="scanToggleVoice()"></button>
+      <button class="ghost-btn breath-music-btn" id="scan-music-btn" onclick="exToggleMusic()"></button>
+      <button class="ghost-btn" id="scan-pause-btn" onclick="scanTogglePause()"></button>
+      <button class="primary-btn" id="scan-stop-btn" onclick="scanStop()"></button>
+    </div>
+  </div>
+</div>
+
+<!-- 5-4-3-2-1: back to the here and now through the senses -->
+<div class="modal-backdrop" id="ground-modal">
+  <div class="modal breath-modal">
+    <div class="modal-top"><h2 class="modal-title" id="ground-title"></h2><button class="icon-btn" onclick="closeModal('ground-modal')">✕</button></div>
+    <div id="ground-body"></div>
+    <div class="breath-actions">
+      <button class="ghost-btn" id="ground-back" onclick="groundStep(-1)"></button>
+      <button class="primary-btn" id="ground-next" onclick="groundStep(1)"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Evening gratitude -->
+<div class="modal-backdrop" id="grat-modal">
+  <div class="modal">
+    <div class="modal-top"><h2 class="modal-title" id="grat-title"></h2><button class="icon-btn" onclick="closeModal('grat-modal')">✕</button></div>
+    <div class="grat-pic" id="grat-pic"></div>
+    <input class="small-input grat-input" id="grat-1"><input class="small-input grat-input" id="grat-2"><input class="small-input grat-input" id="grat-3">
+    <label class="grat-check"><input type="checkbox" id="grat-diary" checked> <span id="grat-diary-label"></span></label>
+    <button class="primary-btn" style="width:100%;padding:13px;" id="grat-save" onclick="gratSave()"></button>
+    <div id="grat-recent"></div>
+  </div>
+</div>
+
+<!-- Silent meditation: timer with a gong -->
+<div class="modal-backdrop" id="timer-modal">
+  <div class="modal breath-modal">
+    <div class="modal-top"><h2 class="modal-title" id="timer-title"></h2><button class="icon-btn" onclick="timerStop()">✕</button></div>
+    <div class="medi-player-img" id="timer-img"></div>
+    <div class="timer-chips" id="timer-chips"></div>
+    <div class="timer-clock" id="timer-clock">5:00</div>
+    <div class="breath-actions">
+      <button class="ghost-btn breath-music-btn" id="timer-music-btn" onclick="exToggleMusic()"></button>
+      <button class="ghost-btn" id="timer-pause-btn" onclick="timerTogglePause()" style="display:none;"></button>
+      <button class="primary-btn" id="timer-main-btn" onclick="timerMain()"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Daily reminder: an event in the person's own calendar -->
+<div class="modal-backdrop" id="remind-modal">
+  <div class="modal">
+    <div class="modal-top"><h2 class="modal-title" id="remind-title"></h2><button class="icon-btn" onclick="closeModal('remind-modal')">✕</button></div>
+    <p class="modal-sub" id="remind-text"></p>
+    <label class="remind-label"><span id="remind-time-label"></span><input type="time" class="small-input" id="remind-time" value="20:00"></label>
+    <button class="primary-btn" style="width:100%;padding:13px;" id="remind-add" onclick="remindAdd()"></button>
+  </div>
+</div>
+
 <!-- Box Breathing: a dot travels around a square, 4 seconds per side -->
 <div class="modal-backdrop" id="breath-modal">
   <div class="modal breath-modal">
     <div class="modal-top">
-      <h2 class="modal-title">Box Breathing</h2>
+      <h2 class="modal-title" id="breath-title">Box Breathing</h2>
       <button class="icon-btn" onclick="breathStop()">✕</button>
     </div>
     <div class="breath-stage">
@@ -853,6 +979,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
       <input class="small-input" id="medi-title-input" placeholder="Titel" style="width:100%;margin-bottom:8px;">
       <input class="small-input" id="medi-url-input" placeholder="Link (optional)" style="width:100%;margin-bottom:8px;">
       <textarea class="small-input" id="medi-notes-input" placeholder="Notiz (optional)" rows="2" style="width:100%;resize:vertical;"></textarea>
+      <div class="medi-icon-pick" id="medi-icon-pick"></div>
       <label class="ghost-btn medi-attach-btn" id="medi-attach-label" style="cursor:pointer;display:inline-block;">
         <span id="medi-attach-label-text">🎵 Audio/Video anhängen</span>
         <input type="file" accept="audio/*,video/*" id="medi-file-input" style="display:none;">
@@ -997,7 +1124,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.37.0';
+const APP_VERSION = '1.38.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1005,7 +1132,14 @@ const DEFAULT_MEDITATIONEN = [
   { id:'seed-bodyscan', title:'Body-Scan zum Einschlafen', url:null, notes:'Von den Zehen bis zum Kopf jeden Körperteil kurz wahrnehmen und bewusst entspannen.', media:null, ts:2 },
   { id:'seed-box', title:'Box Breathing', url:null, notes:null, notesKey:'mediBoxNote', media:null, tool:'box', ts:4, builtIn:true },
   { id:'seed-lemon', title:'Lemonmeditation', url:null, notes:null, notesKey:'mediLemonNote', media:null, audio:'audio/lemonmeditation_v2.m4a', ts:3, builtIn:true },
+  { id:'seed-478', title:'4-7-8-Atmung', titleKey:'ex478Title', url:null, notes:null, notesKey:'ex478Note', media:null, tool:'b478', ts:5, builtIn:true },
+  { id:'seed-scan', title:'Body-Scan', titleKey:'exScanTitle', url:null, notes:null, notesKey:'exScanNote', media:null, tool:'scan', ts:6, builtIn:true },
+  { id:'seed-54321', title:'5-4-3-2-1', titleKey:'exGroundTitle', url:null, notes:null, notesKey:'exGroundNote', media:null, tool:'ground', ts:7, builtIn:true },
+  { id:'seed-dank', title:'Dankbarkeit am Abend', titleKey:'exGratTitle', url:null, notes:null, notesKey:'exGratNote', media:null, tool:'grat', ts:8, builtIn:true },
+  { id:'seed-stille', title:'Stille Meditation', titleKey:'exTimerTitle', url:null, notes:null, notesKey:'exTimerNote', media:null, tool:'timer', ts:9, builtIn:true },
 ];
+// order of the built-in exercises on the page
+const MEDI_ORDER = ['seed-lemon', 'seed-box', 'seed-478', 'seed-scan', 'seed-54321', 'seed-dank', 'seed-stille'];
 // Built-in meditations whose audio ships with the app (a file next to index.html, so it costs no app storage).
 // Unlike the samples above they belong to the app: everybody has them, they cannot be deleted, and the
 // stored copy is always brought up to date with the definition here (text, audio file).
@@ -1292,38 +1426,33 @@ function lemonMarkup(P){
 function renderMeditationen(){
   const d = t();
   const list = document.getElementById('medi-list');
-  const items = (state.meditationen||[]).slice().reverse(); // newest first
-  const pic = m => m.tool === 'box' ? lotusPictureSvg(m.id) : m.audio ? lemonPictureSvg(m.id) : '';
-  const cards = items.filter(m=>m.builtIn).map(m=>{
+  const all = state.meditationen || [];
+  const card = (m, picHtml, body)=>{
     const open = mediOpenCard === m.id;
     return `<div class="medi-card${open ? ' open' : ''}">
       <button class="medi-card-head" onclick="mediToggleCard('${m.id}')" aria-expanded="${open}">
-        <span class="medi-card-img">${pic(m)}</span>
-        <span class="medi-card-title">${escapeHtml(m.title)}</span>
+        <span class="medi-card-img">${picHtml}</span>
+        <span class="medi-card-title">${escapeHtml(mediTitle(m))}</span>
         <span class="tb-chev${open ? ' open' : ''}">${ico('chevron')}</span>
       </button>
-      ${open ? `<div class="medi-card-body">
-        <p>${escapeHtml(m.notesKey ? d[m.notesKey] : (m.notes || ''))}</p>
-        <button class="primary-btn medi-start-btn" onclick="${m.tool === 'box' ? 'breathOpen()' : `mediPlayerOpen('${m.id}')`}">${ico('play')}${d.mediStart}</button>
-      </div>` : ''}
+      ${open ? `<div class="medi-card-body">${body}</div>` : ''}
     </div>`;
-  }).join('');
-  const own = items.filter(m=>!m.builtIn);
-  list.innerHTML = cards + (own.length ? own.map(m=>{
-    const titleHtml = m.url
-      ? `<a href="${escapeHtml(m.url)}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">${escapeHtml(m.title)}</a>`
-      : escapeHtml(m.title);
-    return `<div class="event-item">
-      <div class="row1">
-        <div class="title" style="font-weight:600;font-size:var(--fs-text);">${titleHtml}</div>
-        ${m.builtIn ? '' : `<button class="icon-del" title="${d.delete}" onclick="deleteMeditation('${m.id}')">✕</button>`}
-      </div>
-      ${(m.notesKey ? d[m.notesKey] : m.notes) ? `<div class="meta">${escapeHtml(m.notesKey ? d[m.notesKey] : m.notes)}</div>` : ''}
-      ${m.media ? `<div class="medi-media">${m.media.type.startsWith('video/')
-          ? `<video controls src="${m.media.dataUrl}"></video>`
-          : `<audio controls src="${m.media.dataUrl}"></audio>`}</div>` : ''}
-    </div>`;
-  }).join('') : (cards ? '' : `<div class="note">${d.mediNone}</div>`));
+  };
+  const builtIns = MEDI_ORDER.map(id=>all.find(m=>m.id === id && m.builtIn)).filter(Boolean)
+    .concat(all.filter(m=>m.builtIn && !MEDI_ORDER.includes(m.id)));
+  const cards = builtIns.map(m=>card(m, mediPicture(m),
+    `<p>${escapeHtml(m.notesKey ? d[m.notesKey] : (m.notes || ''))}</p>
+     <button class="primary-btn medi-start-btn" onclick="mediRun('${m.id}')">${ico('play')}${d.mediStart}</button>`)).join('');
+  // the person's own exercises: a card with the symbol they chose
+  const own = all.filter(m=>!m.builtIn).slice().reverse().map(m=>card(m,
+    `<span class="medi-own-pic"><svg viewBox="0 0 24 24">${MEDI_ICONS[m.icon] || MEDI_ICONS.leaf}</svg></span>`,
+    `${m.notes ? `<p>${escapeHtml(m.notes)}</p>` : ''}
+     ${m.media ? `<div class="medi-media">${m.media.type.startsWith('video/') ? `<video controls src="${m.media.dataUrl}"></video>` : `<audio controls src="${m.media.dataUrl}"></audio>`}</div>` : ''}
+     <div class="medi-card-actions">
+       ${m.url ? `<a class="primary-btn medi-start-btn" style="flex:1;text-decoration:none;" href="${escapeHtml(m.url)}" target="_blank" rel="noopener noreferrer">${ico('play')}${d.mediOpenLink}</a>` : ''}
+       <button class="ghost-btn" onclick="deleteMeditation('${m.id}')">${ico('trash')}${d.mediDelete}</button>
+     </div>`)).join('');
+  list.innerHTML = achImpulseHtml() + achStreakHtml() + cards + own + achMoodHtml();
 }
 let mediOpenCard = null, mediFormOpen = false;
 function mediToggleCard(id){ mediOpenCard = mediOpenCard === id ? null : id; renderMeditationen(); }
@@ -1331,6 +1460,7 @@ function mediShowForm(open){
   mediFormOpen = open;
   document.getElementById('medi-form').style.display = open ? '' : 'none';
   document.getElementById('medi-add-toggle').style.display = open ? 'none' : '';
+  if(open){ mediIconChoice = 'leaf'; document.getElementById('medi-icon-pick').innerHTML = mediIconPickHtml(); }
   if(open) setTimeout(()=>{ try{ document.getElementById('medi-title-input').focus({ preventScroll:true }); }catch(e){} }, 50);
 }
 function mediClearForm(){
@@ -1389,7 +1519,7 @@ document.getElementById('medi-save-btn').onclick = ()=>{
   const notes = document.getElementById('medi-notes-input').value.trim();
   if(!state.meditationen) state.meditationen = [];
   const media = mediStagedFile ? { name:mediStagedFile.name, type:mediStagedFile.type, dataUrl:mediStagedFile.dataUrl } : null;
-  state.meditationen.push({ id:'m'+Date.now()+Math.random().toString(36).slice(2,5), title, url: url||null, notes: notes||null, media, ts: Date.now() });
+  state.meditationen.push({ id:'m'+Date.now()+Math.random().toString(36).slice(2,5), title, url: url||null, notes: notes||null, media, icon:mediIconChoice, ts: Date.now() });
   saveState();
   mediClearForm();
   mediShowForm(false);
@@ -1443,39 +1573,52 @@ document.getElementById('medi-player-seek').addEventListener('input', e=>{
    tone when breathing out starts, a calm melody in between. It is 38 breathing rounds long (just over 10 minutes),
    fades out at the end and starts again, fading in. ---- */
 const HP_SCALE = [146.83, 220.00, 233.08, 261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 523.25]; // D3 | A3 Bb3 C4 D4 E4 F4 G4 A4 C5
-const HP_ROUNDS = 38, HP_LEN = HP_ROUNDS * 16; // 608 s
+const HP_ROUNDS = 38, HP_LEN = HP_ROUNDS * 16; // 608 s (Box Breathing)
 const HP_PREF_KEY = 'ewolfe_breath_music';
-let hp = null, hpPieceCache = null;
+let hp = null, hpPieceCache = {};
+/* Rhythms the music can follow: seconds per phase and what the phase is. "calm" has no breathing sounds
+   (for the silent meditation and the body scan). Every piece lasts about 10 minutes and then starts again. */
+const HP_PATTERNS = {
+  box:  { phases:[['in',4],['hold',4],['out',4],['hold',4]], breath:true },
+  b478: { phases:[['in',4],['hold',7],['out',8]], breath:true },
+  calm: { phases:[['in',4],['hold',4],['out',4],['hold',4]], breath:false }
+};
 function hpMusicOn(){ try{ return localStorage.getItem(HP_PREF_KEY) !== '0'; }catch(e){ return true; } }
-function hpPiece(){
-  if(hpPieceCache) return hpPieceCache;
+function hpPiece(key){
+  key = HP_PATTERNS[key] ? key : 'box';
+  if(hpPieceCache[key]) return hpPieceCache[key];
+  const P = HP_PATTERNS[key], roundLen = P.phases.reduce((a,p)=>a + p[1], 0);
+  const rounds = key === 'box' ? HP_ROUNDS : Math.max(1, Math.round(600 / roundLen));
   let seed = 20261011; // fixed, so the piece is the same every time
   const rnd = ()=>{ seed |= 0; seed = seed + 0x6D2B79F5 | 0; let x = Math.imul(seed ^ seed >>> 15, 1 | seed); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296; };
   // chords from the D-Kurd scale (indices into HP_SCALE): Dm, Bb, C, F, Gm-ish, Am-ish
   const CH = { Dm:[1,4,6,8], Bb:[2,4,6,9], C:[3,5,7,9], F:[3,6,8,9], Gm:[2,4,7,8], Am:[1,3,5,8] };
   const PROG = [['Dm','Bb','C','Dm'], ['Dm','F','C','Am'], ['Bb','F','C','Dm'], ['Dm','Gm','Bb','C']];
   const notes = [];
-  for(let r = 0; r < HP_ROUNDS; r++){
-    const t0 = r * 16, prog = PROG[r % PROG.length];
-    notes.push({ t:t0, kind:'in' });      // breathing in
-    notes.push({ t:t0 + 8, kind:'out' }); // breathing out
-    for(let ph = 0; ph < 4; ph++){
-      const tp = t0 + ph * 4, chord = CH[prog[ph]], hold = ph % 2 === 1;
+  for(let r = 0; r < rounds; r++){
+    const t0 = r * roundLen, prog = PROG[r % PROG.length];
+    let tp = t0;
+    P.phases.forEach(([kind, secs], ph)=>{
+      const chord = CH[prog[ph % 4]], hold = kind === 'hold';
+      if(P.breath && kind !== 'hold') notes.push({ t:tp, kind, dur:Math.min(secs - 0.3, 7.5) }); // the breath itself
       // the deep ding opens breathing in, the A opens breathing out
-      if(ph === 0) notes.push({ t:tp, f:HP_SCALE[0], v:0.42, pan:0 });
-      if(ph === 2) notes.push({ t:tp, f:HP_SCALE[1], v:0.32, pan:0 });
+      if(kind === 'in') notes.push({ t:tp, f:HP_SCALE[0], v:0.42, pan:0 });
+      if(kind === 'out') notes.push({ t:tp, f:HP_SCALE[1], v:0.32, pan:0 });
       // a calm, flowing arpeggio on eighths: up through the chord and back, a few notes left out to breathe
-      const shape = rnd() < 0.5 ? [0,1,2,3,2,1,2,3] : [0,2,1,3,2,1,3,2];
-      for(let k = 0; k < 8; k++){
-        if(k === 0 && (ph === 0 || ph === 2)) continue; // the bass tone sits there
+      const steps = secs * 2;
+      let shape = rnd() < 0.5 ? [0,1,2,3,2,1,2,3] : [0,2,1,3,2,1,3,2];
+      for(let k = 0; k < steps; k++){
+        if(k % 8 === 0 && k) shape = rnd() < 0.5 ? [0,1,2,3,2,1,2,3] : [0,2,1,3,2,1,3,2];
+        if(k === 0 && kind !== 'hold') continue; // the bass tone sits there
         if(rnd() < (hold ? 0.28 : 0.14)) continue;
-        const ix = chord[shape[k]];
+        const ix = chord[shape[k % 8]];
         const swing = (k % 2) ? 0.04 : 0; // a hint of a human, rolling feel
         notes.push({ t:tp + k * 0.5 + swing + (rnd() - 0.5) * 0.03, f:HP_SCALE[ix], v:(k % 2 ? 0.13 : 0.18) * (hold ? 0.82 : 1) + rnd() * 0.04, pan:((ix / (HP_SCALE.length - 1)) - 0.5) * 0.7 });
       }
-    }
+      tp += secs;
+    });
   }
-  return hpPieceCache = notes.sort((a,b)=>a.t - b.t);
+  return hpPieceCache[key] = { notes:notes.sort((a,b)=>a.t - b.t), len:rounds * roundLen };
 }
 function hpImpulse(ctx){
   const len = Math.floor(ctx.sampleRate * 4.5), buf = ctx.createBuffer(2, len, ctx.sampleRate);
@@ -1489,7 +1632,7 @@ function hpNoise(ctx){
   return ctx._hpNoise = buf;
 }
 function hpNote(ctx, dry, wet, n, t){
-  if(n.kind) return hpBreath(ctx, dry, wet, n.kind, t);
+  if(n.kind) return hpBreath(ctx, dry, wet, n.kind, t, n.dur);
   const out = ctx.createGain(), tone = ctx.createBiquadFilter();
   tone.type = 'lowpass'; tone.frequency.value = Math.min(n.f * 7, 3800); tone.Q.value = 0.4; // steel, but warm – no hard piano brilliance
   tone.connect(out);
@@ -1515,17 +1658,18 @@ function hpNote(ctx, dry, wet, n, t){
   tap.start(t, Math.random()); tap.stop(t + 0.08);
 }
 // soft breathing sounds: a rising, airy breath in and a falling, deeper breath out (shaped noise)
-function hpBreath(ctx, dry, wet, kind, t){
+function hpBreath(ctx, dry, wet, kind, t, dur){
   const src = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), hp2 = ctx.createBiquadFilter(), g = ctx.createGain();
   src.buffer = hpNoise(ctx); src.loop = true;
   bp.type = 'bandpass'; bp.Q.value = 0.7; hp2.type = 'highpass'; hp2.frequency.value = 220;
-  const dur = 3.7;
+  dur = dur || 3.7;
+  const q = dur / 3.7; // a longer breath (4-7-8: eight seconds out) stretches the same shape
   if(kind === 'in'){
     bp.frequency.setValueAtTime(650, t); bp.frequency.linearRampToValueAtTime(1500, t + dur);
-    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.026, t + 1.2); g.gain.linearRampToValueAtTime(0.042, t + 2.8); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.026, t + 1.2 * q); g.gain.linearRampToValueAtTime(0.042, t + 2.8 * q); g.gain.linearRampToValueAtTime(0.0001, t + dur);
   }else{
     bp.frequency.setValueAtTime(1000, t); bp.frequency.linearRampToValueAtTime(420, t + dur);
-    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.062, t + 0.45); g.gain.linearRampToValueAtTime(0.028, t + 2.4); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.062, t + 0.45 * Math.min(q, 1.6)); g.gain.linearRampToValueAtTime(0.028, t + 2.4 * q); g.gain.linearRampToValueAtTime(0.0001, t + dur);
   }
   src.connect(hp2); hp2.connect(bp); bp.connect(g); g.connect(dry);
   const w = ctx.createGain(); w.gain.value = 0.25; g.connect(w); w.connect(wet); // a little room around the breath
@@ -1539,18 +1683,31 @@ function hpChain(ctx){
   wet.buffer = hpImpulse(ctx); wetGain.gain.value = 0.55;
   wet.connect(wetGain); wetGain.connect(fade);
   fade.connect(vol); vol.connect(comp); comp.connect(ctx.destination);
-  return { fade, vol, dry:fade, wet };
+  return { fade, vol, dry:fade, wet, comp };
 }
 const HP_VOL = 0.8;
 // first start: fade in from silence. Every restart: the end of the piece sinks to a soft level and the new
 // round grows out of it again – a smooth hand-over instead of a gap of silence
-function hpEnvelope(fade, start, restart){
+function hpEnvelope(fade, start, restart, len){
+  len = len || HP_LEN;
   fade.gain.setValueAtTime(restart ? 0.3 : 0, start);
   fade.gain.linearRampToValueAtTime(1, start + (restart ? 5 : 3));
-  fade.gain.setValueAtTime(1, start + HP_LEN - 8);
-  fade.gain.linearRampToValueAtTime(0.3, start + HP_LEN);
+  fade.gain.setValueAtTime(1, start + len - 8);
+  fade.gain.linearRampToValueAtTime(0.3, start + len);
 }
-function hpStart(){
+// a singing-bowl gong: a few inharmonic partials that ring out slowly (for the silent meditation)
+function hpGong(when){
+  if(!hp) return;
+  const ctx = hp.ctx, t0 = Math.max(ctx.currentTime + 0.02, when || 0), out = ctx.createGain();
+  out.gain.value = 0.55; out.connect(hp.ch.comp);
+  [[1, 0.5, 9], [2.72, 0.28, 6.5], [5.18, 0.14, 4], [8.6, 0.06, 2.4], [1.004, 0.3, 9]].forEach(([m, a, dec])=>{
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'sine'; o.frequency.value = 196 * m;
+    g.gain.setValueAtTime(0.0001, t0); g.gain.linearRampToValueAtTime(a, t0 + 0.012); g.gain.setTargetAtTime(0.0001, t0 + 0.012, dec / 4.5);
+    o.connect(g); g.connect(out); o.start(t0); o.stop(t0 + dec + 0.5);
+  });
+}
+function hpStart(key){
   hpStop(true);
   const AC = window.AudioContext || window.webkitAudioContext;
   if(!AC) return;
@@ -1567,8 +1724,9 @@ function hpStart(){
   const ch = hpChain(ctx);
   if(!hpMusicOn()) ch.vol.gain.value = 0;
   const start = ctx.currentTime + 0.08;
-  hpEnvelope(ch.fade, start);
-  hp = { ctx, ch, unlock, notes:hpPiece(), i:0, pieceStart:start, timer:0 };
+  const piece = hpPiece(key);
+  hpEnvelope(ch.fade, start, false, piece.len);
+  hp = { ctx, ch, unlock, notes:piece.notes, len:piece.len, i:0, pieceStart:start, timer:0 };
   if(ctx.state === 'suspended') ctx.resume().catch(()=>{});
   hpTick();
   hp.timer = setInterval(hpTick, 200);
@@ -1577,7 +1735,7 @@ function hpTick(){
   if(!hp) return;
   const now = hp.ctx.currentTime, ahead = now + 1.5;
   for(;;){
-    if(hp.i >= hp.notes.length){ hp.pieceStart += HP_LEN; hp.i = 0; hpEnvelope(hp.ch.fade, hp.pieceStart, true); continue; } // start again
+    if(hp.i >= hp.notes.length){ hp.pieceStart += hp.len; hp.i = 0; hpEnvelope(hp.ch.fade, hp.pieceStart, true, hp.len); continue; } // start again
     const n = hp.notes[hp.i], at = hp.pieceStart + n.t;
     if(at > ahead) break;
     if(at >= now - 0.05) hpNote(hp.ctx, hp.ch.dry, hp.ch.wet, n, at);
@@ -1604,7 +1762,7 @@ function hpStop(instant){
 
 /* ---- Box Breathing: 4 s in, 4 s hold, 4 s out, 4 s hold; the dot goes up, across, down and back ---- */
 const BREATH_SIDE = 4;
-let breath = { start:0, pausedAt:0, raf:0, lastPhase:-1 };
+let breath = { start:0, pausedAt:0, raf:0, lastPhase:-1, pat:'box' };
 // the blue lotus in the middle of the square: closed bud when breathing starts, open after breathing in
 let lotusEls = null;
 function breathLotusBuild(){
@@ -1613,14 +1771,17 @@ function breathLotusBuild(){
   lotusEls = { pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), glow:g.querySelector('.lt-glow') };
 }
 function breathLotusSet(open){ if(lotusEls) lotusApply(lotusEls, open); }
-function breathOpen(){
+function breathOpen(pat){
+  pat = HP_PATTERNS[pat] && pat !== 'calm' ? pat : 'box';
   breathLotusBuild();
   breathLotusSet(0);
-  breath = { start:performance.now(), pausedAt:0, raf:0, lastPhase:-1 };
+  breath = { start:performance.now(), pausedAt:0, raf:0, lastPhase:-1, pat };
+  document.getElementById('breath-title').textContent = pat === 'b478' ? t().ex478Title : 'Box Breathing';
+  document.getElementById('breath-dot').style.display = pat === 'box' ? '' : 'none'; // the dot only fits the square rhythm
   document.getElementById('breath-pause-btn').textContent = t().breathPause;
   document.getElementById('breath-stop-btn').textContent = t().breathStop;
   openModal('breath-modal');
-  hpStart(); // the tap that opened the exercise also allows sound on phones
+  hpStart(pat); // the tap that opened the exercise also allows sound on phones
   breathMusicUi();
   breath.raf = requestAnimationFrame(breathFrame);
 }
@@ -1660,25 +1821,484 @@ function breathTogglePause(){
 function breathFrame(now){
   if(!document.getElementById('breath-modal').classList.contains('open')){ breath.raf = 0; hpStop(); return; } // closed some other way
   const d = t();
-  const el = (now - breath.start) / 1000, cycle = 4 * BREATH_SIDE;
-  const inCycle = el % cycle, phase = Math.floor(inCycle / BREATH_SIDE), f = (inCycle - phase * BREATH_SIDE) / BREATH_SIDE;
-  const lo = 30, hi = 210, span = hi - lo;
-  const pos = [ [lo, hi - span*f], [lo + span*f, lo], [hi, lo + span*f], [hi - span*f, hi] ][phase];
-  const dot = document.getElementById('breath-dot');
-  dot.setAttribute('cx', pos[0]); dot.setAttribute('cy', pos[1]);
-  breathLotusSet([f, 1, 1 - f, 0][phase]); // the lotus opens as you breathe in and closes as you breathe out
+  const phases = HP_PATTERNS[breath.pat].phases, cycle = phases.reduce((a,p)=>a + p[1], 0);
+  const el = (now - breath.start) / 1000, inCycle = el % cycle;
+  let phase = 0, acc = 0;
+  while(phase < phases.length - 1 && inCycle >= acc + phases[phase][1]){ acc += phases[phase][1]; phase++; }
+  const kind = phases[phase][0], secs = phases[phase][1], f = (inCycle - acc) / secs;
+  if(breath.pat === 'box'){
+    const lo = 30, hi = 210, span = hi - lo;
+    const pos = [ [lo, hi - span*f], [lo + span*f, lo], [hi, lo + span*f], [hi - span*f, hi] ][phase];
+    const dot = document.getElementById('breath-dot');
+    dot.setAttribute('cx', pos[0]); dot.setAttribute('cy', pos[1]);
+  }
+  // the lotus opens as you breathe in, stays open while holding, and closes as you breathe out
+  const prevKind = phases[(phase + phases.length - 1) % phases.length][0];
+  breathLotusSet(kind === 'in' ? f : kind === 'out' ? 1 - f : (prevKind === 'in' ? 1 : 0));
   [...document.getElementById('breath-ripples').children].forEach((r, i)=>{
     const p = ((el + i * 2) % 6) / 6;               // each ring lives 6 s and grows out from the flower
     r.setAttribute('rx', (70 + 80 * p).toFixed(1)); r.setAttribute('ry', (66 + 74 * p).toFixed(1));
     r.setAttribute('opacity', ((1 - p) * Math.min(1, p * 4)).toFixed(3));
   });
-  document.getElementById('breath-phase').textContent = [d.breathIn, d.breathHold, d.breathOut, d.breathHold][phase];
-  document.getElementById('breath-count').textContent = BREATH_SIDE - Math.floor(f * BREATH_SIDE);
-  const secs = Math.floor(el), mm = String(Math.floor(secs / 60)).padStart(2, '0'), ss = String(secs % 60).padStart(2, '0');
+  document.getElementById('breath-phase').textContent = kind === 'in' ? d.breathIn : kind === 'out' ? d.breathOut : d.breathHold;
+  document.getElementById('breath-count').textContent = secs - Math.floor(f * secs);
+  const tot = Math.floor(el), mm = String(Math.floor(tot / 60)).padStart(2, '0'), ss = String(tot % 60).padStart(2, '0');
   document.getElementById('breath-meta').textContent = d.breathRound + ' ' + (Math.floor(el / cycle) + 1) + ' · ' + mm + ':' + ss;
   if(phase !== breath.lastPhase){ if(breath.lastPhase >= 0 && navigator.vibrate) try{ navigator.vibrate(25); }catch(e){} breath.lastPhase = phase; }
   breath.raf = requestAnimationFrame(breathFrame);
 }
+/* ================= Achtsamkeit 2.0 (since 1.38.0) =================
+   More guided exercises (4-7-8, body scan, 5-4-3-2-1, evening gratitude, silent meditation), a mood check before and
+   after, days in a row, an impulse for the area of the wheel with the most potential, and a daily reminder as a
+   calendar event. Everything that happens is kept in state.achtsamkeit.log (synced like the rest; merged by id). */
+function achLog(){
+  if(!state.achtsamkeit || typeof state.achtsamkeit !== 'object') state.achtsamkeit = {};
+  if(!Array.isArray(state.achtsamkeit.log)) state.achtsamkeit.log = [];
+  return state.achtsamkeit.log;
+}
+function achAdd(entry){
+  const e = Object.assign({ id:'a' + Date.now() + Math.random().toString(36).slice(2,6), ts:Date.now() }, entry);
+  achLog().push(e);
+  saveState();
+  return e;
+}
+const achDay = ts=>{ const d = new Date(ts); return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); };
+// days in a row with at least one exercise (today counts; if today is still empty, the row up to yesterday counts)
+function achStreak(){
+  const days = new Set(achLog().filter(e=>e.kind === 'done').map(e=>achDay(e.ts)));
+  let n = 0, d = new Date();
+  if(!days.has(achDay(d))) d.setDate(d.getDate() - 1);
+  while(days.has(achDay(d))){ n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+
+/* ---- pictures for the new exercises (same style as the lemon and the lotus: drawn objects, no frame) ---- */
+function moonPictureSvg(id){
+  const P = 'mo' + id;
+  const star = (x, y, r, c)=>`<path d="M${x} ${y-r}Q${x+r*0.18} ${y-r*0.18} ${x+r} ${y}Q${x+r*0.18} ${y+r*0.18} ${x} ${y+r}Q${x-r*0.18} ${y+r*0.18} ${x-r} ${y}Q${x-r*0.18} ${y-r*0.18} ${x} ${y-r}Z" fill="${c}"/>`;
+  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs><linearGradient id="${P}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff3a6"/><stop offset="100%" stop-color="#ffcf1f"/></linearGradient>`
+    + `<mask id="${P}m"><rect x="-96" y="-96" width="192" height="192" fill="#fff"/><circle cx="30" cy="-22" r="54" fill="#000"/></mask></defs>`
+    + `<circle cx="-10" cy="8" r="62" fill="url(#${P}g)" mask="url(#${P}m)"/>`
+    + star(50, -46, 15, '#ffffff') + star(70, 14, 10, '#58d48f') + star(30, 48, 8, '#b8a4ff') + `</svg>`;
+}
+function bodyPictureSvg(id){
+  const P = 'bd' + id;
+  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs><linearGradient id="${P}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b5b3ff"/><stop offset="100%" stop-color="#5548ea"/></linearGradient>`
+    + `<linearGradient id="${P}s" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#58d48f" stop-opacity="0"/><stop offset="50%" stop-color="#9ff5c6"/><stop offset="100%" stop-color="#58d48f" stop-opacity="0"/></linearGradient></defs>`
+    + `<circle cx="0" cy="-62" r="20" fill="url(#${P}g)"/>`
+    + `<path d="M-34 -34Q0 -46 34 -34Q44 -30 46 -18L52 30Q53 38 45 38Q38 38 37 31L32 -6L28 22L30 86Q30 92 22 92Q15 92 14 86L6 32H-6L-14 86Q-15 92 -22 92Q-30 92 -30 86L-28 22L-32 -6L-37 31Q-38 38 -45 38Q-53 38 -52 30L-46 -18Q-44 -30 -34 -34Z" fill="url(#${P}g)"/>`
+    + `<rect x="-80" y="4" width="160" height="7" rx="3.5" fill="url(#${P}s)"/></svg>`;
+}
+function stonesPictureSvg(id){
+  const P = 'st' + id;
+  const st = [[0,62,60,20,'#7f8bd0','#4f58a8'],[2,26,48,18,'#9a98ec','#6460c8'],[-2,-6,38,15,'#b2acf8','#7c74e0'],[1,-32,28,12,'#c9c3ff','#958cf0'],[-1,-52,17,9,'#dedaff','#aaa2ff']];
+  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs>${st.map((x,i)=>`<linearGradient id="${P}${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${x[4]}"/><stop offset="100%" stop-color="${x[5]}"/></linearGradient>`).join('')}</defs>`
+    + st.map((x,i)=>`<ellipse cx="${x[0]}" cy="${x[1]}" rx="${x[2]}" ry="${x[3]}" fill="url(#${P}${i})"/>`).join('')
+    + `<path d="M48 -70c10 6 14 16 11 28c-11-3-17-12-11-28Z" fill="#58d48f"/></svg>`;
+}
+function heartPictureSvg(id){
+  const P = 'ht' + id;
+  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs><linearGradient id="${P}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb3c9"/><stop offset="100%" stop-color="#ff5c8a"/></linearGradient></defs>`
+    + `<path d="M0 74C-48 42 -78 14 -78 -22C-78 -50 -56 -70 -32 -70C-16 -70 -6 -62 0 -50C6 -62 16 -70 32 -70C56 -70 78 -50 78 -22C78 14 48 42 0 74Z" fill="url(#${P}g)"/>`
+    + `<path d="M-40 -46c-10 2-18 10-20 20" stroke="#fff" stroke-opacity="0.55" stroke-width="7" fill="none" stroke-linecap="round"/>`
+    + `<path d="M62 -78l5 13 13 5-13 5-5 13-5-13-13-5 13-5Z" fill="#ffdd1f"/><path d="M80 -34l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" fill="#ffffff"/></svg>`;
+}
+function bowlPictureSvg(id){
+  const P = 'bw' + id;
+  return `<svg viewBox="-96 -96 192 192" aria-hidden="true"><defs><linearGradient id="${P}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffe08a"/><stop offset="100%" stop-color="#c98a12"/></linearGradient>`
+    + `<linearGradient id="${P}c" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8d8dff"/><stop offset="100%" stop-color="#3a2fd0"/></linearGradient></defs>`
+    + `<path d="M-46 -58q-8 12 0 24M-30 -66q-10 20 0 40M46 -58q8 12 0 24M30 -66q10 20 0 40" stroke="#58d48f" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.9"/>`
+    + `<ellipse cx="0" cy="62" rx="62" ry="16" fill="url(#${P}c)"/>`
+    + `<path d="M-66 -6H66Q62 50 0 56Q-62 50 -66 -6Z" fill="url(#${P}g)"/>`
+    + `<ellipse cx="0" cy="-6" rx="66" ry="13" fill="#ffe9a8"/><ellipse cx="0" cy="-5" rx="56" ry="9" fill="#b67a0e"/>`
+    + `<path d="M-50 12Q-44 36 -20 44" stroke="#fff" stroke-opacity="0.45" stroke-width="6" fill="none" stroke-linecap="round"/></svg>`;
+}
+// a picture on the light-blue square of the players (like the lemon)
+function playerSquareSvg(inner, P){
+  return `<svg viewBox="0 0 240 240" aria-hidden="true"><defs>`
+    + `<clipPath id="${P}Sq"><rect x="30" y="30" width="180" height="180" rx="18"/></clipPath>`
+    + `<linearGradient id="${P}Top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8ff6ee"/><stop offset="100%" stop-color="#3fd6ef"/></linearGradient>`
+    + `<linearGradient id="${P}Bot" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2cc8ee"/><stop offset="100%" stop-color="#1e8ff0"/></linearGradient>`
+    + `<linearGradient id="${P}Line" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#1e8ff0" stop-opacity="0.2"/><stop offset="45%" stop-color="#e6fbff" stop-opacity="0.95"/><stop offset="100%" stop-color="#5eeee0" stop-opacity="0.35"/></linearGradient>`
+    + `<filter id="${P}Soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter>`
+    + `</defs><g clip-path="url(#${P}Sq)"><rect x="30" y="30" width="180" height="180" fill="url(#${P}Top)"/>`
+    + `<polygon points="210,30 210,210 30,210" fill="url(#${P}Bot)"/>`
+    + `<line x1="20" y1="232" x2="232" y2="20" stroke="url(#${P}Line)" stroke-width="16" filter="url(#${P}Soft)"/>`
+    + `<line x1="20" y1="232" x2="232" y2="20" stroke="url(#${P}Line)" stroke-width="3"/></g>`
+    + `<rect x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3"/>`
+    + `<g transform="translate(120 120) scale(0.78)">${inner.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '')}</g></svg>`;
+}
+function mediPicture(m){
+  if(m.tool === 'box') return lotusPictureSvg(m.id);
+  if(m.audio) return lemonPictureSvg(m.id);
+  if(m.tool === 'b478') return moonPictureSvg(m.id);
+  if(m.tool === 'scan') return bodyPictureSvg(m.id);
+  if(m.tool === 'ground') return stonesPictureSvg(m.id);
+  if(m.tool === 'grat') return heartPictureSvg(m.id);
+  if(m.tool === 'timer') return bowlPictureSvg(m.id);
+  return '';
+}
+
+/* ---- symbols for the person's own exercises ---- */
+const MEDI_ICONS = {
+  leaf:'<path d="M5 19C5 10 11 4 20 4c0 9-6 15-15 15Z"/><path d="M5 19l8-8"/>',
+  moon:'<path d="M19 14.5A8 8 0 0 1 9.5 5a8 8 0 1 0 9.5 9.5Z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
+  wave:'<path d="M2.5 9c2.5-2 4.5-2 7 0s4.5 2 7 0 3.5-1.5 5-1"/><path d="M2.5 15c2.5-2 4.5-2 7 0s4.5 2 7 0 3.5-1.5 5-1"/>',
+  heart:'<path d="M12 20.2s-7.8-4.7-7.8-10.4A4.5 4.5 0 0 1 12 7.1a4.5 4.5 0 0 1 7.8 2.7c0 5.7-7.8 10.4-7.8 10.4Z"/>',
+  star:'<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8Z"/>',
+  mountain:'<path d="M2.5 19.5l7-12 4.5 7.5 2.5-3.5 5 8Z"/><path d="M7.8 10.4l1.7 1.6 1.5-1.4"/>',
+  music:'<path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>'
+};
+let mediIconChoice = 'leaf';
+function mediIconPickHtml(){
+  return Object.keys(MEDI_ICONS).map(k=>`<button type="button" class="medi-icon-opt${mediIconChoice===k?' active':''}" onclick="mediIconChoice='${k}'; document.getElementById('medi-icon-pick').innerHTML = mediIconPickHtml();" aria-label="${k}"><svg viewBox="0 0 24 24">${MEDI_ICONS[k]}</svg></button>`).join('');
+}
+
+/* ---- mood check: before and after an exercise (can always be skipped) ---- */
+function moodFace(level){ // 0 = very tense … 4 = very calm
+  const mouth = ['M8 16.5q4-3.5 8 0','M8.5 16q3.5-2 7 0','M8.5 15.5h7','M8.5 14.5q3.5 2.2 7 0','M8 14q4 3.6 8 0'][level];
+  const brows = level === 0 ? '<path d="M7.5 8.2l2.4 1M16.5 8.2l-2.4 1"/>' : '';
+  return `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><circle cx="9" cy="10.5" r="0.6" fill="currentColor"/><circle cx="15" cy="10.5" r="0.6" fill="currentColor"/>${brows}<path d="${mouth}"/></svg>`;
+}
+function moodAsk(after){
+  const d = t();
+  return new Promise(resolve=>{
+    document.getElementById('mood-q').textContent = after ? d.moodAfter : d.moodBefore;
+    const row = document.getElementById('mood-row');
+    row.innerHTML = [4,3,2,1,0].map(l=>`<button class="mood-opt" data-l="${l}">${moodFace(l)}<span>${d.moods[l]}</span></button>`).join('');
+    const skip = document.getElementById('mood-skip');
+    skip.textContent = d.moodSkip;
+    const done = v=>{ row.onclick = null; skip.onclick = null; closeModal('mood-modal'); resolve(v); };
+    row.onclick = e=>{ const b = e.target.closest('.mood-opt'); if(b) done(parseInt(b.dataset.l, 10)); };
+    skip.onclick = ()=>done(null);
+    openModal('mood-modal');
+  });
+}
+
+/* ---- running an exercise: mood before, the exercise, then "done" (days in a row) and mood after ---- */
+let achSession = null;
+const ACH_MODALS = { box:'breath-modal', b478:'breath-modal', scan:'scan-modal', ground:'ground-modal', timer:'timer-modal', lemon:'medi-player-modal' };
+async function mediRun(id){
+  const m = (state.meditationen || []).find(x=>x.id === id);
+  if(!m) return;
+  const tool = m.audio ? 'lemon' : m.tool;
+  if(tool === 'grat'){ gratOpen(); return; } // writing, no mood check
+  const before = await moodAsk(false);
+  achSession = { id, tool, before, start:Date.now(), ended:false };
+  if(tool === 'box' || tool === 'b478') breathOpen(tool);
+  else if(tool === 'scan') scanOpen();
+  else if(tool === 'ground') groundOpen();
+  else if(tool === 'timer') timerOpen();
+  else if(tool === 'lemon') mediPlayerOpen(id);
+}
+// called whenever one of the exercise windows closes
+function achSessionEnd(modalId){
+  const s = achSession;
+  if(!s || s.ended || ACH_MODALS[s.tool] !== modalId) return;
+  s.ended = true; achSession = null;
+  const secs = Math.round((Date.now() - s.start) / 1000);
+  const counts = s.tool === 'ground' ? s.finished : secs >= 30; // a real exercise, not just a quick look
+  if(!counts){ renderMeditationen(); return; }
+  const entry = achAdd({ kind:'done', ex:s.id, secs, before:s.before });
+  renderMeditationen();
+  if(s.before !== null && s.before !== undefined){
+    setTimeout(async ()=>{
+      const after = await moodAsk(true);
+      if(after !== null){ entry.after = after; saveState(); renderMeditationen(); }
+    }, 350);
+  }
+}
+
+/* ---- impulse for the area of the wheel with the most potential ---- */
+let achImpulseShift = 0;
+function achImpulseHtml(){
+  if(isFirstRun()) return '';
+  const d = t();
+  let low = AREAS[0];
+  AREAS.forEach(a=>{ if(currentValue(a) < currentValue(low)) low = a; });
+  const list = d.impulses[low] || [];
+  const day = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1)) / 864e5);
+  const txt = list[(day + achImpulseShift) % list.length] || '';
+  return `<div class="medi-top">
+    <h3 class="goal-table-card-h">${d.impulseTitle}</h3>
+    <div class="medi-impulse-area">${areaIco(low)}<span>${d.impulseFor.replace('{a}', d.bereiche[low]).replace('{v}', currentValue(low))}</span></div>
+    <p class="medi-impulse-text">${escapeHtml(txt)}</p>
+    <div class="medi-impulse-actions"><button class="ghost-btn" onclick="achImpulseShift++; renderMeditationen();">${d.impulseOther}</button></div>
+  </div>`;
+}
+function achStreakHtml(){
+  const d = t(), n = achStreak(), total = achLog().filter(e=>e.kind === 'done').length;
+  const head = n ? (n === 1 ? d.streakDay1 : d.streakDays.replace('{n}', n)) : d.streakNone;
+  return `<div class="medi-streak"><div><div class="medi-streak-n">${head}</div>${total ? `<div class="medi-streak-sub">${d.streakTotal.replace('{n}', total)}</div>` : ''}</div>
+    <button class="ghost-btn" onclick="remindOpen()">${ico('bell')}${d.remindBtn}</button></div>`;
+}
+function achMoodHtml(){
+  const d = t();
+  const pairs = achLog().filter(e=>e.kind === 'done' && e.before !== null && e.before !== undefined && e.after !== null && e.after !== undefined);
+  if(!pairs.length) return '';
+  const avg = pairs.reduce((a,e)=>a + (e.after - e.before), 0) / pairs.length;
+  const fmt = v=>Math.abs(v).toLocaleString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { maximumFractionDigits:1 });
+  let line;
+  if(Math.abs(avg) < 0.05) line = d.moodStatNone.replace('{n}', pairs.length);
+  else if(avg < 0) line = d.moodStatWorse;
+  else line = (pairs.length === 1 ? d.moodStat1 : d.moodStat).replace('{d}', fmt(avg)).replace('{n}', pairs.length);
+  // the exercise that helped most (on average, at least two times done)
+  const by = {};
+  pairs.forEach(e=>{ (by[e.ex] = by[e.ex] || []).push(e.after - e.before); });
+  let best = null, bestV = 0;
+  Object.entries(by).forEach(([ex, arr])=>{ if(arr.length < 2) return; const v = arr.reduce((a,b)=>a+b,0) / arr.length; if(v > bestV){ bestV = v; best = ex; } });
+  const bm = best && (state.meditationen || []).find(m=>m.id === best);
+  return `<div class="medi-mood-card"><h3 class="goal-table-card-h">${d.moodStatTitle}</h3><p>${line}</p>${bm ? `<p>${d.moodStatBest.replace('{x}', escapeHtml(mediTitle(bm)))}</p>` : ''}</div>`;
+}
+function mediTitle(m){ return m.titleKey ? t()[m.titleKey] : m.title; }
+
+/* ---- music on/off for the body scan and the silent meditation (same setting as Box Breathing) ---- */
+function exToggleMusic(){
+  const on = !hpMusicOn();
+  try{ localStorage.setItem(HP_PREF_KEY, on ? '1' : '0'); }catch(e){}
+  hpSetVolume(on);
+  exMusicUi();
+}
+function exMusicUi(){
+  const on = hpMusicOn();
+  ['scan-music-btn', 'timer-music-btn'].forEach(id=>{
+    const b = document.getElementById(id); if(!b) return;
+    b.innerHTML = ico(on ? 'volume' : 'mute'); b.classList.toggle('off', !on);
+    b.title = on ? t().breathMusicOn : t().breathMusicOff; b.setAttribute('aria-label', b.title);
+  });
+}
+
+/* ---- body scan: twelve steps of 30 seconds, read out by the phone's voice ---- */
+const SCAN_STEP = 30, SCAN_VOICE_KEY = 'ewolfe_scan_voice';
+let scan = null;
+function scanVoiceOn(){ try{ return localStorage.getItem(SCAN_VOICE_KEY) !== '0'; }catch(e){ return true; } }
+function scanSpeak(text){
+  try{
+    if(!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    if(!scanVoiceOn()) return;
+    const u = new SpeechSynthesisUtterance(text), lang = state.settings.lang === 'de' ? 'de' : 'en';
+    u.lang = lang === 'de' ? 'de-DE' : 'en-GB'; u.rate = 0.88; u.pitch = 1;
+    const v = speechSynthesis.getVoices().filter(x=>x.lang && x.lang.toLowerCase().startsWith(lang));
+    const pick = v.find(x=>/anna|petra|helena|siri|female|samantha|serena|kate/i.test(x.name)) || v[0];
+    if(pick) u.voice = pick;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function scanOpen(){
+  const d = t();
+  document.getElementById('scan-title').textContent = d.exScanTitle;
+  document.getElementById('scan-img').innerHTML = playerSquareSvg(bodyPictureSvg('player'), 'sc');
+  document.getElementById('scan-pause-btn').textContent = d.breathPause;
+  document.getElementById('scan-stop-btn').textContent = d.breathStop;
+  scan = { start:performance.now(), pausedAt:0, step:-1, timer:0 };
+  openModal('scan-modal');
+  hpStart('calm');
+  exMusicUi(); scanVoiceUi();
+  scanTick();
+  scan.timer = setInterval(scanTick, 250);
+}
+function scanTick(){
+  if(!scan) return;
+  const d = t(), steps = d.scanSteps;
+  if(!document.getElementById('scan-modal').classList.contains('open')){ scanStop(true); return; }
+  const now = scan.pausedAt || performance.now(), el = (now - scan.start) / 1000;
+  const i = Math.min(steps.length - 1, Math.floor(el / SCAN_STEP));
+  if(i !== scan.step){
+    scan.step = i;
+    document.getElementById('scan-text').textContent = steps[i];
+    document.getElementById('scan-step-n').textContent = d.scanStep.replace('{i}', i + 1).replace('{n}', steps.length);
+    if(!scan.pausedAt) scanSpeak(steps[i]);
+  }
+  const total = steps.length * SCAN_STEP;
+  document.getElementById('scan-meta').textContent = mediFmt(Math.min(el, total)) + ' / ' + mediFmt(total);
+  if(el >= total + 4) scanStop(); // the last step has been spoken and has had a moment of calm
+}
+function scanTogglePause(){
+  if(!scan) return;
+  const btn = document.getElementById('scan-pause-btn');
+  if(scan.pausedAt){ scan.start += performance.now() - scan.pausedAt; scan.pausedAt = 0; hpPause(false); btn.textContent = t().breathPause; scanSpeak(t().scanSteps[scan.step]); }
+  else { scan.pausedAt = performance.now(); hpPause(true); try{ speechSynthesis.cancel(); }catch(e){} btn.textContent = t().breathResume; }
+}
+function scanToggleVoice(){
+  try{ localStorage.setItem(SCAN_VOICE_KEY, scanVoiceOn() ? '0' : '1'); }catch(e){}
+  scanVoiceUi();
+  if(scan && !scan.pausedAt) scanSpeak(t().scanSteps[scan.step]); else try{ speechSynthesis.cancel(); }catch(e){}
+}
+function scanVoiceUi(){
+  const b = document.getElementById('scan-voice-btn'), on = scanVoiceOn();
+  b.innerHTML = ico(on ? 'voice' : 'voiceOff'); b.classList.toggle('off', !on);
+  b.title = t().scanVoice; b.setAttribute('aria-label', b.title);
+}
+function scanStop(already){
+  if(scan){ clearInterval(scan.timer); scan = null; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  hpStop();
+  if(!already) closeModal('scan-modal');
+}
+
+/* ---- 5-4-3-2-1 ---- */
+let groundI = 0;
+function groundOpen(){
+  groundI = 0;
+  document.getElementById('ground-title').textContent = t().exGroundTitle;
+  groundRender();
+  openModal('ground-modal');
+}
+function groundRender(){
+  const d = t(), steps = d.groundSteps, done = groundI >= steps.length;
+  const st = steps[Math.min(groundI, steps.length - 1)];
+  document.getElementById('ground-body').innerHTML = done
+    ? `<div class="ground-num">✓</div><p class="ground-text">${d.groundDone}</p>`
+    : `<div class="ground-num">${st[0]}</div><div class="ground-label">${st[1]}</div><p class="ground-text">${st[2]}</p>`
+      + `<div class="ground-dots">${steps.map((x,i)=>`<i class="${i <= groundI ? 'on' : ''}"></i>`).join('')}</div>`;
+  const back = document.getElementById('ground-back'), next = document.getElementById('ground-next');
+  back.textContent = d.groundBack; back.style.visibility = groundI > 0 && !done ? '' : 'hidden';
+  next.textContent = done ? d.groundFinish : d.groundNext;
+}
+function groundStep(dir){
+  const n = t().groundSteps.length;
+  if(groundI >= n && dir > 0){ if(achSession) achSession.finished = true; closeModal('ground-modal'); return; }
+  groundI = Math.max(0, Math.min(n, groundI + dir));
+  if(groundI >= n && achSession) achSession.finished = true;
+  groundRender();
+}
+
+/* ---- evening gratitude ---- */
+function gratOpen(){
+  const d = t();
+  document.getElementById('grat-title').textContent = d.exGratTitle;
+  document.getElementById('grat-pic').innerHTML = heartPictureSvg('grat');
+  [1,2,3].forEach(i=>{ const el = document.getElementById('grat-' + i); el.value = ''; el.placeholder = d.gratPh[i-1]; });
+  document.getElementById('grat-diary-label').textContent = d.gratToDiary;
+  document.getElementById('grat-save').textContent = d.gratSave;
+  gratRecentRender();
+  openModal('grat-modal');
+}
+function gratRecentRender(){
+  const d = t(), list = achLog().filter(e=>e.kind === 'grat').slice(-3).reverse();
+  const fmt = ts=>new Date(ts).toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
+  document.getElementById('grat-recent').innerHTML = list.length ? `<div class="grat-recent"><h3 class="goal-table-card-h">${d.gratRecent}</h3>${list.map(e=>`<div class="grat-recent-item"><b>${fmt(e.ts)}</b><br>${e.items.map(escapeHtml).join('<br>')}</div>`).join('')}</div>` : '';
+}
+async function gratSave(){
+  const d = t();
+  const items = [1,2,3].map(i=>document.getElementById('grat-' + i).value.trim()).filter(Boolean);
+  if(!items.length){ uiNotice(d.gratEmpty); return; }
+  const toDiary = document.getElementById('grat-diary').checked;
+  achAdd({ kind:'grat', items });
+  achAdd({ kind:'done', ex:'seed-dank', secs:0 });
+  if(toDiary) gratToDiary(items);
+  closeModal('grat-modal');
+  renderMeditationen();
+  uiNotice(toDiary ? d.gratSavedDiary : d.gratSaved);
+}
+// adds the three things to the end of this year's diary (on a new page if the last one is not a normal page)
+function gratToDiary(items){
+  const d = t(), year = new Date().getFullYear();
+  const prevYear = tbYear; tbYear = year;
+  const diary = tbEnsureYear(year);
+  tbYear = prevYear;
+  const date = new Date().toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
+  const block = d.gratDiaryHead.replace('{date}', date) + '\n' + items.map(x=>'• ' + x).join('\n');
+  let page = diary.seiten[diary.seiten.length - 1];
+  if(!page || page.type === 'titel' || page.bereiche){
+    page = { id:'p' + Date.now(), type:diary.defaultPageType || 'blank', text:'', strokes:[], images:[] };
+    diary.seiten.push(page);
+  }
+  page.text = (page.text && page.text.trim()) ? page.text.replace(/\s+$/, '') + '\n\n' + block : block;
+  try{ tbRepaginateDiary(diary); }catch(e){}
+  saveState();
+}
+
+/* ---- silent meditation: choose the time, a gong at the start and at the end ---- */
+const TIMER_CHOICES = [3, 5, 10, 15, 20];
+let timerMin = 10, timerRun = null;
+function timerOpen(){
+  const d = t();
+  timerRun = null;
+  document.getElementById('timer-title').textContent = d.exTimerTitle;
+  document.getElementById('timer-img').innerHTML = playerSquareSvg(bowlPictureSvg('player'), 'tm');
+  timerUi();
+  openModal('timer-modal');
+  exMusicUi();
+}
+function timerUi(){
+  const d = t(), running = !!timerRun;
+  document.getElementById('timer-chips').style.display = running ? 'none' : '';
+  document.getElementById('timer-chips').innerHTML = TIMER_CHOICES.map(n=>`<button class="${n===timerMin?'active':''}" onclick="timerMin=${n}; timerUi();">${d.timerMin.replace('{n}', n)}</button>`).join('');
+  const pause = document.getElementById('timer-pause-btn');
+  pause.style.display = running ? '' : 'none';
+  pause.textContent = running && timerRun.pausedAt ? d.breathResume : d.breathPause;
+  document.getElementById('timer-main-btn').textContent = running ? d.breathStop : d.timerStart;
+  if(!running) document.getElementById('timer-clock').textContent = mediFmt(timerMin * 60);
+}
+function timerMain(){
+  if(timerRun){ timerStop(); return; }
+  hpStart('calm');
+  if(achSession) achSession.start = Date.now(); // the time counts from the gong on
+  timerRun = { start:performance.now(), pausedAt:0, len:timerMin * 60, timer:0, ending:false };
+  setTimeout(()=>hpGong(), 120);
+  timerRun.timer = setInterval(timerTick, 250);
+  timerUi(); timerTick();
+}
+function timerTick(){
+  const r = timerRun; if(!r) return;
+  if(!document.getElementById('timer-modal').classList.contains('open')){ timerStop(true); return; }
+  const now = r.pausedAt || performance.now(), left = Math.max(0, r.len - (now - r.start) / 1000);
+  document.getElementById('timer-clock').textContent = mediFmt(Math.ceil(left));
+  if(left <= 0 && !r.ending){
+    r.ending = true; clearInterval(r.timer);
+    hpSetVolume(false); hpGong(); // the music fades away while the gong rings
+    setTimeout(()=>{ if(timerRun === r){ timerStop(); uiNotice(t().timerDoneMsg); } }, 9000);
+  }
+}
+function timerTogglePause(){
+  const r = timerRun; if(!r || r.ending) return;
+  if(r.pausedAt){ r.start += performance.now() - r.pausedAt; r.pausedAt = 0; hpPause(false); }
+  else { r.pausedAt = performance.now(); hpPause(true); }
+  timerUi();
+}
+function timerStop(already){
+  if(timerRun){ clearInterval(timerRun.timer); timerRun = null; }
+  hpStop();
+  if(!already) closeModal('timer-modal');
+  timerUi();
+}
+
+/* ---- daily reminder as a calendar event (works without a server: the phone's calendar reminds) ---- */
+function remindOpen(){
+  const d = t();
+  document.getElementById('remind-title').textContent = d.remindTitle;
+  document.getElementById('remind-text').textContent = d.remindText;
+  document.getElementById('remind-time-label').textContent = d.remindTime;
+  document.getElementById('remind-add').textContent = d.remindAdd;
+  try{ const v = localStorage.getItem('ewolfe_remind_time'); if(v) document.getElementById('remind-time').value = v; }catch(e){}
+  openModal('remind-modal');
+}
+function remindAdd(){
+  const d = t(), time = document.getElementById('remind-time').value || '20:00';
+  try{ localStorage.setItem('ewolfe_remind_time', time); }catch(e){}
+  const [hh, mm] = time.split(':').map(x=>parseInt(x, 10) || 0);
+  const start = new Date(); start.setHours(hh, mm, 0, 0);
+  if(start < new Date()) start.setDate(start.getDate() + 1);
+  const pad = n=>String(n).padStart(2, '0');
+  const loc = dt=>dt.getFullYear() + pad(dt.getMonth()+1) + pad(dt.getDate()) + 'T' + pad(dt.getHours()) + pad(dt.getMinutes()) + '00';
+  const end = new Date(start.getTime() + 10 * 60000);
+  const url = syncAppUrl() || location.href.split('#')[0];
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//eWolfe//Achtsamkeit//DE','CALSCALE:GREGORIAN','BEGIN:VEVENT',
+    'UID:ewolfe-reminder-' + Date.now() + '@ewolfe', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,''),
+    'DTSTART:' + loc(start), 'DTEND:' + loc(end), 'RRULE:FREQ=DAILY', 'SUMMARY:' + d.remindEvent, 'URL:' + url, 'DESCRIPTION:' + url,
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:' + d.remindEvent,'TRIGGER:PT0M','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const blob = new Blob([ics], { type:'text/calendar;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'ewolfe-erinnerung.ics';
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+  closeModal('remind-modal');
+  uiNotice(d.remindDone);
+}
+
 function deleteMeditation(id){
   if(isBuiltInMeditation(id)) return; // part of the app, not removable
   state.meditationen = (state.meditationen||[]).filter(m=>m.id!==id);
@@ -1894,6 +2514,9 @@ const UI_ICONS = {
   plus:'<path d="M12 5v14M5 12h14"/>',
   pages:'<rect x="8" y="3" width="12" height="15" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/>',
   wheel:'<path d="M12 3l8.6 6.2-3.3 10.1H6.7L3.4 9.2Z"/><path d="M12 8.2l4.4 3.2-1.7 5.1H9.3l-1.7-5.1Z"/>',
+  bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15Z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+  voice:'<path d="M4 5.5h16v10H10l-4.5 3.5v-3.5H4Z"/><path d="M8.5 10.5h7M8.5 8h4"/>',
+  voiceOff:'<path d="M4 5.5h16v10H10l-4.5 3.5v-3.5H4Z"/><path d="M3 3l18 18"/>',
   eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
   image:'<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-9 9"/>',
   palette:'<path d="M12 3a9 9 0 1 0 0 18c1.2 0 2-.8 2-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3Z"/><circle cx="7.5" cy="11" r=".9"/><circle cx="10" cy="7" r=".9"/><circle cx="15" cy="7.5" r=".9"/>',
@@ -1991,6 +2614,17 @@ function mergeBackupInto(cur, inc){
   if(!Array.isArray(out.meditationen)) out.meditationen = [];
   const haveMedi = new Set(out.meditationen.map(m=>m.id));
   (inc.meditationen||[]).forEach(m=>{ if(!haveMedi.has(m.id)){ out.meditationen.push(copy(m)); haveMedi.add(m.id); added.medis = (added.medis||0)+1; } });
+  // mindfulness log (exercises done, moods, gratitude): union by id; a mood given later wins
+  if(inc.achtsamkeit && Array.isArray(inc.achtsamkeit.log)){
+    if(!out.achtsamkeit || typeof out.achtsamkeit !== 'object') out.achtsamkeit = {};
+    if(!Array.isArray(out.achtsamkeit.log)) out.achtsamkeit.log = [];
+    const byId = {}; out.achtsamkeit.log.forEach((e,i)=>{ byId[e.id] = i; });
+    inc.achtsamkeit.log.forEach(e=>{
+      if(byId[e.id] === undefined){ out.achtsamkeit.log.push(copy(e)); byId[e.id] = out.achtsamkeit.log.length - 1; }
+      else if(e.after !== undefined && e.after !== null && (out.achtsamkeit.log[byId[e.id]].after === undefined || out.achtsamkeit.log[byId[e.id]].after === null)) out.achtsamkeit.log[byId[e.id]] = copy(e);
+    });
+    out.achtsamkeit.log.sort((a,b)=>a.ts - b.ts);
+  }
   // diary: whole years that are missing are added; inside a shared year missing pages are added
   const score = pg=>((pg.text||'').length) + tbAreaTextLen(pg) + ((pg.strokes||[]).length*10) + ((pg.images||[]).length*50);
   const written = pg=>pg.type!=='titel' && score(pg)>0;
@@ -2072,6 +2706,62 @@ async function importBackupFile(file){
   renderPanels(); renderScene(false);
   await uiNotice(t().importSuccess);
 }
+Object.assign(I18N.de, {
+  ex478Title:'4-7-8-Atmung', ex478Note:'Zum Einschlafen und Runterkommen: 4 Sekunden einatmen, 7 Sekunden halten, 8 Sekunden langsam ausatmen. Der Lotus öffnet sich mit deinem Atem.',
+  exScanTitle:'Body-Scan', exScanNote:'Eine geführte Reise durch deinen Körper, von den Füßen bis zum Kopf, mit Stimme und leiser Musik. Etwa 6 Minuten, gut auch im Liegen.',
+  exGroundTitle:'5-4-3-2-1', exGroundNote:'Hilft bei Stress und Gedankenkreisen: Du holst dich mit deinen Sinnen ins Hier und Jetzt zurück. Dauert nur 2 bis 3 Minuten.',
+  exGratTitle:'Dankbarkeit am Abend', exGratNote:'Schreib drei Dinge auf, für die du heute dankbar bist, ob groß oder klein. Auf Wunsch landen sie direkt in deinem Tagebuch.',
+  exTimerTitle:'Stille Meditation', exTimerNote:'Ein Timer für deine eigene Meditation: ein sanfter Gong zu Beginn und am Ende, auf Wunsch mit leiser Handpan-Musik.',
+  moodBefore:'Wie fühlst du dich gerade?', moodAfter:'Und wie fühlst du dich jetzt?', moodSkip:'Überspringen',
+  moods:['Sehr angespannt','Angespannt','Neutral','Ruhig','Sehr ruhig'],
+  moodStatTitle:'Deine Stimmung', moodStat:'Nach deinen Übungen fühlst du dich im Schnitt um {d} Stufen ruhiger (aus {n} Übungen).', moodStat1:'Nach deiner Übung hast du dich um {d} Stufen ruhiger gefühlt.', moodStatWorse:'Nach deinen Übungen fühlst du dich im Schnitt etwas angespannter. Probier ruhig auch eine andere Übung aus.',
+  moodStatBest:'Am besten tut dir gerade: {x}.', moodStatNone:'Nach deinen Übungen bleibt deine Stimmung im Schnitt gleich (aus {n} Übungen).',
+  streakDays:'{n} Tage in Folge', streakDay1:'1 Tag in Folge', streakNone:'Starte heute deine erste Übung', streakTotal:'{n} Übungen insgesamt',
+  remindBtn:'Tägliche Erinnerung', remindTitle:'Tägliche Erinnerung', remindText:'Wähle eine Uhrzeit. eWolfe legt dafür einen täglichen Termin in deinem Kalender an, der dich an deine Achtsamkeits-Übung erinnert.', remindTime:'Uhrzeit', remindAdd:'Zum Kalender hinzufügen', remindEvent:'eWolfe: Zeit für Achtsamkeit', remindDone:'Die Kalenderdatei wurde erstellt. Öffne sie und tippe auf „Hinzufügen“, dann erinnert dich dein Kalender jeden Tag.',
+  impulseTitle:'Impuls für heute', impulseFor:'Dein Bereich mit dem meisten Potenzial: {a} ({v} %)', impulseOther:'Anderer Impuls',
+  impulses:{
+    gesundheit:['Geh heute 15 Minuten an der frischen Luft spazieren, ohne Handy in der Hand.','Trink heute bewusst 6 Gläser Wasser über den Tag verteilt.','Geh heute 30 Minuten früher schlafen als sonst.','Mach heute 5 Minuten Dehnübungen nach dem Aufstehen.'],
+    beziehungen:['Schreib heute jemandem, der dir wichtig ist, eine liebe Nachricht.','Ruf heute einen Menschen an, mit dem du länger nicht gesprochen hast.','Hör heute in einem Gespräch ganz bewusst zu, ohne zu unterbrechen.','Sag heute einem Menschen konkret, was du an ihm schätzt.'],
+    finanzen:['Schau dir heute deine Ausgaben der letzten Woche in Ruhe an.','Leg heute einen kleinen Betrag zur Seite, egal wie klein.','Kündige heute ein Abo, das du nicht mehr brauchst.','Schreib heute ein finanzielles Ziel für dieses Jahr auf.'],
+    berufung:['Nimm dir heute 20 Minuten für etwas, das du lernen möchtest.','Schreib heute auf, welche Tätigkeit dir diese Woche am meisten Energie gegeben hat.','Erledige heute zuerst die Aufgabe, die dir am wichtigsten ist.','Frag heute jemanden nach einer ehrlichen Rückmeldung zu deiner Arbeit.'],
+    sinn:['Nimm dir heute 5 Minuten Stille, ganz ohne Ablenkung.','Schreib heute drei Werte auf, die dir im Leben wichtig sind.','Mach heute einen Spaziergang und achte nur auf das, was du hörst.','Tu heute etwas Gutes für jemanden, ohne es zu erzählen.']
+  },
+  scanSteps:['Mach es dir bequem, im Sitzen oder Liegen. Schließ die Augen, wenn du magst, und atme ein paar Mal tief ein und aus.','Richte deine Aufmerksamkeit auf deine Füße. Spür die Zehen, die Fußsohlen, die Fersen. Lass sie ganz schwer werden.','Wandere weiter zu deinen Unterschenkeln und Knien. Nimm wahr, was du spürst, ohne etwas zu verändern.','Spür deine Oberschenkel und dein Becken. Lass alle Spannung los, mit jedem Ausatmen ein bisschen mehr.','Komm zu deinem Bauch. Spür, wie er sich beim Atmen sanft hebt und senkt.','Wandere zu deinem Rücken. Vom unteren Rücken langsam nach oben, Wirbel für Wirbel. Lass ihn weich werden.','Spür deine Brust und dein Herz. Atme ruhig und gleichmäßig.','Komm zu deinen Schultern. Lass sie bewusst sinken, weg von den Ohren.','Spür deine Arme, deine Hände und jeden einzelnen Finger. Lass sie ganz locker.','Wandere zu deinem Nacken und Hals. Lass auch hier jede Anspannung los.','Spür dein Gesicht: den Kiefer, die Lippen, die Augen, die Stirn. Lass alles weich werden.','Nimm jetzt deinen ganzen Körper wahr, von den Füßen bis zum Kopf. Bleib noch einen Moment in dieser Ruhe. Wenn du so weit bist, öffne langsam die Augen.'],
+  scanStep:'Schritt {i} von {n}', scanVoice:'Stimme',
+  groundSteps:[['5','Dinge, die du siehst','Schau dich um und benenne fünf Dinge, die du gerade sehen kannst.'],['4','Dinge, die du spürst','Spür vier Dinge: den Boden unter den Füßen, deine Kleidung, die Luft auf der Haut …'],['3','Dinge, die du hörst','Lausche und finde drei Geräusche, nah oder fern.'],['2','Dinge, die du riechst','Nimm zwei Gerüche wahr. Wenn dir nichts einfällt, denk an zwei Lieblingsdüfte.'],['1','Ding, das du schmeckst','Spür einen Geschmack in deinem Mund, oder nimm einen Schluck Wasser.']],
+  groundDone:'Gut gemacht. Du bist jetzt ganz im Hier und Jetzt.', groundNext:'Weiter', groundBack:'Zurück', groundFinish:'Fertig',
+  gratPh:['Ich bin dankbar für …','Ich bin dankbar für …','Ich bin dankbar für …'], gratToDiary:'Ins Tagebuch übernehmen', gratSave:'Speichern', gratRecent:'Zuletzt', gratDiaryHead:'Dankbar am {date}:', gratSaved:'Schön! Deine drei Dinge sind gespeichert.', gratSavedDiary:'Schön! Deine drei Dinge stehen jetzt auch in deinem Tagebuch.', gratEmpty:'Schreib mindestens eine Sache auf.',
+  timerMin:'{n} Min.', timerStart:'Starten', timerMusic:'Musik', timerLeft:'noch {t}', timerDoneMsg:'Deine Meditation ist zu Ende.',
+  mediIconPick:'Symbol', mediOpenLink:'Link öffnen', mediDelete:'Löschen'
+});
+Object.assign(I18N.en, {
+  ex478Title:'4-7-8 breathing', ex478Note:'To fall asleep and calm down: breathe in for 4 seconds, hold for 7, breathe out slowly for 8. The lotus opens with your breath.',
+  exScanTitle:'Body scan', exScanNote:'A guided journey through your body, from your feet to your head, with a voice and soft music. About 6 minutes, also nice lying down.',
+  exGroundTitle:'5-4-3-2-1', exGroundNote:'Helps with stress and racing thoughts: your senses bring you back to the here and now. Takes only 2 to 3 minutes.',
+  exGratTitle:'Evening gratitude', exGratNote:'Write down three things you are grateful for today, big or small. If you like, they go straight into your diary.',
+  exTimerTitle:'Silent meditation', exTimerNote:'A timer for your own meditation: a gentle gong at the start and at the end, with soft handpan music if you like.',
+  moodBefore:'How do you feel right now?', moodAfter:'And how do you feel now?', moodSkip:'Skip',
+  moods:['Very tense','Tense','Neutral','Calm','Very calm'],
+  moodStatTitle:'Your mood', moodStat:'After your exercises you feel {d} steps calmer on average (from {n} exercises).', moodStat1:'After your exercise you felt {d} steps calmer.', moodStatWorse:'After your exercises you feel a little more tense on average. Feel free to try another exercise too.',
+  moodStatBest:'What helps you most right now: {x}.', moodStatNone:'After your exercises your mood stays the same on average (from {n} exercises).',
+  streakDays:'{n} days in a row', streakDay1:'1 day in a row', streakNone:'Start your first exercise today', streakTotal:'{n} exercises in total',
+  remindBtn:'Daily reminder', remindTitle:'Daily reminder', remindText:'Choose a time. eWolfe creates a daily event in your calendar that reminds you of your mindfulness exercise.', remindTime:'Time', remindAdd:'Add to calendar', remindEvent:'eWolfe: time for mindfulness', remindDone:'The calendar file has been created. Open it and tap "Add", then your calendar will remind you every day.',
+  impulseTitle:'Impulse for today', impulseFor:'Your area with the most potential: {a} ({v} %)', impulseOther:'Another impulse',
+  impulses:{
+    gesundheit:['Take a 15-minute walk outside today, without your phone in your hand.','Drink 6 glasses of water today, spread over the day.','Go to bed 30 minutes earlier than usual tonight.','Do 5 minutes of stretching after getting up today.'],
+    beziehungen:['Send a kind message to someone who matters to you today.','Call someone today you have not spoken to in a while.','In one conversation today, really listen without interrupting.','Tell someone today exactly what you appreciate about them.'],
+    finanzen:['Calmly look through what you spent last week today.','Put a small amount aside today, however small.','Cancel a subscription you no longer need today.','Write down one financial goal for this year today.'],
+    berufung:['Take 20 minutes today for something you want to learn.','Write down which task gave you the most energy this week.','Do the task that matters most to you first today.','Ask someone today for honest feedback on your work.'],
+    sinn:['Take 5 minutes of silence today, without any distraction.','Write down three values that matter to you in life today.','Go for a walk today and pay attention only to what you hear.','Do something good for someone today without telling anyone.']
+  },
+  scanSteps:['Make yourself comfortable, sitting or lying down. Close your eyes if you like, and take a few deep breaths.','Bring your attention to your feet. Feel your toes, the soles of your feet, your heels. Let them become heavy.','Move on to your lower legs and knees. Notice what you feel, without changing anything.','Feel your thighs and your hips. Let go of all tension, a little more with every breath out.','Come to your belly. Feel it gently rising and falling as you breathe.','Move to your back. From your lower back slowly upwards, vertebra by vertebra. Let it soften.','Feel your chest and your heart. Breathe calmly and evenly.','Come to your shoulders. Let them drop, away from your ears.','Feel your arms, your hands and every single finger. Let them be loose.','Move to your neck and throat. Let go of any tension here as well.','Feel your face: your jaw, your lips, your eyes, your forehead. Let everything soften.','Now notice your whole body, from your feet to your head. Stay in this calm for a moment. When you are ready, slowly open your eyes.'],
+  scanStep:'Step {i} of {n}', scanVoice:'Voice',
+  groundSteps:[['5','things you can see','Look around and name five things you can see right now.'],['4','things you can feel','Feel four things: the floor under your feet, your clothes, the air on your skin …'],['3','things you can hear','Listen and find three sounds, near or far.'],['2','things you can smell','Notice two smells. If nothing comes to mind, think of two favourite scents.'],['1','thing you can taste','Notice a taste in your mouth, or take a sip of water.']],
+  groundDone:'Well done. You are fully in the here and now.', groundNext:'Next', groundBack:'Back', groundFinish:'Done',
+  gratPh:['I am grateful for …','I am grateful for …','I am grateful for …'], gratToDiary:'Add to my diary', gratSave:'Save', gratRecent:'Recently', gratDiaryHead:'Grateful on {date}:', gratSaved:'Lovely! Your three things are saved.', gratSavedDiary:'Lovely! Your three things are now in your diary as well.', gratEmpty:'Write down at least one thing.',
+  timerMin:'{n} min', timerStart:'Start', timerMusic:'Music', timerLeft:'{t} left', timerDoneMsg:'Your meditation is complete.',
+  mediIconPick:'Symbol', mediOpenLink:'Open link', mediDelete:'Delete'
+});
 function t(){ return I18N[state.settings.lang]; }
 
 function currentValue(area){
@@ -2225,7 +2915,7 @@ function navInit(){
 
 /* ================= Modals ================= */
 function openModal(id){ document.getElementById(id).classList.add('open'); navSync(); }
-function closeModal(id){ if(id === 'sync-modal' && syncGateNeeded()) return; document.getElementById(id).classList.remove('open'); if(id === 'breath-modal') hpStop(); if(id === 'medi-player-modal' && mediAudio) mediPlayerStop(true); navSync(); }
+function closeModal(id){ if(id === 'sync-modal' && syncGateNeeded()) return; document.getElementById(id).classList.remove('open'); if(id === 'breath-modal') hpStop(); if(id === 'medi-player-modal' && mediAudio) mediPlayerStop(true); if(typeof achSessionEnd === 'function') achSessionEnd(id); navSync(); }
 // Tapping the dark backdrop closes a modal — but only if the press STARTED on the backdrop too.
 // Dragging a slider and letting go beside the window makes some browsers (Safari/Firefox, touch)
 // send a "click" to the backdrop, which used to close the window mid-swipe.
