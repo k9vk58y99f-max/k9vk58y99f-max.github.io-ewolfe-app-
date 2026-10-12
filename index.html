@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.43.2';
+const APP_VERSION = '1.44.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1431,24 +1431,25 @@ function cherryLeaf(P, x, y, rot, len, wid, bronze, o){
     + `<path d="M${pts(mid)}" stroke="rgba(235,255,210,0.55)" stroke-width="1.2" fill="none" stroke-linecap="round"/>${veins}</g></g>`;
 }
 /* blossomMarkup(P, open, plan): the cherry branch. With a plan it draws single parts for choosing them:
-   plan.mode 'branch' (the bare branch with the places A–E marked), 'flower' (one blossom: plan.f) or 'bud' (one bud:
+   plan.mode 'branch' (the bare branch with the places A–G marked), 'flower' (one blossom: plan.f) or 'bud' (one bud:
    plan.b). These parts are numbered on a catalogue page; the person then picks e.g. "a2-3" = place A: bud 2, blossom 3. */
 function blossomMarkup(P, open, plan){
-  const defs = `<linearGradient id="${P}br" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7a4e3a"/><stop offset="55%" stop-color="#5a3526"/><stop offset="100%" stop-color="#3e2418"/></linearGradient>`
+  const defs = `<linearGradient id="${P}br" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8e4a42"/><stop offset="55%" stop-color="#6a2e2c"/><stop offset="100%" stop-color="#4a1c1e"/></linearGradient>`
     // three slightly different pinks, so the blossoms are not all alike
     + `<linearGradient id="${P}pt" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#c2185b"/><stop offset="22%" stop-color="#e8628c"/><stop offset="55%" stop-color="#f9b4c8"/><stop offset="100%" stop-color="#fff0f4"/></linearGradient>`
     + `<linearGradient id="${P}pl" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#d6336c"/><stop offset="25%" stop-color="#f08aab"/><stop offset="60%" stop-color="#fcd2de"/><stop offset="100%" stop-color="#fffafb"/></linearGradient>`
     + `<linearGradient id="${P}pd" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#9c0f4a"/><stop offset="25%" stop-color="#d94a7c"/><stop offset="60%" stop-color="#f497b5"/><stop offset="100%" stop-color="#ffdce7"/></linearGradient>`
     + `<linearGradient id="${P}pw" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#e05584"/><stop offset="20%" stop-color="#f7b0c5"/><stop offset="55%" stop-color="#fde3ea"/><stop offset="100%" stop-color="#ffffff"/></linearGradient>`
     + `<linearGradient id="${P}pm" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#880e4f"/><stop offset="30%" stop-color="#c2185b"/><stop offset="62%" stop-color="#ee7aa0"/><stop offset="100%" stop-color="#ffd0de"/></linearGradient>`
-    + `<radialGradient id="${P}budP" cx="0.4" cy="0.35"><stop offset="0%" stop-color="#fff0f4"/><stop offset="70%" stop-color="#f7a8c0"/><stop offset="100%" stop-color="#e05584"/></radialGradient>`
-    + `<radialGradient id="${P}budD" cx="0.4" cy="0.35"><stop offset="0%" stop-color="#f48fb1"/><stop offset="70%" stop-color="#c2185b"/><stop offset="100%" stop-color="#7a0a3a"/></radialGradient>`
-    + `<radialGradient id="${P}budM" cx="0.4" cy="0.35"><stop offset="0%" stop-color="#ffd0de"/><stop offset="65%" stop-color="#e0336a"/><stop offset="100%" stop-color="#9c0f4a"/></radialGradient>`
+    + `<linearGradient id="${P}budP" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#ec407a"/><stop offset="55%" stop-color="#f8a5c2"/><stop offset="100%" stop-color="#fff3f7"/></linearGradient>`
+    + `<linearGradient id="${P}budD" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#9c0f4a"/><stop offset="55%" stop-color="#e0336a"/><stop offset="100%" stop-color="#f8bbd0"/></linearGradient>`
+    + `<linearGradient id="${P}budM" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#b0124f"/><stop offset="50%" stop-color="#f06292"/><stop offset="100%" stop-color="#ffe3ec"/></linearGradient>`
     + `<linearGradient id="${P}pb" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#ad1457"/><stop offset="30%" stop-color="#e05584"/><stop offset="70%" stop-color="#f6a3bd"/><stop offset="100%" stop-color="#ffdbe6"/></linearGradient>`
     + `<radialGradient id="${P}cup"><stop offset="0%" stop-color="#8a0d40" stop-opacity="0.55"/><stop offset="45%" stop-color="#b3165a" stop-opacity="0.25"/><stop offset="100%" stop-color="#b3165a" stop-opacity="0"/></radialGradient>`
     + `<linearGradient id="${P}po" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#a8124c"/><stop offset="35%" stop-color="#e2698f"/><stop offset="75%" stop-color="#fbc3d3"/><stop offset="100%" stop-color="#fff0f5"/></linearGradient>`
     + `<linearGradient id="${P}rc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b23a5a"/><stop offset="100%" stop-color="#6b8a3a"/></linearGradient>`
-    + `<radialGradient id="${P}bud" cx="0.4" cy="0.35"><stop offset="0%" stop-color="#ffc2d4"/><stop offset="70%" stop-color="#ec6f98"/><stop offset="100%" stop-color="#c2185b"/></radialGradient>`
+    + `<linearGradient id="${P}bud" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#c2185b"/><stop offset="55%" stop-color="#f48fb1"/><stop offset="100%" stop-color="#ffeaf1"/></linearGradient>`
+    + `<linearGradient id="${P}cal" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a83a4c"/><stop offset="100%" stop-color="#5e1a28"/></linearGradient>`
     + `<linearGradient id="${P}lg" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#3f7a3a"/><stop offset="100%" stop-color="#8fbf5a"/></linearGradient>`
     + `<linearGradient id="${P}lb" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#4f6e2c"/><stop offset="60%" stop-color="#8a8a3c"/><stop offset="100%" stop-color="#b8864a"/></linearGradient>`
     + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.1" stdDeviation="1.4" flood-color="#5a0f30" flood-opacity="0.38"/></filter>`
@@ -1457,34 +1458,40 @@ function blossomMarkup(P, open, plan){
   // an uneven, gnarled branch from beyond the bottom left corner, with twigs reaching up to the flowers
   const B = (segs, w0, w1)=>`<path d="${taperPath(segs, w0, w1)}" fill="url(#${P}br)"/>`;
   let body = `<g filter="url(#${P}shb)">`
-    + B([[[-118,112],[-96,98],[-84,80],[-62,72]], [[-62,72],[-44,66],[-38,48],[-18,40]], [[-18,40],[0,34],[6,14],[26,4]], [[26,4],[42,-4],[44,-24],[60,-34]], [[60,-34],[70,-40],[72,-50],[84,-56]]], 15, 3)
-    + B([[[-58,70],[-68,56],[-64,34],[-56,14]]], 6, 2.2)
-    + B([[[-20,40],[-24,22],[-12,4],[-8,-28]]], 6.5, 2.4)
-    + B([[[-12,-2],[-24,-16],[-24,-38],[-36,-54]]], 3.8, 1.5)
-    + B([[[26,4],[34,-14],[36,-38],[46,-60]]], 4.8, 1.8)
-    + B([[[6,22],[14,26],[20,24],[28,30]]], 3.4, 1.5)
-    + B([[[-84,84],[-94,72],[-90,60],[-92,48]]], 3.4, 1.3)
-    + B([[[62,-36],[58,-48],[60,-60],[56,-72]]], 2.8, 1.1)
-    + `<path d="M-80 86Q-60 70 -40 58M-6 30Q14 14 30 0" stroke="#a06e55" stroke-opacity="0.45" stroke-width="1.6" fill="none" stroke-linecap="round"/>`
-    + `<ellipse cx="-44" cy="62" rx="3.4" ry="2.2" fill="#2e1a10"/><ellipse cx="14" cy="16" rx="2.8" ry="1.9" fill="#2e1a10"/><ellipse cx="50" cy="-26" rx="2.2" ry="1.6" fill="#2e1a10"/>`
-    + `<circle cx="-62" cy="72" r="4.5" fill="#5a3526"/><circle cx="26" cy="4" r="4" fill="#5a3526"/></g>`;
+    + B([[[-118,112],[-96,98],[-84,80],[-62,72]], [[-62,72],[-44,66],[-38,48],[-18,40]], [[-18,40],[0,34],[6,14],[26,4]], [[26,4],[42,-4],[44,-24],[60,-34]], [[60,-34],[70,-40],[72,-50],[84,-56]]], 8, 2)
+    + B([[[-58,70],[-68,56],[-64,34],[-56,14]]], 3.4, 1.3)
+    + B([[[-20,40],[-24,22],[-12,4],[-8,-28]]], 3.8, 1.4)
+    + B([[[-12,-2],[-24,-16],[-24,-38],[-36,-54]]], 2.4, 1)
+    + B([[[26,4],[34,-14],[36,-38],[46,-60]]], 2.8, 1.1)
+    + B([[[6,22],[14,26],[20,24],[28,30]]], 2.2, 1)
+    + B([[[-84,84],[-94,72],[-90,60],[-92,48]]], 2.2, 0.9)
+    + B([[[62,-36],[58,-48],[60,-60],[56,-72]]], 1.9, 0.8)
+    + `<path d="M-80 86Q-60 70 -40 58M-6 30Q14 14 30 0" stroke="#c07a6a" stroke-opacity="0.4" stroke-width="1" fill="none" stroke-linecap="round"/>`
+    // small nodes where twigs and stalks start, like on a real cherry twig
+    + [[-62,72],[-18,40],[26,4],[60,-34],[-12,-2],[6,22],[30,-4]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="2.6" ry="2" fill="#5a1e22"/>`).join('') + `</g>`;
   // cherry leaves: fresh green and young bronze ones
   // [x, y, angle, length, width, bronze, bend, fold, perspective] – each leaf seen a little differently
-  body += [[-60,64,-52,32,11,0,0.12,0,1],[30,-4,58,28,10,1,-0.1,0.6,0.85],[-24,-28,-74,22,8,0,0.08,0,0.45],[60,-44,-14,25,9,1,0.14,0.3,0.7],[-90,58,-30,20,7,0,-0.12,0.8,1],[8,18,118,18,7,0,0.1,0,0.6]]
+  if(false) body += [[-60,64,-52,32,11,0,0.12,0,1],[30,-4,58,28,10,1,-0.1,0.6,0.85],[-24,-28,-74,22,8,0,0.08,0,0.45],[60,-44,-14,25,9,1,0.14,0.3,0.7],[-90,58,-30,20,7,0,-0.12,0.8,1],[8,18,118,18,7,0,0.1,0,0.6]]
     .map(([x,y,r,l,w,b,bend,fold,persp])=>`<g filter="url(#${P}shl)">${cherryLeaf(P, x, y, r, l, w, b, { bend, fold, persp })}</g>`).join('');
   const branchBody = body;
   // closed buds on short stalks
   // a bud (the same kind everywhere): plump, slightly pointed, the folded petals showing, green sepals at its foot
   const budMarkup = (r, o)=>{
     o = o || {};
-    const a = o.aspect || 1, sp = o.sep || 1, tip = o.tip || 1.12, gid = o.grad || 'bud';
-    const h = v=>(v * a).toFixed(1), f = v=>v.toFixed(1);
-    return `<path d="M${f(-r*0.55)} ${f(r*0.55)}C${f(-r*0.9*sp)} ${f(r*(0.55 + 0.4*sp))} ${f(-r*0.2)} ${f(r*(0.55 + 0.6*sp))} 0 ${f(r*0.7)}C${f(r*0.2)} ${f(r*(0.55 + 0.6*sp))} ${f(r*0.9*sp)} ${f(r*(0.55 + 0.4*sp))} ${f(r*0.55)} ${f(r*0.55)}Z" fill="#6b8a3a"/>`
-      + `<path d="M0 ${f(r*0.85)}C${f(-r*1.05)} ${f(r*0.75)} ${f(-r*1.05)} ${h(-r*0.55)} 0 ${h(-r*tip)}C${f(r*1.05)} ${h(-r*0.55)} ${f(r*1.05)} ${f(r*0.75)} 0 ${f(r*0.85)}Z" fill="url(#${P}${gid})" stroke="rgba(160,20,70,0.3)" stroke-width="0.6"/>`
-      + `<path d="M${f(-r*0.15)} ${f(r*0.7)}Q${f(-r*0.75)} ${h(-r*0.1)} 0 ${h(-r*(tip - 0.07))}M${f(r*0.2)} ${f(r*0.7)}Q${f(r*0.7)} 0 ${f(r*0.25)} ${h(-r*(tip - 0.22))}" stroke="#fff" stroke-opacity="0.45" stroke-width="0.9" fill="none"/>`
-      + `<path d="M${f(-r*0.75)} ${f(r*0.55)}Q${f(-r*0.45)} ${f(r*(0.55 - 0.35*sp))} ${f(-r*0.2)} ${f(r*0.62)}Z M${f(r*0.75)} ${f(r*0.55)}Q${f(r*0.45)} ${f(r*(0.55 - 0.35*sp))} ${f(r*0.2)} ${f(r*0.62)}Z" fill="#7fa04a"/>`;
+    const a = (o.aspect || 1) * 1.22, sp = o.sep || 1, tip = o.tip || 1.12, gid = o.grad || 'bud';
+    const f = v=>v.toFixed(1), top = -r * tip * a, w = r * 0.86;
+    // the bud: an oval that is a little fuller at the bottom, pointed at the tip
+    const body = `M0 ${f(r*0.7)}C${f(-w*1.1)} ${f(r*0.62)} ${f(-w*1.02)} ${f(top*0.5)} 0 ${f(top)}C${f(w*1.02)} ${f(top*0.5)} ${f(w*1.1)} ${f(r*0.62)} 0 ${f(r*0.7)}Z`;
+    // overlapping petal edges, lighter towards the tip
+    const edges = `<path d="M${f(-w*0.15)} ${f(r*0.66)}C${f(-w*0.9)} ${f(r*0.2)} ${f(-w*0.75)} ${f(top*0.6)} ${f(w*0.05)} ${f(top*0.98)}" stroke="#fff" stroke-opacity="0.5" stroke-width="0.9" fill="none"/>`
+      + `<path d="M${f(w*0.25)} ${f(r*0.66)}C${f(w*0.85)} ${f(r*0.1)} ${f(w*0.55)} ${f(top*0.55)} ${f(w*0.12)} ${f(top*0.82)}" stroke="#ad1457" stroke-opacity="0.35" stroke-width="0.8" fill="none"/>`;
+    // the red-brown calyx and its sepals hugging the foot of the bud
+    const calyx = `<path d="M${f(-r*0.42)} ${f(r*0.52)}C${f(-r*0.36)} ${f(r*0.95)} ${f(-r*0.12)} ${f(r*1.12)} 0 ${f(r*1.18)}C${f(r*0.12)} ${f(r*1.12)} ${f(r*0.36)} ${f(r*0.95)} ${f(r*0.42)} ${f(r*0.52)}Z" fill="url(#${P}cal)"/>`
+      + `<path d="M${f(-r*0.5)} ${f(r*0.6)}Q${f(-r*0.75)} ${f(r*(0.6 - 0.45*sp))} ${f(-r*0.32)} ${f(r*(0.62 - 0.6*sp))}Q${f(-r*0.22)} ${f(r*0.3)} ${f(-r*0.1)} ${f(r*0.64)}Z" fill="#9c3448"/>`
+      + `<path d="M${f(r*0.5)} ${f(r*0.6)}Q${f(r*0.75)} ${f(r*(0.6 - 0.45*sp))} ${f(r*0.32)} ${f(r*(0.62 - 0.6*sp))}Q${f(r*0.22)} ${f(r*0.3)} ${f(r*0.1)} ${f(r*0.64)}Z" fill="#8a2b3e"/>`;
+    return `<path d="${body}" fill="url(#${P}${gid})" stroke="rgba(150,15,65,0.32)" stroke-width="0.6"/>${edges}${calyx}`;
   };
-  const bud = (x, y, rot, sc)=>`<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})"><path d="M0 4L0 14" stroke="#5a3526" stroke-width="2.4" stroke-linecap="round"/><g transform="translate(0 -10)">${budMarkup(11)}</g></g>`;
+  const bud = (x, y, rot, sc)=>`<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})"><path d="M0 2Q2 10 0 18" stroke="#6a2e2c" stroke-width="1.5" fill="none" stroke-linecap="round"/><g transform="translate(0 -10)">${budMarkup(11)}</g></g>`;
   body += bud(-92, 48, -10, 0.85) + bud(56, -72, 8, 0.8) + bud(-36, -54, -34, 0.62) + bud(78, -54, 46, 0.62);
   const stamens = (n, rMin, rMax, spread, seed)=>{ let o = ''; for(let k = 0; k < n; k++){ const h = Math.sin(seed * 12.9 + k * 78.2) * 43758.5; const r = h - Math.floor(h); const a = spread ? -spread + k * (2 * spread / (n - 1)) : k * 360 / n + seed * 9 + r * 8, len = rMin + r * (rMax - rMin); o += `<g transform="rotate(${a.toFixed(1)})"><path d="M0 -2L0 ${-len.toFixed(1)}" stroke="#a3124a" stroke-width="0.9" stroke-linecap="round"/><circle cy="${-len.toFixed(1)}" r="${(1.3 + r * 0.5).toFixed(2)}" fill="${k % 3 ? '#e04a76' : '#f5c242'}"/></g>`; } return o; };
   const petalShape = (L, grad, wf)=>{ const W = L * wf; return `<path d="${blossomPetalPath(L, W)}" fill="url(#${P}${grad})" stroke="rgba(170,20,80,0.32)" stroke-width="0.6"/><path d="M0 ${-L*0.08}L0 ${-L*0.55}M0 ${-L*0.1}L${-W*0.32} ${-L*0.5}M0 ${-L*0.1}L${W*0.32} ${-L*0.5}" stroke="rgba(170,20,80,0.3)" stroke-width="0.7" stroke-linecap="round" fill="none"/>`; };
@@ -1542,7 +1549,7 @@ function blossomMarkup(P, open, plan){
     if(plan.mode === 'bud'){
       const b = plan.b;
       if(b.open) return `<defs>${defs}</defs>${b.t === 's' ? side(Object.assign({ x:0, y:0, lag:0 }, b)) : front(Object.assign({ x:0, y:0, lag:0 }, b))}`;
-      const one = (x, y, rot, r, o)=>`<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${rot})"><path d="M0 ${r*0.6}Q${rot > 0 ? -6 : 6} ${r*1.6} 0 ${r*2.6}" stroke="#5a3526" stroke-width="2.4" fill="none" stroke-linecap="round"/>${budMarkup(r, o)}</g>`;
+      const one = (x, y, rot, r, o)=>`<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${rot})"><path d="M0 ${r*1.1}Q${rot > 0 ? -5 : 5} ${r*2} 0 ${r*3}" stroke="#6a2e2c" stroke-width="1.5" fill="none" stroke-linecap="round"/>${budMarkup(r, o)}</g>`;
       let out = '';
       (b.many || [[0, 0, b.rot || 0, b.r || 12, b]]).forEach(([x, y, rot, r, o])=>{ out += one(x, y, rot, r, o || b); });
       if(b.leaf) out = `<g filter="url(#${P}shl)">${cherryLeaf(P, 2, 22, 48, 26, 9, 0, { bend:0.1 })}</g>` + out;
@@ -1564,8 +1571,8 @@ function blossomMarkup(P, open, plan){
   return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${body}</g>`;
 }
 // the places on the branch where blossoms can sit (branch coordinates, see blossomMarkup)
-const BLOSSOM_SPOTS = [['A', -36, -54], ['B', -8, -28], ['C', 46, -60], ['D', 84, -56], ['E', 28, 30]];
-function blossomBudTf(open, lag){ const o = lotusEase(open * (1 + lag) - lag); return { tf:`scale(${(1 - 0.75 * o).toFixed(3)})`, op:(1 - o).toFixed(2) }; }
+const BLOSSOM_SPOTS = [['A', -36, -54], ['B', -8, -28], ['C', 46, -60], ['D', 84, -56], ['E', 28, 30], ['F', 30, -4], ['G', -16, 12]];
+function blossomBudTf(open, lag){ const o = lotusEase(open * (1 + lag) - lag); return { tf:`scale(${(1 - 0.75 * o).toFixed(3)})`, op:Math.max(0, 1 - o * 2.2).toFixed(2) }; }
 function blossomApply(els, open){
   (els.buds || []).forEach(e=>{ const b = blossomBudTf(open, +e.dataset.lag || 0); e.setAttribute('transform', b.tf); e.setAttribute('opacity', b.op); });
   els.pet.forEach(e=>e.setAttribute('transform', blossomPetalTf(e.dataset, open)));

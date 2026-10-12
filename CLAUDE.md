@@ -47,8 +47,9 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Seitenansicht (Blütenboden, zurückgebogene Kelchblätter, zwei Blätter hinten, drei gewölbte vorn: `cupPetal`);
   eine gemeinsame Knospenform (`budMarkup`); Bildausschnitt näher herangeholt (`translate(-40 34) scale(1.43)`).
   Eine Neuanordnung mit großer Blüte in der Mitte (1.43.0) gefiel nicht und wurde zurückgenommen; stattdessen wählt der
-  Nutzer aus einem Katalog: `blossomMarkup(P, open, plan)` zeichnet mit `plan.mode` 'branch' (Zweig mit Stellen A–E,
-  `BLOSSOM_SPOTS`), 'flower' oder 'bud' einzelne Teile; Auswahl im Format „a2-3“ = Stelle A: Knospe 2, Blüte 3; Rhythmen in `HP_PATTERNS`, Musik je Rhythmus
+  Nutzer aus einem Katalog: `blossomMarkup(P, open, plan)` zeichnet mit `plan.mode` 'branch' (Zweig mit Stellen A–G,
+  `BLOSSOM_SPOTS`; Zweig schlank und rotbraun, vorerst ohne Blätter; Knospen im Stil gemalter Vorlagen: länglich,
+  pink zu hell, rotbrauner Kelch), 'flower' oder 'bud' einzelne Teile; Auswahl im Format „a2-3“ = Stelle A: Knospe 2, Blüte 3; Rhythmen in `HP_PATTERNS`, Musik je Rhythmus
   `hpPiece(key)`), 5-4-3-2-1 (`groundOpen()`), Dankbarkeit am Abend (`gratOpen()`, auf Wunsch ins Tagebuch dieses
   Jahres: `gratToDiary()`), Stille Meditation (`timerOpen()`, Gong `hpGong()`, Musik „calm“ ohne Atemgeräusche).
   Start immer über `mediRun(id)`: Stimmung vorher (`moodAsk()`), Übung, beim Schließen (`achSessionEnd()` aus
@@ -101,7 +102,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.43.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.44.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Wichtige Stellen im Code
