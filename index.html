@@ -1116,7 +1116,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.43.0';
+const APP_VERSION = '1.43.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1446,26 +1446,23 @@ function blossomMarkup(P, open){
     + `<filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.1" stdDeviation="1.4" flood-color="#5a0f30" flood-opacity="0.38"/></filter>`
     + `<filter id="${P}shb" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.8" flood-color="#1a0d05" flood-opacity="0.5"/></filter>`
     + `<filter id="${P}shl" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.6" flood-color="#14300f" flood-opacity="0.45"/></filter>`;
-  /* The arrangement (in the coordinates of the picture, -100…100): one big blossom seen from the front in the middle,
-     the other blossoms, buds and leaves scattered around it; every blossom and bud hangs on the branch by a short stalk
-     from the nearest point of the branch. */
+  // an uneven, gnarled branch from beyond the bottom left corner, with twigs reaching up to the flowers
   const B = (segs, w0, w1)=>`<path d="${taperPath(segs, w0, w1)}" fill="url(#${P}br)"/>`;
-  const MAIN = [[[-140,128],[-112,106],[-96,84],[-70,74]], [[-70,74],[-48,66],[-40,44],[-14,38]], [[-14,38],[10,32],[18,16],[42,10]], [[42,10],[66,4],[80,-14],[104,-20]], [[104,-20],[118,-24],[126,-34],[140,-36]]];
-  const TWIGS = [[[[40,10],[52,-10],[50,-40],[66,-66]]], [[[-44,52],[-60,32],[-62,4],[-78,-30]]], [[[-6,36],[-14,24],[-30,6],[-44,-36]]]];
-  const bez = segs=>{ const o = []; segs.forEach(([a, b, c, d])=>{ for(let i = 0; i <= 16; i++){ const t = i / 16, u = 1 - t; o.push([u*u*u*a[0] + 3*u*u*t*b[0] + 3*u*t*t*c[0] + t*t*t*d[0], u*u*u*a[1] + 3*u*u*t*b[1] + 3*u*t*t*c[1] + t*t*t*d[1]]); } }); return o; };
-  const branchPts = bez(MAIN).concat(...TWIGS.map(bez));
-  const nearest = (x, y)=>branchPts.reduce((m, q)=>{ const dd = (q[0] - x) ** 2 + (q[1] - y) ** 2; return dd < m.d ? { d:dd, q } : m; }, { d:1e9, q:[0,0] }).q;
-  const stalk = (x, y, w)=>{ const q = nearest(x, y), mx = (q[0] + x) / 2 + (y - q[1]) * 0.12, my = (q[1] + y) / 2 - (x - q[0]) * 0.12;
-    return B([[[q[0], q[1]], [mx, my], [mx, my], [x, y]]], w || 4.2, 1.8); };
-  let stalks = '';
   let body = `<g filter="url(#${P}shb)">`
-    + B(MAIN, 21, 5)
-    + B(TWIGS[0], 8, 2.8) + B(TWIGS[1], 7, 2.6) + B(TWIGS[2], 5.5, 2.2)
-    + `<path d="M-110 104Q-80 82 -56 70M-4 34Q20 22 44 8" stroke="#a06e55" stroke-opacity="0.45" stroke-width="2.2" fill="none" stroke-linecap="round"/>`
-    + `<ellipse cx="-58" cy="70" rx="4.6" ry="3" fill="#2e1a10"/><ellipse cx="22" cy="20" rx="4" ry="2.6" fill="#2e1a10"/><ellipse cx="84" cy="-12" rx="3.2" ry="2.2" fill="#2e1a10"/>`
-    + `<circle cx="-14" cy="38" r="6" fill="#5a3526"/><circle cx="42" cy="10" r="5.5" fill="#5a3526"/>%STALKS%</g>`;
-  // cherry leaves: fresh green and young bronze ones; [x, y, angle, length, width, bronze, bend, fold, perspective]
-  body += [[-44,52,-62,42,15,0,0.12,0,1],[46,4,64,40,14,1,-0.1,0.6,0.85],[52,-28,-30,34,12,0,0.08,0,0.5],[-58,6,-110,32,11,1,0.14,0.3,0.7],[96,-22,30,30,11,0,-0.12,0.8,1],[-10,34,140,26,10,0,0.1,0,0.6]]
+    + B([[[-118,112],[-96,98],[-84,80],[-62,72]], [[-62,72],[-44,66],[-38,48],[-18,40]], [[-18,40],[0,34],[6,14],[26,4]], [[26,4],[42,-4],[44,-24],[60,-34]], [[60,-34],[70,-40],[72,-50],[84,-56]]], 15, 3)
+    + B([[[-58,70],[-68,56],[-64,34],[-56,14]]], 6, 2.2)
+    + B([[[-20,40],[-24,22],[-12,4],[-8,-28]]], 6.5, 2.4)
+    + B([[[-12,-2],[-24,-16],[-24,-38],[-36,-54]]], 3.8, 1.5)
+    + B([[[26,4],[34,-14],[36,-38],[46,-60]]], 4.8, 1.8)
+    + B([[[6,22],[14,26],[20,24],[28,30]]], 3.4, 1.5)
+    + B([[[-84,84],[-94,72],[-90,60],[-92,48]]], 3.4, 1.3)
+    + B([[[62,-36],[58,-48],[60,-60],[56,-72]]], 2.8, 1.1)
+    + `<path d="M-80 86Q-60 70 -40 58M-6 30Q14 14 30 0" stroke="#a06e55" stroke-opacity="0.45" stroke-width="1.6" fill="none" stroke-linecap="round"/>`
+    + `<ellipse cx="-44" cy="62" rx="3.4" ry="2.2" fill="#2e1a10"/><ellipse cx="14" cy="16" rx="2.8" ry="1.9" fill="#2e1a10"/><ellipse cx="50" cy="-26" rx="2.2" ry="1.6" fill="#2e1a10"/>`
+    + `<circle cx="-62" cy="72" r="4.5" fill="#5a3526"/><circle cx="26" cy="4" r="4" fill="#5a3526"/></g>`;
+  // cherry leaves: fresh green and young bronze ones
+  // [x, y, angle, length, width, bronze, bend, fold, perspective] – each leaf seen a little differently
+  body += [[-60,64,-52,32,11,0,0.12,0,1],[30,-4,58,28,10,1,-0.1,0.6,0.85],[-24,-28,-74,22,8,0,0.08,0,0.45],[60,-44,-14,25,9,1,0.14,0.3,0.7],[-90,58,-30,20,7,0,-0.12,0.8,1],[8,18,118,18,7,0,0.1,0,0.6]]
     .map(([x,y,r,l,w,b,bend,fold,persp])=>`<g filter="url(#${P}shl)">${cherryLeaf(P, x, y, r, l, w, b, { bend, fold, persp })}</g>`).join('');
   // closed buds on short stalks
   // a bud (the same kind everywhere): plump, slightly pointed, the folded petals showing, green sepals at its foot
@@ -1474,8 +1471,7 @@ function blossomMarkup(P, open){
     + `<path d="M${(-r*0.15).toFixed(1)} ${(r*0.7).toFixed(1)}Q${(-r*0.75).toFixed(1)} ${(-r*0.1).toFixed(1)} 0 ${(-r*1.05).toFixed(1)}M${(r*0.2).toFixed(1)} ${(r*0.7).toFixed(1)}Q${(r*0.7).toFixed(1)} 0 ${(r*0.25).toFixed(1)} ${(-r*0.9).toFixed(1)}" stroke="#fff" stroke-opacity="0.45" stroke-width="0.9" fill="none"/>`
     + `<path d="M${(-r*0.75).toFixed(1)} ${(r*0.55).toFixed(1)}Q${(-r*0.45).toFixed(1)} ${(r*0.2).toFixed(1)} ${(-r*0.2).toFixed(1)} ${(r*0.62).toFixed(1)}Z M${(r*0.75).toFixed(1)} ${(r*0.55).toFixed(1)}Q${(r*0.45).toFixed(1)} ${(r*0.2).toFixed(1)} ${(r*0.2).toFixed(1)} ${(r*0.62).toFixed(1)}Z" fill="#7fa04a"/>`;
   const bud = (x, y, rot, sc)=>`<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})"><path d="M0 4L0 14" stroke="#5a3526" stroke-width="2.4" stroke-linecap="round"/><g transform="translate(0 -10)">${budMarkup(11)}</g></g>`;
-  const BUDS = [[30,-66,12,1.15],[96,-48,40,1.0],[-80,-66,-20,0.95],[26,64,170,0.9]];
-  BUDS.forEach(([x,y,r,sc])=>{ stalks += stalk(x, y, 3.2); body += bud(x, y, r, sc); });
+  body += bud(-92, 48, -10, 0.85) + bud(56, -72, 8, 0.8) + bud(-36, -54, -34, 0.62) + bud(78, -54, 46, 0.62);
   const stamens = (n, rMin, rMax, spread, seed)=>{ let o = ''; for(let k = 0; k < n; k++){ const h = Math.sin(seed * 12.9 + k * 78.2) * 43758.5; const r = h - Math.floor(h); const a = spread ? -spread + k * (2 * spread / (n - 1)) : k * 360 / n + seed * 9 + r * 8, len = rMin + r * (rMax - rMin); o += `<g transform="rotate(${a.toFixed(1)})"><path d="M0 -2L0 ${-len.toFixed(1)}" stroke="#a3124a" stroke-width="0.9" stroke-linecap="round"/><circle cy="${-len.toFixed(1)}" r="${(1.3 + r * 0.5).toFixed(2)}" fill="${k % 3 ? '#e04a76' : '#f5c242'}"/></g>`; } return o; };
   const petalShape = (L, grad, wf)=>{ const W = L * wf; return `<path d="${blossomPetalPath(L, W)}" fill="url(#${P}${grad})" stroke="rgba(170,20,80,0.32)" stroke-width="0.6"/><path d="M0 ${-L*0.08}L0 ${-L*0.55}M0 ${-L*0.1}L${-W*0.32} ${-L*0.5}M0 ${-L*0.1}L${W*0.32} ${-L*0.5}" stroke="rgba(170,20,80,0.3)" stroke-width="0.7" stroke-linecap="round" fill="none"/>`; };
   // stronger differences from petal to petal than on the lotus
@@ -1523,18 +1519,18 @@ function blossomMarkup(P, open){
       + `<g filter="url(#${P}sh)">${pet(3)}${pet(4)}${pet(5)}</g>`;
   };
   // every blossom a little different: colour, petal width, stamens, angle of view; they open one just after the other
-  // the big blossom in the middle comes last (on top); the others around it, every one a little different
   const FL = [
-    { t:'f', x:-62, y:-56, L:30, rot:14,  lag:0.04, g:'pl', wf:0.58, n:13, tilt:[30, 0.66] },
-    { t:'s', x:62,  y:-74, r:22, L:30, lag:0.07, g:'pd', wf:0.64 },
-    { t:'f', x:80,  y:-4,  L:28, rot:-20, lag:0.05, g:'pl', wf:0.6,  n:12, tilt:[-50, 0.62] },
-    { t:'f', x:54,  y:58,  L:24, rot:40,  lag:0.08, g:'pd', wf:0.62, n:11, tilt:[70, 0.56] },
-    { t:'s', x:-74, y:24,  r:-40, L:28, lag:0.03, g:'pt', wf:0.6 },
-    { t:'f', x:-50, y:88,  L:26, rot:24,  lag:0.09, g:'pl', wf:0.64, n:12, tilt:[-20, 0.75] },
-    { t:'f', x:-4,  y:-8,  L:50, rot:-8,  lag:0,    g:'pt', wf:0.64, n:22, tilt:null }
+    { t:'s', x:-36, y:-56, r:-32, L:27, lag:0.06, g:'pl', wf:0.6 },
+    { t:'f', x:46,  y:-64, L:25, rot:18,  lag:0.04, g:'pl', wf:0.56, n:13, tilt:[28, 0.62] },
+    { t:'s', x:66,  y:-46, r:40, L:21, lag:0.09, g:'pd', wf:0.64 },
+    { t:'f', x:-56, y:10,  L:26, rot:-12, lag:0.02, g:'pd', wf:0.66, n:18, tilt:[-24, 0.78] },
+    { t:'f', x:30,  y:30,  L:22, rot:40,  lag:0.07, g:'pt', wf:0.6,  n:12, tilt:[70, 0.56] },
+    { t:'f', x:-6,  y:-32, L:34, rot:-6,  lag:0,    g:'pt', wf:0.64, n:20, tilt:null },
+    { t:'f', x:-30, y:62,  L:20, rot:24,  lag:0.1,  g:'pl', wf:0.62, n:11, tilt:[-60, 0.66] }
   ];
-  FL.forEach(f=>{ stalks += stalk(f.x, f.y + (f.t === 's' ? 14 : 0)); body += f.t === 's' ? side(f) : front(f); });
-  return `<defs>${defs}</defs>${body.replace('%STALKS%', stalks)}`;
+  FL.forEach(f=>{ body += f.t === 's' ? side(f) : front(f); });
+  // everything a little bigger than the frame: the branch runs out of the picture at the bottom left
+  return `<defs>${defs}</defs><g transform="translate(-40 34) scale(1.43)">${body}</g>`;
 }
 function blossomBudTf(open, lag){ const o = lotusEase(open * (1 + lag) - lag); return { tf:`scale(${(1 - 0.75 * o).toFixed(3)})`, op:(1 - o).toFixed(2) }; }
 function blossomApply(els, open){
@@ -2163,19 +2159,20 @@ function heartShapeSvg(kind, id){
 // gratitude: two origami hearts lying on each other – each folded from one single sheet of paper (its facets are
 // the same paper, lighter and darker where it is folded), each casting one crisp shadow
 function origamiHeart(P, x, y, sc, rot, tones){
-  const [lt, md, dk, dd] = tones;
-  const f = (d, c)=>`<path d="${d}" fill="${c}" stroke="rgba(0,0,0,0.12)" stroke-width="0.5" stroke-linejoin="round"/>`;
+  // both halves folded the same way: an upper facet, a narrow side facet and the big lower facet; the light comes
+  // from the top left, so the left half is a step lighter than the right; the steps between the shades are small
+  const [l1, l2, l3, r1, r2, r3] = tones;
+  const f = (d, c)=>`<path d="${d}" fill="${c}" stroke="rgba(0,0,0,0.1)" stroke-width="0.5" stroke-linejoin="round"/>`;
   return `<g filter="url(#${P}sh)" transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})">`
-    + f('M0 -26L-12 -38L-30 -36L-40 -20Z', lt) + f('M0 -26L-40 -20L-38 -4Z', md)
-    + f('M0 -26L12 -38L30 -36L40 -20Z', md) + f('M0 -26L40 -20L38 -4Z', dk)
-    + f('M0 -26L-38 -4L-20 16L0 34Z', md) + f('M0 -26L38 -4L20 16L0 34Z', dd)
-    + `<path d="M0 -26L0 34" stroke="rgba(255,255,255,0.25)" stroke-width="0.6"/></g>`;
+    + f('M0 -26L-12 -38L-30 -36L-40 -20Z', l1) + f('M0 -26L-40 -20L-38 -4Z', l2) + f('M0 -26L-38 -4L-20 16L0 34Z', l3)
+    + f('M0 -26L12 -38L30 -36L40 -20Z', r1) + f('M0 -26L40 -20L38 -4Z', r2) + f('M0 -26L38 -4L20 16L0 34Z', r3)
+    + `<path d="M0 -26L0 34" stroke="rgba(255,255,255,0.22)" stroke-width="0.6"/></g>`;
 }
 function heartsPictureSvg(id){
   const P = 'hs' + id;
   return natPic(`<defs><filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0.6" dy="1.6" stdDeviation="1.1" flood-color="#3a0a24" flood-opacity="0.5"/></filter></defs>`
-    + origamiHeart(P, 26, -18, 1.25, 14, ['#d9d7ff', '#a9a5ff', '#7f78f0', '#5f55d8'])
-    + origamiHeart(P, -12, 12, 1.6, -8, ['#ffd3e0', '#ff95b4', '#ef5f8c', '#c93a6a']));
+    + origamiHeart(P, 26, -18, 1.25, 14, ['#c9c6ff', '#b4b0ff', '#a29dfb', '#a29dfb', '#8d86f2', '#7d75ea'])
+    + origamiHeart(P, -12, 12, 1.6, -8, ['#ffbfd1', '#ffaac2', '#fb97b3', '#fb97b3', '#f2809f', '#e8718f']));
 }
 /* gratitude: a jar full of happy moments – folded paper notes, little stars and hearts in a glass jar with a lid
    and a bow. Layered paper like the lotus: back of the glass, the things inside, the front of the glass with its
