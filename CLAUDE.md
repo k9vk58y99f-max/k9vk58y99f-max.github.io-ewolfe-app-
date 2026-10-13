@@ -119,7 +119,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.57.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.58.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -132,7 +132,8 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Tagebuch: Titelblatt links = Buch öffnen, rechts = zurück zu Ziele; im Buch nur im Ansichtsmodus (blättert Tagebuchseiten),
   beim Schreiben nichts. Fenster über den Seiten blockieren es (`swipeBlocked`).
 - Startseite: „Ziele bearbeiten“ entfernt, „Frühere Lebensräder“ direkt unter „Neues Lebensrad erstellen“.
-- **Tagebuch**: Knopf „Jetzt schreiben“ unter dem Titelblatt (`.tb-start-btn`); Tipp auf die Seitenzahl öffnet die Seitenwahl
+- **Tagebuch**: „Jetzt schreiben“ steht seit 1.58.0 in den Tagebuch-Einstellungen (`.tb-start-btn`), nicht mehr unter dem
+  Titelblatt; das Buch öffnet immer auf der letzten Seite; auf Tablets ist die Seite so groß, dass sie hochkant ganz passt; Tipp auf die Seitenzahl öffnet die Seitenwahl
   (`tbPagePickHtml`, `tbGoToPage`); Seitentyp „Lebensbereiche“ in den Einstellungen (`defaultPageType = 'areas'`, neue Seiten
   bekommen dann die fünf Felder; Text, der auf die nächste Seite überläuft, bleibt normale Seite: `tbTextType`).
   Text aus der Achtsamkeit (Dankbarkeit, Impulskarte) beginnt unterhalb des tiefsten Bildes der Seite (`tbAppendBlock`).
@@ -142,7 +143,11 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - **Impulskarten** (`IMPULSE_CARDS`, 40 Karten, 8 je Bereich, eigene Sätze und kurze Zitate mit Namen, de/en): Knopf
   „Impulskarte ziehen“ oben auf der Achtsamkeits-Seite (ersetzt die alte Impulszeile), einmal am Tag beim Start als Karte
   (`maybeShowImpulseCard`, Merker `ewolfe_impulse_day`), nur per Knopf zu schließen; „Ins Tagebuch“ legt Bild + Spruch auf
-  eine Seite. Bilder sind noch Platzhalter (`IMPULSE_PLACEHOLDER = true`, roter Schriftzug); echte Bilder: Feld `img` je Karte
+  eine Seite. Seit 1.58.0: Karte ohne Rahmenfenster (Format 5:7, `impulseCardHtml`), Startkarte schließt per Antippen, auf der
+  Achtsamkeits-Seite: daneben tippen schließt, zur Seite wischen zieht eine neue (`impulseNext`), kleines Buch unten rechts
+  überträgt die ganze Karte als Bild ins Tagebuch (`impulseCardSvg`). Oben auf der Achtsamkeits-Seite eine Mini-Karte (die
+  zuletzt gezogene, `impulseLast`) mit Text daneben. Platzhalter-Bilder sind ältere Zeichnungen (`IMPULSE_PH`, `img:'ph0…7'`),
+  nicht die Bilder der Übungen. Bilder sind noch Platzhalter (`IMPULSE_PLACEHOLDER = true`, roter Schriftzug); echte Bilder: Feld `img` je Karte
   setzen (Datei in `img/`) und `IMPULSE_PLACEHOLDER` auf `false`.
 
 ## Wichtige Stellen im Code

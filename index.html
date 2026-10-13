@@ -609,24 +609,35 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 /* ================= Full width on tablets and computers (since 1.55.0): the pages use the whole width in portrait and
    landscape (landscape scrolls); the diary page grows as a whole – font, lines and margins with it (--tbk, set in tbSizeVars) ================= */
 :root{ --tbk:1; }
-.imp-modal{ max-width:420px; }
-.imp-card-wrap{ perspective:1200px; display:flex; justify-content:center; }
+.imp-backdrop{ background:rgba(4,6,22,0.72); align-items:center; justify-content:center; padding:20px; }
+.imp-card-wrap{ perspective:1200px; display:flex; flex-direction:column; align-items:center; width:min(380px, 100%); }
 .imp-card-wrap.flip .imp-card{ animation:impFlip .55s ease-out; }
+.imp-card-wrap.from-right .imp-card{ animation:impFromRight .3s ease-out; }
+.imp-card-wrap.from-left .imp-card{ animation:impFromLeft .3s ease-out; }
+.imp-card.out-left{ transform:translateX(-120%) rotate(-12deg); opacity:0; transition:transform .22s ease-in, opacity .22s ease-in; }
+.imp-card.out-right{ transform:translateX(120%) rotate(12deg); opacity:0; transition:transform .22s ease-in, opacity .22s ease-in; }
 @keyframes impFlip{ from{ transform:rotateY(90deg) scale(0.92); opacity:0; } to{ transform:none; opacity:1; } }
-.imp-card{ width:100%; border-radius:22px; padding:16px 18px 20px; background:linear-gradient(160deg, #1d2257 0%, #2a1f6e 55%, #3a2fd0 130%); border:1px solid rgba(255,255,255,0.1); box-shadow:0 18px 44px rgba(0,0,0,0.45); text-align:center; }
-.imp-pic{ position:relative; aspect-ratio:1; border-radius:16px; background:radial-gradient(circle at 50% 45%, rgba(184,164,255,0.28), rgba(10,14,40,0.2) 70%); display:flex; align-items:center; justify-content:center; overflow:hidden; }
-.imp-pic img{ width:86%; height:86%; object-fit:contain; }
-.imp-ph{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) rotate(-24deg); color:#ff2d3d; font-weight:800; font-size:clamp(26px, 9vw, 40px); letter-spacing:0.08em; border:3px solid #ff2d3d; border-radius:10px; padding:2px 14px; background:rgba(255,255,255,0.55); white-space:nowrap; pointer-events:none; }
-.imp-area{ display:flex; align-items:center; justify-content:center; gap:6px; margin:14px 0 8px; color:var(--ew-turquoise); font-size:var(--fs-text); font-weight:600; }
-.imp-area .area-ico{ width:18px; height:18px; }
-.imp-text{ margin:0; color:#fff; font-size:var(--fs-sub); line-height:1.5; font-weight:500; }
-.imp-by{ margin-top:10px; color:var(--ew-text-dim); font-size:var(--fs-text); font-style:italic; }
-.imp-actions{ display:flex; gap:8px; margin-top:16px; }
-.imp-actions .ghost-btn{ flex:1; padding:11px 8px; }
-.imp-close{ width:100%; margin-top:10px; padding:13px; }
-.imp-draw-btn{ width:100%; display:flex; align-items:center; justify-content:center; gap:4px; padding:13px 18px; margin-top:6px; }
-.tb-body-cover .tb-cover-wrap{ gap:14px; }
-.tb-body-cover .tb-cover{ height:calc(100% - 66px); }
+@keyframes impFromRight{ from{ transform:translateX(60%) rotate(8deg); opacity:0; } to{ transform:none; opacity:1; } }
+@keyframes impFromLeft{ from{ transform:translateX(-60%) rotate(-8deg); opacity:0; } to{ transform:none; opacity:1; } }
+.imp-card{ position:relative; width:100%; aspect-ratio:5/7; container-type:inline-size; display:flex; flex-direction:column; align-items:center; border-radius:24px; padding:18px 18px 22px; background:linear-gradient(160deg, #1d2257 0%, #2a1f6e 60%, #3a2fd0 130%); border:1px solid rgba(255,255,255,0.14); box-shadow:0 26px 60px rgba(0,0,0,0.6), 0 2px 0 rgba(255,255,255,0.06) inset; text-align:center; touch-action:pan-y; user-select:none; -webkit-user-select:none; }
+.imp-pic{ position:relative; flex:none; width:80%; aspect-ratio:1; border-radius:5cqw; background:radial-gradient(circle at 50% 45%, rgba(184,164,255,0.28), rgba(10,14,40,0.2) 70%); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.imp-pic img, .imp-pic svg{ width:86%; height:86%; object-fit:contain; pointer-events:none; }
+.imp-ph{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) rotate(-24deg); color:#ff2d3d; font-weight:800; font-size:8.5cqw; letter-spacing:0.06em; border:0.8cqw solid #ff2d3d; border-radius:2.5cqw; padding:0.4cqw 3cqw; background:rgba(255,255,255,0.55); white-space:nowrap; pointer-events:none; }
+.imp-area{ display:flex; align-items:center; justify-content:center; gap:1.6cqw; margin:5cqw 0 2.5cqw; color:var(--ew-turquoise); font-size:4.4cqw; font-weight:600; }
+.imp-area .area-ico{ width:5cqw; height:5cqw; }
+.imp-text{ margin:0 2cqw; color:#fff; font-size:5.4cqw; line-height:1.42; font-weight:500; flex:1; display:flex; align-items:center; justify-content:center; }
+.imp-by{ margin-top:2cqw; color:var(--ew-text-dim); font-size:4.2cqw; font-style:italic; }
+.imp-diary-btn{ position:absolute; right:3.5cqw; bottom:3.5cqw; width:10cqw; height:10cqw; border-radius:50%; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.08); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; }
+.imp-diary-btn .ui-ico{ width:18px; height:18px; margin:0; }
+.imp-hint{ margin-top:14px; color:rgba(255,255,255,0.55); font-size:13px; text-align:center; }
+.imp-top{ display:flex; align-items:center; gap:14px; }
+.imp-mini-btn{ flex:none; width:74px; padding:0; border:none; background:none; cursor:pointer; }
+.imp-card.imp-mini{ aspect-ratio:5/7; justify-content:center; padding:6px; border-radius:10px; box-shadow:0 8px 18px rgba(0,0,0,0.45); transform:rotate(-4deg); }
+.imp-card.imp-mini .imp-pic{ width:100%; border-radius:7px; }
+.imp-card.imp-back{ display:flex; align-items:center; justify-content:center; color:var(--ew-turquoise); }
+.imp-card.imp-back .ui-ico{ width:28px; height:28px; margin:0; }
+.imp-top-text{ flex:1; min-width:0; }
+.imp-top-text .medi-impulse-text{ margin:4px 0 0; }
 .tb-start-btn{ flex:none; display:flex; align-items:center; justify-content:center; gap:4px; padding:13px 26px; font-size:var(--fs-text); min-width:220px; }
 .tb-start-btn .ui-ico{ width:16px; height:16px; }
 .tb-page-num-btn{ background:none; border:1px solid transparent; border-radius:10px; padding:4px 8px; cursor:pointer; font:inherit; }
@@ -658,7 +669,7 @@ body.swipe-prev .page-modal.open > .modal, body.swipe-prev .tb-overlay.open, bod
 .scene-foot{ padding:2px 22px 14px; }
 .home-new{ margin-bottom:12px; }
 .wheel-hist-home.goal-table-card{ margin-left:10px; margin-right:10px; }
-.tb-body{ padding-left:12px; padding-right:12px; }
+.tb-body{ padding-left:12px; padding-right:12px; overflow-x:hidden; }
 .tb-body.tb-body-cover{ padding-left:12px; padding-right:12px; }
 .compare-swatch{ width:18px; height:5px; border-radius:3px; }
 
@@ -914,13 +925,8 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 </div>
 
 <!-- Impulse card -->
-<div class="modal-backdrop" id="impulse-modal">
-  <div class="modal imp-modal">
-    <div class="modal-top"><h2 class="modal-title" id="impulse-title"></h2><button class="icon-btn" onclick="closeModal('impulse-modal')">✕</button></div>
-    <div id="impulse-card" class="imp-card-wrap"></div>
-    <div class="imp-actions"><button class="ghost-btn" id="impulse-new" onclick="impulseShow(impulseDraw())"></button><button class="ghost-btn" id="impulse-diary" onclick="impulseToDiary()"></button></div>
-    <button class="primary-btn imp-close" id="impulse-close" onclick="closeModal('impulse-modal')"></button>
-  </div>
+<div class="modal-backdrop imp-backdrop" id="impulse-modal" onclick="if(impulseMode === 'start' || event.target === this || event.target.classList.contains('imp-hint')) closeModal('impulse-modal');">
+  <div id="impulse-card" class="imp-card-wrap"></div>
 </div>
 
 <!-- Silent meditation: timer with a gong -->
@@ -1178,7 +1184,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.57.0';
+const APP_VERSION = '1.58.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2467,47 +2473,55 @@ function achSessionEnd(modalId){
    first start, a card greets the person and has to be closed actively. A card can go into the diary (picture + text).
    The pictures are placeholders for now (IMPULSE_PLACEHOLDER: a red "PLATZHALTER" across them) until the real ones arrive. ---- */
 const IMPULSE_PLACEHOLDER = true;
+// placeholder pictures: older drawings that are not used for the exercises (ph0 … ph7)
+const IMPULSE_PH = [id=>moonPictureSvg(id), id=>lavenderPictureSvg(id), id=>jarPictureSvg(id), id=>heartShapeSvg('round', id),
+  id=>heartShapeSvg('petals', id), id=>heartShapeSvg('plump', id), id=>`<svg viewBox="-100 -100 200 200" aria-hidden="true">${blossomMarkup('ipb' + id, BLOSSOM_MAX_OPEN)}</svg>`, id=>heartShapeSvg('origami', id)];
+let impulsePicSeq = 0;
+function impulsePicHtml(c){
+  const k = /^ph(\d)$/.exec(c.img || '');
+  return k ? IMPULSE_PH[+k[1]]('ip' + (++impulsePicSeq)) : `<img src="img/${c.img}.webp" alt="">`;
+}
 const IMPULSE_CARDS = [
-  {"id": "ges1", "a": "gesundheit", "de": "Dein Körper trägt dich durch jeden Tag. Gönn ihm heute etwas Gutes.", "en": "Your body carries you through every day. Treat it to something good today.", "by": "", "byEn": "", "img": "lotus3"},
-  {"id": "ges2", "a": "gesundheit", "de": "Sorge gut für deinen Körper. Er ist der einzige Ort, den du zum Leben hast.", "en": "Take care of your body. It is the only place you have to live.", "by": "Jim Rohn", "byEn": "Jim Rohn", "img": "cherry6"},
-  {"id": "ges3", "a": "gesundheit", "de": "Jeder Schritt zählt – auch der kleine.", "en": "Every step counts – even the small one.", "by": "", "byEn": "", "img": "stones"},
-  {"id": "ges4", "a": "gesundheit", "de": "Gesundheit ist nicht alles, aber ohne Gesundheit ist alles nichts.", "en": "Health is not everything, but without health everything is nothing.", "by": "Arthur Schopenhauer", "byEn": "Arthur Schopenhauer", "img": "heart"},
-  {"id": "ges5", "a": "gesundheit", "de": "Ruhe ist keine Pause vom Leben, sondern ein Teil davon.", "en": "Rest is not a break from life, it is part of it.", "by": "", "byEn": "", "img": "bowl"},
-  {"id": "ges6", "a": "gesundheit", "de": "Atme tief ein. Du bist genau da, wo du gerade sein sollst.", "en": "Take a deep breath. You are exactly where you need to be right now.", "by": "", "byEn": "", "img": "lotus1"},
-  {"id": "ges7", "a": "gesundheit", "de": "Was du heute für dich tust, dankt dir dein Körper morgen.", "en": "What you do for yourself today, your body will thank you for tomorrow.", "by": "", "byEn": "", "img": "lotus2"},
-  {"id": "ges8", "a": "gesundheit", "de": "Schlaf, Wasser, Bewegung, Licht – oft sind die einfachsten Dinge die stärksten.", "en": "Sleep, water, movement, light – often the simplest things are the strongest.", "by": "", "byEn": "", "img": "cherry3"},
-  {"id": "bez1", "a": "beziehungen", "de": "Glück ist das Einzige, das sich verdoppelt, wenn man es teilt.", "en": "Happiness is the only thing that doubles when you share it.", "by": "Albert Schweitzer", "byEn": "Albert Schweitzer", "img": "lotus3"},
-  {"id": "bez2", "a": "beziehungen", "de": "Man sieht nur mit dem Herzen gut. Das Wesentliche ist für die Augen unsichtbar.", "en": "One sees clearly only with the heart. What is essential is invisible to the eye.", "by": "Antoine de Saint-Exupéry", "byEn": "Antoine de Saint-Exupéry", "img": "cherry6"},
-  {"id": "bez3", "a": "beziehungen", "de": "Zeig heute einem Menschen, dass er dir wichtig ist.", "en": "Show someone today that they matter to you.", "by": "", "byEn": "", "img": "stones"},
-  {"id": "bez4", "a": "beziehungen", "de": "Zuhören ist eines der schönsten Geschenke, die du machen kannst.", "en": "Listening is one of the most beautiful gifts you can give.", "by": "", "byEn": "", "img": "heart"},
-  {"id": "bez5", "a": "beziehungen", "de": "Freundschaft ist eine Seele in zwei Körpern.", "en": "Friendship is a single soul dwelling in two bodies.", "by": "Aristoteles", "byEn": "Aristotle", "img": "bowl"},
-  {"id": "bez6", "a": "beziehungen", "de": "Nähe entsteht in kleinen Momenten.", "en": "Closeness grows in small moments.", "by": "", "byEn": "", "img": "lotus1"},
-  {"id": "bez7", "a": "beziehungen", "de": "Du darfst um Hilfe bitten. Genau dort beginnt Verbundenheit.", "en": "You may ask for help. That is exactly where connection begins.", "by": "", "byEn": "", "img": "lotus2"},
-  {"id": "bez8", "a": "beziehungen", "de": "Sei für dich selbst der Mensch, den du anderen so gerne schenkst.", "en": "Be for yourself the person you so gladly are for others.", "by": "", "byEn": "", "img": "cherry3"},
-  {"id": "fin1", "a": "finanzen", "de": "Eine Investition in Wissen bringt immer noch die besten Zinsen.", "en": "An investment in knowledge pays the best interest.", "by": "Benjamin Franklin", "byEn": "Benjamin Franklin", "img": "lotus3"},
-  {"id": "fin2", "a": "finanzen", "de": "Jeder kleine Betrag, den du zurücklegst, ist ein Schritt zu mehr Freiheit.", "en": "Every small amount you put aside is a step towards more freedom.", "by": "", "byEn": "", "img": "cherry6"},
-  {"id": "fin3", "a": "finanzen", "de": "Wer weiß, dass er genug hat, ist reich.", "en": "He who knows he has enough is rich.", "by": "Laozi", "byEn": "Laozi", "img": "stones"},
-  {"id": "fin4", "a": "finanzen", "de": "Klarheit über dein Geld schenkt dir Ruhe im Kopf.", "en": "Clarity about your money gives you peace of mind.", "by": "", "byEn": "", "img": "heart"},
-  {"id": "fin5", "a": "finanzen", "de": "Gib dein Geld für das aus, was dir wirklich wichtig ist.", "en": "Spend your money on what truly matters to you.", "by": "", "byEn": "", "img": "bowl"},
-  {"id": "fin6", "a": "finanzen", "de": "Spare in der Zeit, so hast du in der Not.", "en": "Save in good times, and you will have in times of need.", "by": "Sprichwort", "byEn": "Proverb", "img": "lotus1"},
-  {"id": "fin7", "a": "finanzen", "de": "Dein Wert hängt nicht an deinem Kontostand.", "en": "Your worth does not depend on your bank balance.", "by": "", "byEn": "", "img": "lotus2"},
-  {"id": "fin8", "a": "finanzen", "de": "Ein Plan macht aus einem Wunsch ein Ziel.", "en": "A plan turns a wish into a goal.", "by": "", "byEn": "", "img": "cherry3"},
-  {"id": "ber1", "a": "berufung", "de": "Der einzige Weg, großartige Arbeit zu leisten, ist zu lieben, was man tut.", "en": "The only way to do great work is to love what you do.", "by": "Steve Jobs", "byEn": "Steve Jobs", "img": "lotus3"},
-  {"id": "ber2", "a": "berufung", "de": "Deine Talente sind ein Geschenk – zeig sie der Welt.", "en": "Your talents are a gift – show them to the world.", "by": "", "byEn": "", "img": "cherry6"},
-  {"id": "ber3", "a": "berufung", "de": "Auch eine Reise von tausend Meilen beginnt mit dem ersten Schritt.", "en": "A journey of a thousand miles begins with a single step.", "by": "Laozi", "byEn": "Laozi", "img": "stones"},
-  {"id": "ber4", "a": "berufung", "de": "Du musst nicht alles wissen, um anzufangen.", "en": "You do not need to know everything to begin.", "by": "", "byEn": "", "img": "heart"},
-  {"id": "ber5", "a": "berufung", "de": "Es ist nicht wenig Zeit, die wir haben, sondern es ist viel Zeit, die wir nicht nutzen.", "en": "It is not that we have a short time to live, but that we waste a lot of it.", "by": "Seneca", "byEn": "Seneca", "img": "bowl"},
-  {"id": "ber6", "a": "berufung", "de": "Was dich begeistert, zeigt dir den Weg.", "en": "What lights you up shows you the way.", "by": "", "byEn": "", "img": "lotus1"},
-  {"id": "ber7", "a": "berufung", "de": "Mut heißt nicht, keine Angst zu haben – sondern trotzdem loszugehen.", "en": "Courage does not mean having no fear – it means going anyway.", "by": "", "byEn": "", "img": "lotus2"},
-  {"id": "ber8", "a": "berufung", "de": "Heute ist ein guter Tag für einen Schritt auf dein Ziel zu.", "en": "Today is a good day for one step towards your goal.", "by": "", "byEn": "", "img": "cherry3"},
-  {"id": "sin1", "a": "sinn", "de": "Wer ein Warum zum Leben hat, erträgt fast jedes Wie.", "en": "He who has a why to live can bear almost any how.", "by": "Friedrich Nietzsche", "byEn": "Friedrich Nietzsche", "img": "lotus3"},
-  {"id": "sin2", "a": "sinn", "de": "In der Stille hörst du, was wirklich zählt.", "en": "In stillness you hear what really matters.", "by": "", "byEn": "", "img": "cherry6"},
-  {"id": "sin3", "a": "sinn", "de": "Das Glück deines Lebens hängt von der Beschaffenheit deiner Gedanken ab.", "en": "The happiness of your life depends on the quality of your thoughts.", "by": "Marc Aurel", "byEn": "Marcus Aurelius", "img": "stones"},
-  {"id": "sin4", "a": "sinn", "de": "Ein dankbarer Blick macht jeden Tag ein Stück heller.", "en": "A grateful look makes every day a little brighter.", "by": "", "byEn": "", "img": "heart"},
-  {"id": "sin5", "a": "sinn", "de": "Nicht die Dinge selbst beunruhigen die Menschen, sondern ihre Meinungen über die Dinge.", "en": "It is not things that disturb us, but our opinions about them.", "by": "Epiktet", "byEn": "Epictetus", "img": "bowl"},
-  {"id": "sin6", "a": "sinn", "de": "Du bist Teil von etwas Größerem.", "en": "You are part of something greater.", "by": "", "byEn": "", "img": "lotus1"},
-  {"id": "sin7", "a": "sinn", "de": "Jeder Atemzug ist ein neuer Anfang.", "en": "Every breath is a new beginning.", "by": "", "byEn": "", "img": "lotus2"},
-  {"id": "sin8", "a": "sinn", "de": "Wenn du es eilig hast, gehe langsam.", "en": "When you are in a hurry, walk slowly.", "by": "Sprichwort", "byEn": "Proverb", "img": "cherry3"}
+  {"id": "ges1", "a": "gesundheit", "de": "Dein Körper trägt dich durch jeden Tag – schenk ihm heute etwas Gutes.", "en": "Your body carries you through every day – give it something good today.", "by": "", "byEn": "", "img": "ph0"},
+  {"id": "ges2", "a": "gesundheit", "de": "Sorge gut für deinen Körper. Er ist der einzige Ort, den du zum Leben hast.", "en": "Take care of your body. It is the only place you have to live.", "by": "Jim Rohn", "byEn": "Jim Rohn", "img": "ph1"},
+  {"id": "ges3", "a": "gesundheit", "de": "Auch kleine Schritte bringen dich voran.", "en": "Small steps move you forward, too.", "by": "", "byEn": "", "img": "ph2"},
+  {"id": "ges4", "a": "gesundheit", "de": "Gesundheit ist nicht alles, aber ohne Gesundheit ist alles nichts.", "en": "Health is not everything, but without health everything is nothing.", "by": "Arthur Schopenhauer", "byEn": "Arthur Schopenhauer", "img": "ph3"},
+  {"id": "ges5", "a": "gesundheit", "de": "Ruhe ist keine Pause vom Leben, sondern ein Teil davon.", "en": "Rest is not a break from life, it is part of it.", "by": "", "byEn": "", "img": "ph4"},
+  {"id": "ges6", "a": "gesundheit", "de": "Atme tief ein. Du bist genau da, wo du gerade sein sollst.", "en": "Take a deep breath. You are exactly where you need to be right now.", "by": "", "byEn": "", "img": "ph5"},
+  {"id": "ges7", "a": "gesundheit", "de": "Was du heute für dich tust, dankt dir dein Körper morgen.", "en": "What you do for yourself today, your body will thank you for tomorrow.", "by": "", "byEn": "", "img": "ph6"},
+  {"id": "ges8", "a": "gesundheit", "de": "Schlaf, Wasser, Bewegung, Licht – oft sind die einfachsten Dinge die stärksten.", "en": "Sleep, water, movement, light – often the simplest things are the strongest.", "by": "", "byEn": "", "img": "ph7"},
+  {"id": "bez1", "a": "beziehungen", "de": "Glück ist das Einzige, das sich verdoppelt, wenn man es teilt.", "en": "Happiness is the only thing that doubles when you share it.", "by": "Albert Schweitzer", "byEn": "Albert Schweitzer", "img": "ph0"},
+  {"id": "bez2", "a": "beziehungen", "de": "Man sieht nur mit dem Herzen gut. Das Wesentliche ist für die Augen unsichtbar.", "en": "One sees clearly only with the heart. What is essential is invisible to the eye.", "by": "Antoine de Saint-Exupéry", "byEn": "Antoine de Saint-Exupéry", "img": "ph1"},
+  {"id": "bez3", "a": "beziehungen", "de": "Zeig heute einem Menschen, wie wichtig er dir ist.", "en": "Show someone today how much they mean to you.", "by": "", "byEn": "", "img": "ph2"},
+  {"id": "bez4", "a": "beziehungen", "de": "Echtes Zuhören ist eines der schönsten Geschenke.", "en": "Truly listening is one of the most beautiful gifts.", "by": "", "byEn": "", "img": "ph3"},
+  {"id": "bez5", "a": "beziehungen", "de": "Freundschaft ist eine Seele in zwei Körpern.", "en": "Friendship is a single soul dwelling in two bodies.", "by": "Aristoteles", "byEn": "Aristotle", "img": "ph4"},
+  {"id": "bez6", "a": "beziehungen", "de": "Nähe wächst in den kleinen Momenten.", "en": "Closeness grows in the small moments.", "by": "", "byEn": "", "img": "ph5"},
+  {"id": "bez7", "a": "beziehungen", "de": "Du darfst um Hilfe bitten. Genau dort beginnt Verbundenheit.", "en": "You may ask for help. That is exactly where connection begins.", "by": "", "byEn": "", "img": "ph6"},
+  {"id": "bez8", "a": "beziehungen", "de": "Schenk dir selbst die Wärme, die du anderen so gerne gibst.", "en": "Give yourself the warmth you so gladly give to others.", "by": "", "byEn": "", "img": "ph7"},
+  {"id": "fin1", "a": "finanzen", "de": "Eine Investition in Wissen bringt immer noch die besten Zinsen.", "en": "An investment in knowledge pays the best interest.", "by": "Benjamin Franklin", "byEn": "Benjamin Franklin", "img": "ph0"},
+  {"id": "fin2", "a": "finanzen", "de": "Jeder Euro, den du zur Seite legst, schenkt dir ein Stück Freiheit.", "en": "Every coin you set aside gives you a little more freedom.", "by": "", "byEn": "", "img": "ph1"},
+  {"id": "fin3", "a": "finanzen", "de": "Wer weiß, dass er genug hat, ist reich.", "en": "He who knows he has enough is rich.", "by": "Laozi", "byEn": "Laozi", "img": "ph2"},
+  {"id": "fin4", "a": "finanzen", "de": "Klarheit über dein Geld schenkt dir Ruhe im Kopf.", "en": "Clarity about your money gives you peace of mind.", "by": "", "byEn": "", "img": "ph3"},
+  {"id": "fin5", "a": "finanzen", "de": "Gib dein Geld für das aus, was dir wirklich am Herzen liegt.", "en": "Spend your money on what is truly close to your heart.", "by": "", "byEn": "", "img": "ph4"},
+  {"id": "fin6", "a": "finanzen", "de": "Spare in der Zeit, so hast du in der Not.", "en": "Save in good times, and you will have in times of need.", "by": "Sprichwort", "byEn": "Proverb", "img": "ph5"},
+  {"id": "fin7", "a": "finanzen", "de": "Dein Wert lässt sich an keinem Kontostand ablesen.", "en": "No bank balance can show what you are worth.", "by": "", "byEn": "", "img": "ph6"},
+  {"id": "fin8", "a": "finanzen", "de": "Ein Plan macht aus einem Wunsch ein Ziel.", "en": "A plan turns a wish into a goal.", "by": "", "byEn": "", "img": "ph7"},
+  {"id": "ber1", "a": "berufung", "de": "Der einzige Weg, großartige Arbeit zu leisten, ist zu lieben, was man tut.", "en": "The only way to do great work is to love what you do.", "by": "Steve Jobs", "byEn": "Steve Jobs", "img": "ph0"},
+  {"id": "ber2", "a": "berufung", "de": "Deine Talente sind ein Geschenk – zeig sie der Welt.", "en": "Your talents are a gift – show them to the world.", "by": "", "byEn": "", "img": "ph1"},
+  {"id": "ber3", "a": "berufung", "de": "Auch eine Reise von tausend Meilen beginnt mit dem ersten Schritt.", "en": "A journey of a thousand miles begins with a single step.", "by": "Laozi", "byEn": "Laozi", "img": "ph2"},
+  {"id": "ber4", "a": "berufung", "de": "Du musst nicht alles wissen, um anzufangen.", "en": "You do not need to know everything to begin.", "by": "", "byEn": "", "img": "ph3"},
+  {"id": "ber5", "a": "berufung", "de": "Es ist nicht wenig Zeit, die wir haben, sondern es ist viel Zeit, die wir nicht nutzen.", "en": "It is not that we have a short time to live, but that we waste a lot of it.", "by": "Seneca", "byEn": "Seneca", "img": "ph4"},
+  {"id": "ber6", "a": "berufung", "de": "Was dich begeistert, zeigt dir den Weg.", "en": "What lights you up shows you the way.", "by": "", "byEn": "", "img": "ph5"},
+  {"id": "ber7", "a": "berufung", "de": "Mut heißt nicht, keine Angst zu haben – sondern trotzdem loszugehen.", "en": "Courage does not mean having no fear – it means going anyway.", "by": "", "byEn": "", "img": "ph6"},
+  {"id": "ber8", "a": "berufung", "de": "Heute ist ein guter Tag, um deinem Ziel einen Schritt näher zu kommen.", "en": "Today is a good day to come one step closer to your goal.", "by": "", "byEn": "", "img": "ph7"},
+  {"id": "sin1", "a": "sinn", "de": "Wer ein Warum zum Leben hat, erträgt fast jedes Wie.", "en": "He who has a why to live can bear almost any how.", "by": "Friedrich Nietzsche", "byEn": "Friedrich Nietzsche", "img": "ph0"},
+  {"id": "sin2", "a": "sinn", "de": "In der Stille spürst du, was wirklich zählt.", "en": "In stillness you feel what really matters.", "by": "", "byEn": "", "img": "ph1"},
+  {"id": "sin3", "a": "sinn", "de": "Das Glück deines Lebens hängt von der Beschaffenheit deiner Gedanken ab.", "en": "The happiness of your life depends on the quality of your thoughts.", "by": "Marc Aurel", "byEn": "Marcus Aurelius", "img": "ph2"},
+  {"id": "sin4", "a": "sinn", "de": "Wer dankbar auf seinen Tag blickt, entdeckt das Glück im Kleinen.", "en": "Looking back on your day with gratitude, you discover happiness in the little things.", "by": "", "byEn": "", "img": "ph3"},
+  {"id": "sin5", "a": "sinn", "de": "Nicht die Dinge selbst beunruhigen die Menschen, sondern ihre Meinungen über die Dinge.", "en": "It is not things that disturb us, but our opinions about them.", "by": "Epiktet", "byEn": "Epictetus", "img": "ph4"},
+  {"id": "sin6", "a": "sinn", "de": "Du bist ein wertvoller Teil von etwas Größerem.", "en": "You are a precious part of something greater.", "by": "", "byEn": "", "img": "ph5"},
+  {"id": "sin7", "a": "sinn", "de": "Jeder Atemzug ist ein neuer Anfang.", "en": "Every breath is a new beginning.", "by": "", "byEn": "", "img": "ph6"},
+  {"id": "sin8", "a": "sinn", "de": "Wenn du es eilig hast, gehe langsam.", "en": "When you are in a hurry, walk slowly.", "by": "Sprichwort", "byEn": "Proverb", "img": "ph7"}
 ];
 const IMPULSE_DAY_KEY = 'ewolfe_impulse_day', IMPULSE_RECENT_KEY = 'ewolfe_impulse_recent';
 let impulseCur = null;
@@ -2520,27 +2534,53 @@ function impulseDraw(){
   try{ localStorage.setItem(IMPULSE_RECENT_KEY, JSON.stringify(recent)); }catch(e){}
   return impulseCur;
 }
-function impulseCardHtml(c){
+function impulseCardHtml(c, mini){
   const d = t(), en = state.settings.lang === 'en', by = en ? c.byEn : c.by;
-  return `<div class="imp-card">
-    <div class="imp-pic"><img src="img/${c.img}.webp" alt="">${IMPULSE_PLACEHOLDER ? `<div class="imp-ph">${d.impulsePlaceholder}</div>` : ''}</div>
+  if(mini) return `<div class="imp-card imp-mini"><div class="imp-pic">${impulsePicHtml(c)}</div></div>`;
+  return `<div class="imp-card" id="imp-card-el">
+    <div class="imp-pic">${impulsePicHtml(c)}${IMPULSE_PLACEHOLDER ? `<div class="imp-ph">${d.impulsePlaceholder}</div>` : ''}</div>
     <div class="imp-area">${areaIco(c.a)}<span>${escapeHtml(d.bereiche[c.a])}</span></div>
     <p class="imp-text">${escapeHtml(en ? c.en : c.de)}</p>
     ${by ? `<div class="imp-by">– ${escapeHtml(by)}</div>` : ''}
+    ${impulseMode === 'start' ? '' : `<button class="imp-diary-btn" onclick="event.stopPropagation(); impulseToDiary()" title="${d.impulseToDiary}" aria-label="${d.impulseToDiary}">${ico('book')}</button>`}
   </div>`;
 }
-function impulseShow(c){
-  const d = t();
-  document.getElementById('impulse-title').textContent = d.impulseTitleCard;
-  document.getElementById('impulse-new').textContent = d.impulseNew;
-  document.getElementById('impulse-diary').textContent = d.impulseToDiary;
-  document.getElementById('impulse-close').textContent = d.impulseClose;
+// the card that was drawn last (stays available: the mini card on the mindfulness page opens it again)
+function impulseLast(){
+  let recent = [];
+  try{ recent = JSON.parse(localStorage.getItem(IMPULSE_RECENT_KEY) || '[]'); }catch(e){}
+  const id = recent[recent.length - 1];
+  return IMPULSE_CARDS.find(c=>c.id === id) || null;
+}
+/* mode 'start': the card that greets once a day – a tap anywhere puts it away.
+   mode 'medi': tap beside the card to put it away, swipe the card for a new one, the small book puts it into the diary. */
+let impulseMode = 'medi';
+function impulseShow(c, mode, anim){
+  impulseCur = c; impulseMode = mode || 'medi';
   const box = document.getElementById('impulse-card');
-  box.innerHTML = impulseCardHtml(c);
-  box.classList.remove('flip'); void box.offsetWidth; box.classList.add('flip');
+  box.innerHTML = impulseCardHtml(c) + (impulseMode === 'medi' ? `<div class="imp-hint">${t().impulseSwipeHint}</div>` : `<div class="imp-hint">${t().impulseTapHint}</div>`);
+  box.classList.remove('flip', 'from-left', 'from-right'); void box.offsetWidth; box.classList.add(anim || 'flip');
+  impulseBindSwipe();
   openModal('impulse-modal');
 }
-function impulseOpen(){ impulseShow(impulseDraw()); }
+function impulseOpen(){ const last = impulseLast(); impulseShow(last || impulseDraw(), 'medi'); }
+function impulseNext(dir){
+  const el = document.getElementById('imp-card-el');
+  if(el){ el.classList.add(dir > 0 ? 'out-left' : 'out-right'); }
+  setTimeout(()=>{ impulseShow(impulseDraw(), 'medi', dir > 0 ? 'from-right' : 'from-left'); if(document.getElementById('medi-modal').classList.contains('open')) renderMeditationen(); }, 220);
+}
+function impulseBindSwipe(){
+  const el = document.getElementById('imp-card-el');
+  if(!el || impulseMode !== 'medi') return;
+  let x0 = null, y0 = 0;
+  el.addEventListener('pointerdown', e=>{ x0 = e.clientX; y0 = e.clientY; });
+  el.addEventListener('pointerup', e=>{
+    if(x0 === null) return;
+    const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+    if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) impulseNext(dx < 0 ? 1 : -1);
+  });
+  el.addEventListener('pointercancel', ()=>{ x0 = null; });
+}
 // once a day, on the first start of the app, a card greets the person
 function maybeShowImpulseCard(){
   if(isFirstRun() || syncGateNeeded()) return false;
@@ -2549,22 +2589,41 @@ function maybeShowImpulseCard(){
   try{ last = localStorage.getItem(IMPULSE_DAY_KEY) || ''; }catch(e){}
   if(last === today) return false;
   try{ localStorage.setItem(IMPULSE_DAY_KEY, today); }catch(e){}
-  impulseOpen();
+  impulseShow(impulseDraw(), 'start');
   return true;
+}
+/* The card as a picture (an SVG with everything written in), so the real card lands in the diary – like the wheel */
+function impulseCardSvg(c){
+  const d = t(), en = state.settings.lang === 'en', by = en ? c.byEn : c.by, W = 600, H = 860;
+  const txt = en ? c.en : c.de, words = txt.split(/\s+/), lines = []; let line = '';
+  words.forEach(w=>{ const tryL = line ? line + ' ' + w : w; if(tryL.length > 26 && line){ lines.push(line); line = w; } else line = tryL; });
+  if(line) lines.push(line);
+  const esc = v=>escapeHtml(v);
+  const pic = impulsePicHtml(c).replace(/^<svg[^>]*viewBox="([^"]+)"[^>]*>/, (m0, vb)=>`<svg x="90" y="70" width="420" height="420" viewBox="${vb}">`);
+  const font = 'Inter, -apple-system, Helvetica, Arial, sans-serif';
+  const ty = 600 - (lines.length - 1) * 21;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">`
+    + `<defs><linearGradient id="icg" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0%" stop-color="#1d2257"/><stop offset="60%" stop-color="#2a1f6e"/><stop offset="120%" stop-color="#3a2fd0"/></linearGradient>`
+    + `<radialGradient id="icp" cx="0.5" cy="0.45" r="0.6"><stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.3"/><stop offset="100%" stop-color="#0a0e28" stop-opacity="0.15"/></radialGradient></defs>`
+    + `<rect x="6" y="6" width="${W - 12}" height="${H - 12}" rx="40" fill="url(#icg)" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>`
+    + `<rect x="46" y="46" width="${W - 92}" height="${W - 92}" rx="30" fill="url(#icp)"/>` + pic
+    + (IMPULSE_PLACEHOLDER ? `<g transform="translate(${W / 2} 280) rotate(-24)"><rect x="-200" y="-40" width="400" height="80" rx="14" fill="rgba(255,255,255,0.55)" stroke="#ff2d3d" stroke-width="5"/><text y="20" text-anchor="middle" font-family="${font}" font-weight="800" font-size="54" fill="#ff2d3d" letter-spacing="5">${esc(d.impulsePlaceholder)}</text></g>` : '')
+    + `<text x="${W / 2}" y="${ty - 62}" text-anchor="middle" font-family="${font}" font-weight="700" font-size="26" fill="#58d48f">${esc(d.bereiche[c.a])}</text>`
+    + lines.map((l, i)=>`<text x="${W / 2}" y="${ty + i * 42}" text-anchor="middle" font-family="${font}" font-weight="600" font-size="32" fill="#ffffff">${esc(l)}</text>`).join('')
+    + (by ? `<text x="${W / 2}" y="${ty + lines.length * 42 + 22}" text-anchor="middle" font-family="${font}" font-style="italic" font-size="26" fill="#b9bce0">– ${esc(by)}</text>` : '')
+    + `</svg>`;
 }
 // picture and text onto a diary page of this year (a fresh page if the last one already has something on it)
 async function impulseToDiary(){
   const c = impulseCur; if(!c) return;
-  const d = t(), en = state.settings.lang === 'en', year = String(new Date().getFullYear());
+  const d = t(), year = String(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
   let page = diary.seiten[diary.seiten.length - 1];
   const busy = p=>!p || p.type === 'titel' || p.bereiche || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
   if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
   page.images = page.images || [];
-  page.images.push({ src:'img/' + c.img + '.webp', xPct:30, yPct:4, wPct:40, sticker:true });
-  const date = new Date().toLocaleDateString(en ? 'en-GB' : 'de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
-  const by = en ? c.byEn : c.by;
-  await tbAppendBlock(diary, d.impulseDiaryHead.replace('{date}', date) + '\n' + (en ? '“' + c.en + '”' : '„' + c.de + '“') + (by ? '\n– ' + by : ''));
+  page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(impulseCardSvg(c)), xPct:17, yPct:6, wPct:66 });
+  saveState();
   closeModal('impulse-modal');
   uiNotice(d.impulseSaved);
 }
@@ -2579,10 +2638,10 @@ function achImpulseHtml(){
   const day = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1)) / 864e5);
   const txt = list[(day + achImpulseShift) % list.length] || '';
   // since 1.57.0: the impulse cards take the place of the single impulse line
+  const last = impulseLast();
   return `<div class="medi-top imp-top">
-    <h3 class="goal-table-card-h">${d.impulseTitle}</h3>
-    <p class="medi-impulse-text">${escapeHtml(d.impulseIntro)}</p>
-    <button class="primary-btn imp-draw-btn" onclick="impulseOpen()">${ico('sparkle')}${escapeHtml(d.impulseDrawBtn)}</button>
+    <button class="imp-mini-btn" onclick="impulseOpen()" aria-label="${escapeHtml(d.impulseDrawBtn)}">${last ? impulseCardHtml(last, true) : `<div class="imp-card imp-mini imp-back">${ico('sparkle')}</div>`}</button>
+    <div class="imp-top-text"><h3 class="goal-table-card-h">${d.impulseTitle}</h3><p class="medi-impulse-text">${escapeHtml(last ? d.impulseIntroAgain : d.impulseIntro)}</p></div>
   </div>`;
 }
 function achStreakHtml(){
@@ -3018,6 +3077,7 @@ async function readFileText(file){
 }
 /* ---- Line icons in the app style (instead of emoji), drawn with the current text colour ---- */
 const UI_ICONS = {
+  book:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3Z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',
   sparkle:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 3v4M17 5h4"/>',
   pencil:'<path d="M4 20l4-1L19 8l-3-3L5 16l-1 4Z"/><path d="M14 7l3 3"/>',
   pen:'<path d="M12 19l7-7 3 3-7 7-3-3Z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5Z"/><path d="M2 2l7.6 7.6"/><circle cx="11" cy="11" r="2"/>',
@@ -3275,6 +3335,8 @@ Object.assign(I18N.de, {"diaryStartWriting": "Jetzt schreiben", "diaryGoTo": "Se
 Object.assign(I18N.en, {"diaryStartWriting": "Start writing", "diaryGoTo": "Choose a page", "diaryFirstPage": "First", "diaryLastPage": "Last", "diaryOpenPage": "Open", "diaryStickers": "Stickers", "stickerNames": {"lotus": "Blue lotus", "lemon": "Lemon", "cherry": "Cherry branch", "stones": "Stone tower", "hearts": "Hearts", "bowl": "Singing bowl", "leaf": "Leaf"}});
 Object.assign(I18N.de, {"impulseIntro": "Zieh eine Karte – sie schenkt dir einen Gedanken für deinen Tag.", "impulseDrawBtn": "Impulskarte ziehen", "impulseTitleCard": "Deine Impulskarte", "impulseNew": "Neue Karte ziehen", "impulseToDiary": "Ins Tagebuch", "impulseClose": "Schließen", "impulseDiaryHead": "Impulskarte vom {date}:", "impulseSaved": "Die Karte steht jetzt in deinem Tagebuch.", "impulsePlaceholder": "PLATZHALTER"});
 Object.assign(I18N.en, {"impulseIntro": "Draw a card – it gives you a thought for your day.", "impulseDrawBtn": "Draw an impulse card", "impulseTitleCard": "Your impulse card", "impulseNew": "Draw a new card", "impulseToDiary": "Add to diary", "impulseClose": "Close", "impulseDiaryHead": "Impulse card from {date}:", "impulseSaved": "The card is now in your diary.", "impulsePlaceholder": "PLACEHOLDER"});
+Object.assign(I18N.de, {"impulseIntro": "Tippe auf die Karte und zieh dir einen Gedanken für deinen Tag.", "impulseIntroAgain": "Tippe auf die Karte, um sie wieder anzusehen. Wische sie zur Seite, um eine neue zu ziehen.", "impulseSwipeHint": "Zur Seite wischen für eine neue Karte", "impulseTapHint": "Antippen zum Schließen"});
+Object.assign(I18N.en, {"impulseIntro": "Tap the card and draw a thought for your day.", "impulseIntroAgain": "Tap the card to see it again. Swipe it aside to draw a new one.", "impulseSwipeHint": "Swipe aside for a new card", "impulseTapHint": "Tap to close"});
 function t(){ return I18N[state.settings.lang]; }
 
 function currentValue(area){
@@ -3477,17 +3539,20 @@ function swipeToTab(tab, dir){
     const t0 = e.touches[0];
     st = { x:t0.clientX, y:t0.clientY, t:Date.now(), target:e.target, canL:swipeScrollsX(e.target, 1), canR:swipeScrollsX(e.target, -1) };
   }, { passive:true });
-  document.addEventListener('touchmove', e=>{ if(e.touches.length !== 1) st = null; }, { passive:true });
-  document.addEventListener('touchend', e=>{
+  document.addEventListener('touchmove', e=>{ if(e.touches.length !== 1){ st = null; return; } if(st){ st.lx = e.touches[0].clientX; st.ly = e.touches[0].clientY; } }, { passive:true });
+  const end = (e, cancelled)=>{
     if(!st) return;
-    const t1 = e.changedTouches[0], dx = t1.clientX - st.x, dy = t1.clientY - st.y, dt = Date.now() - st.t;
+    const t1 = cancelled ? { clientX:st.lx === undefined ? st.x : st.lx, clientY:st.ly === undefined ? st.y : st.ly } : e.changedTouches[0];
+    const dx = t1.clientX - st.x, dy = t1.clientY - st.y, dt = Date.now() - st.t;
     const s0 = st; st = null;
     if(Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2 || dt > 800) return;
     const dir = dx < 0 ? 1 : -1;
     if(dir > 0 ? s0.canL : s0.canR) return; // the table scrolls first
     if(swipeBlocked(s0.target)) return;
     swipeGo(dir);
-  }, { passive:true });
+  };
+  document.addEventListener('touchend', e=>end(e, false), { passive:true });
+  document.addEventListener('touchcancel', e=>end(e, true), { passive:true }); // Safari may cancel the touch when it starts to scroll
   // computer: sideways scrolling with two fingers on the trackpad
   let acc = 0, accT = 0, lockUntil = 0;
   document.addEventListener('wheel', e=>{
@@ -4648,7 +4713,9 @@ document.getElementById('tb-library-btn').onclick = ()=>{ tbView='library'; tbRe
 function tbSizeVars(){
   const w = window.innerWidth, root = document.documentElement.style;
   if(w >= 640){
-    const pw = Math.min(1200, w - 24);
+    const nav = document.getElementById('bottom-nav'), navH = nav ? nav.offsetHeight : 70;
+    const avail = window.innerHeight - navH - 64 - 28; // header of the diary and a little air
+    const pw = Math.max(320, Math.min(1200, w - 24, Math.floor(avail * 0.75)));
     root.setProperty('--tb-page-w', pw + 'px'); root.setProperty('--tbk', (pw / 560).toFixed(4));
   } else { root.removeProperty('--tb-page-w'); root.setProperty('--tbk', '1'); }
 }
@@ -4772,7 +4839,6 @@ function tbRenderCover(){
         ${setup ? `<div class="tb-cover-actions"><button class="tb-gear-btn" onclick="event.stopPropagation(); tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}">${ico('gear')}</button></div>` : ''}
       </div>
     </div>
-    <button class="primary-btn tb-start-btn" onclick="tbOpenFirstPage()">${ico('pencil')}${d.diaryStartWriting}</button>
   </div>${setup ? tbCoverSettingsHtml() : ''}`;
 }
 // the cover can be designed while a diary is new (until it is opened for the first time); afterwards only in the library
@@ -4806,6 +4872,7 @@ function tbCoverSettingsHtml(){
         <label class="ghost-btn" style="cursor:pointer;">${ico('image')}${d.diaryUploadCover}<input type="file" accept="image/*" id="tb-cover-img-input" style="display:none;"></label>
         <button class="ghost-btn" onclick="tbResetCoverDefault()">${ico('reset')}${d.diaryResetDefault}</button>
       </div>
+      <button class="primary-btn tb-start-btn" onclick="tbCoverSettingsOpen=false; tbOpenFirstPage();">${ico('pencil')}${d.diaryStartWriting}</button>
     </div>`;
 }
 function tbSetCoverColor(col){ const c=tbEnsureYear(tbYear).cover; c.color=col; c.image=null; c.colorChosen=true; saveState(); tbRender(); }
@@ -4821,7 +4888,7 @@ function tbOpenFirstPage(){
   const diary = tbEnsureYear(tbYear);
   // the current (still being written) diary resumes exactly where you left off;
   // a past year's book is opened for reading, so it starts from its first page
-  tbPageIdx = (tbYear === tbCurrentYearStr()) ? diary.seiten.length-1 : 0;
+  tbPageIdx = diary.seiten.length-1; // always where the book ends – the newest page
   if(!diary.setupDone){ diary.setupDone = true; saveState(); } // from now on the cover is designed in the library
   tbCoverSettingsOpen = false;
   tbView = 'page';
