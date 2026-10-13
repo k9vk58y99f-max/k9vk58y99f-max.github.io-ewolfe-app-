@@ -14,7 +14,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   keine externen Bibliotheken außer Google Fonts „Inter"). Zusatzdateien: Audios im Ordner `audio/` und die Bilder der
   Achtsamkeits-Übungen im Ordner `img/` (seit 1.52.0, siehe unten).
 - Bilder der Übungen (seit 1.52.0): Papier-Bilder des Nutzers, freigestellt (transparenter Hintergrund) als WebP in `img/`:
-  `lotus1-3` (Knospe, halb, offen), `cherry1-6` (Knospen → volle Blüte), `stones`, `heart`, `bowl`. `imgPic(datei)` packt
+  `lotus` (neuer Blauer Lotus, Bild der Box-Breathing-Karte und Sticker, seit 1.58.1), `lotus1-3` (Knospe, halb, offen), `cherry1-6` (Knospen → volle Blüte), `stones`, `heart`, `bowl`. `imgPic(datei)` packt
   ein Bild in ein kleines SVG (Karten, Player). `lotusPictureSvg`/`blossomPictureSvg`/`stonesPictureSvg`/`heartsPictureSvg`/
   `bowlPictureSvg` liefern jetzt diese Bilder (Karten, Player). Die Atem-Animation dagegen ist gezeichnet, damit sich die
   Blätter fließend bewegen (bloßes Überblenden der Bilder gefiel nicht). Box Breathing: der ursprüngliche gezeichnete
@@ -119,7 +119,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.58.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.58.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)

@@ -1184,7 +1184,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.58.0';
+const APP_VERSION = '1.58.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1618,7 +1618,7 @@ function blossomApply(els, open){
    (cards, players). */
 function imgPic(file){ return `<svg viewBox="-90 -90 180 180" aria-hidden="true"><image href="img/${file}.webp" x="-88" y="-88" width="176" height="176" preserveAspectRatio="xMidYMid meet"/></svg>`; }
 function blossomPictureSvg(id){ return imgPic('cherry6'); }
-function lotusPictureSvg(id){ return imgPic('lotus3'); }
+function lotusPictureSvg(id){ return imgPic('lotus'); }
 function lemonPictureSvg(id){
   // the frame is fitted tightly around lemon and leaves, so the picture is exactly as wide as the lotus picture next to it
   return `<svg viewBox="-77 -70 167 167" aria-hidden="true">${lemonMarkup('lm' + id)}</svg>`;
@@ -5204,7 +5204,7 @@ function stickerHeartsSvg(id){
     + origamiHeart(P, -12, 12, 1.6, -8, ['#ffbfd1', '#ffaac2', '#fb97b3', '#fb97b3', '#f2809f', '#e8718f']));
 }
 const TB_STICKERS = [
-  { k:'lotus', src:'img/lotus3.webp' }, { k:'lemon', svg:()=>lemonPictureSvg('stk') }, { k:'cherry', src:'img/cherry6.webp' },
+  { k:'lotus', src:'img/lotus.webp' }, { k:'lemon', svg:()=>lemonPictureSvg('stk') }, { k:'cherry', src:'img/cherry6.webp' },
   { k:'stones', src:'img/stones.webp' }, { k:'hearts', svg:()=>stickerHeartsSvg('stk') }, { k:'bowl', src:'img/bowl.webp' },
   { k:'leaf', svg:()=>ownPictureSvg('leaf', 'stk') }
 ];
