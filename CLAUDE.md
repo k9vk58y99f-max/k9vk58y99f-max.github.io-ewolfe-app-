@@ -20,6 +20,11 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Blätter fließend bewegen (bloßes Überblenden der Bilder gefiel nicht). Box Breathing: der ursprüngliche gezeichnete
   Lotus (`lotusMarkup`); ein Origami-Umbau (1.52.1) gefiel nicht und wurde in 1.54.1 zurückgenommen. Für einen Lotus in
   der Qualität der Bilder braucht es ein Video vom Aufblühen (wie beim Kirschzweig).
+- Box Breathing (seit 1.59.0): neuer Blauer Lotus aus den 20 Bildern des Nutzers (Raster `images/52`): Bilder 10–16
+  (Knospe → offen), gemeinsame Seerosenblätter aus einem Knospenbild (Blüte und dunkles Kelchblatt darunter entfernt und
+  übermalt, cv2.inpaint), Blüte 20 px (von 560) höher, Zwischenbilder per optischem Fluss: 25 Bilder `img/lotus-v/00…24`.
+  Hintergrund: Papier-Wasser `img/water.webp` statt des gezeichneten Sees (Ringe ausgeblendet). Gleicher Mechanismus wie
+  4-7-8 (`BREATH_FRAMES`, `breathLotusSet`). Werkzeuge: Python-venv mit Pillow, NumPy, OpenCV im Scratchpad.
 - 4-7-8 (seit 1.53.0): Kirschzweig aus dem Video des Nutzers (`IMG_1031.mov`, 512 px, 30 fps): das Stück 1,67–3,33 s, in dem die
   Knospen aufgehen, als 26 Einzelbilder in `img/cherry-v/00…25.webp`, seit 1.54.0 freigestellt vor dem blauen Himmel
   (Durchsichtigkeit beim Überblenden gegen das erste/letzte Bild gerechnet, äußerster Pixelrand weggeschnitten). `breathLotusSet` läuft gleichmäßig durch die Phase: 4 s einatmen = Bild 0→25, 7 s halten = offen,
@@ -119,7 +124,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.58.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.59.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
