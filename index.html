@@ -506,25 +506,25 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-chip-btn.active{ border-color:var(--ew-turquoise); color:var(--ew-turquoise); font-weight:600; }
 
 .tb-page-wrap{ display:flex; flex-direction:column; align-items:center; gap:12px; }
-.tb-page{ position:relative; width:min(560px,94vw); aspect-ratio:3/4; background:#fdfaf3; border-radius:6px; box-shadow:0 18px 48px rgba(0,0,0,0.45); overflow:hidden; }
-.tb-page.type-lined{ background-image: repeating-linear-gradient(#fdfaf3 0 27px, #d9d0c1 27px 28px); background-size:100% 28px; }
-.tb-page.type-grid{ background-image: repeating-linear-gradient(90deg, #e4dccb 0 1px, transparent 1px 28px), repeating-linear-gradient(#e4dccb 0 1px, transparent 1px 28px); }
-.tb-page.type-dotted{ background-image: radial-gradient(#cfc3ac 1.2px, transparent 1.2px); background-size:22px 22px; }
+.tb-page{ position:relative; width:var(--tb-page-w, min(560px,94vw)); aspect-ratio:3/4; background:#fdfaf3; border-radius:6px; box-shadow:0 18px 48px rgba(0,0,0,0.45); overflow:hidden; }
+.tb-page.type-lined{ background-image: repeating-linear-gradient(#fdfaf3 0 calc(27px * var(--tbk)), #d9d0c1 calc(27px * var(--tbk)) calc(28px * var(--tbk))); background-size:100% calc(28px * var(--tbk)); }
+.tb-page.type-grid{ background-image: repeating-linear-gradient(90deg, #e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))), repeating-linear-gradient(#e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))); }
+.tb-page.type-dotted{ background-image: radial-gradient(#cfc3ac calc(1.2px * var(--tbk)), transparent calc(1.2px * var(--tbk))); background-size:calc(22px * var(--tbk)) calc(22px * var(--tbk)); }
 .tb-page-titel{ padding:0; }
 .tb-page-titel-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
 .tb-titel-caption{ position:absolute; left:0; right:0; bottom:9%; text-align:center; pointer-events:none; }
-.tb-titel-caption-title{ font-weight:700; font-size:clamp(27px,6.5vw,40px); color:var(--ew-turquoise); letter-spacing:0.02em; text-shadow:0 2px 10px rgba(0,0,0,0.35); }
-.tb-titel-caption-year{ font-weight:600; font-size:clamp(18px,4.3vw,22px); color:var(--ew-turquoise); opacity:0.85; margin-top:6px; letter-spacing:0.08em; }
-.tb-page-text{ position:absolute; inset:0; width:100%; height:100%; padding:26px; font-family:'Inter',sans-serif; font-size:15px; line-height:28px; color:#2a2318; background:transparent; border:none; resize:none; outline:none; box-sizing:border-box; }
-.tb-areas{ position:absolute; inset:0; padding:16px 22px 14px; display:flex; flex-direction:column; gap:4px; }
+.tb-titel-caption-title{ font-weight:700; font-size:clamp(27px,6.5vw,calc(40px * var(--tbk))); color:var(--ew-turquoise); letter-spacing:0.02em; text-shadow:0 2px 10px rgba(0,0,0,0.35); }
+.tb-titel-caption-year{ font-weight:600; font-size:clamp(18px,4.3vw,calc(22px * var(--tbk))); color:var(--ew-turquoise); opacity:0.85; margin-top:6px; letter-spacing:0.08em; }
+.tb-page-text{ position:absolute; inset:0; width:100%; height:100%; padding:calc(26px * var(--tbk)); font-family:'Inter',sans-serif; font-size:calc(15px * var(--tbk)); line-height:calc(28px * var(--tbk)); color:#2a2318; background:transparent; border:none; resize:none; outline:none; box-sizing:border-box; }
+.tb-areas{ position:absolute; inset:0; padding:calc(16px * var(--tbk)) calc(22px * var(--tbk)) calc(14px * var(--tbk)); display:flex; flex-direction:column; gap:calc(4px * var(--tbk)); }
 .tb-area-block{ flex:1; min-height:0; display:flex; flex-direction:column; border-bottom:1px solid rgba(42,35,24,0.12); }
 .tb-area-block:last-child{ border-bottom:none; }
-.tb-area-head{ font-weight:700; font-size:15px; color:#2f8f62; padding:6px 0 2px; display:flex; align-items:center; }
-.tb-area-head .area-ico{ width:20px; height:20px; margin-right:8px; vertical-align:0; }
-.tb-area-text{ flex:1; min-height:0; width:100%; border:none; outline:none; resize:none; background:transparent; padding:0; font-family:'Inter',sans-serif; font-size:15px; line-height:24px; color:#2a2318; overflow:hidden; }
-.tb-area-text.font-hand{ font-family:'Caveat',cursive; font-size:21px; line-height:24px; }
+.tb-area-head{ font-weight:700; font-size:calc(15px * var(--tbk)); color:#2f8f62; padding:calc(6px * var(--tbk)) 0 calc(2px * var(--tbk)); display:flex; align-items:center; }
+.tb-area-head .area-ico{ width:calc(20px * var(--tbk)); height:calc(20px * var(--tbk)); margin-right:calc(8px * var(--tbk)); vertical-align:0; }
+.tb-area-text{ flex:1; min-height:0; width:100%; border:none; outline:none; resize:none; background:transparent; padding:0; font-family:'Inter',sans-serif; font-size:calc(15px * var(--tbk)); line-height:calc(24px * var(--tbk)); color:#2a2318; overflow:hidden; }
+.tb-area-text.font-hand{ font-family:'Caveat',cursive; font-size:calc(21px * var(--tbk)); line-height:calc(24px * var(--tbk)); }
 .tb-areas.inactive{ pointer-events:none; }
-.tb-page-text.font-hand{ font-family:'Caveat',cursive; font-size:22px; line-height:28px; }
+.tb-page-text.font-hand{ font-family:'Caveat',cursive; font-size:calc(22px * var(--tbk)); line-height:calc(28px * var(--tbk)); }
 .tb-page-text.inactive{ pointer-events:none; }
 .tb-page-canvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:none; pointer-events:none; }
 .tb-page-canvas.active{ pointer-events:auto; cursor:crosshair; }
@@ -606,12 +606,21 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 .tb-pagelist{ max-width:520px; margin:0 auto; }
 .tb-pagelist-row{ display:flex; justify-content:space-between; align-items:center; padding:12px 14px; background:var(--ew-panel-2); border-radius:12px; margin-bottom:8px; cursor:pointer; font-size:13.5px; }
+/* ================= Full width on tablets and computers (since 1.55.0): the pages use the whole width in portrait and
+   landscape (landscape scrolls); the diary page grows as a whole – font, lines and margins with it (--tbk, set in tbSizeVars) ================= */
+:root{ --tbk:1; }
+.page-modal > .modal{ max-width:none; }
+.tb-shelf{ max-width:none; grid-template-columns:repeat(auto-fill,minmax(clamp(128px, 26vw, 300px),1fr)); }
+.tb-shelf-cell{ width:100%; }
+.tb-shelf-item{ width:100%; }
+.tb-body-cover .tb-cover{ width:auto; height:100%; max-width:100%; aspect-ratio:3/4; }
+@media (min-width:700px){ .tb-cover-title{ font-size:clamp(42px, 6vw, 72px); } .tb-shelf-year{ font-size:14px; } }
 /* ================= Narrower margins (since 1.36.0): pages 14px at the sides, cards on the start page 10px ================= */
 .page-modal > .modal{ padding-left:14px; padding-right:14px; }
 .scene-wrap{ margin:10px; }
 .scene-head{ padding:16px 22px 0; }
 .scene-foot{ padding:2px 22px 14px; }
-.home-new{ margin-bottom:16px; }
+.home-new{ margin-bottom:12px; }
 .wheel-hist-home.goal-table-card{ margin-left:10px; margin-right:10px; }
 .tb-body{ padding-left:12px; padding-right:12px; }
 .tb-body.tb-body-cover{ padding-left:12px; padding-right:12px; }
@@ -758,7 +767,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
   </div>
 </div>
 
-<div class="home-new" id="home-new-wrap"><button class="primary-btn" id="new-bewertung-btn">Neues Lebensrad erstellen</button><button class="ghost-btn home-goals-btn" id="home-goals-btn">Ziele bearbeiten</button></div>
+<div class="home-new" id="home-new-wrap"><button class="primary-btn" id="new-bewertung-btn">Neues Lebensrad erstellen</button></div>
 <div class="goal-table-card wheel-hist-home" id="wheel-hist-home">
   <h3 id="t-wheel-hist-title">Frühere Lebensräder</h3>
   <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
@@ -1123,7 +1132,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.54.1';
+const APP_VERSION = '1.55.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -3119,7 +3128,6 @@ function applyLang(){
   document.getElementById('nav-home-label').textContent = d.navHome;
   document.getElementById('nav-goals-label').textContent = d.navGoals;
   document.getElementById('nav-areas-label').textContent = d.navAreas;
-  document.getElementById('home-goals-btn').textContent = d.goalsEdit;
   if(document.getElementById('areas-page').classList.contains('open')) renderAreasPage();
   document.getElementById('t-goals-title').textContent = d.goalsTitle;
   document.getElementById('t-goals-sub').textContent = d.goalsSub;
@@ -3685,7 +3693,6 @@ document.getElementById('import-file-input').addEventListener('change', e=>{
 });
 document.getElementById('eval-restore-btn').onclick = ()=>{ document.getElementById('import-file-input').click(); };
 document.getElementById('goals-btn').onclick = ()=>{ renderPanels(); openModal('goals-page'); };
-document.getElementById('home-goals-btn').onclick = ()=>document.getElementById('goals-btn').click();
 
 /* ================= Lebensbereiche: the five areas explained, and how the wheel works ================= */
 const AREAS_SEEN_KEY = 'ewolfe_areas_seen_v1';
@@ -4376,6 +4383,17 @@ document.getElementById('tb-mode-toggle-btn').onclick = ()=>{
 };
 document.getElementById('tb-library-btn').onclick = ()=>{ tbView='library'; tbRender(); };
 
+/* The diary page on tablets and computers: as wide as the screen allows (less the margins), and everything on it grows in
+   the same proportion (--tbk = width / 560), so exactly as much text fits on a page as before and nothing is re-paginated.
+   Phones keep the old size (up to 560 px). */
+function tbSizeVars(){
+  const w = window.innerWidth, root = document.documentElement.style;
+  if(w >= 640){
+    const pw = Math.min(1200, w - 24);
+    root.setProperty('--tb-page-w', pw + 'px'); root.setProperty('--tbk', (pw / 560).toFixed(4));
+  } else { root.removeProperty('--tb-page-w'); root.setProperty('--tbk', '1'); }
+}
+tbSizeVars(); window.addEventListener('resize', tbSizeVars);
 function tbRender(){
   // any navigation/re-render flushes a pending debounced text save immediately, so switching
   // pages, modes or closing the diary right after typing never loses the last few characters
