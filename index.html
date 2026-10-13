@@ -609,7 +609,17 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 /* ================= Full width on tablets and computers (since 1.55.0): the pages use the whole width in portrait and
    landscape (landscape scrolls); the diary page grows as a whole – font, lines and margins with it (--tbk, set in tbSizeVars) ================= */
 :root{ --tbk:1; }
-/* the bookshelf */
+/* the bookshelf (the person's picture) */
+.shelf-wrap{ display:flex; flex-direction:column; align-items:center; gap:0; }
+.shelf-img{ position:relative; width:min(100%, calc(100vh - var(--nav-h, 70px) - 150px), 1000px); aspect-ratio:1; background:url(img/shelf.webp) center/contain no-repeat; }
+.shelf-img + .shelf-img{ margin-top:-12%; }
+.shelf-comp{ position:absolute; display:flex; align-items:flex-end; justify-content:flex-start; gap:0 1.5cqh; padding:0 2cqh; container-type:size; overflow:visible; }
+.shelf-comp .shelf-trophy{ margin:0 2cqh; }
+.shelf-comp .shelf-trophy img{ width:100%; height:100%; object-fit:contain; object-position:bottom; display:block; filter:drop-shadow(0 1cqh 1.5cqh rgba(0,0,0,0.5)); }
+.shelf-comp .shelf-book .shelf-title{ font-size:9cqh; }
+.shelf-comp .shelf-book .shelf-key{ font-size:7.5cqh; }
+.shelf-comp .shelf-book{ padding:4cqh 0; }
+.shelf-comp .shelf-band{ height:3cqh; }
 .shelf{ --shelf-k:1; max-width:1100px; margin:6px auto 0; padding:14px 14px 0; border-radius:14px 14px 6px 6px; background:linear-gradient(90deg, #6e4322, #8a5a30 8%, #8a5a30 92%, #6e4322); box-shadow:0 22px 50px rgba(0,0,0,0.5); }
 .shelf-row{ position:relative; display:flex; flex-wrap:wrap; align-items:flex-end; gap:0 3px; min-height:150px; padding:10px 14px 0; background:linear-gradient(180deg, #24170f, #3a2616 70%, #2d1d12); box-shadow:inset 0 10px 18px rgba(0,0,0,0.55); }
 .shelf-row::after{ content:''; display:block; flex-basis:100%; height:18px; margin:0 -14px; background:linear-gradient(180deg, #c18a55, #9a6638 40%, #6e4322); box-shadow:0 6px 10px rgba(0,0,0,0.45); }
@@ -635,8 +645,9 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .trophy-box{ width:min(340px, 100%); text-align:center; color:#fff; }
 .trophy-box.flip{ animation:impFlip .55s ease-out; }
 .trophy-new{ font-size:var(--fs-sub); font-weight:700; color:var(--ew-turquoise); margin-bottom:6px; letter-spacing:0.03em; }
-.trophy-pic{ position:relative; width:240px; height:240px; margin:0 auto; container-type:inline-size; }
+.trophy-pic{ position:relative; width:min(300px, 70vw); height:min(300px, 70vw); margin:0 auto; container-type:inline-size; }
 .trophy-pic svg{ width:100%; height:100%; overflow:visible; }
+.trophy-pic img{ width:100%; height:100%; object-fit:contain; display:block; filter:drop-shadow(0 10px 18px rgba(0,0,0,0.5)); }
 .trophy-ph{ font-size:26px; }
 .trophy-title{ margin:10px 0 6px; font-size:var(--fs-h); }
 .trophy-desc{ margin:0 10px; color:var(--ew-text); line-height:1.5; }
@@ -4864,28 +4875,44 @@ function tbSpineHtml(key){
     <span class="shelf-band"></span><span class="shelf-title" style="font-family:${font}">${escapeHtml(c.title || d.diaryTitle)}</span><span class="shelf-key">${escapeHtml(key)}</span><span class="shelf-band low"></span>
   </button>`;
 }
-function tbShelfScale(){ return window.innerWidth >= 640 ? 1.45 : 1; }
+/* The shelf is the person's paper bookshelf (img/shelf.webp, 1254×1254) with five compartments (in % of the picture):
+   the diaries stand in the top one, the trophies on the four below; more trophies → a further shelf below. Everything in a
+   compartment is sized by its height (container units), so it fits at every screen size. */
+const SHELF_X = [29.2, 72.9], SHELF_ROWS = [[18.8, 31.6], [33.7, 45.8], [48.3, 59.0], [61.7, 71.8], [74.7, 84.7]];
+const SHELF_ROW_W = 318; // usable width of a compartment in units of its height (cqh)
+function tbShelfScale(){ return 1; }
 function tbRenderLibrary(){
   const d = t();
   const keys = tbBookKeys();
-  const k = tbShelfScale(), inner = Math.min(1100, window.innerWidth - 24) - 56; // room on one board
-  // the items are put on boards row by row, every row gets its own board
-  const rows = (items, widthOf, gap)=>{ const out = []; let cur = [], used = 0;
-    items.forEach(it=>{ const w = widthOf(it) + gap; if(cur.length && used + w > inner){ out.push(cur); cur = []; used = 0; } cur.push(it); used += w; });
-    if(cur.length) out.push(cur); return out; };
-  const bookItems = keys.map(key=>({ html:tbSpineHtml(key), w:Math.round(((tbIsLand(state.tagebuch.jahre[key]) ? 44 : 34) + Math.min(26, state.tagebuch.jahre[key].seiten.length / 5)) * k) }))
-    .concat({ html:`<button class="shelf-book shelf-new" style="width:${Math.round(40 * k)}px;height:${Math.round(126 * k)}px" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`, w:Math.round(40 * k) });
-  const got = trophyList().filter(x=>x.at);
-  const tw = Math.round(96 * k);
-  const trophyItems = got.map(x=>({ html:`<button class="shelf-trophy" style="width:${tw}px;height:${Math.round(110 * k)}px" onclick="trophyShow('${x.id}')" title="${escapeHtml(x.title)}" aria-label="${escapeHtml(x.title)}">${trophySvg(x, 'sh' + x.id)}</button>`, w:tw }));
+  // widths in units of the compartment height
+  const spine = key=>{ const dia = state.tagebuch.jahre[key], land = tbIsLand(dia), pages = dia.seiten.filter(p=>p.type !== 'titel').length;
+    return { w:((land ? 44 : 34) + Math.min(26, pages / 5)) * 0.62, h:land ? 64 : 86, key }; };
+  const books = keys.map(spine).concat({ w:27, h:84, plus:true });
+  const shown = trophyShelf();
+  const tro = shown.map(x=>({ x, h:88 * (x.scale || 0.8), w:88 * (x.scale || 0.8) * 0.9 + 4 }));
+  const fill = (items, gap)=>{ const rows = []; let cur = [], used = 0;
+    items.forEach(it=>{ if(cur.length && used + it.w + gap > SHELF_ROW_W - 8){ rows.push(cur); cur = []; used = 0; } cur.push(it); used += it.w + gap; });
+    if(cur.length) rows.push(cur); return rows; };
+  const bookRows = fill(books, 1.5), troRows = fill(tro, 5);
+  const rowsAll = bookRows.map(r=>({ kind:'books', r })).concat(troRows.map(r=>({ kind:'tro', r })));
+  const shelves = []; for(let i = 0; i < Math.max(1, Math.ceil(rowsAll.length / 5)); i++) shelves.push(rowsAll.slice(i * 5, i * 5 + 5));
+  const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
+    : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
+  const troHtml = o=>`<button class="shelf-trophy" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
+  const shelfHtml = rows=>`<div class="shelf-img">${SHELF_ROWS.map(([y0, y1], i)=>{
+      const row = rows[i];
+      return `<div class="shelf-comp" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>row.kind === 'books' ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
+    }).join('')}</div>`;
   const next = trophyNext();
-  const board = (items, cls)=>`<div class="shelf-row ${cls}" style="min-height:${Math.round(150 * k)}px">${items.map(i=>i.html).join('')}</div>`;
-  return `<div class="shelf">
-      ${rows(bookItems, i=>i.w, 3).map(r=>board(r, 'books')).join('')}
-      ${trophyItems.length ? rows(trophyItems, i=>i.w, 10).map(r=>board(r, 'trophies')).join('') : board([{ html:`<span class="shelf-empty">${d.trophyNone}</span>` }], 'trophies')}
-    </div>
+  return `<div class="shelf-wrap">${shelves.map(shelfHtml).join('')}</div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     ${tbCoverSettingsHtml()}`;
+}
+// the trophies that stand on the shelf: of a group (a trophy that grows) only the highest reached stage
+function trophyShelf(){
+  const got = trophyList().filter(x=>x.at), best = {};
+  got.forEach(x=>{ if(x.group && (!best[x.group] || best[x.group].stage < x.stage)) best[x.group] = x; });
+  return got.filter(x=>!x.group || best[x.group] === x);
 }
 
 /* ================= Trophies ================= */
@@ -4928,7 +4955,11 @@ function trophyDefs(){
   const lvl = (id, kind, list, levels, color, titleFn, descFn)=>levels.forEach((n, i)=>out.push({ id:id + n, kind, color, tier:Math.min(2, Math.floor(i * 3 / levels.length)), size:i, need:n, list, title:titleFn(n), desc:descFn(n) }));
   const ev = trophyEvents();
   lvl('ex', 'orb', ev.done.map(e=>e.ts), [1, 5, 10, 25, 50, 100], '#58d48f', n=>n === 1 ? L('Erste Übung', 'First exercise') : L(n + ' Übungen', n + ' exercises'), n=>n === 1 ? L('Du hast deine erste Achtsamkeitsübung gemacht.', 'You did your first mindfulness exercise.') : L('Du hast ' + n + ' Achtsamkeitsübungen gemacht.', 'You did ' + n + ' mindfulness exercises.'));
-  [['seed-478', 'cherry6', L('4-7-8-Atmung', '4-7-8 breathing')], ['seed-box', 'lotus3', 'Box Breathing'], ['seed-54321', 'stones', '5-4-3-2-1'], ['seed-stille', 'bowl', L('Stille Meditation', 'Silent meditation')], ['seed-lemon', 'lemon', 'Lemonmeditation']].forEach(([ex, pic, name])=>
+  // Box Breathing grows with you: bud (3×), half open (10×), open (25×) – the person's own pictures; only the highest stands on the shelf
+  [[3, 0.5], [10, 0.75], [25, 1]].forEach(([n, sc], i)=>out.push({ id:'box' + n, group:'box', stage:i, kind:'img', img:'trophy-lotus-' + (i + 1), scale:sc, need:n, list:ev.byEx('seed-box'),
+    title:L(['Lotusknospe unter Glas', 'Halb offener Lotus unter Glas', 'Blauer Lotus unter Glas'][i], ['Lotus bud under glass', 'Half open lotus under glass', 'Blue lotus under glass'][i]),
+    desc:L(n + '-mal Box Breathing – dein Lotus wächst mit dir.', 'Box breathing ' + n + ' times – your lotus grows with you.') }));
+  [['seed-478', 'cherry6', L('4-7-8-Atmung', '4-7-8 breathing')], ['seed-54321', 'stones', '5-4-3-2-1'], ['seed-stille', 'bowl', L('Stille Meditation', 'Silent meditation')], ['seed-lemon', 'lemon', 'Lemonmeditation']].forEach(([ex, pic, name])=>
     out.push({ id:'dome-' + ex, kind:'dome', pic, color:'#b8a4ff', tier:2, need:10, list:ev.byEx(ex), title:L(name + ' unter Glas', name + ' under glass'), desc:L('10-mal ' + name + ' – ein kleiner Schatz für dein Regal.', name + ' 10 times – a little treasure for your shelf.') }));
   out.push({ id:'dome-grat', kind:'dome', pic:'heart', color:'#ff9ab8', tier:2, need:7, list:ev.grat, title:L('Dankbarkeit unter Glas', 'Gratitude under glass'), desc:L('An 7 Abenden hast du aufgeschrieben, wofür du dankbar bist.', 'On 7 evenings you wrote down what you are grateful for.') });
   [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, kind:'crystal', color:'#a29dfb', tier:Math.min(2, Math.floor(i / 2)), size:i, need:1, list:ev.streakAt[n] ? [ev.streakAt[n]] : [], title:L(n + ' Tage in Folge', n + ' days in a row'), desc:L('Du hast an ' + n + ' Tagen hintereinander geübt.', 'You practised on ' + n + ' days in a row.'), have:()=>Math.min(n, Object.keys(ev.streakAt).length ? Math.max(...Object.keys(ev.streakAt).map(Number)) : 0), needShow:n }));
@@ -4948,6 +4979,7 @@ function trophyNext(){
 }
 // placeholder drawings: glass orb on a paper stand, crystal cluster, the exercise picture under a glass bell
 function trophySvg(x, id){
+  if(x.kind === 'img') return `<img src="img/${x.img}.webp" alt="">`;
   const P = 'tr' + id, col = x.color, tier = TROPHY_TIERS[x.tier || 0];
   const stand = `<path d="M-30 78L30 78L24 62L-24 62Z" fill="#7a4a28"/><path d="M-24 62L24 62L20 56L-20 56Z" fill="#a46a3c"/><rect x="-18" y="66" width="36" height="6" rx="2" fill="${tier}"/>`;
   const glow = `<radialGradient id="${P}g"><stop offset="0%" stop-color="${col}" stop-opacity="0.55"/><stop offset="100%" stop-color="${col}" stop-opacity="0"/></radialGradient>`;
@@ -4974,7 +5006,7 @@ function trophyShow(id, isNew){
   trophyCur = x;
   const date = x.at > 1 ? new Date(x.at).toLocaleDateString(state.settings.lang === 'en' ? 'en-GB' : 'de-DE', { day:'2-digit', month:'2-digit', year:'numeric' }) : '';
   document.getElementById('trophy-box').innerHTML = `${isNew ? `<div class="trophy-new">${d.trophyNew}</div>` : ''}
-    <div class="trophy-pic">${trophySvg(x, 'big' + x.id)}${TROPHY_PLACEHOLDER ? `<div class="imp-ph trophy-ph">${d.impulsePlaceholder}</div>` : ''}</div>
+    <div class="trophy-pic">${trophySvg(x, 'big' + x.id)}${TROPHY_PLACEHOLDER && x.kind !== 'img' ? `<div class="imp-ph trophy-ph">${d.impulsePlaceholder}</div>` : ''}</div>
     <h3 class="trophy-title">${escapeHtml(x.title)}</h3><p class="trophy-desc">${escapeHtml(x.desc)}</p>${date ? `<div class="trophy-date">${d.trophySince.replace('{d}', date)}</div>` : ''}
     <div class="imp-hint">${d.impulseTapHint}</div>`;
   const box = document.getElementById('trophy-box'); box.classList.remove('flip'); void box.offsetWidth; box.classList.add('flip');
