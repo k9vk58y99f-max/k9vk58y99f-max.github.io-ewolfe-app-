@@ -155,7 +155,19 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   nicht die Bilder der Übungen. Bilder sind noch Platzhalter (`IMPULSE_PLACEHOLDER = true`, roter Schriftzug); echte Bilder: Feld `img` je Karte
   setzen (Datei in `img/`) und `IMPULSE_PLACEHOLDER` auf `false`.
 
-## Wichtige Stellen im Code
+## Bücherregal, mehrere Tagebücher, Trophäen (1.59.0, Branch `regal`, noch nicht in main)
+- Mehrere Tagebücher pro Jahr ohne Grenze: Schlüssel in `state.tagebuch.jahre` = "2026", "2026/2", … (`tbBookKeys`,
+  `tbLatestBook`, `tbNewBook`, `tbNewBookAsk`). Jedes Buch hoch- oder querformatig (`diary.format`, `tbIsLand`; Querseite 4:3,
+  Klasse `tb-land-page`, `--tb-page-wl`/`--tbk-l` auf Basis 746 px; Seitenumbruch misst im Format des Buchs: `tbMeasureLand`).
+  Dankbarkeit/Impulskarten gehen ins neueste Buch des Jahres. Das Zahnrad liegt jetzt immer auf dem Titelblatt.
+- Bibliothek = Holzregal (`tbRenderLibrary`, `tbSpineHtml`): Buchrücken (Breite nach Seitenzahl), Platz mit Plus = neues Buch,
+  darunter Trophäen-Böden (je Reihe ein Brett). Tablet größer (`tbShelfScale`).
+- Trophäen (`trophyDefs`/`trophyList`, aus vorhandenen Daten berechnet, zählen rückwirkend, auf allen Geräten gleich): Übungen
+  1/5/10/25/50/100 (Kugeln), je Übung 10× unter Glasglocke (Dankbarkeit 7×), Tage in Folge 3/5/7/14/30/100 (Kristalle, wachsen),
+  Lebensräder 1/5/10, +10 in einem Bereich, alle Bereiche besser, Ziele 1/5/10, Tagebuchseiten 1/10/50/100, erste Dankbarkeit.
+  Neue erscheinen einmal groß (`trophyCheck`, Merker `ewolfe_trophies_seen`; beim allerersten Mal werden alle still einsortiert).
+  Bilder sind gezeichnete Platzhalter (`trophySvg`, `TROPHY_PLACEHOLDER`).
+
 - Seite **Lebensbereiche** (seit 1.26.0, ganz links in der Leiste, Beschriftung „Bereiche"): erklärt die fünf
   Bereiche und wie das Lebensrad funktioniert (`renderAreasPage()`, Texte `areasText` usw. im `I18N`). Sie öffnet
   sich einmal von selbst (`maybeShowAreasIntro()`, Merker `ewolfe_areas_seen_v1` je Gerät): für Neue nach der
