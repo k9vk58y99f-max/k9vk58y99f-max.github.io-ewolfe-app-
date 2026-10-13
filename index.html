@@ -614,7 +614,8 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-img{ position:relative; width:min(100%, calc(100vh - var(--nav-h, 70px) - 150px), 1000px); aspect-ratio:1; background:url(img/shelf.webp) center/contain no-repeat; }
 .shelf-img + .shelf-img{ margin-top:-12%; }
 .shelf-comp{ position:absolute; display:flex; align-items:flex-end; justify-content:flex-start; gap:0 1.5cqh; padding:0 2cqh; container-type:size; overflow:visible; }
-.shelf-comp .shelf-trophy{ margin:0 2cqh; }
+.shelf-comp .shelf-trophy{ margin:0 2cqh; transform:translateY(2.7cqh); } /* trophies a little further forward than the books */
+.shelf-comp .shelf-trophy:hover, .shelf-comp .shelf-trophy:active{ transform:translateY(2.7cqh) scale(1.06); }
 .shelf-comp .shelf-trophy img{ width:100%; height:100%; object-fit:contain; object-position:bottom; display:block; filter:drop-shadow(0 1cqh 1.5cqh rgba(0,0,0,0.5)); }
 .shelf-comp .shelf-book .shelf-title{ font-size:9cqh; }
 .shelf-comp .shelf-book .shelf-key{ font-size:7.5cqh; }
