@@ -124,7 +124,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.59.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.60.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -155,7 +155,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   nicht die Bilder der Übungen. Bilder sind noch Platzhalter (`IMPULSE_PLACEHOLDER = true`, roter Schriftzug); echte Bilder: Feld `img` je Karte
   setzen (Datei in `img/`) und `IMPULSE_PLACEHOLDER` auf `false`.
 
-## Bücherregal, mehrere Tagebücher, Trophäen (1.59.0, Branch `regal`, noch nicht in main)
+## Bücherregal, mehrere Tagebücher, Trophäen (seit 1.60.0)
 - Mehrere Tagebücher pro Jahr ohne Grenze: Schlüssel in `state.tagebuch.jahre` = "2026", "2026/2", … (`tbBookKeys`,
   `tbLatestBook`, `tbNewBook`, `tbNewBookAsk`). Jedes Buch hoch- oder querformatig (`diary.format`, `tbIsLand`; Querseite 4:3,
   Klasse `tb-land-page`, `--tb-page-wl`/`--tbk-l` auf Basis 746 px; Seitenumbruch misst im Format des Buchs: `tbMeasureLand`).
@@ -166,7 +166,11 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   1/5/10/25/50/100 (Kugeln), je Übung 10× unter Glasglocke (Dankbarkeit 7×), Tage in Folge 3/5/7/14/30/100 (Kristalle, wachsen),
   Lebensräder 1/5/10, +10 in einem Bereich, alle Bereiche besser, Ziele 1/5/10, Tagebuchseiten 1/10/50/100, erste Dankbarkeit.
   Neue erscheinen einmal groß (`trophyCheck`, Merker `ewolfe_trophies_seen`; beim allerersten Mal werden alle still einsortiert).
-  Bilder sind gezeichnete Platzhalter (`trophySvg`, `TROPHY_PLACEHOLDER`).
+  Seit 1.60.0 Bilder des Nutzers (`kind:'img'`, Dateien in `img/`): Regal `shelf.webp` mit fünf Fächern (`SHELF_X`/`SHELF_ROWS`,
+  Bücher hinten, Trophäen etwas weiter vorne), Übungen = farbige Kristalle (`crystal-mint…gold`), Tage in Folge = wachsender
+  Kristall (`crystal-1…6`), Box/4-7-8 = Glasglocken in 3 Stufen (`trophy-lotus-1…3`, `trophy-cherry-1…3`, nach 3/10/25),
+  Lebensräder/Ziele/Seiten/Dankbarkeit = Orbs (violett/gold/blau/rosa, wachsen), +10 = grüner, alle Bereiche = Regenbogen-Orb.
+  Von wachsenden Trophäen (`group`) steht nur die höchste Stufe im Regal (`trophyShelf`).
 
 - Seite **Lebensbereiche** (seit 1.26.0, ganz links in der Leiste, Beschriftung „Bereiche"): erklärt die fünf
   Bereiche und wie das Lebensrad funktioniert (`renderAreasPage()`, Texte `areasText` usw. im `I18N`). Sie öffnet
