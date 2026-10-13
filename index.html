@@ -609,6 +609,22 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 /* ================= Full width on tablets and computers (since 1.55.0): the pages use the whole width in portrait and
    landscape (landscape scrolls); the diary page grows as a whole – font, lines and margins with it (--tbk, set in tbSizeVars) ================= */
 :root{ --tbk:1; }
+.tb-body-cover .tb-cover-wrap{ gap:14px; }
+.tb-body-cover .tb-cover{ height:calc(100% - 66px); }
+.tb-start-btn{ flex:none; display:flex; align-items:center; justify-content:center; gap:4px; padding:13px 26px; font-size:var(--fs-text); min-width:220px; }
+.tb-start-btn .ui-ico{ width:16px; height:16px; }
+.tb-page-num-btn{ background:none; border:1px solid transparent; border-radius:10px; padding:4px 8px; cursor:pointer; font:inherit; }
+.tb-page-num-btn:active{ border-color:var(--ew-line); }
+.tb-pagepick{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); z-index:7; width:min(360px, calc(100vw - 32px)); background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:18px; padding:16px; box-shadow:0 20px 50px rgba(0,0,0,0.5); display:flex; flex-direction:column; gap:14px; }
+.tb-pagepick-num{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:var(--fs-sub); color:var(--ew-text); }
+.tb-pagepick-num input{ width:96px; font:inherit; font-size:22px; text-align:center; padding:6px; border-radius:10px; border:1px solid var(--ew-line); background:var(--ew-panel-2); color:var(--ew-text); }
+.tb-pagepick input[type=range]{ width:100%; accent-color:var(--ew-turquoise); }
+.tb-pagepick-actions{ display:flex; gap:8px; }
+.tb-pagepick-actions > *{ flex:1; padding:10px 8px; }
+.tb-page-img.is-sticker{ box-shadow:none; border-radius:0; filter:drop-shadow(0 3px 6px rgba(0,0,0,0.25)); }
+.tb-sticker-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; padding:4px 6px 8px 34px; }
+.tb-sticker-btn{ aspect-ratio:1; border-radius:12px; border:1px solid var(--ew-line); background:var(--ew-panel-2); padding:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.tb-sticker-btn img, .tb-sticker-btn svg{ width:100%; height:100%; object-fit:contain; display:block; }
 @keyframes swipeInNext{ from{ transform:translateX(48px); opacity:.35; } to{ transform:none; opacity:1; } }
 @keyframes swipeInPrev{ from{ transform:translateX(-48px); opacity:.35; } to{ transform:none; opacity:1; } }
 body.swipe-next .page-modal.open > .modal, body.swipe-next .tb-overlay.open, body.swipe-next > .scene-wrap, body.swipe-next > .home-new, body.swipe-next > .wheel-hist-home{ animation:swipeInNext .28s ease-out; }
@@ -1136,7 +1152,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.55.1';
+const APP_VERSION = '1.56.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2542,12 +2558,35 @@ function gratToDiary(items){
   tbYear = prevYear;
   const date = new Date().toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
   const block = d.gratDiaryHead.replace('{date}', date) + '\n' + items.map(x=>'• ' + x).join('\n');
+  return tbAppendBlock(diary, block);
+}
+/* Adds a block of text at the end of a diary (on a new page if the last one is not a normal page). If there are pictures
+   on that page, the text starts below the lowest one, with a line of space, instead of lying half on top of it. */
+async function tbAppendBlock(diary, block){
   let page = diary.seiten[diary.seiten.length - 1];
   if(!page || page.type === 'titel' || page.bereiche){
-    page = { id:'p' + Date.now(), type:diary.defaultPageType || 'blank', text:'', strokes:[], images:[] };
+    page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] };
     diary.seiten.push(page);
   }
-  page.text = (page.text && page.text.trim()) ? page.text.replace(/\s+$/, '') + '\n\n' + block : block;
+  let prefix = (page.text && page.text.trim()) ? page.text.replace(/\s+$/, '') + '\n\n' : '';
+  try{
+    if(page.images && page.images.length){
+      let bottom = 0; // lowest picture, in % of the page height (pages are 3:4)
+      for(const im of page.images){
+        const ratio = await new Promise(res=>{ const i = new Image(); i.onload = ()=>res((i.naturalHeight || 1) / (i.naturalWidth || 1)); i.onerror = ()=>res(1); i.src = im.src; });
+        bottom = Math.max(bottom, (im.yPct || 0) + (im.wPct || 0) * ratio * 0.75);
+      }
+      const el = tbPagEl(), box = el.parentElement;
+      el.className = 'tb-page-text' + (page.font === 'hand' ? ' font-hand' : '');
+      const cs = getComputedStyle(el), lh = parseFloat(cs.lineHeight), H = box.clientHeight;
+      el.style.height = '1px'; el.value = prefix + 'X';
+      const endPx = el.scrollHeight - parseFloat(cs.paddingBottom) - lh; // top of the line where the new text would start
+      el.style.height = '';
+      const wantPx = bottom / 100 * H + lh * 0.6;
+      if(endPx < wantPx && lh > 0) prefix += '\n'.repeat(Math.ceil((wantPx - endPx) / lh));
+    }
+  }catch(e){}
+  page.text = prefix + block;
   try{ tbRepaginateDiary(diary); }catch(e){}
   saveState();
 }
@@ -3099,6 +3138,8 @@ Object.assign(I18N.en, {
    the comparison of wheels, so it does not always read the same */
 Object.assign(I18N.de, {"mediMoreInfo": "Mehr über die Übung", "mediBoxInfo": {"intro": "Box Breathing – auch Quadrat-Atmung oder Sama Vritti („gleichmäßiger Atem“) genannt – ist eine einfache Atemtechnik aus vier gleich langen Schritten. Sie beruhigt das Nervensystem und hilft dir, Stress loszulassen.", "how": "So geht’s – je 4 Sekunden", "steps": [["Einatmen", "Atme langsam und tief durch die Nase ein."], ["Halten", "Lass die Luft einen Moment ruhig in dir."], ["Ausatmen", "Atme gleichmäßig und vollständig aus."], ["Halten", "Verweile kurz in der Stille, bevor der nächste Atemzug kommt."]], "tipsHead": "Gut zu wissen", "tips": ["Eine Runde dauert 16 Sekunden. Übe am besten 3 bis 5 Minuten lang.", "Fühlen sich 4 Sekunden noch zu lang an, atme anfangs einfach etwas kürzer. Mit der Zeit wird es leichter.", "Der gleichmäßige Rhythmus spricht den Teil deines Nervensystems an, der für Ruhe und Erholung sorgt. So können Stress und Anspannung spürbar nachlassen."]}, "ex478Info": {"intro": "Die 4-7-8-Atmung ist eine sanfte Übung zum Entspannen. Sie hilft dir, Stress abzubauen, Nervosität zu lindern und leichter in den Schlaf zu finden.", "how": "So geht’s", "steps": [["Vorbereitung", "Setz oder leg dich bequem hin. Lege die Zungenspitze locker an den Gaumen, direkt hinter die oberen Schneidezähne."], ["Einatmen – 4 Sekunden", "Schließe den Mund und atme ruhig und leise durch die Nase ein."], ["Halten – 7 Sekunden", "Halte den Atem sanft an."], ["Ausatmen – 8 Sekunden", "Atme langsam durch den Mund aus, gern mit einem leisen, pustenden Geräusch."]], "tipsHead": "Gut zu wissen", "tips": ["Das ist eine Runde. Wiederhole sie 4-mal, später gern bis zu 8-mal.", "Zähl innerlich mit – oder folge einfach den Kirschblüten: Sie öffnen sich beim Einatmen und schließen sich beim Ausatmen."]}, "cmpUpV": ["Schön, wie du wächst: In {n} von 5 Bereichen geht es dir besser als zuvor.", "Du bist auf deinem Weg vorangekommen – {n} von 5 Bereichen haben sich verbessert.", "Da tut sich etwas: In {n} Bereichen hast du zugelegt. Nimm dir einen Moment, das bewusst wahrzunehmen.", "Jeder Schritt zählt, und du hast einige gemacht: {n} von 5 Bereichen sind gewachsen.", "Dein Lebensrad wird runder: In {n} Bereichen hast du dich weiterentwickelt.", "Dein Einsatz trägt Früchte: {n} von 5 Bereichen haben sich positiv verändert.", "Du gehst deinen Weg – und man sieht es: In {n} Bereichen bist du ein Stück weiter.", "{n} von 5 Bereichen haben zugelegt. Erinnere dich daran, wenn es mal zäh wird.", "Schritt für Schritt: In {n} Bereichen hast du dich verbessert. Das darfst du feiern.", "Hier wächst etwas: {n} Bereiche zeigen nach oben. Bleib neugierig, wohin es dich noch führt."], "cmpUp1V": ["Ein Bereich ist gewachsen – und jede Veränderung beginnt mit einem ersten Schritt.", "In einem Bereich hast du dich verbessert. Kleine Schritte tragen weit.", "Schön: Ein Bereich hat zugelegt. Darauf kannst du aufbauen.", "Du bist in einem Bereich vorangekommen – ein guter Grund, kurz stolz auf dich zu sein.", "Ein Bereich leuchtet heller als zuvor. Geh weiter, in deinem eigenen Tempo.", "Ein Bereich hat sich verbessert – der Anfang von etwas Größerem.", "Ein Bereich zeigt nach oben. Jede große Veränderung beginnt genau so.", "Du hast in einem Bereich zugelegt. Achte darauf, was dir dabei geholfen hat.", "Ein Bereich ist gewachsen. Schön, dass du drangeblieben bist.", "In einem Bereich hast du etwas bewegt. Darauf kannst du stolz sein."], "cmpUpAllV": ["Wunderbar: In allen fünf Bereichen bist du gewachsen!", "Alle fünf Bereiche haben sich verbessert – dein Lebensrad blüht richtig auf.", "Was für eine Entwicklung: überall ein Stück weiter. Feier das ruhig ein bisschen.", "Rundum gewachsen: In jedem Bereich geht es dir besser als zuvor.", "Alle fünf Bereiche zeigen nach oben. Du darfst stolz auf dich sein.", "In allen fünf Bereichen geht es aufwärts – was für eine schöne Entwicklung!", "Alle Bereiche sind gewachsen. Du bist auf einem richtig guten Weg.", "Fünf von fünf: Dein ganzes Lebensrad hat sich weiterentwickelt.", "Überall ein Plus! Nimm dir einen Moment, um dich darüber zu freuen.", "Dein Lebensrad ist in jedem Bereich gewachsen. Das ist dein Verdienst."], "cmpDownV": ["Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.", "Nicht jeder Bereich ist gewachsen – und das ist in Ordnung. Auch Pausen und Umwege gehören zu deinem Weg.", "Manches ist gerade schwerer. Sei freundlich zu dir: Wer ehrlich hinschaut, hat den ersten Schritt schon getan.", "Das Leben verläuft in Wellen, nicht in geraden Linien. Nach jedem Tal geht es auch wieder bergauf.", "Ein Rückgang ist kein Scheitern, sondern ein Hinweis, wo du dir gerade mehr Zuwendung schenken darfst.", "Auch Bäume verlieren im Herbst ihre Blätter – und blühen im Frühling neu auf.", "Nicht jede Phase ist gleich leicht. Was zählt, ist, dass du hinschaust und dranbleibst.", "Ein kleiner Rückschritt erzählt dir etwas. Hör freundlich hin, was du gerade brauchst.", "Wachstum verläuft nie gerade. Auch das Zurückgehen gehört zum Vorankommen.", "Gerade jetzt darfst du besonders gut für dich sorgen. Jeder neue Tag ist ein neuer Anfang."], "cmpSameV": ["Dein Lebensrad ist stabil geblieben – auch Beständigkeit ist eine Stärke.", "Alles im Gleichgewicht: Deine Werte haben sich gehalten.", "Ruhig und beständig – dein Lebensrad ist gleich geblieben.", "Nichts hat sich verschoben. Manchmal ist Halten genau das Richtige.", "Dein Lebensrad ist stabil. Vielleicht ist jetzt ein guter Moment für einen neuen kleinen Schritt.", "Dein Lebensrad hält die Balance. Das ist eine schöne Basis für alles Weitere.", "Gleich geblieben – und das ist gut so. Stabilität gibt dir Halt.", "Alles ruhig auf deinem Weg. Genieße die Beständigkeit.", "Deine Werte sind stabil. Vielleicht wartet schon ein neues Ziel auf dich.", "Kein Auf und kein Ab: Du hast dein Gleichgewicht bewahrt."]});
 Object.assign(I18N.en, {"mediMoreInfo": "More about this exercise", "mediBoxInfo": {"intro": "Box breathing – also called square breathing or Sama Vritti (“even breath”) – is a simple breathing technique in four steps of equal length. It calms the nervous system and helps you let go of stress.", "how": "How it works – 4 seconds each", "steps": [["Breathe in", "Breathe in slowly and deeply through your nose."], ["Hold", "Let the air rest calmly inside you for a moment."], ["Breathe out", "Breathe out evenly and completely."], ["Hold", "Rest briefly in the stillness before the next breath comes."]], "tipsHead": "Good to know", "tips": ["One round takes 16 seconds. Ideally, practise for 3 to 5 minutes.", "If 4 seconds still feel too long, simply breathe a little shorter at first. It gets easier with time.", "The even rhythm speaks to the part of your nervous system that brings rest and recovery, so stress and tension can noticeably ease."]}, "ex478Info": {"intro": "4-7-8 breathing is a gentle exercise for relaxing. It helps you ease stress, soothe nervousness and fall asleep more easily.", "how": "How it works", "steps": [["Get ready", "Sit or lie down comfortably. Rest the tip of your tongue lightly against the roof of your mouth, just behind your upper front teeth."], ["Breathe in – 4 seconds", "Close your mouth and breathe in calmly and quietly through your nose."], ["Hold – 7 seconds", "Gently hold your breath."], ["Breathe out – 8 seconds", "Breathe out slowly through your mouth, with a soft whooshing sound if you like."]], "tipsHead": "Good to know", "tips": ["That is one round. Repeat it 4 times, and later up to 8 times if you like.", "Count along silently – or simply follow the cherry blossoms: they open as you breathe in and close as you breathe out."]}, "cmpUpV": ["Lovely to see you grow: {n} of 5 areas are better than before.", "You have moved forward on your path – {n} of 5 areas have improved.", "Something is happening: you have grown in {n} areas. Take a moment to really notice it.", "Every step counts, and you have taken a few: {n} of 5 areas have grown.", "Your wheel of life is getting rounder: you have developed in {n} areas.", "Your effort is bearing fruit: {n} of 5 areas have changed for the better.", "You are walking your path – and it shows: you are a step further in {n} areas.", "{n} of 5 areas have grown. Remember this when things feel slow.", "Step by step: you improved in {n} areas. That is worth celebrating.", "Something is growing here: {n} areas point upwards. Stay curious where it leads you."], "cmpUp1V": ["One area has grown – and every change begins with a first step.", "You improved in one area. Small steps go a long way.", "Nice: one area has grown. You can build on that.", "You moved forward in one area – a good reason to feel a little proud.", "One area shines brighter than before. Keep going, at your own pace.", "One area has improved – the beginning of something bigger.", "One area points upwards. Every big change begins exactly like this.", "You grew in one area. Notice what helped you get there.", "One area has grown. Lovely that you kept at it.", "You moved something in one area. You can be proud of that."], "cmpUpAllV": ["Wonderful: you have grown in all five areas!", "All five areas have improved – your wheel of life is truly blossoming.", "What a development: a step further everywhere. Go ahead and celebrate a little.", "Grown all around: every area is better than before.", "All five areas point upwards. You can be proud of yourself.", "Every one of the five areas is going up – what a beautiful development!", "All areas have grown. You are on a really good path.", "Five out of five: your whole wheel of life has developed.", "A plus everywhere! Take a moment to enjoy it.", "Your wheel of life has grown in every area. That is your achievement."], "cmpDownV": ["Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.", "Not every area has grown – and that is okay. Pauses and detours are part of your path too.", "Some things are harder right now. Be kind to yourself: looking honestly is already the first step.", "Life moves in waves, not straight lines. After every valley the path rises again.", "A dip is not a failure, but a hint where you may give yourself more care right now.", "Trees lose their leaves in autumn too – and blossom again in spring.", "Not every phase is equally easy. What counts is that you look and keep going.", "A small step back is telling you something. Listen kindly to what you need right now.", "Growth is never a straight line. Stepping back is part of moving forward too.", "Right now you may take extra good care of yourself. Every new day is a new beginning."], "cmpSameV": ["Your wheel of life has stayed steady – steadiness is a strength too.", "Everything in balance: your values have held.", "Calm and steady – your wheel of life has stayed the same.", "Nothing has shifted. Sometimes holding on is exactly right.", "Your wheel of life is steady. Maybe now is a good moment for a new small step.", "Your wheel of life keeps its balance. A lovely base for everything ahead.", "Stayed the same – and that is good. Stability gives you support.", "All calm on your path. Enjoy the steadiness.", "Your values are steady. Maybe a new goal is already waiting for you.", "No ups and no downs: you have kept your balance."]});
+Object.assign(I18N.de, {"diaryStartWriting": "Jetzt schreiben", "diaryGoTo": "Seite wählen", "diaryFirstPage": "Erste", "diaryLastPage": "Letzte", "diaryOpenPage": "Öffnen", "diaryStickers": "Sticker", "stickerNames": {"lotus": "Blauer Lotus", "lemon": "Zitrone", "cherry": "Kirschzweig", "stones": "Steinturm", "hearts": "Herzen", "bowl": "Klangschale", "leaf": "Blatt"}});
+Object.assign(I18N.en, {"diaryStartWriting": "Start writing", "diaryGoTo": "Choose a page", "diaryFirstPage": "First", "diaryLastPage": "Last", "diaryOpenPage": "Open", "diaryStickers": "Stickers", "stickerNames": {"lotus": "Blue lotus", "lemon": "Lemon", "cherry": "Cherry branch", "stones": "Stone tower", "hearts": "Hearts", "bowl": "Singing bowl", "leaf": "Leaf"}});
 function t(){ return I18N[state.settings.lang]; }
 
 function currentValue(area){
@@ -3259,7 +3300,7 @@ function swipeBlocked(target){
   if(document.querySelector('.modal-backdrop.open:not(.page-modal), .dialog-backdrop.open')) return true;
   if(document.getElementById('intro-overlay') && document.getElementById('intro-overlay').classList.contains('playing')) return true;
   if(window.visualViewport && window.visualViewport.scale > 1.05) return true; // zoomed into the diary
-  if(target && target.closest && target.closest('input[type=range], select, canvas.active, .tb-img-box, .tb-tools-menu, .tb-cover-pop')) return true;
+  if(target && target.closest && target.closest('input[type=range], select, canvas.active, .tb-img-box, .tb-tools-menu, .tb-cover-pop, .tb-pagepick')) return true;
   return false;
 }
 // can something under the finger still scroll sideways in this direction? (dir 1 = towards the right end)
@@ -4477,6 +4518,31 @@ function tbSizeVars(){
   } else { root.removeProperty('--tb-page-w'); root.setProperty('--tbk', '1'); }
 }
 tbSizeVars(); window.addEventListener('resize', tbSizeVars);
+/* Page number tapped: pick any page directly (slider + number), so a book with hundreds of pages is quick to get around */
+let tbPagePickOpen = false;
+function tbPagePickHtml(){
+  if(!tbPagePickOpen || tbView !== 'page') return '';
+  const d = t(), n = tbEnsureYear(tbYear).seiten.length, cur = Math.min(tbPageIdx, n - 1) + 1;
+  return `<div class="tb-tools-backdrop" onclick="tbPagePickOpen=false; tbRender();"></div>
+    <div class="tb-pagepick" role="dialog">
+      <div class="tb-cover-pop-head"><span>${d.diaryGoTo}</span><button class="icon-btn" onclick="tbPagePickOpen=false; tbRender();">✕</button></div>
+      <div class="tb-pagepick-num"><input type="number" id="tb-pick-num" min="1" max="${n}" value="${cur}" inputmode="numeric" oninput="document.getElementById('tb-pick-range').value=this.value"> <span>/ ${n}</span></div>
+      <input type="range" id="tb-pick-range" min="1" max="${n}" value="${cur}" oninput="document.getElementById('tb-pick-num').value=this.value">
+      <div class="tb-pagepick-actions">
+        <button class="ghost-btn" onclick="tbGoToPage(1)">${d.diaryFirstPage}</button>
+        <button class="ghost-btn" onclick="tbGoToPage(${n})">${d.diaryLastPage}</button>
+        <button class="primary-btn" onclick="tbGoToPage(+document.getElementById('tb-pick-num').value)">${d.diaryOpenPage}</button>
+      </div>
+    </div>`;
+}
+function tbGoToPage(num){
+  const n = tbEnsureYear(tbYear).seiten.length;
+  num = Math.max(1, Math.min(n, Math.round(+num || 1)));
+  tbPagePickOpen = false;
+  const dir = num - 1 >= tbPageIdx ? 'next' : 'prev';
+  tbPageIdx = num - 1;
+  tbFlip(dir);
+}
 function tbRender(){
   // any navigation/re-render flushes a pending debounced text save immediately, so switching
   // pages, modes or closing the diary right after typing never loses the last few characters
@@ -4498,7 +4564,7 @@ function tbRender(){
   if(tbView==='library') body.innerHTML = tbRenderLibrary();
   else if(tbView==='cover') body.innerHTML = tbRenderCover();
   else if(tbView==='pages') body.innerHTML = tbRenderPagesOverview();
-  else body.innerHTML = tbRenderPage();
+  else body.innerHTML = tbRenderPage() + tbPagePickHtml();
   tbBindHandlers();
 }
 // Deliberately no window "resize" listener here: spread vs. single-page layout now depends only
@@ -4571,6 +4637,7 @@ function tbRenderCover(){
         ${setup ? `<div class="tb-cover-actions"><button class="tb-gear-btn" onclick="event.stopPropagation(); tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}">${ico('gear')}</button></div>` : ''}
       </div>
     </div>
+    <button class="primary-btn tb-start-btn" onclick="tbOpenFirstPage()">${ico('pencil')}${d.diaryStartWriting}</button>
   </div>${setup ? tbCoverSettingsHtml() : ''}`;
 }
 // the cover can be designed while a diary is new (until it is opened for the first time); afterwards only in the library
@@ -4587,7 +4654,7 @@ function tbCoverSettingsHtml(){
   const mats = TB_MATERIALS.map(m=>`<button class="tb-chip-btn${c.material===m?' active':''}" onclick="tbSetCoverMaterial('${m}')">${d['diaryMat'+m.charAt(0).toUpperCase()+m.slice(1)]}</button>`).join('');
   const fonts = `<button class="tb-chip-btn${c.titleFont!=='hand'?' active':''}" onclick="tbSetCoverFont('print')">${d.diaryFontPrint}</button>
     <button class="tb-chip-btn${c.titleFont==='hand'?' active':''}" onclick="tbSetCoverFont('hand')">${d.diaryFontHand}</button>`;
-  const typeChips = TB_STYLE_ORDER.map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
+  const typeChips = TB_STYLE_ORDER.concat('areas').map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
   return `<div class="tb-tools-backdrop" onclick="tbCoverSettingsOpen=false; tbRender();"></div>
     <div class="tb-cover-pop" role="dialog">
       <div class="tb-cover-pop-head"><span>${ico('gear')}${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();">✕</button></div>
@@ -4726,7 +4793,7 @@ function tbRepaginateDiary(diary){
       page.text = fit;
       let next = diary.seiten[i+1];
       if(!next || next.type === 'titel'){
-        next = { id:'p'+Date.now()+Math.random().toString(36).slice(2,5), type:diary.defaultPageType||'blank', text:'', strokes:[], images:[] };
+        next = { id:'p'+Date.now()+Math.random().toString(36).slice(2,5), type:tbTextType(diary), text:'', strokes:[], images:[] };
         diary.seiten.splice(i+1, 0, next);
       }
       next.text = rest + (next.text ? ('\n\n'+next.text) : '');
@@ -4748,7 +4815,7 @@ function tbHandleOverflow(idx){
   page.text = fit;
   let nextIdx = idx+1;
   if(nextIdx>=diary.seiten.length || diary.seiten[nextIdx].type==='titel'){
-    diary.seiten.splice(idx+1, 0, { id:'p'+Date.now()+Math.random().toString(36).slice(2,5), type:diary.defaultPageType||'blank', text:'', strokes:[], images:[] });
+    diary.seiten.splice(idx+1, 0, { id:'p'+Date.now()+Math.random().toString(36).slice(2,5), type:tbTextType(diary), text:'', strokes:[], images:[] });
   }
   const nextPage = diary.seiten[nextIdx];
   nextPage.text = rest + (nextPage.text ? ('\n\n'+nextPage.text) : '');
@@ -4791,7 +4858,7 @@ function tbRenderPageSlot(idx){
     }
     const sel = tbSelImg && tbSelImg.page===idx && tbSelImg.i===i;
     return `<div class="tb-img-box${sel?' sel':''}" data-page-idx="${idx}" data-idx="${i}" style="left:${img.xPct}%;top:${img.yPct}%;width:${img.wPct}%;">
-      <img class="tb-page-img" src="${img.src}" draggable="false" alt="">
+      <img class="tb-page-img${img.sticker ? ' is-sticker' : ''}" src="${img.src}" draggable="false" alt="">
       <button class="tb-img-del" title="${d.diaryImgDelete}" aria-label="${d.diaryImgDelete}">${ico('trash')}</button>
       <span class="tb-img-resize" title="${d.diaryImgResize}" aria-label="${d.diaryImgResize}"></span>
     </div>`;
@@ -4840,14 +4907,16 @@ function tbPageNavHtml(){
   const hasPrev = tbPeekPrevIdx() >= 0;
   const hasNext = tbEditMode ? true : (tbPeekNextIdx() < diary.seiten.length);
   return `<button class="icon-btn tb-nav-btn" onclick="tbPrevPage()" ${hasPrev?'':'disabled'}>‹</button>
-    <span class="tb-page-num">${Math.min(tbPageIdx, diary.seiten.length-1)+1} / ${diary.seiten.length}</span>
+    <button class="tb-page-num tb-page-num-btn" onclick="tbPagePickOpen=true; tbRender();" title="${t().diaryGoTo}" aria-label="${t().diaryGoTo}">${Math.min(tbPageIdx, diary.seiten.length-1)+1} / ${diary.seiten.length}</button>
     <button class="icon-btn tb-nav-btn" onclick="tbNextPage()" ${hasNext?'':'disabled'}>›</button>`;
 }
 /* ---- Tools: one floating button (shows the current tool); tapping it opens the tool menu ---- */
 let tbToolsOpen = false, tbToolsSub = ''; // tbToolsSub: which row is folded open ('font' | 'new' | 'style')
 const TB_TOOLS = [['text','pencil','diaryWrite'], ['draw','pen','diaryDraw'], ['eraseFree','eraser','diaryEraseFree'], ['eraseObj','objErase','diaryEraseObj']];
 const TB_STYLE_ORDER = ['blank','lined','grid','dotted'];
-function tbTypeLabel(pt){ return t()['diaryPage' + pt.charAt(0).toUpperCase() + pt.slice(1)]; }
+function tbTypeLabel(pt){ return pt === 'areas' ? t().diaryAreasPage : t()['diaryPage' + pt.charAt(0).toUpperCase() + pt.slice(1)]; }
+// the page type for text that continues on a new page ("Lebensbereiche" as default only applies to pages you add yourself)
+function tbTextType(diary){ return diary.defaultPageType && diary.defaultPageType !== 'areas' ? diary.defaultPageType : 'blank'; }
 function tbToolsHtml(){
   const d = t();
   const page = tbEnsureYear(tbYear).seiten[tbPageIdx] || {};
@@ -4870,8 +4939,10 @@ function tbToolsHtml(){
       <div class="tb-tools-sep"></div>
       <button class="tb-tools-item ${tbToolsSub==='new'?'active':''}" onclick="tbToolsFold('new')">${ico('plus')}${d.diaryNewPage}${chev('new')}</button>
       ${subRow('new', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('${pt}')">${tbTypeLabel(pt)}</button>`).join('')
-        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbEnsureYear(tbYear).defaultPageType||'blank', true)">${d.diaryAreasPage}</button>`)}
+        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), true)">${d.diaryAreasPage}</button>`)}
       ${(isTitle || isFirstRun()) ? '' : `<button class="tb-tools-item" onclick="tbInsertWheel()">${ico('wheel')}${d.diaryInsertWheel}</button>`}
+      ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='sticker'?'active':''}" onclick="tbToolsFold('sticker')">${ico('image')}${d.diaryStickers}${chev('sticker')}</button>
+      ${tbToolsSub==='sticker' ? `<div class="tb-sticker-grid">${TB_STICKERS.map((st, i)=>`<button class="tb-sticker-btn" onclick="tbInsertSticker(${i})" title="${escapeHtml(d.stickerNames[st.k] || st.k)}" aria-label="${escapeHtml(d.stickerNames[st.k] || st.k)}">${st.src ? `<img src="${st.src}" alt="">` : st.svg()}</button>`).join('')}</div>` : ''}`}
       <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbView='pages';tbRender();">${ico('pages')}${d.diaryPagesOverview}</button>
       ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='style'?'active':''}" onclick="tbToolsFold('style')">${ico('palette')}${d.diaryPageStyle}${chev('style')}</button>
       ${subRow('style', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem ${page.type===pt?'active':''}" onclick="tbSetPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join(''))}`}
@@ -4914,12 +4985,35 @@ function tbCyclePageType(idx){
 }
 function tbAddPage(type, areas){
   const diary = tbEnsureYear(tbYear);
+  if(type === 'areas'){ type = 'blank'; areas = true; } // "Lebensbereiche" chosen as the default page
   const pg = { id:'p'+Date.now(), type, text:'', strokes:[], images:[] };
   if(areas) pg.bereiche = {}; // a page with the five areas as small headings, each with its own text
   diary.seiten.push(pg);
   tbPageIdx = diary.seiten.length-1;
   saveState();
   tbRender();
+}
+/* Stickers: the pictures of the mindfulness exercises (and more later), to put on a diary page; they move, resize and delete
+   like photos. The two folded hearts are the stickers' heart – the new paper heart belongs to the gratitude exercise. */
+function stickerHeartsSvg(id){
+  const P = 'sh' + id;
+  return natPic(`<defs><filter id="${P}sh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0.6" dy="1.6" stdDeviation="1.1" flood-color="#3a0a24" flood-opacity="0.5"/></filter></defs>`
+    + origamiHeart(P, 26, -18, 1.25, 14, ['#c9c6ff', '#b4b0ff', '#a29dfb', '#a29dfb', '#8d86f2', '#7d75ea'])
+    + origamiHeart(P, -12, 12, 1.6, -8, ['#ffbfd1', '#ffaac2', '#fb97b3', '#fb97b3', '#f2809f', '#e8718f']));
+}
+const TB_STICKERS = [
+  { k:'lotus', src:'img/lotus3.webp' }, { k:'lemon', svg:()=>lemonPictureSvg('stk') }, { k:'cherry', src:'img/cherry6.webp' },
+  { k:'stones', src:'img/stones.webp' }, { k:'hearts', svg:()=>stickerHeartsSvg('stk') }, { k:'bowl', src:'img/bowl.webp' },
+  { k:'leaf', svg:()=>ownPictureSvg('leaf', 'stk') }
+];
+function tbInsertSticker(i){
+  const st = TB_STICKERS[i], page = tbEnsureYear(tbYear).seiten[tbPageIdx];
+  tbToolsOpen = false; tbToolsSub = '';
+  if(!st || !page || page.type === 'titel'){ tbRender(); return; }
+  const src = st.src || 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(st.svg().replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" '));
+  page.images = page.images || [];
+  page.images.push({ src, xPct:32, yPct:22, wPct:36, sticker:true });
+  saveState(); tbRender();
 }
 /* The current wheel of life as a picture on the page: moves, resizes and deletes like a photo */
 function tbInsertWheel(){
