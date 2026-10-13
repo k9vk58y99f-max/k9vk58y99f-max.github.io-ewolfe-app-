@@ -119,8 +119,31 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.54.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.57.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
+
+## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
+- **Volle Breite** auf Tablet/Rechner: `.page-modal > .modal` ohne Breitenbegrenzung; Tagebuch-Bibliothek und Titelblatt groß.
+  Die Tagebuchseite wächst als Ganzes (`tbSizeVars()`: `--tb-page-w` = Fensterbreite − 24 px, höchstens 1200; `--tbk` =
+  Breite/560; Schrift, Zeilen, Ränder, Linien/Karos/Punkte und Lebensbereiche-Seite rechnen mit `--tbk`). Dadurch passt auf
+  jede Seite genau gleich viel Text wie bei 560 px, es wird nichts neu umbrochen. Handys (< 640 px) bleiben wie bisher.
+- **Wischen** (`NAV_ORDER`, `swipeGo()`, `swipeInit`): links/rechts = nächste/vorige Seite der Leiste, an den Enden Schluss;
+  am Rechner seitliches Scrollen mit zwei Fingern. Seitlich scrollbare Tabellen (Ziele) scrollen zuerst (`swipeScrollsX`).
+  Tagebuch: Titelblatt links = Buch öffnen, rechts = zurück zu Ziele; im Buch nur im Ansichtsmodus (blättert Tagebuchseiten),
+  beim Schreiben nichts. Fenster über den Seiten blockieren es (`swipeBlocked`).
+- Startseite: „Ziele bearbeiten“ entfernt, „Frühere Lebensräder“ direkt unter „Neues Lebensrad erstellen“.
+- **Tagebuch**: Knopf „Jetzt schreiben“ unter dem Titelblatt (`.tb-start-btn`); Tipp auf die Seitenzahl öffnet die Seitenwahl
+  (`tbPagePickHtml`, `tbGoToPage`); Seitentyp „Lebensbereiche“ in den Einstellungen (`defaultPageType = 'areas'`, neue Seiten
+  bekommen dann die fünf Felder; Text, der auf die nächste Seite überläuft, bleibt normale Seite: `tbTextType`).
+  Text aus der Achtsamkeit (Dankbarkeit, Impulskarte) beginnt unterhalb des tiefsten Bildes der Seite (`tbAppendBlock`).
+- **Sticker** (so heißen die Bilder der Übungen jetzt): im Werkzeug-Menü „Sticker“ (`TB_STICKERS`, `tbInsertSticker`):
+  Lotus, Zitrone, Kirschzweig, Steinturm, die zwei gefalteten Herzen (das neue Papierherz gehört zur Dankbarkeit), Klangschale,
+  Blatt. Auf der Seite ohne Fotoschatten (`sticker:true`, Klasse `is-sticker`).
+- **Impulskarten** (`IMPULSE_CARDS`, 40 Karten, 8 je Bereich, eigene Sätze und kurze Zitate mit Namen, de/en): Knopf
+  „Impulskarte ziehen“ oben auf der Achtsamkeits-Seite (ersetzt die alte Impulszeile), einmal am Tag beim Start als Karte
+  (`maybeShowImpulseCard`, Merker `ewolfe_impulse_day`), nur per Knopf zu schließen; „Ins Tagebuch“ legt Bild + Spruch auf
+  eine Seite. Bilder sind noch Platzhalter (`IMPULSE_PLACEHOLDER = true`, roter Schriftzug); echte Bilder: Feld `img` je Karte
+  setzen (Datei in `img/`) und `IMPULSE_PLACEHOLDER` auf `false`.
 
 ## Wichtige Stellen im Code
 - Seite **Lebensbereiche** (seit 1.26.0, ganz links in der Leiste, Beschriftung „Bereiche"): erklärt die fünf
