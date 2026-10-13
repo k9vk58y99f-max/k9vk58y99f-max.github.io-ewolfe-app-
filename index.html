@@ -4923,7 +4923,7 @@ function trophyShelf(){
    device): the first and further exercises, each exercise 10 times (its picture under a glass bell), days in a row
    (crystals that grow), wheels, reached goals, diary pages and gratitude. New ones show up once, big, then stand on the
    shelf. The pictures are drawn placeholders until the person's own pictures arrive (TROPHY_PLACEHOLDER). */
-const TROPHY_PLACEHOLDER = true;
+const TROPHY_PLACEHOLDER = false; // all trophies are the person's own pictures now
 const TROPHY_SEEN_KEY = 'ewolfe_trophies_seen';
 const TROPHY_TIERS = ['#c98a4a', '#c9d2e6', '#f4c542']; // bronze, silver, gold
 function trophyEvents(){
@@ -4954,28 +4954,40 @@ function trophyEvents(){
 }
 function trophyDefs(){
   const D = state.settings.lang === 'en' ? 1 : 0, L = (de, en)=>D ? en : de;
-  const out = [];
-  const lvl = (id, kind, list, levels, color, titleFn, descFn)=>levels.forEach((n, i)=>out.push({ id:id + n, kind, color, tier:Math.min(2, Math.floor(i * 3 / levels.length)), size:i, need:n, list, title:titleFn(n), desc:descFn(n) }));
-  const ev = trophyEvents();
-  lvl('ex', 'orb', ev.done.map(e=>e.ts), [1, 5, 10, 25, 50, 100], '#58d48f', n=>n === 1 ? L('Erste Übung', 'First exercise') : L(n + ' Übungen', n + ' exercises'), n=>n === 1 ? L('Du hast deine erste Achtsamkeitsübung gemacht.', 'You did your first mindfulness exercise.') : L('Du hast ' + n + ' Achtsamkeitsübungen gemacht.', 'You did ' + n + ' mindfulness exercises.'));
-  // Box Breathing grows with you: bud (3×), half open (10×), open (25×) – the person's own pictures; only the highest stands on the shelf
-  [[3, 0.5], [10, 0.75], [25, 1]].forEach(([n, sc], i)=>out.push({ id:'box' + n, group:'box', stage:i, kind:'img', img:'trophy-lotus-' + (i + 1), aspect:0.86, scale:sc, need:n, list:ev.byEx('seed-box'),
-    title:L(['Lotusknospe unter Glas', 'Halb offener Lotus unter Glas', 'Blauer Lotus unter Glas'][i], ['Lotus bud under glass', 'Half open lotus under glass', 'Blue lotus under glass'][i]),
-    desc:L(n + '-mal Box Breathing – dein Lotus wächst mit dir.', 'Box breathing ' + n + ' times – your lotus grows with you.') }));
-  // 4-7-8 grows the same way: closed buds, half open, in full bloom – a taller, narrower glass
-  [[3, 0.5], [10, 0.75], [25, 1]].forEach(([n, sc], i)=>out.push({ id:'b478-' + n, group:'b478', stage:i, kind:'img', img:'trophy-cherry-' + (i + 1), aspect:0.62, scale:sc, need:n, list:ev.byEx('seed-478'),
-    title:L(['Kirschknospen unter Glas', 'Blühender Kirschzweig unter Glas', 'Kirschblüte unter Glas'][i], ['Cherry buds under glass', 'Blossoming cherry branch under glass', 'Cherry blossom under glass'][i]),
-    desc:L(n + '-mal 4-7-8-Atmung – dein Kirschzweig blüht mit dir auf.', '4-7-8 breathing ' + n + ' times – your cherry branch blossoms with you.') }));
-  [ ['seed-54321', 'stones', '5-4-3-2-1'], ['seed-stille', 'bowl', L('Stille Meditation', 'Silent meditation')], ['seed-lemon', 'lemon', 'Lemonmeditation']].forEach(([ex, pic, name])=>
-    out.push({ id:'dome-' + ex, kind:'dome', pic, color:'#b8a4ff', tier:2, need:10, list:ev.byEx(ex), title:L(name + ' unter Glas', name + ' under glass'), desc:L('10-mal ' + name + ' – ein kleiner Schatz für dein Regal.', name + ' 10 times – a little treasure for your shelf.') }));
-  out.push({ id:'dome-grat', kind:'dome', pic:'heart', color:'#ff9ab8', tier:2, need:7, list:ev.grat, title:L('Dankbarkeit unter Glas', 'Gratitude under glass'), desc:L('An 7 Abenden hast du aufgeschrieben, wofür du dankbar bist.', 'On 7 evenings you wrote down what you are grateful for.') });
-  [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, kind:'crystal', color:'#a29dfb', tier:Math.min(2, Math.floor(i / 2)), size:i, need:1, list:ev.streakAt[n] ? [ev.streakAt[n]] : [], title:L(n + ' Tage in Folge', n + ' days in a row'), desc:L('Du hast an ' + n + ' Tagen hintereinander geübt.', 'You practised on ' + n + ' days in a row.'), have:()=>Math.min(n, Object.keys(ev.streakAt).length ? Math.max(...Object.keys(ev.streakAt).map(Number)) : 0), needShow:n }));
-  lvl('wheel', 'orb', ev.wheels, [1, 5, 10], '#b8a4ff', n=>n === 1 ? L('Erstes Lebensrad', 'First wheel of life') : L(n + ' Lebensräder', n + ' wheels of life'), n=>n === 1 ? L('Du hast dein erstes Lebensrad erstellt.', 'You created your first wheel of life.') : L('Du hast ' + n + ' Lebensräder erstellt.', 'You created ' + n + ' wheels of life.'));
-  out.push({ id:'up10', kind:'orb', color:'#58d48f', tier:1, size:2, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
-  out.push({ id:'upall', kind:'orb', color:'#f4c542', tier:2, size:3, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle fünf Lebensbereiche haben sich verbessert.', 'All five areas of life have improved.') });
-  lvl('goal', 'orb', ev.goals, [1, 5, 10], '#f4c542', n=>n === 1 ? L('Erstes Ziel erreicht', 'First goal reached') : L(n + ' Ziele erreicht', n + ' goals reached'), n=>L(n === 1 ? 'Du hast dein erstes Ziel erreicht.' : 'Du hast ' + n + ' Ziele erreicht.', n === 1 ? 'You reached your first goal.' : 'You reached ' + n + ' goals.'));
-  lvl('page', 'orb', ev.pages, [1, 10, 50, 100], '#ff9ab8', n=>n === 1 ? L('Erste Tagebuchseite', 'First diary page') : L(n + ' Tagebuchseiten', n + ' diary pages'), n=>L(n === 1 ? 'Du hast die erste Seite in dein Tagebuch geschrieben.' : 'Du hast ' + n + ' Seiten in dein Tagebuch geschrieben.', n === 1 ? 'You wrote the first page of your diary.' : 'You wrote ' + n + ' diary pages.'));
-  out.push({ id:'grat1', kind:'orb', color:'#ff9ab8', tier:0, size:0, need:1, list:ev.grat, title:L('Erste Dankbarkeit', 'First gratitude'), desc:L('Du hast zum ersten Mal aufgeschrieben, wofür du dankbar bist.', 'You wrote down for the first time what you are grateful for.') });
+  const out = [], ev = trophyEvents();
+  // a trophy that grows: every stage has its own picture, only the highest reached one stands on the shelf
+  const grow = (group, list, stages, aspect, titleFn, descFn)=>stages.forEach(([n, img, scale], i)=>out.push({ id:group + n, group, stage:i, kind:'img', img, scale, aspect, need:n, list, title:titleFn(n, i), desc:descFn(n, i) }));
+  // exercises: crystals in more and more precious colours
+  grow('ex', ev.done.map(e=>e.ts), [[1, 'crystal-mint', 0.55], [5, 'crystal-blue', 0.6], [10, 'crystal-purple', 0.66], [25, 'crystal-pink', 0.72], [50, 'crystal-silver', 0.8], [100, 'crystal-gold', 0.9]], 0.75,
+    n=>n === 1 ? L('Erste Übung', 'First exercise') : L(n + ' Übungen', n + ' exercises'),
+    n=>n === 1 ? L('Du hast deine erste Achtsamkeitsübung gemacht.', 'You did your first mindfulness exercise.') : L('Du hast ' + n + ' Achtsamkeitsübungen gemacht.', 'You did ' + n + ' mindfulness exercises.'));
+  // Box Breathing and 4-7-8 grow under their glass: bud, half open, open
+  grow('box', ev.byEx('seed-box'), [[3, 'trophy-lotus-1', 0.5], [10, 'trophy-lotus-2', 0.75], [25, 'trophy-lotus-3', 1]], 0.86,
+    (n, i)=>L(['Lotusknospe unter Glas', 'Halb offener Lotus unter Glas', 'Blauer Lotus unter Glas'][i], ['Lotus bud under glass', 'Half open lotus under glass', 'Blue lotus under glass'][i]),
+    n=>L(n + '-mal Box Breathing – dein Lotus wächst mit dir.', 'Box breathing ' + n + ' times – your lotus grows with you.'));
+  grow('b478', ev.byEx('seed-478'), [[3, 'trophy-cherry-1', 0.5], [10, 'trophy-cherry-2', 0.75], [25, 'trophy-cherry-3', 1]], 0.62,
+    (n, i)=>L(['Kirschknospen unter Glas', 'Blühender Kirschzweig unter Glas', 'Kirschblüte unter Glas'][i], ['Cherry buds under glass', 'Blossoming cherry branch under glass', 'Cherry blossom under glass'][i]),
+    n=>L(n + '-mal 4-7-8-Atmung – dein Kirschzweig blüht mit dir auf.', '4-7-8 breathing ' + n + ' times – your cherry branch blossoms with you.'));
+  // days in a row: a crystal that grows
+  const streakMax = Object.keys(ev.streakAt).length ? Math.max(...Object.keys(ev.streakAt).map(Number)) : 0;
+  [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, group:'streak', stage:i, kind:'img', img:'crystal-' + (i + 1), scale:0.55 + i * 0.08, aspect:0.75, need:1, needShow:n,
+    list:ev.streakAt[n] ? [ev.streakAt[n]] : [], have:()=>Math.min(n, streakMax),
+    title:L(n + ' Tage in Folge', n + ' days in a row'), desc:L('Du hast an ' + n + ' Tagen hintereinander geübt.', 'You practised on ' + n + ' days in a row.') }));
+  // glowing orbs: wheels (violet), goals (gold), diary pages (blue), gratitude (pink), growth (green), all areas (rainbow)
+  grow('wheel', ev.wheels, [[1, 'orb-purple', 0.55], [5, 'orb-purple', 0.7], [10, 'orb-purple', 0.85]], 0.85,
+    n=>n === 1 ? L('Erstes Lebensrad', 'First wheel of life') : L(n + ' Lebensräder', n + ' wheels of life'),
+    n=>n === 1 ? L('Du hast dein erstes Lebensrad erstellt.', 'You created your first wheel of life.') : L('Du hast ' + n + ' Lebensräder erstellt.', 'You created ' + n + ' wheels of life.'));
+  grow('goal', ev.goals, [[1, 'orb-gold', 0.55], [5, 'orb-gold', 0.7], [10, 'orb-gold', 0.85]], 0.82,
+    n=>n === 1 ? L('Erstes Ziel erreicht', 'First goal reached') : L(n + ' Ziele erreicht', n + ' goals reached'),
+    n=>L(n === 1 ? 'Du hast dein erstes Ziel erreicht.' : 'Du hast ' + n + ' Ziele erreicht.', n === 1 ? 'You reached your first goal.' : 'You reached ' + n + ' goals.'));
+  grow('page', ev.pages, [[1, 'orb-blue', 0.5], [10, 'orb-blue', 0.62], [50, 'orb-blue', 0.74], [100, 'orb-blue', 0.86]], 0.85,
+    n=>n === 1 ? L('Erste Tagebuchseite', 'First diary page') : L(n + ' Tagebuchseiten', n + ' diary pages'),
+    n=>L(n === 1 ? 'Du hast die erste Seite in dein Tagebuch geschrieben.' : 'Du hast ' + n + ' Seiten in dein Tagebuch geschrieben.', n === 1 ? 'You wrote the first page of your diary.' : 'You wrote ' + n + ' diary pages.'));
+  grow('grat', ev.grat, [[1, 'orb-pink', 0.55], [7, 'orb-pink', 0.72], [30, 'orb-pink', 0.88]], 0.88,
+    n=>n === 1 ? L('Erste Dankbarkeit', 'First gratitude') : L(n + ' Abende Dankbarkeit', n + ' evenings of gratitude'),
+    n=>L(n === 1 ? 'Du hast zum ersten Mal aufgeschrieben, wofür du dankbar bist.' : 'An ' + n + ' Abenden hast du aufgeschrieben, wofür du dankbar bist.', n === 1 ? 'You wrote down for the first time what you are grateful for.' : 'On ' + n + ' evenings you wrote down what you are grateful for.'));
+  out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.83, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
+  out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle fünf Lebensbereiche haben sich verbessert.', 'All five areas of life have improved.') });
   return out;
 }
 function trophyList(){ return trophyDefs().map(x=>({ ...x, have:x.have ? x.have() : Math.min(x.need, x.list.length), need:x.needShow || x.need, at:x.list.length >= x.need ? (x.list[x.need - 1] || 1) : null })); }
