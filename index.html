@@ -609,6 +609,10 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 /* ================= Full width on tablets and computers (since 1.55.0): the pages use the whole width in portrait and
    landscape (landscape scrolls); the diary page grows as a whole – font, lines and margins with it (--tbk, set in tbSizeVars) ================= */
 :root{ --tbk:1; }
+@keyframes swipeInNext{ from{ transform:translateX(48px); opacity:.35; } to{ transform:none; opacity:1; } }
+@keyframes swipeInPrev{ from{ transform:translateX(-48px); opacity:.35; } to{ transform:none; opacity:1; } }
+body.swipe-next .page-modal.open > .modal, body.swipe-next .tb-overlay.open, body.swipe-next > .scene-wrap, body.swipe-next > .home-new, body.swipe-next > .wheel-hist-home{ animation:swipeInNext .28s ease-out; }
+body.swipe-prev .page-modal.open > .modal, body.swipe-prev .tb-overlay.open, body.swipe-prev > .scene-wrap, body.swipe-prev > .home-new, body.swipe-prev > .wheel-hist-home{ animation:swipeInPrev .28s ease-out; }
 .page-modal > .modal{ max-width:none; }
 .tb-shelf{ max-width:none; grid-template-columns:repeat(auto-fill,minmax(clamp(128px, 26vw, 300px),1fr)); }
 .tb-shelf-cell{ width:100%; }
@@ -1132,7 +1136,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.55.0';
+const APP_VERSION = '1.55.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -3244,6 +3248,85 @@ function navInit(){
   ['gesturestart','gesturechange'].forEach(ev=>document.addEventListener(ev, e=>{ if(!document.documentElement.classList.contains('zoom-ok')) e.preventDefault(); }, { passive:false }));
   navSync();
 }
+
+/* ---- Swiping (since 1.55.0): left/right moves to the next/previous page of the bottom bar (Bereiche … Achtsamkeit, no
+   wrap-around). On the iPad by finger, on a computer with a sideways two-finger scroll. A table that can still scroll
+   sideways (Ziele) scrolls first; only once it is at its end does a further swipe change the page. In the diary: on the
+   cover, left opens the book and right goes back to Ziele; in the open book only in view mode, and it turns the diary's
+   pages; while writing nothing happens. Windows over the pages (exercises, dialogs, settings) block it. ---- */
+const NAV_ORDER = ['areas', 'home', 'goals', 'diary', 'medi'];
+function swipeBlocked(target){
+  if(document.querySelector('.modal-backdrop.open:not(.page-modal), .dialog-backdrop.open')) return true;
+  if(document.getElementById('intro-overlay') && document.getElementById('intro-overlay').classList.contains('playing')) return true;
+  if(window.visualViewport && window.visualViewport.scale > 1.05) return true; // zoomed into the diary
+  if(target && target.closest && target.closest('input[type=range], select, canvas.active, .tb-img-box, .tb-tools-menu, .tb-cover-pop')) return true;
+  return false;
+}
+// can something under the finger still scroll sideways in this direction? (dir 1 = towards the right end)
+function swipeScrollsX(target, dir){
+  for(let el = target; el && el !== document.body && el.nodeType === 1; el = el.parentElement){
+    if(el.scrollWidth > el.clientWidth + 2){
+      const ox = getComputedStyle(el).overflowX;
+      if(ox === 'auto' || ox === 'scroll'){
+        if(dir > 0 ? el.scrollLeft + el.clientWidth < el.scrollWidth - 2 : el.scrollLeft > 2) return true;
+      }
+    }
+  }
+  return false;
+}
+function swipeGo(dir){
+  const active = navActive();
+  if(active === 'diary'){
+    if(tbView === 'cover'){ if(dir > 0) tbOpenFirstPage(); else swipeToTab('goals', -1); return; }
+    if(tbView === 'page'){ if(tbEditMode) return; if(dir > 0) tbNextPage(); else tbPrevPage(); return; }
+  }
+  const j = NAV_ORDER.indexOf(active) + dir;
+  if(j < 0 || j >= NAV_ORDER.length) return;
+  swipeToTab(NAV_ORDER[j], dir);
+}
+function swipeToTab(tab, dir){
+  const b = document.querySelector(`.nav-item[data-nav="${tab}"]`);
+  if(!b) return;
+  b.click();
+  // the new page slides in from the side you swiped towards
+  const cls = dir > 0 ? 'swipe-next' : 'swipe-prev';
+  document.body.classList.remove('swipe-next', 'swipe-prev'); void document.body.offsetWidth;
+  document.body.classList.add(cls);
+  setTimeout(()=>document.body.classList.remove(cls), 320);
+}
+(function swipeInit(){
+  let st = null;
+  document.addEventListener('touchstart', e=>{
+    if(e.touches.length !== 1){ st = null; return; }
+    const t0 = e.touches[0];
+    st = { x:t0.clientX, y:t0.clientY, t:Date.now(), target:e.target, canL:swipeScrollsX(e.target, 1), canR:swipeScrollsX(e.target, -1) };
+  }, { passive:true });
+  document.addEventListener('touchmove', e=>{ if(e.touches.length !== 1) st = null; }, { passive:true });
+  document.addEventListener('touchend', e=>{
+    if(!st) return;
+    const t1 = e.changedTouches[0], dx = t1.clientX - st.x, dy = t1.clientY - st.y, dt = Date.now() - st.t;
+    const s0 = st; st = null;
+    if(Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2 || dt > 800) return;
+    const dir = dx < 0 ? 1 : -1;
+    if(dir > 0 ? s0.canL : s0.canR) return; // the table scrolls first
+    if(swipeBlocked(s0.target)) return;
+    swipeGo(dir);
+  }, { passive:true });
+  // computer: sideways scrolling with two fingers on the trackpad
+  let acc = 0, accT = 0, lockUntil = 0;
+  document.addEventListener('wheel', e=>{
+    if(Math.abs(e.deltaX) <= Math.abs(e.deltaY) * 1.5) return;
+    const dir = e.deltaX > 0 ? 1 : -1, now = Date.now();
+    if(now < lockUntil){ return; }
+    if(swipeScrollsX(e.target, dir)){ acc = 0; return; }
+    if(now - accT > 300 || Math.sign(acc) !== dir) acc = 0;
+    acc += e.deltaX; accT = now;
+    if(Math.abs(acc) > 140){
+      acc = 0; lockUntil = now + 900;
+      if(!swipeBlocked(e.target)) swipeGo(dir);
+    }
+  }, { passive:true });
+})();
 
 /* ================= Modals ================= */
 function openModal(id){ document.getElementById(id).classList.add('open'); navSync(); }
