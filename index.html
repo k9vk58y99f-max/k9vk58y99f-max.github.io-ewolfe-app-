@@ -636,7 +636,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-roof-side{ display:flex; align-items:flex-end; height:100%; }
 .shelf-roof .shelf-trophy{ transform:none; }
 .shelf-roof .shelf-trophy:hover, .shelf-roof .shelf-trophy:active{ transform:scale(1.06); }
-.shelf-comp{ position:absolute; display:flex; align-items:flex-end; justify-content:flex-start; gap:0 1.5cqh; padding:0 2cqh; container-type:size; overflow:visible; }
+.shelf-comp{ position:absolute; display:flex; align-items:flex-end; justify-content:flex-start; gap:0 0.45%; padding:0 0.6%; container-type:size; overflow:visible; } /* in % of the compartment: cqh here would measure the screen, not the shelf (1.73.2) */
 .shelf-comp-tro{ justify-content:center; }
 .shelf-comp .shelf-trophy{ margin:0 0.5cqh; transform:translateY(2.7cqh); } /* trophies a little further forward than the books */
 .shelf-comp .shelf-trophy:hover, .shelf-comp .shelf-trophy:active{ transform:translateY(2.7cqh) scale(1.06); }
@@ -1395,7 +1395,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.73.1';
+const APP_VERSION = '1.73.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
