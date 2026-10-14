@@ -124,7 +124,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.66.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.67.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -172,7 +172,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Bücher hinten, Trophäen etwas weiter vorne), Übungen = farbige Kristalle (`crystal-mint…gold`), Tage in Folge = wachsender
   Kristall (`crystal-1…6`), Box/4-7-8 = Glasglocken in 3 Stufen (`trophy-lotus-1…3`, `trophy-cherry-1…3`, nach 3/10/25),
   Lebensräder/Ziele/Seiten/Dankbarkeit = Orbs (violett/gold/blau/rosa, wachsen), +10 = grüner, alle Bereiche = Regenbogen-Orb.
-  Von wachsenden Trophäen (`group`) steht nur die höchste Stufe im Regal (`trophyShelf`). Seit 1.66.0 Knopf „Ins Tagebuch“ in der großen Trophäen-Ansicht (`trophyToDiary`: Bild + Datum, Titel, Text).
+  Von wachsenden Trophäen (`group`) steht nur die höchste Stufe im Regal (`trophyShelf`). Seit 1.67.0 zählt für Trophäen alles höchstens einmal am Tag (`oncePerDay`; Übungen je Übung und Tag). Seit 1.66.0 Knopf „Ins Tagebuch“ in der großen Trophäen-Ansicht (`trophyToDiary`: Bild + Datum, Titel, Text).
 
 - Seite **Lebensbereiche** (seit 1.26.0, ganz links in der Leiste, Beschriftung „Bereiche"): erklärt die fünf
   Bereiche und wie das Lebensrad funktioniert (`renderAreasPage()`, Texte `areasText` usw. im `I18N`). Sie öffnet

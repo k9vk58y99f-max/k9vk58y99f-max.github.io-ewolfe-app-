@@ -1320,7 +1320,7 @@ html::before{ content:''; position:fixed; left:0; right:0; top:0; height:var(--s
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.66.1';
+const APP_VERSION = '1.67.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5130,26 +5130,32 @@ function trophyShelf(){
 const TROPHY_PLACEHOLDER = false; // all trophies are the person's own pictures now
 const TROPHY_SEEN_KEY = 'ewolfe_trophies_seen';
 const TROPHY_TIERS = ['#c98a4a', '#c9d2e6', '#f4c542']; // bronze, silver, gold
+/* For trophies everything counts at most once a day (since 1.67.0): the same exercise twice on one day, two wheels on
+   one day, several diary pages on one day … each counts once. Different exercises on the same day count separately. */
+function oncePerDay(list, keyOf){
+  const seen = new Set();
+  return list.slice().sort((a, b)=>(a.ts || a) - (b.ts || b)).filter(x=>{ const k = (keyOf ? keyOf(x) + '|' : '') + achDay(x.ts || x); if(seen.has(k)) return false; seen.add(k); return true; });
+}
 function trophyEvents(){
-  const log = achLog(), done = log.filter(e=>e.kind === 'done').map(e=>({ ts:e.ts, ex:e.ex })).sort((a, b)=>a.ts - b.ts);
-  const grat = log.filter(e=>e.kind === 'grat').map(e=>e.ts).sort((a, b)=>a - b);
+  const log = achLog(), done = oncePerDay(log.filter(e=>e.kind === 'done').map(e=>({ ts:e.ts, ex:e.ex })), e=>e.ex);
+  const grat = oncePerDay(log.filter(e=>e.kind === 'grat').map(e=>e.ts));
   // wheels: every assessment adds one value to each area – the n-th wheel is the n-th value of the first area
   const first = state.bewertungen[AREAS[0]] || [];
-  const wheels = first.map(x=>x.ts);
+  const wheels = oncePerDay(first.map(x=>x.ts));
   let improved10 = null, improvedAll = null;
   for(let i = 1; i < first.length; i++){
     const ups = AREAS.map(a=>{ const arr = state.bewertungen[a] || []; return arr[i] && arr[0] ? arr[i].value - arr[0].value : 0; });
     if(improved10 === null && ups.some(v=>v >= 10)) improved10 = first[i].ts;
     if(improvedAll === null && ups.every(v=>v > 0)) improvedAll = first[i].ts;
   }
-  const goals = AREAS.flatMap(a=>(state.ziele[a] || [])).filter(g=>g.status === 'erreicht').map(g=>g.achievedAt || g.ts || 0).sort((a, b)=>a - b);
+  const goals = oncePerDay(AREAS.flatMap(a=>(state.ziele[a] || [])).filter(g=>g.status === 'erreicht').map(g=>g.achievedAt || g.ts || 0));
   const pages = [];
   Object.values(state.tagebuch.jahre || {}).forEach(y=>(y.seiten || []).forEach(p=>{
     if(p.type === 'titel') return;
     const written = (p.text && p.text.trim()) || (p.strokes && p.strokes.length) || (p.images && p.images.length) || tbAreaTextLen(p);
     if(written){ const m = /^p(\d{12,})/.exec(p.id || ''); pages.push(m ? +m[1] : 0); }
   }));
-  pages.sort((a, b)=>a - b);
+  const pagesDays = oncePerDay(pages); pages.length = 0; pagesDays.forEach(p=>pages.push(p));
   // days in a row: the day on which a run of n days was reached for the first time
   const days = [...new Set(done.map(e=>achDay(e.ts)))].map(k=>{ const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd).getTime(); }).sort((a, b)=>a - b);
   const streakAt = {}; let run = 0;
