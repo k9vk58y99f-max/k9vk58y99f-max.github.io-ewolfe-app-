@@ -124,7 +124,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.69.6`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.70.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -267,7 +267,13 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - Tiere am Regal (`.shelf-animal`): Hund ab 2 aktiven Tagen, Katze oben links ab Stufe 4 (`img/stickers/cat.webp`, fehlt
   noch – solange die Datei fehlt, bleibt sie einfach weg), Fuchs ab Stufe 6 links auf dem Boden, so groß wie der Hund.
   Der Hase kommt nur zu Ostern (Palmsonntag bis eine Woche nach Ostern, `isEasterTime()`/`easterSunday()`) und sitzt vor
-  dem Regal, daneben Ostereier (`img/stickers/eggs.webp`, fehlt noch).
+  dem Regal, daneben Ostereier (`img/stickers/eggs.webp`).
+- Kirchenjahr (seit 1.70.0): Fabergé-Ei als Trophäe für eine Übung in der Osterzeit, jedes Jahr ein neues (`easter<Jahr>`,
+  Farben reihum `faberge-blue/-mint/-pink`, ohne Glasglocke). Nikolaus (Bischof, `img/stickers/nikolaus.webp`) steht am
+  5./6. Dezember links neben dem Regal, davor der Stiefel (`isNikolausTime()`); Trophäe `nikolaus` (`img/trophy-boot.webp`)
+  für eine Übung am 6. Dezember. Trophäen dürfen seit 1.70.0 auch im Bücherfach neben den Büchern stehen (`pack()`).
+  Geplant: Advent (Kranz auf dem Regal, Adventskalender-Impulskarten), Weihnachten (Baum, Schnee, Stern von Bethlehem),
+  Feiertags-Impulskarten, später Pfingsten/Erntedank/St. Martin.
 - Rote Kugel (`orb-pink`, Gruppe `loyal`): wächst wie die anderen Kugeln, 60/150/250 aktive Tage. Kugeln seit 1.69.0 unten rund ausgeschnitten.
 - Tagebuch löschen (seit 1.69.0): in den Tagebuch-Einstellungen „Tagebuch löschen“ (`tbDeleteBook`, mit Rückfrage).
   Grabstein `'j:' + Schlüssel` in `state.geloescht` plus `'s:'` für jede Seite; `delApply` entfernt das Buch, ein neues

@@ -617,8 +617,10 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 /* the dog sits a little to the side in front of the shelf, his head just above the lowest board */
 .shelf-animal{ position:absolute; z-index:2; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.55)); }
 .shelf-dog{ right:8%; bottom:-3%; height:31%; transform:rotate(-4deg); }
-.shelf-rabbit{ left:34%; bottom:-2%; height:19%; z-index:4; }
-.shelf-eggs{ left:50%; bottom:-2%; height:9%; z-index:4; }
+.shelf-rabbit{ left:40%; bottom:-2%; height:19%; z-index:4; }
+.shelf-eggs{ left:51.5%; bottom:-2%; height:9%; z-index:4; }
+.shelf-nikolaus{ left:-3%; bottom:-2%; height:46%; z-index:1; }
+.shelf-boot{ left:44%; bottom:-3%; height:12%; z-index:4; }
 .shelf-cat{ left:30%; bottom:calc(100% - var(--roof) - 0.6%); height:17%; z-index:3; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
 .shelf-fox{ left:15%; bottom:-3%; height:27%; }
 .shelf-roof{ justify-content:center; gap:0 34cqh; z-index:1; } /* around the ornament in the middle, the animals at the outer ends */
@@ -1361,7 +1363,7 @@ html.lvl-gold body::after{ content:''; position:fixed; left:0; right:0; top:var(
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.69.6';
+const APP_VERSION = '1.70.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5209,6 +5211,8 @@ function easterSunday(y){
   const month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
   return new Date(y, month - 1, day);
 }
+// Saint Nicholas visits on 5 and 6 December (the boot is put out on the evening of the 5th)
+function isNikolausTime(now){ now = now || new Date(); return now.getMonth() === 11 && (now.getDate() === 5 || now.getDate() === 6); }
 function isEasterTime(now){
   now = now || new Date();
   const e = easterSunday(now.getFullYear()), day = 864e5, today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -5227,18 +5231,18 @@ function tbRenderLibrary(){
   const fill = (items, gap, maxW)=>{ const rows = []; let cur = [], used = 0;
     items.forEach(it=>{ if(cur.length && used + it.w + gap > (maxW || SHELF_ROW_W - 8)){ rows.push(cur); cur = []; used = 0; } cur.push(it); used += it.w + gap; });
     if(cur.length) rows.push(cur); return rows; };
-  const bookRows = fill(books, 1.5);
-  // one shelf only (since 1.69.0): the trophies stand closer and, if needed, a little smaller until they fit into the
-  // compartments below the books; whatever still does not fit stands on top of the shelf
-  const avail = Math.max(0, SHELF_ROWS.length - bookRows.length);
-  let k = 1, troRows = [];
-  for(;;){
-    troRows = fill(tro.map(o=>({ ...o, h:o.h * k, w:o.w * k })), 2.5, SHELF_ROW_W - 30);
-    if(troRows.length <= avail || k <= 0.66) break;
-    k -= 0.04;
-  }
-  const roof = troRows.slice(avail).flat(); troRows = troRows.slice(0, avail);
-  const rowsAll = bookRows.slice(0, SHELF_ROWS.length).map(r=>({ kind:'books', r })).concat(troRows.map(r=>({ kind:'tro', r })));
+  // one shelf only (since 1.69.0): books first, then the trophies – also next to the books in their compartment (1.70.0);
+  // they stand closer and, if needed, a little smaller until everything fits; the rest stands on top of the shelf
+  const pack = k=>{ const rows = []; let cur = [], used = 0;
+    books.map(b=>({ ...b, book:true, g:1.5 })).concat(tro.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:2.5 }))).forEach(it=>{
+      // the books stand from the left, the trophies centred
+      if(cur.length && used + it.w + it.g > SHELF_ROW_W - (cur[0].book ? 62 : 30)){ rows.push(cur); cur = []; used = 0; }
+      cur.push(it); used += it.w + it.g; });
+    if(cur.length) rows.push(cur); return rows; };
+  let k = 1, packed = pack(1);
+  while(packed.length > SHELF_ROWS.length && k > 0.66){ k -= 0.04; packed = pack(k); }
+  const roof = packed.slice(SHELF_ROWS.length).flat().filter(it=>!it.book);
+  const rowsAll = packed.slice(0, SHELF_ROWS.length).map(r=>({ kind:r.every(it=>!it.book) ? 'tro' : 'books', r }));
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
     : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
   const troHtml = o=>`<button class="shelf-trophy" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
@@ -5248,14 +5252,15 @@ function tbRenderLibrary(){
   const lv = appLevel(), days = appActiveDays();
   const animal = (name, cls)=>`<img class="shelf-animal ${cls}" src="img/stickers/${name}.webp" alt="" onerror="this.remove()">`;
   const animals = (days >= 2 ? animal('dog', 'shelf-dog') : '') + (lv >= 4 ? animal('cat', 'shelf-cat') : '')
-    + (lv >= 6 ? animal('fox', 'shelf-fox') : '') + (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + animal('eggs', 'shelf-eggs') : '');
+    + (lv >= 6 ? animal('fox', 'shelf-fox') : '') + (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + animal('eggs', 'shelf-eggs') : '')
+    + (isNikolausTime() ? animal('nikolaus', 'shelf-nikolaus') + `<img class="shelf-animal shelf-boot" src="img/trophy-boot.webp" alt="">` : '');
   const rh = SHELF_ROWS[0][1] - SHELF_ROWS[0][0];
   const half = Math.ceil(roof.length / 2);
   const roofHtml = roof.length ? `<div class="shelf-comp shelf-roof" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${SH.roof - rh}%;height:${rh}%">
       <div class="shelf-roof-side">${roof.slice(0, half).map(troHtml).join('')}</div><div class="shelf-roof-side right">${roof.slice(half).map(troHtml).join('')}</div></div>` : '';
   const shelfHtml = `<div class="shelf-img" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%">${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rowsAll[i];
-      return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>row.kind === 'books' ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
+      return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}</div>`;
   const next = trophyNext();
   return `<div class="shelf-wrap">${shelfHtml}</div>
@@ -5357,6 +5362,19 @@ function trophyDefs(){
   grow('loyal', appActiveDayTs.slice(), [[60, 'orb-pink', 0.55], [150, 'orb-pink', 0.7], [250, 'orb-pink', 0.85]], 0.85,
     n=>L(n + ' aktive Tage', n + ' active days'),
     n=>L('An ' + n + ' Tagen hast du dir Zeit für dich genommen – deine Treue zu dir selbst leuchtet.', 'On ' + n + ' days you took time for yourself – your loyalty to yourself shines.'));
+  // church year (since 1.70.0): a Fabergé egg for an exercise in the Easter time – a new one every year, the colours take
+  // turns (blue, mint, pink); the Nikolaus boot for an exercise on 6 December (once)
+  const FAB = ['faberge-blue', 'faberge-mint', 'faberge-pink'], yearOf = ts=>new Date(ts).getFullYear();
+  const eastDone = ev.done.filter(e=>isEasterTime(new Date(e.ts)));
+  const eastYears = [...new Set(eastDone.map(e=>yearOf(e.ts)))].sort((a, b)=>a - b), thisYear = new Date().getFullYear();
+  (eastYears.includes(thisYear) ? eastYears : eastYears.concat(thisYear)).forEach((y, i)=>{
+    const first = eastDone.find(e=>yearOf(e.ts) === y);
+    out.push({ id:'easter' + y, kind:'img', img:FAB[i % FAB.length], scale:1.05, aspect:0.53, need:1, list:first ? [first.ts] : [],
+      title:L('Fabergé-Ei ' + y, 'Fabergé egg ' + y), desc:L('Du hast dir in der Osterzeit ' + y + ' Zeit für dich genommen. Christus ist auferstanden – jedes Jahr ein neues Ei für deine Sammlung.', 'You took time for yourself in the Easter season ' + y + '. Christ is risen – every year a new egg for your collection.') });
+  });
+  const nikDone = ev.done.filter(e=>{ const d = new Date(e.ts); return d.getMonth() === 11 && d.getDate() === 6; });
+  out.push({ id:'nikolaus', kind:'img', img:'trophy-boot', scale:0.92, aspect:0.7, need:1, list:nikDone.length ? [nikDone[0].ts] : [],
+    title:L('Nikolausstiefel', 'Saint Nicholas boot'), desc:L('Am Nikolaustag hast du dir Zeit für dich genommen. Wie der heilige Nikolaus, der im Stillen Gutes tat.', 'On Saint Nicholas Day you took time for yourself – like Saint Nicholas, who did good in secret.') });
   out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.81, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle fünf Lebensbereiche haben sich verbessert.', 'All five areas of life have improved.') });
   return out;
