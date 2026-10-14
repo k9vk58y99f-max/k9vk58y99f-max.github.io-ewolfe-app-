@@ -893,6 +893,8 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 .tb-cover-land.icon-default .tb-cover-caption .tb-cover-year{ font-size:3.6cqw !important; margin-top:1px; }
 .icon-default .tb-cover-caption .tb-cover-year{ color:var(--gold) !important; text-shadow:none !important; font-family:'Marcellus', serif; font-size:5cqw; margin-top:2px; }
 .icon-default .tb-gear-btn{ position:absolute; right:12%; top:12%; }
+.icon-default .tb-gear-btn, .tb-trash-btn{ z-index:4; } /* above the title, which used to swallow the tap (1.73.8) */
+.tb-cover-caption{ pointer-events:none; }
 .tb-trash-btn{ position:absolute; left:12%; top:12%; width:36px; height:36px; border:none; background:none; padding:0; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:0.85; }
 .tb-trash-btn .ui-ico{ width:24px; height:24px; margin:0; }
 .tb-trash-btn:hover, .tb-trash-btn:active{ opacity:1; transform:scale(1.08); }
@@ -1400,7 +1402,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.73.7';
+const APP_VERSION = '1.73.8';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
