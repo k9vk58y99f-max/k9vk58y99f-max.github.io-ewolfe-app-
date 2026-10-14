@@ -293,3 +293,21 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - Offline-Modus (Service Worker) und dauerhaften Speicher anfordern
 - Eventuell eigene Domain statt der GitHub-Adresse
 - Später: Community, Onboarding, Kalender-Export, Teilen, Admin-Bereich, KI-Funktionen, Abo
+- **Bilder ausstehend** (Code ist vorbereitet, fehlende Bilder bleiben unsichtbar): Adventskranz in 4 Stufen
+  (`img/advent-1…4.webp`, ein Bild mit vier Kränzen wurde angefragt), Weihnachtsbaum (`img/stickers/tree.webp`),
+  Stern von Bethlehem (`img/trophy-star.webp`), Krippe (`img/trophy-crib.webp`), Vitrine (s. u.).
+- **Vitrine nach einem Jahr** (beschlossen): Glasschrank mit Goldkanten neben dem Regal (Handy: darunter), dorthin ziehen
+  die Feiertagstrophäen (Fabergé-Eier, Nikolaus, Stiefel, Stern, Krippe), das Regal behält die normalen Trophäen. Fuchs
+  sitzt zwischen Regal und Vitrine. Fächer am Bild ausmessen wie bei `SHELVES`.
+- **Altersempfehlung**: ab 16 (DSGVO: eigene Einwilligung ab 16), 12–15 mit Einverständnis der Eltern. Inhalte an sich
+  kindgerecht (App-Store-Einstufung eher 4+/9+). Datenschutzerklärung vor öffentlichem Start prüfen lassen.
+- **Kinder- und Jugendmodus** (Wunsch des Nutzers: finanzielle Bildung vom ersten Taschengeld an):
+  - Gleiche fünf Bereiche, altersgerecht erklärt; später evtl. Bereiche wie Schule, Freunde, Familie, Gesundheit, Glaube.
+  - Finanzen nach Alter: 6–9 „Mein Taschengeld“ (Sparschwein-Ziel mit Bild, füllt sich je gespartem Euro; drei Gläser
+    Sparen/Ausgeben/Teilen); 10–13 Taschengeld-Tagebuch, Wunsch vs. Bedürfnis, „eine Woche warten vor dem Kauf“,
+    Sparziele mit Datum; 14–17 erstes Konto, Nebenjob, Budget, Zinseszins einfach, Handyvertrag, Werbung durchschauen.
+  - Kinder-Impulskarten (z. B. „Wer teilt, hat doppelte Freude“, „Jeder große Wunsch beginnt mit dem ersten gesparten
+    Euro“), Trophäen (z. B. goldenes Sparschwein bei erreichtem Sparziel), Teilen mit Vers „Geben ist seliger denn
+    nehmen“ (Apg 20,35).
+  - Unter 16: ein Elternteil meldet sich an und legt Kinderprofile an; Eltern können Taschengeld mit einem Tipp eintragen.
+  - Bibelverse in der App immer nur solche, die zu positivem Denken passen (Luther 1912 / King James).
