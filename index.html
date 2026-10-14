@@ -1319,7 +1319,7 @@ html::before{ content:''; position:fixed; left:0; right:0; top:0; height:var(--s
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.65.1';
+const APP_VERSION = '1.65.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -4283,7 +4283,7 @@ function maybeShowAreasIntro(){
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
 let compareSelection = [];
-const COMPARE_COLORS = ['#b8a4ff', '#e8b84a', '#ffd23f']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
+const COMPARE_COLORS = ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
 const COMPARE_FILL_OPACITY = [0.34, 0.34, 0.34]; // all three equally transparent; only draw order (newest in front) differs
 document.getElementById('compare-toggle-btn').onclick = ()=>{
   compareMode = !compareMode;
