@@ -666,6 +666,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-empty{ align-self:center; color:rgba(255,255,255,0.5); font-size:13px; padding:0 4px 40px; }
 .shelf-key{ font-size:calc(9.5px * var(--shelf-k, 1)); }
 @media (min-width:640px){ .shelf{ --shelf-k:1.45; } }
+.shelf-level{ margin-top:4px !important; font-size:var(--fs-text); color:var(--gold-text) !important; }
 .shelf-hint{ text-align:center; color:var(--ew-text-dim); font-size:13px; line-height:1.6; margin:14px 10px 0; }
 .shelf-hint strong{ color:var(--ew-turquoise); font-weight:600; }
 #trophy-modal{ z-index:260; } /* above the open diary */
@@ -1395,7 +1396,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.73.4';
+const APP_VERSION = '1.73.5';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1585,6 +1586,14 @@ function appActiveDays(){
   appActiveDayTs = [...days].filter(Boolean).map(k=>{ const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd).getTime(); }).filter(x=>!isNaN(x)).sort((a, b)=>a - b);
   appFirstActive = appActiveDayTs.length ? appActiveDayTs[0] : 0;
   return days.size;
+}
+// "Active days: 5 · 2 more to the next level" under the shelf (since 1.73.5)
+function levelProgressText(){
+  const d = t(), n = appActiveDays(), lv = appLevel();
+  const next = LEVEL_DAYS.find(x=>x > n);
+  if(next !== undefined) return d.levelProgress.replace('{n}', n).replace('{m}', next - n);
+  if(lv < 6 && appFirstActive){ const dd = LEVEL_MONTHS.find(([l])=>l > lv)[1] - Math.floor((Date.now() - appFirstActive) / 864e5); return d.levelProgressTime.replace('{n}', n).replace('{m}', Math.max(1, dd)); }
+  return d.levelProgressMax.replace('{n}', n);
 }
 function appLevel(){
   if(appLevelCache === null){
@@ -3746,6 +3755,8 @@ Object.assign(I18N.de, { setDecor:'Tiere & Feiertagsschmuck', decorOn:'Anzeigen'
 Object.assign(I18N.en, { setDecor:'Animals & feast-day decoration', decorOn:'Show', decorOff:'Hide', decorHint:'Animals at the shelf, Easter rabbit, Saint Nicholas, Advent wreath, tree and snow. Your trophies always stay.' });
 Object.assign(I18N.de, { moodCompareTitle:'Vorher und nachher', moodBeforeLab:'Vorher', moodAfterLab:'Jetzt', moodBetter:'Schön – die Übung hat dir gutgetan!', moodSame:'Du hast dir Zeit für dich genommen. Das zählt.', moodWorse:'Nicht jede Übung fühlt sich gleich an. Schön, dass du drangeblieben bist.' });
 Object.assign(I18N.en, { moodCompareTitle:'Before and after', moodBeforeLab:'Before', moodAfterLab:'Now', moodBetter:'Lovely – the exercise did you good!', moodSame:'You took time for yourself. That counts.', moodWorse:'Not every exercise feels the same. Good that you kept at it.' });
+Object.assign(I18N.de, { levelProgress:'Aktive Tage: {n} · noch {m} bis zur nächsten Glanz-Stufe', levelProgressTime:'Aktive Tage: {n} · nächste Glanz-Stufe in {m} Tagen', levelProgressMax:'Aktive Tage: {n} · höchste Glanz-Stufe erreicht' });
+Object.assign(I18N.en, { levelProgress:'Active days: {n} · {m} more to the next level of splendour', levelProgressTime:'Active days: {n} · next level of splendour in {m} days', levelProgressMax:'Active days: {n} · highest level of splendour reached' });
 Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!", "Ein halbes Jahr mit dir selbst! In den Ecken deines Rahmens funkeln jetzt Sterne.", "Ein ganzes Jahr! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
 Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold.", "Your app shines in full splendour. Thank you for 100 days with yourself!", "Half a year with yourself! Stars now twinkle in the corners of your frame.", "A whole year! Everything sparkles, and a fox has moved in by your shelf. Thank you for staying so true to yourself."]});
 function t(){ return I18N[state.settings.lang]; }
@@ -5422,6 +5433,7 @@ function tbRenderLibrary(){
   const next = trophyNext();
   return `<div class="shelf-wrap">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${shelfHtml}</div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
+    <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;
 }
 // the trophies that stand on the shelf: of a group (a trophy that grows) only the highest reached stage
