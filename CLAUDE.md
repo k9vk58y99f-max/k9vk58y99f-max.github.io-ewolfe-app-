@@ -124,7 +124,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.71.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.72.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -281,6 +281,8 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Weihnachtsbaum links (`img/stickers/tree.webp`) und Schnee (`.shelf-snow`, `isChristmasTime()`). Trophäen für eine Übung
   am 24.–26.12.: 1. Jahr Stern (`xmas`, `img/trophy-star.webp`), 2. Jahr Krippe (`xmas2`, `img/trophy-crib.webp`).
   Fehlende Bilder bleiben einfach weg (noch ausstehend: Kranz, Baum, Stern, Krippe, Vitrine).
+- Schalter „Tiere & Feiertagsschmuck“ in den Einstellungen (seit 1.72.0, `decorOn()`/`setDecor()`, `state.settings.decor`,
+  je Gerät): blendet Tiere, Osterhase, Nikolaus, Kranz, Baum und Schnee aus; Trophäen und Feiertagskarten bleiben.
 - Geplant: Vitrine nach einem Jahr neben dem Regal für die Feiertagstrophäen (Bild steht aus).
 - Rote Kugel (`orb-pink`, Gruppe `loyal`): wächst wie die anderen Kugeln, 60/150/250 aktive Tage. Kugeln seit 1.69.0 unten rund ausgeschnitten.
 - Tagebuch löschen (seit 1.69.0): in den Tagebuch-Einstellungen „Tagebuch löschen“ (`tbDeleteBook`, mit Rückfrage).
