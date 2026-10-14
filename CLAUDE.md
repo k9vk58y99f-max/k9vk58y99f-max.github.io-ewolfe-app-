@@ -124,7 +124,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.70.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.71.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -272,8 +272,16 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   ohne Glasglocke): 1. Jahr rosa klein, 2. blau größer, 3. mint am größten, danach große Eier reihum (`FAB`). Nikolaus (Bischof, `img/stickers/nikolaus.webp`) steht am
   5./6. Dezember links neben dem Regal, davor der Stiefel (`isNikolausTime()`); Trophäen für eine Übung am 6. Dezember:
   im ersten Jahr ein kleiner Nikolaus (`nikolaus`), im zweiten der Stiefel (`nikolaus2`, `img/trophy-boot.webp`). Trophäen dürfen seit 1.70.0 auch im Bücherfach neben den Büchern stehen (`pack()`).
-  Geplant: Advent (Kranz auf dem Regal, Adventskalender-Impulskarten), Weihnachten (Baum, Schnee, Stern von Bethlehem),
-  Feiertags-Impulskarten, später Pfingsten/Erntedank/St. Martin.
+- Feiertagskarten (seit 1.71.0, `HOLIDAY_CARDS`, `holidayKey()`, `holidayCard()`): an Feiertagen und im Advent (1.–24.12.)
+  kommt zuerst die Feiertagskarte (Tageskarte und erstes Ziehen, `impulseDraw`), Id `'h-' + Schlüssel`. Nur positive
+  Bibelverse (Luther 1912 / King James) oder eigene Impulse. Bild: Adventskranz mit passender Kerzenzahl (`advent-1…4`),
+  sonst Sticker; fehlt ein Bild, nimmt die Karte den Stern. Feiertage: Advent, Weihnachten 25./26.12., Neujahr,
+  Dreikönig, Palmsonntag bis Ostermontag, Himmelfahrt, Pfingsten, Erntedank (1. Oktobersonntag), Martinstag.
+- Advent/Weihnachten am Regal: Kranz oben rechts (`adventCandles()`, Bilder `img/advent-1…4.webp`), 24.12.–6.1.
+  Weihnachtsbaum links (`img/stickers/tree.webp`) und Schnee (`.shelf-snow`, `isChristmasTime()`). Trophäen für eine Übung
+  am 24.–26.12.: 1. Jahr Stern (`xmas`, `img/trophy-star.webp`), 2. Jahr Krippe (`xmas2`, `img/trophy-crib.webp`).
+  Fehlende Bilder bleiben einfach weg (noch ausstehend: Kranz, Baum, Stern, Krippe, Vitrine).
+- Geplant: Vitrine nach einem Jahr neben dem Regal für die Feiertagstrophäen (Bild steht aus).
 - Rote Kugel (`orb-pink`, Gruppe `loyal`): wächst wie die anderen Kugeln, 60/150/250 aktive Tage. Kugeln seit 1.69.0 unten rund ausgeschnitten.
 - Tagebuch löschen (seit 1.69.0): in den Tagebuch-Einstellungen „Tagebuch löschen“ (`tbDeleteBook`, mit Rückfrage).
   Grabstein `'j:' + Schlüssel` in `state.geloescht` plus `'s:'` für jede Seite; `delApply` entfernt das Buch, ein neues

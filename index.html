@@ -621,6 +621,14 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-eggs{ left:51.5%; bottom:-2%; height:9%; z-index:4; }
 .shelf-nikolaus{ left:-3%; bottom:-2%; height:46%; z-index:1; }
 .shelf-boot{ left:44%; bottom:-3%; height:12%; z-index:4; }
+.shelf-wreath{ right:27%; bottom:calc(100% - var(--roof) - 1.2%); height:10%; z-index:3; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+.shelf-tree{ left:-4%; bottom:-2%; height:52%; z-index:1; }
+.shelf-wrap{ position:relative; }
+.shelf-snow{ position:absolute; inset:-4% -6% 0; pointer-events:none; z-index:5; opacity:0.85;
+  background-image:radial-gradient(circle, #fff 0 1.6px, transparent 2.2px), radial-gradient(circle, rgba(255,255,255,0.8) 0 1.1px, transparent 1.7px), radial-gradient(circle, rgba(255,255,255,0.6) 0 0.8px, transparent 1.3px);
+  background-size:140px 160px, 90px 110px, 60px 70px; background-position:0 0, 30px 20px, 10px 40px; animation:shelfSnow 14s linear infinite; }
+@keyframes shelfSnow{ to{ background-position:30px 320px, 50px 330px, 20px 280px; } }
+@media (prefers-reduced-motion:reduce){ .shelf-snow{ animation:none; } }
 .shelf-cat{ left:30%; bottom:calc(100% - var(--roof) - 0.6%); height:17%; z-index:3; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
 .shelf-fox{ left:15%; bottom:-3%; height:27%; }
 .shelf-roof{ justify-content:center; gap:0 34cqh; z-index:1; } /* around the ornament in the middle, the animals at the outer ends */
@@ -1362,7 +1370,7 @@ html.lvl-gold body::after{ content:''; position:fixed; left:0; right:0; top:var(
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.70.1';
+const APP_VERSION = '1.71.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2725,7 +2733,7 @@ const IMPULSE_PH = [id=>moonPictureSvg(id), id=>lavenderPictureSvg(id), id=>jarP
 let impulsePicSeq = 0;
 function impulsePicHtml(c){
   const k = /^ph(\d)$/.exec(c.img || '');
-  return k ? IMPULSE_PH[+k[1]]('ip' + (++impulsePicSeq)) : `<img src="img/${c.img}.webp" alt="" draggable="false">`;
+  return k ? IMPULSE_PH[+k[1]]('ip' + (++impulsePicSeq)) : `<img src="img/${c.img}.webp" alt="" draggable="false" onerror="if(!this.dataset.f){ this.dataset.f = 1; this.src = 'img/stickers/star.webp'; }">`;
 }
 const IMPULSE_CARDS = [
   {"id": "ges1", "a": "gesundheit", "de": "Dein Körper trägt dich durch jeden Tag – schenk ihm heute etwas Gutes.", "en": "Your body carries you through every day – give it something good today.", "by": "", "byEn": "", "img": "cards/m01"},
@@ -2769,11 +2777,98 @@ const IMPULSE_CARDS = [
   {"id": "sin7", "a": "sinn", "de": "Jeder Atemzug ist ein neuer Anfang.", "en": "Every breath is a new beginning.", "by": "", "byEn": "", "img": "cards/m39"},
   {"id": "sin8", "a": "sinn", "de": "Wenn du es eilig hast, gehe langsam.", "en": "When you are in a hurry, walk slowly.", "by": "Sprichwort", "byEn": "Proverb", "img": "cards/m40"}
 ];
+/* ---- Church year (since 1.71.0): on Christian feast days and in Advent the daily card is a feast-day card – a short verse
+   (Luther 1912 / King James, both free) or an impulse. Advent 1–24 December, Christmas, New Year, Epiphany, Holy Week,
+   Easter, Ascension, Pentecost, Harvest festival (first Sunday in October), Saint Martin. The picture: the Advent wreath
+   with as many candles as Advent Sundays have passed (img/advent-1…4, until it is there: the star), else a sticker. ---- */
+const HOLIDAY_CARDS = {
+  adv1:{ de:'Mache dich auf, werde licht; denn dein Licht kommt.', en:'Arise, shine; for thy light is come.', by:'Jesaja 60,1', byEn:'Isaiah 60:1' },
+  adv2:{ de:'Advent heißt Ankunft. Was darf in diesen Wochen bei dir ankommen?', en:'Advent means arrival. What may arrive in you in these weeks?' },
+  adv3:{ de:'Das Volk, das im Finstern wandelt, sieht ein großes Licht.', en:'The people that walked in darkness have seen a great light.', by:'Jesaja 9,1', byEn:'Isaiah 9:2' },
+  adv4:{ de:'Zünde heute eine Kerze an und schenke dir fünf stille Minuten.', en:'Light a candle today and give yourself five quiet minutes.' },
+  adv5:{ de:'Wem kannst du morgen im Stillen eine Freude machen?', en:'Whom could you quietly delight tomorrow?' },
+  adv6:{ de:'Wie der heilige Nikolaus: Tu heute im Stillen etwas Gutes.', en:'Like Saint Nicholas: do something good in secret today.', by:'Nikolaustag', byEn:'Saint Nicholas Day', img:'stickers/nikolaus' },
+  adv7:{ de:'Freuet euch in dem Herrn allewege!', en:'Rejoice in the Lord alway.', by:'Philipper 4,4', byEn:'Philippians 4:4' },
+  adv8:{ de:'Warten kann ein Geschenk sein. Worauf freust du dich gerade?', en:'Waiting can be a gift. What are you looking forward to right now?' },
+  adv9:{ de:'Seid fröhlich in Hoffnung.', en:'Rejoicing in hope.', by:'Römer 12,12', byEn:'Romans 12:12' },
+  adv10:{ de:'Räume heute eine Kleinigkeit auf – außen und innen.', en:'Tidy up one small thing today – outside and inside.' },
+  adv11:{ de:'Fürchte dich nicht, ich bin mit dir.', en:'Fear thou not; for I am with thee.', by:'Jesaja 41,10', byEn:'Isaiah 41:10' },
+  adv12:{ de:'Schreib heute jemandem ein paar herzliche Zeilen.', en:'Write a few warm lines to someone today.' },
+  adv13:{ de:'Heute ist Lucia-Tag: Sei für jemanden ein kleines Licht.', en:'Today is Saint Lucy’s Day: be a small light for someone.' },
+  adv14:{ de:'Gott ist die Liebe; und wer in der Liebe bleibt, der bleibt in Gott.', en:'God is love; and he that dwelleth in love dwelleth in God.', by:'1. Johannes 4,16', byEn:'1 John 4:16' },
+  adv15:{ de:'Geh heute ein paar Schritte langsamer als sonst.', en:'Walk a few steps slower than usual today.' },
+  adv16:{ de:'Meine Seele erhebt den Herrn.', en:'My soul doth magnify the Lord.', by:'Lukas 1,46', byEn:'Luke 1:46' },
+  adv17:{ de:'Für welche drei Dinge bist du heute dankbar?', en:'What three things are you grateful for today?' },
+  adv18:{ de:'Siehe, ich verkündige euch große Freude.', en:'Behold, I bring you good tidings of great joy.', by:'Lukas 2,10', byEn:'Luke 2:10' },
+  adv19:{ de:'Wer könnte sich in diesen Tagen einsam fühlen? Ruf an.', en:'Who might feel lonely these days? Give them a call.' },
+  adv20:{ de:'Selig sind die Friedfertigen.', en:'Blessed are the peacemakers.', by:'Matthäus 5,9', byEn:'Matthew 5:9' },
+  adv21:{ de:'Der kürzeste Tag des Jahres – ab morgen wird es wieder heller.', en:'The shortest day of the year – from tomorrow it grows lighter again.' },
+  adv22:{ de:'Nicht alles muss perfekt sein. Weihnachten kommt trotzdem.', en:'Not everything has to be perfect. Christmas comes anyway.' },
+  adv23:{ de:'Denn bei Gott ist kein Ding unmöglich.', en:'For with God nothing shall be impossible.', by:'Lukas 1,37', byEn:'Luke 1:37' },
+  adv24:{ de:'Euch ist heute der Heiland geboren.', en:'Unto you is born this day a Saviour.', by:'Lukas 2,11', byEn:'Luke 2:11', img:'stickers/tree' },
+  xmas1:{ de:'Ehre sei Gott in der Höhe und Friede auf Erden.', en:'Glory to God in the highest, and on earth peace.', by:'Lukas 2,14', byEn:'Luke 2:14', img:'stickers/tree' },
+  xmas2:{ de:'Und das Licht scheint in der Finsternis.', en:'And the light shineth in darkness.', by:'Johannes 1,5', byEn:'John 1:5', img:'stickers/tree' },
+  newyear:{ de:'Siehe, ich mache alles neu!', en:'Behold, I make all things new.', by:'Offenbarung 21,5', byEn:'Revelation 21:5', img:'stickers/sun' },
+  epiphany:{ de:'Wir haben seinen Stern gesehen.', en:'We have seen his star.', by:'Matthäus 2,2', byEn:'Matthew 2:2', img:'stickers/star' },
+  palm:{ de:'Alle eure Dinge lasset in der Liebe geschehen.', en:'Let all your things be done with charity.', by:'1. Korinther 16,14', byEn:'1 Corinthians 16:14', img:'stickers/leaf' },
+  maundy:{ de:'Ein neu Gebot gebe ich euch, dass ihr euch untereinander liebet.', en:'A new commandment I give unto you, that ye love one another.', by:'Johannes 13,34', byEn:'John 13:34', img:'stickers/heart-red' },
+  goodfri:{ de:'Die Liebe hört nimmer auf.', en:'Charity never faileth.', by:'1. Korinther 13,8', byEn:'1 Corinthians 13:8', img:'stickers/heart-red' },
+  holysat:{ de:'Ein stiller Tag voller Hoffnung – morgen ist Ostern.', en:'A quiet day full of hope – tomorrow is Easter.', by:'Karsamstag', byEn:'Holy Saturday', img:'stickers/moon' },
+  easter:{ de:'Er ist nicht hier; er ist auferstanden.', en:'He is not here, but is risen.', by:'Lukas 24,6', byEn:'Luke 24:6', img:'stickers/eggs' },
+  eastermon:{ de:'Dies ist der Tag, den der Herr macht; lasst uns freuen und fröhlich darin sein.', en:'This is the day which the Lord hath made; we will rejoice and be glad in it.', by:'Psalm 118,24', byEn:'Psalm 118:24', img:'stickers/eggs' },
+  ascension:{ de:'Ich bin bei euch alle Tage bis an der Welt Ende.', en:'I am with you alway, even unto the end of the world.', by:'Matthäus 28,20', byEn:'Matthew 28:20', img:'stickers/rainbow' },
+  pentecost:{ de:'Gott hat uns nicht gegeben den Geist der Furcht, sondern der Kraft und der Liebe.', en:'God hath not given us the spirit of fear; but of power, and of love.', by:'2. Timotheus 1,7', byEn:'2 Timothy 1:7', img:'stickers/sun' },
+  pentecostmon:{ de:'Die Frucht des Geistes ist Liebe, Freude, Friede.', en:'The fruit of the Spirit is love, joy, peace.', by:'Galater 5,22', byEn:'Galatians 5:22', img:'stickers/rose' },
+  harvest:{ de:'Danket dem Herrn; denn er ist freundlich.', en:'O give thanks unto the Lord; for he is good.', by:'Psalm 106,1', byEn:'Psalm 106:1', img:'stickers/leaf' },
+  martin:{ de:'Wie Sankt Martin: Teile heute etwas mit jemandem.', en:'Like Saint Martin: share something with someone today.', by:'Martinstag', byEn:'Saint Martin’s Day', img:'stickers/heart-red' }
+};
+// the feast day of a date (key into HOLIDAY_CARDS) or null
+function holidayKey(now){
+  now = now || new Date();
+  const y = now.getFullYear(), m = now.getMonth(), dd = now.getDate(), day = 864e5;
+  const today = new Date(y, m, dd), e = easterSunday(y), off = Math.round((today - e) / day);
+  const easterDays = { '-7':'palm', '-3':'maundy', '-2':'goodfri', '-1':'holysat', '0':'easter', '1':'eastermon', '39':'ascension', '49':'pentecost', '50':'pentecostmon' };
+  if(easterDays[off]) return easterDays[off];
+  if(m === 11 && dd <= 24) return 'adv' + dd;
+  if(m === 11 && dd === 25) return 'xmas1';
+  if(m === 11 && dd === 26) return 'xmas2';
+  if(m === 0 && dd === 1) return 'newyear';
+  if(m === 0 && dd === 6) return 'epiphany';
+  if(m === 10 && dd === 11) return 'martin';
+  if(m === 9 && dd <= 7 && now.getDay() === 0) return 'harvest'; // Erntedank: first Sunday in October
+  return null;
+}
+// a feast-day card as an impulse card (id 'h-' + key)
+function holidayCard(key){
+  const h = HOLIDAY_CARDS[key]; if(!h) return null;
+  const adv = /^adv/.test(key) && !h.img ? adventCandles(new Date(new Date().getFullYear(), 11, +key.slice(3))) : 0;
+  return { id:'h-' + key, a:'sinn', de:h.de, en:h.en, by:h.by || '', byEn:h.byEn || '', img:h.img || (adv ? 'advent-' + adv : 'stickers/star'), holiday:true };
+}
+const holidayCardToday = ()=>{ const k = holidayKey(); return k ? holidayCard(k) : null; };
+// how many Advent candles burn on a date (0 outside Advent): the 1st Advent is the 4th Sunday before Christmas
+function adventCandles(now){
+  now = now || new Date();
+  const y = now.getFullYear(), today = new Date(y, now.getMonth(), now.getDate());
+  if(today > new Date(y, 11, 24)) return 0;
+  const adv4 = new Date(y, 11, 24); adv4.setDate(24 - adv4.getDay()); // the 4th Advent: the last Sunday up to 24 December
+  let n = 0;
+  for(let k = 1; k <= 4; k++){ const sun = new Date(adv4); sun.setDate(adv4.getDate() - 7 * (4 - k)); if(today >= sun) n = k; }
+  return n;
+}
+// Christmas time for the tree and the snow: 24 December until Epiphany
+function isChristmasTime(now){ now = now || new Date(); const m = now.getMonth(), d = now.getDate(); return (m === 11 && d >= 24) || (m === 0 && d <= 6); }
 const IMPULSE_DAY_KEY = 'ewolfe_impulse_day', IMPULSE_RECENT_KEY = 'ewolfe_impulse_recent';
 let impulseCur = null;
 function impulseDraw(){
   let recent = [];
   try{ recent = JSON.parse(localStorage.getItem(IMPULSE_RECENT_KEY) || '[]'); }catch(e){}
+  // on a feast day its card comes first (once), then the normal cards
+  const hol = holidayCardToday();
+  if(hol && recent[recent.length - 1] !== hol.id && !(impulseCur && impulseCur.id === hol.id) && !recent.slice(-12).includes(hol.id)){
+    impulseCur = hol;
+    try{ localStorage.setItem(IMPULSE_RECENT_KEY, JSON.stringify(recent.concat(hol.id).slice(-12))); }catch(e){}
+    return hol;
+  }
   const pool = IMPULSE_CARDS.filter(c=>!recent.includes(c.id) && (!impulseCur || c.id !== impulseCur.id));
   impulseCur = (pool.length ? pool : IMPULSE_CARDS)[Math.floor(Math.random() * (pool.length || IMPULSE_CARDS.length))];
   recent = recent.filter(id=>id !== impulseCur.id).concat(impulseCur.id).slice(-12);
@@ -2795,6 +2890,7 @@ function impulseLast(){
   let recent = [];
   try{ recent = JSON.parse(localStorage.getItem(IMPULSE_RECENT_KEY) || '[]'); }catch(e){}
   const id = recent[recent.length - 1];
+  if(/^h-/.test(id || '')) return holidayCard(id.slice(2));
   return IMPULSE_CARDS.find(c=>c.id === id) || null;
 }
 /* mode 'start': the card that greets once a day – a tap anywhere puts it away.
@@ -2844,7 +2940,7 @@ const loadImg = src=>new Promise((res, rej)=>{ const im = new Image(); im.onload
 // the card as one picture (frame, picture, words), so the real card lands in the diary – like the wheel
 async function impulseCardImage(c){
   const en = state.settings.lang === 'en', by = en ? c.byEn : c.by, txt = en ? c.en : c.de;
-  const [frame, pic] = await Promise.all([loadImg('img/card-front.webp'), loadImg('img/' + c.img + '.webp')]);
+  const [frame, pic] = await Promise.all([loadImg('img/card-front.webp'), loadImg('img/' + c.img + '.webp').catch(()=>loadImg('img/stickers/star.webp'))]);
   const W = frame.naturalWidth, H = frame.naturalHeight, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
   const g = cv.getContext('2d');
   const wx = W * 0.072, wy = H * 0.115, ww = W * 0.856, wh = H * 0.613;
@@ -5248,10 +5344,13 @@ function tbRenderLibrary(){
   // the dog, on the floor left) after a year (level 6). The rabbit only visits at Easter, in front of the shelf with eggs.
   // A missing picture (cat, eggs not there yet) simply stays away.
   const lv = appLevel(), days = appActiveDays();
-  const animal = (name, cls)=>`<img class="shelf-animal ${cls}" src="img/stickers/${name}.webp" alt="" onerror="this.remove()">`;
+  const animal = (name, cls)=>`<img class="shelf-animal ${cls}" src="img/${/[\/-]/.test(name) ? name : 'stickers/' + name}.webp" alt="" onerror="this.remove()">`;
   const animals = (days >= 2 ? animal('dog', 'shelf-dog') : '') + (lv >= 4 ? animal('cat', 'shelf-cat') : '')
     + (lv >= 6 ? animal('fox', 'shelf-fox') : '') + (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + animal('eggs', 'shelf-eggs') : '')
-    + (isNikolausTime() ? animal('nikolaus', 'shelf-nikolaus') + `<img class="shelf-animal shelf-boot" src="img/trophy-boot.webp" alt="">` : '');
+    + (isNikolausTime() ? animal('nikolaus', 'shelf-nikolaus') + `<img class="shelf-animal shelf-boot" src="img/trophy-boot.webp" alt="">` : '')
+    // Advent: the wreath on top of the shelf, one candle more every Sunday; Christmas: the tree beside it and snow
+    + (adventCandles() ? animal('advent-' + adventCandles(), 'shelf-wreath') : '')
+    + (isChristmasTime() ? animal('stickers/tree', 'shelf-tree') : '');
   const rh = SHELF_ROWS[0][1] - SHELF_ROWS[0][0];
   const half = Math.ceil(roof.length / 2);
   const roofHtml = roof.length ? `<div class="shelf-comp shelf-roof" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${SH.roof - rh}%;height:${rh}%">
@@ -5261,7 +5360,7 @@ function tbRenderLibrary(){
       return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}</div>`;
   const next = trophyNext();
-  return `<div class="shelf-wrap">${shelfHtml}</div>
+  return `<div class="shelf-wrap">${isChristmasTime() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${shelfHtml}</div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     ${tbCoverSettingsHtml()}`;
 }
@@ -5380,6 +5479,14 @@ function trophyDefs(){
     title:L('Heiliger Nikolaus', 'Saint Nicholas'), desc:L('Am Nikolaustag hast du dir Zeit für dich genommen. Wie der heilige Nikolaus, der im Stillen Gutes tat.', 'On Saint Nicholas Day you took time for yourself – like Saint Nicholas, who did good in secret.') });
   out.push({ id:'nikolaus2', kind:'img', img:'trophy-boot', scale:0.92, aspect:0.7, need:1, list:nikAt(1),
     title:L('Nikolausstiefel', 'Saint Nicholas boot'), desc:L('Schon zum zweiten Mal hast du dir am Nikolaustag Zeit für dich genommen – dein Stiefel ist gefüllt.', 'For the second time you took time for yourself on Saint Nicholas Day – your boot is filled.') });
+  // Christmas: an exercise on 24–26 December – in the first year the Star of Bethlehem, in the second the crib
+  const xmDone = ev.done.filter(e=>{ const d = new Date(e.ts); return d.getMonth() === 11 && d.getDate() >= 24 && d.getDate() <= 26; });
+  const xmYears = [...new Set(xmDone.map(e=>yearOf(e.ts)))].sort((a, b)=>a - b);
+  const xmAt = i=>xmYears[i] ? [xmDone.find(e=>yearOf(e.ts) === xmYears[i]).ts] : [];
+  out.push({ id:'xmas', kind:'img', img:'trophy-star', scale:0.9, aspect:0.75, need:1, list:xmAt(0),
+    title:L('Stern von Bethlehem', 'Star of Bethlehem'), desc:L('An Weihnachten hast du dir Zeit für dich genommen. „Wir haben seinen Stern gesehen.“', 'At Christmas you took time for yourself. “We have seen his star.”') });
+  out.push({ id:'xmas2', kind:'img', img:'trophy-crib', scale:0.9, aspect:1, need:1, list:xmAt(1),
+    title:L('Krippe', 'Nativity scene'), desc:L('Schon das zweite Weihnachten mit dir selbst – Friede auf Erden.', 'Your second Christmas with yourself – peace on earth.') });
   out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.81, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle fünf Lebensbereiche haben sich verbessert.', 'All five areas of life have improved.') });
   return out;
@@ -5392,7 +5499,7 @@ function trophyNext(){
 }
 // placeholder drawings: glass orb on a paper stand, crystal cluster, the exercise picture under a glass bell
 function trophySvg(x, id){
-  if(x.kind === 'img') return `<img src="img/${x.img}.webp" alt="" decoding="async" onerror="if(!this.dataset.r){ this.dataset.r = 1; this.src = this.src.split('?')[0] + '?r=' + Date.now(); }">`;
+  if(x.kind === 'img') return `<img src="img/${x.img}.webp" alt="" decoding="async" onerror="if(!this.dataset.r){ this.dataset.r = 1; this.src = this.src.split('?')[0] + '?r=' + Date.now(); } else if(this.parentNode) this.parentNode.style.display = 'none';">`;
   const P = 'tr' + id, col = x.color, tier = TROPHY_TIERS[x.tier || 0];
   const stand = `<path d="M-30 78L30 78L24 62L-24 62Z" fill="#7a4a28"/><path d="M-24 62L24 62L20 56L-20 56Z" fill="#a46a3c"/><rect x="-18" y="66" width="36" height="6" rx="2" fill="${tier}"/>`;
   const glow = `<radialGradient id="${P}g"><stop offset="0%" stop-color="${col}" stop-opacity="0.55"/><stop offset="100%" stop-color="${col}" stop-opacity="0"/></radialGradient>`;
