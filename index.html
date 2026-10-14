@@ -616,11 +616,11 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-img + .shelf-img{ margin-top:-12%; }
 /* the dog sits a little to the side in front of the shelf, his head just above the lowest board */
 .shelf-animal{ position:absolute; z-index:2; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.55)); }
-.shelf-dog{ right:6%; bottom:-3%; height:27%; transform:rotate(-4deg); }
+.shelf-dog{ right:8%; bottom:-3%; height:31%; transform:rotate(-4deg); }
 .shelf-rabbit{ left:34%; bottom:-2%; height:19%; z-index:4; }
 .shelf-eggs{ left:50%; bottom:-2%; height:9%; z-index:4; }
-.shelf-cat{ left:31%; bottom:calc(100% - var(--roof) - 0.6%); height:16%; z-index:3; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-.shelf-fox{ left:8.5%; bottom:-3%; height:27%; }
+.shelf-cat{ left:30%; bottom:calc(100% - var(--roof) - 0.6%); height:17%; z-index:3; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+.shelf-fox{ left:15%; bottom:-3%; height:27%; }
 .shelf-roof{ justify-content:center; gap:0 34cqh; z-index:1; } /* around the ornament in the middle, the animals at the outer ends */
 .shelf-roof-side{ display:flex; align-items:flex-end; height:100%; }
 .shelf-roof .shelf-trophy{ transform:none; }
@@ -1361,7 +1361,7 @@ html.lvl-gold body::after{ content:''; position:fixed; left:0; right:0; top:var(
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.69.4';
+const APP_VERSION = '1.69.5';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5352,11 +5352,10 @@ function trophyDefs(){
   grow('grat', ev.grat, [[1, 'trophy-hearts-1', 0.5], [7, 'trophy-hearts-2', 0.75], [30, 'trophy-hearts-3', 1]], 0.66,
     n=>n === 1 ? L('Erste Dankbarkeit', 'First gratitude') : L(n + ' Abende Dankbarkeit', n + ' evenings of gratitude'),
     n=>L(n === 1 ? 'Du hast zum ersten Mal aufgeschrieben, wofür du dankbar bist.' : 'An ' + n + ' Abenden hast du aufgeschrieben, wofür du dankbar bist.', n === 1 ? 'You wrote down for the first time what you are grateful for.' : 'On ' + n + ' evenings you wrote down what you are grateful for.'));
-  // loyalty (since 1.69.0): the red orb grows with the active days, between the levels (7 / 30 / 100 days, ½ year, 1 year)
+  // loyalty (since 1.69.0, once only since 1.69.5): the red orb after 150 active days, between 100 days and half a year
   appActiveDays();
-  grow('loyal', appActiveDayTs.slice(), [[60, 'orb-pink', 0.55], [150, 'orb-pink', 0.7], [250, 'orb-pink', 0.85]], 0.85,
-    n=>L(n + ' aktive Tage', n + ' active days'),
-    n=>L('An ' + n + ' Tagen hast du dir Zeit für dich genommen – deine Treue zu dir selbst leuchtet.', 'On ' + n + ' days you took time for yourself – your loyalty to yourself shines.'));
+  out.push({ id:'loyal150', kind:'img', img:'orb-pink', scale:0.75, aspect:0.85, need:150, list:appActiveDayTs.slice(),
+    title:L('150 aktive Tage', '150 active days'), desc:L('An 150 Tagen hast du dir Zeit für dich genommen – deine Treue zu dir selbst leuchtet.', 'On 150 days you took time for yourself – your loyalty to yourself shines.') });
   out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.81, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle fünf Lebensbereiche haben sich verbessert.', 'All five areas of life have improved.') });
   return out;
