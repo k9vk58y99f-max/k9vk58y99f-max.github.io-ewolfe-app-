@@ -735,6 +735,10 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-pagepick-actions{ display:flex; gap:8px; }
 .tb-pagepick-actions > *{ flex:1; padding:10px 8px; }
 .tb-page-img.is-sticker{ box-shadow:none; border-radius:0; filter:drop-shadow(0 3px 6px rgba(0,0,0,0.25)); }
+/* trophies were cut out from a night-blue background (glass, glow): in the diary they stand on a small night-blue card
+   with a gold edge, so no dark fringes show on the white paper (1.74.2) */
+.tb-page-img.is-trophy{ background:radial-gradient(ellipse at 50% 42%, #2b2470 0%, #141a4a 62%, #0b1026 100%); padding:9% 10% 8%;
+  border-radius:10px; box-shadow:0 0 0 2px #e8b84a, 0 4px 10px rgba(0,0,0,0.3); filter:none; box-sizing:border-box; }
 .tb-sticker-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; padding:4px 6px 8px 34px; }
 .tb-sticker-btn{ aspect-ratio:1; border-radius:12px; border:1px solid var(--ew-line); background:var(--ew-panel-2); padding:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .tb-sticker-btn img, .tb-sticker-btn svg{ width:100%; height:100%; object-fit:contain; display:block; }
@@ -1405,7 +1409,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.74.1';
+const APP_VERSION = '1.74.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5620,6 +5624,8 @@ function trophyShow(id, isNew){
   openModal('trophy-modal');
 }
 // the trophy into the newest diary of this year: its picture and a line with the date (on a fresh page if the last one has something on it)
+// a picture in the diary that is a trophy (also those put in before 1.74.2)
+function tbIsTrophyImg(src){ return /^img\/(crystal-|orb-|trophy-|faberge-|stickers\/nikolaus)/.test(src || ''); }
 async function trophyToDiary(){
   const x = trophyCur; if(!x || x.kind !== 'img') return;
   const d = t(), en = state.settings.lang === 'en', year = tbLatestBook(new Date().getFullYear());
@@ -5935,7 +5941,7 @@ function tbRenderPageSlot(idx){
     }
     const sel = tbSelImg && tbSelImg.page===idx && tbSelImg.i===i;
     return `<div class="tb-img-box${sel?' sel':''}" data-page-idx="${idx}" data-idx="${i}" style="left:${img.xPct}%;top:${img.yPct}%;width:${img.wPct}%;">
-      <img class="tb-page-img${img.sticker ? ' is-sticker' : ''}" src="${img.src}" draggable="false" alt="">
+      <img class="tb-page-img${img.sticker ? ' is-sticker' : ''}${tbIsTrophyImg(img.src) ? ' is-trophy' : ''}" src="${img.src}" draggable="false" alt="">
       <button class="tb-img-del" title="${d.diaryImgDelete}" aria-label="${d.diaryImgDelete}">${ico('trash')}</button>
       <span class="tb-img-resize" title="${d.diaryImgResize}" aria-label="${d.diaryImgResize}"></span>
     </div>`;
