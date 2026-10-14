@@ -876,6 +876,16 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 .tb-page-titel .tb-titel-caption{ bottom:11%; }
 .tb-page-titel .tb-titel-caption-title{ font-family:'Marcellus', serif; font-weight:400; color:#f3ead6; font-size:calc(34px * var(--tbk)); }
 .tb-page-titel .tb-titel-caption-year{ font-family:'Marcellus', serif; color:#e8b84a; }
+.gold-ui{ object-fit:contain; vertical-align:-3px; }
+.gold-mute{ opacity:.45; filter:grayscale(.4); }
+.gold-x{ width:18px; height:18px; object-fit:contain; display:block; }
+.gold-arrow{ width:20px; height:20px; object-fit:contain; display:block; }
+.tb-nav-btn:disabled .gold-arrow{ opacity:.35; }
+.gold-user{ width:28px; height:28px; object-fit:contain; display:block; }
+.tb-tools-fab .gold-ui{ width:26px !important; height:26px !important; }
+.tb-tools-fab .gold-x{ width:22px; height:22px; }
+.tb-tools-fab, .tb-del-fab{ background:radial-gradient(circle at 35% 30%, #8d7bff, #4b32b8 75%) !important; border:2px solid #e8b84a !important; color:#f6d27a !important; }
+.tb-del-fab .gold-ui{ width:22px !important; height:22px !important; }
 </style>
 </head>
 <body data-theme="dark">
@@ -887,7 +897,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
   <div class="logo" id="logo-btn" role="button" tabindex="0"><img class="logo-dog" alt="" width="34" height="34"><span id="t-logo">eWolfe</span></div>
   <div class="topbar-actions">
     <button class="icon-btn account-btn" id="sync-btn" title="Konto">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm0 4a3.6 3.6 0 1 0 0 7.2A3.6 3.6 0 0 0 12 6Zm0 9.2c-2.7 0-5 1.2-6.2 3a8 8 0 0 0 12.4 0c-1.2-1.8-3.5-3-6.2-3Z"/></svg>
+      <img class="gold-user" src="img/icons/ico-user.webp" alt="">
     </button>
   </div>
 </div>
@@ -971,7 +981,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
   <div class="modal">
     <div class="modal-top">
       <h2 class="modal-title" id="t-settings-title">Einstellungen</h2>
-      <button class="icon-btn" onclick="closeModal('settings-modal')">✕</button>
+      <button class="icon-btn" onclick="closeModal('settings-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
     <div class="settings-section" id="settings-notes-section" style="display:none;">
       <div class="settings-head" id="t-set-notes">Mitteilungen</div>
@@ -1001,7 +1011,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
   <div class="modal breath-modal">
     <div class="modal-top">
       <h2 class="modal-title" id="medi-player-title"></h2>
-      <button class="icon-btn" onclick="mediPlayerStop()">✕</button>
+      <button class="icon-btn" onclick="mediPlayerStop()"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
     <div class="medi-player-img" id="medi-player-img"></div>
     <input type="range" class="medi-player-seek" id="medi-player-seek" min="0" max="1000" value="0">
@@ -1025,7 +1035,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 <!-- 5-4-3-2-1: back to the here and now through the senses -->
 <div class="modal-backdrop" id="ground-modal">
   <div class="modal breath-modal">
-    <div class="modal-top"><h2 class="modal-title" id="ground-title"></h2><button class="icon-btn" onclick="closeModal('ground-modal')">✕</button></div>
+    <div class="modal-top"><h2 class="modal-title" id="ground-title"></h2><button class="icon-btn" onclick="closeModal('ground-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
     <div id="ground-body"></div>
     <div class="breath-actions">
       <button class="ghost-btn" id="ground-back" onclick="groundStep(-1)"></button>
@@ -1037,7 +1047,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 <!-- Evening gratitude -->
 <div class="modal-backdrop" id="grat-modal">
   <div class="modal">
-    <div class="modal-top"><h2 class="modal-title" id="grat-title"></h2><button class="icon-btn" onclick="closeModal('grat-modal')">✕</button></div>
+    <div class="modal-top"><h2 class="modal-title" id="grat-title"></h2><button class="icon-btn" onclick="closeModal('grat-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
     <div class="grat-pic" id="grat-pic"></div>
     <input class="small-input grat-input" id="grat-1"><input class="small-input grat-input" id="grat-2"><input class="small-input grat-input" id="grat-3">
     <label class="grat-check"><input type="checkbox" id="grat-diary" checked> <span id="grat-diary-label"></span></label>
@@ -1059,7 +1069,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 <!-- Silent meditation: timer with a gong -->
 <div class="modal-backdrop" id="timer-modal">
   <div class="modal breath-modal">
-    <div class="modal-top"><h2 class="modal-title" id="timer-title"></h2><button class="icon-btn" onclick="timerStop()">✕</button></div>
+    <div class="modal-top"><h2 class="modal-title" id="timer-title"></h2><button class="icon-btn" onclick="timerStop()"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
     <div class="medi-player-img" id="timer-img"></div>
     <div class="timer-chips" id="timer-chips"></div>
     <div class="timer-clock" id="timer-clock">5:00</div>
@@ -1074,7 +1084,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 <!-- Daily reminder: an event in the person's own calendar -->
 <div class="modal-backdrop" id="remind-modal">
   <div class="modal">
-    <div class="modal-top"><h2 class="modal-title" id="remind-title"></h2><button class="icon-btn" onclick="closeModal('remind-modal')">✕</button></div>
+    <div class="modal-top"><h2 class="modal-title" id="remind-title"></h2><button class="icon-btn" onclick="closeModal('remind-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
     <p class="modal-sub" id="remind-text"></p>
     <label class="remind-label"><span id="remind-time-label"></span><input type="time" class="small-input" id="remind-time" value="20:00"></label>
     <button class="primary-btn" style="width:100%;padding:13px;" id="remind-add" onclick="remindAdd()"></button>
@@ -1086,7 +1096,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
   <div class="modal breath-modal">
     <div class="modal-top">
       <h2 class="modal-title" id="breath-title">Box Breathing</h2>
-      <button class="icon-btn" onclick="breathStop()">✕</button>
+      <button class="icon-btn" onclick="breathStop()"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
     <div class="breath-stage">
       <svg viewBox="0 0 240 240" class="breath-svg" aria-hidden="true">
@@ -1135,7 +1145,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
   <div class="modal">
     <div class="modal-top">
       <h2 class="modal-title" id="t-eval-title">Neue Bewertung</h2>
-      <button class="icon-btn eval-close" id="eval-close-btn" onclick="closeModal('eval-modal')" aria-label="Schließen">✕</button>
+      <button class="icon-btn eval-close" id="eval-close-btn" onclick="closeModal('eval-modal')" aria-label="Schließen"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
     <p class="modal-sub" id="t-eval-sub">Wie schätzt du deine fünf Lebensbereiche gerade ein? Es gibt keine falschen Werte.</p>
     <div id="eval-sliders"></div>
@@ -1149,7 +1159,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
   <div class="modal">
     <div class="modal-top">
       <h2 class="modal-title" id="t-sync-title">Cloud-Sync</h2>
-      <button class="icon-btn gate-hide" onclick="closeModal('sync-modal')">✕</button>
+      <button class="icon-btn gate-hide" onclick="closeModal('sync-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
     <div id="sync-body"></div>
   </div>
@@ -1205,7 +1215,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
         <h2 class="modal-title" id="detail-title">—</h2>
         <p class="modal-sub" id="detail-sub" style="margin-bottom:4px;">—</p>
       </div>
-      <button class="icon-btn" onclick="closeModal('detail-modal')">✕</button>
+      <button class="icon-btn" onclick="closeModal('detail-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
     <div class="tabs">
       <div class="tab active" data-tab="uebersicht">Übersicht</div>
@@ -1269,7 +1279,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
     <div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:18px 20px 4px;">
       <button class="ghost-btn" id="wheel-snapshot-del" onclick="deleteWheelSnapshot()" style="margin-right:auto;padding:7px 12px;color:#f3ead6;display:inline-flex;align-items:center;">Löschen</button>
       <span id="wheel-snapshot-date" style="font-weight:600;color:#f3ead6;font-size:15px;"></span>
-      <button class="icon-btn" onclick="closeModal('wheel-snapshot-modal')">✕</button>
+      <button class="icon-btn" onclick="closeModal('wheel-snapshot-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
     <svg id="wheel-snapshot-svg" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;"></svg>
   </div>
@@ -1280,7 +1290,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
   <div class="modal modal-wide" style="padding:0;overflow:hidden;background:linear-gradient(135deg, var(--ew-uv-navy) 0%, var(--ew-uv-navy-2) 45%, var(--ew-uv-violet) 100%);">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:18px 20px 4px;">
       <div id="wheel-compare-legend" style="display:flex;flex-wrap:wrap;gap:8px 14px;color:#f3ead6;flex:1;padding-top:8px;"></div>
-      <button class="icon-btn" onclick="closeModal('wheel-compare-modal')">✕</button>
+      <button class="icon-btn" onclick="closeModal('wheel-compare-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
     <svg id="wheel-compare-svg" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;"></svg>
     <p class="compare-text" id="wheel-compare-text"></p>
@@ -1302,7 +1312,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.63.3';
+const APP_VERSION = '1.64.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -3235,7 +3245,8 @@ const UI_ICONS = {
   volume:'<path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.8 5.2a9.6 9.6 0 0 1 0 13.6"/>',
   mute:'<path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M22 9l-6 6M16 9l6 6"/>'
 };
-function ico(name, cls){ return '<svg class="ui-ico' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + UI_ICONS[name] + '</svg>'; }
+const GOLD_ICO = { trash:'trash', pencil:'pen', plus:'plus', eye:'eye', play:'play', pause:'pause', volume:'volume', mute:'volume', bell:'bell', arrowL:'left', arrowR:'right', gear:'gear', book:'diary' };
+function ico(name, cls){ if(GOLD_ICO[name]) return '<img class="ui-ico gold-ui' + (name === 'mute' ? ' gold-mute' : '') + (cls ? ' ' + cls : '') + '" src="img/icons/ico-' + GOLD_ICO[name] + '.webp" alt="">'; return '<svg class="ui-ico' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + UI_ICONS[name] + '</svg>'; }
 
 /* ---- Deletions that travel between devices. Without this, the union merge of the sync would bring every deleted
    wheel, goal, event, meditation or diary page back from another device. state.geloescht maps 'kind:id' to { t, d }:
@@ -4924,7 +4935,7 @@ function tbPagePickHtml(){
   const d = t(), n = tbEnsureYear(tbYear).seiten.length, cur = Math.min(tbPageIdx, n - 1) + 1;
   return `<div class="tb-tools-backdrop" onclick="tbPagePickOpen=false; tbRender();"></div>
     <div class="tb-pagepick" role="dialog">
-      <div class="tb-cover-pop-head"><span>${d.diaryGoTo}</span><button class="icon-btn" onclick="tbPagePickOpen=false; tbRender();">✕</button></div>
+      <div class="tb-cover-pop-head"><span>${d.diaryGoTo}</span><button class="icon-btn" onclick="tbPagePickOpen=false; tbRender();"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
       <div class="tb-pagepick-num"><input type="number" id="tb-pick-num" min="1" max="${n}" value="${cur}" inputmode="numeric" oninput="document.getElementById('tb-pick-range').value=this.value"> <span>/ ${n}</span></div>
       <input type="range" id="tb-pick-range" min="1" max="${n}" value="${cur}" oninput="document.getElementById('tb-pick-num').value=this.value">
       <div class="tb-pagepick-actions">
@@ -5233,7 +5244,7 @@ function tbCoverSettingsHtml(){
   const typeChips = TB_STYLE_ORDER.concat('areas').map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
   return `<div class="tb-tools-backdrop" onclick="tbCoverSettingsOpen=false; tbRender();"></div>
     <div class="tb-cover-pop" role="dialog">
-      <div class="tb-cover-pop-head"><span><img class="gold-gear" src="img/icons/ico-gear.webp" alt="">${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();">✕</button></div>
+      <div class="tb-cover-pop-head"><span><img class="gold-gear" src="img/icons/ico-gear.webp" alt="">${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
       <input class="small-input" id="tb-cover-title-input" placeholder="${d.diaryTitlePh}" value="${escapeHtml(c.title||'')}">
       <span class="tb-row-label">${d.diaryCoverPick}</span>
       <div class="tb-cover-choices">${TB_COVERS.map(n=>`<button class="tb-cover-choice${tbCoverName(diary) === n ? ' active' : ''}" onclick="tbSetCover('${n}')" aria-label="${n}"><img src="img/covers/${n}-p.webp" alt=""></button>`).join('')}</div>
@@ -5482,9 +5493,9 @@ function tbPageNavHtml(){
   const diary = tbEnsureYear(tbYear);
   const hasPrev = tbPeekPrevIdx() >= 0;
   const hasNext = tbEditMode ? true : (tbPeekNextIdx() < diary.seiten.length);
-  return `<button class="icon-btn tb-nav-btn" onclick="tbPrevPage()" ${hasPrev?'':'disabled'}>‹</button>
+  return `<button class="icon-btn tb-nav-btn" onclick="tbPrevPage()" ${hasPrev?'':'disabled'}><img class="gold-arrow" src="img/icons/ico-left.webp" alt="‹"></button>
     <button class="tb-page-num tb-page-num-btn" onclick="tbPagePickOpen=true; tbRender();" title="${t().diaryGoTo}" aria-label="${t().diaryGoTo}">${Math.min(tbPageIdx, diary.seiten.length-1)+1} / ${diary.seiten.length}</button>
-    <button class="icon-btn tb-nav-btn" onclick="tbNextPage()" ${hasNext?'':'disabled'}>›</button>`;
+    <button class="icon-btn tb-nav-btn" onclick="tbNextPage()" ${hasNext?'':'disabled'}><img class="gold-arrow" src="img/icons/ico-right.webp" alt="›"></button>`;
 }
 /* ---- Tools: one floating button (shows the current tool); tapping it opens the tool menu ---- */
 let tbToolsOpen = false, tbToolsSub = ''; // tbToolsSub: which row is folded open ('font' | 'new' | 'style')
@@ -5524,7 +5535,7 @@ function tbToolsHtml(){
       ${subRow('style', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem ${page.type===pt?'active':''}" onclick="tbSetPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join(''))}`}
     </div>` : '';
   const del = isTitle ? '' : `<button class="tb-del-fab" onclick="tbDeletePage(tbPageIdx)" title="${d.diaryDeletePage}" aria-label="${d.diaryDeletePage}">${ico('trash')}</button>`;
-  return `${menu}${del}<button class="tb-tools-fab ${tbToolsOpen?'open':''}" onclick="tbToggleTools()" title="${d.diaryTools}" aria-label="${d.diaryTools}">${tbToolsOpen ? '<span class="tb-fab-x">✕</span>' : ico(cur[1])}</button>`;
+  return `${menu}${del}<button class="tb-tools-fab ${tbToolsOpen?'open':''}" onclick="tbToggleTools()" title="${d.diaryTools}" aria-label="${d.diaryTools}">${tbToolsOpen ? '<img class="gold-x" src="img/icons/ico-close.webp" alt="✕">' : ico(cur[1])}</button>`;
 }
 function tbToggleTools(open){
   tbToolsOpen = open === undefined ? !tbToolsOpen : open;
