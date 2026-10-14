@@ -1405,7 +1405,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.74.0';
+const APP_VERSION = '1.74.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5256,6 +5256,8 @@ function tbEnterDiary(year){
   if(tbRepaginateDiary(diary)) saveState(); // a page written before pagination existed may be too long
   tbYear = year;
   tbView = 'cover'; // shown first and stays — nothing auto-advances until the user opens it themselves
+  // a new, still empty diary (also the very first one, created automatically) shows its settings with the covers (1.74.1)
+  tbCoverSettingsOpen = tbCoverSetupOpen(diary);
   tbEditMode = true;
   document.getElementById('tb-overlay').classList.add('open');
   navSync();
