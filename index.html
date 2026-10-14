@@ -1294,7 +1294,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.63.1';
+const APP_VERSION = '1.63.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -4406,7 +4406,31 @@ function buildShatterTiles(container, size){
   return pieces;
 }
 
+/* Since 1.63.2: the new golden lotus icon appears, grows a little and fades softly into the wheel – no shattering
+   (that belonged to the old icon; the old sequence is kept below as playIntroSequenceOld). */
 function playIntroSequence(onComplete){
+  if(animRunning) return;
+  animRunning = true;
+  const overlay = document.getElementById('intro-overlay');
+  const icon = document.getElementById('intro-icon');
+  const shatterBox = document.getElementById('intro-shatter');
+  const done = ()=>{
+    animRunning = false;
+    overlay.style.display = 'none'; overlay.style.opacity = '1'; overlay.style.transition = 'none';
+    if(typeof onComplete === 'function') onComplete(); else revealWheel(true);
+  };
+  if(!overlay || !icon){ done(); return; }
+  overlay.style.display = 'flex'; overlay.style.transition = 'none'; overlay.style.opacity = '1';
+  if(shatterBox) shatterBox.style.display = 'none';
+  icon.src = 'img/app-icon.png'; icon.style.display = 'block'; icon.style.borderRadius = '22%';
+  icon.classList.remove('grown', 'popped');
+  const poly = document.getElementById('data-polygon');
+  if(poly){ poly.style.transition = 'none'; poly.style.opacity = '0'; }
+  requestAnimationFrame(()=>{ icon.classList.add('popped'); setTimeout(()=>icon.classList.add('grown'), 480); });
+  setTimeout(()=>{ overlay.style.transition = 'opacity .6s ease'; overlay.style.opacity = '0'; }, 1700);
+  setTimeout(done, 2350);
+}
+function playIntroSequenceOld(onComplete){
   if(animRunning) return;
   animRunning = true;
   // safety net: if anything in the animation chain below fails to complete (a timing
