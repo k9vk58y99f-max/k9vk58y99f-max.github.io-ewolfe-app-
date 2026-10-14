@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.73.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.73.4`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -257,7 +257,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 
 ## Wachsender Glanz, Tiere, Tagebuch löschen (seit 1.68.0 / 1.69.0)
 - Stufen nach aktiven Tagen (Tage mit Übung, Stimmung, Lebensrad, Tagebuchseite, Dankbarkeit, seit 1.73.3 auch Ziel angelegt/
-  erreicht, Ereignis, App geöffnet – je Gerät in `ewolfe_visit_days`, ab 1.73.3; `appActiveDays()`, `LEVEL_DAYS`
+  erreicht und Ereignis; bloßes Öffnen der App zählt bewusst nicht; `appActiveDays()`, `LEVEL_DAYS`
   = 0/7/30/100), dazu seit 1.69.0 zwei Zeit-Stufen (`LEVEL_MONTHS`): 5 nach einem halben Jahr, 6 nach einem Jahr ab dem
   ersten aktiven Tag (`appFirstActive`), nur wenn Stufe 4 erreicht ist. Klassen `html.lvl-1…6`, ab 4 zusätzlich `lvl-gold`.
   1: tonale Rahmen/Knöpfe, Lavendel, staubiges Regal; 2: goldene Überschriften/Leiste, sauberes Regal; 3: goldene Knöpfe,
