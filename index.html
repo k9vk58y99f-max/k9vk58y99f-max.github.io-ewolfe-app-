@@ -638,7 +638,8 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-roof .shelf-trophy:hover, .shelf-roof .shelf-trophy:active{ transform:scale(1.06); }
 .shelf-comp{ position:absolute; display:flex; align-items:flex-end; justify-content:flex-start; gap:0 0.45%; padding:0 0.6%; container-type:size; overflow:visible; } /* in % of the compartment: cqh here would measure the screen, not the shelf (1.73.2) */
 .shelf-comp-tro{ justify-content:center; }
-.shelf-comp .shelf-trophy{ margin:0 0.5cqh; transform:translateY(2.7cqh); } /* trophies a little further forward than the books */
+.shelf-comp-books{ padding:0 0 0 0.5%; gap:0 0.2%; } /* the books from wall to wall */
+.shelf-comp .shelf-trophy{ margin:0; transform:translateY(2.7cqh); } /* trophies a little further forward than the books */
 .shelf-comp .shelf-trophy:hover, .shelf-comp .shelf-trophy:active{ transform:translateY(2.7cqh) scale(1.06); }
 .shelf-comp .shelf-trophy img{ width:100%; height:100%; object-fit:contain; object-position:bottom; display:block; filter:drop-shadow(0 1cqh 1.5cqh rgba(0,0,0,0.5)); }
 .shelf-comp .shelf-book .shelf-title{ font-size:7cqh; max-height:58%; }
@@ -1399,7 +1400,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.73.6';
+const APP_VERSION = '1.73.7';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5363,9 +5364,9 @@ function tbSpineHtml(key){
 // the bottom of each compartment lies towards the back of the board's top surface, so things stand in the shelf, not at its front edge
 // each shelf picture has its own compartments (bottom = near the back edge of the board): level 1 dusty, 2 clean, 3+ with ivy
 const SHELVES = {
-  dusty:{ img:'shelf-dusty', roof:17.7, x:[27.1, 71.0], rows:[[23.6, 36.5], [37.5, 50.1], [51.1, 62.5], [63.5, 74.4], [75.4, 86.2]] },
-  clean:{ img:'shelf-clean', roof:16.8, x:[27.1, 71.0], rows:[[22.8, 35.8], [36.8, 49.3], [50.3, 61.9], [62.9, 73.7], [74.7, 85.6]] },
-  ivy:{ img:'shelf', roof:12.6, x:[27.4, 71.1], rows:[[18.8, 32.2], [33.7, 46.5], [48.3, 59.7], [61.7, 72.4], [74.7, 85.4]] }
+  dusty:{ img:'shelf-dusty', roof:17.7, x:[27.9, 72.3], rows:[[23.6, 36.5], [37.5, 50.1], [51.1, 62.5], [63.5, 74.4], [75.4, 86.2]] },
+  clean:{ img:'shelf-clean', roof:16.8, x:[27.5, 72.7], rows:[[22.8, 35.8], [36.8, 49.3], [50.3, 61.9], [62.9, 73.7], [74.7, 85.6]] },
+  ivy:{ img:'shelf', roof:12.6, x:[27.8, 72.7], rows:[[18.8, 32.2], [33.7, 46.5], [48.3, 59.7], [61.7, 72.4], [74.7, 85.4]] }
 };
 const shelfNow = ()=>SHELVES[appLevel() <= 1 ? 'dusty' : appLevel() === 2 ? 'clean' : 'ivy'];
 let SHELF_X = SHELVES.ivy.x, SHELF_ROWS = SHELVES.ivy.rows;
@@ -5401,11 +5402,14 @@ function tbRenderLibrary(){
     if(cur.length) rows.push(cur); return rows; };
   // one shelf only (since 1.69.0): books first, then the trophies – also next to the books in their compartment (1.70.0);
   // they stand closer and, if needed, a little smaller until everything fits; the rest stands on top of the shelf
+  // the usable width of each compartment in units of its own height (1.73.7: measured per compartment, not a fixed guess)
+  const rowCap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (SHELF_X[1] - SHELF_X[0]) / (r[1] - r[0]) * 100; };
   const pack = k=>{ const rows = []; let cur = [], used = 0;
-    books.map(b=>({ ...b, book:true, g:1.5 })).concat(tro.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:2.5 }))).forEach(it=>{
-      // the books stand from the left, the trophies centred
-      if(cur.length && used + it.w + it.g > SHELF_ROW_W - (cur[0].book ? 62 : 30)){ rows.push(cur); cur = []; used = 0; }
-      cur.push(it); used += it.w + it.g; });
+    books.map(b=>({ ...b, book:true, g:0.7 })).concat(tro.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:1.6 }))).forEach(it=>{
+      // books stand close together from wall to wall; a row with trophies keeps a little air at the sides
+      const cap = rowCap(rows.length) - (it.book ? 10 : 8);
+      if(cur.length && used + it.w + (cur.length ? it.g : 0) > cap){ rows.push(cur); cur = []; used = 0; }
+      used += it.w + (cur.length ? it.g : 0); cur.push(it); });
     if(cur.length) rows.push(cur); return rows; };
   let k = 1, packed = pack(1);
   while(packed.length > SHELF_ROWS.length && k > 0.66){ k -= 0.04; packed = pack(k); }
@@ -5431,7 +5435,7 @@ function tbRenderLibrary(){
       <div class="shelf-roof-side">${roof.slice(0, half).map(troHtml).join('')}</div><div class="shelf-roof-side right">${roof.slice(half).map(troHtml).join('')}</div></div>` : '';
   const shelfHtml = `<div class="shelf-img" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%">${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rowsAll[i];
-      return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
+      return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : row ? ' shelf-comp-books' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}</div>`;
   const next = trophyNext();
   return `<div class="shelf-wrap">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${shelfHtml}</div>

@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.73.6`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.73.7`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -266,7 +266,8 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   5: funkelnde Sterne in den Rahmenecken (`#lvl-fx`, `.lvl-star`); 6: mehr Sterne an den Rändern. Nichts wird je
   weggenommen; neue Stufe einmal angesagt (`levelUp`, Merker `ewolfe_level_seen`).
 - Regal (seit 1.69.0): nur noch ein Regal. Trophäen stehen enger und werden notfalls etwas kleiner (bis 66 %), bis sie in
-  die Fächer passen; der Rest steht oben auf dem Regal (`.shelf-roof`, Dachhöhe `roof` je Bild in `SHELVES`). Seit 1.69.1 steht der ganze Inhalt 1,8 % weiter links (`x` in `SHELVES`).
+  die Fächer passen; der Rest steht oben auf dem Regal (`.shelf-roof`, Dachhöhe `roof` je Bild in `SHELVES`). Seit 1.73.7 sind die Fächer (`x` in `SHELVES`) genau an den Innenwänden der Bilder ausgemessen; Bücher stehen von
+  Wand zu Wand (`.shelf-comp-books`), die Breite je Fach rechnet `rowCap()`.
 - Tiere am Regal (`.shelf-animal`): Hund ab 2 aktiven Tagen, Katze oben links ab Stufe 4 (`img/stickers/cat.webp`, fehlt
   noch – solange die Datei fehlt, bleibt sie einfach weg), Fuchs ab Stufe 6 links auf dem Boden, so groß wie der Hund.
   Der Hase kommt nur zu Ostern (Palmsonntag bis eine Woche nach Ostern, `isEasterTime()`/`easterSunday()`) und sitzt vor
