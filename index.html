@@ -982,7 +982,6 @@ html.lvl-gold body::after{ content:''; position:fixed; left:0; right:0; top:var(
 <div class="scene-wrap">
   <div class="scene-head">
     <h1 id="t-scene-title">Dein Lebensrad</h1>
-    <p id="t-scene-sub">Aus dem eWolfe-Zeichen entsteht dein Lebensrad.</p>
   </div>
   <div class="scene-stage">
     <svg id="scene-svg" viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -1363,7 +1362,7 @@ html.lvl-gold body::after{ content:''; position:fixed; left:0; right:0; top:var(
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.70.0';
+const APP_VERSION = '1.70.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -3634,7 +3633,6 @@ function applyLang(){
   const d = t();
   document.getElementById('t-logo').textContent = d.appName;
   document.getElementById('t-scene-title').textContent = d.sceneTitle;
-  document.getElementById('t-scene-sub').textContent = d.sceneSub;
   document.getElementById('t-scene-hint').textContent = d.sceneHint;
   document.getElementById('new-bewertung-btn').textContent = d.newWheel;
   document.getElementById('nav-home-label').textContent = d.navHome;
@@ -5364,17 +5362,24 @@ function trophyDefs(){
     n=>L('An ' + n + ' Tagen hast du dir Zeit für dich genommen – deine Treue zu dir selbst leuchtet.', 'On ' + n + ' days you took time for yourself – your loyalty to yourself shines.'));
   // church year (since 1.70.0): a Fabergé egg for an exercise in the Easter time – a new one every year, the colours take
   // turns (blue, mint, pink); the Nikolaus boot for an exercise on 6 December (once)
-  const FAB = ['faberge-blue', 'faberge-mint', 'faberge-pink'], yearOf = ts=>new Date(ts).getFullYear();
+  // the eggs grow: first year a small pink one, then a bigger blue one, then the biggest, the light mint one (from then on
+  // every year another big egg, the colours taking turns)
+  const FAB = [['faberge-pink', 0.75], ['faberge-blue', 0.9], ['faberge-mint', 1.05]], yearOf = ts=>new Date(ts).getFullYear();
   const eastDone = ev.done.filter(e=>isEasterTime(new Date(e.ts)));
   const eastYears = [...new Set(eastDone.map(e=>yearOf(e.ts)))].sort((a, b)=>a - b), thisYear = new Date().getFullYear();
   (eastYears.includes(thisYear) ? eastYears : eastYears.concat(thisYear)).forEach((y, i)=>{
     const first = eastDone.find(e=>yearOf(e.ts) === y);
-    out.push({ id:'easter' + y, kind:'img', img:FAB[i % FAB.length], scale:1.05, aspect:0.53, need:1, list:first ? [first.ts] : [],
+    out.push({ id:'easter' + y, kind:'img', img:FAB[i % 3][0], scale:FAB[Math.min(i, 2)][1], aspect:0.53, need:1, list:first ? [first.ts] : [],
       title:L('Fabergé-Ei ' + y, 'Fabergé egg ' + y), desc:L('Du hast dir in der Osterzeit ' + y + ' Zeit für dich genommen. Christus ist auferstanden – jedes Jahr ein neues Ei für deine Sammlung.', 'You took time for yourself in the Easter season ' + y + '. Christ is risen – every year a new egg for your collection.') });
   });
+  // Saint Nicholas: in the first year with an exercise on 6 December a small Saint Nicholas, in the second the boot
   const nikDone = ev.done.filter(e=>{ const d = new Date(e.ts); return d.getMonth() === 11 && d.getDate() === 6; });
-  out.push({ id:'nikolaus', kind:'img', img:'trophy-boot', scale:0.92, aspect:0.7, need:1, list:nikDone.length ? [nikDone[0].ts] : [],
-    title:L('Nikolausstiefel', 'Saint Nicholas boot'), desc:L('Am Nikolaustag hast du dir Zeit für dich genommen. Wie der heilige Nikolaus, der im Stillen Gutes tat.', 'On Saint Nicholas Day you took time for yourself – like Saint Nicholas, who did good in secret.') });
+  const nikYears = [...new Set(nikDone.map(e=>yearOf(e.ts)))].sort((a, b)=>a - b);
+  const nikAt = i=>nikYears[i] ? [nikDone.find(e=>yearOf(e.ts) === nikYears[i]).ts] : [];
+  out.push({ id:'nikolaus', kind:'img', img:'stickers/nikolaus', scale:0.95, aspect:0.5, need:1, list:nikAt(0),
+    title:L('Heiliger Nikolaus', 'Saint Nicholas'), desc:L('Am Nikolaustag hast du dir Zeit für dich genommen. Wie der heilige Nikolaus, der im Stillen Gutes tat.', 'On Saint Nicholas Day you took time for yourself – like Saint Nicholas, who did good in secret.') });
+  out.push({ id:'nikolaus2', kind:'img', img:'trophy-boot', scale:0.92, aspect:0.7, need:1, list:nikAt(1),
+    title:L('Nikolausstiefel', 'Saint Nicholas boot'), desc:L('Schon zum zweiten Mal hast du dir am Nikolaustag Zeit für dich genommen – dein Stiefel ist gefüllt.', 'For the second time you took time for yourself on Saint Nicholas Day – your boot is filled.') });
   out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.81, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle fünf Lebensbereiche haben sich verbessert.', 'All five areas of life have improved.') });
   return out;
