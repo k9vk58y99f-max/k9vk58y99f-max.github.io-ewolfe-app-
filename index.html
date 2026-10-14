@@ -788,6 +788,13 @@ body.swipe-prev .page-modal.open > .modal, body.swipe-prev .tb-overlay.open, bod
 #medi-icon-pick{ display:flex; flex-wrap:wrap; gap:8px; }
 .medi-icon-opt.active{ border-color:var(--ew-turquoise); background:rgba(var(--gold-rgb),0.16); color:var(--ew-turquoise); }
 .mood-box h2{ margin-bottom:16px; text-align:center; }
+.mood-cmp{ display:flex; align-items:center; justify-content:center; gap:14px; margin:6px 0 10px; }
+.mood-cmp-one{ display:flex; flex-direction:column; align-items:center; gap:6px; color:#f3ead6; text-align:center; min-width:96px; }
+.mood-cmp-one svg{ width:44px; height:44px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; }
+.mood-cmp-one:last-child{ color:var(--gold-text); }
+.mood-cmp-lab{ font-size:var(--fs-text); color:var(--ew-text-dim); }
+.mood-cmp-arrow{ font-size:24px; color:var(--gold-text); }
+.mood-cmp-msg{ text-align:center; margin:4px 0 6px; line-height:1.45; }
 .mood-row{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
 .mood-opt{ display:flex; align-items:center; gap:12px; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:14px; padding:9px 14px; color:#f3ead6; cursor:pointer; font:inherit; font-size:var(--fs-text); text-align:left; }
 .mood-opt svg{ width:30px; height:30px; flex:none; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; }
@@ -1379,7 +1386,7 @@ html.lvl-gold body::after{ content:''; position:fixed; left:0; right:0; top:var(
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.72.0';
+const APP_VERSION = '1.72.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2723,12 +2730,26 @@ function achSessionEnd(modalId){
   if(!counts){ renderMeditationen(); return; }
   const entry = achAdd({ kind:'done', ex:s.id, secs, before:s.before });
   renderMeditationen();
-  if(s.before !== null && s.before !== undefined){
-    setTimeout(async ()=>{
-      const after = await moodAsk(true);
-      if(after !== null){ entry.after = after; saveState(); renderMeditationen(); }
-    }, 350);
-  }
+  // since 1.72.1: always ask afterwards, and only then show how one felt before (the comparison)
+  setTimeout(async ()=>{
+    const after = await moodAsk(true);
+    if(after === null) return;
+    entry.after = after; saveState(); renderMeditationen();
+    if(s.before !== null && s.before !== undefined) moodCompare(s.before, after);
+  }, 350);
+}
+// before → after, with the two faces and a kind sentence
+function moodCompare(before, after){
+  const d = t();
+  document.getElementById('mood-q').textContent = d.moodCompareTitle;
+  const face = (l, lab)=>`<div class="mood-cmp-one"><span class="mood-cmp-lab">${lab}</span>${moodFace(l)}<span>${d.moods[l]}</span></div>`;
+  const msg = after > before ? d.moodBetter : after === before ? d.moodSame : d.moodWorse;
+  document.getElementById('mood-row').innerHTML = `<div class="mood-cmp">${face(before, d.moodBeforeLab)}<span class="mood-cmp-arrow">→</span>${face(after, d.moodAfterLab)}</div><p class="mood-cmp-msg">${msg}</p>`;
+  const skip = document.getElementById('mood-skip');
+  skip.textContent = 'OK';
+  document.getElementById('mood-row').onclick = null;
+  skip.onclick = ()=>{ skip.onclick = null; closeModal('mood-modal'); };
+  openModal('mood-modal');
 }
 
 /* ---- Impulse cards (since 1.57.0): 40 cards, 8 per area, each with a picture and an encouraging line or a short quote.
@@ -3711,6 +3732,8 @@ Object.assign(I18N.de, {"trophyToDiary": "Ins Tagebuch", "trophyDiaryHead": "★
 Object.assign(I18N.en, {"trophyToDiary": "Add to diary", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
 Object.assign(I18N.de, { setDecor:'Tiere & Feiertagsschmuck', decorOn:'Anzeigen', decorOff:'Ausblenden', decorHint:'Tiere am Regal, Osterhase, Nikolaus, Adventskranz, Baum und Schnee. Deine Trophäen bleiben immer.' });
 Object.assign(I18N.en, { setDecor:'Animals & feast-day decoration', decorOn:'Show', decorOff:'Hide', decorHint:'Animals at the shelf, Easter rabbit, Saint Nicholas, Advent wreath, tree and snow. Your trophies always stay.' });
+Object.assign(I18N.de, { moodCompareTitle:'Vorher und nachher', moodBeforeLab:'Vorher', moodAfterLab:'Jetzt', moodBetter:'Schön – die Übung hat dir gutgetan!', moodSame:'Du hast dir Zeit für dich genommen. Das zählt.', moodWorse:'Nicht jede Übung fühlt sich gleich an. Schön, dass du drangeblieben bist.' });
+Object.assign(I18N.en, { moodCompareTitle:'Before and after', moodBeforeLab:'Before', moodAfterLab:'Now', moodBetter:'Lovely – the exercise did you good!', moodSame:'You took time for yourself. That counts.', moodWorse:'Not every exercise feels the same. Good that you kept at it.' });
 Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!", "Ein halbes Jahr mit dir selbst! In den Ecken deines Rahmens funkeln jetzt Sterne.", "Ein ganzes Jahr! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
 Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold.", "Your app shines in full splendour. Thank you for 100 days with yourself!", "Half a year with yourself! Stars now twinkle in the corners of your frame.", "A whole year! Everything sparkles, and a fox has moved in by your shelf. Thank you for staying so true to yourself."]});
 function t(){ return I18N[state.settings.lang]; }
@@ -3855,7 +3878,7 @@ function navGo(tab, open){
   if(tab !== 'home' && navActive() === tab) return;
   const wasElsewhere = navActive() !== 'home';
   if(document.getElementById('tb-overlay').classList.contains('open')) closeTagebuch();
-  document.querySelectorAll('.modal-backdrop.open').forEach(m=>{ if(!(m.id === 'sync-modal' && syncGateNeeded())) m.classList.remove('open'); });
+  document.querySelectorAll('.modal-backdrop.open').forEach(m=>{ if(!(m.id === 'sync-modal' && syncGateNeeded())){ m.classList.remove('open'); if(typeof achSessionEnd === 'function') achSessionEnd(m.id); } });
   const fromElsewhere = wasElsewhere;
   if(open) open(); else window.scrollTo({ top:0, behavior: fromElsewhere ? 'auto' : 'smooth' });
   // every page starts at the top when you switch to it
@@ -4044,7 +4067,7 @@ document.querySelectorAll('.modal-backdrop').forEach(m=>{
   m.addEventListener('pointerup', ()=>{ if(!downOnBackdrop) lastInsideAt = Date.now(); }, true);
   m.addEventListener('click', e=>{
     const justUsedInside = Date.now() - lastInsideAt < 400; // click echo right after an interaction inside the window
-    if(e.target===m && downOnBackdrop && !justUsedInside && m.id !== 'impulse-modal' && m.id !== 'trophy-modal' && !(m.id === 'sync-modal' && syncGateNeeded())){ m.classList.remove('open'); navSync(); }
+    if(e.target===m && downOnBackdrop && !justUsedInside && m.id !== 'impulse-modal' && m.id !== 'trophy-modal' && !(m.id === 'sync-modal' && syncGateNeeded())){ m.classList.remove('open'); if(typeof achSessionEnd === 'function') achSessionEnd(m.id); navSync(); }
     downOnBackdrop = false;
   });
 });
