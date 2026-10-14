@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.72.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.73.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -282,6 +282,8 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Weihnachtsbaum links (`img/stickers/tree.webp`) und Schnee (`.shelf-snow`, `isChristmasTime()`). Trophäen für eine Übung
   am 24.–26.12.: 1. Jahr Stern (`xmas`, `img/trophy-star.webp`), 2. Jahr Krippe (`xmas2`, `img/trophy-crib.webp`).
   Fehlende Bilder bleiben einfach weg (noch ausstehend: Kranz, Baum, Stern, Krippe, Vitrine).
+- Schrift Marcellus (seit 1.73.0) auch für Unterüberschriften (h3/h4, Kartentitel, Einstellungs-Köpfe …) und Countdowns
+  (Atemzahl, Phase, Stille-Uhr, Player-Zeit); Marcellus hat nur eine Stärke, daher nie fett.
 - Schalter „Tiere & Feiertagsschmuck“ in den Einstellungen (seit 1.72.0, `decorOn()`/`setDecor()`, `state.settings.decor`,
   je Gerät): blendet Tiere, Osterhase, Nikolaus, Kranz, Baum und Schnee aus; Trophäen und Feiertagskarten bleiben.
 - Geplant: Vitrine nach einem Jahr neben dem Regal für die Feiertagstrophäen (Bild steht aus).

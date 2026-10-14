@@ -942,6 +942,12 @@ html.lvl-1 svg image[href*="img/icons/ico-"]{ filter:hue-rotate(215deg) saturate
 html.lvl-2 .gold-ui, html.lvl-2 .gold-x, html.lvl-2 .gold-arrow, html.lvl-2 .gold-gear{ filter:hue-rotate(215deg) saturate(0.55) brightness(1.1); }
 @keyframes goldShimmer{ 0%, 70%{ opacity:0; transform:translateX(-60%); } 80%{ opacity:.5; } 100%{ opacity:0; transform:translateX(60%); } }
 html.lvl-gold body::after{ content:''; position:fixed; left:0; right:0; top:var(--safe-t); height:60px; pointer-events:none; z-index:2; background:linear-gradient(100deg, transparent 30%, rgba(255,240,190,0.5) 50%, transparent 70%); animation:goldShimmer 9s ease-in-out infinite; mix-blend-mode:screen; }
+/* Marcellus also for subheadings and countdowns (since 1.73.0); it has one weight only, so no bold */
+h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .settings-head, .panel h3, .tb-cover-pop-head, .trophy-title,
+.medi-streak-n, .ev-ov-title, .tb-area-head, .mood-cmp-lab, #breath-count, #breath-phase, .timer-clock, #medi-player-time, #breath-meta{
+  font-family:'Marcellus', serif !important; font-weight:400 !important; }
+#breath-count{ font-size:38px; }
+.timer-clock{ font-size:46px; }
 #lvl-fx{ position:fixed; inset:0; pointer-events:none; z-index:120; }
 .lvl-star{ position:absolute; width:22px; height:22px; margin:-11px 0 0 -11px; opacity:0; animation:lvlTwinkle 5s ease-in-out infinite;
   background:radial-gradient(circle, #fff 0 8%, rgba(255,236,170,0.9) 14%, rgba(232,184,74,0) 45%),
@@ -1386,7 +1392,7 @@ html.lvl-gold body::after{ content:''; position:fixed; left:0; right:0; top:var(
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.72.1';
+const APP_VERSION = '1.73.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
