@@ -613,11 +613,13 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-wrap{ display:flex; flex-direction:column; align-items:center; gap:0; }
 .shelf-img{ position:relative; width:min(100%, calc(100vh - var(--nav-h, 70px) - 150px), 1000px); aspect-ratio:1; background:url(img/shelf.webp) center/contain no-repeat; }
 .shelf-img + .shelf-img{ margin-top:-12%; }
+/* the dog sits a little to the side in front of the shelf, his head just above the lowest board */
+.shelf-dog{ position:absolute; right:7%; bottom:3%; height:30%; transform:rotate(-4deg); z-index:2; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.55)); }
 .shelf-comp{ position:absolute; display:flex; align-items:flex-end; justify-content:flex-start; gap:0 1.5cqh; padding:0 2cqh; container-type:size; overflow:visible; }
 .shelf-comp .shelf-trophy{ margin:0 2cqh; transform:translateY(2.7cqh); } /* trophies a little further forward than the books */
 .shelf-comp .shelf-trophy:hover, .shelf-comp .shelf-trophy:active{ transform:translateY(2.7cqh) scale(1.06); }
 .shelf-comp .shelf-trophy img{ width:100%; height:100%; object-fit:contain; object-position:bottom; display:block; filter:drop-shadow(0 1cqh 1.5cqh rgba(0,0,0,0.5)); }
-.shelf-comp .shelf-book .shelf-title{ font-size:9cqh; }
+.shelf-comp .shelf-book .shelf-title{ font-size:7cqh; max-height:58%; }
 .shelf-comp .shelf-book .shelf-key{ font-size:7.5cqh; }
 .shelf-comp .shelf-book{ padding:4cqh 0; }
 .shelf-comp .shelf-band{ height:3cqh; }
@@ -672,6 +674,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .imp-win{ position:absolute; left:7.2%; top:11.5%; width:85.6%; height:61.3%; background:radial-gradient(circle at 50% 45%, #fffdf6, #f3ead6 75%); display:flex; align-items:center; justify-content:center; overflow:hidden; }
 .imp-win img, .imp-win svg{ width:86%; height:86%; object-fit:contain; pointer-events:none; }
 .imp-words{ position:absolute; left:10%; width:80%; top:74.5%; height:20%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.imp-text.long{ font-size:4.4cqw; }
 .imp-text{ margin:0; color:#fff; font-size:5.2cqw; line-height:1.36; font-weight:600; }
 .imp-by{ margin-top:1.4cqw; color:#e8c27a; font-size:4.2cqw; font-style:italic; }
 .imp-turn{ position:relative; width:100%; }
@@ -1245,7 +1248,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.61.0';
+const APP_VERSION = '1.62.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1681,10 +1684,7 @@ function blossomApply(els, open){
 function imgPic(file){ return `<svg viewBox="-90 -90 180 180" aria-hidden="true"><image href="img/${file}.webp" x="-88" y="-88" width="176" height="176" preserveAspectRatio="xMidYMid meet"/></svg>`; }
 function blossomPictureSvg(id){ return imgPic('cherry6'); }
 function lotusPictureSvg(id){ return imgPic('lotus'); }
-function lemonPictureSvg(id){
-  // the frame is fitted tightly around lemon and leaves, so the picture is exactly as wide as the lotus picture next to it
-  return `<svg viewBox="-77 -70 167 167" aria-hidden="true">${lemonMarkup('lm' + id)}</svg>`;
-}
+function lemonPictureSvg(id){ return imgPic('lemon'); } // the person's paper lemon (since 1.62.0)
 /* Player picture: the lemon on a square like the Box Breathing lake, in its light blue tones, with a diagonal stroke
    and colour gradient (like the app icon) instead of rings */
 function lemonPlayerSvg(){
@@ -2419,7 +2419,7 @@ function bowlPictureSvg(id){ return imgPic('bowl'); }
 // pictures for the person's own exercises (chosen when adding one)
 /* Stickers (since 1.61.0): the person's paper pictures in img/stickers/ – the pictures you can give your own exercises and links,
    and that can be put on a diary page. Old keys keep working (heart → pink heart, mountain → mountains). */
-const STICKERS = ['leaf', 'moon', 'sun', 'wave', 'heart-pink', 'heart-red', 'star', 'mountains', 'rainbow-land', 'music', 'lotus', 'cherry', 'rose', 'fox', 'rabbit', 'dog', 'rainbow', 'treasure'];
+const STICKERS = ['leaf', 'moon', 'sun', 'wave', 'heart-pink', 'heart-red', 'star', 'mountains', 'rainbow-land', 'music', 'lotus', 'cherry', 'rose', 'fox', 'rabbit', 'dog', 'dog-head', 'rainbow', 'treasure'];
 const STICKER_ALIAS = { heart:'heart-pink', mountain:'mountains' };
 const MEDI_ICONS = Object.fromEntries(STICKERS.map(k=>[k, 1]).concat([['heart', 1], ['mountain', 1]]));
 const stickerFile = key=>STICKER_ALIAS[key] || (STICKERS.includes(key) ? key : 'leaf');
@@ -2615,7 +2615,7 @@ function impulseCardHtml(c, mini){
   return `<div class="imp-card" id="imp-card-el">
     <div class="imp-win">${impulsePicHtml(c)}</div>
     <img class="imp-frame" src="img/card-front.webp" alt="" draggable="false">
-    <div class="imp-words"><p class="imp-text">${escapeHtml(en ? c.en : c.de)}</p>${by ? `<div class="imp-by">– ${escapeHtml(by)}</div>` : ''}</div>
+    <div class="imp-words"><p class="imp-text${(en ? c.en : c.de).length > 75 ? ' long' : ''}">${escapeHtml(en ? c.en : c.de)}</p>${by ? `<div class="imp-by">– ${escapeHtml(by)}</div>` : ''}</div>
     ${impulseMode === 'start' ? '' : `<button class="imp-diary-btn" onclick="event.stopPropagation(); impulseToDiary()" title="${d.impulseToDiary}" aria-label="${d.impulseToDiary}">${ico('book')}</button>`}
   </div>`;
 }
@@ -4931,12 +4931,12 @@ function tbRenderLibrary(){
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
     : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
   const troHtml = o=>`<button class="shelf-trophy" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
-  const shelfHtml = rows=>`<div class="shelf-img">${SHELF_ROWS.map(([y0, y1], i)=>{
+  const shelfHtml = (rows, si)=>`<div class="shelf-img">${si === shelves.length - 1 ? '<img class="shelf-dog" src="img/stickers/dog.webp" alt="">' : ''}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rows[i];
       return `<div class="shelf-comp" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>row.kind === 'books' ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}</div>`;
   const next = trophyNext();
-  return `<div class="shelf-wrap">${shelves.map(shelfHtml).join('')}</div>
+  return `<div class="shelf-wrap">${shelves.map((r, i)=>shelfHtml(r, i)).join('')}</div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     ${tbCoverSettingsHtml()}`;
 }
@@ -4997,6 +4997,9 @@ function trophyDefs(){
   grow('b478', ev.byEx('seed-478'), [[3, 'trophy-cherry-1', 0.5], [10, 'trophy-cherry-2', 0.75], [25, 'trophy-cherry-3', 1]], 0.62,
     (n, i)=>L(['Kirschknospen unter Glas', 'Blühender Kirschzweig unter Glas', 'Kirschblüte unter Glas'][i], ['Cherry buds under glass', 'Blossoming cherry branch under glass', 'Cherry blossom under glass'][i]),
     n=>L(n + '-mal 4-7-8-Atmung – dein Kirschzweig blüht mit dir auf.', '4-7-8 breathing ' + n + ' times – your cherry branch blossoms with you.'));
+  grow('lemon', ev.byEx('seed-lemon'), [[3, 'trophy-lemon-1', 0.5], [10, 'trophy-lemon-2', 0.75], [25, 'trophy-lemon-3', 1]], 0.68,
+    (n, i)=>L(['Zitronenblüte unter Glas', 'Zitronenzweig unter Glas', 'Zitrone unter Glas'][i], ['Lemon blossom under glass', 'Lemon branch under glass', 'Lemon under glass'][i]),
+    n=>L(n + '-mal Lemonmeditation – dein Zitronenzweig trägt Früchte.', 'Lemon meditation ' + n + ' times – your lemon branch bears fruit.'));
   // days in a row: a crystal that grows
   const streakMax = Object.keys(ev.streakAt).length ? Math.max(...Object.keys(ev.streakAt).map(Number)) : 0;
   [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, group:'streak', stage:i, kind:'img', img:'crystal-' + (i + 1), scale:0.55 + i * 0.08, aspect:0.75, need:1, needShow:n,
