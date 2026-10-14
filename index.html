@@ -76,6 +76,7 @@ button, input, select, textarea{ font-family:inherit; }
 .icon-btn:hover{ color:var(--ew-turquoise); border-color:var(--ew-turquoise); }
 #tb-library-btn{ color:var(--ew-text); }
 #tb-library-btn svg{ display:block; }
+.tb-lib-ico{ width:28px; height:30px; object-fit:contain; display:block; }
 #sync-btn{ position:relative; }
 #sync-btn svg{ width:30px; height:30px; display:block; }
 #sync-btn::after{ content:''; position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:transparent; }
@@ -827,12 +828,20 @@ body{ background:radial-gradient(ellipse at 50% 0%, #2a1f6e 0%, #141a4a 45%, #0b
 .primary-btn:active, .ghost-btn:active{ transform:translateY(1px) scale(0.99); }
 /* the frame lies behind the content on every page */
 .page-modal, .tb-overlay{ background:radial-gradient(ellipse at 50% 0%, #2a1f6e 0%, #141a4a 45%, #0b1026 100%); }
-.page-modal::before, .tb-overlay::before, body::before{ content:''; position:fixed; left:4px; right:4px; top:4px; bottom:calc(var(--nav-h, 70px) + 2px); pointer-events:none; border-style:solid; border-width:40px 36px 36px 36px; border-image:url(img/frame-portrait.png) 160 150 150 150 stretch; z-index:0; }
+.page-modal::before, .tb-overlay::before, body::before{ content:''; position:fixed; left:4px; right:4px; top:calc(4px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 2px); pointer-events:none; border-style:solid; border-width:40px 36px 36px 36px; border-image:url(img/frame-portrait.png) 160 150 150 150 stretch; z-index:0; }
 .page-modal::before, .tb-overlay::before{ background:radial-gradient(ellipse at 50% 0%, #2a1f6e 0%, #141a4a 45%, #0b1026 100%); background-clip:padding-box; }
-@media (orientation:landscape) and (min-width:700px){ .page-modal::before, .tb-overlay::before, body::before{ border-image-source:url(img/frame-land.png); } }
+@media (orientation:landscape) and (min-width:700px){
+  .page-modal::before, .tb-overlay::before, body::before{ border-image-source:url(img/frame-land.png); border-width:26px 30px 18px 30px; top:calc(2px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 1px); }
+  .page-modal > .modal{ top:calc(26px + var(--safe-t)) !important; bottom:calc(var(--nav-h, 70px) + 20px) !important; left:32px !important; right:32px !important; }
+  .tb-overlay > .tb-topbar{ margin-top:calc(24px + var(--safe-t)) !important; padding-top:4px !important; padding-bottom:6px !important; }
+  .tb-overlay > .tb-body{ margin-bottom:16px !important; }
+  .tb-tools-fab{ bottom:calc(var(--nav-h) + 28px) !important; } .tb-del-fab{ bottom:calc(var(--nav-h) + 32px) !important; }
+}
 .page-modal > .modal, .tb-overlay > *{ position:relative; z-index:1; }
-.page-modal > .modal{ background:transparent !important; padding-left:40px !important; padding-right:40px !important; padding-top:calc(48px + var(--safe-t)) !important; }
-.tb-overlay > .tb-topbar{ margin:40px 36px 0; }
+.page-modal > .modal{ background:transparent !important; position:absolute !important; left:38px; right:38px; top:calc(40px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 38px); height:auto !important; max-width:none !important; width:auto !important; padding:12px 4px 20px !important; overflow-y:auto !important; }
+#goals-page > .modal{ padding-left:0 !important; padding-right:0 !important; }
+#goals-page .modal-top, #goals-page .modal-sub{ padding-left:8px; padding-right:8px; }
+.tb-overlay > .tb-topbar{ margin:calc(40px + var(--safe-t)) 36px 0; padding-top:10px !important; }
 .tb-overlay > .tb-body{ margin:0 32px 30px; overflow-x:hidden; }
 body > *:not(.modal-backdrop):not(.tb-overlay):not(#bottom-nav):not(.dialog-backdrop){ position:relative; z-index:1; }
 body{ padding:40px 30px 0; box-sizing:border-box; }
@@ -844,8 +853,12 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 .tb-body-cover .tb-cover.tb-cover-land{ width:min(100cqw, 133cqh) !important; aspect-ratio:4/3; }
 .icon-default{ box-shadow:0 20px 50px rgba(0,0,0,0.55) !important; border-radius:6px !important; }
 .icon-default .tb-cover-bottom{ padding-bottom:9.5% !important; }
-.icon-default .tb-cover-caption .tb-cover-title{ color:#f3ead6 !important; text-shadow:0 2px 3px rgba(0,0,0,0.5) !important; font-size:clamp(26px, 7cqw, 46px); font-weight:400; }
-.icon-default .tb-cover-caption .tb-cover-year{ color:#e8b84a !important; text-shadow:none !important; font-family:'Marcellus', serif; font-size:clamp(15px, 4cqw, 24px); margin-top:4px; }
+.tb-body-cover .tb-cover{ container-type:inline-size; }
+.icon-default .tb-cover-caption .tb-cover-title{ color:#f3ead6 !important; text-shadow:0 2px 3px rgba(0,0,0,0.5) !important; font-size:9cqw; line-height:1.1; font-weight:400; }
+.tb-cover-land.icon-default .tb-cover-caption .tb-cover-title{ font-size:6.5cqw; }
+.tb-cover-land.icon-default .tb-cover-bottom{ padding-bottom:13.5% !important; gap:0 !important; }
+.tb-cover-land.icon-default .tb-cover-caption .tb-cover-year{ font-size:3.6cqw !important; margin-top:1px; }
+.icon-default .tb-cover-caption .tb-cover-year{ color:#e8b84a !important; text-shadow:none !important; font-family:'Marcellus', serif; font-size:5cqw; margin-top:2px; }
 .icon-default .tb-gear-btn{ position:absolute; right:12%; top:12%; }
 .tb-cover-choices{ display:flex; gap:8px; flex-wrap:wrap; }
 .tb-cover-choice{ width:48px; aspect-ratio:3/4; padding:0; border:2px solid transparent; border-radius:6px; background:none; cursor:pointer; }
@@ -1095,6 +1108,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
         </g>
         <g id="breath-clip"><g id="breath-lotus" transform="translate(120 120) scale(0.86)"></g></g>
         <rect class="breath-sky" x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3" style="display:none;"/>
+        <rect id="breath-square" x="30" y="30" width="180" height="180" rx="4" fill="none" stroke="rgba(232,184,74,0.45)" stroke-width="2"/>
         <circle id="breath-dot" cx="30" cy="210" r="11" fill="#6d4aff"/>
       </svg>
     </div>
@@ -1268,16 +1282,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 <!-- Tagebuch (Diary) -->
 <div class="tb-overlay" id="tb-overlay">
   <div class="tb-topbar">
-    <button class="icon-btn" id="tb-library-btn" title="Bibliothek"><svg class="ico-shelf" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
-      <rect x="3.5" y="3.5" width="25" height="25" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
-      <line x1="3.5" y1="16" x2="28.5" y2="16" stroke="currentColor" stroke-width="1.9"/>
-      <rect x="7.3" y="7.2" width="4.8" height="7.8" rx="1" fill="#e8b84a"/>
-      <rect x="13.3" y="9.2" width="4.8" height="5.8" rx="1" fill="#5a2bef"/>
-      <rect x="19.3" y="7.6" width="4.6" height="7.4" rx="1" fill="currentColor" transform="rotate(9 21.6 15)"/>
-      <rect x="7.3" y="19.6" width="4.8" height="7.1" rx="1" fill="#5a2bef"/>
-      <rect x="13.3" y="18.4" width="4.8" height="8.3" rx="1" fill="#e8b84a"/>
-      <rect x="19.3" y="20.8" width="4.8" height="5.9" rx="1" fill="currentColor"/>
-    </svg></button>
+    <button class="icon-btn" id="tb-library-btn" title="Bibliothek"><img class="tb-lib-ico" src="img/icons/ico-library.webp" alt=""></button>
     <h2 id="tb-title">Tagebuch</h2>
     <div class="tb-topnav" id="tb-topnav"></div>
     <div style="display:flex;gap:8px;align-items:center;">
@@ -1289,7 +1294,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.63.0';
+const APP_VERSION = '1.63.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1932,7 +1937,7 @@ function mediPlayerOpen(id){
   if(!m || !m.audio) return;
   mediPlayerStop(true);
   document.getElementById('medi-player-title').textContent = m.title;
-  document.getElementById('medi-player-img').innerHTML = lemonPlayerSvg();
+  document.getElementById('medi-player-img').innerHTML = imgPic('ex-lemon');
   mediAudio = new Audio(m.audio);
   mediAudio.addEventListener('loadedmetadata', mediPlayerUi);
   mediAudio.addEventListener('ended', ()=>{ mediAudio.currentTime = 0; mediPlayerUi(); });
@@ -2178,22 +2183,20 @@ function breathLotusBuild(kind){
   const g = document.getElementById('breath-lotus');
   cherryPreload(kind);
   if(g.dataset.kind !== kind){
-    const url = BREATH_FRAMES[kind][1], r = kind === 'blossom' ? 98 : 110;
-    g.innerHTML = `<image class="cv-a" href="${url(0)}" x="${-r}" y="${-r}" width="${2 * r}" height="${2 * r}"/><image class="cv-b" href="${url(1)}" x="${-r}" y="${-r}" width="${2 * r}" height="${2 * r}" opacity="0"/>`;
+    // since 1.63.1 a still picture without background (the videos are not good enough yet)
+    g.innerHTML = `<image href="img/${kind === 'blossom' ? 'ex-cherry' : 'ex-lotus'}.webp" x="-100" y="-100" width="200" height="200" preserveAspectRatio="xMidYMid meet"/>`;
     g.dataset.kind = kind;
     g.setAttribute('transform', kind === 'blossom' ? 'translate(120 120) scale(0.92)' : 'translate(120 120) scale(0.86)'); // the branch fills the space where the lake would be
   }
   lotusEls = { kind, a:g.querySelector('.cv-a'), b:g.querySelector('.cv-b'), ia:0, ib:1, pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), centers:[...g.querySelectorAll('.lt-center')], buds:[...g.querySelectorAll('.lt-bud')], glow:g.querySelector('.lt-glow') };
-  // the cherry branch stands against the blue sky, without the lake
-  document.querySelectorAll('#breath-modal .breath-lake').forEach(el=>{ el.style.display = kind === 'blossom' ? 'none' : ''; });
-  document.querySelectorAll('#breath-modal .breath-sky').forEach(el=>{ el.style.display = kind === 'blossom' ? '' : 'none'; });
+  document.querySelectorAll('#breath-modal .breath-lake, #breath-modal .breath-sky').forEach(el=>{ el.style.display = 'none'; });
   // the branch is cut off by the edge of the sky square
   const clip = document.getElementById('breath-clip');
   if(kind === 'blossom') clip.setAttribute('clip-path', 'url(#lakeClip)'); else clip.removeAttribute('clip-path');
 }
 const BLOSSOM_MAX_OPEN = 0.9; // the cherry blossoms never open completely
 function breathLotusSet(open){
-  if(!lotusEls) return;
+  if(!lotusEls || !lotusEls.a) return; // a still picture since 1.63.1
   // evenly through the whole phase (4-7-8: 4 s to open, 8 s to close; Box: 4 s each)
   const [N, url] = BREATH_FRAMES[lotusEls.kind];
   const e = lotusEls, pos = Math.max(0, Math.min(1, open)) * (N - 1), k = Math.min(N - 2, Math.floor(pos)), f = pos - k;
@@ -2207,7 +2210,8 @@ function breathOpen(pat){
   breathLotusSet(0);
   breath = { start:performance.now(), pausedAt:0, raf:0, lastPhase:-1, pat };
   document.getElementById('breath-title').textContent = pat === 'b478' ? t().ex478Title : 'Box Breathing';
-  document.getElementById('breath-dot').style.display = pat === 'box' ? '' : 'none'; // the dot only fits the square rhythm
+  document.getElementById('breath-dot').style.display = pat === 'box' ? '' : 'none';
+  document.getElementById('breath-square').style.display = pat === 'box' ? '' : 'none'; // the dot only fits the square rhythm
   document.getElementById('breath-pause-btn').textContent = t().breathPause;
   document.getElementById('breath-stop-btn').textContent = t().breathStop;
   openModal('breath-modal');
@@ -2910,7 +2914,7 @@ function timerOpen(){
   const d = t();
   timerRun = null;
   document.getElementById('timer-title').textContent = d.exTimerTitle;
-  document.getElementById('timer-img').innerHTML = playerSquareSvg(bowlPictureSvg('player'), 'tm');
+  document.getElementById('timer-img').innerHTML = imgPic('ex-bowl');
   timerUi();
   openModal('timer-modal');
   exMusicUi();
@@ -3466,6 +3470,8 @@ Object.assign(I18N.de, {"stickerNames": {"leaf": "Blatt", "moon": "Mond", "sun":
 Object.assign(I18N.en, {"stickerNames": {"leaf": "Leaf", "moon": "Moon", "sun": "Sun", "wave": "Wave", "heart-pink": "Pink heart", "heart-red": "Red heart", "star": "Star", "mountains": "Mountains", "rainbow-land": "Rainbow land", "music": "Music", "lotus": "Blue lotus", "cherry": "Cherry branch", "rose": "Rose", "fox": "Fox", "rabbit": "Rabbit", "dog": "Dog", "rainbow": "Rainbow", "treasure": "Treasure chest"}});
 Object.assign(I18N.de, {"diaryCoverPick": "Cover"});
 Object.assign(I18N.en, {"diaryCoverPick": "Cover"});
+Object.assign(I18N.de, { diaryLandPhone:'Tipp: Auf dem Handy ist das Hochformat angenehmer. Das Querformat eignet sich besser für Tablet und Computer.' });
+Object.assign(I18N.en, { diaryLandPhone:'Tip: on a phone the portrait format is more comfortable. Landscape suits tablets and computers better.' });
 function t(){ return I18N[state.settings.lang]; }
 
 function currentValue(area){
@@ -4813,7 +4819,8 @@ function tbNewBook(format){
 }
 async function tbNewBookAsk(){
   const d = t();
-  const choice = await uiDialog(d.diaryNewBook + '\n\n' + d.diaryNewBookText, { okText:d.diaryPortrait, altText:d.diaryLandscape, confirm:true });
+  const phone = Math.min(window.innerWidth, window.innerHeight) < 600;
+  const choice = await uiDialog(d.diaryNewBook + '\n\n' + d.diaryNewBookText + (phone ? '\n\n' + d.diaryLandPhone : ''), { okText:d.diaryPortrait, altText:d.diaryLandscape, confirm:true });
   if(choice === true) tbNewBook('portrait'); else if(choice === 'alt') tbNewBook('landscape');
 }
 function tbEnsureYear(year){
@@ -4868,7 +4875,7 @@ document.getElementById('tb-library-btn').onclick = ()=>{ tbView='library'; tbRe
 function tbSizeVars(){
   const w = window.innerWidth, root = document.documentElement.style;
   const nav = document.getElementById('bottom-nav'), navH = nav ? nav.offsetHeight : 70;
-  const avail = window.innerHeight - navH - 64 - 28; // header of the diary and a little air
+  const avail = window.innerHeight - navH - 64 - 28 - (window.innerWidth > window.innerHeight ? 56 : 80); // header, frame and a little air
   if(w >= 640){
     const pw = Math.max(320, Math.min(1200, w - 84, Math.floor(avail * 0.75)));
     root.setProperty('--tb-page-w', pw + 'px'); root.setProperty('--tbk', (pw / 560).toFixed(4));
@@ -5079,7 +5086,7 @@ function trophyNext(){
 }
 // placeholder drawings: glass orb on a paper stand, crystal cluster, the exercise picture under a glass bell
 function trophySvg(x, id){
-  if(x.kind === 'img') return `<img src="img/${x.img}.webp" alt="">`;
+  if(x.kind === 'img') return `<img src="img/${x.img}.webp" alt="" decoding="async" onerror="if(!this.dataset.r){ this.dataset.r = 1; this.src = this.src.split('?')[0] + '?r=' + Date.now(); }">`;
   const P = 'tr' + id, col = x.color, tier = TROPHY_TIERS[x.tier || 0];
   const stand = `<path d="M-30 78L30 78L24 62L-24 62Z" fill="#7a4a28"/><path d="M-24 62L24 62L20 56L-20 56Z" fill="#a46a3c"/><rect x="-18" y="66" width="36" height="6" rx="2" fill="${tier}"/>`;
   const glow = `<radialGradient id="${P}g"><stop offset="0%" stop-color="${col}" stop-opacity="0.55"/><stop offset="100%" stop-color="${col}" stop-opacity="0"/></radialGradient>`;
@@ -5176,7 +5183,7 @@ function tbCoverSetupOpen(diary){
    Older diaries map their chosen colour to the nearest cover. Landscape books use a landscape cover where one exists,
    otherwise the navy landscape one (more come later: add the colour to TB_COVER_LAND). ---- */
 const TB_COVERS = ['navy', 'blue', 'green', 'violet', 'red'];
-const TB_COVER_LAND = ['navy'];
+const TB_COVER_LAND = ['navy', 'green', 'violet', 'red', 'blue'];
 const TB_COLOR_TO_COVER = { '#2f1c52':'violet', '#3d10c9':'blue', '#0e4a3a':'green', '#111730':'navy', '#5a2bef':'violet', '#7a1f3d':'red' };
 function tbCoverName(diary){ const c = diary.cover; return TB_COVERS.includes(c.cover) ? c.cover : (c.colorChosen && TB_COLOR_TO_COVER[c.color]) || 'navy'; }
 function tbCoverUrl(diary){ const n = tbCoverName(diary); return tbIsLand(diary) ? `img/covers/${TB_COVER_LAND.includes(n) ? n : 'navy'}-l.webp` : `img/covers/${n}-p.webp`; }
