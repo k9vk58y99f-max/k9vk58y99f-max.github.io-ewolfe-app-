@@ -868,6 +868,14 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 .shelf-book .shelf-key{ color:#e8b84a !important; font-family:'Marcellus', serif; }
 .tb-area-head{ color:#a8781e !important; }
 .imp-text{ color:#f3ead6; }
+.gold-gear{ width:22px; height:22px; object-fit:contain; vertical-align:-5px; margin-right:6px; }
+.tb-gear-btn .gold-gear{ width:28px; height:28px; margin:0; }
+.tb-gear-btn{ background:none !important; border:none !important; box-shadow:none !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important; }
+.tb-page.tb-page-titel{ background:transparent !important; box-shadow:none !important; }
+.tb-page-titel .tb-page-titel-img{ object-fit:contain; filter:drop-shadow(0 14px 28px rgba(0,0,0,0.5)); }
+.tb-page-titel .tb-titel-caption{ bottom:11%; }
+.tb-page-titel .tb-titel-caption-title{ font-family:'Marcellus', serif; font-weight:400; color:#f3ead6; font-size:calc(34px * var(--tbk)); }
+.tb-page-titel .tb-titel-caption-year{ font-family:'Marcellus', serif; color:#e8b84a; }
 </style>
 </head>
 <body data-theme="dark">
@@ -1294,7 +1302,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.63.2';
+const APP_VERSION = '1.63.3';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5194,7 +5202,7 @@ function tbRenderCover(){
           <div class="tb-cover-title" style="font-family:${fontFamily};">${escapeHtml(diary.cover.title || d.diaryTitle)}</div>
           ${hasCustomTitle ? '' : `<div class="tb-cover-year">${tbYear}</div>`}
         </div>
-        ${true ? `<div class="tb-cover-actions"><button class="tb-gear-btn" onclick="event.stopPropagation(); tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}">${ico('gear')}</button></div>` : ''}
+        ${true ? `<div class="tb-cover-actions"><button class="tb-gear-btn" onclick="event.stopPropagation(); tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}"><img class="gold-gear" src="img/icons/ico-gear.webp" alt=""></button></div>` : ''}
       </div>
     </div>
   </div>${tbCoverSettingsHtml()}`;
@@ -5225,7 +5233,7 @@ function tbCoverSettingsHtml(){
   const typeChips = TB_STYLE_ORDER.concat('areas').map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
   return `<div class="tb-tools-backdrop" onclick="tbCoverSettingsOpen=false; tbRender();"></div>
     <div class="tb-cover-pop" role="dialog">
-      <div class="tb-cover-pop-head"><span>${ico('gear')}${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();">✕</button></div>
+      <div class="tb-cover-pop-head"><span><img class="gold-gear" src="img/icons/ico-gear.webp" alt="">${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();">✕</button></div>
       <input class="small-input" id="tb-cover-title-input" placeholder="${d.diaryTitlePh}" value="${escapeHtml(c.title||'')}">
       <span class="tb-row-label">${d.diaryCoverPick}</span>
       <div class="tb-cover-choices">${TB_COVERS.map(n=>`<button class="tb-cover-choice${tbCoverName(diary) === n ? ' active' : ''}" onclick="tbSetCover('${n}')" aria-label="${n}"><img src="img/covers/${n}-p.webp" alt=""></button>`).join('')}</div>
@@ -5407,7 +5415,7 @@ function tbRenderPageSlot(idx){
     // one single composite image: the original icon flush at the top, its own diagonal
     // background pattern continued seamlessly below to fill the rest of the page
     return `<div class="tb-page tb-page-titel${tbIsLand(diary) ? ' tb-land-page' : ''}">
-      <img class="tb-page-titel-img" src="${TB_TITLE_BG}" alt="eWolfe">
+      <img class="tb-page-titel-img" src="${tbCoverUrl(diary)}" alt="">
       <div class="tb-titel-caption">
         <div class="tb-titel-caption-title">${d.diaryTitle}</div>
         <div class="tb-titel-caption-year">${tbYear}</div>
