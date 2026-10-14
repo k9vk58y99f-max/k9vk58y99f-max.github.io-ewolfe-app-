@@ -22,7 +22,7 @@
   --ew-navy-2:#111730;
   --ew-violet:#2f1c52;
   --ew-green:#0e4a3a;
-  --ew-turquoise:#e8b84a;
+  --ew-turquoise:var(--gold); --gold:#e8b84a; --gold-text:#f6d27a; --gold-rgb:232,184,74;
   --ew-white:#ffffff;
   --ew-ink:#0a0e1f;
   --ew-panel:#131a33;
@@ -66,7 +66,7 @@ button, input, select, textarea{ font-family:inherit; }
   border-bottom:1px solid var(--ew-line);
 }
 .logo{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px; color:var(--ew-text); cursor:pointer; -webkit-tap-highlight-color:transparent; }
-.logo-dog{ width:34px; height:34px; border-radius:50%; object-fit:cover; object-position:center 42%; display:block; background:var(--ew-uv-navy); box-shadow:0 0 0 1.5px rgba(232,184,74,0.7), 0 0 16px rgba(232,184,74,0.35); }
+.logo-dog{ width:34px; height:34px; border-radius:50%; object-fit:cover; object-position:center 42%; display:block; background:var(--ew-uv-navy); box-shadow:0 0 0 1.5px rgba(var(--gold-rgb),0.7), 0 0 16px rgba(var(--gold-rgb),0.35); }
 .topbar-actions{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
 .icon-btn{
   width:38px; height:38px; border-radius:12px; border:1px solid var(--ew-line);
@@ -80,7 +80,7 @@ button, input, select, textarea{ font-family:inherit; }
 #sync-btn{ position:relative; }
 #sync-btn svg{ width:30px; height:30px; display:block; }
 #sync-btn::after{ content:''; position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:transparent; }
-#sync-btn.has-note::after{ background:var(--ew-turquoise); box-shadow:0 0 8px rgba(232,184,74,0.8); } /* only when there is something to do */
+#sync-btn.has-note::after{ background:var(--ew-turquoise); box-shadow:0 0 8px rgba(var(--gold-rgb),0.8); } /* only when there is something to do */
 .note-item{ background:var(--ew-panel-2); border-radius:14px; padding:12px 14px; margin-bottom:10px; font-size:14px; line-height:1.45; }
 .note-item .primary-btn{ width:100%; margin-top:10px; }
 @keyframes syncPulse{ 0%,100%{ opacity:.35; } 50%{ opacity:1; } }
@@ -111,7 +111,7 @@ button, input, select, textarea{ font-family:inherit; }
 .nav-item span{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
 .nav-item:hover, .nav-item.active{ color:var(--ew-text); }
 .nav-item.active svg{ color:var(--ew-turquoise); }
-.nav-new svg{ color:var(--ew-turquoise); filter:drop-shadow(0 0 8px rgba(232,184,74,0.35)); }
+.nav-new svg{ color:var(--ew-turquoise); filter:drop-shadow(0 0 8px rgba(var(--gold-rgb),0.35)); }
 /* settings window */
 .settings-section{ padding:14px 0; border-top:1px solid var(--ew-line); }
 .settings-section:first-of-type{ border-top:none; padding-top:4px; }
@@ -120,12 +120,12 @@ button, input, select, textarea{ font-family:inherit; }
 .seg{ display:flex; gap:6px; background:var(--ew-panel-2); padding:4px; border-radius:12px; }
 .seg-btn{ flex:1; border:none; background:transparent; color:var(--ew-text-dim); padding:9px 10px; border-radius:9px; font-size:14px; font-weight:500; cursor:pointer; }
 .seg-btn.active{ background:var(--ew-turquoise); color:var(--ew-uv-navy); font-weight:600; }
-.ico-buddha-btn:hover .ico-buddha{ filter:drop-shadow(0 0 4px rgba(232,184,74,0.5)); }
+.ico-buddha-btn:hover .ico-buddha{ filter:drop-shadow(0 0 4px rgba(var(--gold-rgb),0.5)); }
 .primary-btn{
   background:var(--ew-turquoise);
   color:var(--ew-uv-navy); border:none; font-weight:600; font-size:14px;
   padding:10px 18px; border-radius:12px; cursor:pointer;
-  box-shadow:0 6px 20px rgba(232,184,74,0.25);
+  box-shadow:0 6px 20px rgba(var(--gold-rgb),0.25);
   transition:transform .15s ease;
 }
 .primary-btn:hover{ transform:translateY(-1px); }
@@ -326,7 +326,7 @@ table.goal-table{ border-collapse:separate; border-spacing:0; width:100%; min-wi
 .ev-ov-title{ font-weight:600; font-size:14.5px; }
 .ev-ov-date{ font-size:12px; color:var(--ew-text-dim); white-space:nowrap; }
 .ev-ov-areas{ display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 4px; }
-.ev-ov-area{ font-size:11.5px; padding:3px 9px; border-radius:999px; background:rgba(232,184,74,0.14); color:var(--ew-turquoise); }
+.ev-ov-area{ font-size:11.5px; padding:3px 9px; border-radius:999px; background:rgba(var(--gold-rgb),0.14); color:var(--ew-turquoise); }
 .page-modal > .modal{ max-width:680px; height:100%; max-height:none; border-radius:0; border:none; background:var(--ew-navy); padding-top:calc(20px + var(--safe-t)); padding-bottom:28px; }
 .modal-wide{ max-width:min(1164px, calc(85.6vh * 1.2903)); max-height:85.6vh; }
 .modal-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px; }
@@ -361,7 +361,7 @@ input[type=range]::-webkit-slider-thumb{
 .medi-staged-file{ display:flex; align-items:center; justify-content:space-between; gap:8px; background:var(--ew-navy-2); border-radius:10px; padding:8px 10px; margin-top:8px; font-size:12.5px; }
 .medi-media{ margin-top:8px; max-width:100%; }
 .medi-card{ background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:18px; margin-bottom:12px; overflow:hidden; }
-.medi-card.open{ border-color:rgba(232,184,74,0.35); }
+.medi-card.open{ border-color:rgba(var(--gold-rgb),0.35); }
 .medi-card-head{ display:flex; align-items:center; gap:14px; width:100%; padding:12px 14px; background:none; border:none; color:var(--ew-text); font:inherit; text-align:left; cursor:pointer; }
 .medi-card-img{ width:64px; height:64px; flex:none; display:block; }
 .medi-card-img svg{ width:100%; height:100%; display:block; }
@@ -546,7 +546,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-nav-btn:disabled{ opacity:.3; cursor:default; }
 .tb-topnav .tb-page-num{ min-width:46px; font-size:13px; color:var(--ew-text); font-weight:600; }
 /* floating tools button of the diary, with its menu opening upwards */
-.tb-tools-fab{ position:fixed; right:18px; bottom:calc(var(--nav-h) + 18px); z-index:5; width:56px; height:56px; border-radius:50%; border:none; background:var(--ew-turquoise); color:var(--ew-uv-navy); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 28px rgba(0,0,0,0.45), 0 0 0 4px rgba(232,184,74,0.18); cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.tb-tools-fab{ position:fixed; right:18px; bottom:calc(var(--nav-h) + 18px); z-index:5; width:56px; height:56px; border-radius:50%; border:none; background:var(--ew-turquoise); color:var(--ew-uv-navy); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 28px rgba(0,0,0,0.45), 0 0 0 4px rgba(var(--gold-rgb),0.18); cursor:pointer; -webkit-tap-highlight-color:transparent; }
 .tb-tools-fab .ui-ico{ width:24px; height:24px; margin:0; stroke-width:2; }
 .tb-fab-x{ font-size:20px; font-weight:700; }
 .tb-del-fab{ position:fixed; left:18px; bottom:calc(var(--nav-h) + 24px); z-index:5; width:44px; height:44px; border-radius:50%; border:1px solid var(--ew-line); background:var(--ew-panel); color:var(--ew-text-dim); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 22px rgba(0,0,0,0.4); cursor:pointer; -webkit-tap-highlight-color:transparent; }
@@ -554,7 +554,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-del-fab:hover{ color:#ef8e8e; border-color:#ef8e8e; }
 .tb-tools-row{ display:flex; align-items:center; border-radius:12px; }
 .tb-tools-row .tb-tools-item{ flex:1; }
-.tb-tools-row.active{ background:rgba(232,184,74,0.10); }
+.tb-tools-row.active{ background:rgba(var(--gold-rgb),0.10); }
 .tb-tools-row.active .tb-tools-item{ color:var(--ew-turquoise); font-weight:600; background:transparent; }
 .tb-tools-chevbtn{ border:none; background:transparent; color:var(--ew-text-dim); padding:8px 10px; border-radius:10px; cursor:pointer; display:flex; }
 .tb-tools-chevbtn:hover{ background:var(--ew-panel-2); }
@@ -568,7 +568,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-tools-item{ display:flex; align-items:center; width:100%; text-align:left; gap:4px; padding:11px 12px; border:none; border-radius:12px; background:transparent; color:var(--ew-text); font:inherit; font-size:14.5px; cursor:pointer; }
 .tb-tools-item .ui-ico{ width:20px; height:20px; margin-right:10px; }
 .tb-tools-item:hover{ background:var(--ew-panel-2); }
-.tb-tools-item.active{ color:var(--ew-turquoise); background:rgba(232,184,74,0.10); font-weight:600; }
+.tb-tools-item.active{ color:var(--ew-turquoise); background:rgba(var(--gold-rgb),0.10); font-weight:600; }
 .tb-tools-sep{ height:1px; background:var(--ew-line); margin:6px 8px; }
 .tb-tools-sub{ display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:2px 6px 8px 34px; }
 .tb-tools-subitem{ font:inherit; font-size:12.5px; padding:7px 10px; border-radius:10px; border:1px solid var(--ew-line); background:var(--ew-panel-2); color:var(--ew-text); cursor:pointer; }
@@ -755,7 +755,7 @@ body.swipe-prev .page-modal.open > .modal, body.swipe-prev .tb-overlay.open, bod
 .medi-mood-card h3{ margin:0 0 6px; }
 .medi-mood-card p{ margin:0 0 6px; line-height:1.5; }
 .goal-table-card-h{ font-size:var(--fs-sub); font-weight:700; color:var(--ew-turquoise); margin:0 0 6px; }
-.medi-own-pic{ width:56px; height:56px; margin:4px; border-radius:16px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #3a2fd0, #6d6ef3 60%, #e8b84a); }
+.medi-own-pic{ width:56px; height:56px; margin:4px; border-radius:16px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #3a2fd0, #6d6ef3 60%, var(--gold)); }
 .medi-own-pic svg{ width:30px; height:30px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .medi-card-actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
 .medi-card-actions .ghost-btn{ display:inline-flex; align-items:center; }
@@ -763,7 +763,7 @@ body.swipe-prev .page-modal.open > .modal, body.swipe-prev .tb-overlay.open, bod
 .medi-icon-opt{ width:52px; height:52px; border-radius:14px; border:1px solid var(--ew-line); background:var(--ew-panel); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:4px; }
 .medi-icon-opt svg{ width:100%; height:100%; display:block; }
 #medi-icon-pick{ display:flex; flex-wrap:wrap; gap:8px; }
-.medi-icon-opt.active{ border-color:var(--ew-turquoise); background:rgba(232,184,74,0.16); color:var(--ew-turquoise); }
+.medi-icon-opt.active{ border-color:var(--ew-turquoise); background:rgba(var(--gold-rgb),0.16); color:var(--ew-turquoise); }
 .mood-box h2{ margin-bottom:16px; text-align:center; }
 .mood-row{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
 .mood-opt{ display:flex; align-items:center; gap:12px; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:14px; padding:9px 14px; color:#f3ead6; cursor:pointer; font:inherit; font-size:var(--fs-text); text-align:left; }
@@ -787,7 +787,7 @@ body.swipe-prev .page-modal.open > .modal, body.swipe-prev .tb-overlay.open, bod
 .grat-recent-item b{ color:var(--ew-turquoise); font-weight:600; }
 .timer-chips{ display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin:4px 0 10px; }
 .timer-chips button{ border:1px solid var(--ew-line); background:var(--ew-panel); color:#f3ead6; border-radius:999px; padding:8px 14px; cursor:pointer; font:inherit; }
-.timer-chips button.active{ border-color:var(--ew-turquoise); background:rgba(232,184,74,0.16); color:var(--ew-turquoise); }
+.timer-chips button.active{ border-color:var(--ew-turquoise); background:rgba(var(--gold-rgb),0.16); color:var(--ew-turquoise); }
 .timer-clock{ text-align:center; font-size:42px; font-weight:700; letter-spacing:.02em; margin:2px 0 14px; font-variant-numeric:tabular-nums; }
 .remind-label{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
 .remind-label input{ max-width:140px; }
@@ -819,13 +819,13 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 /* ===== Gold & paper look (since 1.63.0) ===== */
 body{ background:radial-gradient(ellipse at 50% 55%, #241c66 0%, #141a4a 50%, #0b1026 100%) fixed; }
-.modal-title, .scene-head h1, .tb-topbar h2, #t-scene-title, .modal-top h2{ color:#e8b84a !important; font-family:'Marcellus', serif !important; font-weight:400 !important; letter-spacing:0.02em; }
+.modal-title, .scene-head h1, .tb-topbar h2, #t-scene-title, .modal-top h2{ color:var(--gold) !important; font-family:'Marcellus', serif !important; font-weight:400 !important; letter-spacing:0.02em; }
 .nav-gold{ width:28px; height:28px; object-fit:contain; display:block; opacity:.55; transition:opacity .2s, transform .2s; }
 .nav-item.active .nav-gold{ opacity:1; transform:scale(1.06); }
 .logo-dog{ border-radius:9px !important; object-fit:contain !important; background:none !important; box-shadow:none !important; }
 /* buttons: the person's paper buttons, the ends keep their shape, the middle stretches */
-.primary-btn{ background:none !important; border-style:solid !important; border-width:0 22px !important; border-image:url(img/btn-main.webp) 0 92 fill / 0 20px stretch; min-height:42px; color:#f6d27a !important; box-shadow:none !important; border-radius:0 !important; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.4)); text-shadow:0 1px 2px rgba(0,0,0,0.45); }
-.ghost-btn{ background:none !important; border-style:solid !important; border-width:0 16px !important; border-image:url(img/btn-quiet.webp) 0 70 fill / 0 15px stretch; min-height:34px; color:#f6d27a !important; border-radius:0 !important; }
+.primary-btn{ background:none !important; border-style:solid !important; border-width:0 22px !important; border-image:url(img/btn-main.webp) 0 92 fill / 0 20px stretch; min-height:42px; color:var(--gold-text) !important; box-shadow:none !important; border-radius:0 !important; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.4)); text-shadow:0 1px 2px rgba(0,0,0,0.45); }
+.ghost-btn{ background:none !important; border-style:solid !important; border-width:0 16px !important; border-image:url(img/btn-quiet.webp) 0 70 fill / 0 15px stretch; min-height:34px; color:var(--gold-text) !important; border-radius:0 !important; }
 .primary-btn:active, .ghost-btn:active{ transform:translateY(1px) scale(0.99); }
 /* the frame lies behind the content on every page */
 .page-modal, .tb-overlay{ background:radial-gradient(ellipse at 50% 55%, #241c66 0%, #141a4a 50%, #0b1026 100%); }
@@ -859,14 +859,14 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 .tb-cover-land.icon-default .tb-cover-caption .tb-cover-title{ font-size:6.5cqw; }
 .tb-cover-land.icon-default .tb-cover-bottom{ padding-bottom:13.5% !important; gap:0 !important; }
 .tb-cover-land.icon-default .tb-cover-caption .tb-cover-year{ font-size:3.6cqw !important; margin-top:1px; }
-.icon-default .tb-cover-caption .tb-cover-year{ color:#e8b84a !important; text-shadow:none !important; font-family:'Marcellus', serif; font-size:5cqw; margin-top:2px; }
+.icon-default .tb-cover-caption .tb-cover-year{ color:var(--gold) !important; text-shadow:none !important; font-family:'Marcellus', serif; font-size:5cqw; margin-top:2px; }
 .icon-default .tb-gear-btn{ position:absolute; right:12%; top:12%; }
 .tb-cover-choices{ display:flex; gap:8px; flex-wrap:wrap; }
 .tb-cover-choice{ width:48px; aspect-ratio:3/4; padding:0; border:2px solid transparent; border-radius:6px; background:none; cursor:pointer; }
 .tb-cover-choice img{ width:100%; height:100%; display:block; border-radius:4px; }
-.tb-cover-choice.active{ border-color:#e8b84a; }
+.tb-cover-choice.active{ border-color:var(--gold); }
 .shelf-book .shelf-title{ color:#f3ead6 !important; font-weight:400 !important; }
-.shelf-book .shelf-key{ color:#e8b84a !important; font-family:'Marcellus', serif; }
+.shelf-book .shelf-key{ color:var(--gold) !important; font-family:'Marcellus', serif; }
 .tb-area-head{ color:#a8781e !important; }
 .imp-text{ color:#f3ead6; }
 .gold-gear{ width:22px; height:22px; object-fit:contain; vertical-align:-5px; margin-right:6px; }
@@ -876,7 +876,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 .tb-page-titel .tb-page-titel-img{ object-fit:contain; filter:drop-shadow(0 14px 28px rgba(0,0,0,0.5)); }
 .tb-page-titel .tb-titel-caption{ bottom:11%; }
 .tb-page-titel .tb-titel-caption-title{ font-family:'Marcellus', serif; font-weight:400; color:#f3ead6; font-size:calc(34px * var(--tbk)); }
-.tb-page-titel .tb-titel-caption-year{ font-family:'Marcellus', serif; color:#e8b84a; }
+.tb-page-titel .tb-titel-caption-year{ font-family:'Marcellus', serif; color:var(--gold); }
 .gold-ui{ object-fit:contain; vertical-align:-3px; }
 .gold-mute{ opacity:.45; filter:grayscale(.4); }
 .gold-x{ width:18px; height:18px; object-fit:contain; display:block; }
@@ -885,7 +885,7 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 .gold-user{ width:28px; height:28px; object-fit:contain; display:block; }
 .tb-tools-fab .gold-ui{ width:26px !important; height:26px !important; }
 .tb-tools-fab .gold-x{ width:22px; height:22px; }
-.tb-tools-fab, .tb-del-fab{ background:radial-gradient(circle at 35% 30%, #8d7bff, #4b32b8 75%) !important; border:2px solid #e8b84a !important; color:#f6d27a !important; }
+.tb-tools-fab, .tb-del-fab{ background:radial-gradient(circle at 35% 30%, #8d7bff, #4b32b8 75%) !important; border:2px solid var(--gold) !important; color:var(--gold-text) !important; }
 .tb-del-fab .gold-ui{ width:22px !important; height:22px !important; }
 .page-modal.swipe-under, .tb-overlay.swipe-under{ display:flex !important; }
 .page-modal.swipe-top{ z-index:150 !important; display:flex !important; } .tb-overlay.swipe-top{ z-index:250 !important; }
@@ -894,6 +894,22 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 .tb-overlay{ overscroll-behavior:none; }
 /* the top under the status bar stays plain dark, so the iPhone's soft edge does not look like fog */
 html::before{ content:''; position:fixed; left:0; right:0; top:0; height:var(--safe-t); background:#0b1026; z-index:400; pointer-events:none; }
+
+/* ===== Growing luxury (since 1.68.0): the app gets more golden the longer one stays with it (html.lvl-1 … lvl-4) ===== */
+html.lvl-1{ --gold:#b8a4ff; --gold-text:#e2d9ff; --gold-rgb:184,164,255; }
+html.lvl-1 .page-modal::before, html.lvl-1 .tb-overlay::before, html.lvl-1 body::before,
+html.lvl-2 .page-modal::before, html.lvl-2 .tb-overlay::before, html.lvl-2 body::before{ border-image-source:url(img/frame-portrait-tonal.png); }
+@media (orientation:landscape) and (min-width:700px){
+  html.lvl-1 .page-modal::before, html.lvl-1 .tb-overlay::before, html.lvl-1 body::before,
+  html.lvl-2 .page-modal::before, html.lvl-2 .tb-overlay::before, html.lvl-2 body::before{ border-image-source:url(img/frame-land-tonal.png); }
+}
+html.lvl-1 .primary-btn, html.lvl-2 .primary-btn{ border-image-source:url(img/btn-main-tonal.webp); }
+html.lvl-1 .ghost-btn, html.lvl-2 .ghost-btn{ border-image-source:url(img/btn-quiet-tonal.webp); }
+html.lvl-1 .nav-gold, html.lvl-1 .area-ico image, html.lvl-1 .gold-ui, html.lvl-1 .gold-x, html.lvl-1 .gold-arrow, html.lvl-1 .gold-user, html.lvl-1 .gold-gear, html.lvl-1 .tb-lib-ico,
+html.lvl-1 svg image[href*="img/icons/ico-"]{ filter:hue-rotate(215deg) saturate(0.55) brightness(1.1); }
+html.lvl-2 .gold-ui, html.lvl-2 .gold-x, html.lvl-2 .gold-arrow, html.lvl-2 .gold-gear{ filter:hue-rotate(215deg) saturate(0.55) brightness(1.1); }
+@keyframes goldShimmer{ 0%, 70%{ opacity:0; transform:translateX(-60%); } 80%{ opacity:.5; } 100%{ opacity:0; transform:translateX(60%); } }
+html.lvl-4 body::after{ content:''; position:fixed; left:0; right:0; top:var(--safe-t); height:60px; pointer-events:none; z-index:2; background:linear-gradient(100deg, transparent 30%, rgba(255,240,190,0.5) 50%, transparent 70%); animation:goldShimmer 9s ease-in-out infinite; mix-blend-mode:screen; }
 </style>
 </head>
 <body data-theme="dark">
@@ -1320,7 +1336,7 @@ html::before{ content:''; position:fixed; left:0; right:0; top:0; height:var(--s
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.67.0';
+const APP_VERSION = '1.68.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1479,7 +1495,43 @@ ensureBuiltInMeditations(state);
 if(loadHadStorageProblem) showStorageWarning();
 let localStorageOk = true;
 let shrinkAfterFailTried = false;
+/* ---- Levels: active days (days with an exercise, a wheel, a diary page or gratitude) – they only ever grow, so a pause
+   never takes anything away. 1: start (tonal), 2: from 7 days (first gold), 3: from 30 (gold frame and buttons),
+   4: from 100 (shimmer). A new level is announced once. ---- */
+const LEVEL_DAYS = [0, 7, 30, 100];
+const LEVEL_SEEN_KEY = 'ewolfe_level_seen';
+let appLevelCache = null;
+function appActiveDays(){
+  const days = new Set();
+  try{
+    achLog().forEach(e=>{ if(e.kind === 'done' || e.kind === 'grat') days.add(achDay(e.ts)); });
+    (state.bewertungen[AREAS[0]] || []).forEach(x=>days.add(achDay(x.ts)));
+    Object.values(state.tagebuch.jahre || {}).forEach(y=>(y.seiten || []).forEach(p=>{
+      if(p.type === 'titel') return;
+      const written = (p.text && p.text.trim()) || (p.strokes && p.strokes.length) || (p.images && p.images.length) || tbAreaTextLen(p);
+      const m = /^p(\d{12,})/.exec(p.id || ''); if(written && m) days.add(achDay(+m[1]));
+    }));
+  }catch(e){}
+  return days.size;
+}
+function appLevel(){
+  if(appLevelCache === null){ const n = appActiveDays(); appLevelCache = LEVEL_DAYS.filter(x=>n >= x).length; }
+  return appLevelCache;
+}
+function applyLevel(announce){
+  appLevelCache = null;
+  const lv = appLevel(), html = document.documentElement;
+  [1, 2, 3, 4].forEach(i=>html.classList.toggle('lvl-' + i, i === lv));
+  let seen = 0; try{ seen = +(localStorage.getItem(LEVEL_SEEN_KEY) || 0); }catch(e){}
+  if(!seen){ try{ localStorage.setItem(LEVEL_SEEN_KEY, String(lv)); }catch(e){} return; } // the first time: no fanfare
+  if(lv > seen){
+    try{ localStorage.setItem(LEVEL_SEEN_KEY, String(lv)); }catch(e){}
+    if(announce !== false) setTimeout(()=>uiNotice(t().levelUp[lv - 1] || ''), 600);
+  }
+}
+let levelTimer = null;
 function saveState(){
+  clearTimeout(levelTimer); levelTimer = setTimeout(()=>{ try{ applyLevel(); }catch(e){} }, 800);
   if(typeof trophyCheck === 'function') setTimeout(trophyCheck, 0);
   try{
     const json = JSON.stringify(state);
@@ -3501,6 +3553,8 @@ Object.assign(I18N.de, { diaryLandPhone:'Tipp: Auf dem Handy ist das Hochformat 
 Object.assign(I18N.en, { diaryLandPhone:'Tip: on a phone the portrait format is more comfortable. Landscape suits tablets and computers better.' });
 Object.assign(I18N.de, {"trophyToDiary": "Ins Tagebuch", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
 Object.assign(I18N.en, {"trophyToDiary": "Add to diary", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
+Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!"]});
+Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold.", "Your app shines in full splendour. Thank you for 100 days with yourself!"]});
 function t(){ return I18N[state.settings.lang]; }
 
 function currentValue(area){
@@ -5084,11 +5138,19 @@ function tbSpineHtml(key){
    the diaries stand in the top one, the trophies on the four below; more trophies → a further shelf below. Everything in a
    compartment is sized by its height (container units), so it fits at every screen size. */
 // the bottom of each compartment lies towards the back of the board's top surface, so things stand in the shelf, not at its front edge
-const SHELF_X = [29.2, 72.9], SHELF_ROWS = [[18.8, 32.2], [33.7, 46.5], [48.3, 59.7], [61.7, 72.4], [74.7, 85.4]]; // bottom = near the back edge of the board
+// each shelf picture has its own compartments (bottom = near the back edge of the board): level 1 dusty, 2 clean, 3+ with ivy
+const SHELVES = {
+  dusty:{ img:'shelf-dusty', x:[25.7, 75.1], rows:[[15.5, 29.8], [31.3, 44.9], [46.4, 59.1], [60.6, 72.6], [74.1, 86.0]] },
+  clean:{ img:'shelf-clean', x:[25.6, 75.1], rows:[[14.8, 29.1], [30.6, 44.5], [46.0, 58.6], [60.1, 71.9], [73.4, 85.2]] },
+  ivy:{ img:'shelf', x:[29.2, 72.9], rows:[[18.8, 32.2], [33.7, 46.5], [48.3, 59.7], [61.7, 72.4], [74.7, 85.4]] }
+};
+const shelfNow = ()=>SHELVES[appLevel() <= 1 ? 'dusty' : appLevel() === 2 ? 'clean' : 'ivy'];
+let SHELF_X = SHELVES.ivy.x, SHELF_ROWS = SHELVES.ivy.rows;
 const SHELF_ROW_W = 290; // usable width of a compartment in units of its height (cqh)
 function tbShelfScale(){ return 1; }
 function tbRenderLibrary(){
   const d = t();
+  const SH = shelfNow(); SHELF_X = SH.x; SHELF_ROWS = SH.rows;
   const keys = tbBookKeys();
   // widths in units of the compartment height
   const spine = key=>{ const dia = state.tagebuch.jahre[key], land = tbIsLand(dia), pages = dia.seiten.filter(p=>p.type !== 'titel').length;
@@ -5106,7 +5168,7 @@ function tbRenderLibrary(){
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
     : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
   const troHtml = o=>`<button class="shelf-trophy" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
-  const shelfHtml = (rows, si)=>`<div class="shelf-img">${si === shelves.length - 1 ? '<img class="shelf-dog" src="img/stickers/dog.webp" alt="">' : ''}${SHELF_ROWS.map(([y0, y1], i)=>{
+  const shelfHtml = (rows, si)=>`<div class="shelf-img" style="background-image:url(img/${SH.img}.webp)">${si === shelves.length - 1 ? '<img class="shelf-dog" src="img/stickers/dog.webp" alt="">' : ''}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rows[i];
       return `<div class="shelf-comp" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>row.kind === 'books' ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}</div>`;
@@ -6638,6 +6700,7 @@ function init(){
   document.querySelector('.logo-dog').src = 'img/app-icon.png';
   applyTheme();
   applyLang();
+  try{ applyLevel(false); }catch(e){}
   setTimeout(()=>{ shrinkStoredImages(); }, 2500); // photos stored by older versions may be oversized
   syncInit();
   navInit();
