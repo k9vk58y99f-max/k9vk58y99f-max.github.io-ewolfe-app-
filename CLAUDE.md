@@ -124,7 +124,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.64.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.65.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -132,6 +132,8 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Die Tagebuchseite wächst als Ganzes (`tbSizeVars()`: `--tb-page-w` = Fensterbreite − 24 px, höchstens 1200; `--tbk` =
   Breite/560; Schrift, Zeilen, Ränder, Linien/Karos/Punkte und Lebensbereiche-Seite rechnen mit `--tbk`). Dadurch passt auf
   jede Seite genau gleich viel Text wie bei 560 px, es wird nichts neu umbrochen. Handys (< 640 px) bleiben wie bisher.
+- **Seiten ziehen** (seit 1.65.0, `swipeDragStart/Move/End`): die neue Seite folgt dem Finger und schiebt sich über die alte
+  (`.swipe-top`/`.swipe-under`), zurück zum Lebensrad wird die Seite weggezogen; ab ¼ Breite oder schnellem Wisch rastet sie ein.
 - **Wischen** (`NAV_ORDER`, `swipeGo()`, `swipeInit`): links/rechts = nächste/vorige Seite der Leiste, an den Enden Schluss;
   am Rechner seitliches Scrollen mit zwei Fingern. Seitlich scrollbare Tabellen (Ziele) scrollen zuerst (`swipeScrollsX`).
   Tagebuch: Titelblatt links = Buch öffnen, rechts = zurück zu Ziele; im Buch nur im Ansichtsmodus (blättert Tagebuchseiten),
