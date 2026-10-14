@@ -617,9 +617,10 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 /* the dog sits a little to the side in front of the shelf, his head just above the lowest board */
 .shelf-animal{ position:absolute; z-index:2; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.55)); }
 .shelf-dog{ right:1%; bottom:-3%; height:27%; transform:rotate(-4deg); }
-.shelf-rabbit{ left:2%; bottom:-2%; height:24%; }
+.shelf-rabbit{ left:34%; bottom:-2%; height:19%; z-index:4; }
+.shelf-eggs{ left:50%; bottom:-2%; height:9%; z-index:4; }
 .shelf-cat{ left:31%; bottom:calc(100% - var(--roof) - 0.6%); height:16%; z-index:3; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-.shelf-fox{ right:29%; bottom:calc(100% - var(--roof) - 0.6%); height:17%; z-index:3; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+.shelf-fox{ left:0; bottom:-3%; height:27%; }
 .shelf-roof{ justify-content:center; gap:0 34cqh; z-index:1; } /* around the ornament in the middle, the animals at the outer ends */
 .shelf-roof-side{ display:flex; align-items:flex-end; height:100%; }
 .shelf-roof .shelf-trophy{ transform:none; }
@@ -1360,7 +1361,7 @@ html.lvl-gold body::after{ content:''; position:fixed; left:0; right:0; top:var(
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.69.1';
+const APP_VERSION = '1.69.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -3602,8 +3603,8 @@ Object.assign(I18N.de, { diaryLandPhone:'Tipp: Auf dem Handy ist das Hochformat 
 Object.assign(I18N.en, { diaryLandPhone:'Tip: on a phone the portrait format is more comfortable. Landscape suits tablets and computers better.' });
 Object.assign(I18N.de, {"trophyToDiary": "Ins Tagebuch", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
 Object.assign(I18N.en, {"trophyToDiary": "Add to diary", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
-Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!", "Ein halbes Jahr mit dir selbst! In den Ecken funkeln jetzt Sterne, und ein Hase wohnt an deinem Regal.", "Ein ganzes Jahr! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
-Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold.", "Your app shines in full splendour. Thank you for 100 days with yourself!", "Half a year with yourself! Stars now twinkle in the corners, and a rabbit lives by your shelf.", "A whole year! Everything sparkles, and a fox has moved in by your shelf. Thank you for staying so true to yourself."]});
+Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!", "Ein halbes Jahr mit dir selbst! In den Ecken deines Rahmens funkeln jetzt Sterne.", "Ein ganzes Jahr! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
+Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold.", "Your app shines in full splendour. Thank you for 100 days with yourself!", "Half a year with yourself! Stars now twinkle in the corners of your frame.", "A whole year! Everything sparkles, and a fox has moved in by your shelf. Thank you for staying so true to yourself."]});
 function t(){ return I18N[state.settings.lang]; }
 
 function currentValue(area){
@@ -5200,6 +5201,19 @@ const shelfNow = ()=>SHELVES[appLevel() <= 1 ? 'dusty' : appLevel() === 2 ? 'cle
 let SHELF_X = SHELVES.ivy.x, SHELF_ROWS = SHELVES.ivy.rows;
 const SHELF_ROW_W = 290; // usable width of a compartment in units of its height (cqh)
 function tbShelfScale(){ return 1; }
+// Easter Sunday (Gauss/Meeus, Gregorian calendar); the Easter time is Palm Sunday until a week after Easter
+function easterSunday(y){
+  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(y, month - 1, day);
+}
+function isEasterTime(now){
+  now = now || new Date();
+  const e = easterSunday(now.getFullYear()), day = 864e5, today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return today - e >= -7 * day && today - e <= 7 * day;
+}
 function tbRenderLibrary(){
   const d = t();
   const SH = shelfNow(); SHELF_X = SH.x; SHELF_ROWS = SH.rows;
@@ -5228,12 +5242,13 @@ function tbRenderLibrary(){
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
     : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
   const troHtml = o=>`<button class="shelf-trophy" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
-  // the animals come one by one: the dog after 2 active days, the cat on top from level 4 (100 days), the rabbit after
-  // half a year (level 5), the fox after a year (level 6). A missing picture (cat not there yet) simply stays away.
+  // the animals come one by one: the dog after 2 active days, the cat on top from level 4 (100 days), the fox (as big as
+  // the dog, on the floor left) after a year (level 6). The rabbit only visits at Easter, in front of the shelf with eggs.
+  // A missing picture (cat, eggs not there yet) simply stays away.
   const lv = appLevel(), days = appActiveDays();
   const animal = (name, cls)=>`<img class="shelf-animal ${cls}" src="img/stickers/${name}.webp" alt="" onerror="this.remove()">`;
   const animals = (days >= 2 ? animal('dog', 'shelf-dog') : '') + (lv >= 4 ? animal('cat', 'shelf-cat') : '')
-    + (lv >= 5 ? animal('rabbit', 'shelf-rabbit') : '') + (lv >= 6 ? animal('fox', 'shelf-fox') : '');
+    + (lv >= 6 ? animal('fox', 'shelf-fox') : '') + (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + animal('eggs', 'shelf-eggs') : '');
   const rh = SHELF_ROWS[0][1] - SHELF_ROWS[0][0];
   const half = Math.ceil(roof.length / 2);
   const roofHtml = roof.length ? `<div class="shelf-comp shelf-roof" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${SH.roof - rh}%;height:${rh}%">
