@@ -80,7 +80,8 @@ button, input, select, textarea{ font-family:inherit; }
 #sync-btn{ position:relative; }
 #sync-btn svg{ width:30px; height:30px; display:block; }
 #sync-btn::after{ content:''; position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:transparent; }
-#sync-btn.has-note::after{ background:var(--ew-turquoise); box-shadow:0 0 8px rgba(var(--gold-rgb),0.8); } /* only when there is something to do */
+#sync-btn.has-note::after{ background:#b8a4ff; box-shadow:0 0 8px rgba(184,164,255,0.85); } /* only when there is something to do; violet next to the gold figure … */
+html.lvl-1 #sync-btn.has-note::after{ background:#e8b84a; box-shadow:0 0 8px rgba(232,184,74,0.85); } /* … and gold while the figure is still violet (level 1) */
 .note-item{ background:var(--ew-panel-2); border-radius:14px; padding:12px 14px; margin-bottom:10px; font-size:14px; line-height:1.45; }
 .note-item .primary-btn{ width:100%; margin-top:10px; }
 @keyframes syncPulse{ 0%,100%{ opacity:.35; } 50%{ opacity:1; } }
@@ -888,9 +889,11 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 .icon-default .tb-cover-bottom{ padding-bottom:9.5% !important; }
 .tb-body-cover .tb-cover{ container-type:inline-size; }
 .icon-default .tb-cover-caption .tb-cover-title{ color:#f3ead6 !important; text-shadow:0 2px 3px rgba(0,0,0,0.5) !important; font-size:9cqw; line-height:1.1; font-weight:400; }
-.tb-cover-land.icon-default .tb-cover-caption .tb-cover-title{ font-size:6.5cqw; }
-.tb-cover-land.icon-default .tb-cover-bottom{ padding-bottom:13.5% !important; gap:0 !important; }
-.tb-cover-land.icon-default .tb-cover-caption .tb-cover-year{ font-size:3.6cqw !important; margin-top:1px; }
+.tb-cover-land.icon-default .tb-cover-caption .tb-cover-title{ font-size:5.8cqw; }
+.tb-cover-land.icon-default .tb-cover-bottom{ position:absolute !important; left:0; right:0; top:72.5%; height:15%; padding:0 !important; gap:0 !important; justify-content:center; } /* exactly in the gold band of the landscape covers (1.74.0) */
+.tb-cover-land .tb-trash-btn, .tb-cover-land.icon-default .tb-gear-btn{ top:50% !important; transform:translateY(-50%); }
+.tb-cover-land .tb-trash-btn{ left:9%; } .tb-cover-land.icon-default .tb-gear-btn{ right:9%; }
+.tb-cover-land.icon-default .tb-cover-caption .tb-cover-year{ font-size:3.2cqw !important; margin-top:0; line-height:1.1; }
 .icon-default .tb-cover-caption .tb-cover-year{ color:var(--gold) !important; text-shadow:none !important; font-family:'Marcellus', serif; font-size:5cqw; margin-top:2px; }
 .icon-default .tb-gear-btn{ position:absolute; right:12%; top:12%; }
 .icon-default .tb-gear-btn, .tb-trash-btn{ z-index:4; } /* above the title, which used to swallow the tap (1.73.8) */
@@ -1402,7 +1405,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.73.9';
+const APP_VERSION = '1.74.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
