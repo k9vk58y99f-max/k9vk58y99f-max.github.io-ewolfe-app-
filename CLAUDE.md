@@ -124,7 +124,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.68.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.69.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -253,6 +253,24 @@ Bisher wurde mit Playwright (Chromium, headless) getestet: App als `file://` lad
 Intro-Animation abwarten (danach erscheint die Anmelde-Sperre, solange keine Sitzung besteht), dann über `page.evaluate` und Klicks prüfen. Für den Sync wurde der
 Supabase-Server mit `context.route(...)` nachgebaut (Konten, Revisionen, abgelaufene Tokens).
 Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nutzers nie riskieren.
+
+## Wachsender Glanz, Tiere, Tagebuch löschen (seit 1.68.0 / 1.69.0)
+- Stufen nach aktiven Tagen (Tage mit Übung, Lebensrad, Tagebuchseite oder Dankbarkeit; `appActiveDays()`, `LEVEL_DAYS`
+  = 0/7/30/100), dazu seit 1.69.0 zwei Zeit-Stufen (`LEVEL_MONTHS`): 5 nach einem halben Jahr, 6 nach einem Jahr ab dem
+  ersten aktiven Tag (`appFirstActive`), nur wenn Stufe 4 erreicht ist. Klassen `html.lvl-1…6`, ab 4 zusätzlich `lvl-gold`.
+  1: tonale Rahmen/Knöpfe, Lavendel, staubiges Regal; 2: goldene Überschriften/Leiste, sauberes Regal; 3: goldene Knöpfe,
+  tonaler Rahmen mit dünner goldener Innenlinie (`img/frame-*-mid.png`), Efeu-Regal; 4: ganzer Goldrahmen + Schimmer;
+  5: funkelnde Sterne in den Rahmenecken (`#lvl-fx`, `.lvl-star`); 6: mehr Sterne an den Rändern. Nichts wird je
+  weggenommen; neue Stufe einmal angesagt (`levelUp`, Merker `ewolfe_level_seen`).
+- Regal (seit 1.69.0): nur noch ein Regal. Trophäen stehen enger und werden notfalls etwas kleiner (bis 66 %), bis sie in
+  die Fächer passen; der Rest steht oben auf dem Regal (`.shelf-roof`, Dachhöhe `roof` je Bild in `SHELVES`).
+- Tiere am Regal (`.shelf-animal`): Hund ab 2 aktiven Tagen, Katze oben links ab Stufe 4 (`img/stickers/cat.webp`, fehlt
+  noch – solange die Datei fehlt, bleibt sie einfach weg), Hase ab Stufe 5, Fuchs oben rechts ab Stufe 6.
+- Rote Kugel (`orb-pink`, Gruppe `loyal`): 60/150/250 aktive Tage. Kugeln seit 1.69.0 unten rund ausgeschnitten.
+- Tagebuch löschen (seit 1.69.0): in den Tagebuch-Einstellungen „Tagebuch löschen“ (`tbDeleteBook`, mit Rückfrage).
+  Grabstein `'j:' + Schlüssel` in `state.geloescht` plus `'s:'` für jede Seite; `delApply` entfernt das Buch, ein neues
+  Buch mit gleichem Schlüssel hebt den Buch-Grabstein auf (`tbEnsureYear`), die alten Seiten bleiben gelöscht.
+  Seiten löschen fragt schon immer nach (`tbDeletePage`).
 
 ## Offene Wünsche
 - Eigenen SMTP-Dienst in Supabase eintragen, damit Passwort-Mails alle Nutzer erreichen
