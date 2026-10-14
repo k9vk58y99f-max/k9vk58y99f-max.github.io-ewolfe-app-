@@ -657,6 +657,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .trophy-ph{ font-size:26px; }
 .trophy-title{ margin:10px 0 6px; font-size:var(--fs-h); }
 .trophy-desc{ margin:0 10px; color:var(--ew-text); line-height:1.5; }
+.trophy-diary-btn{ margin:14px auto 0; display:inline-flex; align-items:center; gap:6px; padding:10px 18px; }
 .trophy-date{ margin-top:10px; color:var(--ew-text-dim); font-size:13px; }
 .tb-page.tb-land-page{ --tbk:var(--tbk-l, 1); width:var(--tb-page-wl, min(746px,94vw)); aspect-ratio:4/3; }
 .imp-backdrop{ background:rgba(4,6,22,0.72); align-items:center; justify-content:center; padding:20px; }
@@ -1319,7 +1320,7 @@ html::before{ content:''; position:fixed; left:0; right:0; top:0; height:var(--s
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.65.3';
+const APP_VERSION = '1.66.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -3498,6 +3499,8 @@ Object.assign(I18N.de, {"diaryCoverPick": "Cover"});
 Object.assign(I18N.en, {"diaryCoverPick": "Cover"});
 Object.assign(I18N.de, { diaryLandPhone:'Tipp: Auf dem Handy ist das Hochformat angenehmer. Das Querformat eignet sich besser für Tablet und Computer.' });
 Object.assign(I18N.en, { diaryLandPhone:'Tip: on a phone the portrait format is more comfortable. Landscape suits tablets and computers better.' });
+Object.assign(I18N.de, {"trophyToDiary": "Ins Tagebuch", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
+Object.assign(I18N.en, {"trophyToDiary": "Add to diary", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
 function t(){ return I18N[state.settings.lang]; }
 
 function currentValue(area){
@@ -5237,9 +5240,25 @@ function trophyShow(id, isNew){
   document.getElementById('trophy-box').innerHTML = `${isNew ? `<div class="trophy-new">${d.trophyNew}</div>` : ''}
     <div class="trophy-pic">${trophySvg(x, 'big' + x.id)}${TROPHY_PLACEHOLDER && x.kind !== 'img' ? `<div class="imp-ph trophy-ph">${d.impulsePlaceholder}</div>` : ''}</div>
     <h3 class="trophy-title">${escapeHtml(x.title)}</h3><p class="trophy-desc">${escapeHtml(x.desc)}</p>${date ? `<div class="trophy-date">${d.trophySince.replace('{d}', date)}</div>` : ''}
+    ${x.kind === 'img' ? `<button class="ghost-btn trophy-diary-btn" onclick="event.stopPropagation(); trophyToDiary()">${ico('book')}${d.trophyToDiary}</button>` : ''}
     <div class="imp-hint">${d.impulseTapHint}</div>`;
   const box = document.getElementById('trophy-box'); box.classList.remove('flip'); void box.offsetWidth; box.classList.add('flip');
   openModal('trophy-modal');
+}
+// the trophy into the newest diary of this year: its picture and a line with the date (on a fresh page if the last one has something on it)
+async function trophyToDiary(){
+  const x = trophyCur; if(!x || x.kind !== 'img') return;
+  const d = t(), en = state.settings.lang === 'en', year = tbLatestBook(new Date().getFullYear());
+  const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
+  let page = diary.seiten[diary.seiten.length - 1];
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
+  page.images = page.images || [];
+  page.images.push({ src:'img/' + x.img + '.webp', xPct:28, yPct:4, wPct:44, sticker:true });
+  const date = new Date(x.at > 1 ? x.at : Date.now()).toLocaleDateString(en ? 'en-GB' : 'de-DE', { day:'2-digit', month:'2-digit', year:'numeric' });
+  await tbAppendBlock(diary, d.trophyDiaryHead.replace('{date}', date) + '\n' + x.title + '\n' + x.desc);
+  closeModal('trophy-modal');
+  uiNotice(d.trophySaved);
 }
 // new trophies: shown once (one after the other), only when no other window is open; the first time all old ones are just put on the shelf
 let trophyTimer = null;
