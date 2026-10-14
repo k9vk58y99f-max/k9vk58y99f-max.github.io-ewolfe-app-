@@ -899,7 +899,9 @@ html::before{ content:''; position:fixed; left:0; right:0; top:0; height:var(--s
 html.lvl-1{ --gold:#b8a4ff; --gold-text:#e2d9ff; --gold-rgb:184,164,255; }
 html.lvl-1 .page-modal::before, html.lvl-1 .tb-overlay::before, html.lvl-1 body::before,
 html.lvl-2 .page-modal::before, html.lvl-2 .tb-overlay::before, html.lvl-2 body::before{ border-image-source:url(img/frame-portrait-tonal.png); }
+html.lvl-3 .page-modal::before, html.lvl-3 .tb-overlay::before, html.lvl-3 body::before{ border-image-source:url(img/frame-portrait-mid.png); }
 @media (orientation:landscape) and (min-width:700px){
+  html.lvl-3 .page-modal::before, html.lvl-3 .tb-overlay::before, html.lvl-3 body::before{ border-image-source:url(img/frame-land-mid.png); }
   html.lvl-1 .page-modal::before, html.lvl-1 .tb-overlay::before, html.lvl-1 body::before,
   html.lvl-2 .page-modal::before, html.lvl-2 .tb-overlay::before, html.lvl-2 body::before{ border-image-source:url(img/frame-land-tonal.png); }
 }
@@ -1336,7 +1338,7 @@ html.lvl-4 body::after{ content:''; position:fixed; left:0; right:0; top:var(--s
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.68.0';
+const APP_VERSION = '1.68.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5140,8 +5142,8 @@ function tbSpineHtml(key){
 // the bottom of each compartment lies towards the back of the board's top surface, so things stand in the shelf, not at its front edge
 // each shelf picture has its own compartments (bottom = near the back edge of the board): level 1 dusty, 2 clean, 3+ with ivy
 const SHELVES = {
-  dusty:{ img:'shelf-dusty', x:[25.7, 75.1], rows:[[15.5, 29.8], [31.3, 44.9], [46.4, 59.1], [60.6, 72.6], [74.1, 86.0]] },
-  clean:{ img:'shelf-clean', x:[25.6, 75.1], rows:[[14.8, 29.1], [30.6, 44.5], [46.0, 58.6], [60.1, 71.9], [73.4, 85.2]] },
+  dusty:{ img:'shelf-dusty', x:[28.9, 72.8], rows:[[23.6, 36.5], [37.5, 50.1], [51.1, 62.5], [63.5, 74.4], [75.4, 86.2]] },
+  clean:{ img:'shelf-clean', x:[28.9, 72.8], rows:[[22.8, 35.8], [36.8, 49.3], [50.3, 61.9], [62.9, 73.7], [74.7, 85.6]] },
   ivy:{ img:'shelf', x:[29.2, 72.9], rows:[[18.8, 32.2], [33.7, 46.5], [48.3, 59.7], [61.7, 72.4], [74.7, 85.4]] }
 };
 const shelfNow = ()=>SHELVES[appLevel() <= 1 ? 'dusty' : appLevel() === 2 ? 'clean' : 'ivy'];
