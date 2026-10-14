@@ -614,7 +614,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-img{ position:relative; width:min(100%, calc(100vh - var(--nav-h, 70px) - 150px), 1000px); aspect-ratio:1; background:url(img/shelf.webp) center/contain no-repeat; }
 .shelf-img + .shelf-img{ margin-top:-12%; }
 /* the dog sits a little to the side in front of the shelf, his head just above the lowest board */
-.shelf-dog{ position:absolute; right:7%; bottom:3%; height:30%; transform:rotate(-4deg); z-index:2; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.55)); }
+.shelf-dog{ position:absolute; right:11%; bottom:-3%; height:29%; transform:rotate(-4deg); z-index:2; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.55)); }
 .shelf-comp{ position:absolute; display:flex; align-items:flex-end; justify-content:flex-start; gap:0 1.5cqh; padding:0 2cqh; container-type:size; overflow:visible; }
 .shelf-comp .shelf-trophy{ margin:0 2cqh; transform:translateY(2.7cqh); } /* trophies a little further forward than the books */
 .shelf-comp .shelf-trophy:hover, .shelf-comp .shelf-trophy:active{ transform:translateY(2.7cqh) scale(1.06); }
@@ -1248,7 +1248,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.62.0';
+const APP_VERSION = '1.62.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5000,6 +5000,12 @@ function trophyDefs(){
   grow('lemon', ev.byEx('seed-lemon'), [[3, 'trophy-lemon-1', 0.5], [10, 'trophy-lemon-2', 0.75], [25, 'trophy-lemon-3', 1]], 0.68,
     (n, i)=>L(['Zitronenblüte unter Glas', 'Zitronenzweig unter Glas', 'Zitrone unter Glas'][i], ['Lemon blossom under glass', 'Lemon branch under glass', 'Lemon under glass'][i]),
     n=>L(n + '-mal Lemonmeditation – dein Zitronenzweig trägt Früchte.', 'Lemon meditation ' + n + ' times – your lemon branch bears fruit.'));
+  grow('stones', ev.byEx('seed-54321'), [[3, 'trophy-stones-1', 0.5], [10, 'trophy-stones-2', 0.75], [25, 'trophy-stones-3', 1]], 0.66,
+    (n, i)=>L(['Zwei Steine unter Glas', 'Steinturm mit Keimling unter Glas', 'Großer Steinturm unter Glas'][i], ['Two stones under glass', 'Stone tower with a sprout under glass', 'Great stone tower under glass'][i]),
+    n=>L(n + '-mal 5-4-3-2-1 – Stein für Stein findest du zu dir.', '5-4-3-2-1 ' + n + ' times – stone by stone you come back to yourself.'));
+  grow('bowl', ev.byEx('seed-stille'), [[3, 'trophy-bowl-1', 0.5], [10, 'trophy-bowl-2', 0.75], [25, 'trophy-bowl-3', 1]], 0.66,
+    (n, i)=>L(['Klangschale unter Glas', 'Klangschale mit Klöppel unter Glas', 'Klingende Schale unter Glas'][i], ['Singing bowl under glass', 'Singing bowl with striker under glass', 'Sounding bowl under glass'][i]),
+    n=>L(n + '-mal Stille Meditation – die Stille klingt in dir nach.', 'Silent meditation ' + n + ' times – the stillness resonates in you.'));
   // days in a row: a crystal that grows
   const streakMax = Object.keys(ev.streakAt).length ? Math.max(...Object.keys(ev.streakAt).map(Number)) : 0;
   [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, group:'streak', stage:i, kind:'img', img:'crystal-' + (i + 1), scale:0.55 + i * 0.08, aspect:0.75, need:1, needShow:n,
@@ -5015,7 +5021,7 @@ function trophyDefs(){
   grow('page', ev.pages, [[1, 'orb-blue', 0.5], [10, 'orb-blue', 0.62], [50, 'orb-blue', 0.74], [100, 'orb-blue', 0.86]], 0.85,
     n=>n === 1 ? L('Erste Tagebuchseite', 'First diary page') : L(n + ' Tagebuchseiten', n + ' diary pages'),
     n=>L(n === 1 ? 'Du hast die erste Seite in dein Tagebuch geschrieben.' : 'Du hast ' + n + ' Seiten in dein Tagebuch geschrieben.', n === 1 ? 'You wrote the first page of your diary.' : 'You wrote ' + n + ' diary pages.'));
-  grow('grat', ev.grat, [[1, 'orb-pink', 0.55], [7, 'orb-pink', 0.72], [30, 'orb-pink', 0.88]], 0.88,
+  grow('grat', ev.grat, [[1, 'trophy-hearts-1', 0.5], [7, 'trophy-hearts-2', 0.75], [30, 'trophy-hearts-3', 1]], 0.66,
     n=>n === 1 ? L('Erste Dankbarkeit', 'First gratitude') : L(n + ' Abende Dankbarkeit', n + ' evenings of gratitude'),
     n=>L(n === 1 ? 'Du hast zum ersten Mal aufgeschrieben, wofür du dankbar bist.' : 'An ' + n + ' Abenden hast du aufgeschrieben, wofür du dankbar bist.', n === 1 ? 'You wrote down for the first time what you are grateful for.' : 'On ' + n + ' evenings you wrote down what you are grateful for.'));
   out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.83, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
