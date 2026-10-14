@@ -1395,7 +1395,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.73.2';
+const APP_VERSION = '1.73.3';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1569,19 +1569,32 @@ let appLevelCache = null;
 function appActiveDays(){
   const days = new Set();
   try{
-    achLog().forEach(e=>{ if(e.kind === 'done' || e.kind === 'grat') days.add(achDay(e.ts)); });
-    (state.bewertungen[AREAS[0]] || []).forEach(x=>days.add(achDay(x.ts)));
+    achLog().forEach(e=>{ if(e.ts) days.add(achDay(e.ts)); }); // exercises, gratitude, mood checks
+    AREAS.forEach(a=>(state.bewertungen[a] || []).forEach(x=>{ if(x.ts) days.add(achDay(x.ts)); }));
+    // since 1.73.3 also goals (set and reached), events and the days the app was opened (on this device, from 1.73.3 on)
+    const idTs = id=>{ const m = /^[a-z](\d{12,})/.exec(id || ''); return m ? +m[1] : 0; };
+    AREAS.forEach(a=>(state.ziele[a] || []).forEach(g=>{ const ts = idTs(g.id); if(ts) days.add(achDay(ts)); if(g.achievedAt) days.add(achDay(g.achievedAt)); }));
+    (state.ereignisse || []).forEach(e=>{ const ts = idTs(e.id); if(ts) days.add(achDay(ts)); });
+    appVisitDays().forEach(k=>days.add(k));
     Object.values(state.tagebuch.jahre || {}).forEach(y=>(y.seiten || []).forEach(p=>{
       if(p.type === 'titel') return;
       const written = (p.text && p.text.trim()) || (p.strokes && p.strokes.length) || (p.images && p.images.length) || tbAreaTextLen(p);
       const m = /^p(\d{12,})/.exec(p.id || ''); if(written && m) days.add(achDay(+m[1]));
     }));
   }catch(e){}
-  const ks = [...days].filter(Boolean).sort();
-  appActiveDayTs = ks.map(k=>{ const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd).getTime(); });
-  appFirstActive = 0;
-  if(ks.length){ const [y, m, dd] = ks[0].split('-').map(Number); appFirstActive = new Date(y, m - 1, dd).getTime(); }
+  // sorted by time (the day keys are not zero-padded, so they must not be sorted as text)
+  appActiveDayTs = [...days].filter(Boolean).map(k=>{ const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd).getTime(); }).filter(x=>!isNaN(x)).sort((a, b)=>a - b);
+  appFirstActive = appActiveDayTs.length ? appActiveDayTs[0] : 0;
   return days.size;
+}
+// the days on which the app was opened (per device; stored from 1.73.3 on, so they count for the levels too)
+const VISIT_KEY = 'ewolfe_visit_days';
+function appVisitDays(){ try{ return JSON.parse(localStorage.getItem(VISIT_KEY) || '[]'); }catch(e){ return []; } }
+function appVisitToday(){
+  try{
+    const k = achDay(Date.now()), list = appVisitDays();
+    if(!list.includes(k)){ list.push(k); localStorage.setItem(VISIT_KEY, JSON.stringify(list.slice(-1000))); appLevelCache = null; }
+  }catch(e){}
 }
 function appLevel(){
   if(appLevelCache === null){
@@ -6995,7 +7008,7 @@ function init(){
   document.querySelector('.logo-dog').src = 'img/app-icon.png';
   applyTheme();
   applyLang();
-  try{ applyLevel(false); }catch(e){}
+  try{ appVisitToday(); applyLevel(false); }catch(e){}
   setTimeout(()=>{ shrinkStoredImages(); }, 2500); // photos stored by older versions may be oversized
   syncInit();
   navInit();
