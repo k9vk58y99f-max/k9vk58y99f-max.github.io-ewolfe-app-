@@ -109,8 +109,11 @@ html.lvl-1 #sync-btn.has-note::after{ background:#e8b84a; box-shadow:0 0 8px rgb
   -webkit-tap-highlight-color:transparent; transition:color .15s ease;
 }
 .nav-item svg{ width:24px; height:24px; display:block; }
+.nav-item .nav-gold{ height:30px; width:30px; padding:3px; box-sizing:border-box; } /* every icon in the same 30 px box: labels on one line (1.75.0) */
+.nav-item.nav-center .nav-gold{ padding:0; }
+.nav-item, .nav-item:hover, .nav-item.active{ color:var(--ew-text-dim); }
+.nav-item.active{ color:var(--gold-text); }
 .nav-item span{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
-.nav-item:hover, .nav-item.active{ color:var(--ew-text); }
 .nav-item.active svg{ color:var(--ew-turquoise); }
 .nav-new svg{ color:var(--ew-turquoise); filter:drop-shadow(0 0 8px rgba(var(--gold-rgb),0.35)); }
 /* settings window */
@@ -347,10 +350,11 @@ input[type=range]{ touch-action:pan-y;
   -webkit-appearance:none; width:100%; height:6px; border-radius:4px;
   background:linear-gradient(90deg,var(--ew-green),var(--ew-turquoise)); outline:none;
 }
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
-  background:#fff; border:3px solid var(--ew-turquoise); cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.3);
+input[type=range]::-webkit-slider-thumb{ /* the knob: gold folded paper (1.75.0) */
+  -webkit-appearance:none; width:26px; height:26px; border-radius:50%;
+  background:url(img/knob-gold.svg) center/100% 100% no-repeat; border:none; cursor:pointer;
 }
+input[type=range]::-moz-range-thumb{ width:26px; height:26px; border:none; border-radius:50%; background:url(img/knob-gold.svg) center/100% 100% no-repeat; cursor:pointer; }
 
 .hist-item{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--ew-line); font-size:13px; }
 .hist-item .d{ color:var(--ew-text-dim); }
@@ -384,15 +388,15 @@ input[type=range]::-webkit-slider-thumb{
 .medi-form-actions button{ flex:1; }
 .medi-player-img{ width:min(76vw, 290px); margin:6px auto 10px; }
 .medi-player-img svg{ width:100%; height:auto; display:block; }
-.medi-player-seek{ width:100%; accent-color:var(--ew-turquoise); }
+.medi-player-seek{ width:100%; }
 .breath-start-btn .ui-ico{ width:14px; height:14px; }
 .breath-modal{ text-align:center; }
 .breath-stage{ position:relative; width:min(76vw, 290px); margin:6px auto 4px; }
 .breath-svg{ display:block; width:100%; height:auto; }
-#breath-dot{ filter:drop-shadow(0 0 8px rgba(109,74,255,0.95)); }
+#breath-dot{ filter:drop-shadow(0 0 7px rgba(232,184,74,0.75)); } /* gold folded paper, no violet glow (1.75.0) */
 .breath-center{ display:flex; align-items:baseline; justify-content:center; gap:12px; margin-top:2px; }
 #breath-phase{ font-size:20px; font-weight:700; color:#f3ead6; min-width:110px; text-align:right; }
-#breath-count{ font-size:34px; font-weight:700; color:#6d4aff; line-height:1.1; min-width:30px; text-align:left; }
+#breath-count{ font-size:34px; font-weight:700; color:var(--gold-text); line-height:1.1; min-width:30px; text-align:left; }
 .breath-meta{ color:var(--ew-text-dim); font-size:13px; margin:6px 0 16px; min-height:18px; }
 .breath-actions{ display:flex; gap:10px; }
 .breath-actions button{ flex:1; }
@@ -639,7 +643,13 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-roof .shelf-trophy:hover, .shelf-roof .shelf-trophy:active{ transform:scale(1.06); }
 .shelf-comp{ position:absolute; display:flex; align-items:flex-end; justify-content:flex-start; gap:0 0.45%; padding:0 0.6%; container-type:size; overflow:visible; } /* in % of the compartment: cqh here would measure the screen, not the shelf (1.73.2) */
 .shelf-comp-tro{ justify-content:center; }
-.shelf-comp-books{ padding:0 0 0 0.5%; gap:0 0.2%; } /* the books from wall to wall */
+.shelf-comp.shelf-comp-books{ padding:0; gap:0; } /* gaps on the children: their cqh measure the compartment (1.75.0) */
+.shelf-comp.shelf-comp-books > *{ margin-left:0.7cqh; }
+.shelf-comp.shelf-comp-books > :first-child{ margin-left:6cqh; } /* a little air to the left wall */
+.shelf-comp.shelf-comp-books > .shelf-new{ margin-left:3cqh; } /* the plus a little apart from the books */
+.shelf-comp.shelf-comp-books > .shelf-trophy{ margin-left:1.6cqh; }
+.shelf-comp.shelf-comp-books > .shelf-new + .shelf-trophy, .shelf-comp.shelf-comp-books > .shelf-book + .shelf-trophy{ margin-left:3cqh; }
+.shelf-comp.shelf-comp-books > .shelf-new:first-child{ margin-left:9cqh; } /* never on the side wall */
 .shelf-comp .shelf-trophy{ margin:0; transform:translateY(2.7cqh); } /* trophies a little further forward than the books */
 .shelf-comp .shelf-trophy:hover, .shelf-comp .shelf-trophy:active{ transform:translateY(2.7cqh) scale(1.06); }
 .shelf-comp .shelf-trophy img{ width:100%; height:100%; object-fit:contain; object-position:bottom; display:block; filter:drop-shadow(0 1cqh 1.5cqh rgba(0,0,0,0.5)); }
@@ -808,8 +818,9 @@ body.swipe-prev .page-modal.open > .modal, body.swipe-prev .tb-overlay.open, bod
 .mood-opt:active, .mood-opt:hover{ border-color:var(--ew-turquoise); color:var(--ew-turquoise); }
 .scan-step-n{ text-align:center; color:var(--ew-turquoise); font-weight:600; margin-bottom:6px; }
 .scan-text{ text-align:center; line-height:1.6; min-height:96px; margin:0 6px 6px; }
-.ground-num{ width:120px; height:120px; margin:10px auto 14px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:56px; font-weight:700; color:#f3ead6; background:radial-gradient(circle at 35% 30%, #8d8dff, #3a2fd0 70%); box-shadow:0 0 0 8px rgba(109,74,255,0.18), 0 0 40px rgba(109,74,255,0.45); }
-.ground-label{ text-align:center; font-weight:700; color:var(--ew-turquoise); font-size:var(--fs-sub); margin-bottom:8px; }
+.ground-num{ margin:4px auto 6px; text-align:center; font-family:'Marcellus', serif; font-weight:400; font-size:96px; line-height:1; color:#f3ead6; text-shadow:0 3px 10px rgba(0,0,0,0.45); } /* no ball any more (1.75.0) */
+.ground-num.ground-done{ font-size:110px; }
+.ground-label{ text-align:center; font-family:'Marcellus', serif; font-weight:400; color:var(--gold-text); font-size:var(--fs-sub); margin-bottom:8px; }
 .ground-text{ text-align:center; line-height:1.55; margin:0 8px 14px; min-height:72px; }
 .ground-dots{ display:flex; justify-content:center; gap:8px; margin-bottom:16px; }
 .ground-dots i{ width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.22); }
@@ -858,7 +869,7 @@ table.goal-table, .goal-table th, .goal-table td, .goal-table tr.tbl-head th, .g
 body{ background:radial-gradient(ellipse at 50% 55%, #241c66 0%, #141a4a 50%, #0b1026 100%) fixed; }
 .modal-title, .scene-head h1, .tb-topbar h2, #t-scene-title, .modal-top h2{ color:var(--gold) !important; font-family:'Marcellus', serif !important; font-weight:400 !important; letter-spacing:0.02em; }
 .nav-gold{ width:24px; height:24px; object-fit:contain; display:block; opacity:.55; transition:opacity .2s, transform .2s; }
-.nav-item.active .nav-gold{ opacity:1; transform:scale(1.06); }
+.nav-item.active .nav-gold{ opacity:1; }
 .logo-dog{ border-radius:9px !important; object-fit:contain !important; background:none !important; box-shadow:none !important; }
 /* buttons: the person's paper buttons, the ends keep their shape, the middle stretches */
 .primary-btn{ background:none !important; border-style:solid !important; border-width:0 22px !important; border-image:url(img/btn-main.webp) 0 92 fill / 0 20px stretch; min-height:42px; color:var(--gold-text) !important; box-shadow:none !important; border-radius:0 !important; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.4)); text-shadow:0 1px 2px rgba(0,0,0,0.45); }
@@ -999,13 +1010,13 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
       <img class="nav-gold" src="img/icons/ico-areas.webp" alt="">
       <span id="nav-areas-label">Bereiche</span>
     </button>
-    <button class="nav-item active" id="home-btn" data-nav="home">
-      <img class="nav-gold" src="img/icons/ico-wheel.webp" alt="">
-      <span id="nav-home-label">Lebensrad</span>
-    </button>
     <button class="nav-item" id="goals-btn" data-nav="goals">
       <img class="nav-gold" src="img/icons/ico-goals.webp" alt="">
       <span id="nav-goals-label">Ziele</span>
+    </button>
+    <button class="nav-item nav-center active" id="home-btn" data-nav="home">
+      <img class="nav-gold" src="img/icons/ico-wheel.webp" alt="">
+      <span id="nav-home-label">Lebensrad</span>
     </button>
     <button class="nav-item" id="diary-btn" data-nav="diary">
       <img class="nav-gold" src="img/icons/ico-diary.webp" alt="">
@@ -1171,7 +1182,6 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
     <div class="timer-chips" id="timer-chips"></div>
     <div class="timer-clock" id="timer-clock">5:00</div>
     <div class="breath-actions">
-      <button class="ghost-btn breath-music-btn" id="timer-music-btn" onclick="exToggleMusic()"></button>
       <button class="ghost-btn" id="timer-pause-btn" onclick="timerTogglePause()" style="display:none;"></button>
       <button class="primary-btn" id="timer-main-btn" onclick="timerMain()"></button>
     </div>
@@ -1224,7 +1234,8 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
         <g id="breath-clip"><g id="breath-lotus" transform="translate(120 120) scale(0.86)"></g></g>
         <rect class="breath-sky" x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3" style="display:none;"/>
         <rect id="breath-square" x="30" y="30" width="180" height="180" rx="4" fill="none" stroke="rgba(232,184,74,0.45)" stroke-width="2"/>
-        <circle id="breath-dot" cx="30" cy="210" r="11" fill="#6d4aff"/>
+        <pattern id="knobPat" patternContentUnits="objectBoundingBox" width="1" height="1"><image href="img/knob-gold.svg" width="1" height="1" preserveAspectRatio="none"/></pattern>
+        <circle id="breath-dot" cx="30" cy="210" r="13" fill="url(#knobPat)"/>
       </svg>
     </div>
     <div class="breath-center"><div id="breath-phase">Einatmen</div><div id="breath-count">4</div></div>
@@ -1409,7 +1420,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.74.4';
+const APP_VERSION = '1.75.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2235,6 +2246,7 @@ function hpNote(ctx, dry, wet, n, t){
   tap.start(t, Math.random()); tap.stop(t + 0.08);
 }
 // soft breathing sounds: a rising, airy breath in and a falling, deeper breath out (shaped noise)
+const BREATH_VOL = 1.05; // breathing in and out a little louder (1.75.0) – Box Breathing and 4-7-8 alike
 function hpBreath(ctx, dry, wet, kind, t, dur){
   const src = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), hp2 = ctx.createBiquadFilter(), g = ctx.createGain();
   src.buffer = hpNoise(ctx); src.loop = true;
@@ -2243,10 +2255,10 @@ function hpBreath(ctx, dry, wet, kind, t, dur){
   const q = dur / 3.7; // a longer breath (4-7-8: eight seconds out) stretches the same shape
   if(kind === 'in'){
     bp.frequency.setValueAtTime(650, t); bp.frequency.linearRampToValueAtTime(1500, t + dur);
-    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.026, t + 1.2 * q); g.gain.linearRampToValueAtTime(0.042, t + 2.8 * q); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.026 * BREATH_VOL, t + 1.2 * q); g.gain.linearRampToValueAtTime(0.042 * BREATH_VOL, t + 2.8 * q); g.gain.linearRampToValueAtTime(0.0001, t + dur);
   }else{
     bp.frequency.setValueAtTime(1000, t); bp.frequency.linearRampToValueAtTime(420, t + dur);
-    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.062, t + 0.45 * Math.min(q, 1.6)); g.gain.linearRampToValueAtTime(0.028, t + 2.4 * q); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.062 * BREATH_VOL, t + 0.45 * Math.min(q, 1.6)); g.gain.linearRampToValueAtTime(0.028 * BREATH_VOL, t + 2.4 * q); g.gain.linearRampToValueAtTime(0.0001, t + dur);
   }
   src.connect(hp2); hp2.connect(bp); bp.connect(g); g.connect(dry);
   const w = ctx.createGain(); w.gain.value = 0.25; g.connect(w); w.connect(wet); // a little room around the breath
@@ -3107,7 +3119,7 @@ function groundRender(){
   const d = t(), steps = d.groundSteps, done = groundI >= steps.length;
   const st = steps[Math.min(groundI, steps.length - 1)];
   document.getElementById('ground-body').innerHTML = done
-    ? `<div class="ground-num">✓</div><p class="ground-text">${d.groundDone}</p>`
+    ? `<div class="ground-num ground-done">✓</div><p class="ground-text">${d.groundDone}</p>`
     : `<div class="ground-num">${st[0]}</div><div class="ground-label">${st[1]}</div><p class="ground-text">${st[2]}</p>`
       + `<div class="ground-dots">${steps.map((x,i)=>`<i class="${i <= groundI ? 'on' : ''}"></i>`).join('')}</div>`;
   const back = document.getElementById('ground-back'), next = document.getElementById('ground-next');
@@ -3217,6 +3229,7 @@ function timerUi(){
 function timerMain(){
   if(timerRun){ timerStop(); return; }
   hpStart('calm');
+  if(hp){ hp.notes = []; hp.ch.vol.gain.value = 0; } // since 1.75.0 silence only: no music, just the gong at start and end
   if(achSession) achSession.start = Date.now(); // the time counts from the gong on
   timerRun = { start:performance.now(), pausedAt:0, len:timerMin * 60, timer:0, ending:false };
   setTimeout(()=>hpGong(), 120);
@@ -3940,7 +3953,8 @@ function navInit(){
    sideways (Ziele) scrolls first; only once it is at its end does a further swipe change the page. In the diary: on the
    cover, left opens the book and right goes back to Ziele; in the open book only in view mode, and it turns the diary's
    pages; while writing nothing happens. Windows over the pages (exercises, dialogs, settings) block it. ---- */
-const NAV_ORDER = ['areas', 'home', 'goals', 'diary', 'medi'];
+const SWIPE_ON = false;
+const NAV_ORDER = ['areas', 'goals', 'home', 'diary', 'medi']; // since 1.75.0 the wheel in the middle
 function swipeBlocked(target){
   if(document.querySelector('.modal-backdrop.open:not(.page-modal), .dialog-backdrop.open')) return true;
   if(document.getElementById('intro-overlay') && document.getElementById('intro-overlay').classList.contains('playing')) return true;
@@ -4038,6 +4052,7 @@ function swipeDragEnd(dx, fast){
   }
 }
 (function swipeInit(){
+  if(!SWIPE_ON) return; // switched off in 1.75.0: it clashed with buttons; pages change via the bottom bar only
   let st = null;
   document.addEventListener('touchstart', e=>{
     if(e.touches.length !== 1){ st = null; return; }
@@ -5416,15 +5431,30 @@ function tbRenderLibrary(){
   // they stand closer and, if needed, a little smaller until everything fits; the rest stands on top of the shelf
   // the usable width of each compartment in units of its own height (1.73.7: measured per compartment, not a fixed guess)
   const rowCap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (SHELF_X[1] - SHELF_X[0]) / (r[1] - r[0]) * 100; };
-  const pack = k=>{ const rows = []; let cur = [], used = 0;
-    books.map(b=>({ ...b, book:true, g:0.7 })).concat(tro.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:1.6 }))).forEach(it=>{
-      // books stand close together from wall to wall; a row with trophies keeps a little air at the sides
-      const cap = rowCap(rows.length) - (it.book ? 10 : 8);
-      if(cur.length && used + it.w + (cur.length ? it.g : 0) > cap){ rows.push(cur); cur = []; used = 0; }
-      used += it.w + (cur.length ? it.g : 0); cur.push(it); });
+  // packing (1.75.0): the books from the left wall, close together; the plus a little apart from them. Trophies go into
+  // the compartments below first; only if those are too full, up to 3 stand next to the books in the top compartment.
+  const PLUS_GAP = 3, WALL = 4; // in units of the compartment height: air before the plus, and to each side wall
+  const packRows = (items, startRow, maxRows, trophiesOnly)=>{ const rows = []; let cur = [], used = 0;
+    items.forEach(it=>{
+      const gap = cur.length ? (it.plus ? PLUS_GAP : it.g) : 0;
+      if(cur.length && used + gap + it.w > rowCap(startRow + rows.length) - 2 * WALL){ rows.push(cur); cur = []; used = 0; }
+      used += (cur.length ? (it.plus ? PLUS_GAP : it.g) : 0) + it.w; cur.push(it); });
     if(cur.length) rows.push(cur); return rows; };
-  let k = 1, packed = pack(1);
-  while(packed.length > SHELF_ROWS.length && k > 0.66){ k -= 0.04; packed = pack(k); }
+  const bookRows = packRows(books.map(b=>({ ...b, book:true, g:0.7 })), 0);
+  const below = Math.max(0, SHELF_ROWS.length - bookRows.length);
+  const troAt = k=>tro.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:1.6 }));
+  let k = 1, troRows = packRows(troAt(1), bookRows.length);
+  while(troRows.length > below && k > 0.7){ k -= 0.04; troRows = packRows(troAt(k), bookRows.length); }
+  let extra = [];
+  const fillLast = bookRows.length > 1; // the plus (or books) spilled into a lower compartment: trophies may fill the rest of it
+  if(troRows.length > below || fillLast){ // too full below: up to 3 next to the books, as long as they fit in the top compartment
+    const last = bookRows[bookRows.length - 1], room = rowCap(bookRows.length - 1) - 2 * WALL - last.reduce((s, it, i)=>s + it.w + (i ? (it.plus ? PLUS_GAP : it.g) : 0), 0);
+    let used = 0; const all = troAt(k);
+    for(const it of all){ if((!fillLast && extra.length >= 3) || used + it.w + 3 > room) break; extra.push(it); used += it.w + 3; }
+    troRows = packRows(all.slice(extra.length), bookRows.length);
+  }
+  if(extra.length) bookRows[bookRows.length - 1] = bookRows[bookRows.length - 1].concat(extra.map((it, i)=>({ ...it, g:i ? 1.6 : 3 })));
+  const packed = bookRows.concat(troRows);
   const roof = packed.slice(SHELF_ROWS.length).flat().filter(it=>!it.book);
   const rowsAll = packed.slice(0, SHELF_ROWS.length).map(r=>({ kind:r.every(it=>!it.book) ? 'tro' : 'books', r }));
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`

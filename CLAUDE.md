@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.74.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.75.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -291,7 +291,15 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   (Atemzahl, Phase, Stille-Uhr, Player-Zeit), seit 1.73.1 auch Knöpfe; Marcellus hat nur eine Stärke, daher nie fett.
 - Querformat-Titelblatt (seit 1.74.0): Titel und Jahr genau mittig im goldenen Band (72,5–87,5 % der Höhe, bei allen
   fünf Covern gleich). Mitteilungspunkt am Konto-Symbol: Lila neben goldener Figur, Gold auf Stufe 1 (lila Figur).
-- Untere Leiste seit 1.74.3 etwa 20 % niedriger (Symbole 24 px, `--nav-h`).
+- Untere Leiste seit 1.74.3 etwa 20 % niedriger (Symbole 24 px, `--nav-h`). Seit 1.75.0 Reihenfolge Bereiche · Ziele ·
+  Lebensrad (Mitte, etwas größeres Symbol, nicht höher) · Tagebuch · Achtsamkeit (`NAV_ORDER`); Beschriftung überall gleich
+  hoch, inaktiv `--ew-text-dim`, aktiv `--gold-text`, kein reines Weiß. Wischen zwischen Seiten ausgeschaltet (`SWIPE_ON`).
+- Seit 1.75.0: Regler-Knopf und Box-Breathing-Punkt aus goldenem Faltpapier (`img/knob-gold.svg`); Stille Meditation ohne
+  Musik, nur Gong (kein Lautsprecher-Knopf); Atemgeräusche 5 % lauter (`BREATH_VOL`, Box und 4-7-8); 5-4-3-2-1: Zahlen groß
+  in Marcellus creme ohne Kugel, am Ende ein großer Haken; Atemzahl in Gold.
+- Regal seit 1.75.0: Bücher eng ab der linken Wand, das Plus mit kleinem Abstand und nie auf der Seitenwand; Trophäen zuerst
+  in die unteren Fächer, ins oberste Fach höchstens 3 (nur wenn unten zu voll); rutscht das Plus ins 2. Fach, füllen
+  Trophäen den Rest davon. Abstände als `margin` an den Kindern (cqh misst das Fach), nicht am Fach selbst.
 - Schalter „Tiere & Feiertagsschmuck“ in den Einstellungen (seit 1.72.0, `decorOn()`/`setDecor()`, `state.settings.decor`,
   je Gerät): blendet Tiere, Osterhase, Nikolaus, Kranz, Baum und Schnee aus; Trophäen und Feiertagskarten bleiben.
 - Geplant: Vitrine nach einem Jahr neben dem Regal für die Feiertagstrophäen (Bild steht aus).
