@@ -634,6 +634,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-wrap{ position:relative; }
 .vitrine-img{ position:relative; width:min(66%, 560px); aspect-ratio:808/1210; background:url(img/vitrine.webp) center/100% 100% no-repeat; margin-top:4%; }
 .vitrine-img .shelf-trophy{ transform:translateY(1.5cqh); }
+.vitrine-img .vit-books{ justify-content:center; }
 @media (min-width:760px){ .shelf-wrap.with-vitrine{ flex-direction:row; align-items:flex-end; justify-content:center; gap:2%; }
   .shelf-wrap.with-vitrine .shelf-img{ width:min(58%, calc(100vh - var(--nav-h, 70px) - 150px), 1000px); }
   .shelf-wrap.with-vitrine .vitrine-img{ width:min(30%, 420px); margin:0 0 3%; } }
@@ -1478,7 +1479,7 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.78.1';
+const APP_VERSION = '1.78.2';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -5629,7 +5630,10 @@ function isEasterTime(now){
 function tbRenderLibrary(){
   const d = t();
   const SH = shelfNow(); SHELF_X = SH.x; SHELF_ROWS = SH.rows;
-  const keys = tbBookKeys();
+  // with the cabinet (level 6) the diaries of earlier years stand in its top compartment, if there are several (1.78.2)
+  const allKeys = tbBookKeys(), thisY = tbCurrentYearStr();
+  const oldKeys = appLevel() >= 6 ? allKeys.filter(k=>tbBookYear(k) < thisY) : [];
+  const useOld = oldKeys.length >= 2, keys = useOld ? allKeys.filter(k=>!oldKeys.includes(k)) : allKeys;
   // widths in units of the compartment height
   const spine = key=>{ const dia = state.tagebuch.jahre[key], land = tbIsLand(dia), pages = dia.seiten.filter(p=>p.type !== 'titel').length;
     return { w:((land ? 44 : 34) + Math.min(26, pages / 5)) * 0.62, h:land ? 64 : 86, key }; };
@@ -5700,14 +5704,16 @@ function tbRenderLibrary(){
   // the cabinet: four glass compartments (in % of img/vitrine.webp), trophies centred, a little smaller if needed
   let vitHtml = '';
   if(VIT){
-    const VX = [24, 79], VR = [[19.6, 33.0], [33.9, 47.0], [48.7, 61.0], [62.6, 76.6]];
+    const VX = [24, 79], VR0 = [[19.6, 33.0], [33.9, 47.0], [48.7, 61.0], [62.6, 76.6]];
+    const VR = useOld ? VR0.slice(1) : VR0; // the top compartment then holds the old diaries
     const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * 0.66 - 10; // the picture is about 0.66 times as wide as high
     const items = feast.map(x=>{ const h = 92 * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
     let kk = 1, rows = [];
     for(;;){ rows = []; let cur = [], used = 0;
       items.forEach(o=>{ const it = { ...o, h:o.h * kk, w:o.w * kk }; if(cur.length && used + it.w + 3 > cap(Math.min(rows.length, 3))){ rows.push(cur); cur = []; used = 0; } cur.push(it); used += it.w + 3; });
-      if(cur.length) rows.push(cur); if(rows.length <= 4 || kk < 0.5) break; kk -= 0.05; }
-    vitHtml = `<div class="vitrine-img">${VR.map(([y0, y1], i)=>`<div class="shelf-comp shelf-comp-tro" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(troHtml).join('')}</div>`).join('')}</div>`;
+      if(cur.length) rows.push(cur); if(rows.length <= VR.length || kk < 0.5) break; kk -= 0.05; }
+    const oldRow = useOld ? `<div class="shelf-comp shelf-comp-books vit-books" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${VR0[0][0]}%;height:${VR0[0][1] - VR0[0][0]}%">${oldKeys.map(k=>bookHtml(spine(k))).join('')}</div>` : '';
+    vitHtml = `<div class="vitrine-img">${oldRow}${VR.map(([y0, y1], i)=>`<div class="shelf-comp shelf-comp-tro" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(troHtml).join('')}</div>`).join('')}</div>`;
   }
   return `<div class="shelf-wrap${VIT ? ' with-vitrine' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${shelfHtml}${vitHtml}</div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
@@ -5840,9 +5846,9 @@ function trophyDefs(){
   // joy (1.78.0): the sun in the glass orb grows when Freude has risen by 10, 20 and 30 points since its first value –
   // a high start alone gives nothing, it is about growing
   const joyArr = (state.bewertungen.freude || []).slice().sort((x, y)=>x.ts - y.ts);
-  [[10, 0.6], [20, 0.75], [30, 0.9]].forEach(([n, sc], i)=>{
+  [[10, 0.7], [20, 0.82], [30, 0.95]].forEach(([n, sc], i)=>{
     const hit = joyArr.find(e=>joyArr.length && e.value - joyArr[0].value >= n);
-    out.push({ id:'joy' + n, group:'joy', stage:i, kind:'img', img:'orb-sun', scale:sc, aspect:0.51, need:1, list:hit ? [hit.ts] : [],
+    out.push({ id:'joy' + n, group:'joy', stage:i, kind:'img', img:'orb-sun-' + (i + 1), scale:sc, aspect:[0.56, 0.58, 0.6][i], need:1, list:hit ? [hit.ts] : [],
       title:L('Sonne der Freude (+' + n + ')', 'Sun of joy (+' + n + ')'), desc:L('Deine Freude ist um ' + n + ' Punkte gewachsen. Lass sie weiter leuchten!', 'Your joy has grown by ' + n + ' points. Let it keep shining!') });
   });
   out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.81, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
