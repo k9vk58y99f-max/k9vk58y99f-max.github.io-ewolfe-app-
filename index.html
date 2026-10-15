@@ -1147,6 +1147,13 @@ html.theme-biz .shelf-book:not(.shelf-new){ --ph-fs:6px; }
 html.theme-biz .shelf-book:not(.shelf-new)::after{ transform:translate(-50%, -50%) rotate(-90deg); max-width:none; white-space:nowrap; }
 html.theme-biz :is(.breath-stage, .tb-cover, .tb-page-titel, .imp-card:not(.imp-mini)){ --ph-fs:18px; }
 html.theme-biz .imp-card.imp-mini{ --ph-fs:7px; }
+/* our dog in front of the walnut bookcase, a little to the right over its edge */
+html.theme-biz .shelf-dog{ right:-15%; bottom:-2%; height:23%; transform:none; }
+html.theme-biz .shelf-dog-lying{ right:-12%; bottom:-2%; height:10%; }
+html.theme-biz .rl-ph-dog{ aspect-ratio:3/4; filter:none; z-index:3; } html.theme-biz .shelf-dog-lying.rl-ph-dog{ aspect-ratio:2/1; }
+html.theme-biz .rl-ph-dog::after{ content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); width:110%; text-align:center;
+  font:700 7px/1.15 Inter, sans-serif; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
+html[lang=en].theme-biz .rl-ph-dog::after{ content:'Placeholder – new design coming'; }
 html.theme-biz .logo-dog{ border-radius:4px !important; box-shadow:0 0 0 1px rgba(154,107,63,0.7) !important; }
 /* the club rank: an engraved brass plate on the plinth of the bookcase (1.80.0) */
 .club-plaque{ position:absolute; left:50%; top:89.4%; transform:translateX(-50%); width:52%; height:6%; container-type:size; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4%;
@@ -1608,7 +1615,7 @@ html.theme-biz .settings-section:has(#t-set-decor){ display:none; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.80.2';
+const APP_VERSION = '1.80.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';
@@ -5862,6 +5869,7 @@ function isEasterTime(now){
   const e = easterSunday(now.getFullYear()), day = 864e5, today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   return today - e >= -7 * day && today - e <= 7 * day;
 }
+const RL_DOG_READY = false; // true as soon as img/rl/dog.webp and img/rl/dog-lying.webp are there
 function tbRenderLibrary(){
   const d = t();
   const SH = shelfNow(); SHELF_X = SH.x; SHELF_ROWS = SH.rows;
@@ -5921,7 +5929,12 @@ function tbRenderLibrary(){
   // the dog's place (1.78.0): at Christmas the crib stands there (the dog lies in it), on weekends the dog lies down
   const wkend = [0, 6].includes(new Date().getDay());
   const dogSpot = isChristmasTime() ? animal('stickers/crib-dog', 'shelf-crib') : days >= 15 ? (wkend ? animal('stickers/dog-lying', 'shelf-dog-lying') : animal('dog', 'shelf-dog')) : '';
-  const animals = !decorOn() ? '' : dogSpot + (lv >= 4 ? animal('cat', 'shelf-cat') : '')
+  // our dog belongs to every design (1.80.3): in A Gentleman's Study he sits (on weekends lies) in front of the bookcase as well,
+  // in his own picture (img/rl/dog, img/rl/dog-lying) – until it is there, the classic one with the red placeholder note
+  const bizDog = days < 15 ? '' : (()=>{ const cls = wkend ? 'shelf-dog-lying' : 'shelf-dog';
+    if(RL_DOG_READY) return animal('rl/' + (wkend ? 'dog-lying' : 'dog'), cls);
+    return animal(wkend ? 'stickers/dog-lying' : 'dog', cls) + `<span class="shelf-animal ${cls} rl-ph-dog" aria-hidden="true"></span>`; })();
+  const animals = BIZ ? bizDog : !decorOn() ? '' : dogSpot + (lv >= 4 ? animal('cat', 'shelf-cat') : '')
     + (lv >= 6 ? animal('fox', 'shelf-fox') : '') + (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + animal('eggs', 'shelf-eggs') : '')
     + (isNikolausTime() ? animal('nikolaus', 'shelf-nikolaus') + `<img class="shelf-animal shelf-boot" src="img/trophy-boot.webp" alt="">` : '')
     // Advent: the wreath on top of the shelf, one candle more every Sunday; Christmas: the tree beside it and snow
