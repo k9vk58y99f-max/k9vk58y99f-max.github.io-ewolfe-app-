@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.80.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.80.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -284,13 +284,13 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   aufklappbare Karte „Warum ein Lebensrad?“ (`whyText`, beim ersten Rad offen) und je Bereich „Mehr lesen“ (`areaMore`:
   Was dazugehört, Woran du einen hohen Wert erkennst, Ein kleiner erster Schritt).
 
-## Zwei Designs: „Gentlemen's Study“ und „A Mystery World“ (seit 1.80.0)
-- Wahl je Gerät in `localStorage` `ewolfe_design` = `biz` (Gentlemen's Study) oder `classic` (A Mystery World, das bisherige
+## Zwei Designs: „A Gentleman's Study“ und „A Mystery World“ (seit 1.80.0)
+- Wahl je Gerät in `localStorage` `ewolfe_design` = `biz` (A Gentleman's Study) oder `classic` (A Mystery World, das bisherige
   Gold-/Papier-Design). Ein kleines Skript im `<head>` setzt vor dem Zeichnen `html.theme-biz` und `window.EW_DESIGN`;
   im Code `BIZ`. Neues Gerät → Business, Gerät mit Daten (`ewolfe_data_v1`) → classic (Bestandsnutzer behalten ihr Design).
 - Erste Maske: Sprache und Design wählen, dann „Weiter“ (`firstPickSet`/`firstPickGo`, Vorschau sofort). Einstellungen: Abschnitt
   „Design“ (`designBtns`, `setDesign` speichert und lädt die App neu).
-- Gentlemen's Study: Navy/Dunkelgrün, Akzent Cognac #9a6b3f, Text Leinen #dcd4b8, Überschriften und Knöpfe Noto Serif Display
+- A Gentleman's Study: Navy/Dunkelgrün, Akzent Cognac #9a6b3f, Text Leinen #dcd4b8, Überschriften und Knöpfe Noto Serif Display
   schmal (wdth 62.5) in Großbuchstaben, keine Rahmen, schlichte Knöpfe. CSS-Block „Design Business“ am Ende des CSS (`:root.theme-biz`).
 - Symbole: Linien-SVGs in `img/icons-rl/ico-*.svg` (gleiche Namen wie `img/icons/ico-*.webp`); ein MutationObserver tauscht in BIZ
   jede `img/icons/ico-…webp` gegen die SVG (`designSwapIn`), auch in später gezeichnetem Inhalt. Auf cremefarbenem Papier dunkel gefiltert.
@@ -301,7 +301,11 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Kristall-Obelisken 1–6, je Übung Glasglocke (lotus, cherry, lemon, stones, bowl, hearts), Lebensräder = Steuerrad, Ziele =
   Silberpokal, Tagebuchseiten = Bücher mit Füller, Treue = Taschenuhr, Freude = Sonnenuhr, +10 = Fernrohr, alle Bereiche = großer
   Pokal, Ostern = Eier (creme, kobalt, grün; Titel „Osterei“), Nikolaus = Holzfigur, Stiefel, Stern. Krippe noch die alte.
-- Noch im alten Stil (Bilder folgen): App-Icon oben links, Tagebuch-Cover und Buchrücken, Übungsbilder, Impulskarten, Sticker,
+- Seit 1.80.1: Name „A Gentleman's Study“. App-Symbol = Monogramm „EW“ (Didot, Leinen auf Navy, Cognac-Linie, `img/rl/app-icon.png`,
+  `img/rl/apple-touch-icon.png`, im `<head>`-Skript gesetzt). Stufen = Club-Ränge (Gast, Anwärter, Mitglied, Fellow, Senior Fellow,
+  Ehrenmitglied; `clubRanks`, `clubUp`, `clubProgressText`) auf einem gravierten Messingschild am Regalsockel (`clubPlaqueHtml`,
+  `.club-plaque`, je Rang eine Raute). Favicon und Manifest-Symbol (Data-URL) sind noch das alte.
+- Noch im alten Stil (Bilder folgen): Tagebuch-Cover und Buchrücken, Übungsbilder, Impulskarten, Sticker,
   Box-Breathing-Punkt. Neue Sonnenuhr und Stiefel sind bestellt (Prompts 6b/21b im Sammelordner).
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)

@@ -23,7 +23,9 @@
   var d = null;
   try{ d = localStorage.getItem('ewolfe_design'); if(!d){ d = localStorage.getItem('ewolfe_data_v1') ? 'classic' : 'biz'; localStorage.setItem('ewolfe_design', d); } }catch(e){ d = 'biz'; }
   window.EW_DESIGN = d === 'classic' ? 'classic' : 'biz';
-  if(window.EW_DESIGN === 'biz') document.documentElement.classList.add('theme-biz');
+  if(window.EW_DESIGN === 'biz') document.documentElement.classList.add('theme-biz')
+  // its own home-screen icon: the monogram
+  if(window.EW_DESIGN === 'biz'){ var l = document.querySelector('link[rel=apple-touch-icon]'); if(l) l.href = 'img/rl/apple-touch-icon.png'; }
 })();
 </script>
 <style>
@@ -1131,6 +1133,14 @@ html.theme-biz .shelf-hint{ color:var(--ew-text-dim); }
 html.theme-biz #sync-btn.has-note::after{ background:#9a6b3f; box-shadow:0 0 8px rgba(154,107,63,0.8); }
 html.theme-biz #t-logo{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.16em; }
 html.theme-biz .bereich-value{ fill:var(--ew-text); }
+html.theme-biz .logo-dog{ border-radius:4px !important; box-shadow:0 0 0 1px rgba(154,107,63,0.7) !important; }
+/* the club rank: an engraved brass plate on the plinth of the bookcase (1.80.0) */
+.club-plaque{ position:absolute; left:50%; top:89.4%; transform:translateX(-50%); width:52%; height:6%; container-type:size; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4%;
+  background:linear-gradient(180deg, #d9b679 0%, #b48a4c 45%, #8d6532 100%); border-radius:2px; box-shadow:inset 0 1px 0 rgba(255,240,200,0.6), inset 0 -1px 0 rgba(60,35,10,0.5), 0 2px 4px rgba(0,0,0,0.5); }
+.club-plaque::before, .club-plaque::after{ content:''; position:absolute; top:50%; width:3.2cqh; height:3.2cqh; min-width:3px; min-height:3px; margin-top:-1.6cqh; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f0d9a6, #7a5428); }
+.club-plaque::before{ left:4%; } .club-plaque::after{ right:4%; }
+.club-rank{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.14em; font-size:36cqh; line-height:1; color:#3a2410; text-shadow:0 1px 0 rgba(255,236,190,0.55); white-space:nowrap; }
+.club-dia{ font-size:18cqh; line-height:1; letter-spacing:0.25em; color:#3a2410; } .club-dia i{ font-style:normal; opacity:.28; }
 /* on cream paper (Ziele, diary area pages) the linen line icons would vanish: there they are dark */
 html.theme-biz #goals-page .area-ico image, html.theme-biz .tb-area-head .area-ico image, html.theme-biz .tb-page .area-ico image{ filter:brightness(0.42) !important; }
 /* design choice (first window and settings): two buttons, each with its name and a short line */
@@ -1143,7 +1153,7 @@ html.theme-biz #goals-page .area-ico image, html.theme-biz .tb-area-head .area-i
 .first-pick .settings-head{ margin:14px 0 8px; text-align:center; }
 .first-pick .settings-head:first-child{ margin-top:2px; }
 .first-pick .settings-note{ text-align:center; }
-/* Gentlemen's Study: no animals and paper decoration, so no switch for them either */
+/* A Gentleman's Study: no animals and paper decoration, so no switch for them either */
 html.theme-biz .settings-section:has(#t-set-decor){ display:none; }
 </style>
 </head>
@@ -1584,7 +1594,7 @@ html.theme-biz .settings-section:has(#t-set-decor){ display:none; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.80.0';
+const APP_VERSION = '1.80.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';
@@ -1802,11 +1812,24 @@ function appActiveDays(){
 }
 // "Active days: 5 · 2 more to the next level" under the shelf (since 1.73.5)
 function levelProgressText(){
+  if(BIZ) return clubProgressText();
   const d = t(), n = appActiveDays(), lv = appLevel();
   const next = LEVEL_DAYS.find(x=>x > n);
   if(next !== undefined) return d.levelProgress.replace('{n}', n).replace('{m}', next - n);
   if(lv < 6 && appFirstActive){ const dd = LEVEL_MONTHS.find(([l])=>l > lv)[1] - Math.floor((Date.now() - appFirstActive) / 864e5); return d.levelProgressTime.replace('{n}', n).replace('{m}', Math.max(1, dd)); }
   return d.levelProgressMax.replace('{n}', n);
+}
+/* A Gentleman's Study (1.80.0): the same levels are ranks of a gentlemen's club – Guest, Candidate, Member, Fellow, Senior
+   Fellow, Honorary Member. The rank is engraved on a brass plate on the plinth of the bookcase; one small diamond per rank. */
+function clubProgressText(){
+  const d = t(), n = appActiveDays(), lv = appLevel(), next = LEVEL_DAYS.find(x=>x > n), rank = d.clubRanks[lv] || '';
+  if(next !== undefined) return d.clubProgress.replace('{n}', n).replace('{m}', next - n).replace('{r}', d.clubRanks[lv + 1] || '');
+  if(lv < 6 && appFirstActive){ const dd = LEVEL_MONTHS.find(([l])=>l > lv)[1] - Math.floor((Date.now() - appFirstActive) / 864e5); return d.clubProgress.replace('{n}', n).replace('{m}', Math.max(1, dd)).replace('{r}', d.clubRanks[lv + 1] || ''); }
+  return d.clubProgressMax.replace('{n}', n).replace('{r}', rank);
+}
+function clubPlaqueHtml(){
+  const d = t(), lv = Math.max(1, appLevel());
+  return `<div class="club-plaque" title="${escapeHtml(d.clubRankLabel)}"><span class="club-rank">${escapeHtml(d.clubRanks[lv] || '')}</span><span class="club-dia">${'◆'.repeat(lv)}<i>${'◆'.repeat(6 - lv)}</i></span></div>`;
 }
 function appLevel(){
   if(appLevelCache === null){
@@ -1831,7 +1854,7 @@ function applyLevel(announce){
   if(!seen){ try{ localStorage.setItem(LEVEL_SEEN_KEY, String(lv)); }catch(e){} return; } // the first time: no fanfare
   if(lv > seen){
     try{ localStorage.setItem(LEVEL_SEEN_KEY, String(lv)); }catch(e){}
-    if(announce !== false) setTimeout(()=>uiNotice(t().levelUp[lv - 1] || ''), 600);
+    if(announce !== false) setTimeout(()=>uiNotice((BIZ ? t().clubUp : t().levelUp)[lv - 1] || ''), 600);
   }
 }
 let levelTimer = null;
@@ -4068,6 +4091,12 @@ Object.assign(I18N.en, {
   },
   areaMoreBelongs:'What belongs to it', areaMoreHigh:'How you recognise a high value', areaMoreStep:'A small first step'
 });
+Object.assign(I18N.de, { clubRanks:['', 'Gast', 'Anwärter', 'Mitglied', 'Fellow', 'Senior Fellow', 'Ehrenmitglied'], clubRankLabel:'Dein Rang',
+  clubProgress:'Aktive Tage: {n} · noch {m} bis zum Rang „{r}“', clubProgressMax:'Aktive Tage: {n} · höchster Rang: {r}',
+  clubUp:['', 'Willkommen als Anwärter. Sieben aktive Tage – du hast ernsthaft begonnen, an dir zu arbeiten.', 'Du bist jetzt Mitglied. 30 aktive Tage – aus Vorsätzen werden Gewohnheiten.', 'Aufgenommen als Fellow. 100 aktive Tage – das zeugt von Haltung.', 'Senior Fellow. Ein halbes Jahr bleibst du dir treu.', 'Ehrenmitglied. Ein ganzes Jahr mit dir selbst – deine Vitrine steht bereit.'] });
+Object.assign(I18N.en, { clubRanks:['', 'Guest', 'Candidate', 'Member', 'Fellow', 'Senior Fellow', 'Honorary Member'], clubRankLabel:'Your rank',
+  clubProgress:'Active days: {n} · {m} more to the rank of {r}', clubProgressMax:'Active days: {n} · highest rank: {r}',
+  clubUp:['', 'Welcome as a candidate. Seven active days – you have truly begun to work on yourself.', 'You are now a member. 30 active days – resolutions are turning into habits.', 'Elected a fellow. 100 active days – that shows character.', 'Senior fellow. For half a year you have stayed true to yourself.', 'Honorary member. A whole year with yourself – your cabinet is ready.'] });
 Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!", "Ein halbes Jahr mit dir selbst! In den Ecken deines Rahmens funkeln jetzt Sterne.", "Ein ganzes Jahr! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
 Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold.", "Your app shines in full splendour. Thank you for 100 days with yourself!", "Half a year with yourself! Stars now twinkle in the corners of your frame.", "A whole year! Everything sparkles, and a fox has moved in by your shelf. Thank you for staying so true to yourself."]});
 function t(){ return I18N[state.settings.lang]; }
@@ -4207,7 +4236,7 @@ function setLang(lang){
 document.getElementById('lang-de-btn').onclick = ()=>setLang('de');
 // animals and feast-day decoration at the shelf can be switched off per device (since 1.72.0); the trophies stay
 // the two designs: their own names in both languages; a small sample of each (colours and type) on its button
-const DESIGNS = [['biz', "Gentlemen's Study"], ['classic', 'A Mystery World']];
+const DESIGNS = [['biz', "A Gentleman's Study"], ['classic', 'A Mystery World']];
 function designBtns(cur, fn){
   return DESIGNS.map(([k, name])=>`<button class="seg-btn design-btn design-${k}${cur === k ? ' active' : ''}" onclick="${fn}('design','${k}')"><span class="design-name">${name}</span><span class="design-sub">${k === 'biz' ? (state.settings.lang === 'en' ? 'calm · navy · cognac' : 'ruhig · Navy · Cognac') : (state.settings.lang === 'en' ? 'gold · paper · magic' : 'Gold · Papier · Zauber')}</span></button>`).join('');
 }
@@ -5223,7 +5252,7 @@ function playIntroSequence(onComplete){
   if(!overlay || !icon){ done(); return; }
   overlay.style.display = 'flex'; overlay.style.transition = 'none'; overlay.style.opacity = '1';
   if(shatterBox) shatterBox.style.display = 'none';
-  icon.src = 'img/app-icon.png'; icon.style.display = 'block'; icon.style.borderRadius = '22%';
+  icon.src = (BIZ ? 'img/rl/app-icon.png' : 'img/app-icon.png'); icon.style.display = 'block'; icon.style.borderRadius = '22%';
   icon.classList.remove('grown', 'popped');
   const poly = document.getElementById('data-polygon');
   if(poly){ poly.style.transition = 'none'; poly.style.opacity = '0'; }
@@ -5795,7 +5824,7 @@ const SHELVES = {
   dusty:{ img:'shelf-dusty', roof:17.7, x:[27.9, 72.3], rows:[[23.6, 36.5], [37.5, 50.1], [51.1, 62.5], [63.5, 74.4], [75.4, 86.2]] },
   clean:{ img:'shelf-clean', roof:16.8, x:[27.5, 72.7], rows:[[22.8, 35.8], [36.8, 49.3], [50.3, 61.9], [62.9, 73.7], [74.7, 85.6]] },
   ivy:{ img:'shelf', roof:12.6, x:[27.8, 72.7], rows:[[18.8, 32.2], [33.7, 46.5], [48.3, 59.7], [61.7, 72.4], [74.7, 85.4]] },
-  // Gentlemen's Study (1.80.0): one plain walnut bookcase, always the same (img/rl/shelf.webp, measured inner walls and boards)
+  // A Gentleman's Study (1.80.0): one plain walnut bookcase, always the same (img/rl/shelf.webp, measured inner walls and boards)
   rl:{ img:'rl/shelf', aspect:552 / 1254, roof:1.8, x:[9.6, 90.4], rows:[[5, 21.3], [23, 38.4], [40, 56.3], [58, 72.8], [75, 87.3]] }
 };
 // the cobwebs go as soon as one has really begun: from the 2nd active day the shelf is clean (1.74.3), ivy from level 3
@@ -5887,7 +5916,7 @@ function tbRenderLibrary(){
   const half = Math.ceil(roof.length / 2);
   const roofHtml = roof.length ? `<div class="shelf-comp shelf-roof" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${SH.roof - rh}%;height:${rh}%">
       <div class="shelf-roof-side">${roof.slice(0, half).map(troHtml).join('')}</div><div class="shelf-roof-side right">${roof.slice(half).map(troHtml).join('')}</div></div>` : '';
-  const shelfHtml = `<div class="shelf-img" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%">${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
+  const shelfHtml = `<div class="shelf-img" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%">${BIZ ? clubPlaqueHtml() : ''}${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rowsAll[i];
       return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : row ? ' shelf-comp-books' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}</div>`;
@@ -5897,7 +5926,7 @@ function tbRenderLibrary(){
   if(VIT){
     const VX = BIZ ? [13.5, 86.5] : [24, 79], VR0 = BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[19.6, 33.0], [33.9, 47.0], [48.7, 61.0], [62.6, 76.6]];
     const VR = useOld ? VR0.slice(1) : VR0; // the top compartment then holds the old diaries
-    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (BIZ ? 0.348 : 0.66) - 10; // the picture is about 0.66 times as wide as high (Gentlemen's Study: 0.348)
+    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (BIZ ? 0.348 : 0.66) - 10; // the picture is about 0.66 times as wide as high (A Gentleman's Study: 0.348)
     const items = feast.map(x=>{ const h = 92 * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
     let kk = 1, rows = [];
     for(;;){ rows = []; let cur = [], used = 0;
@@ -6047,7 +6076,7 @@ function trophyDefs(){
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle Lebensbereiche haben sich verbessert.', 'All areas of life have improved.') });
   return BIZ ? out.map(trophyRl) : out;
 }
-/* Gentlemen's Study (1.80.0): the same trophies, other pictures (img/rl/): medals, crystal obelisks, glass cloches, silver cups,
+/* A Gentleman's Study (1.80.0): the same trophies, other pictures (img/rl/): medals, crystal obelisks, glass cloches, silver cups,
    ship's wheel, pocket watch, sundial, telescope … – [picture, width/height]. A trophy that grows keeps its picture and grows
    in size; a picture that is not there yet (the crib) stays the classic one. */
 const RL_TRO = {
@@ -7537,7 +7566,7 @@ function init(){
   setInterval(checkForUpdate, 30*60*1000);
   document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && Date.now() - updateCheckedAt > 10*60*1000) checkForUpdate(); });
   document.documentElement.style.setProperty('--tb-title-bg', 'url("' + TB_TITLE_BG + '")');
-  document.querySelector('.logo-dog').src = 'img/app-icon.png';
+  document.querySelector('.logo-dog').src = (BIZ ? 'img/rl/app-icon.png' : 'img/app-icon.png');
   applyTheme();
   applyLang();
   try{ localStorage.removeItem('ewolfe_visit_days'); applyLevel(false); }catch(e){}
