@@ -515,14 +515,14 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-page-wrap{ display:flex; flex-direction:column; align-items:center; gap:12px; }
 .tb-page{ position:relative; width:var(--tb-page-w, min(560px,94vw)); aspect-ratio:3/4; background:#fdfaf3; border-radius:6px; box-shadow:0 18px 48px rgba(0,0,0,0.45); overflow:hidden; }
 .tb-page.type-lined{ background-image: repeating-linear-gradient(#fdfaf3 0 calc(27px * var(--tbk)), #d9d0c1 calc(27px * var(--tbk)) calc(28px * var(--tbk))); background-size:100% calc(28px * var(--tbk)); }
-.tb-page.type-grid{ background-image: repeating-linear-gradient(90deg, #e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))), repeating-linear-gradient(#e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))); }
-.tb-page.type-dotted{ background-image: radial-gradient(#cfc3ac calc(1.2px * var(--tbk)), transparent calc(1.2px * var(--tbk))); background-size:calc(22px * var(--tbk)) calc(22px * var(--tbk)); }
+.tb-page.type-grid{ background-image: repeating-linear-gradient(90deg, #e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))), repeating-linear-gradient(#e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))); background-position:calc(26px * var(--tbk)) calc(27px * var(--tbk)); } /* same 28 px rows as the lines (1.75.0) */
+.tb-page.type-dotted{ background-image: radial-gradient(#cfc3ac calc(1.3px * var(--tbk)), transparent calc(1.3px * var(--tbk))); background-size:calc(28px * var(--tbk)) calc(28px * var(--tbk)); background-position:calc(12px * var(--tbk)) calc(13.5px * var(--tbk)); } /* dots on the same 28 px rows as the lines (1.75.0) */
 .tb-page-titel{ padding:0; }
 .tb-page-titel-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
 .tb-titel-caption{ position:absolute; left:0; right:0; bottom:9%; text-align:center; pointer-events:none; }
 .tb-titel-caption-title{ font-weight:700; font-size:clamp(27px,6.5vw,calc(40px * var(--tbk))); color:var(--ew-turquoise); letter-spacing:0.02em; text-shadow:0 2px 10px rgba(0,0,0,0.35); }
 .tb-titel-caption-year{ font-weight:600; font-size:clamp(18px,4.3vw,calc(22px * var(--tbk))); color:var(--ew-turquoise); opacity:0.85; margin-top:6px; letter-spacing:0.08em; }
-.tb-page-text{ position:absolute; inset:0; width:100%; height:100%; padding:calc(26px * var(--tbk)); font-family:'Inter',sans-serif; font-size:calc(15px * var(--tbk)); line-height:calc(28px * var(--tbk)); color:#2a2318; background:transparent; border:none; resize:none; outline:none; box-sizing:border-box; }
+.tb-page-text{ position:absolute; inset:0; width:100%; height:100%; padding:calc(24px * var(--tbk)) calc(26px * var(--tbk)) calc(28px * var(--tbk)); /* one written line per ruled line, sitting a little high so it never touches the line below (1.75.0) */ font-family:'Inter',sans-serif; font-size:calc(15px * var(--tbk)); line-height:calc(28px * var(--tbk)); color:#2a2318; background:transparent; border:none; resize:none; outline:none; box-sizing:border-box; }
 .tb-areas{ position:absolute; inset:0; padding:calc(16px * var(--tbk)) calc(22px * var(--tbk)) calc(14px * var(--tbk)); display:flex; flex-direction:column; gap:calc(4px * var(--tbk)); }
 .tb-area-block{ flex:1; min-height:0; display:flex; flex-direction:column; border-bottom:1px solid rgba(42,35,24,0.12); }
 .tb-area-block:last-child{ border-bottom:none; }
@@ -531,7 +531,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-area-text{ flex:1; min-height:0; width:100%; border:none; outline:none; resize:none; background:transparent; padding:0; font-family:'Inter',sans-serif; font-size:calc(15px * var(--tbk)); line-height:calc(24px * var(--tbk)); color:#2a2318; overflow:hidden; }
 .tb-area-text.font-hand{ font-family:'Caveat',cursive; font-size:calc(21px * var(--tbk)); line-height:calc(24px * var(--tbk)); }
 .tb-areas.inactive{ pointer-events:none; }
-.tb-page-text.font-hand{ font-family:'Caveat',cursive; font-size:calc(22px * var(--tbk)); line-height:calc(28px * var(--tbk)); }
+.tb-page-text.font-hand{ font-family:'Caveat',cursive; font-size:calc(20.5px * var(--tbk)); line-height:calc(28px * var(--tbk)); padding-top:calc(19.5px * var(--tbk)); } /* handwriting has longer tails: a little higher (1.75.0) */
 .tb-page-text.inactive{ pointer-events:none; }
 .tb-page-canvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:none; pointer-events:none; }
 .tb-page-canvas.active{ pointer-events:auto; cursor:crosshair; }
@@ -788,7 +788,7 @@ body.swipe-prev .page-modal.open > .modal, body.swipe-prev .tb-overlay.open, bod
 .medi-impulse-text{ margin:0 0 12px; line-height:1.5; }
 .medi-impulse-actions{ display:flex; gap:8px; flex-wrap:wrap; }
 .medi-streak{ display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:16px; padding:12px 14px; margin-bottom:14px; }
-.medi-streak-n{ font-weight:700; color:var(--ew-turquoise); }
+.medi-streak-n{ font-size:var(--fs-sub) !important;  font-weight:700; color:var(--ew-turquoise); }
 .medi-streak-sub{ color:var(--ew-text); opacity:.8; }
 .medi-streak .ghost-btn{ padding:8px 12px; white-space:nowrap; }
 .medi-mood-card{ background:var(--ew-panel); border:1px solid var(--ew-line); border-radius:16px; padding:14px 16px; margin:4px 0 14px; }
@@ -1420,7 +1420,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.75.0';
+const APP_VERSION = '1.75.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2858,30 +2858,35 @@ const IMPULSE_CARDS = [
    Easter, Ascension, Pentecost, Harvest festival (first Sunday in October), Saint Martin. The picture: the Advent wreath
    with as many candles as Advent Sundays have passed (img/advent-1…4, until it is there: the star), else a sticker. ---- */
 const HOLIDAY_CARDS = {
-  adv1:{ de:'Mache dich auf, werde licht; denn dein Licht kommt.', en:'Arise, shine; for thy light is come.', by:'Jesaja 60,1', byEn:'Isaiah 60:1' },
+  adv1:{ de:'Der Advent beginnt. Was möchtest du in diesen Wochen zum Leuchten bringen?', en:'Advent begins. What would you like to let shine in these weeks?' },
   adv2:{ de:'Advent heißt Ankunft. Was darf in diesen Wochen bei dir ankommen?', en:'Advent means arrival. What may arrive in you in these weeks?' },
-  adv3:{ de:'Das Volk, das im Finstern wandelt, sieht ein großes Licht.', en:'The people that walked in darkness have seen a great light.', by:'Jesaja 9,1', byEn:'Isaiah 9:2' },
+  adv3:{ de:'Schreib heute drei Dinge auf, auf die du dich freust.', en:'Write down three things you are looking forward to today.' },
   adv4:{ de:'Zünde heute eine Kerze an und schenke dir fünf stille Minuten.', en:'Light a candle today and give yourself five quiet minutes.' },
   adv5:{ de:'Wem kannst du morgen im Stillen eine Freude machen?', en:'Whom could you quietly delight tomorrow?' },
   adv6:{ de:'Wie der heilige Nikolaus: Tu heute im Stillen etwas Gutes.', en:'Like Saint Nicholas: do something good in secret today.', by:'Nikolaustag', byEn:'Saint Nicholas Day', img:'stickers/nikolaus' },
-  adv7:{ de:'Freuet euch in dem Herrn allewege!', en:'Rejoice in the Lord alway.', by:'Philipper 4,4', byEn:'Philippians 4:4' },
+  adv7:{ de:'Mach heute einen Spaziergang und such dir drei schöne Lichter.', en:'Take a walk today and find three beautiful lights.' },
   adv8:{ de:'Warten kann ein Geschenk sein. Worauf freust du dich gerade?', en:'Waiting can be a gift. What are you looking forward to right now?' },
-  adv9:{ de:'Seid fröhlich in Hoffnung.', en:'Rejoicing in hope.', by:'Römer 12,12', byEn:'Romans 12:12' },
+  adv9:{ de:'Backe, koche oder bastle heute etwas mit Liebe.', en:'Bake, cook or make something with love today.' },
   adv10:{ de:'Räume heute eine Kleinigkeit auf – außen und innen.', en:'Tidy up one small thing today – outside and inside.' },
-  adv11:{ de:'Fürchte dich nicht, ich bin mit dir.', en:'Fear thou not; for I am with thee.', by:'Jesaja 41,10', byEn:'Isaiah 41:10' },
+  adv11:{ de:'Atme heute dreimal tief durch, bevor du etwas Neues beginnst.', en:'Take three deep breaths today before you start something new.' },
   adv12:{ de:'Schreib heute jemandem ein paar herzliche Zeilen.', en:'Write a few warm lines to someone today.' },
   adv13:{ de:'Heute ist Lucia-Tag: Sei für jemanden ein kleines Licht.', en:'Today is Saint Lucy’s Day: be a small light for someone.' },
-  adv14:{ de:'Gott ist die Liebe; und wer in der Liebe bleibt, der bleibt in Gott.', en:'God is love; and he that dwelleth in love dwelleth in God.', by:'1. Johannes 4,16', byEn:'1 John 4:16' },
+  adv14:{ de:'Wem möchtest du in diesem Jahr einfach Danke sagen?', en:'Who would you like to simply thank this year?' },
   adv15:{ de:'Geh heute ein paar Schritte langsamer als sonst.', en:'Walk a few steps slower than usual today.' },
-  adv16:{ de:'Meine Seele erhebt den Herrn.', en:'My soul doth magnify the Lord.', by:'Lukas 1,46', byEn:'Luke 1:46' },
+  adv16:{ de:'Gönn dir heute eine Tasse Tee in aller Ruhe – ganz ohne Handy.', en:'Treat yourself to a quiet cup of tea today – without your phone.' },
   adv17:{ de:'Für welche drei Dinge bist du heute dankbar?', en:'What three things are you grateful for today?' },
-  adv18:{ de:'Siehe, ich verkündige euch große Freude.', en:'Behold, I bring you good tidings of great joy.', by:'Lukas 2,10', byEn:'Luke 2:10' },
+  adv18:{ de:'Verschenke heute ein Lächeln an jemanden, den du nicht kennst.', en:'Give a smile to a stranger today.' },
   adv19:{ de:'Wer könnte sich in diesen Tagen einsam fühlen? Ruf an.', en:'Who might feel lonely these days? Give them a call.' },
-  adv20:{ de:'Selig sind die Friedfertigen.', en:'Blessed are the peacemakers.', by:'Matthäus 5,9', byEn:'Matthew 5:9' },
+  adv20:{ de:'Lass heute einen alten Ärger los. Du darfst leichter werden.', en:'Let go of an old annoyance today. You may become lighter.' },
   adv21:{ de:'Der kürzeste Tag des Jahres – ab morgen wird es wieder heller.', en:'The shortest day of the year – from tomorrow it grows lighter again.' },
   adv22:{ de:'Nicht alles muss perfekt sein. Weihnachten kommt trotzdem.', en:'Not everything has to be perfect. Christmas comes anyway.' },
-  adv23:{ de:'Denn bei Gott ist kein Ding unmöglich.', en:'For with God nothing shall be impossible.', by:'Lukas 1,37', byEn:'Luke 1:37' },
+  adv23:{ de:'Morgen ist Heiligabend. Was ist dir an diesem Fest am wichtigsten?', en:'Tomorrow is Christmas Eve. What matters most to you about this celebration?' },
   adv24:{ de:'Euch ist heute der Heiland geboren.', en:'Unto you is born this day a Saviour.', by:'Lukas 2,11', byEn:'Luke 2:11', img:'stickers/tree' },
+  // the four Advent Sundays (1.75.0): only on them a short, joyful verse – on the other Advent days an impulse
+  advSun1:{ de:'Mache dich auf, werde licht; denn dein Licht kommt.', en:'Arise, shine; for thy light is come.', by:'Jesaja 60,1', byEn:'Isaiah 60:1' },
+  advSun2:{ de:'Freuet euch in dem Herrn allewege!', en:'Rejoice in the Lord alway.', by:'Philipper 4,4', byEn:'Philippians 4:4' },
+  advSun3:{ de:'Seid fröhlich in Hoffnung.', en:'Rejoicing in hope.', by:'Römer 12,12', byEn:'Romans 12:12' },
+  advSun4:{ de:'Denn bei Gott ist kein Ding unmöglich.', en:'For with God nothing shall be impossible.', by:'Lukas 1,37', byEn:'Luke 1:37' },
   xmas1:{ de:'Ehre sei Gott in der Höhe und Friede auf Erden.', en:'Glory to God in the highest, and on earth peace.', by:'Lukas 2,14', byEn:'Luke 2:14', img:'stickers/tree' },
   xmas2:{ de:'Und das Licht scheint in der Finsternis.', en:'And the light shineth in darkness.', by:'Johannes 1,5', byEn:'John 1:5', img:'stickers/tree' },
   newyear:{ de:'Siehe, ich mache alles neu!', en:'Behold, I make all things new.', by:'Offenbarung 21,5', byEn:'Revelation 21:5', img:'stickers/sun' },
@@ -2905,7 +2910,7 @@ function holidayKey(now){
   const today = new Date(y, m, dd), e = easterSunday(y), off = Math.round((today - e) / day);
   const easterDays = { '-7':'palm', '-3':'maundy', '-2':'goodfri', '-1':'holysat', '0':'easter', '1':'eastermon', '39':'ascension', '49':'pentecost', '50':'pentecostmon' };
   if(easterDays[off]) return easterDays[off];
-  if(m === 11 && dd <= 24) return 'adv' + dd;
+  if(m === 11 && dd <= 24){ if(dd < 24 && dd !== 6 && now.getDay() === 0 && adventCandles(now)) return 'advSun' + adventCandles(now); return 'adv' + dd; }
   if(m === 11 && dd === 25) return 'xmas1';
   if(m === 11 && dd === 26) return 'xmas2';
   if(m === 0 && dd === 1) return 'newyear';
@@ -2917,7 +2922,8 @@ function holidayKey(now){
 // a feast-day card as an impulse card (id 'h-' + key)
 function holidayCard(key){
   const h = HOLIDAY_CARDS[key]; if(!h) return null;
-  const adv = /^adv/.test(key) && !h.img ? adventCandles(new Date(new Date().getFullYear(), 11, +key.slice(3))) : 0;
+  const sun = /^advSun(\d)$/.exec(key);
+  const adv = sun ? +sun[1] : /^adv\d/.test(key) && !h.img ? adventCandles(new Date(new Date().getFullYear(), 11, +key.slice(3))) : 0;
   return { id:'h-' + key, a:'sinn', de:h.de, en:h.en, by:h.by || '', byEn:h.byEn || '', img:h.img || (adv ? 'advent-' + adv : 'stickers/star'), holiday:true };
 }
 const holidayCardToday = ()=>{ const k = holidayKey(); return k ? holidayCard(k) : null; };

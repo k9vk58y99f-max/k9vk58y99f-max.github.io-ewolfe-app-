@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.75.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.75.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -278,6 +278,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   ohne Glasglocke): 1. Jahr rosa klein, 2. blau größer, 3. mint am größten, danach große Eier reihum (`FAB`). Nikolaus (Bischof, `img/stickers/nikolaus.webp`) steht am
   5./6. Dezember links neben dem Regal, davor der Stiefel (`isNikolausTime()`); Trophäen für eine Übung am 6. Dezember:
   im ersten Jahr ein kleiner Nikolaus (`nikolaus`), im zweiten der Stiefel (`nikolaus2`, `img/trophy-boot.webp`). Trophäen dürfen seit 1.70.0 auch im Bücherfach neben den Büchern stehen (`pack()`).
+- Tagebuch-Linien (seit 1.75.1): Linien, Karos und Punkte im gleichen 28-px-Raster (`--tbk`); je Linie eine Zeile, Text
+  sitzt etwas hoch (Druckschrift padding-top 24, Handschrift 20,5 px Schrift, padding-top 19,5), berührt keine Linie.
+- Advent (seit 1.75.1): Bibelverse nur an den Adventssonntagen (`advSun1…4`, nicht am 6.12.) und an Heiligabend, sonst Impulse.
 - Feiertagskarten (seit 1.71.0, `HOLIDAY_CARDS`, `holidayKey()`, `holidayCard()`): an Feiertagen und im Advent (1.–24.12.)
   kommt zuerst die Feiertagskarte (Tageskarte und erstes Ziehen, `impulseDraw`), Id `'h-' + Schlüssel`. Nur positive
   Bibelverse (Luther 1912 / King James) oder eigene Impulse. Bild: Adventskranz mit passender Kerzenzahl (`advent-1…4`),
