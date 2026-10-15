@@ -976,6 +976,44 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 .primary-btn, .ghost-btn, .seg-btn, .mini-btn, .medi-start-btn, .chip, .tb-chip-btn, .timer-chips button, .tb-del-book,
 .home-goals-btn, .areas-cta, .gate-link, .mood-opt span{ font-family:'Marcellus', serif !important; font-weight:400 !important; letter-spacing:0.02em; }
 .timer-clock{ font-size:46px; }
+/* Bereiche: the wheel is made here (1.76.0) */
+.areas-wheel-wrap{ display:flex; justify-content:center; margin:-4px 0 6px; }
+.areas-wheel{ width:min(250px, 70vw); height:auto; display:block; }
+.area-acc{ padding:0 !important; overflow:hidden; }
+.area-acc-head{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px; background:none; border:none; color:inherit; font:inherit; cursor:pointer; padding:12px 14px; text-align:left; }
+.area-acc-head .area-card-name{ margin:0; }
+.area-acc-sum{ font-family:'Marcellus', serif; color:var(--gold-text); font-size:var(--fs-text); white-space:nowrap; }
+.area-acc-body{ padding:0 14px 14px; }
+.area-q-title{ font-family:'Marcellus', serif; color:var(--gold-text); font-size:var(--fs-text); margin:12px 0 4px; }
+.area-q{ margin:0 0 6px; padding-left:18px; color:var(--ew-text); line-height:1.5; }
+.area-q li{ margin:3px 0; }
+.area-sl{ margin-top:14px; }
+.area-sl-lab{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; color:var(--ew-text); }
+.area-sl-lab b{ font-family:'Marcellus', serif; font-weight:400; font-size:var(--fs-sub); color:#cdbdff; }
+.area-sl-lab b.gold{ color:var(--gold-text); }
+input[type=range].range-ist{ background:linear-gradient(90deg, #5b3a9a 0, #a83dcf var(--v, 50%), rgba(243,234,214,0.14) var(--v, 50%)); height:8px; }
+input[type=range].range-wish{ background:linear-gradient(90deg, #8a6420 0, #eca817 var(--v, 50%), rgba(243,234,214,0.14) var(--v, 50%)); height:8px; }
+.area-next{ margin-top:14px; width:100%; }
+.areas-restore{ width:100%; margin-top:10px; }
+/* ===== Ziele as diary pages (1.76.0): cream paper, dark ink, gold-brown headings, fine lines like in the diary ===== */
+#goals-page .goal-table-card{ background:#fbf6ea; color:#2a2318; border-radius:8px; box-shadow:0 14px 34px rgba(0,0,0,0.45); padding:16px 12px 10px; }
+#goals-page .goal-table-card h3{ font-family:'Marcellus', serif !important; font-weight:400 !important; color:#8a5a00 !important; border-bottom:1.5px solid #c99a2e; padding-bottom:6px; margin:0 4px 10px; }
+#goals-page .goal-table-scroll{ box-shadow:none; border-radius:0; }
+#goals-page table.goal-table, #goals-page .goal-table th, #goals-page .goal-table td{ color:#2a2318; }
+#goals-page .goal-table th, #goals-page .goal-table td{ background:#fbf6ea !important; background-image:none !important; border-bottom:1px solid #ddd3c2; border-right:1px solid #ece4d4; line-height:1.5; }
+#goals-page .goal-table .rowlabel, #goals-page .goal-table tr.tbl-head th.rowlabel, #goals-page .goal-table tr.tbl-desc th.rowlabel, #goals-page .goal-table tr.tbl-pct th.rowlabel{
+  font-family:'Marcellus', serif; font-weight:400; color:#8a5a00 !important; background:#f6efdf !important; }
+#goals-page .goal-table tr.tbl-head th{ font-family:'Marcellus', serif; font-weight:400; font-size:16px; color:#5a3d00; }
+#goals-page .goal-table tr.tbl-desc td{ color:#5f5546; }
+#goals-page .goal-table tr.tbl-pct td, #goals-page .goal-table .tbl-pctval{ color:#2a2318; font-family:'Marcellus', serif; font-weight:400; }
+#goals-page .goal-table .tbl-delta.up{ color:#2f7d4f; } #goals-page .goal-table .tbl-delta.same{ color:#7a705f; } #goals-page .goal-table .tbl-delta.down{ color:#b23a2e; }
+#goals-page .goal-table tr.tbl-first > *{ border-top:1.5px solid #c99a2e; }
+#goals-page .goal-table-hint{ color:#6b6152; }
+#goals-page .ev-ov-item{ background:#f6efdf; border-color:#ddd3c2; color:#2a2318; }
+#goals-page .ev-ov-title{ color:#5a3d00; } #goals-page .ev-ov-date{ color:#6b6152; }
+#goals-page .ev-ov-area{ background:rgba(201,154,46,0.18); color:#7a5000; }
+#goals-page .goal-table-card p, #goals-page .goal-table-card .note{ color:#4a4033; background:none; border:none; box-shadow:none; padding:4px 6px; }
+#goals-page .goal-table-card .impact-pos{ color:#2f7d4f; } #goals-page .goal-table-card .impact-neg{ color:#b23a2e; }
 #lvl-fx{ position:fixed; inset:0; pointer-events:none; z-index:120; }
 .lvl-star{ position:absolute; width:22px; height:22px; margin:-11px 0 0 -11px; opacity:0; animation:lvlTwinkle 5s ease-in-out infinite;
   background:radial-gradient(circle, #fff 0 8%, rgba(255,236,170,0.9) 14%, rgba(232,184,74,0) 45%),
@@ -1420,7 +1458,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.75.1';
+const APP_VERSION = '1.76.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -3309,7 +3347,14 @@ function deleteMeditation(id){
 
 /* ---- In-app dialogs. Native alert()/confirm() are silently blocked inside sandboxed embedded
    pages (confirm() then returns false immediately, so e.g. a backup restore would just do nothing). ---- */
+// notices wait for each other (1.76.0): a second one never overwrites the first, it comes after it
+let uiDialogQueue = Promise.resolve();
 function uiDialog(message, opts){
+  const run = uiDialogQueue.then(()=>uiDialogShow(message, opts));
+  uiDialogQueue = run.catch(()=>{});
+  return run;
+}
+function uiDialogShow(message, opts){
   opts = opts || {};
   return new Promise(resolve=>{
     const box = document.getElementById('dialog-modal');
@@ -3789,10 +3834,63 @@ Object.assign(I18N.de, { moodCompareTitle:'Vorher und nachher', moodBeforeLab:'V
 Object.assign(I18N.en, { moodCompareTitle:'Before and after', moodBeforeLab:'Before', moodAfterLab:'Now', moodBetter:'Lovely – the exercise did you good!', moodSame:'You took time for yourself. That counts.', moodWorse:'Not every exercise feels the same. Good that you kept at it.' });
 Object.assign(I18N.de, { levelProgress:'Aktive Tage: {n} · noch {m} bis zur nächsten Glanz-Stufe', levelProgressTime:'Aktive Tage: {n} · nächste Glanz-Stufe in {m} Tagen', levelProgressMax:'Aktive Tage: {n} · höchste Glanz-Stufe erreicht' });
 Object.assign(I18N.en, { levelProgress:'Active days: {n} · {m} more to the next level of splendour', levelProgressTime:'Active days: {n} · next level of splendour in {m} days', levelProgressMax:'Active days: {n} · highest level of splendour reached' });
+Object.assign(I18N.de, {
+  areasIntroFirst:'Hier entsteht dein erstes Lebensrad. Nimm dir Zeit: Lies zu jedem Bereich die Fragen, spür kurz nach und stell dann ein, wie es jetzt ist – und wie du es dir wünschst. Es gibt keine falschen Werte.',
+  areasIntroNew:'Wie geht es dir heute in deinen fünf Bereichen – und wie wünschst du es dir? Wenn du speicherst, entsteht ein neues Lebensrad; deine früheren bleiben erhalten.',
+  areasQTitle:'Fragen zum Nachdenken', areasIst:'So ist es jetzt', areasWish:'So wünsche ich es mir', areasNext:'Nächster Bereich',
+  areasSave:'Lebensrad speichern', areasSaveFirst:'Mein erstes Lebensrad speichern',
+  wishAsk:'Neu im Lebensrad: dein Wunsch. Du kannst jetzt zu jedem Bereich eintragen, wie du es dir wünschst – dann zeigt dir das Rad in Gold, wohin du willst, und wo die größte Lücke ist. Möchtest du das jetzt machen?',
+  wishAskOk:'Ja, gern',
+  areaQuestions:{
+    gesundheit:['Wie erholt fühlst du dich, wenn du morgens aufwachst?', 'Bewegst du dich so, dass es dir guttut?', 'Isst du meistens so, dass du dich danach wohlfühlst?', 'Hast du genug Energie für das, was dir wichtig ist?'],
+    beziehungen:['Gibt es Menschen, bei denen du ganz du selbst sein kannst?', 'Nimmst du dir Zeit für die Menschen, die dir wichtig sind?', 'Fühlst du dich gesehen und verstanden?', 'Wie freundlich gehst du mit dir selbst um?'],
+    finanzen:['Weißt du ungefähr, wohin dein Geld jeden Monat geht?', 'Hast du ein kleines Polster für Unerwartetes?', 'Wie entspannt denkst du an Geld?', 'Sparst du für etwas, das dir wichtig ist?'],
+    berufung:['Erfüllt dich das, womit du den größten Teil deines Tages verbringst?', 'Kannst du deine Stärken einsetzen?', 'Fühlst du dich gefordert, aber nicht überfordert?', 'Weißt du, wohin du dich weiterentwickeln möchtest?'],
+    sinn:['Gibt es Momente der Stille in deinem Alltag?', 'Weißt du, was dir im Leben wirklich wichtig ist?', 'Fühlst du dich mit etwas Größerem verbunden?', 'Kannst du dankbar sein für das, was schon gut ist?']
+  }
+});
+Object.assign(I18N.en, {
+  areasIntroFirst:'This is where your first wheel of life is made. Take your time: read the questions for each area, feel into it for a moment, then set how it is now – and how you wish it to be. There are no wrong values.',
+  areasIntroNew:'How are your five areas today – and how do you wish them to be? Saving creates a new wheel; your earlier ones stay.',
+  areasQTitle:'Questions to reflect on', areasIst:'How it is now', areasWish:'How I wish it to be', areasNext:'Next area',
+  areasSave:'Save wheel of life', areasSaveFirst:'Save my first wheel of life',
+  wishAsk:'New in the wheel of life: your wish. You can now set for every area how you wish it to be – the wheel then shows in gold where you want to go, and where the biggest gap is. Would you like to do that now?',
+  wishAskOk:'Yes, gladly',
+  areaQuestions:{
+    gesundheit:['How rested do you feel when you wake up?', 'Do you move in a way that does you good?', 'Do you mostly eat in a way that leaves you feeling well?', 'Do you have enough energy for what matters to you?'],
+    beziehungen:['Are there people with whom you can be fully yourself?', 'Do you take time for the people who matter to you?', 'Do you feel seen and understood?', 'How kindly do you treat yourself?'],
+    finanzen:['Do you roughly know where your money goes each month?', 'Do you have a small cushion for the unexpected?', 'How relaxed do you feel about money?', 'Are you saving for something that matters to you?'],
+    berufung:['Does what you spend most of your day on fulfil you?', 'Can you use your strengths?', 'Do you feel challenged, but not overwhelmed?', 'Do you know where you would like to grow?'],
+    sinn:['Are there moments of stillness in your everyday life?', 'Do you know what really matters to you in life?', 'Do you feel connected to something greater?', 'Can you be grateful for what is already good?']
+  }
+});
 Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!", "Ein halbes Jahr mit dir selbst! In den Ecken deines Rahmens funkeln jetzt Sterne.", "Ein ganzes Jahr! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
 Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold.", "Your app shines in full splendour. Thank you for 100 days with yourself!", "Half a year with yourself! Stars now twinkle in the corners of your frame.", "A whole year! Everything sparkles, and a fox has moved in by your shelf. Thank you for staying so true to yourself."]});
 function t(){ return I18N[state.settings.lang]; }
 
+// the wish for an area (since 1.76.0): from the newest wheel that has one; null if none yet
+function currentWish(area){
+  const arr = state.bewertungen[area] || [];
+  for(let i = arr.length - 1; i >= 0; i--) if(arr[i].wish !== undefined && arr[i].wish !== null) return arr[i].wish;
+  return null;
+}
+const hasWishes = ()=>AREAS.every(a=>currentWish(a) !== null);
+/* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
+   main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
+const GAP_VIOLET = [168, 61, 207], GAP_GOLD = [236, 168, 23];
+function wheelGapSvg(P, pt, ist, wish){
+  const gaps = ist.map((v, i)=>Math.max(0, wish[i] - v)), mx = Math.max(...gaps), mn = Math.min(...gaps);
+  // all gaps equal: the colour in between
+  const col = i=>{ const u = mx === mn ? 0.5 : (mx - gaps[i]) / (mx - mn); return 'rgb(' + GAP_VIOLET.map((c, j)=>Math.round(c + (GAP_GOLD[j] - c) * u)).join(',') + ')'; };
+  let defs = '', shapes = '';
+  ist.forEach((v, i)=>{
+    const j = (i + 1) % ist.length, a = pt(i, (v + wish[i]) / 2), b = pt(j, (ist[j] + wish[j]) / 2);
+    defs += `<linearGradient id="${P}g${i}" gradientUnits="userSpaceOnUse" x1="${a.x.toFixed(1)}" y1="${a.y.toFixed(1)}" x2="${b.x.toFixed(1)}" y2="${b.y.toFixed(1)}"><stop offset="0" stop-color="${col(i)}"/><stop offset="1" stop-color="${col(j)}"/></linearGradient>`;
+    const q = [pt(i, v), pt(i, wish[i]), pt(j, wish[j]), pt(j, ist[j])];
+    shapes += `<polygon points="${q.map(p=>p.x.toFixed(1) + ',' + p.y.toFixed(1)).join(' ')}" fill="url(#${P}g${i})" opacity="0.9"/>`;
+  });
+  return { defs, shapes };
+}
 function currentValue(area){
   const arr = state.bewertungen[area];
   return arr.length ? arr[arr.length-1].value : 50;
@@ -3801,8 +3899,10 @@ function previousValue(area){
   const arr = state.bewertungen[area];
   return arr.length>1 ? arr[arr.length-2].value : null;
 }
-function addBewertung(area, value, ts){
-  state.bewertungen[area].push({ value: Math.round(value), ts: ts || Date.now() });
+function addBewertung(area, value, ts, wish){
+  const e = { value: Math.round(value), ts: ts || Date.now() };
+  if(wish !== undefined && wish !== null) e.wish = Math.round(wish); // since 1.76.0 every wheel also keeps the wish
+  state.bewertungen[area].push(e);
 }
 function isFirstRun(){
   return AREAS.every(a => state.bewertungen[a].length===0);
@@ -4130,26 +4230,7 @@ document.querySelectorAll('.modal-backdrop').forEach(m=>{
 });
 
 /* ================= Bewertung modal ================= */
-function openEvalModal(){
-  document.getElementById('eval-restore-btn').style.display = isFirstRun() ? '' : 'none'; // only offered while there's no data yet
-  document.getElementById('eval-close-btn').style.display = isFirstRun() ? 'none' : ''; // the first wheel has to be made; later ones can be cancelled
-  const d = t();
-  const wrap = document.getElementById('eval-sliders');
-  wrap.innerHTML = '';
-  AREAS.forEach(a=>{
-    const v = currentValue(a);
-    const row = document.createElement('div');
-    row.className = 'slider-row';
-    row.innerHTML = `<label><span>${areaIco(a)}${d.bereiche[a]}</span> <span class="val" id="lbl-${a}">${v}%</span></label>
-      <input type="range" min="1" max="100" value="${v}" id="sl-${a}">`;
-    wrap.appendChild(row);
-    row.querySelector('input').addEventListener('input', e=>{
-      document.getElementById('lbl-'+a).textContent = e.target.value+'%';
-    });
-  });
-  openModal('eval-modal');
-}
-document.getElementById('new-bewertung-btn').onclick = openEvalModal;
+// (1.76.0) the old assessment window: replaced by the Bereiche page (see openEvalModal there)
 document.getElementById('save-eval-btn').onclick = ()=>{
   const ts = Date.now(); // shared across all five areas so they form one Lebensrad snapshot
   AREAS.forEach(a=>{
@@ -4294,19 +4375,20 @@ function wheelMeasure(txt, fs){
   return c.measureText(txt).width;
 }
 // sets CX / CY / MAXR for a drawing 800 units wide that is shown `px` pixels wide; returns the drawing's height
-function wheelGeoFor(px, withDelta, extraTop){
+function wheelGeoFor(px, withDelta, extraTop, big){
   const k = Math.max(0.9, 800 / (px || 360));
   const I = 26*k, fs = 15*k, g = 4*k, lh = fs*1.18, off = 9*k;
   const H = I + g + fs*1.05 + (withDelta ? lh : 0);
   const W = Math.max(I, wheelMeasure('100%', fs), withDelta ? wheelMeasure('+100', fs) * 1.05 : 0);
-  MAXR = Math.min(300, (400 - 22 - off - W) / Math.cos(18 * Math.PI/180));
+  // big (home, since 1.76.0): the side labels sit above their point instead of beside it – the wheel grows by about 15 %
+  MAXR = big ? Math.min(345, (400 - 18 - W * 0.5) / Math.cos(18 * Math.PI/180)) : Math.min(300, (400 - 22 - off - W) / Math.cos(18 * Math.PI/180));
   CX = 400;
   CY = (extraTop || 0) + 14 + H + off + MAXR;
-  WHEEL_LAB = { k, I, fs, g, lh, off, H, withDelta:!!withDelta };
+  WHEEL_LAB = { k, I, fs, g, lh, off, H, withDelta:!!withDelta, big:!!big };
   return Math.round(CY + MAXR * Math.cos(36 * Math.PI/180) + off + H + 14);
 }
-function wheelGeo(svg, withDelta){
-  const h = wheelGeoFor(wheelShownWidth(svg), withDelta);
+function wheelGeo(svg, withDelta, big){
+  const h = wheelGeoFor(wheelShownWidth(svg), withDelta, 0, big);
   svg.setAttribute('viewBox', `0 0 800 ${h}`);
   svg.__w = wheelShownWidth(svg);
   return h;
@@ -4353,6 +4435,7 @@ function wheelLabelsSvg(svg, valueOf, deltaOf, inline){
     const H = L.I + (hasVal ? L.g + L.fs*1.05 : 0) + (hasDl ? L.lh : 0);
     let gx, gy;
     if(i===0){ gx = v.x; gy = v.y - L.off - H; }
+    else if(L.big && (i===1 || i===4)){ gx = v.x + (i===1 ? 1 : -1) * W * 0.3; gy = v.y - L.off - H; }
     else if(i===1){ gx = v.x + L.off + W/2; gy = v.y - H/2; }
     else if(i===4){ gx = v.x - L.off - W/2; gy = v.y - H/2; }
     else { gx = v.x; gy = v.y + L.off; }
@@ -4397,7 +4480,7 @@ let animRunning = false;
 function renderScene(animate, onIntroDone){
   const d = t();
   const svg = document.getElementById('scene-svg');
-  const vbH = wheelGeo(svg, false);
+  const vbH = wheelGeo(svg, false, true);
 
   let bg = `<defs>
     <linearGradient id="uvBg" x1="0" y1="0" x2="1" y2="1">
@@ -4427,9 +4510,19 @@ function renderScene(animate, onIntroDone){
   const labels = wheelLabelsSvg(svg, a=>currentValue(a));
 
   let dataPts = AREAS.map((a,i)=>{ const p=ptFor(i,currentValue(a)); return p.x+','+p.y; }).join(' ');
+  // since 1.76.0: the wish as a gold line with dots, the band between now and wish from violet (largest gap) to gold
+  let wishSvg = '';
+  if(hasWishes()){
+    const ist = AREAS.map(currentValue), wish = AREAS.map(currentWish), gap = wheelGapSvg('hg', ptFor, ist, wish);
+    const wPts = wish.map((v, i)=>{ const p = ptFor(i, v); return p.x + ',' + p.y; }).join(' ');
+    wishSvg = `<defs>${gap.defs}</defs>${gap.shapes}`;
+    var wishTop = `<polygon points="${wPts}" fill="none" stroke="#eca817" stroke-width="5" stroke-linejoin="round"/>`
+      + wish.map((v, i)=>{ const p = ptFor(i, v); return `<circle cx="${p.x}" cy="${p.y}" r="9" fill="#eca817"/>`; }).join('')
+      + ist.map((v, i)=>{ const p = ptFor(i, v); return `<circle cx="${p.x}" cy="${p.y}" r="7" fill="#b8a4ff"/>`; }).join('');
+  }
 
   svg.innerHTML = bg + grid +
-    `<polygon points="${dataPts}" fill="url(#gradWheel)" stroke="#b8a4ff" stroke-width="2" opacity="0" id="data-polygon"/>` +
+    `<g id="data-polygon" opacity="0">${wishSvg}<polygon points="${dataPts}" fill="${hasWishes() ? 'rgba(36,24,90,0.82)' : 'url(#gradWheel)'}" stroke="#b8a4ff" stroke-width="3"/>${typeof wishTop === 'string' ? wishTop : ''}</g>` +
     labels;
   wheelLabelsFit(svg);
 
@@ -4528,7 +4621,7 @@ function renderWheelHistory(){
   const list = document.getElementById('wheel-history-list');
   wheelSnapshotsCache = getWheelSnapshots();
   document.getElementById('wheel-hist-home').style.display = isFirstRun() ? 'none' : '';
-  document.getElementById('home-new-wrap').style.display = isFirstRun() ? 'none' : '';
+  document.getElementById('home-new-wrap').style.display = 'none'; // since 1.76.0 wheels are made on the Bereiche page
   compareSelection = compareSelection.filter(i=>i < wheelSnapshotsCache.length);
   if(!wheelSnapshotsCache.length){ pinned.innerHTML=''; list.innerHTML = `<div class="note">${d.noWheelHist}</div>`; return; }
   const cardHtml = (s, idx)=>{
@@ -4560,22 +4653,97 @@ document.getElementById('goals-btn').onclick = ()=>{ renderPanels(); openModal('
 
 /* ================= Lebensbereiche: the five areas explained, and how the wheel works ================= */
 const AREAS_SEEN_KEY = 'ewolfe_areas_seen_v1';
+/* ---- Bereiche (since 1.76.0): here the wheel is made. Every area opens with a short text and a few questions to think
+   about, then two sliders: how it is now (violet) and how you wish it to be (gold). A small wheel at the top grows along.
+   "Save" adds one new wheel (with wish) – the old wheels and comparing stay. ---- */
+let areasDraft = null, areasOpenA = AREAS[0];
+function areasDraftInit(){
+  if(areasDraft) return;
+  areasDraft = { ist:{}, wish:{} };
+  AREAS.forEach(a=>{
+    const has = (state.bewertungen[a] || []).length, v = has ? currentValue(a) : 50, w = currentWish(a);
+    areasDraft.ist[a] = v; areasDraft.wish[a] = w !== null ? w : Math.min(100, v + 20);
+  });
+}
+function areasWheelSvg(){
+  const cx = 130, cy = 122, R = 86, ang = i=>(-90 + i * 72) * Math.PI / 180;
+  const pt = (i, v)=>({ x:cx + Math.cos(ang(i)) * R * v / 100, y:cy + Math.sin(ang(i)) * R * v / 100 });
+  const ist = AREAS.map(a=>areasDraft.ist[a]), wish = AREAS.map(a=>areasDraft.wish[a]), gap = wheelGapSvg('ag', pt, ist, wish);
+  const poly = (vals, attrs)=>`<polygon points="${vals.map((v, i)=>{ const p = pt(i, v); return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ')}" ${attrs}/>`;
+  let g = '';
+  [25, 50, 75, 100].forEach(r=>{ g += poly([r, r, r, r, r], `fill="none" stroke="rgba(243,234,214,${r === 100 ? 0.45 : 0.16})" stroke-width="1"`); });
+  AREAS.forEach((a, i)=>{ const p = pt(i, 100), q = pt(i, 121); g += `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="rgba(243,234,214,0.16)"/><image href="img/icons/ico-${a}.webp" x="${(q.x - 10).toFixed(1)}" y="${(q.y - 10).toFixed(1)}" width="20" height="20"/>`; });
+  return `<svg class="areas-wheel" viewBox="0 0 260 248" aria-hidden="true"><defs>${gap.defs}</defs>${g}${gap.shapes}`
+    + poly(ist, 'fill="rgba(36,24,90,0.82)" stroke="#b8a4ff" stroke-width="1.6"')
+    + poly(wish, 'fill="none" stroke="#eca817" stroke-width="2.4" stroke-linejoin="round"')
+    + wish.map((v, i)=>{ const p = pt(i, v); return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="#eca817"/>`; }).join('') + `</svg>`;
+}
 function renderAreasPage(){
   const d = t(), first = isFirstRun();
+  areasDraftInit();
+  const card = a=>{
+    const open = a === areasOpenA, ist = areasDraft.ist[a], wish = areasDraft.wish[a];
+    const qs = (d.areaQuestions && d.areaQuestions[a]) || [];
+    return `<div class="area-card area-acc${open ? ' open' : ''}" data-a="${a}">
+      <button class="area-acc-head" onclick="areasToggle('${a}')"><span class="area-card-name">${areaIco(a)}${d.bereiche[a]}</span><span class="area-acc-sum" id="asum-${a}">${ist} → ${wish}</span></button>
+      ${open ? `<div class="area-acc-body">
+        <div class="area-card-text">${d.areasText[a]}</div>
+        ${qs.length ? `<div class="area-q-title">${d.areasQTitle}</div><ul class="area-q">${qs.map(q=>`<li>${escapeHtml(q)}</li>`).join('')}</ul>` : ''}
+        <div class="area-sl"><div class="area-sl-lab"><span>${d.areasIst}</span><b id="aist-${a}">${ist} %</b></div>
+          <input type="range" class="range-ist" min="1" max="100" value="${ist}" style="--v:${ist}%" oninput="areasSlide('${a}','ist',this)"></div>
+        <div class="area-sl"><div class="area-sl-lab"><span>${d.areasWish}</span><b class="gold" id="awish-${a}">${wish} %</b></div>
+          <input type="range" class="range-wish" min="1" max="100" value="${wish}" style="--v:${wish}%" oninput="areasSlide('${a}','wish',this)"></div>
+        ${AREAS.indexOf(a) < AREAS.length - 1 ? `<button class="ghost-btn area-next" onclick="areasToggle('${AREAS[AREAS.indexOf(a) + 1]}')">${d.areasNext} ›</button>` : ''}
+      </div>` : ''}
+    </div>`;
+  };
   document.getElementById('areas-body').innerHTML = `
     <div class="modal-top"><h2 class="modal-title">${d.areasTitle}</h2></div>
-    <p class="modal-sub">${d.areasIntro}</p>
-    ${AREAS.map(a=>`<div class="area-card"><div class="area-card-name">${areaIco(a)}${d.bereiche[a]}</div><div class="area-card-text">${d.areasText[a]}</div></div>`).join('')}
-    <h3 class="areas-how">${d.areasHowTitle}</h3>
-    <div class="area-step"><span class="area-step-num">1</span><div><div class="area-card-name">${d.areasStep1Title}</div><div class="area-card-text">${d.areasStep1}</div></div></div>
-    <div class="area-step"><span class="area-step-num">2</span><div><div class="area-card-name">${d.areasStep2Title}</div><div class="area-card-text">${d.areasStep2}</div></div></div>
-    ${first ? `<button class="primary-btn areas-cta" id="areas-cta-btn">${d.areasStartFirst}</button>` : ''}`;
-  // only people without a wheel yet get the button; everybody else switches pages with the bar
-  const cta = document.getElementById('areas-cta-btn');
-  if(cta) cta.onclick = ()=>{
-    navGo('home');
-    if(isFirstRun()) openEvalModal(); // the first wheel is created right away
-  };
+    <p class="modal-sub">${first ? d.areasIntroFirst : d.areasIntroNew}</p>
+    <div class="areas-wheel-wrap" id="areas-wheel">${areasWheelSvg()}</div>
+    ${AREAS.map(card).join('')}
+    <button class="primary-btn areas-cta" onclick="areasSave()">${first ? d.areasSaveFirst : d.areasSave}</button>
+    ${first ? `<button class="ghost-btn areas-restore" onclick="document.getElementById('import-file-input').click()">${d.restoreFromBackup}</button>` : ''}`;
+}
+function areasToggle(a){
+  areasOpenA = areasOpenA === a ? null : a;
+  const sc = document.querySelector('#areas-page > .modal'), top = sc ? sc.scrollTop : 0;
+  renderAreasPage();
+  const el = document.querySelector(`.area-acc[data-a="${a}"]`);
+  if(sc) sc.scrollTop = top;
+  if(el && areasOpenA) el.scrollIntoView({ block:'nearest', behavior:'smooth' });
+}
+function areasSlide(a, kind, el){
+  const v = parseInt(el.value, 10);
+  areasDraft[kind][a] = v; el.style.setProperty('--v', v + '%');
+  document.getElementById((kind === 'ist' ? 'aist-' : 'awish-') + a).textContent = v + ' %';
+  document.getElementById('asum-' + a).textContent = areasDraft.ist[a] + ' → ' + areasDraft.wish[a];
+  document.getElementById('areas-wheel').innerHTML = areasWheelSvg();
+}
+function areasSave(){
+  const ts = Date.now(); // one shared time for all five areas: one wheel
+  AREAS.forEach(a=>addBewertung(a, areasDraft.ist[a], ts, areasDraft.wish[a]));
+  areasDraft = null; areasOpenA = AREAS[0];
+  try{ localStorage.setItem(WISH_ASKED_KEY, '1'); }catch(e){}
+  saveState();
+  navGo('home');
+  renderScene(!animRunning);
+  renderPanels();
+}
+// the old "new assessment" window is replaced by the Bereiche page; everything that opened it now opens Bereiche
+function openEvalModal(){ areasDraft = null; areasOpenA = AREAS[0]; navGo('areas', ()=>{ renderAreasPage(); openModal('areas-page'); }); }
+// people who already have wheels but no wishes yet are asked once, kindly (1.76.0)
+const WISH_ASKED_KEY = 'ewolfe_wish_asked';
+async function maybeAskWishes(){
+  if(isFirstRun() || hasWishes() || syncGateNeeded()) return false;
+  let asked = false; try{ asked = !!localStorage.getItem(WISH_ASKED_KEY); }catch(e){}
+  if(asked) return false;
+  // wait while a trophy or the daily card is showing (notices queue up by themselves)
+  for(let i = 0; i < 40 && document.querySelector('#trophy-modal.open, #impulse-modal.open'); i++) await new Promise(r=>setTimeout(r, 1000));
+  try{ localStorage.setItem(WISH_ASKED_KEY, '1'); }catch(e){}
+  const ok = await uiDialog(t().wishAsk, { confirm:true, okText:t().wishAskOk });
+  if(ok) openEvalModal();
+  return true;
 }
 document.getElementById('areas-btn').onclick = ()=>{ renderAreasPage(); openModal('areas-page'); };
 // shown once by itself: for new people as their start page, and once after this update for everybody else
@@ -7077,7 +7245,7 @@ function init(){
     renderScene(true, ()=> setTimeout(()=>{ if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()) openEvalModal(); }, 200));
   } else {
     // returning user: play the intro every time the app opens, then reveal last time's wheel (and ask to sign in if needed)
-    renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()) maybeShowImpulseCard(); });
+    renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()) maybeAskWishes().then(asked=>{ if(!asked) maybeShowImpulseCard(); }); });
     renderPanels();
   }
 }

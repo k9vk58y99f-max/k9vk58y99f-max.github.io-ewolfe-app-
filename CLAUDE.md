@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.75.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.76.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -256,6 +256,19 @@ Bisher wurde mit Playwright (Chromium, headless) getestet: App als `file://` lad
 Intro-Animation abwarten (danach erscheint die Anmelde-Sperre, solange keine Sitzung besteht), dann über `page.evaluate` und Klicks prüfen. Für den Sync wurde der
 Supabase-Server mit `context.route(...)` nachgebaut (Konten, Revisionen, abgelaufene Tokens).
 Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nutzers nie riskieren.
+
+## Umbau 1.76.0: Lebensrad entsteht in „Bereiche“, Ist & Wunsch, Ziele als Tagebuchseiten
+- Seite **Bereiche** (`renderAreasPage`): kleines Live-Rad oben (`areasWheelSvg`), je Bereich aufklappbar (`areasToggle`):
+  Text, „Fragen zum Nachdenken“ (`areaQuestions` im I18N), zwei Regler „So ist es jetzt“ (lila) und „So wünsche ich es mir“
+  (gold), Entwurf in `areasDraft`; „Lebensrad speichern“ (`areasSave`) legt ein neues Rad an (alte bleiben, Vergleichen bleibt).
+  Erstnutzer: „Mein erstes Lebensrad speichern“ + „Backup wiederherstellen“. Der Knopf „Neues Lebensrad erstellen“ ist weg;
+  `openEvalModal()` öffnet jetzt die Bereiche-Seite (das alte Fenster `#eval-modal` wird nicht mehr benutzt).
+- Wunsch: Feld `wish` je Eintrag in `state.bewertungen[a]` (`addBewertung(a, v, ts, wish)`, `currentWish`, `hasWishes`).
+  Wer schon Räder ohne Wunsch hat, wird einmal gefragt (`maybeAskWishes`, Merker `ewolfe_wish_asked`).
+- Lebensrad (Startseite) ~15 % größer (`wheelGeoFor(…, big)`: Seitenbeschriftungen über dem Punkt), Wunsch als goldene Linie mit
+  Punkten, Fläche zwischen Ist und Wunsch mit Verlauf: größte Lücke Violett #A83DCF, kleinste Gold #ECA817 (`wheelGapSvg`).
+- Ziele-Seite im Tagebuch-Look: cremeweißes Papier, dunkle Schrift, goldbraune Überschriften in Marcellus, feine Linien
+  (CSS-Block „Ziele as diary pages“). Späterer Schritt: Ziele direkt ins Tagebuch.
 
 ## Wachsender Glanz, Tiere, Tagebuch löschen (seit 1.68.0 / 1.69.0)
 - Stufen nach aktiven Tagen (Tage mit Übung, Stimmung, Lebensrad, Tagebuchseite, Dankbarkeit, seit 1.73.3 auch Ziel angelegt/
