@@ -1458,7 +1458,7 @@ input[type=range].range-wish{ background:linear-gradient(90deg, #8a6420 0, #eca8
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.77.0';
+const APP_VERSION = '1.77.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2361,7 +2361,7 @@ function hpStart(key){
   hp.timer = setInterval(hpTick, 200);
 }
 function hpTick(){
-  if(!hp) return;
+  if(!hp || !hp.notes.length) return; // silence only (Stille Meditation): nothing to play – never loop (fix 1.77.1)
   const now = hp.ctx.currentTime, ahead = now + 1.5;
   for(;;){
     if(hp.i >= hp.notes.length){ hp.pieceStart += hp.len; hp.i = 0; hpEnvelope(hp.ch.fade, hp.pieceStart, true, hp.len); continue; } // start again
@@ -2891,7 +2891,15 @@ const IMPULSE_CARDS = [
   {"id": "sin5", "a": "sinn", "de": "Nicht die Dinge selbst beunruhigen die Menschen, sondern ihre Meinungen über die Dinge.", "en": "It is not things that disturb us, but our opinions about them.", "by": "Epiktet", "byEn": "Epictetus", "img": "cards/m37"},
   {"id": "sin6", "a": "sinn", "de": "Du bist ein wertvoller Teil von etwas Größerem.", "en": "You are a precious part of something greater.", "by": "", "byEn": "", "img": "cards/m38"},
   {"id": "sin7", "a": "sinn", "de": "Jeder Atemzug ist ein neuer Anfang.", "en": "Every breath is a new beginning.", "by": "", "byEn": "", "img": "cards/m39"},
-  {"id": "sin8", "a": "sinn", "de": "Wenn du es eilig hast, gehe langsam.", "en": "When you are in a hurry, walk slowly.", "by": "Sprichwort", "byEn": "Proverb", "img": "cards/m40"}
+  {"id": "sin8", "a": "sinn", "de": "Wenn du es eilig hast, gehe langsam.", "en": "When you are in a hurry, walk slowly.", "by": "Sprichwort", "byEn": "Proverb", "img": "cards/m40"},
+  {"id": "fre1", "a": "freude", "de": "Freude ist die einfachste Form der Dankbarkeit.", "en": "Joy is the simplest form of gratitude.", "by": "Karl Barth", "byEn": "Karl Barth", "img": "stickers/sun"},
+  {"id": "fre2", "a": "freude", "de": "Ein Tag ohne Lächeln ist ein verlorener Tag.", "en": "A day without laughter is a day wasted.", "by": "Charlie Chaplin", "byEn": "Charlie Chaplin", "img": "stickers/sun"},
+  {"id": "fre3", "a": "freude", "de": "Tu heute etwas, nur weil es dir Freude macht.", "en": "Do something today just because it brings you joy.", "by": "", "byEn": "", "img": "stickers/sun"},
+  {"id": "fre4", "a": "freude", "de": "Humor ist der Knopf, der verhindert, dass uns der Kragen platzt.", "en": "Humour is the button that keeps our collar from bursting.", "by": "Joachim Ringelnatz", "byEn": "Joachim Ringelnatz", "img": "stickers/sun"},
+  {"id": "fre5", "a": "freude", "de": "Kleine Freuden sind die Sterne am Himmel deines Alltags.", "en": "Small joys are the stars in the sky of your everyday life.", "by": "", "byEn": "", "img": "stickers/sun"},
+  {"id": "fre6", "a": "freude", "de": "Geteilte Freude ist doppelte Freude.", "en": "Shared joy is double joy.", "by": "Sprichwort", "byEn": "Proverb", "img": "stickers/sun"},
+  {"id": "fre7", "a": "freude", "de": "Spiel ist nicht nur für Kinder – gönn dir heute etwas Leichtigkeit.", "en": "Play is not just for children – allow yourself some lightness today.", "by": "", "byEn": "", "img": "stickers/sun"},
+  {"id": "fre8", "a": "freude", "de": "Worauf freust du dich? Plane heute etwas Schönes für diese Woche.", "en": "What are you looking forward to? Plan something lovely for this week today.", "by": "", "byEn": "", "img": "stickers/sun"}
 ];
 /* ---- Church year (since 1.71.0): on Christian feast days and in Advent the daily card is a feast-day card – a short verse
    (Luther 1912 / King James, both free) or an impulse. Advent 1–24 December, Christmas, New Year, Epiphany, Holy Week,
@@ -4339,7 +4347,7 @@ function renderAchievedTable(){
   html += `<tr class="tbl-head"><th class="rowlabel">${d.tblArea}</th>${AREAS.map(a=>`<th class="tbl-click" data-area="${a}" data-done="1">${areaIco(a, 'tbl-ico')}${d.bereiche[a]}</th>`).join('')}</tr>`;
   html += `<tr class="tbl-pct"><th scope="row" class="rowlabel">${d.tblAchCount}</th>${AREAS.map(a=>`<td class="tbl-click" data-area="${a}" data-done="1"><div class="tbl-pctval">${done[a].length}</div></td>`).join('')}</tr>`;
   if(!maxN){
-    html += `<tr class="tbl-band a1 tbl-first"><th class="rowlabel"></th><td class="tbl-note" colspan="5">${d.tblAchNone}</td></tr>`;
+    html += `<tr class="tbl-band a1 tbl-first"><th class="rowlabel"></th><td class="tbl-note" colspan="${AREAS.length}">${d.tblAchNone}</td></tr>`;
   }
   for(let k=0;k<maxN;k++){
     html += row(k, `${d.tblAchLabel} ${k+1}`, 'title');

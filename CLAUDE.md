@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.77.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.77.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -260,7 +260,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
   allgemein für N Bereiche gebaut (`axisAngle`, `wheelGeoFor` misst die Ecken, Beschriftung nach Richtung). Texte, Fragen,
-  Impulse, Kurzbeschreibung je Bereich in de/en. Alte Daten: fehlende Listen werden beim Laden ergänzt; alte Räder ohne
+  Impulse, Kurzbeschreibung je Bereich in de/en; 8 Impulskarten fre1–fre8 (Bild vorerst `stickers/sun`, echte Bilder folgen). Alte Daten: fehlende Listen werden beim Laden ergänzt; alte Räder ohne
   Freude bleiben in Verlauf/Vergleich (Freude dort neutral 50 %). Bisherige Nutzer werden einmal gefragt (`joyAsk`,
   Merker `ewolfe_joy_asked`). Trophäe „alle Bereiche besser“ zählt nur Bereiche mit Werten (mind. fünf).
 
