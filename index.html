@@ -1156,12 +1156,12 @@ html.theme-biz .rl-ph-dog::after{ content:'Platzhalter – neues Design folgt'; 
 html[lang=en].theme-biz .rl-ph-dog::after{ content:'Placeholder – new design coming'; }
 html.theme-biz .logo-dog{ border-radius:4px !important; box-shadow:0 0 0 1px rgba(154,107,63,0.7) !important; }
 /* the club rank: an engraved brass plate on the plinth of the bookcase (1.80.0) */
-.club-plaque{ position:absolute; left:50%; top:89.4%; transform:translateX(-50%); width:52%; height:6%; container-type:size; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4%;
+.club-plaque{ position:absolute; left:23.3%; top:93.1%; width:49.8%; height:3.1%; container-type:size; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:0; /* only on the front board of the plinth (1.80.4); no cqh here: on the plate itself it would measure the shelf */
   background:linear-gradient(180deg, #d9b679 0%, #b48a4c 45%, #8d6532 100%); border-radius:2px; box-shadow:inset 0 1px 0 rgba(255,240,200,0.6), inset 0 -1px 0 rgba(60,35,10,0.5), 0 2px 4px rgba(0,0,0,0.5); }
-.club-plaque::before, .club-plaque::after{ content:''; position:absolute; top:50%; width:3.2cqh; height:3.2cqh; min-width:3px; min-height:3px; margin-top:-1.6cqh; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f0d9a6, #7a5428); }
-.club-plaque::before{ left:4%; } .club-plaque::after{ right:4%; }
-.club-rank{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.14em; font-size:36cqh; line-height:1; color:#3a2410; text-shadow:0 1px 0 rgba(255,236,190,0.55); white-space:nowrap; }
-.club-dia{ font-size:18cqh; line-height:1; letter-spacing:0.25em; color:#3a2410; } .club-dia i{ font-style:normal; opacity:.28; }
+.club-plaque::before, .club-plaque::after{ content:''; position:absolute; top:50%; width:16cqh; height:16cqh; margin-top:-8cqh; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f0d9a6, #7a5428); }
+.club-plaque::before{ left:2.5%; } .club-plaque::after{ right:2.5%; }
+.club-rank{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.14em; font-size:62cqh; line-height:1; color:#3a2410; text-shadow:0 1px 0 rgba(255,236,190,0.55); white-space:nowrap; }
+.club-dia{ font-size:34cqh; line-height:1; letter-spacing:0.2em; color:#3a2410; margin-left:1.6em; } .club-dia i{ font-style:normal; opacity:.28; }
 /* on cream paper (Ziele, diary area pages) the linen line icons would vanish: there they are dark */
 html.theme-biz #goals-page .area-ico image, html.theme-biz .tb-area-head .area-ico image, html.theme-biz .tb-page .area-ico image{ filter:brightness(0.42) !important; }
 /* design choice (first window and settings): two buttons, each with its name and a short line */
@@ -1615,7 +1615,7 @@ html.theme-biz .settings-section:has(#t-set-decor){ display:none; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.80.3';
+const APP_VERSION = '1.80.4';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';

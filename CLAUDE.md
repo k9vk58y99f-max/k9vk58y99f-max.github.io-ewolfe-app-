@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.80.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.80.4`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -309,6 +309,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   (CSS `::after` im Block „A Gentleman's Study“, Sprache über `html[lang]`, das `applyLang()` setzt): Übungskarten, Atem-/Player-Bilder,
   Dankbarkeit, Impulskarten, Tagebuch-Cover und Titelseite, Coverwahl, Buchrücken, Sticker-Menü, Trophäen ohne `rl/`-Bild (`rlMissing`).
   Wenn ein neues Bild kommt, die Klasse dort aus der Liste nehmen. Glasglocken sollen wieder drei Stufen bekommen (Prompts bestellt).
+- Seit 1.80.4: Das Messingschild sitzt nur auf dem vorderen Sockelbrett (left 23,3 %, top 93,1 %, 49,8 × 3,1 % des Regalbilds,
+  vom Nutzer markiert), Rang und Rauten in einer Zeile. Noch per CSS gezeichnet; ein Bild der leeren Plakette ist bestellt
+  (dann als Hintergrund von `.club-plaque`). Achtung: `cqh` am Schild selbst misst das Regal, nicht das Schild.
 - Seit 1.80.3: Unser Hund gehört zu jedem Design. In A Gentleman's Study sitzt er (am Wochenende liegt er) ab 15 aktiven Tagen rechts
   vor dem Nussholzregal (`bizDog`); bis `img/rl/dog.webp`/`dog-lying.webp` da sind, das alte Bild mit rotem Hinweis (`RL_DOG_READY = false`).
   Sonst keine Tiere und kein Feiertagsschmuck in diesem Design.
