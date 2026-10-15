@@ -1005,6 +1005,11 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 input[type=range].range-ist{ background:linear-gradient(90deg, #5b3a9a 0, #a83dcf var(--v, 50%), rgba(243,234,214,0.14) var(--v, 50%)); height:8px; }
 input[type=range].range-wish{ background:linear-gradient(90deg, #8a6420 0, #eca817 var(--v, 50%), rgba(243,234,214,0.14) var(--v, 50%)); height:8px; }
 .area-next{ margin-top:14px; width:100%; }
+.area-more{ margin:6px 0 2px; } .area-more summary, .areas-why summary{ cursor:pointer; list-style:none; color:var(--gold-text); font-family:'Marcellus', serif; }
+.area-more summary::-webkit-details-marker, .areas-why summary::-webkit-details-marker{ display:none; }
+.area-more p, .areas-why p{ margin:2px 0 6px; line-height:1.5; color:var(--ew-text); }
+.areas-why{ padding:12px 14px !important; } .areas-why summary{ display:flex; flex-direction:column; gap:3px; }
+.areas-why-short{ font-family:Inter, sans-serif; color:var(--ew-text-dim); font-size:var(--fs-text); }
 .areas-restore{ width:100%; margin-top:10px; }
 /* ===== Ziele as diary pages (1.76.0): cream paper, dark ink, gold-brown headings, fine lines like in the diary ===== */
 #goals-page .goal-table-card{ background:#fbf6ea; color:#2a2318; border-radius:8px; box-shadow:0 14px 34px rgba(0,0,0,0.45); padding:16px 12px 10px; }
@@ -1479,7 +1484,7 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.78.2';
+const APP_VERSION = '1.79.0';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -3900,6 +3905,44 @@ Object.assign(I18N.en, {
     sinn:['Are there moments of stillness in your everyday life?', 'Do you know what really matters to you in life?', 'Do you feel connected to something greater?', 'Can you be grateful for what is already good?'], freude:['When did you last really laugh?', 'Is there something you do purely for joy?', 'Can you enjoy small beautiful moments in everyday life?', 'What are you looking forward to right now?']
   }
 });
+Object.assign(I18N.de, {
+  whyTitle:'Warum ein Lebensrad?', whyShort:'Klarheit, Balance und Fokus – auf einen Blick.', moreRead:'Mehr lesen', lessRead:'Weniger',
+  whyText:[
+    ['Alles auf einmal sehen', 'Oft schauen wir nur auf das, was gerade drückt – meist Arbeit oder Geld. Das Lebensrad lädt dich ein, alle sechs Bereiche gleichzeitig anzuschauen: Gesundheit, Beziehungen, Finanzen, Berufung, Spiritualität und Freude.'],
+    ['Ungleichgewicht erkennen', 'Ein rundes Rad läuft ruhig, ein sehr unebenes holpert. Du siehst sofort, wo du zufrieden bist und wo deine Energie fehlt.'],
+    ['Wissen, wo du ansetzt', 'Statt „alles muss anders werden“ zeigt dir die goldene Wunschlinie, wo die größte Lücke ist. Dort bringt ein kleines Ziel am meisten.'],
+    ['Wachstum sichtbar machen', 'Wenn du dein Rad alle paar Monate neu einschätzt, zeigt dir „Vergleichen“ schwarz auf weiß, wie du gewachsen bist.'],
+    ['Dankbar sein für das, was schon gut ist', 'Das Rad zeigt nicht nur Lücken, sondern auch deine starken Bereiche. Freu dich daran – sie tragen dich.']
+  ],
+  areaMore:{
+    gesundheit:{ belongs:'Schlaf, Bewegung, Ernährung, Erholung, Stress, Vorsorge, dein Körpergefühl.', high:'Du wachst meist erholt auf, hast Energie für deinen Tag und gehst freundlich mit deinem Körper um.', step:'Geh heute zehn Minuten an die frische Luft – ganz ohne Ziel.' },
+    beziehungen:{ belongs:'Partnerschaft, Familie, Freundschaften, Kolleginnen und Kollegen – und die Beziehung zu dir selbst.', high:'Du hast Menschen, bei denen du ganz du selbst sein kannst, und nimmst dir Zeit für sie.', step:'Schreib heute einem Menschen, an den du gerade denkst, eine kurze Nachricht.' },
+    finanzen:{ belongs:'Einnahmen, Ausgaben, Rücklagen, Schulden, Vorsorge und wie entspannt du über Geld denkst.', high:'Du weißt ungefähr, wohin dein Geld geht, hast ein kleines Polster und Geld macht dir keine Sorgen.', step:'Schreib heute auf, wofür du diese Woche Geld ausgegeben hast – ohne zu bewerten.' },
+    berufung:{ belongs:'Arbeit, Ausbildung, Talente, Weiterentwicklung und das Gefühl, etwas Sinnvolles beizutragen.', high:'Du setzt deine Stärken ein, lernst dazu und gehst meist gern an deine Aufgaben.', step:'Notiere eine Stärke, die du heute eingesetzt hast.' },
+    sinn:{ belongs:'Glaube, Werte, Stille, Achtsamkeit, Dankbarkeit und die Verbindung zu etwas Größerem.', high:'Du weißt, was dir wichtig ist, findest Momente der Ruhe und fühlst dich getragen.', step:'Nimm dir heute drei Minuten Stille und atme ruhig.' },
+    freude:{ belongs:'Lachen, Spiel, Hobbys, Genuss, Begeisterung und kleine schöne Momente.', high:'Du lachst oft, machst Dinge nur aus Freude und kannst dich an Kleinigkeiten freuen.', step:'Mach heute etwas nur, weil es dir Spaß macht.' }
+  },
+  areaMoreBelongs:'Was dazugehört', areaMoreHigh:'Woran du einen hohen Wert erkennst', areaMoreStep:'Ein kleiner erster Schritt'
+});
+Object.assign(I18N.en, {
+  whyTitle:'Why a wheel of life?', whyShort:'Clarity, balance and focus – at a glance.', moreRead:'Read more', lessRead:'Less',
+  whyText:[
+    ['See everything at once', 'We often only look at what is pressing – usually work or money. The wheel invites you to look at all six areas at the same time: health, relationships, finances, purpose, spirituality and joy.'],
+    ['Spot imbalance', 'A round wheel runs smoothly, a very uneven one bumps. You see at once where you are content and where your energy is missing.'],
+    ['Know where to start', 'Instead of “everything must change”, the golden wish line shows you where the biggest gap is. A small goal there does the most.'],
+    ['Make growth visible', 'If you rate your wheel again every few months, “Compare” shows you in black and white how you have grown.'],
+    ['Be grateful for what is already good', 'The wheel does not only show gaps, it also shows your strong areas. Enjoy them – they carry you.']
+  ],
+  areaMore:{
+    gesundheit:{ belongs:'Sleep, exercise, nutrition, rest, stress, check-ups, how your body feels.', high:'You mostly wake up rested, have energy for your day and treat your body kindly.', step:'Go outside for ten minutes today – with no goal at all.' },
+    beziehungen:{ belongs:'Partnership, family, friendships, colleagues – and your relationship with yourself.', high:'You have people with whom you can be fully yourself, and you make time for them.', step:'Send a short message today to someone you are thinking of.' },
+    finanzen:{ belongs:'Income, spending, savings, debts, provision and how relaxed you feel about money.', high:'You roughly know where your money goes, have a small cushion and money does not worry you.', step:'Write down today what you spent money on this week – without judging.' },
+    berufung:{ belongs:'Work, training, talents, growth and the feeling of contributing something meaningful.', high:'You use your strengths, keep learning and mostly enjoy your tasks.', step:'Note one strength you used today.' },
+    sinn:{ belongs:'Faith, values, stillness, mindfulness, gratitude and the connection to something greater.', high:'You know what matters to you, find moments of calm and feel supported.', step:'Take three minutes of stillness today and breathe calmly.' },
+    freude:{ belongs:'Laughter, play, hobbies, enjoyment, enthusiasm and small beautiful moments.', high:'You laugh often, do things purely for joy and can delight in little things.', step:'Do something today just because it is fun.' }
+  },
+  areaMoreBelongs:'What belongs to it', areaMoreHigh:'How you recognise a high value', areaMoreStep:'A small first step'
+});
 Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!", "Ein halbes Jahr mit dir selbst! In den Ecken deines Rahmens funkeln jetzt Sterne.", "Ein ganzes Jahr! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
 Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold.", "Your app shines in full splendour. Thank you for 100 days with yourself!", "Half a year with yourself! Stars now twinkle in the corners of your frame.", "A whole year! Everything sparkles, and a fox has moved in by your shelf. Thank you for staying so true to yourself."]});
 function t(){ return I18N[state.settings.lang]; }
@@ -4727,6 +4770,10 @@ function renderAreasPage(){
       ${open ? `<div class="area-acc-body">
         <div class="area-card-text">${d.areasText[a]}</div>
         ${qs.length ? `<div class="area-q-title">${d.areasQTitle}</div><ul class="area-q">${qs.map(q=>`<li>${escapeHtml(q)}</li>`).join('')}</ul>` : ''}
+        ${d.areaMore && d.areaMore[a] ? `<details class="area-more"><summary>${d.moreRead} ›</summary>
+          <div class="area-q-title">${d.areaMoreBelongs}</div><p>${d.areaMore[a].belongs}</p>
+          <div class="area-q-title">${d.areaMoreHigh}</div><p>${d.areaMore[a].high}</p>
+          <div class="area-q-title">${d.areaMoreStep}</div><p>${d.areaMore[a].step}</p></details>` : ''}
         <div class="area-sl"><div class="area-sl-lab"><span>${d.areasIst}</span><b id="aist-${a}">${ist} %</b></div>
           <input type="range" class="range-ist" min="1" max="100" value="${ist}" style="--v:${ist}%" oninput="areasSlide('${a}','ist',this)"></div>
         <div class="area-sl"><div class="area-sl-lab"><span>${d.areasWish}</span><b class="gold" id="awish-${a}">${wish} %</b></div>
@@ -4738,6 +4785,8 @@ function renderAreasPage(){
   document.getElementById('areas-body').innerHTML = `
     <div class="modal-top"><h2 class="modal-title">${d.areasTitle}</h2></div>
     <p class="modal-sub">${first ? d.areasIntroFirst : d.areasIntroNew}</p>
+    <details class="area-card areas-why"${first ? ' open' : ''}><summary><span class="area-card-name">${d.whyTitle}</span><span class="areas-why-short">${d.whyShort}</span></summary>
+      ${d.whyText.map(([h, tx])=>`<div class="area-q-title">${h}</div><p>${tx}</p>`).join('')}</details>
     <div class="areas-wheel-wrap" id="areas-wheel">${areasWheelSvg()}</div>
     ${AREAS.map(card).join('')}
     <button class="primary-btn areas-cta" onclick="areasSave()">${first ? d.areasSaveFirst : d.areasSave}</button>

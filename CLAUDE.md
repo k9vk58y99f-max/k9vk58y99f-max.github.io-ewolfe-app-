@@ -2,7 +2,7 @@
 
 ## Was das ist
 eWolfe ist eine persönliche Lebensentwicklungs-App (Deutsch, mit Englisch umschaltbar):
-Lebensrad mit fünf Bereichen (Gesundheit, Beziehungen, Finanzen, Berufung, Spiritualität/„sinn"),
+Lebensrad mit sechs Bereichen (Gesundheit, Beziehungen, Finanzen, Berufung, Spiritualität/„sinn", Freude),
 Ziele (mit Grund, Maßnahmen, Status aktiv/erreicht), Ereignisse, Tagebuch (Seiten mit Text,
 Zeichnungen, Fotos), Achtsamkeit (Meditationen, Links, Audio/Video), Backup als JSON,
 Cloud-Sync über Supabase.
@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.78.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.79.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -280,6 +280,10 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   neue Freude-Kartenbilder; mit Vitrine (Stufe 6) stehen die Tagebücher früherer Jahre im obersten Vitrinenfach, sobald es
   mindestens zwei sind (Trophäen dann in den drei Fächern darunter).
 
+- Seit 1.79.0: Leisten-Symbole `ico-wheel`/`ico-areas` sind jetzt Bilder des Nutzers (Sechseck, 6 Rauten). Seite Bereiche:
+  aufklappbare Karte „Warum ein Lebensrad?“ (`whyText`, beim ersten Rad offen) und je Bereich „Mehr lesen“ (`areaMore`:
+  Was dazugehört, Woran du einen hohen Wert erkennst, Ein kleiner erster Schritt).
+
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
   allgemein für N Bereiche gebaut (`axisAngle`, `wheelGeoFor` misst die Ecken, Beschriftung nach Richtung). Texte, Fragen,
@@ -332,7 +336,6 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - Advent/Weihnachten am Regal: Kranz oben rechts (`adventCandles()`, Bilder `img/advent-1…4.webp`), 24.12.–6.1.
   Weihnachtsbaum links (`img/stickers/tree.webp`) und Schnee (`.shelf-snow`, `isChristmasTime()`). Trophäen für eine Übung
   am 24.–26.12.: 1. Jahr Stern (`xmas`, `img/trophy-star.webp`), 2. Jahr Krippe (`xmas2`, `img/trophy-crib.webp`).
-  Fehlende Bilder bleiben einfach weg (noch ausstehend: Kranz, Baum, Stern, Krippe, Vitrine).
 - Schrift Marcellus (seit 1.73.0) auch für Unterüberschriften (h3/h4, Kartentitel, Einstellungs-Köpfe …) und Countdowns
   (Atemzahl, Phase, Stille-Uhr, Player-Zeit), seit 1.73.1 auch Knöpfe; Marcellus hat nur eine Stärke, daher nie fett.
 - Querformat-Titelblatt (seit 1.74.0): Titel und Jahr genau mittig im goldenen Band (72,5–87,5 % der Höhe, bei allen
@@ -348,7 +351,6 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Trophäen den Rest davon. Abstände als `margin` an den Kindern (cqh misst das Fach), nicht am Fach selbst.
 - Schalter „Tiere & Feiertagsschmuck“ in den Einstellungen (seit 1.72.0, `decorOn()`/`setDecor()`, `state.settings.decor`,
   je Gerät): blendet Tiere, Osterhase, Nikolaus, Kranz, Baum und Schnee aus; Trophäen und Feiertagskarten bleiben.
-- Geplant: Vitrine nach einem Jahr neben dem Regal für die Feiertagstrophäen (Bild steht aus).
 - Rote Kugel (`orb-pink`, Gruppe `loyal`): wächst wie die anderen Kugeln, 60/150/250 aktive Tage. Kugeln seit 1.69.0 unten rund ausgeschnitten.
 - Tagebuch löschen (seit 1.69.0): Papierkorb oben links auf dem Titelblatt jedes Buchs (seit 1.73.6, `.tb-trash-btn`) und
   unten in den Tagebuch-Einstellungen „Tagebuch löschen“ (`tbDeleteBook`, mit Rückfrage).
@@ -361,12 +363,6 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - Offline-Modus (Service Worker) und dauerhaften Speicher anfordern
 - Eventuell eigene Domain statt der GitHub-Adresse
 - Später: Community, Onboarding, Kalender-Export, Teilen, Admin-Bereich, KI-Funktionen, Abo
-- **Bilder ausstehend** (Code ist vorbereitet, fehlende Bilder bleiben unsichtbar): Adventskranz in 4 Stufen
-  (`img/advent-1…4.webp`, ein Bild mit vier Kränzen wurde angefragt), Weihnachtsbaum (`img/stickers/tree.webp`),
-  Stern von Bethlehem (`img/trophy-star.webp`), Krippe (`img/trophy-crib.webp`), Vitrine (s. u.).
-- **Vitrine nach einem Jahr** (beschlossen): Glasschrank mit Goldkanten neben dem Regal (Handy: darunter), dorthin ziehen
-  die Feiertagstrophäen (Fabergé-Eier, Nikolaus, Stiefel, Stern, Krippe), das Regal behält die normalen Trophäen. Fuchs
-  sitzt zwischen Regal und Vitrine. Fächer am Bild ausmessen wie bei `SHELVES`.
 - **Altersempfehlung**: ab 16 (DSGVO: eigene Einwilligung ab 16), 12–15 mit Einverständnis der Eltern. Inhalte an sich
   kindgerecht (App-Store-Einstufung eher 4+/9+). Datenschutzerklärung vor öffentlichem Start prüfen lassen.
 - **Kinder- und Jugendmodus** (Wunsch des Nutzers: finanzielle Bildung vom ersten Taschengeld an):
