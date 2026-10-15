@@ -885,9 +885,12 @@ body{ background:radial-gradient(ellipse at 50% 55%, #241c66 0%, #141a4a 50%, #0
 /* the frame lies behind the content on every page */
 .page-modal, .tb-overlay{ background:radial-gradient(ellipse at 50% 55%, #241c66 0%, #141a4a 50%, #0b1026 100%); }
 .page-modal::before, .tb-overlay::before, body::before{ content:''; position:fixed; left:4px; right:4px; top:calc(4px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 2px); pointer-events:none; border-style:solid; border-width:40px 36px 36px 36px; border-image:url(img/frame-portrait.png) 160 150 150 150 stretch; z-index:0; }
-.page-modal::before, .tb-overlay::before{ background:radial-gradient(ellipse at 50% 55%, #241c66 0%, #141a4a 50%, #0b1026 100%); background-clip:padding-box; }
+.page-modal::before, .tb-overlay::before{ background:none; z-index:3 !important; } /* the frame lies above the content (1.78.1) */
+.page-modal::after, .tb-overlay::after{ content:''; position:fixed; left:4px; right:4px; top:calc(4px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 2px); pointer-events:none; z-index:2;
+  border-style:solid; border-color:#0b0f2c; border-width:34px 22px 22px 22px; } /* a dark band under the frame: nothing shows through its ornament */
 @media (orientation:landscape) and (min-width:700px){
   .page-modal::before, .tb-overlay::before, body::before{ border-image-source:url(img/frame-land.png); border-width:26px 30px 18px 30px; top:calc(2px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 1px); }
+  .page-modal::after, .tb-overlay::after{ border-width:22px 24px 14px 24px; top:calc(2px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 1px); }
   .page-modal > .modal{ top:calc(26px + var(--safe-t)) !important; bottom:calc(var(--nav-h, 70px) + 20px) !important; left:32px !important; right:32px !important; }
   .tb-overlay > .tb-topbar{ margin-top:calc(24px + var(--safe-t)) !important; padding-top:4px !important; padding-bottom:6px !important; }
   .tb-overlay > .tb-body{ margin-bottom:16px !important; }
@@ -1290,7 +1293,7 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
         <rect class="breath-sky" x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3" style="display:none;"/>
         <rect id="breath-square" x="30" y="30" width="180" height="180" rx="4" fill="none" stroke="rgba(232,184,74,0.45)" stroke-width="2"/>
         <pattern id="knobPat" patternContentUnits="objectBoundingBox" width="1" height="1"><image href="img/knob-gold.webp" width="1" height="1" preserveAspectRatio="none"/></pattern>
-        <circle id="breath-dot" cx="30" cy="210" r="13" fill="url(#knobPat)"/>
+        <circle id="breath-dot" cx="30" cy="210" r="9.75" fill="url(#knobPat)"/>
       </svg>
     </div>
     <div class="breath-center"><div id="breath-phase">Einatmen</div><div id="breath-count">4</div></div>
@@ -1475,7 +1478,7 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.78.0';
+const APP_VERSION = '1.78.1';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -2909,14 +2912,14 @@ const IMPULSE_CARDS = [
   {"id": "sin6", "a": "sinn", "de": "Du bist ein wertvoller Teil von etwas Größerem.", "en": "You are a precious part of something greater.", "by": "", "byEn": "", "img": "cards/m38"},
   {"id": "sin7", "a": "sinn", "de": "Jeder Atemzug ist ein neuer Anfang.", "en": "Every breath is a new beginning.", "by": "", "byEn": "", "img": "cards/m39"},
   {"id": "sin8", "a": "sinn", "de": "Wenn du es eilig hast, gehe langsam.", "en": "When you are in a hurry, walk slowly.", "by": "Sprichwort", "byEn": "Proverb", "img": "cards/m40"},
-  {"id": "fre1", "a": "freude", "de": "Freude ist die einfachste Form der Dankbarkeit.", "en": "Joy is the simplest form of gratitude.", "by": "Karl Barth", "byEn": "Karl Barth", "img": "stickers/sun"},
-  {"id": "fre2", "a": "freude", "de": "Ein Tag ohne Lächeln ist ein verlorener Tag.", "en": "A day without laughter is a day wasted.", "by": "Charlie Chaplin", "byEn": "Charlie Chaplin", "img": "stickers/sun"},
-  {"id": "fre3", "a": "freude", "de": "Tu heute etwas, nur weil es dir Freude macht.", "en": "Do something today just because it brings you joy.", "by": "", "byEn": "", "img": "stickers/sun"},
-  {"id": "fre4", "a": "freude", "de": "Humor ist der Knopf, der verhindert, dass uns der Kragen platzt.", "en": "Humour is the button that keeps our collar from bursting.", "by": "Joachim Ringelnatz", "byEn": "Joachim Ringelnatz", "img": "stickers/sun"},
-  {"id": "fre5", "a": "freude", "de": "Kleine Freuden sind die Sterne am Himmel deines Alltags.", "en": "Small joys are the stars in the sky of your everyday life.", "by": "", "byEn": "", "img": "stickers/sun"},
-  {"id": "fre6", "a": "freude", "de": "Geteilte Freude ist doppelte Freude.", "en": "Shared joy is double joy.", "by": "Sprichwort", "byEn": "Proverb", "img": "stickers/sun"},
-  {"id": "fre7", "a": "freude", "de": "Spiel ist nicht nur für Kinder – gönn dir heute etwas Leichtigkeit.", "en": "Play is not just for children – allow yourself some lightness today.", "by": "", "byEn": "", "img": "stickers/sun"},
-  {"id": "fre8", "a": "freude", "de": "Worauf freust du dich? Plane heute etwas Schönes für diese Woche.", "en": "What are you looking forward to? Plan something lovely for this week today.", "by": "", "byEn": "", "img": "stickers/sun"}
+  {"id": "fre1", "a": "freude", "de": "Freude ist die einfachste Form der Dankbarkeit.", "en": "Joy is the simplest form of gratitude.", "by": "Karl Barth", "byEn": "Karl Barth", "img": "cards/fre1"},
+  {"id": "fre2", "a": "freude", "de": "Ein Tag ohne Lächeln ist ein verlorener Tag.", "en": "A day without laughter is a day wasted.", "by": "Charlie Chaplin", "byEn": "Charlie Chaplin", "img": "cards/fre2"},
+  {"id": "fre3", "a": "freude", "de": "Tu heute etwas, nur weil es dir Freude macht.", "en": "Do something today just because it brings you joy.", "by": "", "byEn": "", "img": "cards/fre3"},
+  {"id": "fre4", "a": "freude", "de": "Humor ist der Knopf, der verhindert, dass uns der Kragen platzt.", "en": "Humour is the button that keeps our collar from bursting.", "by": "Joachim Ringelnatz", "byEn": "Joachim Ringelnatz", "img": "cards/fre4"},
+  {"id": "fre5", "a": "freude", "de": "Kleine Freuden sind die Sterne am Himmel deines Alltags.", "en": "Small joys are the stars in the sky of your everyday life.", "by": "", "byEn": "", "img": "cards/fre5"},
+  {"id": "fre6", "a": "freude", "de": "Geteilte Freude ist doppelte Freude.", "en": "Shared joy is double joy.", "by": "Sprichwort", "byEn": "Proverb", "img": "cards/fre6"},
+  {"id": "fre7", "a": "freude", "de": "Spiel ist nicht nur für Kinder – gönn dir heute etwas Leichtigkeit.", "en": "Play is not just for children – allow yourself some lightness today.", "by": "", "byEn": "", "img": "cards/fre7"},
+  {"id": "fre8", "a": "freude", "de": "Worauf freust du dich? Plane heute etwas Schönes für diese Woche.", "en": "What are you looking forward to? Plan something lovely for this week today.", "by": "", "byEn": "", "img": "cards/fre8"}
 ];
 /* ---- Church year (since 1.71.0): on Christian feast days and in Advent the daily card is a feast-day card – a short verse
    (Luther 1912 / King James, both free) or an impulse. Advent 1–24 December, Christmas, New Year, Epiphany, Holy Week,
@@ -2989,8 +2992,11 @@ function holidayCard(key){
   const h = HOLIDAY_CARDS[key]; if(!h) return null;
   const sun = /^advSun(\d)$/.exec(key);
   const adv = sun ? +sun[1] : /^adv\d/.test(key) && !h.img ? adventCandles(new Date(new Date().getFullYear(), 11, +key.slice(3))) : 0;
-  return { id:'h-' + key, a:'sinn', de:h.de, en:h.en, by:h.by || '', byEn:h.byEn || '', img:h.img || (adv ? 'advent-' + adv : 'stickers/star'), holiday:true };
+  // the person's own card pictures (1.78.1): one per Advent day (cards/adv01…23) and per feast day (cards/h-<key>)
+  const dayN = /^adv(\d+)$/.exec(key), own = dayN && +dayN[1] <= 23 ? 'cards/adv' + String(dayN[1]).padStart(2, '0') : HOLIDAY_PICS.includes(key) ? 'cards/h-' + key : null;
+  return { id:'h-' + key, a:'sinn', de:h.de, en:h.en, by:h.by || '', byEn:h.byEn || '', img:sun ? 'advent-' + adv : (own || h.img || (adv ? 'advent-' + adv : 'stickers/star')), holiday:true };
 }
+const HOLIDAY_PICS = ['newyear', 'epiphany', 'palm', 'maundy', 'goodfri', 'holysat', 'easter', 'eastermon', 'ascension', 'pentecost', 'pentecostmon', 'harvest', 'martin'];
 const holidayCardToday = ()=>{ const k = holidayKey(); return k ? holidayCard(k) : null; };
 // how many Advent candles burn on a date (0 outside Advent): the 1st Advent is the 4th Sunday before Christmas
 function adventCandles(now){
@@ -4549,7 +4555,7 @@ function renderScene(animate, onIntroDone){
     // the wish: a line in the colour of the gold knob, with the folded-paper knobs on its corners (1.78.0)
     var wishTop = `<polygon points="${wPts}" fill="none" stroke="${KNOB_GOLD}" stroke-width="6" stroke-linejoin="round"/>`
       + ist.map((v, i)=>{ const p = ptFor(i, v); return `<circle cx="${p.x}" cy="${p.y}" r="7" fill="#b8a4ff"/>`; }).join('')
-      + wish.map((v, i)=>{ const p = ptFor(i, v); return `<image href="img/knob-gold.webp" x="${p.x - 17}" y="${p.y - 17}" width="34" height="34"/>`; }).join('');
+      + wish.map((v, i)=>{ const p = ptFor(i, v); return `<image href="img/knob-gold.webp" x="${p.x - 8.5}" y="${p.y - 8.5}" width="17" height="17"/>`; }).join('');
   }
 
   svg.innerHTML = bg + grid +
