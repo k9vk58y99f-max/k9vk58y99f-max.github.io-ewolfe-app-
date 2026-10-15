@@ -14,7 +14,18 @@
 <meta name="theme-color" content="#080b28">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Marcellus&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Marcellus&family=Noto+Serif+Display:wdth,wght@62.5,300;62.5,400&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<script>
+/* Design (since 1.80.0): "biz" = Business (cool, calm, navy/green/cognac, no frames) or "classic" = gold & paper.
+   Chosen per device in the first window and in the settings. A new device starts with Business; a device that already
+   has data keeps the classic look until the person switches. Set here, before anything is drawn. */
+(function(){
+  var d = null;
+  try{ d = localStorage.getItem('ewolfe_design'); if(!d){ d = localStorage.getItem('ewolfe_data_v1') ? 'classic' : 'biz'; localStorage.setItem('ewolfe_design', d); } }catch(e){ d = 'biz'; }
+  window.EW_DESIGN = d === 'classic' ? 'classic' : 'biz';
+  if(window.EW_DESIGN === 'biz') document.documentElement.classList.add('theme-biz');
+})();
+</script>
 <style>
 :root{
   --nav-h:calc(56px + max(8px, env(safe-area-inset-bottom,0px) - 4px)); /* lower since 1.74.3, a little more room at the bottom again (1.74.4) */
@@ -1050,6 +1061,90 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
 .lvl-star.s-tm{ left:50%; top:calc(var(--safe-t, 0px) + 12px); } .lvl-star.s-bm{ left:50%; bottom:calc(var(--nav-h, 70px) + 6px); top:auto; margin:0 0 -11px -11px; }
 .lvl-star.s-ml{ left:12px; top:50%; } .lvl-star.s-mr{ right:12px; left:auto; top:50%; margin:-11px -11px 0 0; }
 @media (prefers-reduced-motion:reduce){ .lvl-star{ animation:none; opacity:0.6; } html.lvl-gold body::after{ animation:none; opacity:0; } }
+/* ===== Design „Business“ (since 1.80.0, html.theme-biz): cool and calm – navy, dark green, cognac accents, linen text,
+   Noto Serif Display (narrow) for headings and buttons, plain line icons, no frames. The diary pages stay as they are. ===== */
+:root.theme-biz{
+  --ew-violet:#0e3a30; --ew-uv-violet:#14283a; --ew-uv-violet-2:#1d3a4a; --ew-uv-navy-2:#0f1830; --ew-uv-lilac:#dcd4b8; --ew-uv-lilac-soft:rgba(220,212,184,0.5);
+  --ew-text:#dcd4b8; --ew-text-dim:rgba(220,212,184,0.62); --ew-line:rgba(220,212,184,0.12);
+  --gold:#9a6b3f; --gold-text:#b58a5e; --gold-rgb:154,107,63; --ew-turquoise:#9a6b3f;
+  --ew-panel:#121a30; --ew-panel-2:#18213b; --ew-radius:4px;
+  --biz-display:'Noto Serif Display', 'Marcellus', serif;
+}
+html.theme-biz body, html.theme-biz .page-modal, html.theme-biz .tb-overlay{ background:linear-gradient(180deg, #0c1226 0%, #0a0e1f 60%) fixed; }
+html.theme-biz::before{ background:#0c1226; }
+/* no frames: the frame, its dark band and the veil on the home page go away; the content uses the full width */
+html.theme-biz body::before, html.theme-biz body::after, html.theme-biz .page-modal::before, html.theme-biz .page-modal::after,
+html.theme-biz .tb-overlay::before, html.theme-biz .tb-overlay::after, html.theme-biz body > .home-veil, html.theme-biz #lvl-fx{ display:none !important; }
+html.theme-biz body{ padding:6px 14px 0; }
+html.theme-biz .page-modal > .modal{ left:14px !important; right:14px !important; top:calc(8px + var(--safe-t)) !important; bottom:4px !important; } /* the page window itself already ends above the bar */
+html.theme-biz .tb-overlay > .tb-topbar{ margin:calc(6px + var(--safe-t)) 12px 0 !important; padding-top:6px !important; }
+html.theme-biz .tb-overlay > .tb-body{ margin:0 10px 10px !important; }
+html.theme-biz .tb-tools-fab{ right:18px !important; bottom:calc(var(--nav-h) + 16px) !important; }
+html.theme-biz .tb-del-fab{ left:18px !important; bottom:calc(var(--nav-h) + 20px) !important; }
+/* headings: narrow serif, capitals, a little air between the letters; titles in linen, subheadings in cognac */
+html.theme-biz .modal-title, html.theme-biz .scene-head h1, html.theme-biz .tb-topbar h2, html.theme-biz #t-scene-title, html.theme-biz .modal-top h2{
+  color:var(--ew-text) !important; font-family:var(--biz-display) !important; font-stretch:62.5%; font-weight:300 !important; text-transform:uppercase; letter-spacing:0.1em; }
+html.theme-biz h3, html.theme-biz h4, html.theme-biz .goal-table-card-h, html.theme-biz .areas-how, html.theme-biz .area-card-name, html.theme-biz .medi-card-title,
+html.theme-biz .settings-head, html.theme-biz .panel h3, html.theme-biz .tb-cover-pop-head, html.theme-biz .trophy-title, html.theme-biz .ev-ov-title,
+html.theme-biz .mood-cmp-lab, html.theme-biz .area-acc-sum, html.theme-biz .area-q-title, html.theme-biz .area-more summary, html.theme-biz .areas-why summary,
+html.theme-biz .area-sl-lab b, html.theme-biz .ground-label{
+  font-family:var(--biz-display) !important; font-stretch:62.5%; font-weight:400 !important; text-transform:uppercase; letter-spacing:0.1em; }
+html.theme-biz #breath-count, html.theme-biz #breath-phase, html.theme-biz .timer-clock, html.theme-biz #medi-player-time, html.theme-biz #breath-meta,
+html.theme-biz .medi-streak-n, html.theme-biz .ground-num{ font-family:var(--biz-display) !important; font-stretch:62.5%; font-weight:300 !important; }
+html.theme-biz .areas-why-short{ text-transform:none; letter-spacing:0; }
+html.theme-biz .area-sl-lab b{ color:var(--ew-text); } html.theme-biz .area-sl-lab b.gold{ color:var(--gold-text); }
+/* buttons: plain, square, no paper; the main button dark green with a cognac line */
+html.theme-biz .primary-btn, html.theme-biz .ghost-btn, html.theme-biz .seg-btn, html.theme-biz .mini-btn, html.theme-biz .medi-start-btn, html.theme-biz .chip,
+html.theme-biz .tb-chip-btn, html.theme-biz .timer-chips button, html.theme-biz .tb-del-book, html.theme-biz .home-goals-btn, html.theme-biz .areas-cta,
+html.theme-biz .gate-link, html.theme-biz .mood-opt span{ font-family:var(--biz-display) !important; font-stretch:62.5%; font-weight:400 !important; letter-spacing:0.14em; text-transform:uppercase; }
+html.theme-biz .primary-btn{ border-image:none !important; border:1px solid var(--gold) !important; background:#0e4a3a !important; color:var(--ew-text) !important;
+  border-radius:2px !important; filter:none !important; text-shadow:none !important; min-height:42px; }
+html.theme-biz .ghost-btn{ border-image:none !important; border:1px solid rgba(220,212,184,0.28) !important; background:transparent !important; color:var(--ew-text) !important; border-radius:2px !important; }
+html.theme-biz .gate-link{ text-transform:none; letter-spacing:0.04em; font-family:Inter, sans-serif !important; }
+html.theme-biz .seg-btn{ border-radius:2px; }
+html.theme-biz .seg-btn.active{ background:rgba(154,107,63,0.18); color:var(--ew-text); box-shadow:inset 0 0 0 1px var(--gold); }
+html.theme-biz .panel{ border-radius:3px; border-color:rgba(220,212,184,0.08); }
+/* sliders: a plain cognac knob; now in linen, the wish in cognac */
+html.theme-biz input[type=range]::-webkit-slider-thumb{ background:radial-gradient(circle at 40% 35%, #c08a58, #8a5c33 70%) !important; border:2px solid #dcd4b8 !important; border-radius:50%; }
+html.theme-biz input[type=range]::-moz-range-thumb{ background:#9a6b3f !important; border:2px solid #dcd4b8 !important; }
+html.theme-biz input[type=range].range-ist{ background:linear-gradient(90deg, #6f6a58 0, #dcd4b8 var(--v, 50%), rgba(220,212,184,0.12) var(--v, 50%)); }
+html.theme-biz input[type=range].range-wish{ background:linear-gradient(90deg, #5c3f24 0, #9a6b3f var(--v, 50%), rgba(220,212,184,0.12) var(--v, 50%)); }
+/* line icons in linen (img/icons-rl), never tinted by the levels */
+html.theme-biz .nav-gold, html.theme-biz .area-ico image, html.theme-biz .gold-ui, html.theme-biz .gold-x, html.theme-biz .gold-arrow, html.theme-biz .gold-user,
+html.theme-biz .gold-gear, html.theme-biz .tb-lib-ico, html.theme-biz svg image[href*="icons-rl/"]{ filter:none !important; }
+html.theme-biz .gold-mute{ opacity:.45; }
+/* bottom bar: icons and labels in linen, the page that is showing gets a fine cognac line */
+html.theme-biz .bottom-nav{ background:linear-gradient(180deg, rgba(10,14,31,0.92), rgba(7,10,23,0.98)); border-top:1px solid rgba(154,107,63,0.55); }
+html.theme-biz .nav-item, html.theme-biz .nav-item:hover{ color:var(--ew-text-dim); position:relative; }
+html.theme-biz .nav-item.active{ color:var(--ew-text); }
+html.theme-biz .nav-gold{ opacity:.62; } html.theme-biz .nav-item.active .nav-gold{ opacity:1; }
+html.theme-biz .nav-item.active::after{ content:''; position:absolute; left:28%; right:28%; bottom:-3px; height:1px; background:var(--gold); }
+/* diary buttons and covers: plain */
+html.theme-biz .tb-tools-fab, html.theme-biz .tb-del-fab{ background:#0e4a3a !important; border:1px solid var(--gold) !important; }
+/* the wooden shelf and cabinet of this design */
+/* the walnut bookcase and cabinet are cut close at the sides, so they can be shown larger (shelf 552×1254, cabinet 347×1000) */
+html.theme-biz .shelf-img{ aspect-ratio:552/1254; width:min(78%, calc((100vh - var(--nav-h, 70px) - 170px) * 0.44), 520px); background-size:100% 100%; }
+html.theme-biz .vitrine-img{ background-image:url(img/rl/vitrine.webp); aspect-ratio:347/1000; width:min(46%, 260px); }
+@media (min-width:760px){ html.theme-biz .shelf-wrap.with-vitrine .shelf-img{ width:min(40%, calc((100vh - var(--nav-h, 70px) - 170px) * 0.44), 520px); }
+  html.theme-biz .shelf-wrap.with-vitrine .vitrine-img{ width:min(26%, calc((100vh - var(--nav-h, 70px) - 170px) * 0.3), 340px); } }
+html.theme-biz .shelf-hint{ color:var(--ew-text-dim); }
+html.theme-biz #sync-btn.has-note::after{ background:#9a6b3f; box-shadow:0 0 8px rgba(154,107,63,0.8); }
+html.theme-biz #t-logo{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.16em; }
+html.theme-biz .bereich-value{ fill:var(--ew-text); }
+/* on cream paper (Ziele, diary area pages) the linen line icons would vanish: there they are dark */
+html.theme-biz #goals-page .area-ico image, html.theme-biz .tb-area-head .area-ico image, html.theme-biz .tb-page .area-ico image{ filter:brightness(0.42) !important; }
+/* design choice (first window and settings): two buttons, each with its name and a short line */
+.design-seg{ gap:8px; background:none !important; padding:0 !important; }
+.design-btn{ display:flex; flex-direction:column; align-items:center; gap:3px; padding:12px 8px !important; border:1px solid var(--ew-line) !important; }
+.design-btn .design-name{ font-size:15px; }
+.design-btn .design-sub{ font-family:Inter, sans-serif; font-size:11px; opacity:.7; text-transform:none; letter-spacing:0.02em; }
+.design-btn.design-biz .design-name{ font-family:'Noto Serif Display', serif; font-stretch:62.5%; text-transform:uppercase; letter-spacing:0.12em; }
+.design-btn.design-classic .design-name{ font-family:'Marcellus', serif; }
+.first-pick .settings-head{ margin:14px 0 8px; text-align:center; }
+.first-pick .settings-head:first-child{ margin-top:2px; }
+.first-pick .settings-note{ text-align:center; }
+/* Gentlemen's Study: no animals and paper decoration, so no switch for them either */
+html.theme-biz .settings-section:has(#t-set-decor){ display:none; }
 </style>
 </head>
 <body data-theme="dark">
@@ -1154,6 +1249,11 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
     <div class="settings-section">
       <div class="settings-head" id="t-set-account">Konto &amp; Cloud-Sync</div>
       <div id="settings-sync"></div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-head" id="t-set-design">Design</div>
+      <div class="seg design-seg" id="design-seg"></div>
+      <p class="settings-note" id="t-design-hint"></p>
     </div>
     <div class="settings-section">
       <div class="settings-head" id="t-set-lang">Sprache</div>
@@ -1484,7 +1584,30 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.79.0';
+const APP_VERSION = '1.80.0';
+/* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
+   icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
+const BIZ = window.EW_DESIGN === 'biz';
+const DESIGN_KEY = 'ewolfe_design';
+const ICO_SEL = 'img[src*="img/icons/ico-"], image[href*="img/icons/ico-"]';
+function designSwapEl(el){
+  const k = el.tagName.toLowerCase() === 'img' ? 'src' : 'href', v = el.getAttribute(k);
+  if(v) el.setAttribute(k, v.replace(/img\/icons\/ico-([a-z0-9-]+)\.webp/, 'img/icons-rl/ico-$1.svg'));
+}
+function designSwapIn(node){
+  if(!BIZ || !node || node.nodeType !== 1) return;
+  if(node.matches(ICO_SEL)) designSwapEl(node);
+  node.querySelectorAll(ICO_SEL).forEach(designSwapEl);
+}
+if(BIZ){
+  designSwapIn(document.documentElement);
+  new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(designSwapIn))).observe(document.documentElement, { childList:true, subtree:true });
+}
+// switching the design: saved per device, then the app starts anew in it
+function setDesign(d){
+  try{ localStorage.setItem(DESIGN_KEY, d); }catch(e){}
+  if((d === 'biz') !== BIZ) location.reload();
+}
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
@@ -1516,7 +1639,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-10-14';
+const APP_BUILD = '2026-10-15';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus sechs Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Was dich zum Lachen bringt, Leichtigkeit, Spiel, Hobbys, Genuss und Begeisterung – denn ein Leben in Balance ohne Freude ist nicht viel wert.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die sechs Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -3867,6 +3990,8 @@ Object.assign(I18N.de, { diaryLandPhone:'Tipp: Auf dem Handy ist das Hochformat 
 Object.assign(I18N.en, { diaryLandPhone:'Tip: on a phone the portrait format is more comfortable. Landscape suits tablets and computers better.' });
 Object.assign(I18N.de, {"trophyToDiary": "Ins Tagebuch", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
 Object.assign(I18N.en, {"trophyToDiary": "Add to diary", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
+Object.assign(I18N.de, { designHint:'Die App startet danach kurz neu. Deine Daten bleiben, wie sie sind.' });
+Object.assign(I18N.en, { designHint:'The app restarts briefly. Your data stays as it is.' });
 Object.assign(I18N.de, { setDecor:'Tiere & Feiertagsschmuck', decorOn:'Anzeigen', decorOff:'Ausblenden', decorHint:'Tiere am Regal, Osterhase, Nikolaus, Adventskranz, Baum und Schnee. Deine Trophäen bleiben immer.' });
 Object.assign(I18N.en, { setDecor:'Animals & feast-day decoration', decorOn:'Show', decorOff:'Hide', decorHint:'Animals at the shelf, Easter rabbit, Saint Nicholas, Advent wreath, tree and snow. Your trophies always stay.' });
 Object.assign(I18N.de, { moodCompareTitle:'Vorher und nachher', moodBeforeLab:'Vorher', moodAfterLab:'Jetzt', moodBetter:'Schön – die Übung hat dir gutgetan!', moodSame:'Du hast dir Zeit für dich genommen. Das zählt.', moodWorse:'Nicht jede Übung fühlt sich gleich an. Schön, dass du drangeblieben bist.' });
@@ -3956,7 +4081,10 @@ function currentWish(area){
 const hasWishes = ()=>AREAS.every(a=>currentWish(a) !== null);
 /* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
    main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
-const GAP_VIOLET = [168, 61, 207], GAP_GOLD = [242, 170, 24], KNOB_GOLD = '#f2aa18'; // gold = the colour of the folded-paper knob
+const GAP_VIOLET = BIZ ? [154, 107, 63] : [168, 61, 207], GAP_GOLD = BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = BIZ ? '#9a6b3f' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
+// Business: the knobs on the wish line are plain cognac dots with a linen ring, the now line is linen
+const wishKnob = (x, y, s)=>BIZ ? `<circle cx="${(x).toFixed(1)}" cy="${(y).toFixed(1)}" r="${(s * 0.36).toFixed(1)}" fill="#9a6b3f" stroke="#dcd4b8" stroke-width="${(s / 10).toFixed(1)}"/>` : `<image href="img/knob-gold.webp" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
+const IST_COL = BIZ ? '#dcd4b8' : '#b8a4ff';
 function wheelGapSvg(P, pt, ist, wish){
   const gaps = ist.map((v, i)=>Math.max(0, wish[i] - v)), mx = Math.max(...gaps), mn = Math.min(...gaps);
   // all gaps equal: the colour in between
@@ -4016,6 +4144,7 @@ function applyLang(){
   document.getElementById('decor-on-btn').textContent = d.decorOn;
   document.getElementById('decor-off-btn').textContent = d.decorOff;
   document.getElementById('t-decor-hint').textContent = d.decorHint;
+  renderDesignSettings();
   document.getElementById('decor-on-btn').classList.toggle('active', decorOn());
   document.getElementById('decor-off-btn').classList.toggle('active', !decorOn());
   document.getElementById('t-export-label').textContent = d.exportBackup;
@@ -4077,7 +4206,18 @@ function setLang(lang){
 }
 document.getElementById('lang-de-btn').onclick = ()=>setLang('de');
 // animals and feast-day decoration at the shelf can be switched off per device (since 1.72.0); the trophies stay
-const decorOn = ()=>state.settings.decor !== false;
+// the two designs: their own names in both languages; a small sample of each (colours and type) on its button
+const DESIGNS = [['biz', "Gentlemen's Study"], ['classic', 'A Mystery World']];
+function designBtns(cur, fn){
+  return DESIGNS.map(([k, name])=>`<button class="seg-btn design-btn design-${k}${cur === k ? ' active' : ''}" onclick="${fn}('design','${k}')"><span class="design-name">${name}</span><span class="design-sub">${k === 'biz' ? (state.settings.lang === 'en' ? 'calm · navy · cognac' : 'ruhig · Navy · Cognac') : (state.settings.lang === 'en' ? 'gold · paper · magic' : 'Gold · Papier · Zauber')}</span></button>`).join('');
+}
+function designSettingsSet(k, v){ setDesign(v); }
+function renderDesignSettings(){
+  const el = document.getElementById('design-seg'); if(!el) return;
+  el.innerHTML = designBtns(BIZ ? 'biz' : 'classic', 'designSettingsSet');
+  document.getElementById('t-design-hint').textContent = t().designHint;
+}
+const decorOn = ()=>!BIZ && state.settings.decor !== false; // Business: no animals and paper decoration at the shelf
 function setDecor(on){
   state.settings.decor = !!on; saveState(); applyLang();
   if(document.getElementById('tb-overlay').classList.contains('open') && tbView === 'library') tbRender();
@@ -4530,7 +4670,7 @@ function wheelLabelsSvg(svg, valueOf, deltaOf, inline){
     let txt = '';
     if(hasVal){
       const y1 = L.I + L.g + L.fs*0.82;
-      txt += `<text x="0" y="${y1.toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}"${inline ? ` fill="#cdbdff"${font}` : ' class="bereich-value"'}>${valTxt}</text>`;
+      txt += `<text x="0" y="${y1.toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}"${inline ? ` fill="${BIZ ? '#dcd4b8' : '#cdbdff'}"${font}` : ' class="bereich-value"'}>${valTxt}</text>`;
       if(hasDl){
         const cls = dl > 0 ? 'up' : (dl < 0 ? 'down' : 'same');
         txt += `<text x="0" y="${(y1 + L.lh).toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}" class="bereich-delta ${cls}">${dlTxt}</text>`;
@@ -4566,11 +4706,11 @@ function renderScene(animate, onIntroDone){
     <linearGradient id="uvBg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#080b28"/>
       <stop offset="45%" stop-color="#0d0f3a"/>
-      <stop offset="100%" stop-color="#3d10c9"/>
+      <stop offset="100%" stop-color="${BIZ ? '#13233a' : '#3d10c9'}"/>
     </linearGradient>
     <linearGradient id="gradWheel" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#5a2bef" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
+      <stop offset="100%" stop-color="${BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
   `; // (1.78.0) no own background any more: the wheel sits on the page like on Bereiche
@@ -4598,12 +4738,12 @@ function renderScene(animate, onIntroDone){
     wishSvg = `<defs>${gap.defs}</defs>${gap.shapes}`;
     // the wish: a line in the colour of the gold knob, with the folded-paper knobs on its corners (1.78.0)
     var wishTop = `<polygon points="${wPts}" fill="none" stroke="${KNOB_GOLD}" stroke-width="6" stroke-linejoin="round"/>`
-      + ist.map((v, i)=>{ const p = ptFor(i, v); return `<circle cx="${p.x}" cy="${p.y}" r="7" fill="#b8a4ff"/>`; }).join('')
-      + wish.map((v, i)=>{ const p = ptFor(i, v); return `<image href="img/knob-gold.webp" x="${p.x - 8.5}" y="${p.y - 8.5}" width="17" height="17"/>`; }).join('');
+      + ist.map((v, i)=>{ const p = ptFor(i, v); return `<circle cx="${p.x}" cy="${p.y}" r="7" fill="${IST_COL}"/>`; }).join('')
+      + wish.map((v, i)=>{ const p = ptFor(i, v); return wishKnob(p.x, p.y, 17); }).join('');
   }
 
   svg.innerHTML = bg + grid +
-    `<g id="data-polygon" opacity="0">${wishSvg}<polygon points="${dataPts}" fill="${hasWishes() ? 'rgba(36,24,90,0.82)' : 'url(#gradWheel)'}" stroke="#b8a4ff" stroke-width="3"/>${typeof wishTop === 'string' ? wishTop : ''}</g>` +
+    `<g id="data-polygon" opacity="0">${wishSvg}<polygon points="${dataPts}" fill="${hasWishes() ? (BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)') : 'url(#gradWheel)'}" stroke="${IST_COL}" stroke-width="3"/>${typeof wishTop === 'string' ? wishTop : ''}</g>` +
     labels;
   wheelLabelsFit(svg);
 
@@ -4690,10 +4830,10 @@ function miniWheelSvg(values){
   const gid = 'gmw'+(miniSvgSeq++);
   return `<svg width="90" height="90" viewBox="0 0 90 90">
     <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#5a2bef" stop-opacity="0.85"/>
+      <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
+      <stop offset="100%" stop-color="${BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.85"/>
     </linearGradient></defs>
-    ${grid}<polygon points="${dataPts}" fill="url(#${gid})" stroke="#b8a4ff" stroke-width="1.5"/>
+    ${grid}<polygon points="${dataPts}" fill="url(#${gid})" stroke="${IST_COL}" stroke-width="1.5"/>
   </svg>`;
 }
 function renderWheelHistory(){
@@ -4755,9 +4895,9 @@ function areasWheelSvg(){
   [25, 50, 75, 100].forEach(r=>{ g += poly(AREAS.map(()=>r), `fill="none" stroke="rgba(243,234,214,${r === 100 ? 0.45 : 0.16})" stroke-width="1"`); });
   AREAS.forEach((a, i)=>{ const p = pt(i, 100), q = pt(i, 121); g += `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="rgba(243,234,214,0.16)"/><image href="img/icons/ico-${a}.webp" x="${(q.x - 10).toFixed(1)}" y="${(q.y - 10).toFixed(1)}" width="20" height="20"/>`; });
   return `<svg class="areas-wheel" viewBox="0 0 260 248" aria-hidden="true"><defs>${gap.defs}</defs>${g}${gap.shapes}`
-    + poly(ist, 'fill="rgba(36,24,90,0.82)" stroke="#b8a4ff" stroke-width="1.6"')
+    + poly(ist, `fill="${BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)'}" stroke="${IST_COL}" stroke-width="1.6"`)
     + poly(wish, `fill="none" stroke="${KNOB_GOLD}" stroke-width="2.6" stroke-linejoin="round"`)
-    + wish.map((v, i)=>{ const p = pt(i, v); return `<image href="img/knob-gold.webp" x="${(p.x - 6).toFixed(1)}" y="${(p.y - 6).toFixed(1)}" width="12" height="12"/>`; }).join('') + `</svg>`;
+    + wish.map((v, i)=>{ const p = pt(i, v); return wishKnob(p.x, p.y, 12); }).join('') + `</svg>`;
 }
 function renderAreasPage(){
   const d = t(), first = isFirstRun();
@@ -4847,7 +4987,7 @@ function maybeShowAreasIntro(){
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
 let compareSelection = [];
-const COMPARE_COLORS = ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
+const COMPARE_COLORS = BIZ ? ['#dcd4b8', '#9a6b3f', '#6f9c86'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
 const COMPARE_FILL_OPACITY = [0.34, 0.34, 0.34]; // all three equally transparent; only draw order (newest in front) differs
 document.getElementById('compare-toggle-btn').onclick = ()=>{
   compareMode = !compareMode;
@@ -4892,7 +5032,7 @@ function openWheelCompare(){
     <linearGradient id="uvBgCmp" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#080b28"/>
       <stop offset="45%" stop-color="#0d0f3a"/>
-      <stop offset="100%" stop-color="#3d10c9"/>
+      <stop offset="100%" stop-color="${BIZ ? '#13233a' : '#3d10c9'}"/>
     </linearGradient>
   </defs>
 `; // no own background: the window's colour runs on evenly under the wheel and the text
@@ -4979,11 +5119,11 @@ function openWheelSnapshot(idx){
     <linearGradient id="uvBgSnap" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#080b28"/>
       <stop offset="45%" stop-color="#0d0f3a"/>
-      <stop offset="100%" stop-color="#3d10c9"/>
+      <stop offset="100%" stop-color="${BIZ ? '#13233a' : '#3d10c9'}"/>
     </linearGradient>
     <linearGradient id="gradWheelSnap" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#5a2bef" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
+      <stop offset="100%" stop-color="${BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="800" height="${vbH}" fill="url(#uvBgSnap)"/>`;
@@ -5003,7 +5143,7 @@ function openWheelSnapshot(idx){
   const labels = wheelLabelsSvg(svg, a=>snap.values[a]);
 
   const dataPts = AREAS.map((a,i)=>{ const p=ptFor(i,snap.values[a]); return p.x+','+p.y; }).join(' ');
-  svg.innerHTML = bg + grid + `<polygon points="${dataPts}" fill="url(#gradWheelSnap)" stroke="#b8a4ff" stroke-width="2" opacity="0.9"/>` + labels;
+  svg.innerHTML = bg + grid + `<polygon points="${dataPts}" fill="url(#gradWheelSnap)" stroke="${IST_COL}" stroke-width="2" opacity="0.9"/>` + labels;
   wheelLabelsFit(svg);
 
   document.getElementById('wheel-snapshot-date').textContent =
@@ -5654,10 +5794,12 @@ function tbSpineHtml(key){
 const SHELVES = {
   dusty:{ img:'shelf-dusty', roof:17.7, x:[27.9, 72.3], rows:[[23.6, 36.5], [37.5, 50.1], [51.1, 62.5], [63.5, 74.4], [75.4, 86.2]] },
   clean:{ img:'shelf-clean', roof:16.8, x:[27.5, 72.7], rows:[[22.8, 35.8], [36.8, 49.3], [50.3, 61.9], [62.9, 73.7], [74.7, 85.6]] },
-  ivy:{ img:'shelf', roof:12.6, x:[27.8, 72.7], rows:[[18.8, 32.2], [33.7, 46.5], [48.3, 59.7], [61.7, 72.4], [74.7, 85.4]] }
+  ivy:{ img:'shelf', roof:12.6, x:[27.8, 72.7], rows:[[18.8, 32.2], [33.7, 46.5], [48.3, 59.7], [61.7, 72.4], [74.7, 85.4]] },
+  // Gentlemen's Study (1.80.0): one plain walnut bookcase, always the same (img/rl/shelf.webp, measured inner walls and boards)
+  rl:{ img:'rl/shelf', aspect:552 / 1254, roof:1.8, x:[9.6, 90.4], rows:[[5, 21.3], [23, 38.4], [40, 56.3], [58, 72.8], [75, 87.3]] }
 };
 // the cobwebs go as soon as one has really begun: from the 2nd active day the shelf is clean (1.74.3), ivy from level 3
-const shelfNow = ()=>SHELVES[appActiveDays() < 2 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy'];
+const shelfNow = ()=>SHELVES[BIZ ? 'rl' : appActiveDays() < 2 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy'];
 let SHELF_X = SHELVES.ivy.x, SHELF_ROWS = SHELVES.ivy.rows;
 const SHELF_ROW_W = 290; // usable width of a compartment in units of its height (cqh)
 function tbShelfScale(){ return 1; }
@@ -5697,7 +5839,7 @@ function tbRenderLibrary(){
   // one shelf only (since 1.69.0): books first, then the trophies – also next to the books in their compartment (1.70.0);
   // they stand closer and, if needed, a little smaller until everything fits; the rest stands on top of the shelf
   // the usable width of each compartment in units of its own height (1.73.7: measured per compartment, not a fixed guess)
-  const rowCap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (SHELF_X[1] - SHELF_X[0]) / (r[1] - r[0]) * 100; };
+  const rowCap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (SHELF_X[1] - SHELF_X[0]) / (r[1] - r[0]) * 100 * (SH.aspect || 1); }; // widths are % of the picture's width, heights % of its height
   // packing (1.75.0): the books from the left wall, close together; the plus a little apart from them. Trophies go into
   // the compartments below first; only if those are too full, up to 3 stand next to the books in the top compartment.
   const PLUS_GAP = 3, WALL = 4; // in units of the compartment height: air before the plus, and to each side wall
@@ -5753,9 +5895,9 @@ function tbRenderLibrary(){
   // the cabinet: four glass compartments (in % of img/vitrine.webp), trophies centred, a little smaller if needed
   let vitHtml = '';
   if(VIT){
-    const VX = [24, 79], VR0 = [[19.6, 33.0], [33.9, 47.0], [48.7, 61.0], [62.6, 76.6]];
+    const VX = BIZ ? [13.5, 86.5] : [24, 79], VR0 = BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[19.6, 33.0], [33.9, 47.0], [48.7, 61.0], [62.6, 76.6]];
     const VR = useOld ? VR0.slice(1) : VR0; // the top compartment then holds the old diaries
-    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * 0.66 - 10; // the picture is about 0.66 times as wide as high
+    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (BIZ ? 0.348 : 0.66) - 10; // the picture is about 0.66 times as wide as high (Gentlemen's Study: 0.348)
     const items = feast.map(x=>{ const h = 92 * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
     let kk = 1, rows = [];
     for(;;){ rows = []; let cur = [], used = 0;
@@ -5871,7 +6013,8 @@ function trophyDefs(){
   const FAB = [['faberge-pink', 0.75], ['faberge-blue', 0.9], ['faberge-mint', 1.05]], yearOf = ts=>new Date(ts).getFullYear();
   const eastDone = ev.done.filter(e=>isEasterTime(new Date(e.ts)));
   const eastYears = [...new Set(eastDone.map(e=>yearOf(e.ts)))].sort((a, b)=>a - b), thisYear = new Date().getFullYear();
-  (eastYears.includes(thisYear) ? eastYears : eastYears.concat(thisYear)).forEach((y, i)=>{
+  trophyDefsEasterYears = eastYears.includes(thisYear) ? eastYears : eastYears.concat(thisYear);
+  trophyDefsEasterYears.forEach((y, i)=>{
     const first = eastDone.find(e=>yearOf(e.ts) === y);
     out.push({ id:'easter' + y, kind:'img', img:FAB[i % 3][0], scale:FAB[Math.min(i, 2)][1], aspect:0.53, need:1, list:first ? [first.ts] : [],
       title:L('Fabergé-Ei ' + y, 'Fabergé egg ' + y), desc:L('Du hast dir in der Osterzeit ' + y + ' Zeit für dich genommen. Christus ist auferstanden – jedes Jahr ein neues Ei für deine Sammlung.', 'You took time for yourself in the Easter season ' + y + '. Christ is risen – every year a new egg for your collection.') });
@@ -5902,8 +6045,32 @@ function trophyDefs(){
   });
   out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.81, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle Lebensbereiche haben sich verbessert.', 'All areas of life have improved.') });
-  return out;
+  return BIZ ? out.map(trophyRl) : out;
 }
+/* Gentlemen's Study (1.80.0): the same trophies, other pictures (img/rl/): medals, crystal obelisks, glass cloches, silver cups,
+   ship's wheel, pocket watch, sundial, telescope … – [picture, width/height]. A trophy that grows keeps its picture and grows
+   in size; a picture that is not there yet (the crib) stays the classic one. */
+const RL_TRO = {
+  ex:[['medal-navy', 0.51], ['medal-green', 0.51], ['medal-cognac', 0.51], ['medal-burgundy', 0.51], ['medal-cream', 0.52], ['medal-stripe', 0.51]],
+  streak:[['obelisk-1', 0.57], ['obelisk-2', 0.49], ['obelisk-3', 0.41], ['obelisk-4', 0.37], ['obelisk-5', 0.34], ['obelisk-6', 0.31]],
+  box:['cloche-lotus', 0.73], b478:['cloche-cherry', 0.72], lemon:['cloche-lemon', 0.73], stones:['cloche-stones', 0.73], bowl:['cloche-bowl', 0.8], grat:['cloche-hearts', 0.78],
+  wheel:['ships-wheel', 0.76], goal:['cup-silver', 0.88], page:['books-pen', 1.7], loyal:['pocket-watch', 1.06], joy:['sundial', 0.98],
+  up10:['telescope', 1.01], upall:['cup-grand', 0.76], nikolaus:['nikolaus', 0.4], nikolaus2:['boot', 0.46], xmas:['star', 0.73]
+};
+const RL_EGGS = [['egg-cream', 0.57, 0.75], ['egg-cobalt', 0.58, 0.9], ['egg-green', 0.59, 1.05]];
+function trophyRl(x){
+  let m = null;
+  if(x.group === 'ex' || x.group === 'streak') m = RL_TRO[x.group][x.stage];
+  else if(/^easter\d+$/.test(x.id)){ const i = FAB_IDX(x); m = RL_EGGS[i % 3]; const y = x.id.slice(6); return { ...x, img:'rl/' + m[0], aspect:m[1], scale:RL_EGGS[Math.min(i, 2)][2], title:(state.settings.lang === 'en' ? 'Easter egg ' : 'Osterei ') + y }; }
+  else m = RL_TRO[x.group] || RL_TRO[x.id];
+  if(!m) return x;
+  // the medals and obelisks have their own stage pictures; everything else grows like before
+  const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.5 + x.stage * 0.06 : x.scale;
+  return { ...x, img:'rl/' + m[0], aspect:m[1], scale };
+}
+// which Easter egg of the collection (0 = first year) – the egg trophies are in year order
+function FAB_IDX(x){ const ys = trophyDefsEasterYears || []; const i = ys.indexOf(+x.id.slice(6)); return i < 0 ? 0 : i; }
+let trophyDefsEasterYears = [];
 function trophyList(){ return trophyDefs().map(x=>({ ...x, have:x.have ? x.have() : Math.min(x.need, x.list.length), need:x.needShow || x.need, at:x.list.length >= x.need ? (x.list[x.need - 1] || 1) : null })); }
 function trophyNext(){
   const open = trophyList().filter(x=>!x.at && x.have > 0);
@@ -6445,12 +6612,12 @@ function wheelPictureSvg(){
   const ds = new Date(latest || Date.now()).toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
   const font = 'Inter, -apple-system, Helvetica, Arial, sans-serif';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 ${h}" width="800" height="${h}">`
-    + `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#080b28"/><stop offset="45%" stop-color="#0d0f3a"/><stop offset="100%" stop-color="#3d10c9"/></linearGradient>`
-    + `<linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b8a4ff" stop-opacity="0.6"/><stop offset="100%" stop-color="#5a2bef" stop-opacity="0.8"/></linearGradient></defs>`
+    + `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#080b28"/><stop offset="45%" stop-color="#0d0f3a"/><stop offset="100%" stop-color="${BIZ ? '#13233a' : '#3d10c9'}"/></linearGradient>`
+    + `<linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/><stop offset="100%" stop-color="${BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient></defs>`
     + `<rect width="800" height="${h}" rx="44" fill="url(#bg)"/>`
     + `<text x="44" y="78" font-family="${font}" font-size="40" font-weight="700" fill="#ffffff">${escapeHtml(d.navHome)}</text>`
     + `<text x="756" y="78" text-anchor="end" font-family="${font}" font-size="32" fill="#e8b84a">${ds}</text>`
-    + grid + `<polygon points="${dataPts}" fill="url(#wh)" stroke="#b8a4ff" stroke-width="3" opacity="0.92"/>` + labels + `</svg>`;
+    + grid + `<polygon points="${dataPts}" fill="url(#wh)" stroke="${IST_COL}" stroke-width="3" opacity="0.92"/>` + labels + `</svg>`;
 }
 async function tbDeletePage(idx){
   const diary = tbEnsureYear(tbYear);
@@ -7166,6 +7333,21 @@ function syncNeedsLangPick(){
   try{ chosen = !!localStorage.getItem(LANG_CHOSEN_KEY); }catch(e){}
   return !chosen && !syncKnownDevice() && isFirstRun();
 }
+// the first window (1.80.0): language and design are chosen first, then "Weiter"; the design shows at once as a preview
+let firstPick = null;
+function firstPickState(){ return firstPick || (firstPick = { lang:state.settings.lang === 'en' ? 'en' : 'de', design:BIZ ? 'biz' : 'classic' }); }
+function firstPickSet(k, v){
+  const f = firstPickState(); f[k] = v;
+  if(k === 'lang' && state.settings.lang !== v){ state.settings.lang = v; saveState(); applyLang(); }
+  if(k === 'design') document.documentElement.classList.toggle('theme-biz', v === 'biz');
+  renderSyncModal();
+}
+function firstPickGo(){
+  const f = firstPickState();
+  syncPickLang(f.lang);
+  try{ localStorage.setItem(DESIGN_KEY, f.design); }catch(e){}
+  if((f.design === 'biz') !== BIZ) location.reload(); // the icons and pictures of the other design come with a fresh start
+}
 function syncPickLang(lang){
   try{ localStorage.setItem(LANG_CHOSEN_KEY, lang); }catch(e){}
   if(state.settings.lang !== lang){ state.settings.lang = lang; saveState(); applyLang(); }
@@ -7175,11 +7357,15 @@ function renderSyncModal(){
   const d = t(), body = document.getElementById('sync-body');
   if(!sbSession && syncNeedsLangPick()){
     document.getElementById('t-sync-title').textContent = 'eWolfe';
+    const f = firstPickState(), en = f.lang === 'en';
     body.innerHTML = `
-      <p class="modal-sub" style="text-align:center;">Wähle deine Sprache<br>Choose your language</p>
-      <div class="lang-pick">
-        <button class="primary-btn" onclick="syncPickLang('de')">Deutsch</button>
-        <button class="primary-btn" onclick="syncPickLang('en')">English</button>
+      <div class="first-pick">
+        <div class="settings-head">Sprache · Language</div>
+        <div class="seg"><button class="seg-btn${en ? '' : ' active'}" onclick="firstPickSet('lang','de')">Deutsch</button><button class="seg-btn${en ? ' active' : ''}" onclick="firstPickSet('lang','en')">English</button></div>
+        <div class="settings-head">${en ? 'Design' : 'Design'}</div>
+        <div class="seg design-seg">${designBtns(f.design, 'firstPickSet')}</div>
+        <p class="settings-note">${en ? 'You can change both later in the settings.' : 'Beides kannst du später in den Einstellungen ändern.'}</p>
+        <button class="primary-btn" style="width:100%;margin-top:6px;" onclick="firstPickGo()">${en ? 'Continue' : 'Weiter'}</button>
       </div>`;
     syncUpdateUi();
     return;

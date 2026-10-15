@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.79.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.80.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -283,6 +283,26 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - Seit 1.79.0: Leisten-Symbole `ico-wheel`/`ico-areas` sind jetzt Bilder des Nutzers (Sechseck, 6 Rauten). Seite Bereiche:
   aufklappbare Karte „Warum ein Lebensrad?“ (`whyText`, beim ersten Rad offen) und je Bereich „Mehr lesen“ (`areaMore`:
   Was dazugehört, Woran du einen hohen Wert erkennst, Ein kleiner erster Schritt).
+
+## Zwei Designs: „Gentlemen's Study“ und „A Mystery World“ (seit 1.80.0)
+- Wahl je Gerät in `localStorage` `ewolfe_design` = `biz` (Gentlemen's Study) oder `classic` (A Mystery World, das bisherige
+  Gold-/Papier-Design). Ein kleines Skript im `<head>` setzt vor dem Zeichnen `html.theme-biz` und `window.EW_DESIGN`;
+  im Code `BIZ`. Neues Gerät → Business, Gerät mit Daten (`ewolfe_data_v1`) → classic (Bestandsnutzer behalten ihr Design).
+- Erste Maske: Sprache und Design wählen, dann „Weiter“ (`firstPickSet`/`firstPickGo`, Vorschau sofort). Einstellungen: Abschnitt
+  „Design“ (`designBtns`, `setDesign` speichert und lädt die App neu).
+- Gentlemen's Study: Navy/Dunkelgrün, Akzent Cognac #9a6b3f, Text Leinen #dcd4b8, Überschriften und Knöpfe Noto Serif Display
+  schmal (wdth 62.5) in Großbuchstaben, keine Rahmen, schlichte Knöpfe. CSS-Block „Design Business“ am Ende des CSS (`:root.theme-biz`).
+- Symbole: Linien-SVGs in `img/icons-rl/ico-*.svg` (gleiche Namen wie `img/icons/ico-*.webp`); ein MutationObserver tauscht in BIZ
+  jede `img/icons/ico-…webp` gegen die SVG (`designSwapIn`), auch in später gezeichnetem Inhalt. Auf cremefarbenem Papier dunkel gefiltert.
+- Rad: Ist in Leinen, Wunsch Cognac mit Cognac-Punkten (`wishKnob`), Lücke Cognac → Grün (`GAP_*`, `IST_COL`, `COMPARE_COLORS`).
+- Regal: Nussholzregal `img/rl/shelf.webp` (zugeschnitten 552×1254, `SHELVES.rl` mit `aspect`, `rowCap` rechnet mit dem Seitenverhältnis),
+  Vitrine `img/rl/vitrine.webp` (348×1000). Keine Tiere/Feiertagsschmuck (`decorOn()` false, Schalter ausgeblendet).
+- Trophäen: gleiche Regeln, andere Bilder in `img/rl/` über `trophyRl()`/`RL_TRO`: Übungen = Medaillen (6 Bänder), Tage in Folge =
+  Kristall-Obelisken 1–6, je Übung Glasglocke (lotus, cherry, lemon, stones, bowl, hearts), Lebensräder = Steuerrad, Ziele =
+  Silberpokal, Tagebuchseiten = Bücher mit Füller, Treue = Taschenuhr, Freude = Sonnenuhr, +10 = Fernrohr, alle Bereiche = großer
+  Pokal, Ostern = Eier (creme, kobalt, grün; Titel „Osterei“), Nikolaus = Holzfigur, Stiefel, Stern. Krippe noch die alte.
+- Noch im alten Stil (Bilder folgen): App-Icon oben links, Tagebuch-Cover und Buchrücken, Übungsbilder, Impulskarten, Sticker,
+  Box-Breathing-Punkt. Neue Sonnenuhr und Stiefel sind bestellt (Prompts 6b/21b im Sammelordner).
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
