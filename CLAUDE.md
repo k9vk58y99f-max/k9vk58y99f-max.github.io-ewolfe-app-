@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.80.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.80.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -302,9 +302,13 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Silberpokal, Tagebuchseiten = Bücher mit Füller, Treue = Taschenuhr, Freude = Sonnenuhr, +10 = Fernrohr, alle Bereiche = großer
   Pokal, Ostern = Eier (creme, kobalt, grün; Titel „Osterei“), Nikolaus = Holzfigur, Stiefel, Stern. Krippe noch die alte.
 - Seit 1.80.1: Name „A Gentleman's Study“. App-Symbol = Monogramm „EW“ (Didot, Leinen auf Navy, Cognac-Linie, `img/rl/app-icon.png`,
-  `img/rl/apple-touch-icon.png`, im `<head>`-Skript gesetzt). Stufen = Club-Ränge (Gast, Anwärter, Mitglied, Fellow, Senior Fellow,
-  Ehrenmitglied; `clubRanks`, `clubUp`, `clubProgressText`) auf einem gravierten Messingschild am Regalsockel (`clubPlaqueHtml`,
+  `img/rl/apple-touch-icon.png`, im `<head>`-Skript gesetzt). Stufen = Club-Ränge (de seit 1.80.2: Gast, Anwärter, Mitglied, Ratsmitglied, Vorstand,
+  Ehrenmitglied; en: Guest, Candidate, Member, Fellow, Senior Fellow, Honorary Member; `clubRanks`, `clubUp`, `clubProgressText`) auf einem gravierten Messingschild am Regalsockel (`clubPlaqueHtml`,
   `.club-plaque`, je Rang eine Raute). Favicon und Manifest-Symbol (Data-URL) sind noch das alte.
+- Seit 1.80.2: Alles, was im neuen Design noch ein altes Bild zeigt, trägt einen roten Schriftzug „Platzhalter – neues Design folgt“
+  (CSS `::after` im Block „A Gentleman's Study“, Sprache über `html[lang]`, das `applyLang()` setzt): Übungskarten, Atem-/Player-Bilder,
+  Dankbarkeit, Impulskarten, Tagebuch-Cover und Titelseite, Coverwahl, Buchrücken, Sticker-Menü, Trophäen ohne `rl/`-Bild (`rlMissing`).
+  Wenn ein neues Bild kommt, die Klasse dort aus der Liste nehmen. Glasglocken sollen wieder drei Stufen bekommen (Prompts bestellt).
 - Noch im alten Stil (Bilder folgen): Tagebuch-Cover und Buchrücken, Übungsbilder, Impulskarten, Sticker,
   Box-Breathing-Punkt. Neue Sonnenuhr und Stiefel sind bestellt (Prompts 6b/21b im Sammelordner).
 
