@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Marcellus&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --nav-h:calc(56px + max(4px, env(safe-area-inset-bottom,0px) - 8px)); /* about 20 % lower since 1.74.3 */
+  --nav-h:calc(56px + max(8px, env(safe-area-inset-bottom,0px) - 4px)); /* lower since 1.74.3, a little more room at the bottom again (1.74.4) */
   --ew-navy:#0a0e1f;
   --ew-navy-2:#111730;
   --ew-violet:#2f1c52;
@@ -99,7 +99,7 @@ html.lvl-1 #sync-btn.has-note::after{ background:#e8b84a; box-shadow:0 0 8px rgb
   background:linear-gradient(180deg, rgba(13,15,40,0.86), rgba(10,14,31,0.97));
   backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
   border-top:1px solid var(--ew-line);
-  padding:5px 6px max(4px, calc(var(--safe-b) - 8px));
+  padding:5px 6px max(8px, calc(var(--safe-b) - 4px));
 }
 .bottom-nav-inner{ max-width:620px; margin:0 auto; display:flex; justify-content:space-around; align-items:flex-end; }
 .nav-item{
@@ -1409,7 +1409,7 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.74.3';
+const APP_VERSION = '1.74.4';
 // Starter entries for Achtsamkeit: the samples are only used when the app has no saved data yet (a genuinely
 // fresh browser) — after that, each person's own additions and deletions are theirs alone.
 const DEFAULT_MEDITATIONEN = [
