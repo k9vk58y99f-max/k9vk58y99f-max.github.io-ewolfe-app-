@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.74.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.74.3`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -263,7 +263,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Glanz-Stufe“ (`levelProgressText()`); `appActiveDays()`, `LEVEL_DAYS`
   = 0/7/30/100), dazu seit 1.69.0 zwei Zeit-Stufen (`LEVEL_MONTHS`): 5 nach einem halben Jahr, 6 nach einem Jahr ab dem
   ersten aktiven Tag (`appFirstActive`), nur wenn Stufe 4 erreicht ist. Klassen `html.lvl-1…6`, ab 4 zusätzlich `lvl-gold`.
-  1: tonale Rahmen/Knöpfe, Lavendel, staubiges Regal; 2: goldene Überschriften/Leiste, sauberes Regal; 3: goldene Knöpfe,
+  1: tonale Rahmen/Knöpfe, Lavendel, staubiges Regal nur am allerersten Tag (ab 2 aktiven Tagen sauber, seit 1.74.3); 2: goldene Überschriften/Leiste, sauberes Regal; 3: goldene Knöpfe,
   tonaler Rahmen mit dünner goldener Innenlinie (`img/frame-*-mid.png`), Efeu-Regal; 4: ganzer Goldrahmen + Schimmer;
   5: funkelnde Sterne in den Rahmenecken (`#lvl-fx`, `.lvl-star`); 6: mehr Sterne an den Rändern. Nichts wird je
   weggenommen; neue Stufe einmal angesagt (`levelUp`, Merker `ewolfe_level_seen`).
@@ -291,6 +291,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   (Atemzahl, Phase, Stille-Uhr, Player-Zeit), seit 1.73.1 auch Knöpfe; Marcellus hat nur eine Stärke, daher nie fett.
 - Querformat-Titelblatt (seit 1.74.0): Titel und Jahr genau mittig im goldenen Band (72,5–87,5 % der Höhe, bei allen
   fünf Covern gleich). Mitteilungspunkt am Konto-Symbol: Lila neben goldener Figur, Gold auf Stufe 1 (lila Figur).
+- Untere Leiste seit 1.74.3 etwa 20 % niedriger (Symbole 24 px, `--nav-h`).
 - Schalter „Tiere & Feiertagsschmuck“ in den Einstellungen (seit 1.72.0, `decorOn()`/`setDecor()`, `state.settings.decor`,
   je Gerät): blendet Tiere, Osterhase, Nikolaus, Kranz, Baum und Schnee aus; Trophäen und Feiertagskarten bleiben.
 - Geplant: Vitrine nach einem Jahr neben dem Regal für die Feiertagstrophäen (Bild steht aus).
