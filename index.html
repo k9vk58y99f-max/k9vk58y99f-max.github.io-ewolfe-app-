@@ -1674,7 +1674,7 @@ html.theme-biz .icon-default .tb-cover-caption .tb-cover-year, html.theme-biz .t
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.83.0';
+const APP_VERSION = '1.83.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';
@@ -3103,7 +3103,7 @@ let impulsePicSeq = 0;
 /* A Gentleman's Study (1.83.0): the cards are small classic English paintings (img/rl/cards/<name>) on cream cotton paper
    (img/rl/card-front, a window for the painting) with a navy back (img/rl/card-back). A card whose painting is not there yet
    keeps its classic picture with the red placeholder note. */
-const RL_CARDS = new Set(['adv01', 'adv02', 'adv03', 'adv04', 'adv05', 'adv06', 'adv07', 'adv08', 'adv09', 'adv10', 'adv11', 'adv12', 'adv13', 'adv14', 'adv15', 'adv16', 'adv17', 'adv18', 'adv19', 'adv20', 'advSun1', 'advSun2', 'advSun3', 'advSun4', 'ber1', 'ber2', 'ber3', 'ber4', 'ber5', 'ber6', 'ber7', 'ber8', 'bez1', 'bez2', 'bez3', 'bez4', 'bez5', 'bez6', 'bez7', 'bez8', 'fin1', 'fin2', 'fin3', 'fin4', 'fin5', 'fin6', 'fin7', 'fin8', 'fre1', 'fre2', 'fre3', 'fre4', 'fre5', 'fre6', 'fre7', 'fre8', 'ges1', 'ges2', 'ges3', 'ges4', 'ges5', 'ges6', 'ges7', 'ges8', 'sin1', 'sin2', 'sin3', 'sin4', 'sin5', 'sin6', 'sin7', 'sin8']);
+const RL_CARDS = new Set(['adv01', 'adv02', 'adv03', 'adv04', 'adv05', 'adv06', 'adv07', 'adv08', 'adv09', 'adv10', 'adv11', 'adv12', 'adv13', 'adv14', 'adv15', 'adv16', 'adv17', 'adv18', 'adv19', 'adv20', 'adv21', 'adv22', 'adv23', 'adv24', 'advSun1', 'advSun2', 'advSun3', 'advSun4', 'ascension', 'ber1', 'ber2', 'ber3', 'ber4', 'ber5', 'ber6', 'ber7', 'ber8', 'bez1', 'bez2', 'bez3', 'bez4', 'bez5', 'bez6', 'bez7', 'bez8', 'easter', 'eastermon', 'epiphany', 'fin1', 'fin2', 'fin3', 'fin4', 'fin5', 'fin6', 'fin7', 'fin8', 'fre1', 'fre2', 'fre3', 'fre4', 'fre5', 'fre6', 'fre7', 'fre8', 'ges1', 'ges2', 'ges3', 'ges4', 'ges5', 'ges6', 'ges7', 'ges8', 'goodfri', 'harvest', 'holysat', 'martin', 'maundy', 'newyear', 'palm', 'pentecost', 'pentecostmon', 'sin1', 'sin2', 'sin3', 'sin4', 'sin5', 'sin6', 'sin7', 'sin8', 'xmas1', 'xmas2']);
 const rlCardName = c=>{ if(!/^h-/.test(c.id)) return c.id; const k = c.id.slice(2), m = /^adv(\d+)$/.exec(k); return m ? 'adv' + String(m[1]).padStart(2, '0') : k; };
 const cardHasRl = c=>BIZ && RL_CARDS.has(rlCardName(c));
 const cardImg = c=>cardHasRl(c) ? 'rl/cards/' + rlCardName(c) : c.img;

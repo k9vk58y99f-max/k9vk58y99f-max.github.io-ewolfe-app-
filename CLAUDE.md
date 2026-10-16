@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.83.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.83.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -346,8 +346,8 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - **Impulskarten in A Gentleman's Study:** kleine englische Gemälde (Constable/Gainsborough/Stubbs-Stil, Bilder des Nutzers) in
   `img/rl/cards/<id>.webp` (48 Impulse, `advSun1…4`, `adv01…20`), auf cremefarbenem Büttenpapier mit Bronze-Linien
   (`img/rl/card-front.webp`, Fenster für das Bild, `CARD_WIN`) und navyfarbener Rückseite mit EW-Monogramm (`img/rl/card-back.webp`).
-  `RL_CARDS` listet die vorhandenen; `cardImg()`/`rlCardName()`; fehlende (Advent 21–24, Weihnachten, 13 Feiertage) zeigen das alte
-  Bild mit rotem Hinweis (`.imp-win.ph-note`). „Ins Tagebuch“ zeichnet die Karte im selben Stil (`impulseCardImage`).
+  `RL_CARDS` listet die vorhandenen; `cardImg()`/`rlCardName()`; seit 1.83.1 alle 92 Karten vorhanden (Advent 1–24, 4 Adventssonntage,
+  xmas1/xmas2 = Stall mit Stern wie adv24, 13 Feiertage); fehlende würden das alte Bild mit rotem Hinweis zeigen (`.imp-win.ph-note`). „Ins Tagebuch“ zeichnet die Karte im selben Stil (`impulseCardImage`).
 - **A Mystery World: schlanke Papier-Regale** (Bilder des Nutzers, Maße wie das Nussholzregal): `shelf-slim-clean|dusty|ivy.webp`,
   Anbau-Regal aus dem sauberen geschnitten (`shelf-slim-clean-narrow`, `shelf-slim-dusty-narrow`; Efeu nur am breiten Regal),
   neue Vitrine `vitrine-slim.webp` mit fünf Glasfächern. Tiere/Schmuck neu platziert (`html:not(.theme-biz) .shelf-…`).
