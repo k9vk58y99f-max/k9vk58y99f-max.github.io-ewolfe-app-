@@ -645,6 +645,22 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-wreath{ right:27%; bottom:calc(100% - var(--roof) - 1.2%); height:10%; z-index:3; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
 .shelf-tree{ left:-4%; bottom:-2%; height:52%; z-index:1; }
 .shelf-wrap{ position:relative; }
+/* A Mystery World with the slim paper bookcase (1.83.0): sized by height like the walnut one; the animals and the decoration
+   were placed on the old square picture – here the same places, measured on the bookcase itself */
+html:not(.theme-biz) .lib-row{ --sw:min(calc((100cqw - 16px) / (1.3 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.51), 520px); padding:calc(var(--sw) * 0.4) calc(var(--sw) * 0.15) 40px; } /* room for the cat on top and the animals in front */
+html:not(.theme-biz) .lib-row .shelf-img{ background-size:100% 100% !important; }
+html:not(.theme-biz) .shelf-dog{ right:-24%; bottom:-6%; height:36%; transform:rotate(-4deg); }
+html:not(.theme-biz) .shelf-dog-lying{ right:-30%; bottom:-5%; height:17%; }
+html:not(.theme-biz) .shelf-crib{ right:-30%; bottom:-6%; height:40%; }
+html:not(.theme-biz) .shelf-rabbit{ left:30%; bottom:-4%; height:22%; }
+html:not(.theme-biz) .shelf-eggs{ left:52%; bottom:-4%; height:11%; }
+html:not(.theme-biz) .shelf-nikolaus{ left:-16%; bottom:-4%; height:52%; }
+html:not(.theme-biz) .shelf-boot{ left:40%; bottom:-5%; height:14%; }
+html:not(.theme-biz) .shelf-wreath{ right:8%; bottom:calc(100% - var(--roof) - 1.2%); height:11%; }
+html:not(.theme-biz) .shelf-tree{ left:-18%; bottom:-4%; height:60%; }
+html:not(.theme-biz) .shelf-cat{ left:14%; bottom:calc(100% - var(--roof) - 0.6%); height:19%; }
+html:not(.theme-biz) .shelf-fox{ left:-13%; bottom:-6%; height:31%; }
+html:not(.theme-biz) .lib-row .vitrine-img{ background-image:url(img/vitrine-slim.webp); aspect-ratio:598/1213; width:calc(var(--sw) * 0.9) !important; margin:0 !important; }
 /* a red note on pictures that are still to come – in both designs (1.81.0) */
 .ph-note{ position:relative; }
 .ph-note::after{ content:'Platzhalter – neues Bild folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
@@ -1154,23 +1170,22 @@ html.theme-biz #sync-btn.has-note::after{ background:#c9a463; box-shadow:0 0 8px
 html.theme-biz #t-logo{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.16em; }
 html.theme-biz .bereich-value{ fill:var(--ew-text); }
 /* A Gentleman's Study: everything that still shows a picture of the classic design carries a red note until its new picture comes */
-html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .imp-card, .tb-sticker-btn, .rl-ph){ position:relative; }
+html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .tb-sticker-btn, .rl-ph){ position:relative; }
 html.theme-biz .medi-card-img{ display:inline-block; }
-html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .imp-card, .tb-sticker-btn, .rl-ph)::after{
+html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .tb-sticker-btn, .rl-ph)::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font-family:Inter, sans-serif; font-weight:700; font-size:var(--ph-fs, 13px); letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30;
   text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html[lang=en].theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .imp-card, .tb-sticker-btn, .rl-ph)::after{ content:'Placeholder – new design coming'; }
+html[lang=en].theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .tb-sticker-btn, .rl-ph)::after{ content:'Placeholder – new design coming'; }
 html.theme-biz :is(.medi-card-img, .tb-sticker-btn, .rl-ph-s){ --ph-fs:7px; }
-html.theme-biz :is(.breath-stage, .imp-card:not(.imp-mini)){ --ph-fs:18px; }
-html.theme-biz .imp-card.imp-mini{ --ph-fs:7px; }
+html.theme-biz .breath-stage{ --ph-fs:18px; }
 /* our dog in front of the walnut bookcase, a little to the right over its edge */
 html.theme-biz .lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.44), 520px); }
 html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) * 0.72) !important; margin:0 !important; }
 html.theme-biz .lib-wrap.more::after{ border-radius:2px; }
-html.theme-biz .shelf-dog{ right:-15%; bottom:-2%; height:23%; transform:none; }
-html.theme-biz .shelf-dog-lying{ right:-12%; bottom:-2%; height:10%; }
+html.theme-biz .shelf-dog{ right:-13%; bottom:-4%; height:34%; transform:none; } /* much bigger (1.83.0) */
+html.theme-biz .shelf-dog-lying{ right:-16%; bottom:-3%; height:12.5%; }
 html.theme-biz .rl-ph-dog{ aspect-ratio:3/4; filter:none; z-index:3; } html.theme-biz .shelf-dog-lying.rl-ph-dog{ aspect-ratio:2/1; }
 html.theme-biz .rl-ph-dog::after{ content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); width:110%; text-align:center;
   font:700 7px/1.15 Inter, sans-serif; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
@@ -1205,6 +1220,17 @@ html.theme-biz #goals-page .goal-table tr.tbl-pct th.rowlabel{ color:#ab8b54 !im
 html.theme-biz #goals-page .goal-table tr.tbl-first > *{ border-top-color:#ab8b54; }
 html.theme-biz #goals-page .ev-ov-area{ background:rgba(171,139,84,0.18); color:#8a6f42; }
 html.theme-biz .tb-area-head{ color:#ab8b54 !important; }
+/* impulse cards (1.83.0): a small English painting in its bronze-lined window on cream cotton paper, the words in dark ink */
+html.theme-biz .imp-win{ left:8.95%; top:7.99%; width:81.97%; height:57.21%; background:#2a2318; }
+html.theme-biz .imp-win img, html.theme-biz .imp-win svg{ width:100%; height:100%; object-fit:cover; }
+html.theme-biz .imp-win.ph-note img{ object-fit:contain; width:86%; height:86%; }
+html.theme-biz .imp-win.ph-note{ background:#f3ede0; --ph-fs:4.4cqw; }
+html.theme-biz .imp-words{ top:69.5%; height:24%; }
+html.theme-biz .imp-text{ color:#2a2318 !important; font-family:var(--biz-display); font-stretch:62.5%; font-weight:300; font-size:6.2cqw; line-height:1.28; }
+html.theme-biz .imp-text.long{ font-size:5.3cqw; }
+html.theme-biz .imp-by{ color:#ab8b54; font-family:var(--biz-display); font-stretch:62.5%; font-style:normal; text-transform:uppercase; letter-spacing:0.18em; font-size:3.6cqw; }
+html.theme-biz .imp-diary-btn{ border-color:rgba(42,35,24,0.25); background:rgba(42,35,24,0.06); right:6cqw; bottom:5cqw; }
+html.theme-biz .imp-diary-btn img{ filter:brightness(0.35) !important; }
 /* leather covers (1.82.0): title like a blind-stamped line in the narrow serif, year in bronze */
 html.theme-biz .icon-default .tb-cover-caption .tb-cover-title, html.theme-biz .tb-page-titel .tb-titel-caption-title{ font-family:var(--biz-display) !important; font-stretch:62.5%; font-weight:300 !important;
   text-transform:uppercase; letter-spacing:0.16em; color:#dcd4b8 !important; text-shadow:0 1px 0 rgba(0,0,0,0.55) !important; }
@@ -1648,7 +1674,7 @@ html.theme-biz .icon-default .tb-cover-caption .tb-cover-year, html.theme-biz .t
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.82.0';
+const APP_VERSION = '1.83.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';
@@ -3074,9 +3100,19 @@ const IMPULSE_PLACEHOLDER = false; // since 1.61.0 the person's own pictures (im
 const IMPULSE_PH = [id=>moonPictureSvg(id), id=>lavenderPictureSvg(id), id=>jarPictureSvg(id), id=>heartShapeSvg('round', id),
   id=>heartShapeSvg('petals', id), id=>heartShapeSvg('plump', id), id=>`<svg viewBox="-100 -100 200 200" aria-hidden="true">${blossomMarkup('ipb' + id, BLOSSOM_MAX_OPEN)}</svg>`, id=>heartShapeSvg('origami', id)];
 let impulsePicSeq = 0;
+/* A Gentleman's Study (1.83.0): the cards are small classic English paintings (img/rl/cards/<name>) on cream cotton paper
+   (img/rl/card-front, a window for the painting) with a navy back (img/rl/card-back). A card whose painting is not there yet
+   keeps its classic picture with the red placeholder note. */
+const RL_CARDS = new Set(['adv01', 'adv02', 'adv03', 'adv04', 'adv05', 'adv06', 'adv07', 'adv08', 'adv09', 'adv10', 'adv11', 'adv12', 'adv13', 'adv14', 'adv15', 'adv16', 'adv17', 'adv18', 'adv19', 'adv20', 'advSun1', 'advSun2', 'advSun3', 'advSun4', 'ber1', 'ber2', 'ber3', 'ber4', 'ber5', 'ber6', 'ber7', 'ber8', 'bez1', 'bez2', 'bez3', 'bez4', 'bez5', 'bez6', 'bez7', 'bez8', 'fin1', 'fin2', 'fin3', 'fin4', 'fin5', 'fin6', 'fin7', 'fin8', 'fre1', 'fre2', 'fre3', 'fre4', 'fre5', 'fre6', 'fre7', 'fre8', 'ges1', 'ges2', 'ges3', 'ges4', 'ges5', 'ges6', 'ges7', 'ges8', 'sin1', 'sin2', 'sin3', 'sin4', 'sin5', 'sin6', 'sin7', 'sin8']);
+const rlCardName = c=>{ if(!/^h-/.test(c.id)) return c.id; const k = c.id.slice(2), m = /^adv(\d+)$/.exec(k); return m ? 'adv' + String(m[1]).padStart(2, '0') : k; };
+const cardHasRl = c=>BIZ && RL_CARDS.has(rlCardName(c));
+const cardImg = c=>cardHasRl(c) ? 'rl/cards/' + rlCardName(c) : c.img;
+const CARD_FRONT = BIZ ? 'img/rl/card-front.webp' : 'img/card-front.webp', CARD_BACK = BIZ ? 'img/rl/card-back.webp' : 'img/card-back.webp';
+// where the picture sits on the card front (as a share of the card)
+const CARD_WIN = BIZ ? { x:0.0895, y:0.0799, w:0.8197, h:0.5721, fill:1 } : { x:0.072, y:0.115, w:0.856, h:0.613, fill:0.86 };
 function impulsePicHtml(c){
   const k = /^ph(\d)$/.exec(c.img || '');
-  return k ? IMPULSE_PH[+k[1]]('ip' + (++impulsePicSeq)) : `<img src="img/${c.img}.webp" alt="" draggable="false" onerror="if(!this.dataset.f){ this.dataset.f = 1; this.src = 'img/stickers/star.webp'; }">`;
+  return k ? IMPULSE_PH[+k[1]]('ip' + (++impulsePicSeq)) : `<img src="img/${cardImg(c)}.webp" alt="" draggable="false" onerror="if(!this.dataset.f){ this.dataset.f = 1; this.src = 'img/stickers/star.webp'; }">`;
 }
 const IMPULSE_CARDS = [
   {"id": "ges1", "a": "gesundheit", "de": "Dein Körper trägt dich durch jeden Tag – schenk ihm heute etwas Gutes.", "en": "Your body carries you through every day – give it something good today.", "by": "", "byEn": "", "img": "cards/m01"},
@@ -3237,10 +3273,10 @@ function impulseDraw(){
 }
 function impulseCardHtml(c, mini){
   const d = t(), en = state.settings.lang === 'en', by = en ? c.byEn : c.by;
-  if(mini) return `<div class="imp-card imp-mini"><img class="imp-back-img" src="img/card-back.webp" alt=""></div>`;
+  if(mini) return `<div class="imp-card imp-mini"><img class="imp-back-img" src="${CARD_BACK}" alt=""></div>`;
   return `<div class="imp-card" id="imp-card-el">
-    <div class="imp-win">${impulsePicHtml(c)}</div>
-    <img class="imp-frame" src="img/card-front.webp" alt="" draggable="false">
+    <div class="imp-win${BIZ && !cardHasRl(c) ? ' ph-note' : ''}">${impulsePicHtml(c)}</div>
+    <img class="imp-frame" src="${CARD_FRONT}" alt="" draggable="false">
     <div class="imp-words"><p class="imp-text${(en ? c.en : c.de).length > 75 ? ' long' : ''}">${escapeHtml(en ? c.en : c.de)}</p>${by ? `<div class="imp-by">– ${escapeHtml(by)}</div>` : ''}</div>
     ${impulseMode === 'start' ? '' : `<button class="imp-diary-btn" onclick="event.stopPropagation(); impulseToDiary()" title="${d.impulseToDiary}" aria-label="${d.impulseToDiary}">${ico('book')}</button>`}
   </div>`;
@@ -3260,7 +3296,7 @@ function impulseShow(c, mode, anim){
   impulseCur = c; impulseMode = mode || 'medi';
   const box = document.getElementById('impulse-card');
   const turn = (anim || 'flip') === 'flip';
-  box.innerHTML = `<div class="imp-turn${turn ? ' turning' : ''}">${impulseCardHtml(c)}<img class="imp-turn-back" src="img/card-back.webp" alt=""></div>`
+  box.innerHTML = `<div class="imp-turn${turn ? ' turning' : ''}">${impulseCardHtml(c)}<img class="imp-turn-back" src="${CARD_BACK}" alt=""></div>`
     + (impulseMode === 'medi' ? `<div class="imp-hint">${t().impulseSwipeHint}</div>` : `<div class="imp-hint">${t().impulseTapHint}</div>`);
   box.classList.remove('flip', 'from-left', 'from-right'); void box.offsetWidth; box.classList.add(anim || 'flip');
   impulseBindSwipe();
@@ -3300,22 +3336,23 @@ const loadImg = src=>new Promise((res, rej)=>{ const im = new Image(); im.onload
 // the card as one picture (frame, picture, words), so the real card lands in the diary – like the wheel
 async function impulseCardImage(c){
   const en = state.settings.lang === 'en', by = en ? c.byEn : c.by, txt = en ? c.en : c.de;
-  const [frame, pic] = await Promise.all([loadImg('img/card-front.webp'), loadImg('img/' + c.img + '.webp').catch(()=>loadImg('img/stickers/star.webp'))]);
+  const [frame, pic] = await Promise.all([loadImg(CARD_FRONT), loadImg('img/' + cardImg(c) + '.webp').catch(()=>loadImg('img/stickers/star.webp'))]);
   const W = frame.naturalWidth, H = frame.naturalHeight, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
   const g = cv.getContext('2d');
-  const wx = W * 0.072, wy = H * 0.115, ww = W * 0.856, wh = H * 0.613;
+  const wx = W * CARD_WIN.x, wy = H * CARD_WIN.y, ww = W * CARD_WIN.w, wh = H * CARD_WIN.h;
   const grad = g.createRadialGradient(W / 2, wy + wh * 0.45, 10, W / 2, wy + wh * 0.45, wh * 0.75); grad.addColorStop(0, '#fffdf6'); grad.addColorStop(1, '#f3ead6');
   g.fillStyle = grad; g.fillRect(wx, wy, ww, wh);
-  const ps = Math.min(ww, wh) * 0.86; g.drawImage(pic, W / 2 - ps / 2, wy + (wh - ps) / 2, ps, ps);
+  const ps = Math.min(ww, wh) * CARD_WIN.fill; g.drawImage(pic, wx + (ww - ps) / 2, wy + (wh - ps) / 2, ps, ps);
   g.drawImage(frame, 0, 0, W, H);
-  const fs = W * 0.05, lh = fs * 1.38, maxW = W * 0.74, words = txt.split(/\s+/), lines = []; let line = '';
-  g.font = `600 ${fs}px Inter, -apple-system, Helvetica, Arial, sans-serif`;
+  const fs = W * (BIZ ? 0.054 : 0.05), lh = fs * (BIZ ? 1.3 : 1.38), maxW = W * 0.74, words = txt.split(/\s+/), lines = []; let line = '';
+  const FONT = BIZ ? `300 ${fs}px 'Noto Serif Display', Georgia, serif` : `600 ${fs}px Inter, -apple-system, Helvetica, Arial, sans-serif`;
+  g.font = FONT; if(BIZ && 'fontStretch' in g) g.fontStretch = 'extra-condensed';
   words.forEach(w=>{ const tl = line ? line + ' ' + w : w; if(g.measureText(tl).width > maxW && line){ lines.push(line); line = w; } else line = tl; });
   if(line) lines.push(line);
-  const total = lines.length * lh + (by ? lh * 0.95 : 0), top = H * 0.845 - total / 2 + lh * 0.75;
-  g.fillStyle = '#ffffff'; g.textAlign = 'center';
+  const total = lines.length * lh + (by ? lh * 0.95 : 0), top = H * (BIZ ? 0.82 : 0.845) - total / 2 + lh * 0.75;
+  g.fillStyle = BIZ ? '#2a2318' : '#ffffff'; g.textAlign = 'center';
   lines.forEach((l, i)=>g.fillText(l, W / 2, top + i * lh));
-  if(by){ g.font = `italic 400 ${fs * 0.82}px Inter, -apple-system, Helvetica, Arial, sans-serif`; g.fillStyle = '#e8c27a'; g.fillText('– ' + by, W / 2, top + lines.length * lh + lh * 0.2); }
+  if(by){ g.font = BIZ ? `400 ${fs * 0.72}px 'Noto Serif Display', Georgia, serif` : `italic 400 ${fs * 0.82}px Inter, -apple-system, Helvetica, Arial, sans-serif`; g.fillStyle = BIZ ? '#ab8b54' : '#e8c27a'; g.fillText('– ' + by, W / 2, top + lines.length * lh + lh * 0.2); }
   return cv.toDataURL('image/webp', 0.85);
 }
 async function impulseToDiary(){
@@ -5877,27 +5914,28 @@ function tbSpineHtml(key){
 // the bottom of each compartment lies towards the back of the board's top surface, so things stand in the shelf, not at its front edge
 // each shelf picture has its own compartments (bottom = near the back edge of the board): level 1 dusty, 2 clean, 3+ with ivy
 const SHELVES = {
-  dusty:{ img:'shelf-dusty', roof:17.7, x:[27.9, 72.3], rows:[[23.6, 36.5], [37.5, 50.1], [51.1, 62.5], [63.5, 74.4], [75.4, 86.2]] },
-  clean:{ img:'shelf-clean', roof:16.8, x:[27.5, 72.7], rows:[[22.8, 35.8], [36.8, 49.3], [50.3, 61.9], [62.9, 73.7], [74.7, 85.6]] },
-  ivy:{ img:'shelf', roof:12.6, x:[27.8, 72.7], rows:[[18.8, 32.2], [33.7, 46.5], [48.3, 59.7], [61.7, 72.4], [74.7, 85.4]] },
+  // A Mystery World since 1.83.0: slim paper bookcases with the proportions of the walnut one (cut close, measured inner walls and boards)
+  dusty:{ img:'shelf-slim-dusty', aspect:352 / 667, roof:1.2, x:[15.5, 84.5], rows:[[9, 22.8], [25, 37.8], [40, 53], [55, 68], [70.5, 85.5]] },
+  clean:{ img:'shelf-slim-clean', aspect:339 / 667, roof:1.2, x:[15.5, 85], rows:[[9, 22.8], [25, 37.8], [40, 53], [55, 68], [70.5, 85.5]] },
+  ivy:{ img:'shelf-slim-ivy', aspect:357 / 667, roof:1.2, x:[20.5, 85.5], rows:[[9, 22.8], [25, 37.8], [40, 53], [55, 68], [70.5, 85.5]] },
   // A Gentleman's Study (1.80.0): one plain walnut bookcase, always the same (img/rl/shelf.webp, measured inner walls and boards)
   rl:{ img:'rl/shelf', aspect:552 / 1254, roof:1.8, x:[9.6, 90.4], rows:[[5, 21.3], [23, 38.4], [40, 56.3], [58, 72.8], [75, 87.3]] }
 };
-// the cobwebs go as soon as one has really begun: from the 2nd active day the shelf is clean (1.74.3), ivy from level 3
+// the cobwebs stay for the first two active days (since 1.83.0; before: one), from the 3rd the shelf is clean, ivy from level 3
 /* The narrow bookcase (1.81.0): as soon as the diaries no longer fit into the top compartment, a narrow bookcase of the same
    kind stands directly on the left of the shelf (one piece of furniture, no gap). All diaries move into it (4–5 per
    compartment), the big shelf then holds only trophies. Cut from the big pictures (middle taken out); k = its width relative
    to the big shelf, ov = how far it slides under the big one so the two touch. Same in both designs. */
 const NARROW = {
-  dusty:{ img:'shelf-dusty-narrow', aspect:887 / 1254, x:[38.9, 61.4], k:0.7073, ov:0.44 },
-  clean:{ img:'shelf-clean-narrow', aspect:887 / 1254, x:[38.9, 61.4], k:0.7073, ov:0.44 },
-  ivy:{ img:'shelf-narrow', aspect:887 / 1254, x:[38.9, 61.4], k:0.7073, ov:0.44 },
+  dusty:{ img:'shelf-slim-dusty-narrow', aspect:232 / 667, x:[23.5, 76.4], k:0.659, ov:0.03 },
+  clean:{ img:'shelf-slim-clean-narrow', aspect:219 / 667, x:[24, 76.7], k:0.646, ov:0.03 },
+  ivy:{ img:'shelf-slim-clean-narrow', aspect:219 / 667, x:[24, 76.7], k:219 / 357, ov:0.03 }, // the ivy only grows on the wide shelf (1.83.0)
   rl:{ img:'rl/shelf-narrow', aspect:352 / 1254, x:[15.1, 84.9], k:0.6377, ov:0.082 }
 };
-const shelfKey = ()=>BIZ ? 'rl' : appActiveDays() < 2 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
+const shelfKey = ()=>BIZ ? 'rl' : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
 // the library scrolls sideways (1.81.0): a small arrow at the right edge while there is more to see
 function libScrollHint(el){ if(el && el.parentNode) el.parentNode.classList.toggle('more', el.scrollLeft + el.clientWidth < el.scrollWidth - 8); }
-const shelfNow = ()=>SHELVES[BIZ ? 'rl' : appActiveDays() < 2 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy'];
+const shelfNow = ()=>SHELVES[BIZ ? 'rl' : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy'];
 let SHELF_X = SHELVES.ivy.x, SHELF_ROWS = SHELVES.ivy.rows;
 const SHELF_ROW_W = 290; // usable width of a compartment in units of its height (cqh)
 function tbShelfScale(){ return 1; }
@@ -5997,7 +6035,7 @@ function tbRenderLibrary(){
   const half = Math.ceil(roof.length / 2);
   const roofHtml = roof.length ? `<div class="shelf-comp shelf-roof" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${SH.roof - rh}%;height:${rh}%">
       <div class="shelf-roof-side">${roof.slice(0, half).map(troHtml).join('')}</div><div class="shelf-roof-side right">${roof.slice(half).map(troHtml).join('')}</div></div>` : '';
-  const shelfHtml = `<div class="shelf-img" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%">${BIZ ? clubPlaqueHtml() : ''}${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
+  const shelfHtml = `<div class="shelf-img" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%;aspect-ratio:${(SH.aspect || 1).toFixed(4)}">${BIZ ? clubPlaqueHtml() : ''}${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rowsAll[i];
       return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : row ? ' shelf-comp-books' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}</div>`;
@@ -6005,13 +6043,13 @@ function tbRenderLibrary(){
   // the cabinet: four glass compartments (in % of img/vitrine.webp), trophies centred, a little smaller if needed
   let vitHtml = '';
   if(VIT){
-    const VX = BIZ ? [13.5, 86.5] : [24, 79], VR0 = BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[19.6, 33.0], [33.9, 47.0], [48.7, 61.0], [62.6, 76.6]];
+    const VX = BIZ ? [13.5, 86.5] : [26, 74], VR0 = BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[10, 24.5], [26, 39], [41, 52.5], [54, 67], [69, 80]];
     const VR = useOld ? VR0.slice(1) : VR0; // the top compartment then holds the old diaries
-    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (BIZ ? 0.348 : 0.66) - 10; // the picture is about 0.66 times as wide as high (A Gentleman's Study: 0.348)
+    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (BIZ ? 0.348 : 0.493) - 10; // the picture is about 0.66 times as wide as high (A Gentleman's Study: 0.348)
     const items = feast.map(x=>{ const h = 92 * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
     let kk = 1, rows = [];
     for(;;){ rows = []; let cur = [], used = 0;
-      items.forEach(o=>{ const it = { ...o, h:o.h * kk, w:o.w * kk }; if(cur.length && used + it.w + 3 > cap(Math.min(rows.length, 3))){ rows.push(cur); cur = []; used = 0; } cur.push(it); used += it.w + 3; });
+      items.forEach(o=>{ const it = { ...o, h:o.h * kk, w:o.w * kk }; if(cur.length && used + it.w + 3 > cap(Math.min(rows.length, VR.length - 1))){ rows.push(cur); cur = []; used = 0; } cur.push(it); used += it.w + 3; });
       if(cur.length) rows.push(cur); if(rows.length <= VR.length || kk < 0.5) break; kk -= 0.05; }
     const oldRow = useOld ? `<div class="shelf-comp shelf-comp-books vit-books" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${VR0[0][0]}%;height:${VR0[0][1] - VR0[0][0]}%">${oldKeys.map(k=>bookHtml(spine(k))).join('')}</div>` : '';
     vitHtml = `<div class="vitrine-img">${oldRow}${VR.map(([y0, y1], i)=>`<div class="shelf-comp shelf-comp-tro" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(troHtml).join('')}</div>`).join('')}</div>`;

@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.82.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.83.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -341,6 +341,18 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Die Sonne im Orb (Freude) bleibt. Kristalle, Glasglocken, Eier, Nikolaus, Stiefel, Stern, Krippe bleiben. Prompts: „Offene Prompts …“ Teil C (Nr. 25–31).
 - Seit 1.81.1 statt Cognac Bronze (mehr Kontrast): auf dunklem Grund Schrift helle Bronze #d9b679 (`--gold-text`), Linien/Akzente
   Bronze #c9a463 (`--gold`, Wunschlinie, Regler); auf cremefarbenem Papier (Ziele, Tagebuch-Bereichsköpfe) #ab8b54 (Bronze 15 % dunkler).
+
+## Seit 1.83.0
+- **Impulskarten in A Gentleman's Study:** kleine englische Gemälde (Constable/Gainsborough/Stubbs-Stil, Bilder des Nutzers) in
+  `img/rl/cards/<id>.webp` (48 Impulse, `advSun1…4`, `adv01…20`), auf cremefarbenem Büttenpapier mit Bronze-Linien
+  (`img/rl/card-front.webp`, Fenster für das Bild, `CARD_WIN`) und navyfarbener Rückseite mit EW-Monogramm (`img/rl/card-back.webp`).
+  `RL_CARDS` listet die vorhandenen; `cardImg()`/`rlCardName()`; fehlende (Advent 21–24, Weihnachten, 13 Feiertage) zeigen das alte
+  Bild mit rotem Hinweis (`.imp-win.ph-note`). „Ins Tagebuch“ zeichnet die Karte im selben Stil (`impulseCardImage`).
+- **A Mystery World: schlanke Papier-Regale** (Bilder des Nutzers, Maße wie das Nussholzregal): `shelf-slim-clean|dusty|ivy.webp`,
+  Anbau-Regal aus dem sauberen geschnitten (`shelf-slim-clean-narrow`, `shelf-slim-dusty-narrow`; Efeu nur am breiten Regal),
+  neue Vitrine `vitrine-slim.webp` mit fünf Glasfächern. Tiere/Schmuck neu platziert (`html:not(.theme-biz) .shelf-…`).
+  Staub-Regal jetzt die ersten zwei aktiven Tage (`appActiveDays() < 3`).
+- **A Gentleman's Study:** Hund deutlich größer vor dem Regal (`.shelf-dog` height 34 %).
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
