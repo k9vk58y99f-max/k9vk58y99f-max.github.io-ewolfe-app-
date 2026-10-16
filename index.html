@@ -1088,7 +1088,7 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
 :root.theme-biz{
   --ew-violet:#0e3a30; --ew-uv-violet:#14283a; --ew-uv-violet-2:#1d3a4a; --ew-uv-navy-2:#0f1830; --ew-uv-lilac:#dcd4b8; --ew-uv-lilac-soft:rgba(220,212,184,0.5);
   --ew-text:#dcd4b8; --ew-text-dim:rgba(220,212,184,0.62); --ew-line:rgba(220,212,184,0.12);
-  --gold:#9a6b3f; --gold-text:#b58a5e; --gold-rgb:154,107,63; --ew-turquoise:#9a6b3f;
+  --gold:#c9a463; --gold-text:#d9b679; --gold-rgb:201,164,99; --ew-turquoise:#c9a463;
   --ew-panel:#121a30; --ew-panel-2:#18213b; --ew-radius:4px;
   --biz-display:'Noto Serif Display', 'Marcellus', serif;
 }
@@ -1124,19 +1124,19 @@ html.theme-biz .primary-btn{ border-image:none !important; border:1px solid var(
 html.theme-biz .ghost-btn{ border-image:none !important; border:1px solid rgba(220,212,184,0.28) !important; background:transparent !important; color:var(--ew-text) !important; border-radius:2px !important; }
 html.theme-biz .gate-link{ text-transform:none; letter-spacing:0.04em; font-family:Inter, sans-serif !important; }
 html.theme-biz .seg-btn{ border-radius:2px; }
-html.theme-biz .seg-btn.active{ background:rgba(154,107,63,0.18); color:var(--ew-text); box-shadow:inset 0 0 0 1px var(--gold); }
+html.theme-biz .seg-btn.active{ background:rgba(201,164,99,0.18); color:var(--ew-text); box-shadow:inset 0 0 0 1px var(--gold); }
 html.theme-biz .panel{ border-radius:3px; border-color:rgba(220,212,184,0.08); }
 /* sliders: a plain cognac knob; now in linen, the wish in cognac */
-html.theme-biz input[type=range]::-webkit-slider-thumb{ background:radial-gradient(circle at 40% 35%, #c08a58, #8a5c33 70%) !important; border:2px solid #dcd4b8 !important; border-radius:50%; }
-html.theme-biz input[type=range]::-moz-range-thumb{ background:#9a6b3f !important; border:2px solid #dcd4b8 !important; }
+html.theme-biz input[type=range]::-webkit-slider-thumb{ background:radial-gradient(circle at 40% 35%, #e6c890, #a8834a 70%) !important; border:2px solid #dcd4b8 !important; border-radius:50%; }
+html.theme-biz input[type=range]::-moz-range-thumb{ background:#c9a463 !important; border:2px solid #dcd4b8 !important; }
 html.theme-biz input[type=range].range-ist{ background:linear-gradient(90deg, #6f6a58 0, #dcd4b8 var(--v, 50%), rgba(220,212,184,0.12) var(--v, 50%)); }
-html.theme-biz input[type=range].range-wish{ background:linear-gradient(90deg, #5c3f24 0, #9a6b3f var(--v, 50%), rgba(220,212,184,0.12) var(--v, 50%)); }
+html.theme-biz input[type=range].range-wish{ background:linear-gradient(90deg, #7a6038 0, #c9a463 var(--v, 50%), rgba(220,212,184,0.12) var(--v, 50%)); }
 /* line icons in linen (img/icons-rl), never tinted by the levels */
 html.theme-biz .nav-gold, html.theme-biz .area-ico image, html.theme-biz .gold-ui, html.theme-biz .gold-x, html.theme-biz .gold-arrow, html.theme-biz .gold-user,
 html.theme-biz .gold-gear, html.theme-biz .tb-lib-ico, html.theme-biz svg image[href*="icons-rl/"]{ filter:none !important; }
 html.theme-biz .gold-mute{ opacity:.45; }
 /* bottom bar: icons and labels in linen, the page that is showing gets a fine cognac line */
-html.theme-biz .bottom-nav{ background:linear-gradient(180deg, rgba(10,14,31,0.92), rgba(7,10,23,0.98)); border-top:1px solid rgba(154,107,63,0.55); }
+html.theme-biz .bottom-nav{ background:linear-gradient(180deg, rgba(10,14,31,0.92), rgba(7,10,23,0.98)); border-top:1px solid rgba(201,164,99,0.55); }
 html.theme-biz .nav-item, html.theme-biz .nav-item:hover{ color:var(--ew-text-dim); position:relative; }
 html.theme-biz .nav-item.active{ color:var(--ew-text); }
 html.theme-biz .nav-gold{ opacity:.62; } html.theme-biz .nav-item.active .nav-gold{ opacity:1; }
@@ -1150,7 +1150,7 @@ html.theme-biz .vitrine-img{ background-image:url(img/rl/vitrine.webp); aspect-r
 @media (min-width:760px){ html.theme-biz .shelf-wrap.with-vitrine .shelf-img{ width:min(40%, calc((100vh - var(--nav-h, 70px) - 170px) * 0.44), 520px); }
   html.theme-biz .shelf-wrap.with-vitrine .vitrine-img{ width:min(26%, calc((100vh - var(--nav-h, 70px) - 170px) * 0.3), 340px); } }
 html.theme-biz .shelf-hint{ color:var(--ew-text-dim); }
-html.theme-biz #sync-btn.has-note::after{ background:#9a6b3f; box-shadow:0 0 8px rgba(154,107,63,0.8); }
+html.theme-biz #sync-btn.has-note::after{ background:#c9a463; box-shadow:0 0 8px rgba(201,164,99,0.8); }
 html.theme-biz #t-logo{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.16em; }
 html.theme-biz .bereich-value{ fill:var(--ew-text); }
 /* A Gentleman's Study: everything that still shows a picture of the classic design carries a red note until its new picture comes */
@@ -1177,7 +1177,7 @@ html.theme-biz .rl-ph-dog{ aspect-ratio:3/4; filter:none; z-index:3; } html.them
 html.theme-biz .rl-ph-dog::after{ content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); width:110%; text-align:center;
   font:700 7px/1.15 Inter, sans-serif; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
 html[lang=en].theme-biz .rl-ph-dog::after{ content:'Placeholder – new design coming'; }
-html.theme-biz .logo-dog{ border-radius:4px !important; box-shadow:0 0 0 1px rgba(154,107,63,0.7) !important; }
+html.theme-biz .logo-dog{ border-radius:4px !important; box-shadow:0 0 0 1px rgba(201,164,99,0.7) !important; }
 /* the club rank: an engraved brass plate on the plinth of the bookcase (1.80.0) */
 .club-plaque{ position:absolute; left:23.3%; top:93.1%; width:49.8%; height:3.1%; container-type:size; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:0; /* only on the front board of the plinth (1.80.4); no cqh here: on the plate itself it would measure the shelf */
   background:linear-gradient(180deg, #d9b679 0%, #b48a4c 45%, #8d6532 100%); border-radius:2px; box-shadow:inset 0 1px 0 rgba(255,240,200,0.6), inset 0 -1px 0 rgba(60,35,10,0.5), 0 2px 4px rgba(0,0,0,0.5); }
@@ -1199,6 +1199,14 @@ html.theme-biz #goals-page .area-ico image, html.theme-biz .tb-area-head .area-i
 .first-pick .settings-note{ text-align:center; }
 /* A Gentleman's Study: no animals and paper decoration, so no switch for them either */
 html.theme-biz .settings-section:has(#t-set-decor){ display:none; }
+/* 1.81.1: on dark ground the text in light bronze (#d9b679), lines in bronze (#c9a463); on the cream paper (Ziele, diary areas)
+   the bronze of the plate, 15 % darker (#ab8b54) – otherwise it would be too pale there */
+html.theme-biz #goals-page .goal-table-card h3{ color:#ab8b54 !important; border-bottom-color:#ab8b54; }
+html.theme-biz #goals-page .goal-table .rowlabel, html.theme-biz #goals-page .goal-table tr.tbl-head th.rowlabel, html.theme-biz #goals-page .goal-table tr.tbl-desc th.rowlabel,
+html.theme-biz #goals-page .goal-table tr.tbl-pct th.rowlabel{ color:#ab8b54 !important; }
+html.theme-biz #goals-page .goal-table tr.tbl-first > *{ border-top-color:#ab8b54; }
+html.theme-biz #goals-page .ev-ov-area{ background:rgba(171,139,84,0.18); color:#8a6f42; }
+html.theme-biz .tb-area-head{ color:#ab8b54 !important; }
 </style>
 </head>
 <body data-theme="dark">
@@ -1638,7 +1646,7 @@ html.theme-biz .settings-section:has(#t-set-decor){ display:none; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.81.0';
+const APP_VERSION = '1.81.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';
@@ -4155,9 +4163,9 @@ function currentWish(area){
 const hasWishes = ()=>AREAS.every(a=>currentWish(a) !== null);
 /* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
    main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
-const GAP_VIOLET = BIZ ? [154, 107, 63] : [168, 61, 207], GAP_GOLD = BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = BIZ ? '#9a6b3f' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
+const GAP_VIOLET = BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = BIZ ? '#c9a463' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
 // Business: the knobs on the wish line are plain cognac dots with a linen ring, the now line is linen
-const wishKnob = (x, y, s)=>BIZ ? `<circle cx="${(x).toFixed(1)}" cy="${(y).toFixed(1)}" r="${(s * 0.36).toFixed(1)}" fill="#9a6b3f" stroke="#dcd4b8" stroke-width="${(s / 10).toFixed(1)}"/>` : `<image href="img/knob-gold.webp" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
+const wishKnob = (x, y, s)=>BIZ ? `<circle cx="${(x).toFixed(1)}" cy="${(y).toFixed(1)}" r="${(s * 0.36).toFixed(1)}" fill="#c9a463" stroke="#dcd4b8" stroke-width="${(s / 10).toFixed(1)}"/>` : `<image href="img/knob-gold.webp" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
 const IST_COL = BIZ ? '#dcd4b8' : '#b8a4ff';
 function wheelGapSvg(P, pt, ist, wish){
   const gaps = ist.map((v, i)=>Math.max(0, wish[i] - v)), mx = Math.max(...gaps), mn = Math.min(...gaps);
@@ -5062,7 +5070,7 @@ function maybeShowAreasIntro(){
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
 let compareSelection = [];
-const COMPARE_COLORS = BIZ ? ['#dcd4b8', '#9a6b3f', '#6f9c86'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
+const COMPARE_COLORS = BIZ ? ['#dcd4b8', '#c9a463', '#6f9c86'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
 const COMPARE_FILL_OPACITY = [0.34, 0.34, 0.34]; // all three equally transparent; only draw order (newest in front) differs
 document.getElementById('compare-toggle-btn').onclick = ()=>{
   compareMode = !compareMode;

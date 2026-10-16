@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.81.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.81.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -329,7 +329,8 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   darunter lag) und „Ein Klassiker“ (`classic12`, Oldtimer 300 SL: Lebensräder in 12 verschiedenen Monaten). Bilder fehlen noch
   (`TRO_MISSING`): Ersatzbild mit rotem Hinweis `.ph-note` „Platzhalter – neues Bild folgt“ (in beiden Designs).
 - Rang-Schild: lange Namen werden kleiner gesetzt (`fit`). Alle offenen Prompts: Sammelordner „2 RL Style/A Grafiken/Offene Prompts …“.
-- Farbvergleich Cognac ↔ Bronze der Plakette: „2 RL Style/Kontrastvergleich.html“ (Entscheidung offen).
+- Seit 1.81.1 statt Cognac Bronze (mehr Kontrast): auf dunklem Grund Schrift helle Bronze #d9b679 (`--gold-text`), Linien/Akzente
+  Bronze #c9a463 (`--gold`, Wunschlinie, Regler); auf cremefarbenem Papier (Ziele, Tagebuch-Bereichsköpfe) #ab8b54 (Bronze 15 % dunkler).
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
