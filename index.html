@@ -645,6 +645,26 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-wreath{ right:27%; bottom:calc(100% - var(--roof) - 1.2%); height:10%; z-index:3; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
 .shelf-tree{ left:-4%; bottom:-2%; height:52%; z-index:1; }
 .shelf-wrap{ position:relative; }
+/* a red note on pictures that are still to come – in both designs (1.81.0) */
+.ph-note{ position:relative; }
+.ph-note::after{ content:'Platzhalter – neues Bild folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
+  width:max-content; max-width:92%; text-align:center; line-height:1.15; font:700 var(--ph-fs, 13px) Inter, sans-serif; text-transform:uppercase; color:#ff3b30;
+  text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
+html[lang=en] .ph-note::after{ content:'Placeholder – picture coming'; }
+.ph-note-s{ --ph-fs:7px; }
+/* the library row (1.81.0): scrolls sideways; --sw = width of the big shelf, the narrow one and the cabinet are measured by it */
+.lib-wrap{ position:relative; }
+.lib-scroll{ width:100%; overflow-x:auto; overflow-y:hidden; container-type:inline-size; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; scrollbar-width:none; overscroll-behavior-x:contain; }
+.lib-scroll::-webkit-scrollbar{ display:none; }
+.lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc(100vh - var(--nav-h, 70px) - 170px), 1000px);
+  display:flex; align-items:flex-end; gap:4cqw; width:max-content; min-width:100%; justify-content:center; padding:24px 8px 18px; box-sizing:border-box; }
+.shelf-unit{ position:relative; display:flex; align-items:flex-end; flex:none; scroll-snap-align:start; }
+.lib-row .shelf-img{ width:var(--sw) !important; flex:none; }
+.lib-row .shelf-narrow{ width:calc(var(--sw) * var(--nk)) !important; margin-right:calc(var(--sw) * var(--nov) * -1); background-size:100% 100%; background-repeat:no-repeat; z-index:0; }
+.lib-row .shelf-narrow + .shelf-img{ z-index:1; margin-top:0; }
+.lib-row .vitrine-img{ flex:none; width:calc(var(--sw) * 0.5) !important; margin:0 0 calc(var(--sw) * 0.05) !important; scroll-snap-align:end; }
+.lib-wrap.more::after{ content:'›'; position:absolute; right:2px; top:50%; transform:translateY(-50%); width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  background:rgba(10,14,31,0.75); color:var(--gold-text); font-size:22px; line-height:1; pointer-events:none; box-shadow:0 0 0 1px rgba(var(--gold-rgb),0.5); }
 .vitrine-img{ position:relative; width:min(66%, 560px); aspect-ratio:808/1210; background:url(img/vitrine.webp) center/100% 100% no-repeat; margin-top:4%; }
 .vitrine-img .shelf-trophy{ transform:translateY(1.5cqh); }
 .vitrine-img .vit-books{ justify-content:center; }
@@ -1148,6 +1168,9 @@ html.theme-biz .shelf-book:not(.shelf-new)::after{ transform:translate(-50%, -50
 html.theme-biz :is(.breath-stage, .tb-cover, .tb-page-titel, .imp-card:not(.imp-mini)){ --ph-fs:18px; }
 html.theme-biz .imp-card.imp-mini{ --ph-fs:7px; }
 /* our dog in front of the walnut bookcase, a little to the right over its edge */
+html.theme-biz .lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.44), 520px); }
+html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) * 0.72) !important; margin:0 !important; }
+html.theme-biz .lib-wrap.more::after{ border-radius:2px; }
 html.theme-biz .shelf-dog{ right:-15%; bottom:-2%; height:23%; transform:none; }
 html.theme-biz .shelf-dog-lying{ right:-12%; bottom:-2%; height:10%; }
 html.theme-biz .rl-ph-dog{ aspect-ratio:3/4; filter:none; z-index:3; } html.theme-biz .shelf-dog-lying.rl-ph-dog{ aspect-ratio:2/1; }
@@ -1615,7 +1638,7 @@ html.theme-biz .settings-section:has(#t-set-decor){ display:none; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.80.4';
+const APP_VERSION = '1.81.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';
@@ -1670,7 +1693,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-10-15';
+const APP_BUILD = '2026-10-16';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus sechs Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Was dich zum Lachen bringt, Leichtigkeit, Spiel, Hobbys, Genuss und Begeisterung – denn ein Leben in Balance ohne Freude ist nicht viel wert.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die sechs Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -1844,13 +1867,14 @@ function levelProgressText(){
    Fellow, Honorary Member. The rank is engraved on a brass plate on the plinth of the bookcase; one small diamond per rank. */
 function clubProgressText(){
   const d = t(), n = appActiveDays(), lv = appLevel(), next = LEVEL_DAYS.find(x=>x > n), rank = d.clubRanks[lv] || '';
-  if(next !== undefined) return d.clubProgress.replace('{n}', n).replace('{m}', next - n).replace('{r}', d.clubRanks[lv + 1] || '');
+  if(next !== undefined) return d.clubProgress.replace('{n}', n).replace('{m}', next - n).replace('{r}', d.clubRanks[Math.min(lv + 1, 6)] || '');
   if(lv < 6 && appFirstActive){ const dd = LEVEL_MONTHS.find(([l])=>l > lv)[1] - Math.floor((Date.now() - appFirstActive) / 864e5); return d.clubProgress.replace('{n}', n).replace('{m}', Math.max(1, dd)).replace('{r}', d.clubRanks[lv + 1] || ''); }
   return d.clubProgressMax.replace('{n}', n).replace('{r}', rank);
 }
 function clubPlaqueHtml(){
   const d = t(), lv = Math.max(1, appLevel());
-  return `<div class="club-plaque" title="${escapeHtml(d.clubRankLabel)}"><span class="club-rank">${escapeHtml(d.clubRanks[lv] || '')}</span><span class="club-dia">${'◆'.repeat(lv)}<i>${'◆'.repeat(6 - lv)}</i></span></div>`;
+  const rank = d.clubRanks[lv] || '', fit = Math.min(1, 9 / Math.max(1, rank.length)); // long names (Ehrenmitglied) a little smaller
+  return `<div class="club-plaque" title="${escapeHtml(d.clubRankLabel)}"><span class="club-rank" style="font-size:${(62 * fit).toFixed(1)}cqh">${escapeHtml(rank)}</span><span class="club-dia">${'◆'.repeat(lv)}<i>${'◆'.repeat(6 - lv)}</i></span></div>`;
 }
 function appLevel(){
   if(appLevelCache === null){
@@ -5850,6 +5874,19 @@ const SHELVES = {
   rl:{ img:'rl/shelf', aspect:552 / 1254, roof:1.8, x:[9.6, 90.4], rows:[[5, 21.3], [23, 38.4], [40, 56.3], [58, 72.8], [75, 87.3]] }
 };
 // the cobwebs go as soon as one has really begun: from the 2nd active day the shelf is clean (1.74.3), ivy from level 3
+/* The narrow bookcase (1.81.0): as soon as the diaries no longer fit into the top compartment, a narrow bookcase of the same
+   kind stands directly on the left of the shelf (one piece of furniture, no gap). All diaries move into it (4–5 per
+   compartment), the big shelf then holds only trophies. Cut from the big pictures (middle taken out); k = its width relative
+   to the big shelf, ov = how far it slides under the big one so the two touch. Same in both designs. */
+const NARROW = {
+  dusty:{ img:'shelf-dusty-narrow', aspect:887 / 1254, x:[38.9, 61.4], k:0.7073, ov:0.44 },
+  clean:{ img:'shelf-clean-narrow', aspect:887 / 1254, x:[38.9, 61.4], k:0.7073, ov:0.44 },
+  ivy:{ img:'shelf-narrow', aspect:887 / 1254, x:[38.9, 61.4], k:0.7073, ov:0.44 },
+  rl:{ img:'rl/shelf-narrow', aspect:352 / 1254, x:[15.1, 84.9], k:0.6377, ov:0.082 }
+};
+const shelfKey = ()=>BIZ ? 'rl' : appActiveDays() < 2 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
+// the library scrolls sideways (1.81.0): a small arrow at the right edge while there is more to see
+function libScrollHint(el){ if(el && el.parentNode) el.parentNode.classList.toggle('more', el.scrollLeft + el.clientWidth < el.scrollWidth - 8); }
 const shelfNow = ()=>SHELVES[BIZ ? 'rl' : appActiveDays() < 2 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy'];
 let SHELF_X = SHELVES.ivy.x, SHELF_ROWS = SHELVES.ivy.rows;
 const SHELF_ROW_W = 290; // usable width of a compartment in units of its height (cqh)
@@ -5895,20 +5932,26 @@ function tbRenderLibrary(){
   // packing (1.75.0): the books from the left wall, close together; the plus a little apart from them. Trophies go into
   // the compartments below first; only if those are too full, up to 3 stand next to the books in the top compartment.
   const PLUS_GAP = 3, WALL = 4; // in units of the compartment height: air before the plus, and to each side wall
-  const packRows = (items, startRow, maxRows, trophiesOnly)=>{ const rows = []; let cur = [], used = 0;
+  const packRows = (items, startRow, maxRows, trophiesOnly, cap)=>{ const rows = []; let cur = [], used = 0; cap = cap || rowCap;
     items.forEach(it=>{
       const gap = cur.length ? (it.plus ? PLUS_GAP : it.g) : 0;
-      if(cur.length && used + gap + it.w > rowCap(startRow + rows.length) - 2 * WALL){ rows.push(cur); cur = []; used = 0; }
+      if(cur.length && used + gap + it.w > cap(startRow + rows.length) - 2 * WALL){ rows.push(cur); cur = []; used = 0; }
       used += (cur.length ? (it.plus ? PLUS_GAP : it.g) : 0) + it.w; cur.push(it); });
     if(cur.length) rows.push(cur); return rows; };
-  const bookRows = packRows(books.map(b=>({ ...b, book:true, g:0.7 })), 0);
+  let bookRows = packRows(books.map(b=>({ ...b, book:true, g:0.7 })), 0);
+  // too many diaries for the top compartment: they all move into the narrow bookcase on the left
+  const NS = NARROW[shelfKey()], NAR = bookRows.length > 1;
+  const nCap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (NS.x[1] - NS.x[0]) / (r[1] - r[0]) * 100 * NS.aspect; };
+  let narrowRows = [];
+  if(NAR){ narrowRows = packRows(books.map(b=>({ ...b, book:true, g:0.7 })), 0, 0, false, nCap); bookRows = [];
+    if(narrowRows.length > SHELF_ROWS.length) narrowRows = narrowRows.slice(0, SHELF_ROWS.length - 1).concat([narrowRows.slice(SHELF_ROWS.length - 1).flat()]); }
   const below = Math.max(0, SHELF_ROWS.length - bookRows.length);
   const troAt = k=>tro.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:1.6 }));
   let k = 1, troRows = packRows(troAt(1), bookRows.length);
   while(troRows.length > below && k > 0.7){ k -= 0.04; troRows = packRows(troAt(k), bookRows.length); }
   let extra = [];
   const fillLast = bookRows.length > 1; // the plus (or books) spilled into a lower compartment: trophies may fill the rest of it
-  if(troRows.length > below || fillLast){ // too full below: up to 3 next to the books, as long as they fit in the top compartment
+  if(!NAR && (troRows.length > below || fillLast)){ // too full below: up to 3 next to the books, as long as they fit in the top compartment
     const last = bookRows[bookRows.length - 1], room = rowCap(bookRows.length - 1) - 2 * WALL - last.reduce((s, it, i)=>s + it.w + (i ? (it.plus ? PLUS_GAP : it.g) : 0), 0);
     let used = 0; const all = troAt(k);
     for(const it of all){ if((!fillLast && extra.length >= 3) || used + it.w + 3 > room) break; extra.push(it); used += it.w + 3; }
@@ -5920,7 +5963,7 @@ function tbRenderLibrary(){
   const rowsAll = packed.slice(0, SHELF_ROWS.length).map(r=>({ kind:r.every(it=>!it.book) ? 'tro' : 'books', r }));
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
     : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
-  const troHtml = o=>`<button class="shelf-trophy${rlMissing(o.x) ? ' rl-ph rl-ph-s' : ''}" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
+  const troHtml = o=>`<button class="shelf-trophy${trophyPh(o.x) ? ' ph-note ph-note-s' : ''}" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
   // the animals come one by one: the dog after 15 active days (since 1.73.9), the cat on top from level 4 (100 days), the fox (as big as
   // the dog, on the floor left) after a year (level 6). The rabbit only visits at Easter, in front of the shelf with eggs.
   // A missing picture (cat, eggs not there yet) simply stays away.
@@ -5963,7 +6006,12 @@ function tbRenderLibrary(){
     const oldRow = useOld ? `<div class="shelf-comp shelf-comp-books vit-books" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${VR0[0][0]}%;height:${VR0[0][1] - VR0[0][0]}%">${oldKeys.map(k=>bookHtml(spine(k))).join('')}</div>` : '';
     vitHtml = `<div class="vitrine-img">${oldRow}${VR.map(([y0, y1], i)=>`<div class="shelf-comp shelf-comp-tro" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(troHtml).join('')}</div>`).join('')}</div>`;
   }
-  return `<div class="shelf-wrap${VIT ? ' with-vitrine' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${shelfHtml}${vitHtml}</div>
+  const narrowHtml = NAR ? `<div class="shelf-img shelf-narrow" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
+      `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}</div>`).join('')}</div>` : '';
+  setTimeout(()=>document.querySelectorAll('.lib-scroll').forEach(libScrollHint), 80);
+  // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
+  return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0}">
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${narrowHtml}${shelfHtml}</div>${vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;
@@ -6101,9 +6149,24 @@ function trophyDefs(){
       title:L('Sonne der Freude (+' + n + ')', 'Sun of joy (+' + n + ')'), desc:L('Deine Freude ist um ' + n + ' Punkte gewachsen. Lass sie weiter leuchten!', 'Your joy has grown by ' + n + ' points. Let it keep shining!') });
   });
   out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.81, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
+  // 1.81.0, both designs: the aeroplane – in one area the "now" has reached the wish (and was below it before);
+  // the classic car – wheels of life in 12 different months, a true classic
+  let arrived = null;
+  AREAS.forEach(a=>{ let below = false; (state.bewertungen[a] || []).slice().sort((x, y)=>x.ts - y.ts).forEach(x=>{
+    if(x.wish === undefined || x.wish === null) return;
+    if(x.value < x.wish) below = true; else if(below && (arrived === null || x.ts < arrived)) arrived = x.ts; }); });
+  out.push({ id:'arrived', kind:'img', img:BIZ ? 'rl/plane' : 'trophy-plane', scale:0.85, aspect:1.5, need:1, list:arrived ? [arrived] : [],
+    title:L('Angekommen', 'Arrived'), desc:L('In einem Lebensbereich bist du dort angekommen, wo du hinwolltest.', 'In one area of life you have arrived where you wanted to be.') });
+  const months = [], mSeen = new Set();
+  ev.wheels.slice().sort((x, y)=>x - y).forEach(ts=>{ const d = new Date(ts), k = d.getFullYear() * 12 + d.getMonth(); if(!mSeen.has(k)){ mSeen.add(k); months.push(ts); } });
+  out.push({ id:'classic12', kind:'img', img:BIZ ? 'rl/car' : 'trophy-car', scale:0.75, aspect:2.2, need:12, list:months,
+    title:L('Ein Klassiker', 'A true classic'), desc:L('In zwölf verschiedenen Monaten hast du ein Lebensrad erstellt – zeitlos wie ein Klassiker.', 'You created a wheel of life in twelve different months – timeless, like a classic.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle Lebensbereiche haben sich verbessert.', 'All areas of life have improved.') });
-  return BIZ ? out.map(trophyRl) : out;
+  return (BIZ ? out.map(trophyRl) : out).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x);
 }
+// trophy pictures still to come (1.81.0): until they are in img/, a stand-in with the red placeholder note
+const TRO_MISSING = new Set(['rl/plane', 'rl/car', 'trophy-plane', 'trophy-car']);
+const trophyPh = x=>x.phNote || rlMissing(x);
 /* A Gentleman's Study (1.80.0): the same trophies, other pictures (img/rl/): medals, crystal obelisks, glass cloches, silver cups,
    ship's wheel, pocket watch, sundial, telescope … – [picture, width/height]. A trophy that grows keeps its picture and grows
    in size; a picture that is not there yet (the crib) stays the classic one. */
@@ -6165,7 +6228,7 @@ function trophyShow(id, isNew){
   trophyCur = x;
   const date = x.at > 1 ? new Date(x.at).toLocaleDateString(state.settings.lang === 'en' ? 'en-GB' : 'de-DE', { day:'2-digit', month:'2-digit', year:'numeric' }) : '';
   document.getElementById('trophy-box').innerHTML = `${isNew ? `<div class="trophy-new">${d.trophyNew}</div>` : ''}
-    <div class="trophy-pic${rlMissing(x) ? ' rl-ph' : ''}">${trophySvg(x, 'big' + x.id)}${TROPHY_PLACEHOLDER && x.kind !== 'img' ? `<div class="imp-ph trophy-ph">${d.impulsePlaceholder}</div>` : ''}</div>
+    <div class="trophy-pic${trophyPh(x) ? ' ph-note' : ''}">${trophySvg(x, 'big' + x.id)}${TROPHY_PLACEHOLDER && x.kind !== 'img' ? `<div class="imp-ph trophy-ph">${d.impulsePlaceholder}</div>` : ''}</div>
     <h3 class="trophy-title">${escapeHtml(x.title)}</h3><p class="trophy-desc">${escapeHtml(x.desc)}</p>${date ? `<div class="trophy-date">${d.trophySince.replace('{d}', date)}</div>` : ''}
     ${x.kind === 'img' ? `<button class="ghost-btn trophy-diary-btn" onclick="event.stopPropagation(); trophyToDiary()">${ico('book')}${d.trophyToDiary}</button>` : ''}
     <div class="imp-hint">${d.impulseTapHint}</div>`;

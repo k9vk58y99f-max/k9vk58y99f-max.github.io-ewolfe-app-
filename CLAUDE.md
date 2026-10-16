@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.80.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.81.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -317,6 +317,19 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Sonst keine Tiere und kein Feiertagsschmuck in diesem Design.
 - Noch im alten Stil (Bilder folgen): Tagebuch-Cover und Buchrücken, Übungsbilder, Impulskarten, Sticker,
   Box-Breathing-Punkt. Neue Sonnenuhr und Stiefel sind bestellt (Prompts 6b/21b im Sammelordner).
+
+## Bibliothek seit 1.81.0 (beide Designs gleich – Grundsatz: die Funktionen sind in beiden Designs immer gleich, nur die Bilder unterscheiden sich)
+- Die Bibliothek ist eine Zeile, die sich seitlich scrollen lässt (`.lib-wrap` > `.lib-scroll` > `.lib-row`): links das Regal,
+  rechts später die Vitrine (Stufe 6) und weitere Gegenstände. Pfeil „›“ am rechten Rand, solange es mehr zu sehen gibt (`libScrollHint`).
+  Breiten über `--sw` (Breite des großen Regals) an `.lib-row`; Vitrine `--sw × 0,5` (Business × 0,72).
+- Schmales Regal (`NARROW`, Bilder `shelf-narrow`, `shelf-clean-narrow`, `shelf-dusty-narrow`, `rl/shelf-narrow`, aus den großen Regalen
+  geschnitten, Mitte herausgenommen): erscheint links angebaut, sobald die Tagebücher nicht mehr ins oberste Fach passen. Dann stehen
+  alle Tagebücher darin (4–5 je Fach), das große Regal trägt nur Trophäen. `k` = Breite relativ zum großen Regal, `ov` = Überlappung.
+- Neue Trophäen in beiden Designs: „Angekommen“ (`arrived`, Flugzeug: in einem Bereich erreicht der Ist-Wert den Wunsch, nachdem er
+  darunter lag) und „Ein Klassiker“ (`classic12`, Oldtimer 300 SL: Lebensräder in 12 verschiedenen Monaten). Bilder fehlen noch
+  (`TRO_MISSING`): Ersatzbild mit rotem Hinweis `.ph-note` „Platzhalter – neues Bild folgt“ (in beiden Designs).
+- Rang-Schild: lange Namen werden kleiner gesetzt (`fit`). Alle offenen Prompts: Sammelordner „2 RL Style/A Grafiken/Offene Prompts …“.
+- Farbvergleich Cognac ↔ Bronze der Plakette: „2 RL Style/Kontrastvergleich.html“ (Entscheidung offen).
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
