@@ -1154,18 +1154,16 @@ html.theme-biz #sync-btn.has-note::after{ background:#c9a463; box-shadow:0 0 8px
 html.theme-biz #t-logo{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.16em; }
 html.theme-biz .bereich-value{ fill:var(--ew-text); }
 /* A Gentleman's Study: everything that still shows a picture of the classic design carries a red note until its new picture comes */
-html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .imp-card, .tb-cover, .tb-page-titel, .tb-cover-choice, .shelf-book:not(.shelf-new), .tb-sticker-btn, .rl-ph){ position:relative; }
+html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .imp-card, .tb-sticker-btn, .rl-ph){ position:relative; }
 html.theme-biz .medi-card-img{ display:inline-block; }
-html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .imp-card, .tb-cover, .tb-page-titel, .tb-cover-choice, .shelf-book:not(.shelf-new), .tb-sticker-btn, .rl-ph)::after{
+html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .imp-card, .tb-sticker-btn, .rl-ph)::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font-family:Inter, sans-serif; font-weight:700; font-size:var(--ph-fs, 13px); letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30;
   text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html[lang=en].theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .imp-card, .tb-cover, .tb-page-titel, .tb-cover-choice, .shelf-book:not(.shelf-new), .tb-sticker-btn, .rl-ph)::after{ content:'Placeholder – new design coming'; }
-html.theme-biz :is(.medi-card-img, .tb-cover-choice, .tb-sticker-btn, .rl-ph-s){ --ph-fs:7px; }
-html.theme-biz .shelf-book:not(.shelf-new){ --ph-fs:6px; }
-html.theme-biz .shelf-book:not(.shelf-new)::after{ transform:translate(-50%, -50%) rotate(-90deg); max-width:none; white-space:nowrap; }
-html.theme-biz :is(.breath-stage, .tb-cover, .tb-page-titel, .imp-card:not(.imp-mini)){ --ph-fs:18px; }
+html[lang=en].theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .imp-card, .tb-sticker-btn, .rl-ph)::after{ content:'Placeholder – new design coming'; }
+html.theme-biz :is(.medi-card-img, .tb-sticker-btn, .rl-ph-s){ --ph-fs:7px; }
+html.theme-biz :is(.breath-stage, .imp-card:not(.imp-mini)){ --ph-fs:18px; }
 html.theme-biz .imp-card.imp-mini{ --ph-fs:7px; }
 /* our dog in front of the walnut bookcase, a little to the right over its edge */
 html.theme-biz .lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.44), 520px); }
@@ -1179,9 +1177,9 @@ html.theme-biz .rl-ph-dog::after{ content:'Platzhalter – neues Design folgt'; 
 html[lang=en].theme-biz .rl-ph-dog::after{ content:'Placeholder – new design coming'; }
 html.theme-biz .logo-dog{ border-radius:4px !important; box-shadow:0 0 0 1px rgba(201,164,99,0.7) !important; }
 /* the club rank: an engraved brass plate on the plinth of the bookcase (1.80.0) */
-.club-plaque{ position:absolute; left:23.3%; top:93.1%; width:49.8%; height:3.1%; container-type:size; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:0; /* only on the front board of the plinth (1.80.4); no cqh here: on the plate itself it would measure the shelf */
+.club-plaque{ position:absolute; left:23.3%; top:93.4%; width:49.8%; height:2.55%; background:url(img/rl/plaque.webp) center/100% 100% no-repeat !important; box-shadow:0 2px 3px rgba(0,0,0,0.45) !important; container-type:size; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:0; /* only on the front board of the plinth (1.80.4); no cqh here: on the plate itself it would measure the shelf */
   background:linear-gradient(180deg, #d9b679 0%, #b48a4c 45%, #8d6532 100%); border-radius:2px; box-shadow:inset 0 1px 0 rgba(255,240,200,0.6), inset 0 -1px 0 rgba(60,35,10,0.5), 0 2px 4px rgba(0,0,0,0.5); }
-.club-plaque::before, .club-plaque::after{ content:''; position:absolute; top:50%; width:16cqh; height:16cqh; margin-top:-8cqh; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f0d9a6, #7a5428); }
+.club-plaque::before, .club-plaque::after{ display:none; content:''; position:absolute; top:50%; width:16cqh; height:16cqh; margin-top:-8cqh; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f0d9a6, #7a5428); }
 .club-plaque::before{ left:2.5%; } .club-plaque::after{ right:2.5%; }
 .club-rank{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.14em; font-size:62cqh; line-height:1; color:#3a2410; text-shadow:0 1px 0 rgba(255,236,190,0.55); white-space:nowrap; }
 .club-dia{ font-size:34cqh; line-height:1; letter-spacing:0.2em; color:#3a2410; margin-left:1.6em; } .club-dia i{ font-style:normal; opacity:.28; }
@@ -1207,6 +1205,10 @@ html.theme-biz #goals-page .goal-table tr.tbl-pct th.rowlabel{ color:#ab8b54 !im
 html.theme-biz #goals-page .goal-table tr.tbl-first > *{ border-top-color:#ab8b54; }
 html.theme-biz #goals-page .ev-ov-area{ background:rgba(171,139,84,0.18); color:#8a6f42; }
 html.theme-biz .tb-area-head{ color:#ab8b54 !important; }
+/* leather covers (1.82.0): title like a blind-stamped line in the narrow serif, year in bronze */
+html.theme-biz .icon-default .tb-cover-caption .tb-cover-title, html.theme-biz .tb-page-titel .tb-titel-caption-title{ font-family:var(--biz-display) !important; font-stretch:62.5%; font-weight:300 !important;
+  text-transform:uppercase; letter-spacing:0.16em; color:#dcd4b8 !important; text-shadow:0 1px 0 rgba(0,0,0,0.55) !important; }
+html.theme-biz .icon-default .tb-cover-caption .tb-cover-year, html.theme-biz .tb-page-titel .tb-titel-caption-year{ font-family:var(--biz-display) !important; font-stretch:62.5%; color:#d9b679 !important; letter-spacing:0.2em; }
 </style>
 </head>
 <body data-theme="dark">
@@ -1646,7 +1648,7 @@ html.theme-biz .tb-area-head{ color:#ab8b54 !important; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.81.3';
+const APP_VERSION = '1.82.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';
@@ -5861,7 +5863,7 @@ function tbSpineHtml(key){
   const pages = diary.seiten.filter(p=>p.type !== 'titel').length;
   // the person's paper book spines, chosen by the cover colour (own cover picture or default design: blue)
   const spine = tbCoverName(diary);
-  const bg = `background:url(img/book-${spine}.webp) center/100% 100% no-repeat;`;
+  const bg = `background:url(img/${BIZ ? 'rl/spine-' + (RL_COVER[spine] || 'navy') : 'book-' + spine}.webp) center/100% 100% no-repeat;`;
   const k = tbShelfScale(), w = Math.round(((land ? 44 : 34) + Math.min(26, pages / 5)) * k), h = Math.round((land ? 104 : 134) * k);
   const font = c.titleFont === 'hand' ? "'Caveat',cursive" : "'Marcellus',serif";
   return `<button class="shelf-book${key === tbYear ? ' current' : ''}" style="width:${w}px;height:${h}px;${bg}" onclick="tbOpenYear('${key}')" title="${escapeHtml(c.title || d.diaryTitle)} ${key}" aria-label="${escapeHtml(c.title || d.diaryTitle)} ${key}">
@@ -5914,7 +5916,7 @@ function isEasterTime(now){
   const e = easterSunday(now.getFullYear()), day = 864e5, today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   return today - e >= -7 * day && today - e <= 7 * day;
 }
-const RL_DOG_READY = false; // true as soon as img/rl/dog.webp and img/rl/dog-lying.webp are there
+const RL_DOG_READY = true; // true as soon as img/rl/dog.webp and img/rl/dog-lying.webp are there
 function tbRenderLibrary(){
   const d = t();
   const SH = shelfNow(); SHELF_X = SH.x; SHELF_ROWS = SH.rows;
@@ -6163,11 +6165,11 @@ function trophyDefs(){
   AREAS.forEach(a=>{ let below = false; (state.bewertungen[a] || []).slice().sort((x, y)=>x.ts - y.ts).forEach(x=>{
     if(x.wish === undefined || x.wish === null) return;
     if(x.value < x.wish) below = true; else if(below && (arrived === null || x.ts < arrived)) arrived = x.ts; }); });
-  out.push({ id:'arrived', kind:'img', img:BIZ ? 'rl/plane' : 'trophy-plane', scale:0.85, aspect:1.5, need:1, list:arrived ? [arrived] : [],
+  out.push({ id:'arrived', kind:'img', img:BIZ ? 'rl/plane' : 'trophy-plane', scale:0.8, aspect:BIZ ? 1.68 : 2.07, need:1, list:arrived ? [arrived] : [],
     title:L('Angekommen', 'Arrived'), desc:L('In einem Lebensbereich bist du dort angekommen, wo du hinwolltest.', 'In one area of life you have arrived where you wanted to be.') });
   const months = [], mSeen = new Set();
   ev.wheels.slice().sort((x, y)=>x - y).forEach(ts=>{ const d = new Date(ts), k = d.getFullYear() * 12 + d.getMonth(); if(!mSeen.has(k)){ mSeen.add(k); months.push(ts); } });
-  out.push({ id:'classic12', kind:'img', img:BIZ ? 'rl/car' : 'trophy-car', scale:0.75, aspect:2.2, need:12, list:months,
+  out.push({ id:'classic12', kind:'img', img:BIZ ? 'rl/car' : 'trophy-car', scale:BIZ ? 0.6 : 0.5, aspect:BIZ ? 2.61 : 3.77, need:12, list:months,
     title:L('Ein Klassiker', 'A true classic'), desc:L('In zwölf verschiedenen Monaten hast du ein Lebensrad erstellt – zeitlos wie ein Klassiker.', 'You created a wheel of life in twelve different months – timeless, like a classic.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle Lebensbereiche haben sich verbessert.', 'All areas of life have improved.') });
   return (BIZ ? out.map(trophyRl) : out.map(trophyClassicNew)).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x);
@@ -6182,7 +6184,8 @@ const CLASSIC_NEW = {
 };
 const CLASSIC_READY = new Set([]); // e.g. 'trophy-wheel' once img/trophy-wheel.webp is there
 // the same growing book stacks for A Gentleman's Study (img/rl/books-1…4) as soon as they are there
-const RL_BOOKS = [['rl/books-1', 1.2], ['rl/books-2', 1], ['rl/books-3', 0.85], ['rl/books-4', 0.75]], RL_READY = new Set([]);
+// [file, width/height, scale]: the stacks are cut to their own height, so the scale keeps one book as high as one book
+const RL_BOOKS = [['rl/books-1', 2.57, 0.36], ['rl/books-2', 1.85, 0.5], ['rl/books-3', 1.38, 0.66], ['rl/books-4', 1.31, 0.82]], RL_READY = new Set(['rl/books-1', 'rl/books-2', 'rl/books-3', 'rl/books-4']);
 function trophyClassicNew(x){
   const m = x.group === 'page' ? CLASSIC_NEW.page[x.stage] : CLASSIC_NEW[x.group] || CLASSIC_NEW[x.id];
   if(!m || !CLASSIC_READY.has(m[0])) return x;
@@ -6190,7 +6193,7 @@ function trophyClassicNew(x){
   return { ...x, img:m[0], aspect:m[1], scale:x.group === 'page' ? 0.8 : x.scale };
 }
 // trophy pictures still to come (1.81.0): until they are in img/, a stand-in with the red placeholder note
-const TRO_MISSING = new Set(['rl/plane', 'rl/car', 'trophy-plane', 'trophy-car']);
+const TRO_MISSING = new Set([]); // all there since 1.82.0
 const trophyPh = x=>x.phNote || rlMissing(x);
 /* A Gentleman's Study (1.80.0): the same trophies, other pictures (img/rl/): medals, crystal obelisks, glass cloches, silver cups,
    ship's wheel, pocket watch, sundial, telescope … – [picture, width/height]. A trophy that grows keeps its picture and grows
@@ -6198,22 +6201,25 @@ const trophyPh = x=>x.phNote || rlMissing(x);
 const RL_TRO = {
   ex:[['medal-navy', 0.51], ['medal-green', 0.51], ['medal-cognac', 0.51], ['medal-burgundy', 0.51], ['medal-cream', 0.52], ['medal-stripe', 0.51]],
   streak:[['obelisk-1', 0.57], ['obelisk-2', 0.49], ['obelisk-3', 0.41], ['obelisk-4', 0.37], ['obelisk-5', 0.34], ['obelisk-6', 0.31]],
-  box:['cloche-lotus', 0.73], b478:['cloche-cherry', 0.72], lemon:['cloche-lemon', 0.73], stones:['cloche-stones', 0.73], bowl:['cloche-bowl', 0.8], grat:['cloche-hearts', 0.78],
-  wheel:['ships-wheel', 0.76], goal:['cup-silver', 0.88], page:['books-pen', 1.7], loyal:['pocket-watch', 1.06], joy:['sundial', 0.98],
-  up10:['telescope', 1.01], upall:['cup-grand', 0.76], nikolaus:['nikolaus', 0.4], nikolaus2:['boot', 0.46], xmas:['star', 0.73]
+  box:['cloche-lotus', 0.73], b478:[['cloche-cherry-1', 0.84], ['cloche-cherry-2', 0.85], ['cloche-cherry-3', 0.84]], lemon:[['cloche-lemon-1', 0.84], ['cloche-lemon-2', 0.85], ['cloche-lemon-3', 0.84]],
+  stones:[['cloche-stones-1', 0.83], ['cloche-stones-2', 0.84], ['cloche-stones-3', 0.83]], bowl:[['cloche-bowl-1', 0.84], ['cloche-bowl-2', 0.85], ['cloche-bowl-3', 0.85]], grat:[['cloche-hearts-1', 0.83], ['cloche-hearts-2', 0.83], ['cloche-hearts-3', 0.82]],
+  wheel:['ships-wheel', 0.76], goal:['cup-silver', 0.88], page:['books-pen', 1.7], loyal:['pocket-watch', 1.06], joy:['sundial', 0.62],
+  up10:['telescope', 1.01], upall:['cup-grand', 0.76], nikolaus:['nikolaus', 0.4], nikolaus2:['boot', 1.05], xmas:['star', 0.73], xmas2:['crib', 1.28]
 };
 const RL_EGGS = [['egg-cream', 0.57, 0.75], ['egg-cobalt', 0.58, 0.9], ['egg-green', 0.59, 1.05]];
 // A Gentleman's Study: a trophy whose picture is not yet one of the new design (img/rl/) gets the red placeholder note
 const rlMissing = x=>BIZ && x.kind === 'img' && !/^rl\//.test(x.img || '');
 function trophyRl(x){
   let m = null;
-  if(x.group === 'ex' || x.group === 'streak') m = RL_TRO[x.group][x.stage];
+  const st = RL_TRO[x.group];
+  if(st && Array.isArray(st[0])) m = st[Math.min(x.stage, st.length - 1)]; // own picture per stage (medals, obelisks, cloches since 1.82.0)
   else if(/^easter\d+$/.test(x.id)){ const i = FAB_IDX(x); m = RL_EGGS[i % 3]; const y = x.id.slice(6); return { ...x, img:'rl/' + m[0], aspect:m[1], scale:RL_EGGS[Math.min(i, 2)][2], title:(state.settings.lang === 'en' ? 'Easter egg ' : 'Osterei ') + y }; }
   else m = RL_TRO[x.group] || RL_TRO[x.id];
-  if(x.group === 'page' && RL_READY.has(RL_BOOKS[x.stage][0])) return { ...x, img:RL_BOOKS[x.stage][0], aspect:RL_BOOKS[x.stage][1], scale:0.8 };
+  if(x.group === 'page' && RL_READY.has(RL_BOOKS[x.stage][0])) return { ...x, img:RL_BOOKS[x.stage][0], aspect:RL_BOOKS[x.stage][1], scale:RL_BOOKS[x.stage][2] };
   if(!m) return x;
   // the medals and obelisks have their own stage pictures; everything else grows like before
-  const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.5 + x.stage * 0.06 : x.scale;
+  const CL = ['b478', 'lemon', 'stones', 'bowl', 'grat'];
+  const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.5 + x.stage * 0.06 : CL.includes(x.group) ? 0.62 + x.stage * 0.12 : x.scale;
   return { ...x, img:'rl/' + m[0], aspect:m[1], scale };
 }
 // which Easter egg of the collection (0 = first year) – the egg trophies are in year order
@@ -6346,7 +6352,10 @@ const TB_COVERS = ['navy', 'blue', 'green', 'violet', 'red'];
 const TB_COVER_LAND = ['navy', 'green', 'violet', 'red', 'blue'];
 const TB_COLOR_TO_COVER = { '#2f1c52':'violet', '#3d10c9':'blue', '#0e4a3a':'green', '#111730':'navy', '#5a2bef':'violet', '#7a1f3d':'red' };
 function tbCoverName(diary){ const c = diary.cover; return TB_COVERS.includes(c.cover) ? c.cover : (c.colorChosen && TB_COLOR_TO_COVER[c.color]) || 'navy'; }
-function tbCoverUrl(diary){ const n = tbCoverName(diary); return tbIsLand(diary) ? `img/covers/${TB_COVER_LAND.includes(n) ? n : 'navy'}-l.webp` : `img/covers/${n}-p.webp`; }
+// A Gentleman's Study (1.82.0): plain leather covers and spines in its own colours, slot by slot for the same five choices
+const RL_COVER = { navy:'navy', blue:'charcoal', green:'green', violet:'cognac', red:'burgundy' };
+const coverThumb = n=>BIZ ? `img/rl/covers/${RL_COVER[n]}-p.webp` : `img/covers/${n}-p.webp`;
+function tbCoverUrl(diary){ const n = tbCoverName(diary); if(BIZ) return `img/rl/covers/${RL_COVER[n] || 'navy'}-${tbIsLand(diary) ? 'l' : 'p'}.webp`; return tbIsLand(diary) ? `img/covers/${TB_COVER_LAND.includes(n) ? n : 'navy'}-l.webp` : `img/covers/${n}-p.webp`; }
 function tbSetCover(n){ const c = tbEnsureYear(tbYear).cover; c.cover = n; c.image = null; saveState(); tbRender(); }
 /* ---- Cover settings as a pop-up (like the tools menu), for the year in tbYear ---- */
 function tbCoverSettingsHtml(){
@@ -6364,7 +6373,7 @@ function tbCoverSettingsHtml(){
       <div class="tb-cover-pop-head"><span><img class="gold-gear" src="img/icons/ico-gear.webp" alt="">${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
       <input class="small-input" id="tb-cover-title-input" placeholder="${d.diaryTitlePh}" value="${escapeHtml(c.title||'')}">
       <span class="tb-row-label">${d.diaryCoverPick}</span>
-      <div class="tb-cover-choices">${TB_COVERS.map(n=>`<button class="tb-cover-choice${tbCoverName(diary) === n ? ' active' : ''}" onclick="tbSetCover('${n}')" aria-label="${n}"><img src="img/covers/${n}-p.webp" alt=""></button>`).join('')}</div>
+      <div class="tb-cover-choices">${TB_COVERS.map(n=>`<button class="tb-cover-choice${tbCoverName(diary) === n ? ' active' : ''}" onclick="tbSetCover('${n}')" aria-label="${n}"><img src="${coverThumb(n)}" alt=""></button>`).join('')}</div>
       <span class="tb-row-label">${d.diaryFont}</span>
       <div class="tb-chip-row">${fonts}</div>
       <span class="tb-row-label">${d.diaryDefaultType}</span>

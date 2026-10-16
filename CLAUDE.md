@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.81.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.82.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -329,6 +329,12 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   darunter lag) und „Ein Klassiker“ (`classic12`, Oldtimer 300 SL: Lebensräder in 12 verschiedenen Monaten). Bilder fehlen noch
   (`TRO_MISSING`): Ersatzbild mit rotem Hinweis `.ph-note` „Platzhalter – neues Bild folgt“ (in beiden Designs).
 - Rang-Schild: lange Namen werden kleiner gesetzt (`fit`). Alle offenen Prompts: Sammelordner „2 RL Style/A Grafiken/Offene Prompts …“.
+- Seit 1.82.0 Bilder des Nutzers in A Gentleman's Study: Lederhefte als Cover (`img/rl/covers/<farbe>-p|l.webp`, `RL_COVER` ordnet die
+  fünf Cover-Plätze zu: navy→navy, blue→charcoal, green→green, violet→cognac, red→burgundy; aus ChatGPT-Kacheln zugeschnitten und
+  hochskaliert), Buchrücken `rl/spine-*`, Glasglocken in drei Stufen (`cloche-<x>-1…3`, Box Breathing noch eine Glocke), Bücherstapel
+  1–4 (`rl/books-1…4`, Maßstab hält ein Buch gleich hoch), neue Sonnenuhr, Stiefel, Krippe, Flugzeug, Oldtimer, Hund sitzend/liegend,
+  Messingplakette als Bild (`rl/plaque.webp`), Monogramm von ChatGPT als App-Symbol. A Mystery World: `trophy-plane`, `trophy-car`.
+  Prompt für ein schlankeres Papier-Regal (Maße wie das Nussholzregal) in „Offene Prompts …“ Teil D.
 - Seit 1.81.2: A Mystery World bekommt statt der Kugeln dieselben Gegenstände wie A Gentleman's Study im goldenen Papierstil
   (`CLASSIC_NEW`: Steuerrad, Pokal, Taschenuhr, Fernrohr, großer Pokal, wachsende Bücherstapel 1–4). Ein Bild ersetzt seine
   Kugel erst, wenn sein Dateiname in `CLASSIC_READY` steht; Bücherstapel fürs Business-Design ebenso über `RL_BOOKS`/`RL_READY`.
