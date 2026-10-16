@@ -1646,7 +1646,7 @@ html.theme-biz .tb-area-head{ color:#ab8b54 !important; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.81.2';
+const APP_VERSION = '1.81.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';
@@ -6173,10 +6173,10 @@ function trophyDefs(){
   return (BIZ ? out.map(trophyRl) : out.map(trophyClassicNew)).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x);
 }
 /* A Mystery World (1.81.2): fewer orbs – the same objects as in A Gentleman's Study, in golden paper style (ship's wheel, cup,
-   pocket watch, sundial, telescope, grand cup, growing stacks of books). A picture replaces its orb as soon as its file is listed
+   pocket watch, telescope, grand cup, growing stacks of books). A picture replaces its orb as soon as its file is listed
    in CLASSIC_READY (until then the orb stays). [file, width/height]; the books have one picture per stage. */
 const CLASSIC_NEW = {
-  wheel:['trophy-wheel', 1], goal:['trophy-cup', 0.9], loyal:['trophy-watch', 1], joy:['trophy-sundial', 1],
+  wheel:['trophy-wheel', 1], goal:['trophy-cup', 0.9], loyal:['trophy-watch', 1], // the sun in the orb (Freude) stays
   up10:['trophy-telescope', 1], upall:['trophy-cup-grand', 0.85],
   page:[['trophy-books-1', 1.2], ['trophy-books-2', 1], ['trophy-books-3', 0.85], ['trophy-books-4', 0.75]]
 };
