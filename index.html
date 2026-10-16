@@ -1646,7 +1646,7 @@ html.theme-biz .tb-area-head{ color:#ab8b54 !important; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.81.1';
+const APP_VERSION = '1.81.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 const BIZ = window.EW_DESIGN === 'biz';
@@ -6170,7 +6170,24 @@ function trophyDefs(){
   out.push({ id:'classic12', kind:'img', img:BIZ ? 'rl/car' : 'trophy-car', scale:0.75, aspect:2.2, need:12, list:months,
     title:L('Ein Klassiker', 'A true classic'), desc:L('In zwölf verschiedenen Monaten hast du ein Lebensrad erstellt – zeitlos wie ein Klassiker.', 'You created a wheel of life in twelve different months – timeless, like a classic.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle Lebensbereiche haben sich verbessert.', 'All areas of life have improved.') });
-  return (BIZ ? out.map(trophyRl) : out).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x);
+  return (BIZ ? out.map(trophyRl) : out.map(trophyClassicNew)).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x);
+}
+/* A Mystery World (1.81.2): fewer orbs – the same objects as in A Gentleman's Study, in golden paper style (ship's wheel, cup,
+   pocket watch, sundial, telescope, grand cup, growing stacks of books). A picture replaces its orb as soon as its file is listed
+   in CLASSIC_READY (until then the orb stays). [file, width/height]; the books have one picture per stage. */
+const CLASSIC_NEW = {
+  wheel:['trophy-wheel', 1], goal:['trophy-cup', 0.9], loyal:['trophy-watch', 1], joy:['trophy-sundial', 1],
+  up10:['trophy-telescope', 1], upall:['trophy-cup-grand', 0.85],
+  page:[['trophy-books-1', 1.2], ['trophy-books-2', 1], ['trophy-books-3', 0.85], ['trophy-books-4', 0.75]]
+};
+const CLASSIC_READY = new Set([]); // e.g. 'trophy-wheel' once img/trophy-wheel.webp is there
+// the same growing book stacks for A Gentleman's Study (img/rl/books-1…4) as soon as they are there
+const RL_BOOKS = [['rl/books-1', 1.2], ['rl/books-2', 1], ['rl/books-3', 0.85], ['rl/books-4', 0.75]], RL_READY = new Set([]);
+function trophyClassicNew(x){
+  const m = x.group === 'page' ? CLASSIC_NEW.page[x.stage] : CLASSIC_NEW[x.group] || CLASSIC_NEW[x.id];
+  if(!m || !CLASSIC_READY.has(m[0])) return x;
+  // growing pictures (the book stacks) grow by themselves – the stage scale then stays the same
+  return { ...x, img:m[0], aspect:m[1], scale:x.group === 'page' ? 0.8 : x.scale };
 }
 // trophy pictures still to come (1.81.0): until they are in img/, a stand-in with the red placeholder note
 const TRO_MISSING = new Set(['rl/plane', 'rl/car', 'trophy-plane', 'trophy-car']);
@@ -6193,6 +6210,7 @@ function trophyRl(x){
   if(x.group === 'ex' || x.group === 'streak') m = RL_TRO[x.group][x.stage];
   else if(/^easter\d+$/.test(x.id)){ const i = FAB_IDX(x); m = RL_EGGS[i % 3]; const y = x.id.slice(6); return { ...x, img:'rl/' + m[0], aspect:m[1], scale:RL_EGGS[Math.min(i, 2)][2], title:(state.settings.lang === 'en' ? 'Easter egg ' : 'Osterei ') + y }; }
   else m = RL_TRO[x.group] || RL_TRO[x.id];
+  if(x.group === 'page' && RL_READY.has(RL_BOOKS[x.stage][0])) return { ...x, img:RL_BOOKS[x.stage][0], aspect:RL_BOOKS[x.stage][1], scale:0.8 };
   if(!m) return x;
   // the medals and obelisks have their own stage pictures; everything else grows like before
   const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.5 + x.stage * 0.06 : x.scale;
