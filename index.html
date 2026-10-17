@@ -366,10 +366,10 @@ input[type=range]{ touch-action:pan-y;
   background:linear-gradient(90deg,var(--ew-green),var(--ew-turquoise)); outline:none;
 }
 input[type=range]::-webkit-slider-thumb{ /* the knob: gold folded paper (1.75.0) */
-  -webkit-appearance:none; width:26px; height:26px; border-radius:50%; box-sizing:border-box;
+  -webkit-appearance:none; width:18px; height:18px; border-radius:50%; box-sizing:border-box;
   background:url(img/knob-gold.webp) center/100% 100% no-repeat; border:none; cursor:pointer;
 }
-input[type=range]::-moz-range-thumb{ width:26px; height:26px; box-sizing:border-box; border:none; border-radius:50%; background:url(img/knob-gold.webp) center/100% 100% no-repeat; cursor:pointer; }
+input[type=range]::-moz-range-thumb{ width:18px; height:18px; box-sizing:border-box; border:none; border-radius:50%; background:url(img/knob-gold.webp) center/100% 100% no-repeat; cursor:pointer; }
 
 .hist-item{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--ew-line); font-size:13px; }
 .hist-item .d{ color:var(--ew-text-dim); }
@@ -409,6 +409,7 @@ input[type=range]::-moz-range-thumb{ width:26px; height:26px; box-sizing:border-
 .breath-stage{ position:relative; width:min(76vw, 290px); margin:6px auto 4px; }
 .breath-svg{ display:block; width:100%; height:auto; }
 #breath-dot{ filter:drop-shadow(0 0 7px rgba(232,184,74,0.75)); } /* gold folded paper, no violet glow (1.75.0) */
+html.theme-biz #breath-dot{ filter:none; } /* the same knob as everywhere else (1.84.5) */
 .breath-center{ display:flex; align-items:baseline; justify-content:center; gap:12px; margin-top:2px; }
 #breath-phase{ font-size:20px; font-weight:700; color:#f3ead6; min-width:110px; text-align:right; }
 #breath-count{ font-size:34px; font-weight:700; color:var(--gold-text); line-height:1.1; min-width:30px; text-align:left; }
@@ -1146,8 +1147,8 @@ html.theme-biz .seg-btn{ border-radius:2px; }
 html.theme-biz .seg-btn.active{ background:rgba(201,164,99,0.18); color:var(--ew-text); box-shadow:inset 0 0 0 1px var(--gold); }
 html.theme-biz .panel{ border-radius:3px; border-color:rgba(220,212,184,0.08); }
 /* sliders: a plain cognac knob; now in linen, the wish in cognac */
-html.theme-biz input[type=range]::-webkit-slider-thumb{ background:radial-gradient(circle at 40% 35%, #e6c890, #a8834a 70%) !important; border:2px solid #dcd4b8 !important; border-radius:50%; }
-html.theme-biz input[type=range]::-moz-range-thumb{ background:#c9a463 !important; border:2px solid #dcd4b8 !important; }
+html.theme-biz input[type=range]::-webkit-slider-thumb{ background:url(img/rl/knob.webp) center/100% 100% no-repeat !important; border:none !important; border-radius:50%; } /* knob B without ring (1.84.5) */
+html.theme-biz input[type=range]::-moz-range-thumb{ background:url(img/rl/knob.webp) center/100% 100% no-repeat !important; border:none !important; }
 html.theme-biz input[type=range].range-ist{ background:linear-gradient(90deg, #6f6a58 0, #dcd4b8 var(--v, 50%), rgba(220,212,184,0.12) var(--v, 50%)); }
 html.theme-biz input[type=range].range-wish{ background:linear-gradient(90deg, #7a6038 0, #c9a463 var(--v, 50%), rgba(220,212,184,0.12) var(--v, 50%)); }
 /* line icons in linen (img/icons-rl), never tinted by the levels */
@@ -1286,8 +1287,8 @@ html.theme-retreat input:not([type=range]):not([type=checkbox]):not([type=radio]
   background:#fffdf8 !important; color:var(--ew-text) !important; border:1px solid rgba(41,39,35,0.275) !important; }
 html.theme-retreat ::placeholder{ color:#90877a; }
 /* sliders: the now in dark sage, the wish in sand */
-html.theme-retreat input[type=range]::-webkit-slider-thumb{ background:#fbf8f1 !important; border:2px solid var(--rt-sage-d) !important; }
-html.theme-retreat input[type=range]::-moz-range-thumb{ background:#fbf8f1 !important; border:2px solid var(--rt-sage-d) !important; }
+html.theme-retreat input[type=range]::-webkit-slider-thumb{ background:url(img/rt/knob.webp) center/100% 100% no-repeat !important; border:none !important; }
+html.theme-retreat input[type=range]::-moz-range-thumb{ background:url(img/rt/knob.webp) center/100% 100% no-repeat !important; border:none !important; }
 html.theme-retreat input[type=range].range-ist{ background:linear-gradient(90deg, #8aa885 0, #4b6350 var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
 html.theme-retreat input[type=range].range-wish{ background:linear-gradient(90deg, #d3ba8f 0, #b69664 var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
 /* line icons: the linen icons of A Gentleman's Study, made dark on the light ground */
@@ -1593,7 +1594,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
         <rect class="breath-sky" x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3" style="display:none;"/>
         <rect id="breath-square" x="30" y="30" width="180" height="180" rx="4" fill="none" stroke="rgba(232,184,74,0.45)" stroke-width="2"/>
         <pattern id="knobPat" patternContentUnits="objectBoundingBox" width="1" height="1"><image href="img/knob-gold.webp" width="1" height="1" preserveAspectRatio="none"/></pattern>
-        <circle id="breath-dot" class="ew-knob" cx="30" cy="210" r="9.75" fill="url(#knobPat)"/>
+        <circle id="breath-dot" class="ew-knob" data-scale="1.2" cx="30" cy="210" r="9.75" fill="url(#knobPat)"/>
       </svg>
     </div>
     <div class="breath-center"><div id="breath-phase">Einatmen</div><div id="breath-count">4</div></div>
@@ -1778,7 +1779,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.84.4';
+const APP_VERSION = '1.84.5';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Morning Retreat (1.84.0): light, sage and beige; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2800,6 +2801,7 @@ function breathLotusSet(open){
   e.b.setAttribute('opacity', f.toFixed(3));
 }
 function breathOpen(pat){
+  document.querySelector('#knobPat image').setAttribute('href', KNOB_IMG); // the same knob in every design (1.84.5)
   pat = HP_PATTERNS[pat] && pat !== 'calm' ? pat : 'box';
   breathLotusBuild(pat === 'b478' ? 'blossom' : 'lotus');
   breathLotusSet(0);
@@ -4311,11 +4313,11 @@ const hasWishes = ()=>AREAS.every(a=>currentWish(a) !== null);
 /* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
    main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
 const GAP_VIOLET = RETREAT ? [182, 150, 100] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [105, 133, 106] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#a58552' : BIZ ? '#c9a463' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
-// Business: the knobs on the wish line are plain cognac dots with a linen ring, the now line is linen.
 // Since 1.84.4 every knob (sliders, the Box Breathing dot, the wish corners in every wheel) is KNOB_PX wide on the screen,
 // whatever the size of the drawing: `s` is only the first guess, knobFix() sets the real size once the drawing is shown.
-const KNOB_PX = 26;
-const wishKnob = (x, y, s)=>BIZ ? `<circle class="ew-knob" data-ring="1" cx="${(x).toFixed(1)}" cy="${(y).toFixed(1)}" r="${(s * 0.45).toFixed(1)}" fill="${RETREAT ? '#b69664' : '#c9a463'}" stroke="${RETREAT ? '#fbf8f1' : '#dcd4b8'}" stroke-width="${(s / 10).toFixed(1)}"/>` : `<image class="ew-knob" data-cx="${(x).toFixed(1)}" data-cy="${(y).toFixed(1)}" href="img/knob-gold.webp" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
+const KNOB_PX = 18; // 1.84.5: 30 % smaller than before
+const KNOB_IMG = RETREAT ? 'img/rt/knob.webp' : BIZ ? 'img/rl/knob.webp' : 'img/knob-gold.webp'; // the same knob as on the sliders
+const wishKnob = (x, y, s)=>`<image class="ew-knob" data-cx="${(x).toFixed(1)}" data-cy="${(y).toFixed(1)}" href="${KNOB_IMG}" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
 const knobRO = typeof ResizeObserver === 'function' ? new ResizeObserver(es=>es.forEach(e=>knobFix(e.target))) : null;
 function knobFix(root){
   (root || document).querySelectorAll('.ew-knob').forEach(el=>{
@@ -4324,13 +4326,12 @@ function knobFix(root){
     if(knobRO && !svg.__knobRO){ svg.__knobRO = 1; knobRO.observe(svg); }
     const w = svg.clientWidth, h = svg.clientHeight;
     if(!w || !h) return; // not shown yet: the ResizeObserver calls again when it is
-    const sz = KNOB_PX / Math.min(w / vb.width, h / vb.height); // KNOB_PX in the units of this drawing
+    const sz = KNOB_PX * (+el.dataset.scale || 1) / Math.min(w / vb.width, h / vb.height); // KNOB_PX in the units of this drawing (Box Breathing 20 % larger)
     if(el.tagName.toLowerCase() === 'image'){
       const cx = +el.dataset.cx, cy = +el.dataset.cy;
       el.setAttribute('x', (cx - sz / 2).toFixed(2)); el.setAttribute('y', (cy - sz / 2).toFixed(2));
       el.setAttribute('width', sz.toFixed(2)); el.setAttribute('height', sz.toFixed(2));
-    } else if(el.dataset.ring){ el.setAttribute('r', (sz * 0.45).toFixed(2)); el.setAttribute('stroke-width', (sz / 10).toFixed(2)); }
-    else el.setAttribute('r', (sz / 2).toFixed(2));
+    } else el.setAttribute('r', (sz / 2).toFixed(2));
   });
 }
 new MutationObserver(()=>{ if(!knobFix.__q){ knobFix.__q = 1; setTimeout(()=>{ knobFix.__q = 0; knobFix(); }, 0); } })

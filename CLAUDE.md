@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.5`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -386,6 +386,11 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - **Aussehen der Knöpfe in A Gentleman's Study und A Morning Retreat ist noch offen:** Vergleichsseite `knopf-vergleich.html` (nicht
   im Commit) zeigt A heute / B ohne hellen Rand / C runde Scheibe der Medaille (`img/rl/knob-medal.webp`, aus `rl/medal-cognac`
   ausgeschnitten, ebenfalls noch nicht im Commit). Box Breathing zeigt dort bisher noch den goldenen Faltpapier-Knopf von A Mystery World.
+- **Seit 1.84.5 (Entscheidung des Nutzers):** Knopf „B ohne Rand“ überall und 30 % kleiner: `KNOB_PX` = 18. Ein Bild je Design
+  (`KNOB_IMG`): A Gentleman's Study `img/rl/knob.webp`, A Morning Retreat `img/rt/knob.webp` (Bronze- bzw. Sand-Verlauf ohne Rand,
+  mit Pillow gerechnet), A Mystery World weiter `img/knob-gold.webp`. Gleiches Bild für Regler, Box-Breathing-Punkt (`#knobPat` wird in
+  `breathOpen` gesetzt) und Wunsch-Ecken. Ausnahme: der Box-Breathing-Punkt ist 20 % größer (`data-scale="1.2"`). Die Varianten
+  A (mit Rand) und C (Medaille) sind verworfen.
 - **Lebensräder vergleichen:** der Wunsch des neuesten Rads als gepunktete Linie in `KNOB_GOLD` (Schnappschüsse tragen jetzt
   `wishes`), in der Legende „Wunsch“ mit gepunktetem Strich (`.compare-swatch-wish`, Text `cmpWish`).
 - **Idee Schneiderpuppe (nur A Gentleman's Study):** alte Herren-Schneiderpuppe im Reitfrack rechts neben dem Regal, später die
