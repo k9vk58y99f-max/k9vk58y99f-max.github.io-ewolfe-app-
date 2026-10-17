@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.7`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -353,9 +353,21 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   neue Vitrine `vitrine-slim.webp` mit fünf Glasfächern. Tiere/Schmuck neu platziert (`html:not(.theme-biz) .shelf-…`).
   Staub-Regal jetzt die ersten zwei aktiven Tage (`appActiveDays() < 3`).
 - **A Gentleman's Study:** Hund deutlich größer vor dem Regal (`.shelf-dog` height 34 %).
+- **Seit 1.86.4 eigene Achtsamkeits-Bilder in A Gentleman's Study** (`img/rl/medi/`: lotus, cherry, lemon, stones, hearts, bowl,
+  bell, blanket; vom Navy-Grund freigestellt, Glasvase durchsichtig, Skript im Sammelordner „Freigestellt/medi“): `imgPic()` tauscht
+  in BIZ über `RL_MEDI` (Karten, Lemon-Player, Stille, Dankbarkeit); eigene Übungen zeigen in BIZ die Messingglocke. Roter Hinweis
+  bleibt nur auf der Atem-Animation (`.breath-stage`) und den Stickern; in A Lady's Conservatory weiter auf allem Geliehenen.
+  Seit 1.86.5 auch in Box Breathing (Lotus) und 4-7-8 (Kirschzweig in der Vase, ohne Himmel-Ausschnitt): das Bild wird beim
+  Einatmen sanft größer (`breathLotusSet`, Faktor 0,9–1,04 von `data-base`), kein roter Hinweis mehr in AGS.
+  Seit 1.86.6 eigene Sticker in AGS (`img/rl/stickers/<key>.webp`, 17 Stück, `RL_STICKER`, `stickerPath()`; Hund = `rl/dog`);
+  nur der Hundekopf hat noch das alte Bild mit rotem Hinweis (`.tb-sticker-btn.st-old`). In A Lady's Conservatory alle Sticker mit Hinweis.
+  **Schneiderpuppe im Reitfrack** (`img/rl/dress-form.webp`, `.lib-dress`) steht in AGS rechts neben dem Regal (immer); die Medaillen
+  sollen später als Orden darauf. Offen für AGS: Hundekopf-Sticker, Favicon/Manifest-Symbol.
 - Seit 1.83.2: neue Zitronen-Glocken (Zitronenzweig: Blüten → grüne Frucht → gelbe Zitrone), schmaler (Seitenverhältnis 0,70). Übungsbilder für die Achtsamkeit (Lotus, Kirschzweig, Zitrone, Steine, Herzen, Klangschale, Glocke, Decke) liegen im Sammelordner unter „Originale ChatGPT/Achtsamkeit“, noch nicht eingebaut.
 
-## Drittes Design „A Morning Retreat“ (seit 1.84.0)
+## Drittes Design „A Lady's Conservatory“ (seit 1.84.0, bis 1.86.0 „A Morning Retreat“)
+- **Name seit 1.86.1: „A Lady's Conservatory“** (Wahl des Nutzers, Gegenstück zu „A Gentleman's Study“). Intern bleiben der Schlüssel
+  `ewolfe_design` = `retreat`, `RETREAT`, `theme-retreat` und der Ordner `img/rt/` – so behalten alle Geräte ihre Wahl.
 - `ewolfe_design` = `retreat`. Das `<head>`-Skript setzt `html.theme-biz` **und** `html.theme-retreat`; im Code `RETREAT` und
   `BIZ` (BIZ ist auch hier wahr: bis eigene Bilder kommen, nutzt es alle Bilder und Funktionen von A Gentleman's Study,
   mit rotem Platzhalter-Hinweis überall: Trophäen über `rlMissing`, Regal, Vitrine, Cover, Titelseite, Impulskarten per CSS).
@@ -371,11 +383,74 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   (`img/rt/orchid-stand.webp`, `.shelf-orchid` in `.shelf-unit`, `.lib-row.has-orchid` macht links Platz, `scroll-margin-left` damit
   das Einrasten ihn nicht verdeckt).
 - Prompts und Entscheidungen: Sammelordner „3 Morning Retreat Style“.
+- **Seit 1.86.2 eigene Möbel und das Gewächshaus:** Regal `img/rt/shelf.webp` (cremefarben, Rückwand Salbei, Efeu links; 681×1379,
+  Fächer `x:[16.7, 90.6]`, Reihen gemessen), Anbau-Regal `rt/shelf-narrow` (aus der rechten Hälfte gespiegelt, ohne Efeu, `k` 400/681,
+  `ov` 0,12, weil links 9 % Efeu-Rand sind), Vitrine `rt/vitrine` (Messing und Glas mit Farnen, 518×1304, Glas per Farbe-zu-Alpha
+  gegen das Grau durchsichtig; Fächer `VX [13, 87]`, vier Reihen über den Farnen; Breite `--sw`×0,76), Messingschild auf dem
+  cremefarbenen Sockel. Hintergrund der Bibliothek `rt/conservatory.webp` („Gewächshaus 4“): `.lib-row` ist so breit wie das Bild
+  (4,78 `--sw`), Wand hinter den Möbeln, Bodenlinie an ihren Füßen, rechts scrollt man zu den offenen Türen in den Wald.
+  Freistell-Skript und Bilder: Sammelordner „Fertige Bilder/Gewächshaus (1.86.2)“. Trophäen sind noch die von A Gentleman's Study.
+- **Seit 1.86.3:** Steht das Anbau-Regal da, wandert der Efeu dorthin: `rt/shelf-narrow` = linker Teil des Efeu-Regals (bis x 300)
+  plus ein Stück rechts davon ohne eigenen rechten Pfosten (Füßchen dort entfernt); das große Regal wird `SHELVES.rtPlain`
+  (`rt/shelf-plain`, aus seiner rechten Hälfte gespiegelt, ohne Efeu, 630×1379, `x:[10, 89.8]`). Beide teilen sich eine
+  Zwischenwand (den linken Pfosten des großen), `ov` 41/630. Umschalten in `tbRenderLibrary` (`if(RETREAT && NAR) SH = SHELVES.rtPlain`).
+  Seit 1.86.6 Vitrine 4 mit Glasdach und cremefarbener Rückwand (`rt/vitrine`, 386×1200, Glasböden 24,4/36,9/49,5/61,9 %,
+  `VX [11, 89]`, Breite `--sw`×0,68) und links das **sechseckige eingelegte Tischchen mit Orchidee** (`rt/hex-table`, ab Stufe 3,
+  ersetzt das alte Orchideen-Tischchen).
+- Seit 1.86.7 stehen die Möbel weiter vorn auf dem Boden (`.lib-row` padding-bottom `--sw`×0,035). Alle fehlenden Bilder für
+  A Lady's Conservatory (Hund nach dem AGS-Hund als Vorlage, Trophäen, Tagebuch-Cover, Achtsamkeit, Sticker, Impulskarten):
+  „3 Morning Retreat Style/Alle offenen Prompts – A Lady's Conservatory.md“. „Regal 3 (schlicht, Sockel)“ liegt bereit, noch nicht eingebaut.
+- **Seit 1.86.0 neue Richtung „Gewächshaus am Wald“** (Nutzer: edel, vintage, verziert und schlicht, Pflanzen, ladylike in Grün
+  zwischen Wellness und Waldbaden, mehr Weiß/Creme, Bibliothek in einem Gewächshaus, das sich in den Wald öffnet; Lieblingsstück
+  sechseckiges eingelegtes Beistelltischchen). Farben Variante A „Gewächshaus am Morgen“: Grund Creme #f7f3ea (nach unten leicht
+  grünlich bis #e8eedf), Karten #fffdf8, Schrift #262622, gedämpft #625e55, Waldgrün #2f4f3e (Knöpfe, Ist-Linie, aktive Leiste),
+  Grün #3f6150 (Unterüberschriften), Salbei #8ea88a, Messing #b08d57 (Wunsch, Rahmen), Messing-Schrift #86683a. Lücke im Rad
+  Salbei → helles Messing-Creme. Kontraste alle über der 30-%-Regel von 1.84.3. Bilder (Gewächshaus-Hintergrund, Regal, Wardscher
+  Kasten als Vitrine, sechseckiges Tischchen, Pouf, Rattan, Terrarium, Teppich): Prompts „Bild-Prompts Morning Retreat – Gewächshaus.md“,
+  Inspiration „Inspiration Gewächshaus“, Farbvergleich „Farbvergleich Gewächshaus.html“. Name seit 1.86.1 „A Lady's Conservatory“.
 - Seit 1.84.3 Kontrast mindestens 30 % stärker (Wunsch des Nutzers; WCAG-Kontrast gegen Beige #efe6d8 je Farbe × 1,3, Farbton bleibt,
   nur dunkler): Schrift #292723, gedämpft #666058, Salbei #69856a, Salbei dunkel #4b6350, Sand #b69664, Sand dunkel #826a45,
   Knopf #a58552, Vergleich #a7734f, Platzhalter #90877a; feine Linien rgba(41,39,35,…) mit höherer Deckkraft (0,13 → 0,25,
   0,18 → 0,29 usw.); Linien-Symbole `brightness(0.26)` statt 0,38. Hintergründe unverändert. Neue Bilder aus den Prompts
   werden erst eingebaut, wenn sie da sind.
+
+## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
+- Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt
+  wird (Rad, Bereiche-Rad, Vergleich, Verlauf, Mini-Räder, Tagebuch-Bild, Schnappschüsse, Trophäen „alle besser“/„Angekommen“).
+  `AREAS` behält alle sechs für Daten, Sync, Ziele (Ziele für Freude bleiben), Fragen, Impulskarten (alle Freude-Karten bleiben),
+  Ereignis-Bereiche, Tagebuch-Bereichsseite.
+- **Erwartete Freude** (`joySeries`): beginnt bei 50 %, ändert sich mit jedem Rad um die durchschnittliche Veränderung der fünf
+  Bereiche, +5 wenn alle fünf wachsen, 0–100. **Gefühlte Freude**: auf der Bereiche-Seite tippt man eine von fünf Sonnen an
+  (`JOY_SUNS` 20…100, `areasJoyHtml`, `areasJoy`), gespeichert wie bisher in `state.bewertungen.freude` mit der Zeit des Rads
+  (`joyFeltAt`, 60 s Fenster). Alte Freude-Werte zählen als gefühlte Freude. Keine Pflicht: ohne Antippen zeigt die Sonne die erwartete.
+- **Sonne in der Mitte** des Startseiten-Rads (`joySunSvg`): Größe und Schein nach der Freude (gefühlt, sonst erwartet), Wert
+  darunter, Antippen erklärt beides (`joyInfo`).
+- **Karte unter dem Rad** (`#joy-deep-wrap`, `joyDeepHtml`): gefühlt ≥ 15 Punkte (`JOY_GAP`) unter erwartet → „Dein Rad wächst –
+  deine Freude noch nicht“ mit drei Fragen, „Ins Tagebuch“ (`joyDeepToDiary`) und „Freude-Impuls“ (`joyImpulse`). Wächst sie mit
+  (Rad oder gefühlte Freude seit dem letzten Rad gewachsen) → kleiner Feier-Satz (`joyGrowV`, Wunsch des Nutzers); deutlich voraus → `joyAheadV`.
+- Vergleich: Zeile „Freude: a % → b %“. Die Frage `joyAsk` entfällt. Freude-Trophäe (`joy10/20/30`) zählt weiter die gefühlte Freude.
+- Leisten-Symbole wieder mit fünf Ecken: A Mystery World die alten Goldbilder (aus 1.77), A Gentleman's Study/A Morning Retreat neue
+  Linien-SVGs. Vorschlagsseite (nicht im Commit): `vorschlag/freude.html`.
+
+## Seit 1.84.4: Knöpfe überall gleich groß, Wunsch im Vergleich
+- **Alle Regler-Knöpfe sind auf dem Bildschirm 26 px groß** (`KNOB_PX`), in allen Designs und auf allen Seiten (Wunsch des Nutzers,
+  gilt immer): Regler (`input[type=range]`, `box-sizing:border-box`), Box-Breathing-Punkt (`#breath-dot`) und die Wunsch-Ecken in
+  jedem Lebensrad (`wishKnob`, auch im kleinen Rad auf „Bereiche“). Knöpfe in Zeichnungen tragen die Klasse `ew-knob`; `knobFix()`
+  rechnet 26 px in die Einheiten der jeweiligen Zeichnung um (MutationObserver + ResizeObserver, `breathOpen` ruft es auch auf).
+  Der Ring-Knopf von A Gentleman's Study/A Morning Retreat: `r = 0,45·s`, Rand `s/10` (außen genau s).
+- **Aussehen der Knöpfe in A Gentleman's Study und A Morning Retreat ist noch offen:** Vergleichsseite `knopf-vergleich.html` (nicht
+  im Commit) zeigt A heute / B ohne hellen Rand / C runde Scheibe der Medaille (`img/rl/knob-medal.webp`, aus `rl/medal-cognac`
+  ausgeschnitten; beides wieder entfernt). Box Breathing zeigt dort bisher noch den goldenen Faltpapier-Knopf von A Mystery World.
+- **Seit 1.84.5 (Entscheidung des Nutzers):** Knopf „B ohne Rand“ überall und 30 % kleiner: `KNOB_PX` = 18. Ein Bild je Design
+  (`KNOB_IMG`): A Gentleman's Study `img/rl/knob.webp`, A Morning Retreat `img/rt/knob.webp` (Bronze- bzw. Sand-Verlauf ohne Rand,
+  mit Pillow gerechnet), A Mystery World weiter `img/knob-gold.webp`. Gleiches Bild für Regler, Box-Breathing-Punkt (`#knobPat` wird in
+  `breathOpen` gesetzt) und Wunsch-Ecken. Ausnahme: der Box-Breathing-Punkt ist 20 % größer (`data-scale="1.2"`). Die Varianten
+  A (mit Rand) und C (Medaille) sind verworfen.
+- **Lebensräder vergleichen:** der Wunsch des neuesten Rads als gepunktete Linie in `KNOB_GOLD` (Schnappschüsse tragen jetzt
+  `wishes`), in der Legende „Wunsch“ mit gepunktetem Strich (`.compare-swatch-wish`, Text `cmpWish`).
+- **Idee Schneiderpuppe (nur A Gentleman's Study):** alte Herren-Schneiderpuppe im Reitfrack rechts neben dem Regal, später die
+  Medaillen als Orden auf der Brust; Damen-Fassung später im Kleid mit Broschen und Gemme. Prompts: „Offene Prompts …“ Teil F.
+  Erst einbauen, wenn die Bilder da sind.
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
