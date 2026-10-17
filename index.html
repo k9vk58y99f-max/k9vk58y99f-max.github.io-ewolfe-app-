@@ -1338,7 +1338,7 @@ html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:28%; } /* the b
 /* the library stands in the conservatory (1.86.2, img/rt/conservatory.webp = „Gewächshaus 4“, 1536×1024): the cream wall
    (13–62 % of the picture) behind the bookcases, the floor line (86 %) at their feet; scrolling right leads to the open doors
    into the forest, so the row is as wide as the picture */
-html.theme-retreat .lib-row{ justify-content:flex-start; padding-bottom:calc(var(--sw) * 0.12); min-width:max(100%, calc(var(--sw) * 4.78));
+html.theme-retreat .lib-row{ justify-content:flex-start; padding-bottom:calc(var(--sw) * 0.035); /* 1.86.7: the furniture stands further forward on the floor (wish of the user) */ min-width:max(100%, calc(var(--sw) * 4.78));
   background:url(img/rt/conservatory.webp) no-repeat; background-size:calc(var(--sw) * 5.4) auto; /* wall ≈ 2.65 shelf widths: narrow + shelf + cabinet */
   background-position:calc(var(--sw) * -0.62) calc(100% + var(--sw) * 0.38); border-radius:14px; }
 html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--sw) * 0.2); }
@@ -1807,7 +1807,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.86.6';
+const APP_VERSION = '1.86.7';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the

@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.6`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.7`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -397,6 +397,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Seit 1.86.6 Vitrine 4 mit Glasdach und cremefarbener Rückwand (`rt/vitrine`, 386×1200, Glasböden 24,4/36,9/49,5/61,9 %,
   `VX [11, 89]`, Breite `--sw`×0,68) und links das **sechseckige eingelegte Tischchen mit Orchidee** (`rt/hex-table`, ab Stufe 3,
   ersetzt das alte Orchideen-Tischchen).
+- Seit 1.86.7 stehen die Möbel weiter vorn auf dem Boden (`.lib-row` padding-bottom `--sw`×0,035). Alle fehlenden Bilder für
+  A Lady's Conservatory (Hund nach dem AGS-Hund als Vorlage, Trophäen, Tagebuch-Cover, Achtsamkeit, Sticker, Impulskarten):
+  „3 Morning Retreat Style/Alle offenen Prompts – A Lady's Conservatory.md“. „Regal 3 (schlicht, Sockel)“ liegt bereit, noch nicht eingebaut.
 - **Seit 1.86.0 neue Richtung „Gewächshaus am Wald“** (Nutzer: edel, vintage, verziert und schlicht, Pflanzen, ladylike in Grün
   zwischen Wellness und Waldbaden, mehr Weiß/Creme, Bibliothek in einem Gewächshaus, das sich in den Wald öffnet; Lieblingsstück
   sechseckiges eingelegtes Beistelltischchen). Farben Variante A „Gewächshaus am Morgen“: Grund Creme #f7f3ea (nach unten leicht
