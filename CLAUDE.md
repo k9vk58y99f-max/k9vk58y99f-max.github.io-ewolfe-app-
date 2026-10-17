@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.3`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -380,6 +380,11 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   cremefarbenen Sockel. Hintergrund der Bibliothek `rt/conservatory.webp` („Gewächshaus 4“): `.lib-row` ist so breit wie das Bild
   (4,78 `--sw`), Wand hinter den Möbeln, Bodenlinie an ihren Füßen, rechts scrollt man zu den offenen Türen in den Wald.
   Freistell-Skript und Bilder: Sammelordner „Fertige Bilder/Gewächshaus (1.86.2)“. Trophäen sind noch die von A Gentleman's Study.
+- **Seit 1.86.3:** Steht das Anbau-Regal da, wandert der Efeu dorthin: `rt/shelf-narrow` = linker Teil des Efeu-Regals (bis x 300)
+  plus ein Stück rechts davon ohne eigenen rechten Pfosten (Füßchen dort entfernt); das große Regal wird `SHELVES.rtPlain`
+  (`rt/shelf-plain`, aus seiner rechten Hälfte gespiegelt, ohne Efeu, 630×1379, `x:[10, 89.8]`). Beide teilen sich eine
+  Zwischenwand (den linken Pfosten des großen), `ov` 41/630. Umschalten in `tbRenderLibrary` (`if(RETREAT && NAR) SH = SHELVES.rtPlain`).
+  Neue Vitrine „Vitrine 3 (kurze Füße)“: 521×1215, Glasböden bei 18,7/30,3/43,1/57,3 %, Fächer `VR0`, Breite `--sw`×0,85.
 - **Seit 1.86.0 neue Richtung „Gewächshaus am Wald“** (Nutzer: edel, vintage, verziert und schlicht, Pflanzen, ladylike in Grün
   zwischen Wellness und Waldbaden, mehr Weiß/Creme, Bibliothek in einem Gewächshaus, das sich in den Wald öffnet; Lieblingsstück
   sechseckiges eingelegtes Beistelltischchen). Farben Variante A „Gewächshaus am Morgen“: Grund Creme #f7f3ea (nach unten leicht

@@ -1327,9 +1327,10 @@ html.theme-retreat .tb-spine:first-child::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:46%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font:700 13px/1.15 Inter, sans-serif; letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html.theme-retreat .vitrine-img{ background-image:url(img/rt/vitrine.webp); aspect-ratio:518/1304; }
-html.theme-retreat .lib-row .vitrine-img{ width:calc(var(--sw) * 0.76) !important; }
+html.theme-retreat .vitrine-img{ background-image:url(img/rt/vitrine.webp); aspect-ratio:521/1215; }
+html.theme-retreat .lib-row .vitrine-img{ width:calc(var(--sw) * 0.85) !important; } /* 1.86.3: the cabinet with short feet, almost as high as the shelf */
 html.theme-retreat .club-plaque{ left:31.7%; top:91.6%; width:44%; height:2.5%; } /* on the cream plinth (1.86.2) */
+html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:28%; } /* the bookcase without ivy is symmetric (1.86.3) */
 /* the library stands in the conservatory (1.86.2, img/rt/conservatory.webp = „Gewächshaus 4“, 1536×1024): the cream wall
    (13–62 % of the picture) behind the bookcases, the floor line (86 %) at their feet; scrolling right leads to the open doors
    into the forest, so the row is as wide as the picture */
@@ -1802,7 +1803,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.86.2';
+const APP_VERSION = '1.86.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6182,7 +6183,10 @@ const SHELVES = {
   rl:RETREAT
     // A Lady's Conservatory (1.86.2): its own cream bookcase with sage back and ivy on the left (img/rt/shelf, measured)
     ? { img:'rt/shelf', aspect:681 / 1379, roof:1.8, x:[16.7, 90.6], rows:[[9.8, 25.2], [27, 41.3], [42.9, 57.5], [58.8, 73.3], [75, 89.6]] }
-    : { img:'rl/shelf', aspect:552 / 1254, roof:1.8, x:[9.6, 90.4], rows:[[5, 21.3], [23, 38.4], [40, 56.3], [58, 72.8], [75, 87.3]] }
+    : { img:'rl/shelf', aspect:552 / 1254, roof:1.8, x:[9.6, 90.4], rows:[[5, 21.3], [23, 38.4], [40, 56.3], [58, 72.8], [75, 87.3]] },
+  // A Lady's Conservatory with the narrow bookcase (1.86.3): the ivy moves to the narrow one, the big one is mirrored from its
+  // right half (no ivy), and both share one middle wall (the left post of this one)
+  rtPlain:{ img:'rt/shelf-plain', aspect:630 / 1379, roof:1.8, x:[10, 89.8], rows:[[9.8, 25.2], [27, 41.3], [42.9, 57.5], [58.8, 73.3], [75, 89.6]] }
 };
 // the cobwebs stay for the first two active days (since 1.83.0; before: one), from the 3rd the shelf is clean, ivy from level 3
 /* The narrow bookcase (1.81.0): as soon as the diaries no longer fit into the top compartment, a narrow bookcase of the same
@@ -6194,8 +6198,7 @@ const NARROW = {
   clean:{ img:'shelf-slim-clean-narrow', aspect:219 / 667, x:[24, 76.7], k:0.646, ov:0.03 },
   ivy:{ img:'shelf-slim-clean-narrow', aspect:219 / 667, x:[24, 76.7], k:219 / 357, ov:0.03 }, // the ivy only grows on the wide shelf (1.83.0)
   rl:RETREAT
-    // A Lady's Conservatory (1.86.2): mirrored from the right half of its bookcase (no ivy); slides under the ivy margin of the big one
-    ? { img:'rt/shelf-narrow', aspect:400 / 1379, x:[16, 84], k:400 / 681, ov:0.12 }
+    ? { img:'rt/shelf-narrow', aspect:359 / 1379, x:[31.8, 93.6], k:359 / 630, ov:41 / 630 } // 1.86.3: with the ivy, no right post (shares the big one's)
     : { img:'rl/shelf-narrow', aspect:352 / 1254, x:[15.1, 84.9], k:0.6377, ov:0.082 }
 };
 const shelfKey = ()=>BIZ ? 'rl' : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
@@ -6223,7 +6226,7 @@ function isEasterTime(now){
 const RL_DOG_READY = true; // true as soon as img/rl/dog.webp and img/rl/dog-lying.webp are there
 function tbRenderLibrary(){
   const d = t();
-  const SH = shelfNow(); SHELF_X = SH.x; SHELF_ROWS = SH.rows;
+  let SH = shelfNow(); SHELF_X = SH.x; SHELF_ROWS = SH.rows;
   // with the cabinet (level 6) the diaries of earlier years stand in its top compartment, if there are several (1.78.2)
   const allKeys = tbBookKeys(), thisY = tbCurrentYearStr();
   const oldKeys = appLevel() >= 6 ? allKeys.filter(k=>tbBookYear(k) < thisY) : [];
@@ -6255,6 +6258,7 @@ function tbRenderLibrary(){
   let bookRows = packRows(books.map(b=>({ ...b, book:true, g:0.7 })), 0);
   // too many diaries for the top compartment: they all move into the narrow bookcase on the left
   const NS = NARROW[shelfKey()], NAR = bookRows.length > 1;
+  if(RETREAT && NAR){ SH = SHELVES.rtPlain; SHELF_X = SH.x; } // A Lady's Conservatory: the big one without ivy, one shared middle wall (1.86.3)
   const nCap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (NS.x[1] - NS.x[0]) / (r[1] - r[0]) * 100 * NS.aspect; };
   let narrowRows = [];
   if(NAR){ narrowRows = packRows(books.map(b=>({ ...b, book:true, g:0.7 })), 0, 0, false, nCap); bookRows = [];
@@ -6310,9 +6314,9 @@ function tbRenderLibrary(){
   let vitHtml = '';
   if(VIT){
     // A Lady's Conservatory (1.86.2): a brass-and-glass plant cabinet, four glass shelves above the ferns
-    const VX = RETREAT ? [13, 87] : BIZ ? [13.5, 86.5] : [26, 74], VR0 = RETREAT ? [[18.5, 27.6], [29, 39.5], [41, 51.5], [53, 64.2]] : BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[10, 24.5], [26, 39], [41, 52.5], [54, 67], [69, 80]];
+    const VX = RETREAT ? [13, 87] : BIZ ? [13.5, 86.5] : [26, 74], VR0 = RETREAT ? [[10, 18.4], [19.5, 30.1], [31.2, 42.9], [44, 57.1]] : BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[10, 24.5], [26, 39], [41, 52.5], [54, 67], [69, 80]];
     const VR = useOld ? VR0.slice(1) : VR0; // the top compartment then holds the old diaries
-    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (RETREAT ? 518 / 1304 : BIZ ? 0.348 : 0.493) - 10; // the picture is about 0.66 times as wide as high (A Gentleman's Study: 0.348)
+    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (RETREAT ? 521 / 1215 : BIZ ? 0.348 : 0.493) - 10; // the picture is about 0.66 times as wide as high (A Gentleman's Study: 0.348)
     const items = feast.map(x=>{ const h = 92 * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
     let kk = 1, rows = [];
     for(;;){ rows = []; let cur = [], used = 0;
