@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.87.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.87.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -376,6 +376,12 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   ohne Kasten (`.tb-lib-shelf`). Lady-Cover (`rt/covers/*`) neu freigestellt: grauer Schattenrand rechts/unten weggeschnitten, gerade Kanten.
 - Seit 1.87.1: Wer auf dem Handy (kürzere Seite < 600 px) beim neuen Tagebuch „Querformat“ wählt, bekommt eine deutliche Rückfrage
   (`diaryLandPhoneWarn`: Seite wird sehr klein, Format gilt fürs ganze Buch; Knöpfe Hochformat / Trotzdem Querformat / Abbrechen).
+- **Seit 1.87.2 sind die Regale in allen drei Designs gleich hoch** (Höhe = Fensterhöhe − Leiste − 190 px; `--sw` = Höhe × `--sa`,
+  das Seitenverhältnis des Regalbilds, das `tbRenderLibrary` an `.lib-row` setzt). Oben nur 24 px Rand, unten Platz für den Hund
+  (`--sw / --sa × 0,07`). Die Katze sitzt nicht mehr oben auf dem Regal von A Mystery World (bekommt später einen anderen Platz); der Hund
+  steht dort näher vor dem Regal. A Lady's Conservatory: unten wieder Boden zu sehen (`padding-bottom` `--sw`×0,15, Hintergrund y
+  `100% + --sw×0,265`); passt das Orchideen-Tischchen auf dem Handy nicht daneben, beginnt die Zeile beim Regal (Hund ganz sichtbar),
+  das Tischchen schaut links herein (Skript in `tbRenderLibrary`, setzt `scrollLeft` und `scroll-margin-left`). Seitlich scrollen bleibt überall.
 - Seit 1.83.2: neue Zitronen-Glocken (Zitronenzweig: Blüten → grüne Frucht → gelbe Zitrone), schmaler (Seitenverhältnis 0,70). Übungsbilder für die Achtsamkeit (Lotus, Kirschzweig, Zitrone, Steine, Herzen, Klangschale, Glocke, Decke) liegen im Sammelordner unter „Originale ChatGPT/Achtsamkeit“, noch nicht eingebaut.
 
 ## Drittes Design „A Lady's Conservatory“ (seit 1.84.0, bis 1.86.0 „A Morning Retreat“)

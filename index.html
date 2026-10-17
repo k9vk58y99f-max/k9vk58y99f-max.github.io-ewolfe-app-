@@ -653,10 +653,10 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .shelf-wrap{ position:relative; }
 /* A Mystery World with the slim paper bookcase (1.83.0): sized by height like the walnut one; the animals and the decoration
    were placed on the old square picture – here the same places, measured on the bookcase itself */
-html:not(.theme-biz) .lib-row{ --sw:min(calc((100cqw - 16px) / (1.3 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.51), 520px); padding:calc(var(--sw) * 0.4) calc(var(--sw) * 0.15) 40px; } /* room for the cat on top and the animals in front */
+html:not(.theme-biz) .lib-row{ --sw:min(calc((100cqw - 16px) / (0.96 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.5)), 520px); padding:24px 8px calc(var(--sw) / var(--sa, 0.5) * 0.07); } /* 1.87.2: same shelf height in all designs, room for the dog below, none wasted on top */
 html:not(.theme-biz) .lib-row .shelf-img{ background-size:100% 100% !important; }
-html:not(.theme-biz) .shelf-dog{ right:-24%; bottom:-6%; height:36%; transform:rotate(-4deg); }
-html:not(.theme-biz) .shelf-dog-lying{ right:-30%; bottom:-5%; height:17%; }
+html:not(.theme-biz) .shelf-dog{ right:-4%; bottom:-6%; height:36%; transform:rotate(-4deg); }
+html:not(.theme-biz) .shelf-dog-lying{ right:-6%; bottom:-5%; height:17%; }
 html:not(.theme-biz) .shelf-crib{ right:-30%; bottom:-6%; height:40%; }
 html:not(.theme-biz) .shelf-rabbit{ left:30%; bottom:-4%; height:22%; }
 html:not(.theme-biz) .shelf-eggs{ left:52%; bottom:-4%; height:11%; }
@@ -1203,7 +1203,7 @@ html[lang=en].theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after, html[lang=en
 html.theme-biz :is(.medi-card-img, .tb-sticker-btn, .rl-ph-s){ --ph-fs:7px; }
 html.theme-biz .breath-stage{ --ph-fs:18px; }
 /* our dog in front of the walnut bookcase, a little to the right over its edge */
-html.theme-biz .lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.44), 520px); }
+html.theme-biz .lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.44)), 520px); padding-bottom:calc(var(--sw) / var(--sa, 0.44) * 0.07); }
 html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) * 0.72) !important; margin:0 !important; }
 /* the tailor's dress form in a green riding tailcoat (1.86.6), right of the bookcase; the medals will be pinned on it later */
 .lib-dress-wrap{ position:relative; flex:none; --dh:calc(var(--sw) / 0.44 * 0.86); height:var(--dh); margin:0 0 0 calc(var(--sw) * -0.02); }
@@ -1351,9 +1351,9 @@ html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:28%; } /* the b
 /* the library stands in the conservatory (1.86.2, img/rt/conservatory.webp = „Gewächshaus 4“, 1536×1024): the cream wall
    (13–62 % of the picture) behind the bookcases, the floor line (86 %) at their feet; scrolling right leads to the open doors
    into the forest, so the row is as wide as the picture */
-html.theme-retreat .lib-row{ justify-content:flex-start; padding-bottom:calc(var(--sw) * 0.035); /* 1.86.7: the furniture stands further forward on the floor (wish of the user) */ min-width:max(100%, calc(var(--sw) * 4.78));
+html.theme-retreat .lib-row{ justify-content:flex-start; padding-bottom:calc(var(--sw) * 0.15); /* 1.87.2: room for the floor below the furniture (it was cut off in 1.86.7) */ min-width:max(100%, calc(var(--sw) * 4.78));
   background:url(img/rt/conservatory.webp) no-repeat; background-size:calc(var(--sw) * 5.4) auto; /* wall ≈ 2.65 shelf widths: narrow + shelf + cabinet */
-  background-position:calc(var(--sw) * -0.62) calc(100% + var(--sw) * 0.38); border-radius:14px; }
+  background-position:calc(var(--sw) * -0.62) calc(100% + var(--sw) * 0.265); border-radius:14px; }
 html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--sw) * 0.2); }
 html.theme-retreat .tb-spine:first-child::after{ display:none; }
 html.theme-retreat :is(.goal-table-card, .imp-mini, .panel){ box-shadow:0 2px 14px rgba(90,80,60,0.08) !important; }
@@ -1375,7 +1375,7 @@ html.theme-retreat .mood-opt:is(:hover, :active){ color:var(--rt-sage-d) !import
 html.theme-retreat .breath-violet-btn{ color:#fbf8f0 !important; background:var(--rt-sage) !important; }
 html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(247,243,234,0.86) !important; }
 /* the orchid on its plant stand (1.84.2): left of the shelf, a little in front; the row makes room for it */
-html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1.44 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.44), 520px); padding-left:calc(var(--sw) * 0.44); }
+html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.44)), 520px); padding-left:calc(var(--sw) * 0.44); }
 html.theme-retreat .lib-row.has-orchid .shelf-unit{ scroll-margin-left:calc(var(--sw) * 0.44); } /* the snap must not hide the orchid */
 html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:56%; transform:translateX(-86%); /* 1.86.6: the hexagonal inlaid table with the orchid */ z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
 </style>
@@ -1818,7 +1818,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.87.1';
+const APP_VERSION = '1.87.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6342,7 +6342,7 @@ function tbRenderLibrary(){
   const bizDog = days < 15 ? '' : (()=>{ const cls = wkend ? 'shelf-dog-lying' : 'shelf-dog';
     if(RL_DOG_READY) return animal('rl/' + (wkend ? 'dog-lying' : 'dog'), cls);
     return animal(wkend ? 'stickers/dog-lying' : 'dog', cls) + `<span class="shelf-animal ${cls} rl-ph-dog" aria-hidden="true"></span>`; })();
-  const animals = BIZ ? bizDog : !decorOn() ? '' : dogSpot + (lv >= 4 ? animal('cat', 'shelf-cat') : '')
+  const animals = BIZ ? bizDog : !decorOn() ? '' : dogSpot /* the cat no longer sits on top (1.87.2): it will get another place later */
     + (lv >= 6 ? animal('fox', 'shelf-fox') : '') + (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + animal('eggs', 'shelf-eggs') : '')
     + (isNikolausTime() ? animal('nikolaus', 'shelf-nikolaus') + `<img class="shelf-animal shelf-boot" src="img/trophy-boot.webp" alt="">` : '')
     // Advent: the wreath on top of the shelf, one candle more every Sunday; Christmas: the tree beside it and snow
@@ -6374,12 +6374,21 @@ function tbRenderLibrary(){
   }
   const narrowHtml = NAR ? `<div class="shelf-img shelf-narrow" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
       `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}</div>`).join('')}</div>` : '';
-  setTimeout(()=>document.querySelectorAll('.lib-scroll').forEach(libScrollHint), 80);
+  // 1.87.2: the shelf is as high as in the other designs; where the orchid table does not fit next to it as well (phones),
+  // the row starts at the shelf and the table peeks in from the left (scroll left to see it whole)
+  setTimeout(()=>document.querySelectorAll('.lib-scroll').forEach(el=>{
+    const row = el.querySelector('.lib-row.has-orchid'), unit = el.querySelector('.shelf-unit');
+    if(row && unit){ const box = el.getBoundingClientRect(), dog = unit.querySelector('.shelf-dog, .shelf-dog-lying');
+      const right = Math.max(unit.getBoundingClientRect().right, dog ? dog.getBoundingClientRect().right : 0) - box.left + el.scrollLeft;
+      if(right > el.clientWidth){ const left = unit.getBoundingClientRect().left - box.left + el.scrollLeft, to = Math.min(left, right + 6 - el.clientWidth);
+        unit.style.scrollMarginLeft = (left - to) + 'px'; el.scrollLeft = to; } }
+    libScrollHint(el);
+  }), 80);
   // A Morning Retreat (1.84.2): from level 3 (where A Mystery World gets its ivy) a white orchid on a fine plant stand,
   // to the left of the shelf (and of the narrow one), a little in front of it
   const orchid = RETREAT && lv >= 3;
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
-  return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : ''}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0}">
+  return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : ''}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
       <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? '<img class="shelf-orchid" src="img/rt/hex-table.webp" alt="">' : ''}${narrowHtml}${shelfHtml}</div>${DRESS ? `<div class="lib-dress-wrap"><img class="lib-dress" src="img/rl/dress-form.webp" alt=""><div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div></div>` : ''}${vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
