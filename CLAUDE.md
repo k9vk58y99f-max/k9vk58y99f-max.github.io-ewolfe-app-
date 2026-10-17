@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.85.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -371,6 +371,14 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   (`img/rt/orchid-stand.webp`, `.shelf-orchid` in `.shelf-unit`, `.lib-row.has-orchid` macht links Platz, `scroll-margin-left` damit
   das Einrasten ihn nicht verdeckt).
 - Prompts und Entscheidungen: Sammelordner „3 Morning Retreat Style“.
+- **Seit 1.86.0 neue Richtung „Gewächshaus am Wald“** (Nutzer: edel, vintage, verziert und schlicht, Pflanzen, ladylike in Grün
+  zwischen Wellness und Waldbaden, mehr Weiß/Creme, Bibliothek in einem Gewächshaus, das sich in den Wald öffnet; Lieblingsstück
+  sechseckiges eingelegtes Beistelltischchen). Farben Variante A „Gewächshaus am Morgen“: Grund Creme #f7f3ea (nach unten leicht
+  grünlich bis #e8eedf), Karten #fffdf8, Schrift #262622, gedämpft #625e55, Waldgrün #2f4f3e (Knöpfe, Ist-Linie, aktive Leiste),
+  Grün #3f6150 (Unterüberschriften), Salbei #8ea88a, Messing #b08d57 (Wunsch, Rahmen), Messing-Schrift #86683a. Lücke im Rad
+  Salbei → helles Messing-Creme. Kontraste alle über der 30-%-Regel von 1.84.3. Bilder (Gewächshaus-Hintergrund, Regal, Wardscher
+  Kasten als Vitrine, sechseckiges Tischchen, Pouf, Rattan, Terrarium, Teppich): Prompts „Bild-Prompts Morning Retreat – Gewächshaus.md“,
+  Inspiration „Inspiration Gewächshaus“, Farbvergleich „Farbvergleich Gewächshaus.html“. Name evtl. später „A Nature Retreat“ (offen).
 - Seit 1.84.3 Kontrast mindestens 30 % stärker (Wunsch des Nutzers; WCAG-Kontrast gegen Beige #efe6d8 je Farbe × 1,3, Farbton bleibt,
   nur dunkler): Schrift #292723, gedämpft #666058, Salbei #69856a, Salbei dunkel #4b6350, Sand #b69664, Sand dunkel #826a45,
   Knopf #a58552, Vergleich #a7734f, Platzhalter #90877a; feine Linien rgba(41,39,35,…) mit höherer Deckkraft (0,13 → 0,25,

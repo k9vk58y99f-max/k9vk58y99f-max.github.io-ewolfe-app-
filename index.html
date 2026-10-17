@@ -1254,24 +1254,24 @@ html.theme-biz .imp-diary-btn img{ filter:brightness(0.35) !important; }
 html.theme-biz .icon-default .tb-cover-caption .tb-cover-title, html.theme-biz .tb-page-titel .tb-titel-caption-title{ font-family:var(--biz-display) !important; font-stretch:62.5%; font-weight:300 !important;
   text-transform:uppercase; letter-spacing:0.16em; color:#dcd4b8 !important; text-shadow:0 1px 0 rgba(0,0,0,0.55) !important; }
 html.theme-biz .icon-default .tb-cover-caption .tb-cover-year, html.theme-biz .tb-page-titel .tb-titel-caption-year{ font-family:var(--biz-display) !important; font-stretch:62.5%; color:#d9b679 !important; letter-spacing:0.2em; }
-/* ===== Design „A Morning Retreat“ (since 1.84.0, html.theme-biz.theme-retreat): light and calm – beige ground, sage green,
+/* ===== Design „A Morning Retreat“ (since 1.84.0, html.theme-biz.theme-retreat; colours since 1.86.0: variant A „greenhouse in the morning“ – cream and white, deep forest green, sage, brass): light and calm,
    warm sand accents, dark warm text; Cormorant Garamond for headings, Jost for text, round buttons. It sits on top of
    A Gentleman's Study and uses its pictures (with the red placeholder note) until its own come. The diary pages stay. ===== */
 :root.theme-biz.theme-retreat{
-  --ew-navy:#efe6d8; --ew-navy-2:#f8f2e8; --ew-ink:#292723; --ew-white:#292723;
-  --ew-violet:#69856a; --ew-green:#69856a; --ew-uv-violet:#e2e8dc; --ew-uv-violet-2:#d5dfd2; --ew-uv-navy:#efe6d8; --ew-uv-navy-2:#f8f2e8;
-  --ew-uv-lilac:#4b6350; --ew-uv-lilac-soft:rgba(75,99,80,0.5);
-  --ew-text:#292723; --ew-text-dim:#666058; --ew-line:rgba(41,39,35,0.25);
-  --gold:#b69664; --gold-text:#826a45; --gold-rgb:182,150,100; --ew-turquoise:#69856a;
-  --ew-panel:#f8f2e8; --ew-panel-2:#f3ecdf; --ew-radius:14px;
+  --ew-navy:#f7f3ea; --ew-navy-2:#fffdf8; --ew-ink:#262622; --ew-white:#262622;
+  --ew-violet:#2f4f3e; --ew-green:#2f4f3e; --ew-uv-violet:#e8eedf; --ew-uv-violet-2:#dfe8d8; --ew-uv-navy:#f7f3ea; --ew-uv-navy-2:#fffdf8;
+  --ew-uv-lilac:#3f6150; --ew-uv-lilac-soft:rgba(47,79,62,0.5);
+  --ew-text:#262622; --ew-text-dim:#625e55; --ew-line:rgba(41,39,35,0.25);
+  --gold:#b08d57; --gold-text:#86683a; --gold-rgb:176,141,87; --ew-turquoise:#2f4f3e;
+  --ew-panel:#fffdf8; --ew-panel-2:#f9f5ee; --ew-radius:14px;
   --biz-display:'Cormorant Garamond', Georgia, serif;
-  --rt-sage:#69856a; --rt-sage-d:#4b6350; --rt-soft:#e2e8dc; --rt-card:#f8f2e8;
+  --rt-sage:#2f4f3e; --rt-sage-d:#3f6150; --rt-soft:#e8eedf; --rt-card:#fffdf8;
   color-scheme:light;
 }
-html.theme-retreat body, html.theme-retreat .page-modal, html.theme-retreat .tb-overlay{ background:#efe6d8 !important; color:var(--ew-text); font-family:'Jost', 'Inter', sans-serif; }
-html.theme-retreat::before{ background:#efe6d8; }
+html.theme-retreat body, html.theme-retreat .page-modal, html.theme-retreat .tb-overlay{ background:linear-gradient(180deg, #f7f3ea 0%, #f7f3ea 60%, #e8eedf 100%) fixed !important; color:var(--ew-text); font-family:'Jost', 'Inter', sans-serif; }
+html.theme-retreat::before{ background:#f7f3ea; }
 html.theme-retreat body{ font-weight:400; }
-html.theme-retreat .topbar{ background:linear-gradient(180deg, rgba(239,230,216,0.96), rgba(239,230,216,0.7)); }
+html.theme-retreat .topbar{ background:linear-gradient(180deg, rgba(247,243,234,0.96), rgba(247,243,234,0.7)); }
 /* headings: soft serif, no capitals; subheadings in dark sage */
 html.theme-retreat .modal-title, html.theme-retreat .scene-head h1, html.theme-retreat .tb-topbar h2, html.theme-retreat #t-scene-title, html.theme-retreat .modal-top h2{
   font-stretch:normal; font-weight:400 !important; text-transform:none; letter-spacing:0.01em; font-size:calc(var(--fs-h) * 1.3); color:var(--ew-text) !important; }
@@ -1288,13 +1288,13 @@ html.theme-retreat #t-logo{ font-stretch:normal; letter-spacing:0.2em; color:var
 html.theme-retreat .primary-btn, html.theme-retreat .ghost-btn, html.theme-retreat .seg-btn, html.theme-retreat .mini-btn, html.theme-retreat .medi-start-btn, html.theme-retreat .chip,
 html.theme-retreat .tb-chip-btn, html.theme-retreat .timer-chips button, html.theme-retreat .tb-del-book, html.theme-retreat .home-goals-btn, html.theme-retreat .areas-cta,
 html.theme-retreat .mood-opt span{ font-family:'Jost', sans-serif !important; font-stretch:normal; font-weight:400 !important; letter-spacing:0.1em; }
-html.theme-retreat .primary-btn{ background:var(--rt-sage) !important; color:#fbf8f1 !important; border:none !important; border-radius:999px !important; box-shadow:0 4px 14px rgba(75,99,80,0.22) !important; }
+html.theme-retreat .primary-btn{ background:var(--rt-sage) !important; color:#fbf8f0 !important; border:none !important; border-radius:999px !important; box-shadow:0 4px 14px rgba(47,79,62,0.22) !important; }
 html.theme-retreat .ghost-btn{ border:1px solid var(--gold) !important; color:var(--gold-text) !important; background:transparent !important; border-radius:999px !important; }
 html.theme-retreat .seg-btn{ border-radius:999px; color:var(--ew-text); }
 html.theme-retreat .seg-btn.active{ background:var(--rt-soft); color:var(--rt-sage-d); box-shadow:inset 0 0 0 1px var(--rt-sage); }
 html.theme-retreat .design-btn{ border-radius:14px !important; }
 html.theme-retreat .panel{ background:var(--rt-card); border:none; border-radius:14px; box-shadow:0 2px 10px rgba(90,80,60,0.06); }
-html.theme-retreat .modal{ background:#f8f2e8; color:var(--ew-text); }
+html.theme-retreat .modal{ background:#fffdf8; color:var(--ew-text); }
 html.theme-retreat .modal-backdrop:not(.page-modal){ background:rgba(41,39,35,0.35); }
 html.theme-retreat input:not([type=range]):not([type=checkbox]):not([type=radio]), html.theme-retreat textarea, html.theme-retreat select{
   background:#fffdf8 !important; color:var(--ew-text) !important; border:1px solid rgba(41,39,35,0.275) !important; }
@@ -1302,18 +1302,18 @@ html.theme-retreat ::placeholder{ color:#90877a; }
 /* sliders: the now in dark sage, the wish in sand */
 html.theme-retreat input[type=range]::-webkit-slider-thumb{ background:url(img/rt/knob.webp) center/100% 100% no-repeat !important; border:none !important; }
 html.theme-retreat input[type=range]::-moz-range-thumb{ background:url(img/rt/knob.webp) center/100% 100% no-repeat !important; border:none !important; }
-html.theme-retreat input[type=range].range-ist{ background:linear-gradient(90deg, #8aa885 0, #4b6350 var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
-html.theme-retreat input[type=range].range-wish{ background:linear-gradient(90deg, #d3ba8f 0, #b69664 var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
+html.theme-retreat input[type=range].range-ist{ background:linear-gradient(90deg, #8ea88a 0, #3f6150 var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
+html.theme-retreat input[type=range].range-wish{ background:linear-gradient(90deg, #dcc59a 0, #b08d57 var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
 /* line icons: the linen icons of A Gentleman's Study, made dark on the light ground */
 html.theme-retreat .nav-gold, html.theme-retreat .area-ico image, html.theme-retreat .gold-ui, html.theme-retreat .gold-x, html.theme-retreat .gold-arrow, html.theme-retreat .gold-user,
 html.theme-retreat .gold-gear, html.theme-retreat .tb-lib-ico, html.theme-retreat svg image[href*="icons-rl/"], html.theme-retreat img[src*="icons-rl/"]{ filter:brightness(0.26) !important; }
 /* bottom bar: light, the page that is showing in dark sage */
-html.theme-retreat .bottom-nav{ background:rgba(248,242,232,0.97); border-top:1px solid rgba(41,39,35,0.225); box-shadow:0 -4px 16px rgba(90,80,60,0.06); }
+html.theme-retreat .bottom-nav{ background:rgba(255,253,248,0.97); border-top:1px solid rgba(41,39,35,0.225); box-shadow:0 -4px 16px rgba(90,80,60,0.06); }
 html.theme-retreat .nav-item, html.theme-retreat .nav-item:hover{ color:var(--ew-text-dim); font-family:'Jost', sans-serif; }
 html.theme-retreat .nav-item.active{ color:var(--rt-sage-d); }
 html.theme-retreat .nav-item.active::after{ background:var(--rt-sage); left:34%; right:34%; height:2px; border-radius:2px; }
 html.theme-retreat .tb-tools-fab, html.theme-retreat .tb-del-fab{ background:var(--rt-sage) !important; border:none !important; }
-html.theme-retreat #sync-btn.has-note::after{ background:var(--rt-sage); box-shadow:0 0 6px rgba(105,133,106,0.7); }
+html.theme-retreat #sync-btn.has-note::after{ background:var(--rt-sage); box-shadow:0 0 6px rgba(47,79,62,0.7); }
 html.theme-retreat .bereich-value{ fill:var(--ew-text); }
 html.theme-retreat .logo-dog{ box-shadow:0 0 0 1px var(--gold) !important; }
 /* on the cream paper (Ziele, diary areas) sage instead of bronze */
@@ -1337,18 +1337,18 @@ html[lang=en].theme-retreat .imp-card::after{ content:'Placeholder – new desig
 html.theme-retreat .medi-streak > div:first-child{ flex:1; min-width:0; }
 html.theme-retreat .medi-streak .ghost-btn{ letter-spacing:0.03em; text-transform:none; }
 html.theme-retreat .gate-link{ font-family:'Jost', sans-serif !important; }
-html.theme-retreat .tb-topbar{ background:rgba(239,230,216,0.96) !important; color:var(--ew-text); }
-html.theme-retreat .tb-shelf-gear{ background:rgba(248,242,232,0.85); }
+html.theme-retreat .tb-topbar{ background:rgba(247,243,234,0.96) !important; color:var(--ew-text); }
+html.theme-retreat .tb-shelf-gear{ background:rgba(255,253,248,0.85); }
 html.theme-retreat .tb-cover{ position:relative; }
 html.theme-retreat .tb-cover::after, html.theme-retreat .tb-page-titel::after{ content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:38%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:80%; text-align:center; font:700 15px/1.15 Inter, sans-serif; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
 html[lang=en].theme-retreat :is(.tb-cover, .tb-page-titel)::after{ content:'Placeholder – new design coming'; }
-html.theme-retreat .lib-wrap.more::after{ background:rgba(248,242,232,0.92); color:var(--rt-sage-d); box-shadow:0 0 0 1px rgba(105,133,106,0.5); }
+html.theme-retreat .lib-wrap.more::after{ background:rgba(255,253,248,0.92); color:var(--rt-sage-d); box-shadow:0 0 0 1px rgba(47,79,62,0.5); }
 /* text that was written light on dark: dark here */
 html.theme-retreat :is(.mood-opt, .mood-cmp-one, .compare-text, .imp-hint, .ground-num, .timer-chips button, #breath-phase, .trophy-box){ color:var(--ew-text) !important; }
 html.theme-retreat .mood-opt:is(:hover, :active){ color:var(--rt-sage-d) !important; border-color:var(--rt-sage); }
-html.theme-retreat .breath-violet-btn{ color:#fbf8f1 !important; background:var(--rt-sage) !important; }
-html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(239,230,216,0.86) !important; }
+html.theme-retreat .breath-violet-btn{ color:#fbf8f0 !important; background:var(--rt-sage) !important; }
+html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(247,243,234,0.86) !important; }
 /* the orchid on its plant stand (1.84.2): left of the shelf, a little in front; the row makes room for it */
 html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1.44 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.44), 520px); padding-left:calc(var(--sw) * 0.44); }
 html.theme-retreat .lib-row.has-orchid .shelf-unit{ scroll-margin-left:calc(var(--sw) * 0.44); } /* the snap must not hide the orchid */
@@ -1793,7 +1793,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.85.0';
+const APP_VERSION = '1.86.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Morning Retreat (1.84.0): light, sage and beige; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4393,7 +4393,7 @@ function joyImpulse(){
 function joyRenderDeep(){ const el = document.getElementById('joy-deep-wrap'); if(el) el.innerHTML = joyDeepHtml(); }
 /* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
    main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
-const GAP_VIOLET = RETREAT ? [182, 150, 100] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [105, 133, 106] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#a58552' : BIZ ? '#c9a463' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
+const GAP_VIOLET = RETREAT ? [142, 168, 138] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [222, 210, 172] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#b08d57' : BIZ ? '#c9a463' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
 // Since 1.84.4 every knob (sliders, the Box Breathing dot, the wish corners in every wheel) is KNOB_PX wide on the screen,
 // whatever the size of the drawing: `s` is only the first guess, knobFix() sets the real size once the drawing is shown.
 const KNOB_PX = 18; // 1.84.5: 30 % smaller than before
@@ -4417,7 +4417,7 @@ function knobFix(root){
 }
 new MutationObserver(()=>{ if(!knobFix.__q){ knobFix.__q = 1; setTimeout(()=>{ knobFix.__q = 0; knobFix(); }, 0); } })
   .observe(document.documentElement, { childList:true, subtree:true });
-const IST_COL = RETREAT ? '#4b6350' : BIZ ? '#dcd4b8' : '#b8a4ff';
+const IST_COL = RETREAT ? '#2f4f3e' : BIZ ? '#dcd4b8' : '#b8a4ff';
 function wheelGapSvg(P, pt, ist, wish){
   const gaps = ist.map((v, i)=>Math.max(0, wish[i] - v)), mx = Math.max(...gaps), mn = Math.min(...gaps);
   // all gaps equal: the colour in between
@@ -5005,7 +5005,7 @@ function wheelLabelsSvg(svg, valueOf, deltaOf, inline){
     let txt = '';
     if(hasVal){
       const y1 = L.I + L.g + L.fs*0.82;
-      txt += `<text x="0" y="${y1.toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}"${inline ? ` fill="${RETREAT ? '#292723' : BIZ ? '#dcd4b8' : '#cdbdff'}"${font}` : ' class="bereich-value"'}>${valTxt}</text>`;
+      txt += `<text x="0" y="${y1.toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}"${inline ? ` fill="${RETREAT ? '#262622' : BIZ ? '#dcd4b8' : '#cdbdff'}"${font}` : ' class="bereich-value"'}>${valTxt}</text>`;
       if(hasDl){
         const cls = dl > 0 ? 'up' : (dl < 0 ? 'down' : 'same');
         txt += `<text x="0" y="${(y1 + L.lh).toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}" class="bereich-delta ${cls}">${dlTxt}</text>`;
@@ -5039,13 +5039,13 @@ function renderScene(animate, onIntroDone){
 
   let bg = `<defs>
     <linearGradient id="uvBg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="${RETREAT ? '#f8f2e8' : '#080b28'}"/>
-      <stop offset="45%" stop-color="${RETREAT ? '#efe6d8' : '#0d0f3a'}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#e2e8dc' : BIZ ? '#13233a' : '#3d10c9'}"/>
+      <stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/>
+      <stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#e8eedf' : BIZ ? '#13233a' : '#3d10c9'}"/>
     </linearGradient>
     <linearGradient id="gradWheel" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#69856a' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#2f4f3e' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
   `; // (1.78.0) no own background any more: the wheel sits on the page like on Bereiche
@@ -5078,7 +5078,7 @@ function renderScene(animate, onIntroDone){
   }
 
   svg.innerHTML = bg + grid +
-    `<g id="data-polygon" opacity="0">${wishSvg}<polygon points="${dataPts}" fill="${hasWishes() ? (RETREAT ? 'rgba(248,242,232,0.9)' : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)') : 'url(#gradWheel)'}" stroke="${IST_COL}" stroke-width="3"/>${typeof wishTop === 'string' ? wishTop : ''}</g>` +
+    `<g id="data-polygon" opacity="0">${wishSvg}<polygon points="${dataPts}" fill="${hasWishes() ? (RETREAT ? 'rgba(255,253,248,0.9)' : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)') : 'url(#gradWheel)'}" stroke="${IST_COL}" stroke-width="3"/>${typeof wishTop === 'string' ? wishTop : ''}</g>` +
     labels + joySunSvg();
   wheelLabelsFit(svg);
 
@@ -5111,7 +5111,7 @@ function renderScene(animate, onIntroDone){
 function joySunSvg(){
   const j = joyNow(); if(!j) return '';
   const k = (WHEEL_LAB && WHEEL_LAB.k) || 1, v = joyShown(j), sz = (26 + 28 * v / 100) * k, cy = CY - 6 * k;
-  const col = RETREAT ? '#292723' : BIZ ? '#d9b679' : '#f6d27a';
+  const col = RETREAT ? '#262622' : BIZ ? '#d9b679' : '#f6d27a';
   return `<defs><filter id="joyGlow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="${(7 * k).toFixed(1)}"/></filter></defs>
     <g id="joy-sun" style="cursor:pointer" onclick="event.stopPropagation(); joyInfo()">
     <circle cx="${CX}" cy="${cy.toFixed(1)}" r="${(sz * 0.62).toFixed(1)}" fill="${KNOB_GOLD}" opacity="${(0.15 + 0.6 * v / 100).toFixed(2)}" filter="url(#joyGlow)"/>
@@ -5179,7 +5179,7 @@ function miniWheelSvg(values){
   return `<svg width="90" height="90" viewBox="0 0 90 90">
     <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#69856a' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#2f4f3e' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.85"/>
     </linearGradient></defs>
     ${grid}<polygon points="${dataPts}" fill="url(#${gid})" stroke="${IST_COL}" stroke-width="1.5"/>
   </svg>`;
@@ -5243,7 +5243,7 @@ function areasWheelSvg(){
   [25, 50, 75, 100].forEach(r=>{ g += poly(WHEEL_AREAS.map(()=>r), `fill="none" stroke="${RETREAT ? 'rgba(41,39,35,' + (r === 100 ? 0.39 : 0.24) + ')' : 'rgba(243,234,214,' + (r === 100 ? 0.45 : 0.16) + ')'}" stroke-width="1"`); });
   WHEEL_AREAS.forEach((a, i)=>{ const p = pt(i, 100), q = pt(i, 121); g += `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="${RETREAT ? 'rgba(41,39,35,0.24)' : 'rgba(243,234,214,0.16)'}"/><image href="img/icons/ico-${a}.webp" x="${(q.x - 10).toFixed(1)}" y="${(q.y - 10).toFixed(1)}" width="20" height="20"/>`; });
   return `<svg class="areas-wheel" viewBox="0 0 260 248" aria-hidden="true"><defs>${gap.defs}</defs>${g}${gap.shapes}`
-    + poly(ist, `fill="${RETREAT ? 'rgba(248,242,232,0.9)' : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)'}" stroke="${IST_COL}" stroke-width="1.6"`)
+    + poly(ist, `fill="${RETREAT ? 'rgba(255,253,248,0.9)' : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)'}" stroke="${IST_COL}" stroke-width="1.6"`)
     + poly(wish, `fill="none" stroke="${KNOB_GOLD}" stroke-width="2.6" stroke-linejoin="round"`)
     + wish.map((v, i)=>{ const p = pt(i, v); return wishKnob(p.x, p.y, 12); }).join('') + `</svg>`;
 }
@@ -5353,7 +5353,7 @@ function maybeShowAreasIntro(){
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
 let compareSelection = [];
-const COMPARE_COLORS = RETREAT ? ['#4b6350', '#b69664', '#a7734f'] : BIZ ? ['#dcd4b8', '#c9a463', '#6f9c86'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
+const COMPARE_COLORS = RETREAT ? ['#2f4f3e', '#b08d57', '#8ea88a'] : BIZ ? ['#dcd4b8', '#c9a463', '#6f9c86'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
 const COMPARE_FILL_OPACITY = [0.34, 0.34, 0.34]; // all three equally transparent; only draw order (newest in front) differs
 document.getElementById('compare-toggle-btn').onclick = ()=>{
   compareMode = !compareMode;
@@ -5396,9 +5396,9 @@ function openWheelCompare(){
 
   let bg = `<defs>
     <linearGradient id="uvBgCmp" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="${RETREAT ? '#f8f2e8' : '#080b28'}"/>
-      <stop offset="45%" stop-color="${RETREAT ? '#efe6d8' : '#0d0f3a'}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#e2e8dc' : BIZ ? '#13233a' : '#3d10c9'}"/>
+      <stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/>
+      <stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#e8eedf' : BIZ ? '#13233a' : '#3d10c9'}"/>
     </linearGradient>
   </defs>
 `; // no own background: the window's colour runs on evenly under the wheel and the text
@@ -5490,13 +5490,13 @@ function openWheelSnapshot(idx){
 
   let bg = `<defs>
     <linearGradient id="uvBgSnap" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="${RETREAT ? '#f8f2e8' : '#080b28'}"/>
-      <stop offset="45%" stop-color="${RETREAT ? '#efe6d8' : '#0d0f3a'}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#e2e8dc' : BIZ ? '#13233a' : '#3d10c9'}"/>
+      <stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/>
+      <stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#e8eedf' : BIZ ? '#13233a' : '#3d10c9'}"/>
     </linearGradient>
     <linearGradient id="gradWheelSnap" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#69856a' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#2f4f3e' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="800" height="${vbH}" fill="url(#uvBgSnap)"/>`;
@@ -7062,8 +7062,8 @@ function wheelPictureSvg(){
   const ds = new Date(latest || Date.now()).toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
   const font = 'Inter, -apple-system, Helvetica, Arial, sans-serif';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 ${h}" width="800" height="${h}">`
-    + `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${RETREAT ? '#f8f2e8' : '#080b28'}"/><stop offset="45%" stop-color="${RETREAT ? '#efe6d8' : '#0d0f3a'}"/><stop offset="100%" stop-color="${RETREAT ? '#e2e8dc' : BIZ ? '#13233a' : '#3d10c9'}"/></linearGradient>`
-    + `<linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/><stop offset="100%" stop-color="${RETREAT ? '#69856a' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient></defs>`
+    + `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/><stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/><stop offset="100%" stop-color="${RETREAT ? '#e8eedf' : BIZ ? '#13233a' : '#3d10c9'}"/></linearGradient>`
+    + `<linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/><stop offset="100%" stop-color="${RETREAT ? '#2f4f3e' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient></defs>`
     + `<rect width="800" height="${h}" rx="44" fill="url(#bg)"/>`
     + `<text x="44" y="78" font-family="${font}" font-size="40" font-weight="700" fill="#ffffff">${escapeHtml(d.navHome)}</text>`
     + `<text x="756" y="78" text-anchor="end" font-family="${font}" font-size="32" fill="#e8b84a">${ds}</text>`
