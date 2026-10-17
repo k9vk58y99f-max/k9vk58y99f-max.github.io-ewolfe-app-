@@ -1308,11 +1308,11 @@ html.theme-retreat #goals-page .goal-table tr.tbl-pct th.rowlabel{ color:var(--r
 html.theme-retreat #goals-page .goal-table tr.tbl-first > *{ border-top-color:var(--rt-sage); }
 /* the pictures of A Gentleman's Study stand in for now: the shelf, the cabinet, the dog, the rank plate and the covers carry the red note */
 html.theme-retreat :is(.shelf-img, .vitrine-img, .tb-cover-img, .tb-spine){ position:relative; }
-html.theme-retreat :is(.shelf-img, .vitrine-img)::after, html.theme-retreat .tb-spine:first-child::after{
+html.theme-retreat .tb-spine:first-child::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:46%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font:700 13px/1.15 Inter, sans-serif; letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html[lang=en].theme-retreat :is(.shelf-img, .vitrine-img)::after{ content:'Placeholder – new design coming'; }
+html.theme-retreat .vitrine-img{ background-image:url(img/rt/vitrine.webp); }
 html.theme-retreat .tb-spine:first-child::after{ display:none; }
 html.theme-retreat :is(.goal-table-card, .imp-mini, .panel){ box-shadow:0 2px 14px rgba(90,80,60,0.08) !important; }
 html.theme-retreat .imp-card{ filter:drop-shadow(0 12px 22px rgba(90,80,60,0.2)); }
@@ -1773,7 +1773,7 @@ html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(239,230,216,0.8
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.84.0';
+const APP_VERSION = '1.84.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Morning Retreat (1.84.0): light, sage and beige; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6022,7 +6022,8 @@ const SHELVES = {
   clean:{ img:'shelf-slim-clean', aspect:339 / 667, roof:1.2, x:[15.5, 85], rows:[[9, 22.8], [25, 37.8], [40, 53], [55, 68], [70.5, 85.5]] },
   ivy:{ img:'shelf-slim-ivy', aspect:357 / 667, roof:1.2, x:[20.5, 85.5], rows:[[9, 22.8], [25, 37.8], [40, 53], [55, 68], [70.5, 85.5]] },
   // A Gentleman's Study (1.80.0): one plain walnut bookcase, always the same (img/rl/shelf.webp, measured inner walls and boards)
-  rl:{ img:'rl/shelf', aspect:552 / 1254, roof:1.8, x:[9.6, 90.4], rows:[[5, 21.3], [23, 38.4], [40, 56.3], [58, 72.8], [75, 87.3]] }
+  rl:{ img:RETREAT ? 'rt/shelf' : 'rl/shelf', aspect:552 / 1254, // A Morning Retreat: the same bookcase in light oak (img/rt/, 1.84.1)
+  roof:1.8, x:[9.6, 90.4], rows:[[5, 21.3], [23, 38.4], [40, 56.3], [58, 72.8], [75, 87.3]] }
 };
 // the cobwebs stay for the first two active days (since 1.83.0; before: one), from the 3rd the shelf is clean, ivy from level 3
 /* The narrow bookcase (1.81.0): as soon as the diaries no longer fit into the top compartment, a narrow bookcase of the same
@@ -6033,7 +6034,7 @@ const NARROW = {
   dusty:{ img:'shelf-slim-dusty-narrow', aspect:232 / 667, x:[23.5, 76.4], k:0.659, ov:0.03 },
   clean:{ img:'shelf-slim-clean-narrow', aspect:219 / 667, x:[24, 76.7], k:0.646, ov:0.03 },
   ivy:{ img:'shelf-slim-clean-narrow', aspect:219 / 667, x:[24, 76.7], k:219 / 357, ov:0.03 }, // the ivy only grows on the wide shelf (1.83.0)
-  rl:{ img:'rl/shelf-narrow', aspect:352 / 1254, x:[15.1, 84.9], k:0.6377, ov:0.082 }
+  rl:{ img:RETREAT ? 'rt/shelf-narrow' : 'rl/shelf-narrow', aspect:352 / 1254, x:[15.1, 84.9], k:0.6377, ov:0.082 }
 };
 const shelfKey = ()=>BIZ ? 'rl' : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
 // the library scrolls sideways (1.81.0): a small arrow at the right edge while there is more to see

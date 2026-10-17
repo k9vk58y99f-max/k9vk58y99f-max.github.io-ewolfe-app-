@@ -364,6 +364,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   „Design A Morning Retreat“ am Ende des CSS; Rad-Farben über `RETREAT ? … : BIZ ? … : …` (IST_COL, GAP_*, KNOB_GOLD, Gitter).
 - Linien-Symbole sind die von A Gentleman's Study, per `filter:brightness(0.38)` dunkel.
 - Design-Auswahl: drei Knöpfe untereinander (`DESIGNS`, `DESIGN_SUB`); Wechsel lädt neu, wenn sich `window.EW_DESIGN` ändert.
+- Seit 1.84.1: Regal, Anbau-Regal und Vitrine sind die Bilder von A Gentleman's Study, hell umgefärbt (Eiche, `img/rt/shelf`, `rt/shelf-narrow`,
+  `rt/vitrine`; gleiche Maße und Fächer, `SHELVES.rl.img`/`NARROW.rl.img` wählen per `RETREAT`). Umfärben: Helligkeit je Pixel mit
+  Gamma 0,9 auf einen Eichen-Verlauf gelegt (Skript im Scratchpad `lighten.py`, Variante „eiche“).
 - Prompts und Entscheidungen: Sammelordner „3 Morning Retreat Style“.
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
