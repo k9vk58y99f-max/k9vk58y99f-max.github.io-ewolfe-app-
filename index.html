@@ -1815,7 +1815,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.86.8';
+const APP_VERSION = '1.86.9';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6523,11 +6523,13 @@ function trophyDefs(){
    pocket watch, telescope, grand cup, growing stacks of books). A picture replaces its orb as soon as its file is listed
    in CLASSIC_READY (until then the orb stays). [file, width/height]; the books have one picture per stage. */
 const CLASSIC_NEW = {
-  wheel:['trophy-wheel', 1], goal:['trophy-cup', 0.9], loyal:['trophy-watch', 1], // the sun in the orb (Freude) stays
-  up10:['trophy-telescope', 1], upall:['trophy-cup-grand', 0.85],
-  page:[['trophy-books-1', 1.2], ['trophy-books-2', 1], ['trophy-books-3', 0.85], ['trophy-books-4', 0.75]]
+  wheel:['trophy-wheel', 0.473], goal:['trophy-cup', 0.439], loyal:['trophy-watch', 0.55], // the sun in the orb (Freude) stays
+  up10:['trophy-telescope', 0.766], upall:['trophy-cup-grand', 0.671],
+  // [file, width/height, scale]: each stack is cut to its own height, so the scale keeps one book as high as one book
+  page:[['trophy-books-1', 1.254, 0.44], ['trophy-books-2', 0.97, 0.55], ['trophy-books-3', 0.798, 0.71], ['trophy-books-4', 0.691, 0.85]]
 };
-const CLASSIC_READY = new Set([]); // e.g. 'trophy-wheel' once img/trophy-wheel.webp is there
+// since 1.86.9 all pictures are there (golden low-poly style with sparkles, cut from navy)
+const CLASSIC_READY = new Set(['trophy-wheel', 'trophy-cup', 'trophy-watch', 'trophy-telescope', 'trophy-cup-grand', 'trophy-books-1', 'trophy-books-2', 'trophy-books-3', 'trophy-books-4']);
 // the same growing book stacks for A Gentleman's Study (img/rl/books-1…4) as soon as they are there
 // [file, width/height, scale]: the stacks are cut to their own height, so the scale keeps one book as high as one book
 const RL_BOOKS = [['rl/books-1', 2.57, 0.36], ['rl/books-2', 1.85, 0.5], ['rl/books-3', 1.38, 0.66], ['rl/books-4', 1.31, 0.82]], RL_READY = new Set(['rl/books-1', 'rl/books-2', 'rl/books-3', 'rl/books-4']);
@@ -6535,7 +6537,7 @@ function trophyClassicNew(x){
   const m = x.group === 'page' ? CLASSIC_NEW.page[x.stage] : CLASSIC_NEW[x.group] || CLASSIC_NEW[x.id];
   if(!m || !CLASSIC_READY.has(m[0])) return x;
   // growing pictures (the book stacks) grow by themselves – the stage scale then stays the same
-  return { ...x, img:m[0], aspect:m[1], scale:x.group === 'page' ? 0.8 : x.scale };
+  return { ...x, img:m[0], aspect:m[1], scale:x.group === 'page' ? (m[2] || 0.8) : Math.min(1, (x.scale || 0.8) * 1.2) }; // the slim pedestals look small at the orbs' size
 }
 // trophy pictures still to come (1.81.0): until they are in img/, a stand-in with the red placeholder note
 const TRO_MISSING = new Set([]); // all there since 1.82.0
