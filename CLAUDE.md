@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.3`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -371,6 +371,11 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   (`img/rt/orchid-stand.webp`, `.shelf-orchid` in `.shelf-unit`, `.lib-row.has-orchid` macht links Platz, `scroll-margin-left` damit
   das Einrasten ihn nicht verdeckt).
 - Prompts und Entscheidungen: Sammelordner „3 Morning Retreat Style“.
+- Seit 1.84.3 Kontrast mindestens 30 % stärker (Wunsch des Nutzers; WCAG-Kontrast gegen Beige #efe6d8 je Farbe × 1,3, Farbton bleibt,
+  nur dunkler): Schrift #292723, gedämpft #666058, Salbei #69856a, Salbei dunkel #4b6350, Sand #b69664, Sand dunkel #826a45,
+  Knopf #a58552, Vergleich #a7734f, Platzhalter #90877a; feine Linien rgba(41,39,35,…) mit höherer Deckkraft (0,13 → 0,25,
+  0,18 → 0,29 usw.); Linien-Symbole `brightness(0.26)` statt 0,38. Hintergründe unverändert. Neue Bilder aus den Prompts
+  werden erst eingebaut, wenn sie da sind.
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
