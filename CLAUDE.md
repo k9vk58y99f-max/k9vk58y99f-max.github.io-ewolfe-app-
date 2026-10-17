@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -366,7 +366,10 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - Design-Auswahl: drei Knöpfe untereinander (`DESIGNS`, `DESIGN_SUB`); Wechsel lädt neu, wenn sich `window.EW_DESIGN` ändert.
 - Seit 1.84.1: Regal, Anbau-Regal und Vitrine sind die Bilder von A Gentleman's Study, hell umgefärbt (Eiche, `img/rt/shelf`, `rt/shelf-narrow`,
   `rt/vitrine`; gleiche Maße und Fächer, `SHELVES.rl.img`/`NARROW.rl.img` wählen per `RETREAT`). Umfärben: Helligkeit je Pixel mit
-  Gamma 0,9 auf einen Eichen-Verlauf gelegt (Skript im Scratchpad `lighten.py`, Variante „eiche“).
+  Gamma 0,9 auf einen Holz-Verlauf gelegt (Skript im Scratchpad `lighten.py`; seit 1.84.2 Variante „gekalkt“, passend zum Tischchen).
+- Seit 1.84.2: ab Stufe 3 (wo A Mystery World den Efeu bekommt) steht links vor dem Regal ein Pflanzentisch mit weißer Orchidee
+  (`img/rt/orchid-stand.webp`, `.shelf-orchid` in `.shelf-unit`, `.lib-row.has-orchid` macht links Platz, `scroll-margin-left` damit
+  das Einrasten ihn nicht verdeckt).
 - Prompts und Entscheidungen: Sammelordner „3 Morning Retreat Style“.
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
