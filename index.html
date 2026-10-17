@@ -1818,7 +1818,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.87.0';
+const APP_VERSION = '1.87.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4269,6 +4269,8 @@ Object.assign(I18N.en, {"stickerNames": {"leaf": "Leaf", "moon": "Moon", "sun": 
 Object.assign(I18N.de, {"diaryCoverPick": "Cover"});
 Object.assign(I18N.en, {"diaryCoverPick": "Cover"});
 Object.assign(I18N.de, { diaryLandPhone:'Tipp: Auf dem Handy ist das Hochformat angenehmer. Das Querformat eignet sich besser für Tablet und Computer.' });
+Object.assign(I18N.de, { diaryLandPhoneWarn:'Querformat auf dem Handy?\n\nAuf dem Handy wird eine Querformat-Seite sehr klein: die Schrift ist winzig und Schreiben und Zeichnen sind mühsam. Das Format gilt für das ganze Buch und lässt sich später nicht ändern.\n\nWenn du vor allem am Handy schreibst, nimm lieber das Hochformat.', diaryLandKeep:'Trotzdem Querformat' });
+Object.assign(I18N.en, { diaryLandPhoneWarn:'Landscape on a phone?\n\nOn a phone a landscape page becomes very small: the text is tiny and writing and drawing are fiddly. The format applies to the whole book and cannot be changed later.\n\nIf you mostly write on your phone, portrait is the better choice.', diaryLandKeep:'Landscape anyway' });
 Object.assign(I18N.en, { diaryLandPhone:'Tip: on a phone the portrait format is more comfortable. Landscape suits tablets and computers better.' });
 Object.assign(I18N.de, {"trophyToDiary": "Ins Tagebuch", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
 Object.assign(I18N.en, {"trophyToDiary": "Add to diary", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
@@ -6062,7 +6064,15 @@ async function tbNewBookAsk(){
   const d = t();
   const phone = Math.min(window.innerWidth, window.innerHeight) < 600;
   const choice = await uiDialog(d.diaryNewBook + '\n\n' + d.diaryNewBookText + (phone ? '\n\n' + d.diaryLandPhone : ''), { okText:d.diaryPortrait, altText:d.diaryLandscape, confirm:true });
-  if(choice === true) tbNewBook('portrait'); else if(choice === 'alt') tbNewBook('landscape');
+  if(choice === true) return tbNewBook('portrait');
+  if(choice !== 'alt') return;
+  // on a phone landscape pages get very small: ask once more, clearly (since 1.87.1)
+  if(phone){
+    const sure = await uiDialog(d.diaryLandPhoneWarn, { okText:d.diaryPortrait, altText:d.diaryLandKeep, confirm:true });
+    if(sure === true) return tbNewBook('portrait');
+    if(sure !== 'alt') return;
+  }
+  tbNewBook('landscape');
 }
 function tbEnsureYear(year){
   if(!state.tagebuch.jahre[year]){
