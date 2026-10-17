@@ -385,7 +385,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Der Ring-Knopf von A Gentleman's Study/A Morning Retreat: `r = 0,45·s`, Rand `s/10` (außen genau s).
 - **Aussehen der Knöpfe in A Gentleman's Study und A Morning Retreat ist noch offen:** Vergleichsseite `knopf-vergleich.html` (nicht
   im Commit) zeigt A heute / B ohne hellen Rand / C runde Scheibe der Medaille (`img/rl/knob-medal.webp`, aus `rl/medal-cognac`
-  ausgeschnitten, ebenfalls noch nicht im Commit). Box Breathing zeigt dort bisher noch den goldenen Faltpapier-Knopf von A Mystery World.
+  ausgeschnitten; beides wieder entfernt). Box Breathing zeigt dort bisher noch den goldenen Faltpapier-Knopf von A Mystery World.
 - **Seit 1.84.5 (Entscheidung des Nutzers):** Knopf „B ohne Rand“ überall und 30 % kleiner: `KNOB_PX` = 18. Ein Bild je Design
   (`KNOB_IMG`): A Gentleman's Study `img/rl/knob.webp`, A Morning Retreat `img/rt/knob.webp` (Bronze- bzw. Sand-Verlauf ohne Rand,
   mit Pillow gerechnet), A Mystery World weiter `img/knob-gold.webp`. Gleiches Bild für Regler, Box-Breathing-Punkt (`#knobPat` wird in
