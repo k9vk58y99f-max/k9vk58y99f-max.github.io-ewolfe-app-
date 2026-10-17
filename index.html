@@ -1191,12 +1191,12 @@ html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .
 /* since 1.86.4 A Gentleman's Study has its own exercise pictures: the note stays only on the breathing animation and the stickers
    (and, in A Lady's Conservatory, on everything that still shows the pictures of A Gentleman's Study) */
 html.theme-biz .medi-card-img{ display:inline-block; }
-html.theme-biz :is(.breath-stage, .tb-sticker-btn, .rl-ph)::after, html.theme-retreat :is(.medi-card-img, .medi-player-img, .grat-pic)::after{
+html.theme-biz :is(.tb-sticker-btn, .rl-ph)::after, html.theme-retreat :is(.breath-stage, .medi-card-img, .medi-player-img, .grat-pic)::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font-family:Inter, sans-serif; font-weight:700; font-size:var(--ph-fs, 13px); letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30;
   text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html[lang=en].theme-biz :is(.breath-stage, .tb-sticker-btn, .rl-ph)::after, html[lang=en].theme-retreat :is(.medi-card-img, .medi-player-img, .grat-pic)::after{ content:'Placeholder – new design coming'; }
+html[lang=en].theme-biz :is(.tb-sticker-btn, .rl-ph)::after, html[lang=en].theme-retreat :is(.breath-stage, .medi-card-img, .medi-player-img, .grat-pic)::after{ content:'Placeholder – new design coming'; }
 html.theme-biz :is(.medi-card-img, .tb-sticker-btn, .rl-ph-s){ --ph-fs:7px; }
 html.theme-biz .breath-stage{ --ph-fs:18px; }
 /* our dog in front of the walnut bookcase, a little to the right over its edge */
@@ -1805,7 +1805,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.86.4';
+const APP_VERSION = '1.86.5';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2812,19 +2812,24 @@ function breathLotusBuild(kind){
   cherryPreload(kind);
   if(g.dataset.kind !== kind){
     // since 1.63.1 a still picture without background (the videos are not good enough yet)
-    g.innerHTML = `<image href="img/${kind === 'blossom' ? 'ex-cherry' : 'lotus'}.webp" x="-100" y="-100" width="200" height="200" preserveAspectRatio="xMidYMid meet"/>`;
+    // A Gentleman's Study (1.86.5): its own lotus of brass and enamel / the cherry branch in the crystal vase (img/rl/medi/)
+    g.innerHTML = `<image href="img/${BIZ ? (kind === 'blossom' ? 'rl/medi/cherry' : 'rl/medi/lotus') : kind === 'blossom' ? 'ex-cherry' : 'lotus'}.webp" x="-100" y="-100" width="200" height="200" preserveAspectRatio="xMidYMid meet"/>`;
     g.dataset.kind = kind;
-    g.setAttribute('transform', kind === 'blossom' ? 'translate(120 120) scale(0.92)' : 'translate(120 120) scale(0.86)'); // the branch fills the space where the lake would be
+    g.dataset.base = BIZ ? 0.84 : kind === 'blossom' ? 0.92 : 0.86;
+    g.setAttribute('transform', `translate(120 120) scale(${g.dataset.base})`); // the branch fills the space where the lake would be
   }
   lotusEls = { kind, a:g.querySelector('.cv-a'), b:g.querySelector('.cv-b'), ia:0, ib:1, pet:[...g.querySelectorAll('.lt-pet')], sep:[...g.querySelectorAll('.lt-sep')], center:g.querySelector('.lt-center'), centers:[...g.querySelectorAll('.lt-center')], buds:[...g.querySelectorAll('.lt-bud')], glow:g.querySelector('.lt-glow') };
   document.querySelectorAll('#breath-modal .breath-lake, #breath-modal .breath-sky').forEach(el=>{ el.style.display = 'none'; });
   // the branch is cut off by the edge of the sky square
   const clip = document.getElementById('breath-clip');
-  if(kind === 'blossom') clip.setAttribute('clip-path', 'url(#lakeClip)'); else clip.removeAttribute('clip-path');
+  if(kind === 'blossom' && !BIZ) clip.setAttribute('clip-path', 'url(#lakeClip)'); else clip.removeAttribute('clip-path');
 }
 const BLOSSOM_MAX_OPEN = 0.9; // the cherry blossoms never open completely
 function breathLotusSet(open){
-  if(!lotusEls || !lotusEls.a) return; // a still picture since 1.63.1
+  if(!lotusEls || !lotusEls.a){ // a still picture since 1.63.1; in A Gentleman's Study it gently grows as you breathe in (1.86.5)
+    const g = document.getElementById('breath-lotus');
+    if(BIZ && g) g.setAttribute('transform', `translate(120 120) scale(${(+g.dataset.base * (0.9 + 0.14 * Math.max(0, Math.min(1, open)))).toFixed(4)})`);
+    return; }
   // evenly through the whole phase (4-7-8: 4 s to open, 8 s to close; Box: 4 s each)
   const [N, url] = BREATH_FRAMES[lotusEls.kind];
   const e = lotusEls, pos = Math.max(0, Math.min(1, open)) * (N - 1), k = Math.min(N - 2, Math.floor(pos)), f = pos - k;

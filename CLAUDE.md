@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.5`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -357,7 +357,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   bell, blanket; vom Navy-Grund freigestellt, Glasvase durchsichtig, Skript im Sammelordner „Freigestellt/medi“): `imgPic()` tauscht
   in BIZ über `RL_MEDI` (Karten, Lemon-Player, Stille, Dankbarkeit); eigene Übungen zeigen in BIZ die Messingglocke. Roter Hinweis
   bleibt nur auf der Atem-Animation (`.breath-stage`) und den Stickern; in A Lady's Conservatory weiter auf allem Geliehenen.
-  Offen für AGS: 19 Sticker (Prompts „Achtsamkeit-Prompts RL.md“ Teil B), Atem-Animation im neuen Stil, Favicon/Manifest-Symbol.
+  Seit 1.86.5 auch in Box Breathing (Lotus) und 4-7-8 (Kirschzweig in der Vase, ohne Himmel-Ausschnitt): das Bild wird beim
+  Einatmen sanft größer (`breathLotusSet`, Faktor 0,9–1,04 von `data-base`), kein roter Hinweis mehr in AGS.
+  Offen für AGS: 19 Sticker (Prompts „Achtsamkeit-Prompts RL.md“ Teil B, Nutzer liefert), Favicon/Manifest-Symbol.
 - Seit 1.83.2: neue Zitronen-Glocken (Zitronenzweig: Blüten → grüne Frucht → gelbe Zitrone), schmaler (Seitenverhältnis 0,70). Übungsbilder für die Achtsamkeit (Lotus, Kirschzweig, Zitrone, Steine, Herzen, Klangschale, Glocke, Decke) liegen im Sammelordner unter „Originale ChatGPT/Achtsamkeit“, noch nicht eingebaut.
 
 ## Drittes Design „A Lady's Conservatory“ (seit 1.84.0, bis 1.86.0 „A Morning Retreat“)
