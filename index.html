@@ -1203,7 +1203,12 @@ html.theme-biz .breath-stage{ --ph-fs:18px; }
 html.theme-biz .lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.44), 520px); }
 html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) * 0.72) !important; margin:0 !important; }
 /* the tailor's dress form in a green riding tailcoat (1.86.6), right of the bookcase; the medals will be pinned on it later */
-.lib-dress{ flex:none; height:calc(var(--sw) / 0.44 * 0.86); width:auto; margin:0 0 0 calc(var(--sw) * -0.02); filter:drop-shadow(0 6px 10px rgba(0,0,0,0.35)); pointer-events:none; }
+.lib-dress-wrap{ position:relative; flex:none; --dh:calc(var(--sw) / 0.44 * 0.86); height:var(--dh); margin:0 0 0 calc(var(--sw) * -0.02); }
+.lib-dress{ display:block; height:100%; width:auto; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.35)); pointer-events:none; }
+/* the medals as orders on the left breast of the tailcoat (seen from the front: on the right), three to a row, slightly overlapping */
+.dress-medals{ position:absolute; left:59%; top:20%; width:25%; display:flex; flex-wrap:wrap; justify-content:center; row-gap:calc(var(--dh) * 0.004); }
+.dress-medal{ background:none; border:none; padding:0; margin:0 calc(var(--dh) * -0.0035); cursor:pointer; filter:drop-shadow(0 2px 2px rgba(0,0,0,0.45)); }
+.dress-medal img{ display:block; height:calc(var(--dh) * 0.062); width:auto; }
 html.theme-biz .lib-wrap.more::after{ border-radius:2px; }
 html.theme-biz .shelf-dog{ right:-13%; bottom:-4%; height:34%; transform:none; } /* much bigger (1.83.0) */
 html.theme-biz .shelf-dog-lying{ right:-16%; bottom:-3%; height:12.5%; }
@@ -1219,6 +1224,10 @@ html.theme-biz .logo-dog{ border-radius:4px !important; box-shadow:0 0 0 1px rgb
 .club-plaque::before{ left:2.5%; } .club-plaque::after{ right:2.5%; }
 .club-rank{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.14em; font-size:62cqh; line-height:1; color:#3a2410; text-shadow:0 1px 0 rgba(255,236,190,0.55); white-space:nowrap; }
 .club-dia{ font-size:34cqh; line-height:1; letter-spacing:0.2em; color:#3a2410; margin-left:1.6em; } .club-dia i{ font-style:normal; opacity:.28; }
+/* A Mystery World (1.86.8): the all-gold plaque (the gold of the knob, cut like its buttons) on the plinth, ranks of the growing glow */
+html:not(.theme-biz) .club-plaque{ left:17%; top:calc(100% + 1.2cqh); width:66%; height:4.8%; /* under the bookcase: its plinth already has the gold ornament */ background-image:url(img/plaque-gold.webp) !important; box-shadow:0 2px 4px rgba(0,0,0,0.5) !important; }
+html:not(.theme-biz) .club-rank{ font-family:'Marcellus', serif; font-stretch:normal; color:#3d2306; text-shadow:0 1px 0 rgba(255,240,190,0.6); font-size:54cqh !important; }
+html:not(.theme-biz) .club-dia{ color:#3d2306; font-size:30cqh; }
 /* on cream paper (Ziele, diary area pages) the linen line icons would vanish: there they are dark */
 html.theme-biz #goals-page .area-ico image, html.theme-biz .tb-area-head .area-ico image, html.theme-biz .tb-page .area-ico image{ filter:brightness(0.42) !important; }
 /* design choice (first window and settings): two buttons, each with its name and a short line */
@@ -1333,7 +1342,8 @@ html.theme-retreat .tb-spine:first-child::after{
   font:700 13px/1.15 Inter, sans-serif; letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
 html.theme-retreat .vitrine-img{ background-image:url(img/rt/vitrine.webp); aspect-ratio:386/1200; }
 html.theme-retreat .lib-row .vitrine-img{ width:calc(var(--sw) * 0.68) !important; } /* 1.86.3: the cabinet with short feet, almost as high as the shelf */
-html.theme-retreat .club-plaque{ left:31.7%; top:91.6%; width:44%; height:2.5%; } /* on the cream plinth (1.86.2) */
+html.theme-retreat .club-plaque{ left:31.7%; top:91.6%; width:44%; height:2.5%; background-image:url(img/rt/plaque.webp) !important; box-shadow:0 1px 3px rgba(90,80,60,0.35) !important; } /* on the cream plinth (1.86.2); own gold plaque and ranks since 1.86.8 */
+html.theme-retreat .club-rank, html.theme-retreat .club-dia{ color:#4a3410; font-family:'Cormorant Garamond', serif; font-stretch:normal; letter-spacing:0.12em; }
 html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:28%; } /* the bookcase without ivy is symmetric (1.86.3) */
 /* the library stands in the conservatory (1.86.2, img/rt/conservatory.webp = „Gewächshaus 4“, 1536×1024): the cream wall
    (13–62 % of the picture) behind the bookcases, the floor line (86 %) at their feet; scrolling right leads to the open doors
@@ -1354,9 +1364,7 @@ html.theme-retreat .gate-link{ font-family:'Jost', sans-serif !important; }
 html.theme-retreat .tb-topbar{ background:rgba(247,243,234,0.96) !important; color:var(--ew-text); }
 html.theme-retreat .tb-shelf-gear{ background:rgba(255,253,248,0.85); }
 html.theme-retreat .tb-cover{ position:relative; }
-html.theme-retreat .tb-cover::after, html.theme-retreat .tb-page-titel::after{ content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:38%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
-  width:80%; text-align:center; font:700 15px/1.15 Inter, sans-serif; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html[lang=en].theme-retreat :is(.tb-cover, .tb-page-titel)::after{ content:'Placeholder – new design coming'; }
+/* 1.86.8: own linen covers – no placeholder note on cover and title page any more */
 html.theme-retreat .lib-wrap.more::after{ background:rgba(255,253,248,0.92); color:var(--rt-sage-d); box-shadow:0 0 0 1px rgba(47,79,62,0.5); }
 /* text that was written light on dark: dark here */
 html.theme-retreat :is(.mood-opt, .mood-cmp-one, .compare-text, .imp-hint, .ground-num, .timer-chips button, #breath-phase, .trophy-box){ color:var(--ew-text) !important; }
@@ -1807,7 +1815,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.86.7';
+const APP_VERSION = '1.86.8';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2041,15 +2049,17 @@ function levelProgressText(){
 }
 /* A Gentleman's Study (1.80.0): the same levels are ranks of a gentlemen's club – Guest, Candidate, Member, Fellow, Senior
    Fellow, Honorary Member. The rank is engraved on a brass plate on the plinth of the bookcase; one small diamond per rank. */
+// the rank names of each design (1.86.8): the gentlemen's club, the ladies of the conservatory, the growing glow of A Mystery World
+const rankNames = d=>RETREAT ? d.ladyRanks : BIZ ? d.clubRanks : d.glowRanks;
 function clubProgressText(){
-  const d = t(), n = appActiveDays(), lv = appLevel(), next = LEVEL_DAYS.find(x=>x > n), rank = d.clubRanks[lv] || '';
-  if(next !== undefined) return d.clubProgress.replace('{n}', n).replace('{m}', next - n).replace('{r}', d.clubRanks[Math.min(lv + 1, 6)] || '');
-  if(lv < 6 && appFirstActive){ const dd = LEVEL_MONTHS.find(([l])=>l > lv)[1] - Math.floor((Date.now() - appFirstActive) / 864e5); return d.clubProgress.replace('{n}', n).replace('{m}', Math.max(1, dd)).replace('{r}', d.clubRanks[lv + 1] || ''); }
+  const d = t(), n = appActiveDays(), lv = appLevel(), next = LEVEL_DAYS.find(x=>x > n), R = rankNames(d), rank = R[lv] || '';
+  if(next !== undefined) return d.clubProgress.replace('{n}', n).replace('{m}', next - n).replace('{r}', R[Math.min(lv + 1, 6)] || '');
+  if(lv < 6 && appFirstActive){ const dd = LEVEL_MONTHS.find(([l])=>l > lv)[1] - Math.floor((Date.now() - appFirstActive) / 864e5); return d.clubProgress.replace('{n}', n).replace('{m}', Math.max(1, dd)).replace('{r}', R[lv + 1] || ''); }
   return d.clubProgressMax.replace('{n}', n).replace('{r}', rank);
 }
 function clubPlaqueHtml(){
   const d = t(), lv = Math.max(1, appLevel());
-  const rank = d.clubRanks[lv] || '', fit = Math.min(1, 9 / Math.max(1, rank.length)); // long names (Ehrenmitglied) a little smaller
+  const rank = rankNames(d)[lv] || '', fit = Math.min(1, 9 / Math.max(1, rank.length)); // long names (Ehrenmitglied) a little smaller
   return `<div class="club-plaque" title="${escapeHtml(d.clubRankLabel)}"><span class="club-rank" style="font-size:${(62 * fit).toFixed(1)}cqh">${escapeHtml(rank)}</span><span class="club-dia">${'◆'.repeat(lv)}<i>${'◆'.repeat(6 - lv)}</i></span></div>`;
 }
 function appLevel(){
@@ -2075,7 +2085,7 @@ function applyLevel(announce){
   if(!seen){ try{ localStorage.setItem(LEVEL_SEEN_KEY, String(lv)); }catch(e){} return; } // the first time: no fanfare
   if(lv > seen){
     try{ localStorage.setItem(LEVEL_SEEN_KEY, String(lv)); }catch(e){}
-    if(announce !== false) setTimeout(()=>uiNotice((BIZ ? t().clubUp : t().levelUp)[lv - 1] || ''), 600);
+    if(announce !== false) setTimeout(()=>uiNotice((RETREAT ? t().ladyUp : BIZ ? t().clubUp : t().levelUp)[lv - 1] || ''), 600);
   }
 }
 let levelTimer = null;
@@ -4338,9 +4348,13 @@ Object.assign(I18N.en, {
   areaMoreBelongs:'What belongs to it', areaMoreHigh:'How you recognise a high value', areaMoreStep:'A small first step'
 });
 Object.assign(I18N.de, { clubRanks:['', 'Gast', 'Anwärter', 'Mitglied', 'Ratsmitglied', 'Vorstand', 'Ehrenmitglied'], clubRankLabel:'Dein Rang',
+  ladyRanks:['', 'Gast', 'Gärtnerin', 'Botanikerin', 'Kuratorin', 'Patronin', 'Ehrenpatronin'], glowRanks:['', 'Funke', 'Glut', 'Flamme', 'Stern', 'Komet', 'Sonne'],
+  ladyUp:['', 'Willkommen als Gärtnerin. Sieben aktive Tage – die ersten Samen sind gesät.', 'Du bist jetzt Botanikerin. 30 aktive Tage – du kennst deine Pflanzen und sie wachsen.', 'Du bist jetzt Kuratorin. 100 aktive Tage – dein Gewächshaus blüht.', 'Willkommen als Patronin. Ein halbes Jahr bleibst du dir treu.', 'Ehrenpatronin. Ein ganzes Jahr mit dir selbst – deine Vitrine steht bereit.'],
   clubProgress:'Aktive Tage: {n} · noch {m} bis zum Rang „{r}“', clubProgressMax:'Aktive Tage: {n} · höchster Rang: {r}',
   clubUp:['', 'Willkommen als Anwärter. Sieben aktive Tage – du hast ernsthaft begonnen, an dir zu arbeiten.', 'Du bist jetzt Mitglied. 30 aktive Tage – aus Vorsätzen werden Gewohnheiten.', 'Du bist jetzt Ratsmitglied. 100 aktive Tage – das zeugt von Haltung.', 'Willkommen im Vorstand. Ein halbes Jahr bleibst du dir treu.', 'Ehrenmitglied. Ein ganzes Jahr mit dir selbst – deine Vitrine steht bereit.'] });
 Object.assign(I18N.en, { clubRanks:['', 'Guest', 'Candidate', 'Member', 'Fellow', 'Senior Fellow', 'Honorary Member'], clubRankLabel:'Your rank',
+  ladyRanks:['', 'Guest', 'Gardener', 'Botanist', 'Curator', 'Patroness', 'Honorary Patroness'], glowRanks:['', 'Spark', 'Ember', 'Flame', 'Star', 'Comet', 'Sun'],
+  ladyUp:['', 'Welcome as a gardener. Seven active days – the first seeds are sown.', 'You are now a botanist. 30 active days – you know your plants and they are growing.', 'You are now a curator. 100 active days – your conservatory is in bloom.', 'Welcome as a patroness. For half a year you have stayed true to yourself.', 'Honorary patroness. A whole year with yourself – your cabinet is ready.'],
   clubProgress:'Active days: {n} · {m} more to the rank of {r}', clubProgressMax:'Active days: {n} · highest rank: {r}',
   clubUp:['', 'Welcome as a candidate. Seven active days – you have truly begun to work on yourself.', 'You are now a member. 30 active days – resolutions are turning into habits.', 'Elected a fellow. 100 active days – that shows character.', 'Senior fellow. For half a year you have stayed true to yourself.', 'Honorary member. A whole year with yourself – your cabinet is ready.'] });
 Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!", "Ein halbes Jahr mit dir selbst! In den Ecken deines Rahmens funkeln jetzt Sterne.", "Ein ganzes Jahr! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
@@ -6177,7 +6191,7 @@ function tbSpineHtml(key){
   const pages = diary.seiten.filter(p=>p.type !== 'titel').length;
   // the person's paper book spines, chosen by the cover colour (own cover picture or default design: blue)
   const spine = tbCoverName(diary);
-  const bg = `background:url(img/${BIZ ? 'rl/spine-' + (RL_COVER[spine] || 'navy') : 'book-' + spine}.webp) center/100% 100% no-repeat;`;
+  const bg = `background:url(img/${BIZ ? COVER_DIR + '/spine-' + (RL_COVER[spine] || RL_COVER.navy) : 'book-' + spine}.webp) center/100% 100% no-repeat;`;
   const k = tbShelfScale(), w = Math.round(((land ? 44 : 34) + Math.min(26, pages / 5)) * k), h = Math.round((land ? 104 : 134) * k);
   const font = c.titleFont === 'hand' ? "'Caveat',cursive" : "'Marcellus',serif";
   return `<button class="shelf-book${key === tbYear ? ' current' : ''}" style="width:${w}px;height:${h}px;${bg}" onclick="tbOpenYear('${key}')" title="${escapeHtml(c.title || d.diaryTitle)} ${key}" aria-label="${escapeHtml(c.title || d.diaryTitle)} ${key}">
@@ -6253,7 +6267,10 @@ function tbRenderLibrary(){
   const books = keys.map(spine).concat({ w:27, h:84, plus:true });
   // after a year (level 6) the display cabinet comes: the feast-day trophies move into it (1.78.0)
   const VIT = appLevel() >= 6, isFeast = x=>/^(easter\d+|nikolaus2?|xmas2?)$/.test(x.id);
-  const allShown = trophyShelf(), shown = VIT ? allShown.filter(x=>!isFeast(x)) : allShown, feast = VIT ? allShown.filter(isFeast) : [];
+  // A Gentleman's Study (1.86.8): the exercise medals are pinned on the tailcoat of the dress form like orders, not on the shelf
+  const DRESS = BIZ && !RETREAT;
+  const allShown = trophyShelf().filter(x=>!(DRESS && x.group === 'ex')), shown = VIT ? allShown.filter(x=>!isFeast(x)) : allShown, feast = VIT ? allShown.filter(isFeast) : [];
+  const medals = DRESS ? trophyList().filter(x=>x.group === 'ex' && x.at).map(trophyRl).filter(x=>DRESS_ALL_MEDALS || x.stage === Math.max(...trophyList().filter(y=>y.group === 'ex' && y.at).map(y=>y.stage))) : [];
   const tro = shown.map(x=>{ const h = (x.kind === 'img' ? 96 : 80) * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
   const fill = (items, gap, maxW)=>{ const rows = []; let cur = [], used = 0;
     items.forEach(it=>{ if(cur.length && used + it.w + gap > (maxW || SHELF_ROW_W - 8)){ rows.push(cur); cur = []; used = 0; } cur.push(it); used += it.w + gap; });
@@ -6297,7 +6314,7 @@ function tbRenderLibrary(){
   const rowsAll = packed.slice(0, SHELF_ROWS.length).map(r=>({ kind:r.every(it=>!it.book) ? 'tro' : 'books', r }));
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
     : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
-  const troHtml = o=>`<button class="shelf-trophy${trophyPh(o.x) ? ' ph-note ph-note-s' : ''}" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
+  const troHtml = o=>`<button class="shelf-trophy${trophyPh(o.x) ? ' ph-note ph-note-s' : ''}" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh${TRO_LIFT[o.x.img] ? `;transform:translateY(${TRO_LIFT[o.x.img]}%)` : ''}" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
   // the animals come one by one: the dog after 15 active days (since 1.73.9), the cat on top from level 4 (100 days), the fox (as big as
   // the dog, on the floor left) after a year (level 6). The rabbit only visits at Easter, in front of the shelf with eggs.
   // A missing picture (cat, eggs not there yet) simply stays away.
@@ -6321,7 +6338,7 @@ function tbRenderLibrary(){
   const half = Math.ceil(roof.length / 2);
   const roofHtml = roof.length ? `<div class="shelf-comp shelf-roof" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${SH.roof - rh}%;height:${rh}%">
       <div class="shelf-roof-side">${roof.slice(0, half).map(troHtml).join('')}</div><div class="shelf-roof-side right">${roof.slice(half).map(troHtml).join('')}</div></div>` : '';
-  const shelfHtml = `<div class="shelf-img" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%;aspect-ratio:${(SH.aspect || 1).toFixed(4)}">${BIZ ? clubPlaqueHtml() : ''}${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
+  const shelfHtml = `<div class="shelf-img" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%;aspect-ratio:${(SH.aspect || 1).toFixed(4)}">${clubPlaqueHtml()}${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rowsAll[i];
       return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : row ? ' shelf-comp-books' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}</div>`;
@@ -6349,7 +6366,7 @@ function tbRenderLibrary(){
   const orchid = RETREAT && lv >= 3;
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : ''}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? '<img class="shelf-orchid" src="img/rt/hex-table.webp" alt="">' : ''}${narrowHtml}${shelfHtml}</div>${BIZ && !RETREAT ? '<img class="lib-dress" src="img/rl/dress-form.webp" alt="">' : ''}${vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? '<img class="shelf-orchid" src="img/rt/hex-table.webp" alt="">' : ''}${narrowHtml}${shelfHtml}</div>${DRESS ? `<div class="lib-dress-wrap"><img class="lib-dress" src="img/rl/dress-form.webp" alt=""><div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div></div>` : ''}${vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;
@@ -6493,11 +6510,11 @@ function trophyDefs(){
   WHEEL_AREAS.forEach(a=>{ let below = false; (state.bewertungen[a] || []).slice().sort((x, y)=>x.ts - y.ts).forEach(x=>{
     if(x.wish === undefined || x.wish === null) return;
     if(x.value < x.wish) below = true; else if(below && (arrived === null || x.ts < arrived)) arrived = x.ts; }); });
-  out.push({ id:'arrived', kind:'img', img:BIZ ? 'rl/plane' : 'trophy-plane', scale:0.8, aspect:BIZ ? 1.68 : 2.07, need:1, list:arrived ? [arrived] : [],
+  out.push({ id:'arrived', kind:'img', img:RETREAT ? 'rt/balloon' : BIZ ? 'rl/plane' : 'trophy-plane', scale:0.8, aspect:RETREAT ? 0.671 : BIZ ? 1.68 : 2.07, need:1, list:arrived ? [arrived] : [],
     title:L('Angekommen', 'Arrived'), desc:L('In einem Lebensbereich bist du dort angekommen, wo du hinwolltest.', 'In one area of life you have arrived where you wanted to be.') });
   const months = [], mSeen = new Set();
   ev.wheels.slice().sort((x, y)=>x - y).forEach(ts=>{ const d = new Date(ts), k = d.getFullYear() * 12 + d.getMonth(); if(!mSeen.has(k)){ mSeen.add(k); months.push(ts); } });
-  out.push({ id:'classic12', kind:'img', img:BIZ ? 'rl/car' : 'trophy-car', scale:BIZ ? 0.6 : 0.5, aspect:BIZ ? 2.61 : 3.77, need:12, list:months,
+  out.push({ id:'classic12', kind:'img', img:RETREAT ? 'rt/bicycle' : BIZ ? 'rl/car' : 'trophy-car', scale:BIZ ? 0.6 : 0.5, aspect:RETREAT ? 1.63 : BIZ ? 2.61 : 3.77, need:12, list:months,
     title:L('Ein Klassiker', 'A true classic'), desc:L('In zwölf verschiedenen Monaten hast du ein Lebensrad erstellt – zeitlos wie ein Klassiker.', 'You created a wheel of life in twelve different months – timeless, like a classic.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle Lebensbereiche haben sich verbessert.', 'All areas of life have improved.') });
   return (BIZ ? out.map(trophyRl) : out.map(trophyClassicNew)).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x);
@@ -6523,6 +6540,9 @@ function trophyClassicNew(x){
 // trophy pictures still to come (1.81.0): until they are in img/, a stand-in with the red placeholder note
 const TRO_MISSING = new Set([]); // all there since 1.82.0
 const trophyPh = x=>x.phNote || rlMissing(x);
+const DRESS_ALL_MEDALS = true; // all medals reached so far on the tailcoat (false: only the highest)
+// A Gentleman's Study: these two stood too far forward on the board (their bases); lifted a little = further back (1.86.8)
+const TRO_LIFT = { 'rl/telescope':-9, 'rl/cup-silver':-7 };
 /* A Gentleman's Study (1.80.0): the same trophies, other pictures (img/rl/): medals, crystal obelisks, glass cloches, silver cups,
    ship's wheel, pocket watch, sundial, telescope … – [picture, width/height]. A trophy that grows keeps its picture and grows
    in size; a picture that is not there yet (the crib) stays the classic one. */
@@ -6535,9 +6555,30 @@ const RL_TRO = {
   up10:['telescope', 1.01], upall:['cup-grand', 0.76], nikolaus:['nikolaus', 0.4], nikolaus2:['boot', 1.05], xmas:['star', 0.73], xmas2:['crib', 1.28]
 };
 const RL_EGGS = [['egg-cream', 0.57, 0.75], ['egg-cobalt', 0.58, 0.9], ['egg-green', 0.59, 1.05]];
+// A Lady's Conservatory (1.86.8): its own trophies in img/rt/ (brooches, rose quartz, cloches in three stages, armillary sphere,
+// porcelain cup, pendant watch, sundial with jasmine, watering can, flower urn, balloon, bicycle); what is still missing (Nikolaus,
+// boot, star, crib, Easter eggs) keeps the picture of A Gentleman's Study as placeholder
+const RT_TRO = {
+  ex:[1, 2, 3, 4, 5, 6].map(i=>['brooch-' + i, 0.99]),
+  streak:[['quartz-1', 0.587], ['quartz-2', 0.552], ['quartz-3', 0.529], ['quartz-4', 0.506], ['quartz-5', 0.445], ['quartz-6', 0.443]],
+  box:[['cloche-lotus-1', 0.873], ['cloche-lotus-2', 0.877], ['cloche-lotus-3', 0.87]],
+  b478:[['cloche-cherry-1', 0.834], ['cloche-cherry-2', 0.843], ['cloche-cherry-3', 0.845]], lemon:[['cloche-lemon-1', 0.798], ['cloche-lemon-2', 0.791], ['cloche-lemon-3', 0.789]],
+  stones:[['cloche-stones-1', 0.823], ['cloche-stones-2', 0.821], ['cloche-stones-3', 0.829]], bowl:[['cloche-bowl-1', 0.8], ['cloche-bowl-2', 0.795], ['cloche-bowl-3', 0.798]],
+  grat:[['cloche-hearts-1', 0.807], ['cloche-hearts-2', 0.811], ['cloche-hearts-3', 0.809]],
+  wheel:['armillary', 0.629], goal:['cup', 1.2], loyal:['watch', 0.698], joy:['sundial', 0.977], up10:['wateringcan', 1.84], upall:['flower-urn', 1.12]
+};
+const RT_BOOKS = [['rt/books-1', 3.28, 0.31], ['rt/books-2', 2.3, 0.47], ['rt/books-3', 1.68, 0.65], ['rt/books-4', 1.35, 0.82]];
 // A Gentleman's Study: a trophy whose picture is not yet one of the new design (img/rl/) gets the red placeholder note
-const rlMissing = x=>BIZ && x.kind === 'img' && (RETREAT || !/^rl\//.test(x.img || '')); // A Morning Retreat: no own trophies yet
+const rlMissing = x=>BIZ && x.kind === 'img' && !(RETREAT ? /^rt\//.test(x.img || '') : /^rl\//.test(x.img || '')); // A Lady's Conservatory: own pictures in rt/ (1.86.8)
 function trophyRl(x){
+  if(RETREAT){ // A Lady's Conservatory: its own picture where there is one (1.86.8)
+    if(x.group === 'page') return { ...x, img:RT_BOOKS[x.stage][0], aspect:RT_BOOKS[x.stage][1], scale:RT_BOOKS[x.stage][2] };
+    const rs = RT_TRO[x.group] || RT_TRO[x.id];
+    if(rs){ const r = Array.isArray(rs[0]) ? rs[Math.min(x.stage || 0, rs.length - 1)] : rs;
+      const CLr = ['box', 'b478', 'lemon', 'stones', 'bowl', 'grat'];
+      const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.42 + x.stage * 0.05 : CLr.includes(x.group) ? 0.62 + x.stage * 0.12 : x.scale;
+      return { ...x, img:'rt/' + r[0], aspect:r[1], scale }; }
+  }
   let m = null;
   const st = RL_TRO[x.group];
   if(st && Array.isArray(st[0])) m = st[Math.min(x.stage, st.length - 1)]; // own picture per stage (medals, obelisks, cloches since 1.82.0)
@@ -6681,9 +6722,10 @@ const TB_COVER_LAND = ['navy', 'green', 'violet', 'red', 'blue'];
 const TB_COLOR_TO_COVER = { '#2f1c52':'violet', '#3d10c9':'blue', '#0e4a3a':'green', '#111730':'navy', '#5a2bef':'violet', '#7a1f3d':'red' };
 function tbCoverName(diary){ const c = diary.cover; return TB_COVERS.includes(c.cover) ? c.cover : (c.colorChosen && TB_COLOR_TO_COVER[c.color]) || 'navy'; }
 // A Gentleman's Study (1.82.0): plain leather covers and spines in its own colours, slot by slot for the same five choices
-const RL_COVER = { navy:'navy', blue:'charcoal', green:'green', violet:'cognac', red:'burgundy' };
-const coverThumb = n=>BIZ ? `img/rl/covers/${RL_COVER[n]}-p.webp` : `img/covers/${n}-p.webp`;
-function tbCoverUrl(diary){ const n = tbCoverName(diary); if(BIZ) return `img/rl/covers/${RL_COVER[n] || 'navy'}-${tbIsLand(diary) ? 'l' : 'p'}.webp`; return tbIsLand(diary) ? `img/covers/${TB_COVER_LAND.includes(n) ? n : 'navy'}-l.webp` : `img/covers/${n}-p.webp`; }
+const RL_COVER = RETREAT ? { navy:'sage', blue:'ivory', green:'forest', violet:'blush', red:'celadon' } : { navy:'navy', blue:'charcoal', green:'green', violet:'cognac', red:'burgundy' }; // A Lady's Conservatory: linen covers (1.86.8)
+const COVER_DIR = RETREAT ? 'rt' : 'rl';
+const coverThumb = n=>BIZ ? `img/${COVER_DIR}/covers/${RL_COVER[n]}-p.webp` : `img/covers/${n}-p.webp`;
+function tbCoverUrl(diary){ const n = tbCoverName(diary); if(BIZ) return `img/${COVER_DIR}/covers/${RL_COVER[n] || RL_COVER.navy}-${tbIsLand(diary) ? 'l' : 'p'}.webp`; return tbIsLand(diary) ? `img/covers/${TB_COVER_LAND.includes(n) ? n : 'navy'}-l.webp` : `img/covers/${n}-p.webp`; }
 function tbSetCover(n){ const c = tbEnsureYear(tbYear).cover; c.cover = n; c.image = null; saveState(); tbRender(); }
 /* ---- Cover settings as a pop-up (like the tools menu), for the year in tbYear ---- */
 function tbCoverSettingsHtml(){

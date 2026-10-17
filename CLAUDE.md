@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.7`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.8`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -362,7 +362,12 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Seit 1.86.6 eigene Sticker in AGS (`img/rl/stickers/<key>.webp`, 17 Stück, `RL_STICKER`, `stickerPath()`; Hund = `rl/dog`);
   nur der Hundekopf hat noch das alte Bild mit rotem Hinweis (`.tb-sticker-btn.st-old`). In A Lady's Conservatory alle Sticker mit Hinweis.
   **Schneiderpuppe im Reitfrack** (`img/rl/dress-form.webp`, `.lib-dress`) steht in AGS rechts neben dem Regal (immer); die Medaillen
-  sollen später als Orden darauf. Offen für AGS: Hundekopf-Sticker, Favicon/Manifest-Symbol.
+  Seit 1.86.8 hängen die Übungs-Medaillen als Orden auf der linken Brust des Fracks (`.dress-medals`, alle erreichten Stufen,
+  `DRESS_ALL_MEDALS = true`; false = nur die höchste) und stehen nicht mehr im Regal. Fernrohr und Silberpokal stehen etwas weiter hinten
+  (`TRO_LIFT`). Offen für AGS: Hundekopf-Sticker, Favicon/Manifest-Symbol.
+- **A Mystery World hat seit 1.86.8 auch eine Plakette** (ganz gold, aus `btn-main.webp` umgefärbt: `img/plaque-gold.webp`) **unter** dem
+  Regal (auf dem Sockel sitzt schon die Goldraute), mit Rängen des wachsenden Glanzes (`glowRanks`: Funke, Glut, Flamme, Stern, Komet, Sonne).
+  `rankNames(d)` wählt die Ränge je Design.
 - Seit 1.83.2: neue Zitronen-Glocken (Zitronenzweig: Blüten → grüne Frucht → gelbe Zitrone), schmaler (Seitenverhältnis 0,70). Übungsbilder für die Achtsamkeit (Lotus, Kirschzweig, Zitrone, Steine, Herzen, Klangschale, Glocke, Decke) liegen im Sammelordner unter „Originale ChatGPT/Achtsamkeit“, noch nicht eingebaut.
 
 ## Drittes Design „A Lady's Conservatory“ (seit 1.84.0, bis 1.86.0 „A Morning Retreat“)
@@ -400,6 +405,14 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - Seit 1.86.7 stehen die Möbel weiter vorn auf dem Boden (`.lib-row` padding-bottom `--sw`×0,035). Alle fehlenden Bilder für
   A Lady's Conservatory (Hund nach dem AGS-Hund als Vorlage, Trophäen, Tagebuch-Cover, Achtsamkeit, Sticker, Impulskarten):
   „3 Morning Retreat Style/Alle offenen Prompts – A Lady's Conservatory.md“. „Regal 3 (schlicht, Sockel)“ liegt bereit, noch nicht eingebaut.
+- **Seit 1.86.8 eigene Trophäen, Cover und Plakette in A Lady's Conservatory** (`img/rt/`, `RT_TRO`, `RT_BOOKS`, in `trophyRl` zuerst):
+  Übungen = 6 Emaille-Broschen, Tage in Folge = 6 Rosenquarze, Glasglocken je Übung in 3 Stufen (auch Box Breathing), Lebensräder =
+  Armillarsphäre, Ziele = Porzellanpokal, Treue = Anhängeruhr, Freude = Sonnenuhr mit Jasmin, +10 = Gießkanne, alle besser = Blumenschale,
+  Angekommen = Ballon, Klassiker = Damenrad, Bücherstapel 1–4. Fehlend (Nikolaus, Stiefel, Stern, Krippe, Ostereier) = Bilder von
+  A Gentleman's Study mit Hinweis (`rlMissing` prüft `rt/`). Cover/Buchrücken aus Leinen (`rt/covers/<farbe>-p|l`, `rt/spine-*`, `RL_COVER`
+  zeigt in LC auf sage, ivory, forest, blush, celadon; forest/celadon von ChatGPT im falschen Format, auf 860×1204 bzw. 1000×750 gebracht).
+  Eigene goldene Plakette `rt/plaque.webp` und **Damen-Ränge** (`ladyRanks`: Gast, Gärtnerin, Botanikerin, Kuratorin, Patronin, Ehrenpatronin;
+  `ladyUp`). Freistell-Skript: Sammelordner „Fertige Bilder/Trophäen und Cover (1.86.8)“.
 - **Seit 1.86.0 neue Richtung „Gewächshaus am Wald“** (Nutzer: edel, vintage, verziert und schlicht, Pflanzen, ladylike in Grün
   zwischen Wellness und Waldbaden, mehr Weiß/Creme, Bibliothek in einem Gewächshaus, das sich in den Wald öffnet; Lieblingsstück
   sechseckiges eingelegtes Beistelltischchen). Farben Variante A „Gewächshaus am Morgen“: Grund Creme #f7f3ea (nach unten leicht
