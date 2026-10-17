@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -373,6 +373,13 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   (`img/rt/orchid-stand.webp`, `.shelf-orchid` in `.shelf-unit`, `.lib-row.has-orchid` macht links Platz, `scroll-margin-left` damit
   das Einrasten ihn nicht verdeckt).
 - Prompts und Entscheidungen: Sammelordner „3 Morning Retreat Style“.
+- **Seit 1.86.2 eigene Möbel und das Gewächshaus:** Regal `img/rt/shelf.webp` (cremefarben, Rückwand Salbei, Efeu links; 681×1379,
+  Fächer `x:[16.7, 90.6]`, Reihen gemessen), Anbau-Regal `rt/shelf-narrow` (aus der rechten Hälfte gespiegelt, ohne Efeu, `k` 400/681,
+  `ov` 0,12, weil links 9 % Efeu-Rand sind), Vitrine `rt/vitrine` (Messing und Glas mit Farnen, 518×1304, Glas per Farbe-zu-Alpha
+  gegen das Grau durchsichtig; Fächer `VX [13, 87]`, vier Reihen über den Farnen; Breite `--sw`×0,76), Messingschild auf dem
+  cremefarbenen Sockel. Hintergrund der Bibliothek `rt/conservatory.webp` („Gewächshaus 4“): `.lib-row` ist so breit wie das Bild
+  (4,78 `--sw`), Wand hinter den Möbeln, Bodenlinie an ihren Füßen, rechts scrollt man zu den offenen Türen in den Wald.
+  Freistell-Skript und Bilder: Sammelordner „Fertige Bilder/Gewächshaus (1.86.2)“. Trophäen sind noch die von A Gentleman's Study.
 - **Seit 1.86.0 neue Richtung „Gewächshaus am Wald“** (Nutzer: edel, vintage, verziert und schlicht, Pflanzen, ladylike in Grün
   zwischen Wellness und Waldbaden, mehr Weiß/Creme, Bibliothek in einem Gewächshaus, das sich in den Wald öffnet; Lieblingsstück
   sechseckiges eingelegtes Beistelltischchen). Farben Variante A „Gewächshaus am Morgen“: Grund Creme #f7f3ea (nach unten leicht
