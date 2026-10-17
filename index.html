@@ -366,10 +366,10 @@ input[type=range]{ touch-action:pan-y;
   background:linear-gradient(90deg,var(--ew-green),var(--ew-turquoise)); outline:none;
 }
 input[type=range]::-webkit-slider-thumb{ /* the knob: gold folded paper (1.75.0) */
-  -webkit-appearance:none; width:26px; height:26px; border-radius:50%;
+  -webkit-appearance:none; width:26px; height:26px; border-radius:50%; box-sizing:border-box;
   background:url(img/knob-gold.webp) center/100% 100% no-repeat; border:none; cursor:pointer;
 }
-input[type=range]::-moz-range-thumb{ width:26px; height:26px; border:none; border-radius:50%; background:url(img/knob-gold.webp) center/100% 100% no-repeat; cursor:pointer; }
+input[type=range]::-moz-range-thumb{ width:26px; height:26px; box-sizing:border-box; border:none; border-radius:50%; background:url(img/knob-gold.webp) center/100% 100% no-repeat; cursor:pointer; }
 
 .hist-item{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--ew-line); font-size:13px; }
 .hist-item .d{ color:var(--ew-text-dim); }
@@ -832,6 +832,7 @@ body.swipe-prev .page-modal.open > .modal, body.swipe-prev .tb-overlay.open, bod
 .tb-body{ padding-left:12px; padding-right:12px; overflow-x:hidden; }
 .tb-body.tb-body-cover{ padding-left:12px; padding-right:12px; }
 .compare-swatch{ width:18px; height:5px; border-radius:3px; }
+.compare-swatch-wish{ background:radial-gradient(circle, currentColor 1.6px, transparent 2px) 0 50% / 6px 5px repeat-x !important; } /* dotted, like the wish line (1.84.4) */
 
 /* comparing wheels: the window reaches almost to the top, so the wheel sits as high as on the start page */
 #wheel-compare-modal .modal{ min-height:calc(100% - 56px - var(--safe-t)); overflow-y:auto !important; }
@@ -1592,7 +1593,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
         <rect class="breath-sky" x="30" y="30" width="180" height="180" rx="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="3" style="display:none;"/>
         <rect id="breath-square" x="30" y="30" width="180" height="180" rx="4" fill="none" stroke="rgba(232,184,74,0.45)" stroke-width="2"/>
         <pattern id="knobPat" patternContentUnits="objectBoundingBox" width="1" height="1"><image href="img/knob-gold.webp" width="1" height="1" preserveAspectRatio="none"/></pattern>
-        <circle id="breath-dot" cx="30" cy="210" r="9.75" fill="url(#knobPat)"/>
+        <circle id="breath-dot" class="ew-knob" cx="30" cy="210" r="9.75" fill="url(#knobPat)"/>
       </svg>
     </div>
     <div class="breath-center"><div id="breath-phase">Einatmen</div><div id="breath-count">4</div></div>
@@ -1777,7 +1778,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.84.3';
+const APP_VERSION = '1.84.4';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Morning Retreat (1.84.0): light, sage and beige; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -1856,7 +1857,7 @@ const I18N = {
     complete:'Fertig', delete:'Löschen',
     wheelHistTitle:'Frühere Lebensräder', noWheelHist:'Noch keine früheren Lebensräder gespeichert.',
     cmpUp:'Du hast dich weiterentwickelt: In {n} von 5 Bereichen hast du dich verbessert.', cmpUp1:'Du hast dich weiterentwickelt: In einem Bereich hast du dich verbessert.', cmpUpAll:'Du hast dich weiterentwickelt: In allen Bereichen hast du dich verbessert.', cmpDown:'Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.', cmpSame:'Dein Lebensrad ist stabil geblieben.', diaryInsertWheel:'Lebensrad einfügen', diaryAreasPage:'Lebensbereiche', evalClose:'Schließen',
-    compareOn:'Vergleichen', compareOff:'Abbrechen', compareShow:'Vergleich anzeigen',
+    compareOn:'Vergleichen', compareOff:'Abbrechen', compareShow:'Vergleich anzeigen', cmpWish:'Wunsch',
     goalLabel:'Ziel', addMoreGoal:'+ Weiteres Ziel', saveGoals:'Ziele speichern',
     achievedCategory:'Erreichte Ziele', noAchievedGoals:'Noch keine erreichten Ziele in diesem Bereich.', achievedOn:'Erreicht am',
     diaryTitle:'Tagebuch', diaryLibrary:'Bibliothek', diaryOpen:'Aufschlagen', diaryImgDelete:'Foto löschen', diaryImgResize:'Größe ändern', diaryImgDeleteConfirm:'Dieses Foto wirklich löschen?', diaryToLibrary:'Zur Bibliothek',
@@ -1905,7 +1906,7 @@ const I18N = {
     complete:'Done', delete:'Delete',
     wheelHistTitle:'Past wheels of life', noWheelHist:'No past wheels of life saved yet.',
     cmpUp:'You have grown: you improved in {n} of 5 areas.', cmpUp1:'You have grown: you improved in one area.', cmpUpAll:'You have grown: you improved in all areas.', cmpDown:'Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.', cmpSame:'Your wheel of life has stayed steady.', diaryInsertWheel:'Insert wheel of life', diaryAreasPage:'Areas of life', evalClose:'Close',
-    compareOn:'Compare', compareOff:'Cancel', compareShow:'Show comparison',
+    compareOn:'Compare', compareOff:'Cancel', compareShow:'Show comparison', cmpWish:'Wish',
     goalLabel:'Goal', addMoreGoal:'+ Another goal', saveGoals:'Save goals',
     achievedCategory:'Achieved goals', noAchievedGoals:'No achieved goals in this area yet.', achievedOn:'Achieved on',
     diaryTitle:'Diary', diaryLibrary:'Library', diaryOpen:'Open', diaryImgDelete:'Delete photo', diaryImgResize:'Resize', diaryImgDeleteConfirm:'Really delete this photo?', diaryToLibrary:'Back to library',
@@ -2809,6 +2810,7 @@ function breathOpen(pat){
   document.getElementById('breath-pause-btn').textContent = t().breathPause;
   document.getElementById('breath-stop-btn').textContent = t().breathStop;
   openModal('breath-modal');
+  knobFix(document.getElementById('breath-modal'));
   hpStart(pat); // the tap that opened the exercise also allows sound on phones
   breathMusicUi();
   breath.raf = requestAnimationFrame(breathFrame);
@@ -4309,8 +4311,30 @@ const hasWishes = ()=>AREAS.every(a=>currentWish(a) !== null);
 /* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
    main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
 const GAP_VIOLET = RETREAT ? [182, 150, 100] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [105, 133, 106] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#a58552' : BIZ ? '#c9a463' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
-// Business: the knobs on the wish line are plain cognac dots with a linen ring, the now line is linen
-const wishKnob = (x, y, s)=>BIZ ? `<circle cx="${(x).toFixed(1)}" cy="${(y).toFixed(1)}" r="${(s * 0.36).toFixed(1)}" fill="${RETREAT ? '#b69664' : '#c9a463'}" stroke="${RETREAT ? '#fbf8f1' : '#dcd4b8'}" stroke-width="${(s / 10).toFixed(1)}"/>` : `<image href="img/knob-gold.webp" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
+// Business: the knobs on the wish line are plain cognac dots with a linen ring, the now line is linen.
+// Since 1.84.4 every knob (sliders, the Box Breathing dot, the wish corners in every wheel) is KNOB_PX wide on the screen,
+// whatever the size of the drawing: `s` is only the first guess, knobFix() sets the real size once the drawing is shown.
+const KNOB_PX = 26;
+const wishKnob = (x, y, s)=>BIZ ? `<circle class="ew-knob" data-ring="1" cx="${(x).toFixed(1)}" cy="${(y).toFixed(1)}" r="${(s * 0.45).toFixed(1)}" fill="${RETREAT ? '#b69664' : '#c9a463'}" stroke="${RETREAT ? '#fbf8f1' : '#dcd4b8'}" stroke-width="${(s / 10).toFixed(1)}"/>` : `<image class="ew-knob" data-cx="${(x).toFixed(1)}" data-cy="${(y).toFixed(1)}" href="img/knob-gold.webp" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
+const knobRO = typeof ResizeObserver === 'function' ? new ResizeObserver(es=>es.forEach(e=>knobFix(e.target))) : null;
+function knobFix(root){
+  (root || document).querySelectorAll('.ew-knob').forEach(el=>{
+    const svg = el.ownerSVGElement, vb = svg && svg.viewBox && svg.viewBox.baseVal;
+    if(!svg || !vb || !vb.width) return;
+    if(knobRO && !svg.__knobRO){ svg.__knobRO = 1; knobRO.observe(svg); }
+    const w = svg.clientWidth, h = svg.clientHeight;
+    if(!w || !h) return; // not shown yet: the ResizeObserver calls again when it is
+    const sz = KNOB_PX / Math.min(w / vb.width, h / vb.height); // KNOB_PX in the units of this drawing
+    if(el.tagName.toLowerCase() === 'image'){
+      const cx = +el.dataset.cx, cy = +el.dataset.cy;
+      el.setAttribute('x', (cx - sz / 2).toFixed(2)); el.setAttribute('y', (cy - sz / 2).toFixed(2));
+      el.setAttribute('width', sz.toFixed(2)); el.setAttribute('height', sz.toFixed(2));
+    } else if(el.dataset.ring){ el.setAttribute('r', (sz * 0.45).toFixed(2)); el.setAttribute('stroke-width', (sz / 10).toFixed(2)); }
+    else el.setAttribute('r', (sz / 2).toFixed(2));
+  });
+}
+new MutationObserver(()=>{ if(!knobFix.__q){ knobFix.__q = 1; setTimeout(()=>{ knobFix.__q = 0; knobFix(); }, 0); } })
+  .observe(document.documentElement, { childList:true, subtree:true });
 const IST_COL = RETREAT ? '#4b6350' : BIZ ? '#dcd4b8' : '#b8a4ff';
 function wheelGapSvg(P, pt, ist, wish){
   const gaps = ist.map((v, i)=>Math.max(0, wish[i] - v)), mx = Math.max(...gaps), mn = Math.min(...gaps);
@@ -5020,14 +5044,15 @@ function getWheelSnapshots(){
   // any area still missing after grouping is filled from its closest-in-time known value, so every
   // saved wheel keeps all five spokes instead of disappearing outright.
   const entries = [];
-  AREAS.forEach(a=> state.bewertungen[a].forEach(e=> entries.push({ a, ts:e.ts, value:e.value })));
+  AREAS.forEach(a=> state.bewertungen[a].forEach(e=> entries.push({ a, ts:e.ts, value:e.value, wish:e.wish })));
   entries.sort((x,y)=>x.ts-y.ts);
   const WINDOW_MS = 60000; // comfortably covers any drift; real separate saves are minutes/days apart
   const clusters = [];
   entries.forEach(e=>{
     let cl = clusters.find(c => c.values[e.a]===undefined && Math.abs(e.ts-c.ts)<=WINDOW_MS);
-    if(!cl){ cl = { ts:e.ts, values:{} }; clusters.push(cl); }
+    if(!cl){ cl = { ts:e.ts, values:{}, wishes:{} }; clusters.push(cl); }
     cl.values[e.a] = e.value;
+    if(e.wish !== undefined && e.wish !== null) cl.wishes[e.a] = e.wish; // since 1.84.4 the wish is shown when comparing
     cl.ts = Math.min(cl.ts, e.ts);
   });
   clusters.forEach(cl=>{
@@ -5292,6 +5317,11 @@ function openWheelCompare(){
     polys += `<polygon points="${ptsOf(snaps[i])}" fill="none" stroke="${col}" stroke-width="4" stroke-linejoin="round"/>` + dotsOf(snaps[i], col, 6);
   }
   polys += `<polygon points="${ptsOf(newest)}" fill="none" stroke="${COMPARE_COLORS[0]}" stroke-width="4" stroke-linejoin="round"/>` + dotsOf(newest, COMPARE_COLORS[0], 7);
+  // the wish (how it should be) of the newest wheel as a dotted line on top (1.84.4)
+  const cmpWish = newest.wishes && AREAS.every(a=>newest.wishes[a] !== undefined) ? newest.wishes : null;
+  if(cmpWish){
+    polys += `<polygon points="${AREAS.map((a, idx)=>{ const p = ptFor(idx, cmpWish[a]); return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ')}" fill="none" stroke="${KNOB_GOLD}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 14"/>`;
+  }
 
   svg.innerHTML = bg + grid + polys + labels;
   wheelLabelsFit(svg);
@@ -5312,7 +5342,7 @@ function openWheelCompare(){
     const col = COMPARE_COLORS[i] || COMPARE_COLORS[COMPARE_COLORS.length-1];
     const ds = new Date(s.ts).toLocaleDateString(state.settings.lang==='de'?'de-DE':'en-US',{day:'2-digit',month:'short',year:'numeric'});
     return `<span><span class="compare-swatch" style="background:${col}"></span>${ds}</span>`;
-  }).join('');
+  }).join('') + (cmpWish ? `<span><span class="compare-swatch compare-swatch-wish" style="color:${KNOB_GOLD}"></span>${escapeHtml(d.cmpWish)}</span>` : '');
 }
 
 let wheelSnapshotsCache = [];

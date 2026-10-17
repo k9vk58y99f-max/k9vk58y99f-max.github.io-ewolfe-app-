@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.4`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -376,6 +376,21 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Knopf #a58552, Vergleich #a7734f, Platzhalter #90877a; feine Linien rgba(41,39,35,…) mit höherer Deckkraft (0,13 → 0,25,
   0,18 → 0,29 usw.); Linien-Symbole `brightness(0.26)` statt 0,38. Hintergründe unverändert. Neue Bilder aus den Prompts
   werden erst eingebaut, wenn sie da sind.
+
+## Seit 1.84.4: Knöpfe überall gleich groß, Wunsch im Vergleich
+- **Alle Regler-Knöpfe sind auf dem Bildschirm 26 px groß** (`KNOB_PX`), in allen Designs und auf allen Seiten (Wunsch des Nutzers,
+  gilt immer): Regler (`input[type=range]`, `box-sizing:border-box`), Box-Breathing-Punkt (`#breath-dot`) und die Wunsch-Ecken in
+  jedem Lebensrad (`wishKnob`, auch im kleinen Rad auf „Bereiche“). Knöpfe in Zeichnungen tragen die Klasse `ew-knob`; `knobFix()`
+  rechnet 26 px in die Einheiten der jeweiligen Zeichnung um (MutationObserver + ResizeObserver, `breathOpen` ruft es auch auf).
+  Der Ring-Knopf von A Gentleman's Study/A Morning Retreat: `r = 0,45·s`, Rand `s/10` (außen genau s).
+- **Aussehen der Knöpfe in A Gentleman's Study und A Morning Retreat ist noch offen:** Vergleichsseite `knopf-vergleich.html` (nicht
+  im Commit) zeigt A heute / B ohne hellen Rand / C runde Scheibe der Medaille (`img/rl/knob-medal.webp`, aus `rl/medal-cognac`
+  ausgeschnitten, ebenfalls noch nicht im Commit). Box Breathing zeigt dort bisher noch den goldenen Faltpapier-Knopf von A Mystery World.
+- **Lebensräder vergleichen:** der Wunsch des neuesten Rads als gepunktete Linie in `KNOB_GOLD` (Schnappschüsse tragen jetzt
+  `wishes`), in der Legende „Wunsch“ mit gepunktetem Strich (`.compare-swatch-wish`, Text `cmpWish`).
+- **Idee Schneiderpuppe (nur A Gentleman's Study):** alte Herren-Schneiderpuppe im Reitfrack rechts neben dem Regal, später die
+  Medaillen als Orden auf der Brust; Damen-Fassung später im Kleid mit Broschen und Gemme. Prompts: „Offene Prompts …“ Teil F.
+  Erst einbauen, wenn die Bilder da sind.
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
