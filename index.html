@@ -23,7 +23,7 @@
   var d = null;
   try{ d = localStorage.getItem('ewolfe_design'); if(!d){ d = localStorage.getItem('ewolfe_data_v1') ? 'classic' : 'biz'; localStorage.setItem('ewolfe_design', d); } }catch(e){ d = 'biz'; }
   window.EW_DESIGN = d === 'classic' || d === 'retreat' ? d : 'biz';
-  // A Morning Retreat (1.84.0) builds on A Gentleman's Study (same pictures until its own come) with a light look on top
+  // A Lady's Conservatory (1.84.0, key 'retreat') builds on A Gentleman's Study (same pictures until its own come) with a light look on top
   if(window.EW_DESIGN !== 'classic') document.documentElement.classList.add('theme-biz');
   if(window.EW_DESIGN === 'retreat') document.documentElement.classList.add('theme-retreat');
   // its own home-screen icon: the monogram
@@ -1254,7 +1254,7 @@ html.theme-biz .imp-diary-btn img{ filter:brightness(0.35) !important; }
 html.theme-biz .icon-default .tb-cover-caption .tb-cover-title, html.theme-biz .tb-page-titel .tb-titel-caption-title{ font-family:var(--biz-display) !important; font-stretch:62.5%; font-weight:300 !important;
   text-transform:uppercase; letter-spacing:0.16em; color:#dcd4b8 !important; text-shadow:0 1px 0 rgba(0,0,0,0.55) !important; }
 html.theme-biz .icon-default .tb-cover-caption .tb-cover-year, html.theme-biz .tb-page-titel .tb-titel-caption-year{ font-family:var(--biz-display) !important; font-stretch:62.5%; color:#d9b679 !important; letter-spacing:0.2em; }
-/* ===== Design „A Morning Retreat“ (since 1.84.0, html.theme-biz.theme-retreat; colours since 1.86.0: variant A „greenhouse in the morning“ – cream and white, deep forest green, sage, brass): light and calm,
+/* ===== Design „A Lady's Conservatory“ (until 1.86.0 „A Morning Retreat“; since 1.84.0, html.theme-biz.theme-retreat; colours since 1.86.0: variant A „greenhouse in the morning“ – cream and white, deep forest green, sage, brass): light and calm,
    warm sand accents, dark warm text; Cormorant Garamond for headings, Jost for text, round buttons. It sits on top of
    A Gentleman's Study and uses its pictures (with the red placeholder note) until its own come. The diary pages stay. ===== */
 :root.theme-biz.theme-retreat{
@@ -1793,10 +1793,10 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.86.0';
+const APP_VERSION = '1.86.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
-// A Morning Retreat (1.84.0): light, sage and beige; until its own pictures come it uses those of A Gentleman's Study (with the
+// A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
 // red placeholder note), so BIZ is true there too and RETREAT only changes the colours.
 const RETREAT = window.EW_DESIGN === 'retreat';
 const BIZ = window.EW_DESIGN === 'biz' || RETREAT;
@@ -4541,8 +4541,8 @@ function setLang(lang){
 document.getElementById('lang-de-btn').onclick = ()=>setLang('de');
 // animals and feast-day decoration at the shelf can be switched off per device (since 1.72.0); the trophies stay
 // the two designs: their own names in both languages; a small sample of each (colours and type) on its button
-const DESIGNS = [['biz', "A Gentleman's Study"], ['retreat', 'A Morning Retreat'], ['classic', 'A Mystery World']];
-const DESIGN_SUB = { biz:['ruhig · Navy · Cognac', 'calm · navy · cognac'], retreat:['hell · Salbei · Beige', 'light · sage · beige'], classic:['Gold · Papier · Zauber', 'gold · paper · magic'] };
+const DESIGNS = [['biz', "A Gentleman's Study"], ['retreat', "A Lady's Conservatory"], ['classic', 'A Mystery World']];
+const DESIGN_SUB = { biz:['ruhig · Navy · Cognac', 'calm · navy · cognac'], retreat:['hell · Waldgrün · Creme', 'light · forest green · cream'], classic:['Gold · Papier · Zauber', 'gold · paper · magic'] };
 function designBtns(cur, fn){
   return DESIGNS.map(([k, name])=>`<button class="seg-btn design-btn design-${k}${cur === k ? ' active' : ''}" onclick="${fn}('design','${k}')"><span class="design-name">${name}</span><span class="design-sub">${DESIGN_SUB[k][state.settings.lang === 'en' ? 1 : 0]}</span></button>`).join('');
 }

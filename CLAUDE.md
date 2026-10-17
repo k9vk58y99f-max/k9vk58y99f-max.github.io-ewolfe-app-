@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -355,7 +355,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - **A Gentleman's Study:** Hund deutlich größer vor dem Regal (`.shelf-dog` height 34 %).
 - Seit 1.83.2: neue Zitronen-Glocken (Zitronenzweig: Blüten → grüne Frucht → gelbe Zitrone), schmaler (Seitenverhältnis 0,70). Übungsbilder für die Achtsamkeit (Lotus, Kirschzweig, Zitrone, Steine, Herzen, Klangschale, Glocke, Decke) liegen im Sammelordner unter „Originale ChatGPT/Achtsamkeit“, noch nicht eingebaut.
 
-## Drittes Design „A Morning Retreat“ (seit 1.84.0)
+## Drittes Design „A Lady's Conservatory“ (seit 1.84.0, bis 1.86.0 „A Morning Retreat“)
+- **Name seit 1.86.1: „A Lady's Conservatory“** (Wahl des Nutzers, Gegenstück zu „A Gentleman's Study“). Intern bleiben der Schlüssel
+  `ewolfe_design` = `retreat`, `RETREAT`, `theme-retreat` und der Ordner `img/rt/` – so behalten alle Geräte ihre Wahl.
 - `ewolfe_design` = `retreat`. Das `<head>`-Skript setzt `html.theme-biz` **und** `html.theme-retreat`; im Code `RETREAT` und
   `BIZ` (BIZ ist auch hier wahr: bis eigene Bilder kommen, nutzt es alle Bilder und Funktionen von A Gentleman's Study,
   mit rotem Platzhalter-Hinweis überall: Trophäen über `rlMissing`, Regal, Vitrine, Cover, Titelseite, Impulskarten per CSS).
@@ -378,7 +380,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Grün #3f6150 (Unterüberschriften), Salbei #8ea88a, Messing #b08d57 (Wunsch, Rahmen), Messing-Schrift #86683a. Lücke im Rad
   Salbei → helles Messing-Creme. Kontraste alle über der 30-%-Regel von 1.84.3. Bilder (Gewächshaus-Hintergrund, Regal, Wardscher
   Kasten als Vitrine, sechseckiges Tischchen, Pouf, Rattan, Terrarium, Teppich): Prompts „Bild-Prompts Morning Retreat – Gewächshaus.md“,
-  Inspiration „Inspiration Gewächshaus“, Farbvergleich „Farbvergleich Gewächshaus.html“. Name evtl. später „A Nature Retreat“ (offen).
+  Inspiration „Inspiration Gewächshaus“, Farbvergleich „Farbvergleich Gewächshaus.html“. Name seit 1.86.1 „A Lady's Conservatory“.
 - Seit 1.84.3 Kontrast mindestens 30 % stärker (Wunsch des Nutzers; WCAG-Kontrast gegen Beige #efe6d8 je Farbe × 1,3, Farbton bleibt,
   nur dunkler): Schrift #292723, gedämpft #666058, Salbei #69856a, Salbei dunkel #4b6350, Sand #b69664, Sand dunkel #826a45,
   Knopf #a58552, Vergleich #a7734f, Platzhalter #90877a; feine Linien rgba(41,39,35,…) mit höherer Deckkraft (0,13 → 0,25,
