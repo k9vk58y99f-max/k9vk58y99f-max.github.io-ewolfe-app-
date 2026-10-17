@@ -1191,17 +1191,19 @@ html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .
 /* since 1.86.4 A Gentleman's Study has its own exercise pictures: the note stays only on the breathing animation and the stickers
    (and, in A Lady's Conservatory, on everything that still shows the pictures of A Gentleman's Study) */
 html.theme-biz .medi-card-img{ display:inline-block; }
-html.theme-biz :is(.tb-sticker-btn, .rl-ph)::after, html.theme-retreat :is(.breath-stage, .medi-card-img, .medi-player-img, .grat-pic)::after{
+html.theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after, html.theme-retreat :is(.tb-sticker-btn)::after, html.theme-retreat :is(.breath-stage, .medi-card-img, .medi-player-img, .grat-pic)::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font-family:Inter, sans-serif; font-weight:700; font-size:var(--ph-fs, 13px); letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30;
   text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html[lang=en].theme-biz :is(.tb-sticker-btn, .rl-ph)::after, html[lang=en].theme-retreat :is(.breath-stage, .medi-card-img, .medi-player-img, .grat-pic)::after{ content:'Placeholder – new design coming'; }
+html[lang=en].theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after, html[lang=en].theme-retreat :is(.tb-sticker-btn)::after, html[lang=en].theme-retreat :is(.breath-stage, .medi-card-img, .medi-player-img, .grat-pic)::after{ content:'Placeholder – new design coming'; }
 html.theme-biz :is(.medi-card-img, .tb-sticker-btn, .rl-ph-s){ --ph-fs:7px; }
 html.theme-biz .breath-stage{ --ph-fs:18px; }
 /* our dog in front of the walnut bookcase, a little to the right over its edge */
 html.theme-biz .lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.44), 520px); }
 html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) * 0.72) !important; margin:0 !important; }
+/* the tailor's dress form in a green riding tailcoat (1.86.6), right of the bookcase; the medals will be pinned on it later */
+.lib-dress{ flex:none; height:calc(var(--sw) / 0.44 * 0.86); width:auto; margin:0 0 0 calc(var(--sw) * -0.02); filter:drop-shadow(0 6px 10px rgba(0,0,0,0.35)); pointer-events:none; }
 html.theme-biz .lib-wrap.more::after{ border-radius:2px; }
 html.theme-biz .shelf-dog{ right:-13%; bottom:-4%; height:34%; transform:none; } /* much bigger (1.83.0) */
 html.theme-biz .shelf-dog-lying{ right:-16%; bottom:-3%; height:12.5%; }
@@ -1329,8 +1331,8 @@ html.theme-retreat .tb-spine:first-child::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:46%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font:700 13px/1.15 Inter, sans-serif; letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html.theme-retreat .vitrine-img{ background-image:url(img/rt/vitrine.webp); aspect-ratio:521/1215; }
-html.theme-retreat .lib-row .vitrine-img{ width:calc(var(--sw) * 0.85) !important; } /* 1.86.3: the cabinet with short feet, almost as high as the shelf */
+html.theme-retreat .vitrine-img{ background-image:url(img/rt/vitrine.webp); aspect-ratio:386/1200; }
+html.theme-retreat .lib-row .vitrine-img{ width:calc(var(--sw) * 0.68) !important; } /* 1.86.3: the cabinet with short feet, almost as high as the shelf */
 html.theme-retreat .club-plaque{ left:31.7%; top:91.6%; width:44%; height:2.5%; } /* on the cream plinth (1.86.2) */
 html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:28%; } /* the bookcase without ivy is symmetric (1.86.3) */
 /* the library stands in the conservatory (1.86.2, img/rt/conservatory.webp = „Gewächshaus 4“, 1536×1024): the cream wall
@@ -1364,7 +1366,7 @@ html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(247,243,234,0.8
 /* the orchid on its plant stand (1.84.2): left of the shelf, a little in front; the row makes room for it */
 html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1.44 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * 0.44), 520px); padding-left:calc(var(--sw) * 0.44); }
 html.theme-retreat .lib-row.has-orchid .shelf-unit{ scroll-margin-left:calc(var(--sw) * 0.44); } /* the snap must not hide the orchid */
-html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:64%; transform:translateX(-82%); z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
+html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:56%; transform:translateX(-86%); /* 1.86.6: the hexagonal inlaid table with the orchid */ z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
 </style>
 </head>
 <body data-theme="dark">
@@ -1805,7 +1807,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.86.5';
+const APP_VERSION = '1.86.6';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -3104,7 +3106,12 @@ const STICKERS = ['leaf', 'moon', 'sun', 'wave', 'heart-pink', 'heart-red', 'sta
 const STICKER_ALIAS = { heart:'heart-pink', mountain:'mountains' };
 const MEDI_ICONS = Object.fromEntries(STICKERS.map(k=>[k, 1]).concat([['heart', 1], ['mountain', 1]]));
 const stickerFile = key=>STICKER_ALIAS[key] || (STICKERS.includes(key) ? key : 'leaf');
-function stickerSvg(key){ return `<svg viewBox="-90 -90 180 180" aria-hidden="true"><image href="img/stickers/${stickerFile(key)}.webp" x="-84" y="-84" width="168" height="168" preserveAspectRatio="xMidYMid meet"/></svg>`; }
+// A Gentleman's Study (1.86.6): its own stickers (img/rl/stickers/, brass, enamel, crystal, cut from navy); the dog is the study's
+// dog, only the dog's head has no picture of its own yet (it keeps the old one with the red note)
+const RL_STICKER = new Set(['leaf', 'moon', 'sun', 'wave', 'heart-red', 'heart-pink', 'star', 'mountains', 'rainbow-land', 'music', 'lotus', 'cherry', 'rose', 'fox', 'rabbit', 'rainbow', 'treasure']);
+const stickerPath = f=>BIZ && RL_STICKER.has(f) ? 'rl/stickers/' + f : BIZ && f === 'dog' ? 'rl/dog' : 'stickers/' + f;
+const stickerOld = f=>BIZ && !RL_STICKER.has(f) && f !== 'dog';
+function stickerSvg(key){ return `<svg viewBox="-90 -90 180 180" aria-hidden="true"><image href="img/${stickerPath(stickerFile(key))}.webp" x="-84" y="-84" width="168" height="168" preserveAspectRatio="xMidYMid meet"/></svg>`; }
 function ownPictureSvg(key, id){ return stickerSvg(key); }
 function ownPictureSvgDrawn(key, id){
   const P = 'op' + key + id;
@@ -6323,9 +6330,9 @@ function tbRenderLibrary(){
   let vitHtml = '';
   if(VIT){
     // A Lady's Conservatory (1.86.2): a brass-and-glass plant cabinet, four glass shelves above the ferns
-    const VX = RETREAT ? [13, 87] : BIZ ? [13.5, 86.5] : [26, 74], VR0 = RETREAT ? [[10, 18.4], [19.5, 30.1], [31.2, 42.9], [44, 57.1]] : BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[10, 24.5], [26, 39], [41, 52.5], [54, 67], [69, 80]];
+    const VX = RETREAT ? [11, 89] : BIZ ? [13.5, 86.5] : [26, 74], VR0 = RETREAT ? [[14, 24.2], [25.6, 36.6], [38.1, 49.2], [50.6, 61.6]] : BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[10, 24.5], [26, 39], [41, 52.5], [54, 67], [69, 80]];
     const VR = useOld ? VR0.slice(1) : VR0; // the top compartment then holds the old diaries
-    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (RETREAT ? 521 / 1215 : BIZ ? 0.348 : 0.493) - 10; // the picture is about 0.66 times as wide as high (A Gentleman's Study: 0.348)
+    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (RETREAT ? 386 / 1200 : BIZ ? 0.348 : 0.493) - 10; // the picture is about 0.66 times as wide as high (A Gentleman's Study: 0.348)
     const items = feast.map(x=>{ const h = 92 * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
     let kk = 1, rows = [];
     for(;;){ rows = []; let cur = [], used = 0;
@@ -6342,7 +6349,7 @@ function tbRenderLibrary(){
   const orchid = RETREAT && lv >= 3;
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : ''}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? '<img class="shelf-orchid" src="img/rt/orchid-stand.webp" alt="">' : ''}${narrowHtml}${shelfHtml}</div>${vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? '<img class="shelf-orchid" src="img/rt/hex-table.webp" alt="">' : ''}${narrowHtml}${shelfHtml}</div>${BIZ && !RETREAT ? '<img class="lib-dress" src="img/rl/dress-form.webp" alt="">' : ''}${vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;
@@ -6994,7 +7001,7 @@ function tbToolsHtml(){
         + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), true)">${d.diaryAreasPage}</button>`)}
       ${(isTitle || isFirstRun()) ? '' : `<button class="tb-tools-item" onclick="tbInsertWheel()">${ico('wheel')}${d.diaryInsertWheel}</button>`}
       ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='sticker'?'active':''}" onclick="tbToolsFold('sticker')">${ico('image')}${d.diaryStickers}${chev('sticker')}</button>
-      ${tbToolsSub==='sticker' ? `<div class="tb-sticker-grid">${TB_STICKERS.map((st, i)=>`<button class="tb-sticker-btn" onclick="tbInsertSticker(${i})" title="${escapeHtml(d.stickerNames[st.k] || st.k)}" aria-label="${escapeHtml(d.stickerNames[st.k] || st.k)}">${st.src ? `<img src="${st.src}" alt="">` : st.svg()}</button>`).join('')}</div>` : ''}`}
+      ${tbToolsSub==='sticker' ? `<div class="tb-sticker-grid">${TB_STICKERS.map((st, i)=>`<button class="tb-sticker-btn${stickerOld(st.k) ? ' st-old' : ''}" onclick="tbInsertSticker(${i})" title="${escapeHtml(d.stickerNames[st.k] || st.k)}" aria-label="${escapeHtml(d.stickerNames[st.k] || st.k)}">${st.src ? `<img src="${st.src}" alt="">` : st.svg()}</button>`).join('')}</div>` : ''}`}
       <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbView='pages';tbRender();">${ico('pages')}${d.diaryPagesOverview}</button>
       ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='style'?'active':''}" onclick="tbToolsFold('style')">${ico('palette')}${d.diaryPageStyle}${chev('style')}</button>
       ${subRow('style', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem ${page.type===pt?'active':''}" onclick="tbSetPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join(''))}`}
@@ -7053,7 +7060,7 @@ function stickerHeartsSvg(id){
     + origamiHeart(P, 26, -18, 1.25, 14, ['#c9c6ff', '#b4b0ff', '#a29dfb', '#a29dfb', '#8d86f2', '#7d75ea'])
     + origamiHeart(P, -12, 12, 1.6, -8, ['#ffbfd1', '#ffaac2', '#fb97b3', '#fb97b3', '#f2809f', '#e8718f']));
 }
-const TB_STICKERS = STICKERS.map(k=>({ k, src:'img/stickers/' + k + '.webp' }));
+const TB_STICKERS = STICKERS.map(k=>({ k, src:'img/' + stickerPath(k) + '.webp' }));
 function tbInsertSticker(i){
   const st = TB_STICKERS[i], page = tbEnsureYear(tbYear).seiten[tbPageIdx];
   tbToolsOpen = false; tbToolsSub = '';

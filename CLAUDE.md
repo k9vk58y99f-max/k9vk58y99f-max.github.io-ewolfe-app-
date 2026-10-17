@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.5`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.86.6`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -359,7 +359,10 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   bleibt nur auf der Atem-Animation (`.breath-stage`) und den Stickern; in A Lady's Conservatory weiter auf allem Geliehenen.
   Seit 1.86.5 auch in Box Breathing (Lotus) und 4-7-8 (Kirschzweig in der Vase, ohne Himmel-Ausschnitt): das Bild wird beim
   Einatmen sanft größer (`breathLotusSet`, Faktor 0,9–1,04 von `data-base`), kein roter Hinweis mehr in AGS.
-  Offen für AGS: 19 Sticker (Prompts „Achtsamkeit-Prompts RL.md“ Teil B, Nutzer liefert), Favicon/Manifest-Symbol.
+  Seit 1.86.6 eigene Sticker in AGS (`img/rl/stickers/<key>.webp`, 17 Stück, `RL_STICKER`, `stickerPath()`; Hund = `rl/dog`);
+  nur der Hundekopf hat noch das alte Bild mit rotem Hinweis (`.tb-sticker-btn.st-old`). In A Lady's Conservatory alle Sticker mit Hinweis.
+  **Schneiderpuppe im Reitfrack** (`img/rl/dress-form.webp`, `.lib-dress`) steht in AGS rechts neben dem Regal (immer); die Medaillen
+  sollen später als Orden darauf. Offen für AGS: Hundekopf-Sticker, Favicon/Manifest-Symbol.
 - Seit 1.83.2: neue Zitronen-Glocken (Zitronenzweig: Blüten → grüne Frucht → gelbe Zitrone), schmaler (Seitenverhältnis 0,70). Übungsbilder für die Achtsamkeit (Lotus, Kirschzweig, Zitrone, Steine, Herzen, Klangschale, Glocke, Decke) liegen im Sammelordner unter „Originale ChatGPT/Achtsamkeit“, noch nicht eingebaut.
 
 ## Drittes Design „A Lady's Conservatory“ (seit 1.84.0, bis 1.86.0 „A Morning Retreat“)
@@ -391,7 +394,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   plus ein Stück rechts davon ohne eigenen rechten Pfosten (Füßchen dort entfernt); das große Regal wird `SHELVES.rtPlain`
   (`rt/shelf-plain`, aus seiner rechten Hälfte gespiegelt, ohne Efeu, 630×1379, `x:[10, 89.8]`). Beide teilen sich eine
   Zwischenwand (den linken Pfosten des großen), `ov` 41/630. Umschalten in `tbRenderLibrary` (`if(RETREAT && NAR) SH = SHELVES.rtPlain`).
-  Neue Vitrine „Vitrine 3 (kurze Füße)“: 521×1215, Glasböden bei 18,7/30,3/43,1/57,3 %, Fächer `VR0`, Breite `--sw`×0,85.
+  Seit 1.86.6 Vitrine 4 mit Glasdach und cremefarbener Rückwand (`rt/vitrine`, 386×1200, Glasböden 24,4/36,9/49,5/61,9 %,
+  `VX [11, 89]`, Breite `--sw`×0,68) und links das **sechseckige eingelegte Tischchen mit Orchidee** (`rt/hex-table`, ab Stufe 3,
+  ersetzt das alte Orchideen-Tischchen).
 - **Seit 1.86.0 neue Richtung „Gewächshaus am Wald“** (Nutzer: edel, vintage, verziert und schlicht, Pflanzen, ladylike in Grün
   zwischen Wellness und Waldbaden, mehr Weiß/Creme, Bibliothek in einem Gewächshaus, das sich in den Wald öffnet; Lieblingsstück
   sechseckiges eingelegtes Beistelltischchen). Farben Variante A „Gewächshaus am Morgen“: Grund Creme #f7f3ea (nach unten leicht
