@@ -92,6 +92,9 @@ button, input, select, textarea{ font-family:inherit; }
 #tb-library-btn{ color:var(--ew-text); }
 #tb-library-btn svg{ display:block; }
 .tb-lib-ico{ width:28px; height:30px; object-fit:contain; display:block; }
+/* the library button shows each design's own shelf (since 1.87.0) */
+html #tb-library-btn.icon-btn{ border:none !important; background:none !important; box-shadow:none !important; width:auto; height:auto; min-width:0; padding:0 4px; }
+#tb-library-btn .tb-lib-ico.tb-lib-shelf{ width:auto; height:40px; filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.35)) !important; }
 #sync-btn{ position:relative; }
 #sync-btn svg{ width:30px; height:30px; display:block; }
 #sync-btn::after{ content:''; position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:transparent; }
@@ -1803,7 +1806,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:
 <!-- Tagebuch (Diary) -->
 <div class="tb-overlay" id="tb-overlay">
   <div class="tb-topbar">
-    <button class="icon-btn" id="tb-library-btn" title="Bibliothek"><img class="tb-lib-ico" src="img/icons/ico-library.webp" alt=""></button>
+    <button class="icon-btn" id="tb-library-btn" title="Bibliothek"><img class="tb-lib-ico tb-lib-shelf" src="img/shelf-icon.webp" alt=""></button>
     <h2 id="tb-title">Tagebuch</h2>
     <div class="tb-topnav" id="tb-topnav"></div>
     <div style="display:flex;gap:8px;align-items:center;">
@@ -1815,7 +1818,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.86.9';
+const APP_VERSION = '1.87.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6109,6 +6112,7 @@ document.getElementById('tb-mode-toggle-btn').onclick = ()=>{
   if(!tbEditMode && tbPageIdx===0){ /* stay on title page, fine either way */ }
   tbRender();
 };
+document.querySelector('#tb-library-btn .tb-lib-shelf').src = RETREAT ? 'img/rt/shelf-icon.webp' : BIZ ? 'img/rl/shelf-icon.webp' : 'img/shelf-icon.webp';
 document.getElementById('tb-library-btn').onclick = ()=>{ tbView='library'; tbRender(); };
 
 /* The diary page on tablets and computers: as wide as the screen allows (less the margins), and everything on it grows in
