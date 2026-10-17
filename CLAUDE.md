@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.5`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.85.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -376,6 +376,24 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Knopf #a58552, Vergleich #a7734f, Platzhalter #90877a; feine Linien rgba(41,39,35,…) mit höherer Deckkraft (0,13 → 0,25,
   0,18 → 0,29 usw.); Linien-Symbole `brightness(0.26)` statt 0,38. Hintergründe unverändert. Neue Bilder aus den Prompts
   werden erst eingebaut, wenn sie da sind.
+
+## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
+- Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt
+  wird (Rad, Bereiche-Rad, Vergleich, Verlauf, Mini-Räder, Tagebuch-Bild, Schnappschüsse, Trophäen „alle besser“/„Angekommen“).
+  `AREAS` behält alle sechs für Daten, Sync, Ziele (Ziele für Freude bleiben), Fragen, Impulskarten (alle Freude-Karten bleiben),
+  Ereignis-Bereiche, Tagebuch-Bereichsseite.
+- **Erwartete Freude** (`joySeries`): beginnt bei 50 %, ändert sich mit jedem Rad um die durchschnittliche Veränderung der fünf
+  Bereiche, +5 wenn alle fünf wachsen, 0–100. **Gefühlte Freude**: auf der Bereiche-Seite tippt man eine von fünf Sonnen an
+  (`JOY_SUNS` 20…100, `areasJoyHtml`, `areasJoy`), gespeichert wie bisher in `state.bewertungen.freude` mit der Zeit des Rads
+  (`joyFeltAt`, 60 s Fenster). Alte Freude-Werte zählen als gefühlte Freude. Keine Pflicht: ohne Antippen zeigt die Sonne die erwartete.
+- **Sonne in der Mitte** des Startseiten-Rads (`joySunSvg`): Größe und Schein nach der Freude (gefühlt, sonst erwartet), Wert
+  darunter, Antippen erklärt beides (`joyInfo`).
+- **Karte unter dem Rad** (`#joy-deep-wrap`, `joyDeepHtml`): gefühlt ≥ 15 Punkte (`JOY_GAP`) unter erwartet → „Dein Rad wächst –
+  deine Freude noch nicht“ mit drei Fragen, „Ins Tagebuch“ (`joyDeepToDiary`) und „Freude-Impuls“ (`joyImpulse`). Wächst sie mit
+  (Rad oder gefühlte Freude seit dem letzten Rad gewachsen) → kleiner Feier-Satz (`joyGrowV`, Wunsch des Nutzers); deutlich voraus → `joyAheadV`.
+- Vergleich: Zeile „Freude: a % → b %“. Die Frage `joyAsk` entfällt. Freude-Trophäe (`joy10/20/30`) zählt weiter die gefühlte Freude.
+- Leisten-Symbole wieder mit fünf Ecken: A Mystery World die alten Goldbilder (aus 1.77), A Gentleman's Study/A Morning Retreat neue
+  Linien-SVGs. Vorschlagsseite (nicht im Commit): `vorschlag/freude.html`.
 
 ## Seit 1.84.4: Knöpfe überall gleich groß, Wunsch im Vergleich
 - **Alle Regler-Knöpfe sind auf dem Bildschirm 26 px groß** (`KNOB_PX`), in allen Designs und auf allen Seiten (Wunsch des Nutzers,

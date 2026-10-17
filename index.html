@@ -1043,6 +1043,19 @@ h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .sett
 /* Bereiche: the wheel is made here (1.76.0) */
 .areas-wheel-wrap{ display:flex; justify-content:center; margin:-4px 0 6px; }
 .areas-wheel{ width:min(250px, 70vw); height:auto; display:block; }
+/* Freude (1.85.0): five suns to tap on the Bereiche page, the "look deeper" card under the wheel */
+.joy-suns{ display:flex; justify-content:center; gap:10px; margin:8px 0 6px; }
+.joy-sun-btn{ background:none; border:none; padding:4px; cursor:pointer; opacity:0.3; transition:opacity .2s, transform .2s; }
+.joy-sun-btn img{ width:34px; height:34px; display:block; }
+.joy-sun-btn.on{ opacity:1; transform:scale(1.08); }
+.joy-expected{ text-align:center; color:var(--ew-text-dim); margin:4px 0 0; }
+#dialog-msg{ white-space:pre-line; }
+.joy-deep{ margin:6px 10px 14px; }
+.joy-deep p{ margin:6px 0; }
+.joy-deep-btns{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+.joy-deep-btns .ghost-btn{ flex:1; min-width:130px; }
+.joy-glad{ display:flex; align-items:center; gap:12px; }
+.joy-glad-sun{ width:34px; height:34px; flex:none; }
 .area-acc{ padding:0 !important; overflow:hidden; }
 .area-acc-head{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px; background:none; border:none; color:inherit; font:inherit; cursor:pointer; padding:12px 14px; text-align:left; }
 .area-acc-head .area-card-name{ margin:0; }
@@ -1400,6 +1413,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
   </div>
 </div>
 
+<div id="joy-deep-wrap"></div>
 <div class="home-new" id="home-new-wrap"><button class="primary-btn" id="new-bewertung-btn">Neues Lebensrad erstellen</button></div>
 <div class="goal-table-card wheel-hist-home" id="wheel-hist-home">
   <h3 id="t-wheel-hist-title">Frühere Lebensräder</h3>
@@ -1614,7 +1628,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
       <h2 class="modal-title" id="t-eval-title">Neue Bewertung</h2>
       <button class="icon-btn eval-close" id="eval-close-btn" onclick="closeModal('eval-modal')" aria-label="Schließen"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
-    <p class="modal-sub" id="t-eval-sub">Wie schätzt du deine sechs Lebensbereiche gerade ein? Es gibt keine falschen Werte.</p>
+    <p class="modal-sub" id="t-eval-sub">Wie schätzt du deine fünf Lebensbereiche gerade ein? Es gibt keine falschen Werte.</p>
     <div id="eval-sliders"></div>
     <button class="primary-btn" style="width:100%;padding:13px;margin-top:6px;" id="save-eval-btn">Speichern</button>
     <button class="ghost-btn" style="width:100%;margin-top:10px;" id="eval-restore-btn">⬆ Backup wiederherstellen</button>
@@ -1779,7 +1793,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-7%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.84.5';
+const APP_VERSION = '1.85.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Morning Retreat (1.84.0): light, sage and beige; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -1840,9 +1854,9 @@ function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn 
 const APP_BUILD = '2026-10-17';
 /* ================= i18n ================= */
 const I18N = {
-  de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus sechs Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Was dich zum Lachen bringt, Leichtigkeit, Spiel, Hobbys, Genuss und Begeisterung – denn ein Leben in Balance ohne Freude ist nicht viel wert.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die sechs Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
+  de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Freude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Freude stellst du nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Freude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du spürst, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Freude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
     sceneHint:'Tippe auf einen Bereich für Details.', newEval:'Neue Bewertung', evalTitle:'Neue Bewertung',
-    evalSub:'Wie schätzt du deine sechs Lebensbereiche gerade ein? Es gibt keine falschen Werte.', save:'Speichern',
+    evalSub:'Wie schätzt du deine fünf Lebensbereiche gerade ein? Es gibt keine falschen Werte.', save:'Speichern',
     bereiche:{gesundheit:'Gesundheit',beziehungen:'Beziehungen',finanzen:'Finanzen',berufung:'Berufung',sinn:'Spiritualität', freude:'Freude'},
     uebersicht:'Übersicht', ziele:'Ziele', ereignisse:'Ereignisse', updateValue:'Bewertung aktualisieren',
     newGoal:'+ Neues Ziel', newEvent:'+ Neues Ereignis', lastEval:'Letzte Bewertung',
@@ -1858,7 +1872,7 @@ const I18N = {
     complete:'Fertig', delete:'Löschen',
     wheelHistTitle:'Frühere Lebensräder', noWheelHist:'Noch keine früheren Lebensräder gespeichert.',
     cmpUp:'Du hast dich weiterentwickelt: In {n} von 5 Bereichen hast du dich verbessert.', cmpUp1:'Du hast dich weiterentwickelt: In einem Bereich hast du dich verbessert.', cmpUpAll:'Du hast dich weiterentwickelt: In allen Bereichen hast du dich verbessert.', cmpDown:'Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.', cmpSame:'Dein Lebensrad ist stabil geblieben.', diaryInsertWheel:'Lebensrad einfügen', diaryAreasPage:'Lebensbereiche', evalClose:'Schließen',
-    compareOn:'Vergleichen', compareOff:'Abbrechen', compareShow:'Vergleich anzeigen', cmpWish:'Wunsch',
+    compareOn:'Vergleichen', compareOff:'Abbrechen', compareShow:'Vergleich anzeigen', cmpWish:'Wunsch', joyFeelQ:'Wie viel Freude spürst du gerade?', joyExpected:'Nach deinem Lebensrad erwartet: {e} %', joyNone:'noch offen', joyTitle:'Freude', joyInfo:'Gespürte Freude: {f}\nNach deinem Lebensrad erwartet: {e} %\n\nDie erwartete Freude beginnt bei 50 % und wächst mit jedem Lebensrad um so viel, wie deine fünf Bereiche im Durchschnitt gewachsen sind; wachsen alle fünf, kommen 5 Punkte dazu. Die Sonne zeigt, wie viel Freude du selbst spürst.', joyAhead:'Schön – deine Freude ist dir sogar ein Stück voraus.', joyDeepTitle:'Dein Rad wächst – deine Freude noch nicht', joyDeepText:'Das darf so sein. Freude muss nicht automatisch mit dem Lebensrad wachsen, aber sie kann es. Wenn sie es gerade nicht tut, dürfen wir tiefer schauen:', joyDeepQs:['Wächst du in den Bereichen, die dir wirklich wichtig sind – oder in denen, die man „sollte“?', 'Gibt es etwas, das dir Kraft nimmt und im Rad gar nicht vorkommt?', 'Wann hast du zuletzt etwas nur aus Freude getan?'], joyGrowV:['Deine Freude wächst mit deinem Lebensrad – das ist ein Grund zu feiern!', 'Dein Rad wächst und deine Freude wächst mit. Genieß diesen Moment!', 'Mehr Freude als beim letzten Mal – du spürst, dass sich etwas bewegt. Wunderbar!', 'Deine Schritte kommen als Freude zu dir zurück. Feier das ruhig ein bisschen!'], joyAheadV:['Deine Freude ist deinem Lebensrad sogar ein Stück voraus – wie schön!', 'Du spürst mehr Freude, als dein Rad erwarten lässt. Was für ein Geschenk!'], joyToDiary:'Ins Tagebuch', joyCardBtn:'Freude-Impuls', joyDiaryHead:'Freude – tiefer schauen ({date})', joyCmp:'Freude: {a} % → {b} %',
     goalLabel:'Ziel', addMoreGoal:'+ Weiteres Ziel', saveGoals:'Ziele speichern',
     achievedCategory:'Erreichte Ziele', noAchievedGoals:'Noch keine erreichten Ziele in diesem Bereich.', achievedOn:'Erreicht am',
     diaryTitle:'Tagebuch', diaryLibrary:'Bibliothek', diaryOpen:'Aufschlagen', diaryImgDelete:'Foto löschen', diaryImgResize:'Größe ändern', diaryImgDeleteConfirm:'Dieses Foto wirklich löschen?', diaryToLibrary:'Zur Bibliothek',
@@ -1889,9 +1903,9 @@ const I18N = {
     mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort (mindestens 6 Zeichen)', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediBoxNote:'Vier gleich lange Atemzüge, wie die Seiten eines Quadrats: einatmen, halten, ausatmen, halten – je 4 Sekunden. Folge einfach dem Punkt, während sich der Lotus mit deinem Atem öffnet und schließt. Sanfte Handpan-Musik begleitet dich.', breathStart:'Starten', breathPause:'Pause', breathResume:'Weiter', breathStop:'Beenden', breathIn:'Einatmen', breathHold:'Halten', breathOut:'Ausatmen', breathRound:'Runde', breathMusicOn:'Musik ausschalten', breathMusicOff:'Musik einschalten', mediAdd:'Meditation oder Übung hinzufügen', mediStart:'Starten', langPickTitle:'Willkommen bei eWolfe', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
     tblTitle:'Ziele im Überblick', goalsSub:'Bis zu 5 Ziele pro Lebensbereich – am besten eine gute Mischung: ein paar kleine Ziele, die du schnell erreichst, einige mittlere und höchstens ein großes, langfristiges Ziel.', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahme', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
     areaDesc:{ gesundheit:'Fitness, Ernährung, Erholung, Entspannung, Lebenserwartung', beziehungen:'Familie, Partnerschaft, Freunde, Zuwendung zu sich selbst', finanzen:'Einkommen, Wohlstand, Vermögen, Investitionen', berufung:'Aufgaben, Leistungen, Karriere, Erfolg', sinn:'Persönlichkeit, Sinn, Selbstverwirklichung, Erfüllung, Glück', freude:'Lachen, Leichtigkeit, Hobbys, Genuss, Begeisterung' } },
-  en:{ appName:'eWolfe', navAreas:'Areas', areasTitle:'Areas of life', areasIntro:'Your wheel of life is made of six areas. Together they show you how balanced your life is right now.', areasText:{ gesundheit:'Your physical and mental fitness, your energy, your diet, your sleep and restful breaks.', beziehungen:'Your relationship with yourself, your partnership, family, friendships and social contacts.', finanzen:'Your financial security, your savings, your spending habits and how you handle money.', berufung:'Fulfilment at work, career and personal growth – and the feeling of doing something meaningful rather than just earning money.', sinn:'Inner peace, mindfulness, your values and the meaning you find – the connection to yourself or to something greater.', freude:'What makes you laugh, lightness, play, hobbies, enjoyment and enthusiasm – because a balanced life without joy is not worth much.' }, areasHowTitle:'How to create your wheel of life', areasStep1Title:'Rate', areasStep1:'Go through the six areas one by one and move the slider to the value from 1 to 100 that most honestly describes where you are right now.', areasStep2Title:'The result', areasStep2:'The rounder your wheel, the more balanced your life. Spikes and dents show you at a glance where you are losing energy right now – and where it is worth starting.', areasStartFirst:'Create your first wheel of life', areasContinue:'Continue with your wheels of life', goalsEdit:'Edit goals', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
+  en:{ appName:'eWolfe', navAreas:'Areas', areasTitle:'Areas of life', areasIntro:'Your wheel of life is made of five areas. Together they show you how balanced your life is right now – and joy grows out of them.', areasText:{ gesundheit:'Your physical and mental fitness, your energy, your diet, your sleep and restful breaks.', beziehungen:'Your relationship with yourself, your partnership, family, friendships and social contacts.', finanzen:'Your financial security, your savings, your spending habits and how you handle money.', berufung:'Fulfilment at work, career and personal growth – and the feeling of doing something meaningful rather than just earning money.', sinn:'Inner peace, mindfulness, your values and the meaning you find – the connection to yourself or to something greater.', freude:'You do not set joy with a slider – it grows out of the other five areas. When they grow, joy often grows too. It does not have to, but it can. So we ask you how much joy you feel and compare it with what your wheel would lead us to expect. If joy does not grow along, that is no mistake but an invitation to look deeper.' }, areasHowTitle:'How to create your wheel of life', areasStep1Title:'Rate', areasStep1:'Go through the five areas one by one and move the slider to the value from 1 to 100 that most honestly describes where you are right now.', areasStep2Title:'The result', areasStep2:'The rounder your wheel, the more balanced your life. Spikes and dents show you at a glance where you are losing energy right now – and where it is worth starting.', areasStartFirst:'Create your first wheel of life', areasContinue:'Continue with your wheels of life', goalsEdit:'Edit goals', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
     sceneHint:'Tap an area for details.', newEval:'New assessment', evalTitle:'New assessment',
-    evalSub:'How do you rate your six life areas right now? There are no wrong values.', save:'Save',
+    evalSub:'How do you rate your five life areas right now? There are no wrong values.', save:'Save',
     bereiche:{gesundheit:'Health',beziehungen:'Relationships',finanzen:'Finances',berufung:'Purpose',sinn:'Spirituality', freude:'Joy'},
     uebersicht:'Overview', ziele:'Goals', ereignisse:'Events', updateValue:'Update assessment',
     newGoal:'+ New goal', newEvent:'+ New event', lastEval:'Last assessment',
@@ -1907,7 +1921,7 @@ const I18N = {
     complete:'Done', delete:'Delete',
     wheelHistTitle:'Past wheels of life', noWheelHist:'No past wheels of life saved yet.',
     cmpUp:'You have grown: you improved in {n} of 5 areas.', cmpUp1:'You have grown: you improved in one area.', cmpUpAll:'You have grown: you improved in all areas.', cmpDown:'Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.', cmpSame:'Your wheel of life has stayed steady.', diaryInsertWheel:'Insert wheel of life', diaryAreasPage:'Areas of life', evalClose:'Close',
-    compareOn:'Compare', compareOff:'Cancel', compareShow:'Show comparison', cmpWish:'Wish',
+    compareOn:'Compare', compareOff:'Cancel', compareShow:'Show comparison', cmpWish:'Wish', joyFeelQ:'How much joy do you feel right now?', joyExpected:'Expected from your wheel of life: {e} %', joyNone:'not yet', joyTitle:'Joy', joyInfo:'Joy you feel: {f}\nExpected from your wheel of life: {e} %\n\nThe expected joy starts at 50 % and with every wheel grows by as much as your five areas have grown on average; if all five grow, 5 points are added. The sun shows how much joy you feel yourself.', joyAhead:'Lovely – your joy is even a little ahead of you.', joyDeepTitle:'Your wheel is growing – your joy not yet', joyDeepText:'That is all right. Joy does not have to grow automatically with the wheel of life, but it can. When it does not right now, we may look deeper:', joyDeepQs:['Are you growing in the areas that truly matter to you – or in the ones you “should”?', 'Is there something that drains your strength and does not appear in the wheel at all?', 'When did you last do something just for joy?'], joyGrowV:['Your joy is growing with your wheel of life – that is a reason to celebrate!', 'Your wheel is growing and your joy grows with it. Enjoy this moment!', 'More joy than last time – you can feel that something is moving. Wonderful!', 'Your steps come back to you as joy. Go ahead and celebrate a little!'], joyAheadV:['Your joy is even a little ahead of your wheel of life – how lovely!', 'You feel more joy than your wheel would lead us to expect. What a gift!'], joyToDiary:'To the diary', joyCardBtn:'Joy impulse', joyDiaryHead:'Joy – looking deeper ({date})', joyCmp:'Joy: {a} % → {b} %',
     goalLabel:'Goal', addMoreGoal:'+ Another goal', saveGoals:'Save goals',
     achievedCategory:'Achieved goals', noAchievedGoals:'No achieved goals in this area yet.', achievedOn:'Achieved on',
     diaryTitle:'Diary', diaryLibrary:'Library', diaryOpen:'Open', diaryImgDelete:'Delete photo', diaryImgResize:'Resize', diaryImgDeleteConfirm:'Really delete this photo?', diaryToLibrary:'Back to library',
@@ -1940,6 +1954,10 @@ const I18N = {
     areaDesc:{ gesundheit:'Fitness, nutrition, recovery, relaxation, life expectancy', beziehungen:'Family, partnership, friends, caring for yourself', finanzen:'Income, prosperity, assets, investments', berufung:'Tasks, achievements, career, success', sinn:'Personality, meaning, self-fulfilment, contentment, happiness', freude:'Laughter, lightness, hobbies, enjoyment, enthusiasm' } }
 };
 const AREAS = ['gesundheit','beziehungen','finanzen','berufung','sinn','freude']; // 'freude' since 1.77.0: a wheel at 100 % is worth nothing without joy
+// Since 1.85.0 the wheel has five areas again: Freude is no slider of its own but grows out of the other five (expected joy,
+// joyExpected) and is felt (the person taps one of five suns; stored as before in state.bewertungen.freude). Goals, questions
+// and impulse cards for Freude stay, so AREAS keeps all six for the data.
+const WHEEL_AREAS = AREAS.filter(a=>a !== 'freude');
 const AREA_COLOR = { gesundheit:'#e8b84a', beziehungen:'#e8b84a', finanzen:'#e8b84a', berufung:'#e8b84a', sinn:'#e8b84a', freude:'#e8b84a' };
 
 /* ================= State / storage ================= */
@@ -3864,7 +3882,7 @@ function backupFingerprint(st){
   const snaps = (st===state) ? getWheelSnapshots() : null;
   if(snaps && snaps.length){
     const v = snaps[0].values;
-    parts.push((de?'Neuestes Rad: ':'Latest wheel: ') + AREAS.map(a=>v[a]).join('/'));
+    parts.push((de?'Neuestes Rad: ':'Latest wheel: ') + WHEEL_AREAS.map(a=>v[a]).join('/'));
   }
   const doneGoal = AREAS.flatMap(a=>(st.ziele[a]||[])).filter(g=>g.status==='erreicht').slice(-1)[0];
   if(doneGoal) parts.push((de?'Zuletzt erreicht: ':'Latest achieved: ') + doneGoal.title);
@@ -4195,8 +4213,8 @@ Object.assign(I18N.en, {
 });
 /* Achtsamkeit: the longer, optional texts about an exercise (shown under its Start button) and several wordings for
    the comparison of wheels, so it does not always read the same */
-Object.assign(I18N.de, {"mediMoreInfo": "Mehr über die Übung", "mediBoxInfo": {"intro": "Box Breathing – auch Quadrat-Atmung oder Sama Vritti („gleichmäßiger Atem“) genannt – ist eine einfache Atemtechnik aus vier gleich langen Schritten. Sie beruhigt das Nervensystem und hilft dir, Stress loszulassen.", "how": "So geht’s – je 4 Sekunden", "steps": [["Einatmen", "Atme langsam und tief durch die Nase ein."], ["Halten", "Lass die Luft einen Moment ruhig in dir."], ["Ausatmen", "Atme gleichmäßig und vollständig aus."], ["Halten", "Verweile kurz in der Stille, bevor der nächste Atemzug kommt."]], "tipsHead": "Gut zu wissen", "tips": ["Eine Runde dauert 16 Sekunden. Übe am besten 3 bis 5 Minuten lang.", "Fühlen sich 4 Sekunden noch zu lang an, atme anfangs einfach etwas kürzer. Mit der Zeit wird es leichter.", "Der gleichmäßige Rhythmus spricht den Teil deines Nervensystems an, der für Ruhe und Erholung sorgt. So können Stress und Anspannung spürbar nachlassen."]}, "ex478Info": {"intro": "Die 4-7-8-Atmung ist eine sanfte Übung zum Entspannen. Sie hilft dir, Stress abzubauen, Nervosität zu lindern und leichter in den Schlaf zu finden.", "how": "So geht’s", "steps": [["Vorbereitung", "Setz oder leg dich bequem hin. Lege die Zungenspitze locker an den Gaumen, direkt hinter die oberen Schneidezähne."], ["Einatmen – 4 Sekunden", "Schließe den Mund und atme ruhig und leise durch die Nase ein."], ["Halten – 7 Sekunden", "Halte den Atem sanft an."], ["Ausatmen – 8 Sekunden", "Atme langsam durch den Mund aus, gern mit einem leisen, pustenden Geräusch."]], "tipsHead": "Gut zu wissen", "tips": ["Das ist eine Runde. Wiederhole sie 4-mal, später gern bis zu 8-mal.", "Zähl innerlich mit – oder folge einfach den Kirschblüten: Sie öffnen sich beim Einatmen und schließen sich beim Ausatmen."]}, "cmpUpV": ["Schön, wie du wächst: In {n} von 5 Bereichen geht es dir besser als zuvor.", "Du bist auf deinem Weg vorangekommen – {n} von 5 Bereichen haben sich verbessert.", "Da tut sich etwas: In {n} Bereichen hast du zugelegt. Nimm dir einen Moment, das bewusst wahrzunehmen.", "Jeder Schritt zählt, und du hast einige gemacht: {n} von 5 Bereichen sind gewachsen.", "Dein Lebensrad wird runder: In {n} Bereichen hast du dich weiterentwickelt.", "Dein Einsatz trägt Früchte: {n} von 5 Bereichen haben sich positiv verändert.", "Du gehst deinen Weg – und man sieht es: In {n} Bereichen bist du ein Stück weiter.", "{n} von 5 Bereichen haben zugelegt. Erinnere dich daran, wenn es mal zäh wird.", "Schritt für Schritt: In {n} Bereichen hast du dich verbessert. Das darfst du feiern.", "Hier wächst etwas: {n} Bereiche zeigen nach oben. Bleib neugierig, wohin es dich noch führt."], "cmpUp1V": ["Ein Bereich ist gewachsen – und jede Veränderung beginnt mit einem ersten Schritt.", "In einem Bereich hast du dich verbessert. Kleine Schritte tragen weit.", "Schön: Ein Bereich hat zugelegt. Darauf kannst du aufbauen.", "Du bist in einem Bereich vorangekommen – ein guter Grund, kurz stolz auf dich zu sein.", "Ein Bereich leuchtet heller als zuvor. Geh weiter, in deinem eigenen Tempo.", "Ein Bereich hat sich verbessert – der Anfang von etwas Größerem.", "Ein Bereich zeigt nach oben. Jede große Veränderung beginnt genau so.", "Du hast in einem Bereich zugelegt. Achte darauf, was dir dabei geholfen hat.", "Ein Bereich ist gewachsen. Schön, dass du drangeblieben bist.", "In einem Bereich hast du etwas bewegt. Darauf kannst du stolz sein."], "cmpUpAllV": ["Wunderbar: In allen Bereichen bist du gewachsen!", "Alle Bereiche haben sich verbessert – dein Lebensrad blüht richtig auf.", "Was für eine Entwicklung: überall ein Stück weiter. Feier das ruhig ein bisschen.", "Rundum gewachsen: In jedem Bereich geht es dir besser als zuvor.", "Alle Bereiche zeigen nach oben. Du darfst stolz auf dich sein.", "In allen Bereichen geht es aufwärts – was für eine schöne Entwicklung!", "Alle Bereiche sind gewachsen. Du bist auf einem richtig guten Weg.", "Sechs von sechs: Dein ganzes Lebensrad hat sich weiterentwickelt.", "Überall ein Plus! Nimm dir einen Moment, um dich darüber zu freuen.", "Dein Lebensrad ist in jedem Bereich gewachsen. Das ist dein Verdienst."], "cmpDownV": ["Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.", "Nicht jeder Bereich ist gewachsen – und das ist in Ordnung. Auch Pausen und Umwege gehören zu deinem Weg.", "Manches ist gerade schwerer. Sei freundlich zu dir: Wer ehrlich hinschaut, hat den ersten Schritt schon getan.", "Das Leben verläuft in Wellen, nicht in geraden Linien. Nach jedem Tal geht es auch wieder bergauf.", "Ein Rückgang ist kein Scheitern, sondern ein Hinweis, wo du dir gerade mehr Zuwendung schenken darfst.", "Auch Bäume verlieren im Herbst ihre Blätter – und blühen im Frühling neu auf.", "Nicht jede Phase ist gleich leicht. Was zählt, ist, dass du hinschaust und dranbleibst.", "Ein kleiner Rückschritt erzählt dir etwas. Hör freundlich hin, was du gerade brauchst.", "Wachstum verläuft nie gerade. Auch das Zurückgehen gehört zum Vorankommen.", "Gerade jetzt darfst du besonders gut für dich sorgen. Jeder neue Tag ist ein neuer Anfang."], "cmpSameV": ["Dein Lebensrad ist stabil geblieben – auch Beständigkeit ist eine Stärke.", "Alles im Gleichgewicht: Deine Werte haben sich gehalten.", "Ruhig und beständig – dein Lebensrad ist gleich geblieben.", "Nichts hat sich verschoben. Manchmal ist Halten genau das Richtige.", "Dein Lebensrad ist stabil. Vielleicht ist jetzt ein guter Moment für einen neuen kleinen Schritt.", "Dein Lebensrad hält die Balance. Das ist eine schöne Basis für alles Weitere.", "Gleich geblieben – und das ist gut so. Stabilität gibt dir Halt.", "Alles ruhig auf deinem Weg. Genieße die Beständigkeit.", "Deine Werte sind stabil. Vielleicht wartet schon ein neues Ziel auf dich.", "Kein Auf und kein Ab: Du hast dein Gleichgewicht bewahrt."]});
-Object.assign(I18N.en, {"mediMoreInfo": "More about this exercise", "mediBoxInfo": {"intro": "Box breathing – also called square breathing or Sama Vritti (“even breath”) – is a simple breathing technique in four steps of equal length. It calms the nervous system and helps you let go of stress.", "how": "How it works – 4 seconds each", "steps": [["Breathe in", "Breathe in slowly and deeply through your nose."], ["Hold", "Let the air rest calmly inside you for a moment."], ["Breathe out", "Breathe out evenly and completely."], ["Hold", "Rest briefly in the stillness before the next breath comes."]], "tipsHead": "Good to know", "tips": ["One round takes 16 seconds. Ideally, practise for 3 to 5 minutes.", "If 4 seconds still feel too long, simply breathe a little shorter at first. It gets easier with time.", "The even rhythm speaks to the part of your nervous system that brings rest and recovery, so stress and tension can noticeably ease."]}, "ex478Info": {"intro": "4-7-8 breathing is a gentle exercise for relaxing. It helps you ease stress, soothe nervousness and fall asleep more easily.", "how": "How it works", "steps": [["Get ready", "Sit or lie down comfortably. Rest the tip of your tongue lightly against the roof of your mouth, just behind your upper front teeth."], ["Breathe in – 4 seconds", "Close your mouth and breathe in calmly and quietly through your nose."], ["Hold – 7 seconds", "Gently hold your breath."], ["Breathe out – 8 seconds", "Breathe out slowly through your mouth, with a soft whooshing sound if you like."]], "tipsHead": "Good to know", "tips": ["That is one round. Repeat it 4 times, and later up to 8 times if you like.", "Count along silently – or simply follow the cherry blossoms: they open as you breathe in and close as you breathe out."]}, "cmpUpV": ["Lovely to see you grow: {n} of 5 areas are better than before.", "You have moved forward on your path – {n} of 5 areas have improved.", "Something is happening: you have grown in {n} areas. Take a moment to really notice it.", "Every step counts, and you have taken a few: {n} of 5 areas have grown.", "Your wheel of life is getting rounder: you have developed in {n} areas.", "Your effort is bearing fruit: {n} of 5 areas have changed for the better.", "You are walking your path – and it shows: you are a step further in {n} areas.", "{n} of 5 areas have grown. Remember this when things feel slow.", "Step by step: you improved in {n} areas. That is worth celebrating.", "Something is growing here: {n} areas point upwards. Stay curious where it leads you."], "cmpUp1V": ["One area has grown – and every change begins with a first step.", "You improved in one area. Small steps go a long way.", "Nice: one area has grown. You can build on that.", "You moved forward in one area – a good reason to feel a little proud.", "One area shines brighter than before. Keep going, at your own pace.", "One area has improved – the beginning of something bigger.", "One area points upwards. Every big change begins exactly like this.", "You grew in one area. Notice what helped you get there.", "One area has grown. Lovely that you kept at it.", "You moved something in one area. You can be proud of that."], "cmpUpAllV": ["Wonderful: you have grown in all areas!", "All areas have improved – your wheel of life is truly blossoming.", "What a development: a step further everywhere. Go ahead and celebrate a little.", "Grown all around: every area is better than before.", "All areas point upwards. You can be proud of yourself.", "Every one of your areas is going up – what a beautiful development!", "All areas have grown. You are on a really good path.", "Six out of six: your whole wheel of life has developed.", "A plus everywhere! Take a moment to enjoy it.", "Your wheel of life has grown in every area. That is your achievement."], "cmpDownV": ["Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.", "Not every area has grown – and that is okay. Pauses and detours are part of your path too.", "Some things are harder right now. Be kind to yourself: looking honestly is already the first step.", "Life moves in waves, not straight lines. After every valley the path rises again.", "A dip is not a failure, but a hint where you may give yourself more care right now.", "Trees lose their leaves in autumn too – and blossom again in spring.", "Not every phase is equally easy. What counts is that you look and keep going.", "A small step back is telling you something. Listen kindly to what you need right now.", "Growth is never a straight line. Stepping back is part of moving forward too.", "Right now you may take extra good care of yourself. Every new day is a new beginning."], "cmpSameV": ["Your wheel of life has stayed steady – steadiness is a strength too.", "Everything in balance: your values have held.", "Calm and steady – your wheel of life has stayed the same.", "Nothing has shifted. Sometimes holding on is exactly right.", "Your wheel of life is steady. Maybe now is a good moment for a new small step.", "Your wheel of life keeps its balance. A lovely base for everything ahead.", "Stayed the same – and that is good. Stability gives you support.", "All calm on your path. Enjoy the steadiness.", "Your values are steady. Maybe a new goal is already waiting for you.", "No ups and no downs: you have kept your balance."]});
+Object.assign(I18N.de, {"mediMoreInfo": "Mehr über die Übung", "mediBoxInfo": {"intro": "Box Breathing – auch Quadrat-Atmung oder Sama Vritti („gleichmäßiger Atem“) genannt – ist eine einfache Atemtechnik aus vier gleich langen Schritten. Sie beruhigt das Nervensystem und hilft dir, Stress loszulassen.", "how": "So geht’s – je 4 Sekunden", "steps": [["Einatmen", "Atme langsam und tief durch die Nase ein."], ["Halten", "Lass die Luft einen Moment ruhig in dir."], ["Ausatmen", "Atme gleichmäßig und vollständig aus."], ["Halten", "Verweile kurz in der Stille, bevor der nächste Atemzug kommt."]], "tipsHead": "Gut zu wissen", "tips": ["Eine Runde dauert 16 Sekunden. Übe am besten 3 bis 5 Minuten lang.", "Fühlen sich 4 Sekunden noch zu lang an, atme anfangs einfach etwas kürzer. Mit der Zeit wird es leichter.", "Der gleichmäßige Rhythmus spricht den Teil deines Nervensystems an, der für Ruhe und Erholung sorgt. So können Stress und Anspannung spürbar nachlassen."]}, "ex478Info": {"intro": "Die 4-7-8-Atmung ist eine sanfte Übung zum Entspannen. Sie hilft dir, Stress abzubauen, Nervosität zu lindern und leichter in den Schlaf zu finden.", "how": "So geht’s", "steps": [["Vorbereitung", "Setz oder leg dich bequem hin. Lege die Zungenspitze locker an den Gaumen, direkt hinter die oberen Schneidezähne."], ["Einatmen – 4 Sekunden", "Schließe den Mund und atme ruhig und leise durch die Nase ein."], ["Halten – 7 Sekunden", "Halte den Atem sanft an."], ["Ausatmen – 8 Sekunden", "Atme langsam durch den Mund aus, gern mit einem leisen, pustenden Geräusch."]], "tipsHead": "Gut zu wissen", "tips": ["Das ist eine Runde. Wiederhole sie 4-mal, später gern bis zu 8-mal.", "Zähl innerlich mit – oder folge einfach den Kirschblüten: Sie öffnen sich beim Einatmen und schließen sich beim Ausatmen."]}, "cmpUpV": ["Schön, wie du wächst: In {n} von 5 Bereichen geht es dir besser als zuvor.", "Du bist auf deinem Weg vorangekommen – {n} von 5 Bereichen haben sich verbessert.", "Da tut sich etwas: In {n} Bereichen hast du zugelegt. Nimm dir einen Moment, das bewusst wahrzunehmen.", "Jeder Schritt zählt, und du hast einige gemacht: {n} von 5 Bereichen sind gewachsen.", "Dein Lebensrad wird runder: In {n} Bereichen hast du dich weiterentwickelt.", "Dein Einsatz trägt Früchte: {n} von 5 Bereichen haben sich positiv verändert.", "Du gehst deinen Weg – und man sieht es: In {n} Bereichen bist du ein Stück weiter.", "{n} von 5 Bereichen haben zugelegt. Erinnere dich daran, wenn es mal zäh wird.", "Schritt für Schritt: In {n} Bereichen hast du dich verbessert. Das darfst du feiern.", "Hier wächst etwas: {n} Bereiche zeigen nach oben. Bleib neugierig, wohin es dich noch führt."], "cmpUp1V": ["Ein Bereich ist gewachsen – und jede Veränderung beginnt mit einem ersten Schritt.", "In einem Bereich hast du dich verbessert. Kleine Schritte tragen weit.", "Schön: Ein Bereich hat zugelegt. Darauf kannst du aufbauen.", "Du bist in einem Bereich vorangekommen – ein guter Grund, kurz stolz auf dich zu sein.", "Ein Bereich leuchtet heller als zuvor. Geh weiter, in deinem eigenen Tempo.", "Ein Bereich hat sich verbessert – der Anfang von etwas Größerem.", "Ein Bereich zeigt nach oben. Jede große Veränderung beginnt genau so.", "Du hast in einem Bereich zugelegt. Achte darauf, was dir dabei geholfen hat.", "Ein Bereich ist gewachsen. Schön, dass du drangeblieben bist.", "In einem Bereich hast du etwas bewegt. Darauf kannst du stolz sein."], "cmpUpAllV": ["Wunderbar: In allen Bereichen bist du gewachsen!", "Alle Bereiche haben sich verbessert – dein Lebensrad blüht richtig auf.", "Was für eine Entwicklung: überall ein Stück weiter. Feier das ruhig ein bisschen.", "Rundum gewachsen: In jedem Bereich geht es dir besser als zuvor.", "Alle Bereiche zeigen nach oben. Du darfst stolz auf dich sein.", "In allen Bereichen geht es aufwärts – was für eine schöne Entwicklung!", "Alle Bereiche sind gewachsen. Du bist auf einem richtig guten Weg.", "Fünf von fünf: Dein ganzes Lebensrad hat sich weiterentwickelt.", "Überall ein Plus! Nimm dir einen Moment, um dich darüber zu freuen.", "Dein Lebensrad ist in jedem Bereich gewachsen. Das ist dein Verdienst."], "cmpDownV": ["Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.", "Nicht jeder Bereich ist gewachsen – und das ist in Ordnung. Auch Pausen und Umwege gehören zu deinem Weg.", "Manches ist gerade schwerer. Sei freundlich zu dir: Wer ehrlich hinschaut, hat den ersten Schritt schon getan.", "Das Leben verläuft in Wellen, nicht in geraden Linien. Nach jedem Tal geht es auch wieder bergauf.", "Ein Rückgang ist kein Scheitern, sondern ein Hinweis, wo du dir gerade mehr Zuwendung schenken darfst.", "Auch Bäume verlieren im Herbst ihre Blätter – und blühen im Frühling neu auf.", "Nicht jede Phase ist gleich leicht. Was zählt, ist, dass du hinschaust und dranbleibst.", "Ein kleiner Rückschritt erzählt dir etwas. Hör freundlich hin, was du gerade brauchst.", "Wachstum verläuft nie gerade. Auch das Zurückgehen gehört zum Vorankommen.", "Gerade jetzt darfst du besonders gut für dich sorgen. Jeder neue Tag ist ein neuer Anfang."], "cmpSameV": ["Dein Lebensrad ist stabil geblieben – auch Beständigkeit ist eine Stärke.", "Alles im Gleichgewicht: Deine Werte haben sich gehalten.", "Ruhig und beständig – dein Lebensrad ist gleich geblieben.", "Nichts hat sich verschoben. Manchmal ist Halten genau das Richtige.", "Dein Lebensrad ist stabil. Vielleicht ist jetzt ein guter Moment für einen neuen kleinen Schritt.", "Dein Lebensrad hält die Balance. Das ist eine schöne Basis für alles Weitere.", "Gleich geblieben – und das ist gut so. Stabilität gibt dir Halt.", "Alles ruhig auf deinem Weg. Genieße die Beständigkeit.", "Deine Werte sind stabil. Vielleicht wartet schon ein neues Ziel auf dich.", "Kein Auf und kein Ab: Du hast dein Gleichgewicht bewahrt."]});
+Object.assign(I18N.en, {"mediMoreInfo": "More about this exercise", "mediBoxInfo": {"intro": "Box breathing – also called square breathing or Sama Vritti (“even breath”) – is a simple breathing technique in four steps of equal length. It calms the nervous system and helps you let go of stress.", "how": "How it works – 4 seconds each", "steps": [["Breathe in", "Breathe in slowly and deeply through your nose."], ["Hold", "Let the air rest calmly inside you for a moment."], ["Breathe out", "Breathe out evenly and completely."], ["Hold", "Rest briefly in the stillness before the next breath comes."]], "tipsHead": "Good to know", "tips": ["One round takes 16 seconds. Ideally, practise for 3 to 5 minutes.", "If 4 seconds still feel too long, simply breathe a little shorter at first. It gets easier with time.", "The even rhythm speaks to the part of your nervous system that brings rest and recovery, so stress and tension can noticeably ease."]}, "ex478Info": {"intro": "4-7-8 breathing is a gentle exercise for relaxing. It helps you ease stress, soothe nervousness and fall asleep more easily.", "how": "How it works", "steps": [["Get ready", "Sit or lie down comfortably. Rest the tip of your tongue lightly against the roof of your mouth, just behind your upper front teeth."], ["Breathe in – 4 seconds", "Close your mouth and breathe in calmly and quietly through your nose."], ["Hold – 7 seconds", "Gently hold your breath."], ["Breathe out – 8 seconds", "Breathe out slowly through your mouth, with a soft whooshing sound if you like."]], "tipsHead": "Good to know", "tips": ["That is one round. Repeat it 4 times, and later up to 8 times if you like.", "Count along silently – or simply follow the cherry blossoms: they open as you breathe in and close as you breathe out."]}, "cmpUpV": ["Lovely to see you grow: {n} of 5 areas are better than before.", "You have moved forward on your path – {n} of 5 areas have improved.", "Something is happening: you have grown in {n} areas. Take a moment to really notice it.", "Every step counts, and you have taken a few: {n} of 5 areas have grown.", "Your wheel of life is getting rounder: you have developed in {n} areas.", "Your effort is bearing fruit: {n} of 5 areas have changed for the better.", "You are walking your path – and it shows: you are a step further in {n} areas.", "{n} of 5 areas have grown. Remember this when things feel slow.", "Step by step: you improved in {n} areas. That is worth celebrating.", "Something is growing here: {n} areas point upwards. Stay curious where it leads you."], "cmpUp1V": ["One area has grown – and every change begins with a first step.", "You improved in one area. Small steps go a long way.", "Nice: one area has grown. You can build on that.", "You moved forward in one area – a good reason to feel a little proud.", "One area shines brighter than before. Keep going, at your own pace.", "One area has improved – the beginning of something bigger.", "One area points upwards. Every big change begins exactly like this.", "You grew in one area. Notice what helped you get there.", "One area has grown. Lovely that you kept at it.", "You moved something in one area. You can be proud of that."], "cmpUpAllV": ["Wonderful: you have grown in all areas!", "All areas have improved – your wheel of life is truly blossoming.", "What a development: a step further everywhere. Go ahead and celebrate a little.", "Grown all around: every area is better than before.", "All areas point upwards. You can be proud of yourself.", "Every one of your areas is going up – what a beautiful development!", "All areas have grown. You are on a really good path.", "Five out of five: your whole wheel of life has developed.", "A plus everywhere! Take a moment to enjoy it.", "Your wheel of life has grown in every area. That is your achievement."], "cmpDownV": ["Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.", "Not every area has grown – and that is okay. Pauses and detours are part of your path too.", "Some things are harder right now. Be kind to yourself: looking honestly is already the first step.", "Life moves in waves, not straight lines. After every valley the path rises again.", "A dip is not a failure, but a hint where you may give yourself more care right now.", "Trees lose their leaves in autumn too – and blossom again in spring.", "Not every phase is equally easy. What counts is that you look and keep going.", "A small step back is telling you something. Listen kindly to what you need right now.", "Growth is never a straight line. Stepping back is part of moving forward too.", "Right now you may take extra good care of yourself. Every new day is a new beginning."], "cmpSameV": ["Your wheel of life has stayed steady – steadiness is a strength too.", "Everything in balance: your values have held.", "Calm and steady – your wheel of life has stayed the same.", "Nothing has shifted. Sometimes holding on is exactly right.", "Your wheel of life is steady. Maybe now is a good moment for a new small step.", "Your wheel of life keeps its balance. A lovely base for everything ahead.", "Stayed the same – and that is good. Stability gives you support.", "All calm on your path. Enjoy the steadiness.", "Your values are steady. Maybe a new goal is already waiting for you.", "No ups and no downs: you have kept your balance."]});
 Object.assign(I18N.de, {"diaryStartWriting": "Jetzt schreiben", "diaryGoTo": "Seite wählen", "diaryFirstPage": "Erste", "diaryLastPage": "Letzte", "diaryOpenPage": "Öffnen", "diaryStickers": "Sticker", "stickerNames": {"lotus": "Blauer Lotus", "lemon": "Zitrone", "cherry": "Kirschzweig", "stones": "Steinturm", "hearts": "Herzen", "bowl": "Klangschale", "leaf": "Blatt"}});
 Object.assign(I18N.en, {"diaryStartWriting": "Start writing", "diaryGoTo": "Choose a page", "diaryFirstPage": "First", "diaryLastPage": "Last", "diaryOpenPage": "Open", "diaryStickers": "Stickers", "stickerNames": {"lotus": "Blue lotus", "lemon": "Lemon", "cherry": "Cherry branch", "stones": "Stone tower", "hearts": "Hearts", "bowl": "Singing bowl", "leaf": "Leaf"}});
 Object.assign(I18N.de, {"impulseIntro": "Zieh eine Karte – sie schenkt dir einen Gedanken für deinen Tag.", "impulseDrawBtn": "Impulskarte ziehen", "impulseTitleCard": "Deine Impulskarte", "impulseNew": "Neue Karte ziehen", "impulseToDiary": "Ins Tagebuch", "impulseClose": "Schließen", "impulseDiaryHead": "Impulskarte vom {date}:", "impulseSaved": "Die Karte steht jetzt in deinem Tagebuch.", "impulsePlaceholder": "PLATZHALTER"});
@@ -4225,7 +4243,7 @@ Object.assign(I18N.de, { levelProgress:'Aktive Tage: {n} · noch {m} bis zur nä
 Object.assign(I18N.en, { levelProgress:'Active days: {n} · {m} more to the next level of splendour', levelProgressTime:'Active days: {n} · next level of splendour in {m} days', levelProgressMax:'Active days: {n} · highest level of splendour reached' });
 Object.assign(I18N.de, {
   areasIntroFirst:'Hier entsteht dein erstes Lebensrad. Nimm dir Zeit: Lies zu jedem Bereich die Fragen, spür kurz nach und stell dann ein, wie es jetzt ist – und wie du es dir wünschst. Es gibt keine falschen Werte.',
-  areasIntroNew:'Wie geht es dir heute in deinen sechs Bereichen – und wie wünschst du es dir? Wenn du speicherst, entsteht ein neues Lebensrad; deine früheren bleiben erhalten.',
+  areasIntroNew:'Wie geht es dir heute in deinen fünf Bereichen – und wie wünschst du es dir? Wenn du speicherst, entsteht ein neues Lebensrad; deine früheren bleiben erhalten.',
   areasQTitle:'Fragen zum Nachdenken', areasIst:'So ist es jetzt', areasWish:'So wünsche ich es mir', areasNext:'Nächster Bereich',
   areasSave:'Lebensrad speichern', areasSaveFirst:'Mein erstes Lebensrad speichern',
   wishAsk:'Neu im Lebensrad: dein Wunsch. Du kannst jetzt zu jedem Bereich eintragen, wie du es dir wünschst – dann zeigt dir das Rad in Gold, wohin du willst, und wo die größte Lücke ist. Möchtest du das jetzt machen?',
@@ -4241,7 +4259,7 @@ Object.assign(I18N.de, {
 });
 Object.assign(I18N.en, {
   areasIntroFirst:'This is where your first wheel of life is made. Take your time: read the questions for each area, feel into it for a moment, then set how it is now – and how you wish it to be. There are no wrong values.',
-  areasIntroNew:'How are your six areas today – and how do you wish them to be? Saving creates a new wheel; your earlier ones stay.',
+  areasIntroNew:'How are your five areas today – and how do you wish them to be? Saving creates a new wheel; your earlier ones stay.',
   areasQTitle:'Questions to reflect on', areasIst:'How it is now', areasWish:'How I wish it to be', areasNext:'Next area',
   areasSave:'Save wheel of life', areasSaveFirst:'Save my first wheel of life',
   wishAsk:'New in the wheel of life: your wish. You can now set for every area how you wish it to be – the wheel then shows in gold where you want to go, and where the biggest gap is. Would you like to do that now?',
@@ -4258,7 +4276,7 @@ Object.assign(I18N.en, {
 Object.assign(I18N.de, {
   whyTitle:'Warum ein Lebensrad?', whyShort:'Klarheit, Balance und Fokus – auf einen Blick.', moreRead:'Mehr lesen', lessRead:'Weniger',
   whyText:[
-    ['Alles auf einmal sehen', 'Oft schauen wir nur auf das, was gerade drückt – meist Arbeit oder Geld. Das Lebensrad lädt dich ein, alle sechs Bereiche gleichzeitig anzuschauen: Gesundheit, Beziehungen, Finanzen, Berufung, Spiritualität und Freude.'],
+    ['Alles auf einmal sehen', 'Oft schauen wir nur auf das, was gerade drückt – meist Arbeit oder Geld. Das Lebensrad lädt dich ein, alle fünf Bereiche gleichzeitig anzuschauen: Gesundheit, Beziehungen, Finanzen, Berufung und Spiritualität – und zu sehen, wie daraus Freude wächst.'],
     ['Ungleichgewicht erkennen', 'Ein rundes Rad läuft ruhig, ein sehr unebenes holpert. Du siehst sofort, wo du zufrieden bist und wo deine Energie fehlt.'],
     ['Wissen, wo du ansetzt', 'Statt „alles muss anders werden“ zeigt dir die goldene Wunschlinie, wo die größte Lücke ist. Dort bringt ein kleines Ziel am meisten.'],
     ['Wachstum sichtbar machen', 'Wenn du dein Rad alle paar Monate neu einschätzt, zeigt dir „Vergleichen“ schwarz auf weiß, wie du gewachsen bist.'],
@@ -4277,7 +4295,7 @@ Object.assign(I18N.de, {
 Object.assign(I18N.en, {
   whyTitle:'Why a wheel of life?', whyShort:'Clarity, balance and focus – at a glance.', moreRead:'Read more', lessRead:'Less',
   whyText:[
-    ['See everything at once', 'We often only look at what is pressing – usually work or money. The wheel invites you to look at all six areas at the same time: health, relationships, finances, purpose, spirituality and joy.'],
+    ['See everything at once', 'We often only look at what is pressing – usually work or money. The wheel invites you to look at all five areas at the same time: health, relationships, finances, purpose and spirituality – and to see how joy grows out of them.'],
     ['Spot imbalance', 'A round wheel runs smoothly, a very uneven one bumps. You see at once where you are content and where your energy is missing.'],
     ['Know where to start', 'Instead of “everything must change”, the golden wish line shows you where the biggest gap is. A small goal there does the most.'],
     ['Make growth visible', 'If you rate your wheel again every few months, “Compare” shows you in black and white how you have grown.'],
@@ -4309,7 +4327,70 @@ function currentWish(area){
   for(let i = arr.length - 1; i >= 0; i--) if(arr[i].wish !== undefined && arr[i].wish !== null) return arr[i].wish;
   return null;
 }
-const hasWishes = ()=>AREAS.every(a=>currentWish(a) !== null);
+const hasWishes = ()=>WHEEL_AREAS.every(a=>currentWish(a) !== null);
+/* ---- Freude (1.85.0): not a slider of its own. Expected joy grows out of the five areas: it starts at 50 % and with every
+   wheel changes by the average change of the five areas, +5 when all five grew (always 0–100). Felt joy is what the person
+   taps (one of five suns on the Bereiche page), stored in state.bewertungen.freude with the time of the wheel – the old
+   Freude values of 1.77–1.84 simply count as felt joy. Felt joy may lag behind: then a kind card invites to look deeper. ---- */
+const JOY_SUNS = [20, 40, 60, 80, 100], JOY_GAP = 15;
+function joyFeltAt(ts){
+  let best = null;
+  (state.bewertungen.freude || []).forEach(e=>{ if(Math.abs(e.ts - ts) <= 60000 && (!best || Math.abs(e.ts - ts) < Math.abs(best.ts - ts))) best = e; });
+  return best ? best.value : null;
+}
+function joySeries(snapsDesc){
+  const snaps = (snapsDesc || getWheelSnapshots()).slice().sort((x, y)=>x.ts - y.ts), out = [];
+  let j = 50;
+  snaps.forEach((sn, i)=>{
+    if(i){
+      const prev = snaps[i - 1], diffs = WHEEL_AREAS.map(a=>sn.values[a] - prev.values[a]);
+      j += diffs.reduce((x, y)=>x + y, 0) / diffs.length;
+      if(diffs.every(x=>x > 0)) j += 5;
+      j = Math.max(0, Math.min(100, j));
+    }
+    out.push({ ts:sn.ts, expected:Math.round(j), felt:joyFeltAt(sn.ts) });
+  });
+  return out;
+}
+function joyNow(){ const sr = joySeries(); return sr.length ? sr[sr.length - 1] : null; }
+const joyShown = j=>j.felt !== null ? j.felt : j.expected;
+function joyInfo(){
+  const d = t(), j = joyNow(); if(!j) return;
+  let txt = d.joyInfo.replace('{f}', j.felt !== null ? j.felt + ' %' : d.joyNone).replace('{e}', j.expected);
+  if(j.felt !== null && j.felt > j.expected + JOY_GAP) txt += '\n\n' + d.joyAhead;
+  uiNotice(txt);
+}
+function joyDeepHtml(){
+  const d = t(), sr = joySeries(), j = sr[sr.length - 1], prev = sr[sr.length - 2];
+  if(!j || j.felt === null) return '';
+  if(j.felt > j.expected - JOY_GAP){
+    // joy grows along (or is ahead): a kind word to celebrate – only when the wheel or the felt joy has grown since the last wheel
+    const grew = prev && (j.expected > prev.expected || (prev.felt !== null && j.felt > prev.felt));
+    const list = j.felt > j.expected + JOY_GAP ? d.joyAheadV : grew ? d.joyGrowV : null;
+    if(!list) return '';
+    const msg = list[Math.floor(j.ts / 1000) % list.length]; // always the same words for the same wheel
+    return `<div class="goal-table-card joy-deep joy-glad"><img class="joy-glad-sun" src="img/icons/ico-freude.webp" alt=""><p>${escapeHtml(msg)}</p></div>`;
+  }
+  return `<div class="goal-table-card joy-deep"><h3>${escapeHtml(d.joyDeepTitle)}</h3><p>${escapeHtml(d.joyDeepText)}</p>
+    <ul class="area-q">${d.joyDeepQs.map(q=>`<li>${escapeHtml(q)}</li>`).join('')}</ul>
+    <div class="joy-deep-btns"><button class="ghost-btn" onclick="joyDeepToDiary()">${escapeHtml(d.joyToDiary)}</button>
+    <button class="ghost-btn" onclick="joyImpulse()">${escapeHtml(d.joyCardBtn)}</button></div></div>`;
+}
+async function joyDeepToDiary(){
+  const d = t(), year = tbLatestBook(new Date().getFullYear());
+  const prevYear = tbYear; tbYear = year;
+  const diary = tbEnsureYear(year);
+  tbYear = prevYear;
+  const date = new Date().toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
+  await tbAppendBlock(diary, d.joyDiaryHead.replace('{date}', date) + '\n' + d.joyDeepQs.map(q=>'• ' + q + '\n').join('\n'));
+  saveState();
+  uiNotice(state.settings.lang === 'de' ? 'Die Fragen stehen jetzt in deinem Tagebuch.' : 'The questions are in your diary now.');
+}
+function joyImpulse(){
+  const pool = IMPULSE_CARDS.filter(c=>c.a === 'freude');
+  impulseShow(pool[Math.floor(Math.random() * pool.length)], 'medi');
+}
+function joyRenderDeep(){ const el = document.getElementById('joy-deep-wrap'); if(el) el.innerHTML = joyDeepHtml(); }
 /* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
    main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
 const GAP_VIOLET = RETREAT ? [182, 150, 100] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [105, 133, 106] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#a58552' : BIZ ? '#c9a463' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
@@ -4855,7 +4936,7 @@ function wheelGeoFor(px, withDelta, extraTop, big){
   const W = Math.max(I, wheelMeasure('100%', fs), withDelta ? wheelMeasure('+100', fs) * 1.05 : 0);
   // big (home, since 1.76.0): the side labels sit above their point instead of beside it – the wheel grows by about 15 %
   // how far the corners reach sideways and downwards (works for any number of areas; six since 1.77.0)
-  const hx = Math.max(...AREAS.map((_, i)=>Math.abs(Math.cos(axisAngle(i))))), by = Math.max(...AREAS.map((_, i)=>Math.sin(axisAngle(i))));
+  const hx = Math.max(...WHEEL_AREAS.map((_, i)=>Math.abs(Math.cos(axisAngle(i))))), by = Math.max(...WHEEL_AREAS.map((_, i)=>Math.sin(axisAngle(i))));
   MAXR = big ? Math.min(345, (400 - 18 - W * 0.8) / hx) : Math.min(300, (400 - 22 - off - W) / hx);
   CX = 400;
   CY = (extraTop || 0) + 14 + H + off + MAXR;
@@ -4868,7 +4949,7 @@ function wheelGeo(svg, withDelta, big){
   svg.__w = wheelShownWidth(svg);
   return h;
 }
-function axisAngle(i){ return (-90 + i * 360 / AREAS.length) * Math.PI/180; }
+function axisAngle(i){ return (-90 + i * 360 / WHEEL_AREAS.length) * Math.PI/180; }
 function ptFor(i, value){
   const ang = axisAngle(i);
   const r = (value/100)*MAXR;
@@ -4902,7 +4983,7 @@ function wheelLabelsSvg(svg, valueOf, deltaOf, inline){
   const d = t(), L = WHEEL_LAB, lo = 24, hi = 776;
   const boxes = [];
   let out = '';
-  AREAS.forEach((a,i)=>{
+  WHEEL_AREAS.forEach((a,i)=>{
     const v = ptFor(i,100), val = valueOf ? valueOf(a) : null, dl = deltaOf ? deltaOf(a) : null;
     const hasVal = val !== null && val !== undefined, hasDl = hasVal && dl !== null && dl !== undefined;
     const valTxt = hasVal ? val + '%' : '';
@@ -4973,21 +5054,21 @@ function renderScene(animate, onIntroDone){
   for(let ring=1; ring<=4; ring++){
     const r = MAXR*ring/4;
     let pts='';
-    for(let i=0;i<AREAS.length;i++){ const a=axisAngle(i); pts += (CX+r*Math.cos(a))+','+(CY+r*Math.sin(a))+' '; }
+    for(let i=0;i<WHEEL_AREAS.length;i++){ const a=axisAngle(i); pts += (CX+r*Math.cos(a))+','+(CY+r*Math.sin(a))+' '; }
     grid += `<polygon points="${pts}" fill="none" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(243,234,214,0.6)'}" stroke-width="1.6"/>`;
   }
-  for(let i=0;i<AREAS.length;i++){
+  for(let i=0;i<WHEEL_AREAS.length;i++){
     const p = ptFor(i,100);
     grid += `<line x1="${CX}" y1="${CY}" x2="${p.x}" y2="${p.y}" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(243,234,214,0.6)'}" stroke-width="1.6"/>`;
   }
 
   const labels = wheelLabelsSvg(svg, a=>currentValue(a));
 
-  let dataPts = AREAS.map((a,i)=>{ const p=ptFor(i,currentValue(a)); return p.x+','+p.y; }).join(' ');
+  let dataPts = WHEEL_AREAS.map((a,i)=>{ const p=ptFor(i,currentValue(a)); return p.x+','+p.y; }).join(' ');
   // since 1.76.0: the wish as a gold line with dots, the band between now and wish from violet (largest gap) to gold
   let wishSvg = '';
   if(hasWishes()){
-    const ist = AREAS.map(currentValue), wish = AREAS.map(currentWish), gap = wheelGapSvg('hg', ptFor, ist, wish);
+    const ist = WHEEL_AREAS.map(currentValue), wish = WHEEL_AREAS.map(currentWish), gap = wheelGapSvg('hg', ptFor, ist, wish);
     const wPts = wish.map((v, i)=>{ const p = ptFor(i, v); return p.x + ',' + p.y; }).join(' ');
     wishSvg = `<defs>${gap.defs}</defs>${gap.shapes}`;
     // the wish: a line in the colour of the gold knob, with the folded-paper knobs on its corners (1.78.0)
@@ -4998,10 +5079,10 @@ function renderScene(animate, onIntroDone){
 
   svg.innerHTML = bg + grid +
     `<g id="data-polygon" opacity="0">${wishSvg}<polygon points="${dataPts}" fill="${hasWishes() ? (RETREAT ? 'rgba(248,242,232,0.9)' : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)') : 'url(#gradWheel)'}" stroke="${IST_COL}" stroke-width="3"/>${typeof wishTop === 'string' ? wishTop : ''}</g>` +
-    labels;
+    labels + joySunSvg();
   wheelLabelsFit(svg);
 
-  AREAS.forEach((a,i)=>{
+  WHEEL_AREAS.forEach((a,i)=>{
     // tap area over the icon and value of each area
     let bx, by, bw, bh;
     const lb = wheelLabBox(svg, i);
@@ -5022,9 +5103,21 @@ function renderScene(animate, onIntroDone){
     svg.appendChild(hit2);
   });
 
+  joyRenderDeep();
   if(animate){ playIntroSequence(onIntroDone); } else { revealWheel(true); }
 }
 
+// the sun of joy in the middle of the wheel (1.85.0): grows and glows with the joy (felt, or else expected); a tap explains it
+function joySunSvg(){
+  const j = joyNow(); if(!j) return '';
+  const k = (WHEEL_LAB && WHEEL_LAB.k) || 1, v = joyShown(j), sz = (26 + 28 * v / 100) * k, cy = CY - 6 * k;
+  const col = RETREAT ? '#292723' : BIZ ? '#d9b679' : '#f6d27a';
+  return `<defs><filter id="joyGlow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="${(7 * k).toFixed(1)}"/></filter></defs>
+    <g id="joy-sun" style="cursor:pointer" onclick="event.stopPropagation(); joyInfo()">
+    <circle cx="${CX}" cy="${cy.toFixed(1)}" r="${(sz * 0.62).toFixed(1)}" fill="${KNOB_GOLD}" opacity="${(0.15 + 0.6 * v / 100).toFixed(2)}" filter="url(#joyGlow)"/>
+    <image href="img/icons/ico-freude.webp" x="${(CX - sz / 2).toFixed(1)}" y="${(cy - sz / 2).toFixed(1)}" width="${sz.toFixed(1)}" height="${sz.toFixed(1)}"/>
+    <text x="${CX}" y="${(cy + sz / 2 + 16 * k).toFixed(1)}" text-anchor="middle" font-size="${(14 * k).toFixed(1)}" fill="${col}">${v} %</text></g>`;
+}
 function revealWheel(instant){
   const poly = document.getElementById('data-polygon');
   if(!poly) return;
@@ -5045,7 +5138,7 @@ function getWheelSnapshots(){
   // any area still missing after grouping is filled from its closest-in-time known value, so every
   // saved wheel keeps all five spokes instead of disappearing outright.
   const entries = [];
-  AREAS.forEach(a=> state.bewertungen[a].forEach(e=> entries.push({ a, ts:e.ts, value:e.value, wish:e.wish })));
+  WHEEL_AREAS.forEach(a=> state.bewertungen[a].forEach(e=> entries.push({ a, ts:e.ts, value:e.value, wish:e.wish })));
   entries.sort((x,y)=>x.ts-y.ts);
   const WINDOW_MS = 60000; // comfortably covers any drift; real separate saves are minutes/days apart
   const clusters = [];
@@ -5057,7 +5150,7 @@ function getWheelSnapshots(){
     cl.ts = Math.min(cl.ts, e.ts);
   });
   clusters.forEach(cl=>{
-    AREAS.forEach(a=>{
+    WHEEL_AREAS.forEach(a=>{
       if(cl.values[a] !== undefined) return;
       const arr = state.bewertungen[a];
       if(!arr.length){ cl.values[a] = 50; return; } // an area that did not exist yet (Freude, 1.77.0): neutral, so old wheels stay
@@ -5067,21 +5160,21 @@ function getWheelSnapshots(){
     });
   });
   return clusters
-    .filter(c=> AREAS.every(a=> c.values[a]!==undefined))
+    .filter(c=> WHEEL_AREAS.every(a=> c.values[a]!==undefined))
     .sort((a,b)=> b.ts-a.ts);
 }
 let miniSvgSeq = 0;
 function miniWheelSvg(values){
   const cx=45, cy=45, maxr=34;
-  const ang = i => (-90 + i * 360 / AREAS.length) * Math.PI/180;
+  const ang = i => (-90 + i * 360 / WHEEL_AREAS.length) * Math.PI/180;
   const pt = (i,v) => { const a=ang(i); const r=(v/100)*maxr; return { x:cx+r*Math.cos(a), y:cy+r*Math.sin(a) }; };
   let grid = '';
   for(let ring=1; ring<=2; ring++){
     const r = maxr*ring/2; let pts='';
-    for(let i=0;i<AREAS.length;i++){ const a=ang(i); pts += (cx+r*Math.cos(a))+','+(cy+r*Math.sin(a))+' '; }
+    for(let i=0;i<WHEEL_AREAS.length;i++){ const a=ang(i); pts += (cx+r*Math.cos(a))+','+(cy+r*Math.sin(a))+' '; }
     grid += `<polygon points="${pts}" fill="none" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(255,255,255,0.18)'}" stroke-width="1"/>`;
   }
-  const dataPts = AREAS.map((a,i)=>{ const p=pt(i, values[a]); return p.x+','+p.y; }).join(' ');
+  const dataPts = WHEEL_AREAS.map((a,i)=>{ const p=pt(i, values[a]); return p.x+','+p.y; }).join(' ');
   const gid = 'gmw'+(miniSvgSeq++);
   return `<svg width="90" height="90" viewBox="0 0 90 90">
     <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1">
@@ -5135,20 +5228,20 @@ const AREAS_SEEN_KEY = 'ewolfe_areas_seen_v1';
 let areasDraft = null, areasOpenA = AREAS[0];
 function areasDraftInit(){
   if(areasDraft) return;
-  areasDraft = { ist:{}, wish:{} };
-  AREAS.forEach(a=>{
+  areasDraft = { ist:{}, wish:{}, joy:null };
+  WHEEL_AREAS.forEach(a=>{
     const has = (state.bewertungen[a] || []).length, v = has ? currentValue(a) : 50, w = currentWish(a);
     areasDraft.ist[a] = v; areasDraft.wish[a] = w !== null ? w : Math.min(100, v + 20);
   });
 }
 function areasWheelSvg(){
-  const cx = 130, cy = 124, R = 92, ang = i=>(-90 + i * 360 / AREAS.length) * Math.PI / 180;
+  const cx = 130, cy = 124, R = 92, ang = i=>(-90 + i * 360 / WHEEL_AREAS.length) * Math.PI / 180;
   const pt = (i, v)=>({ x:cx + Math.cos(ang(i)) * R * v / 100, y:cy + Math.sin(ang(i)) * R * v / 100 });
-  const ist = AREAS.map(a=>areasDraft.ist[a]), wish = AREAS.map(a=>areasDraft.wish[a]), gap = wheelGapSvg('ag', pt, ist, wish);
+  const ist = WHEEL_AREAS.map(a=>areasDraft.ist[a]), wish = WHEEL_AREAS.map(a=>areasDraft.wish[a]), gap = wheelGapSvg('ag', pt, ist, wish);
   const poly = (vals, attrs)=>`<polygon points="${vals.map((v, i)=>{ const p = pt(i, v); return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ')}" ${attrs}/>`;
   let g = '';
-  [25, 50, 75, 100].forEach(r=>{ g += poly(AREAS.map(()=>r), `fill="none" stroke="${RETREAT ? 'rgba(41,39,35,' + (r === 100 ? 0.39 : 0.24) + ')' : 'rgba(243,234,214,' + (r === 100 ? 0.45 : 0.16) + ')'}" stroke-width="1"`); });
-  AREAS.forEach((a, i)=>{ const p = pt(i, 100), q = pt(i, 121); g += `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="${RETREAT ? 'rgba(41,39,35,0.24)' : 'rgba(243,234,214,0.16)'}"/><image href="img/icons/ico-${a}.webp" x="${(q.x - 10).toFixed(1)}" y="${(q.y - 10).toFixed(1)}" width="20" height="20"/>`; });
+  [25, 50, 75, 100].forEach(r=>{ g += poly(WHEEL_AREAS.map(()=>r), `fill="none" stroke="${RETREAT ? 'rgba(41,39,35,' + (r === 100 ? 0.39 : 0.24) + ')' : 'rgba(243,234,214,' + (r === 100 ? 0.45 : 0.16) + ')'}" stroke-width="1"`); });
+  WHEEL_AREAS.forEach((a, i)=>{ const p = pt(i, 100), q = pt(i, 121); g += `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="${RETREAT ? 'rgba(41,39,35,0.24)' : 'rgba(243,234,214,0.16)'}"/><image href="img/icons/ico-${a}.webp" x="${(q.x - 10).toFixed(1)}" y="${(q.y - 10).toFixed(1)}" width="20" height="20"/>`; });
   return `<svg class="areas-wheel" viewBox="0 0 260 248" aria-hidden="true"><defs>${gap.defs}</defs>${g}${gap.shapes}`
     + poly(ist, `fill="${RETREAT ? 'rgba(248,242,232,0.9)' : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)'}" stroke="${IST_COL}" stroke-width="1.6"`)
     + poly(wish, `fill="none" stroke="${KNOB_GOLD}" stroke-width="2.6" stroke-linejoin="round"`)
@@ -5158,10 +5251,11 @@ function renderAreasPage(){
   const d = t(), first = isFirstRun();
   areasDraftInit();
   const card = a=>{
-    const open = a === areasOpenA, ist = areasDraft.ist[a], wish = areasDraft.wish[a];
+    const open = a === areasOpenA, ist = areasDraft.ist[a], wish = areasDraft.wish[a], joy = a === 'freude';
     const qs = (d.areaQuestions && d.areaQuestions[a]) || [];
-    return `<div class="area-card area-acc${open ? ' open' : ''}" data-a="${a}">
-      <button class="area-acc-head" onclick="areasToggle('${a}')"><span class="area-card-name">${areaIco(a)}${d.bereiche[a]}</span><span class="area-acc-sum" id="asum-${a}">${ist} → ${wish}</span></button>
+    const sum = joy ? (areasDraft.joy !== null ? areasDraft.joy + ' %' : '–') : `${ist} → ${wish}`;
+    return `<div class="area-card area-acc${open ? ' open' : ''}${joy ? ' area-joy' : ''}" data-a="${a}">
+      <button class="area-acc-head" onclick="areasToggle('${a}')"><span class="area-card-name">${areaIco(a)}${d.bereiche[a]}</span><span class="area-acc-sum" id="asum-${a}">${sum}</span></button>
       ${open ? `<div class="area-acc-body">
         <div class="area-card-text">${d.areasText[a]}</div>
         ${qs.length ? `<div class="area-q-title">${d.areasQTitle}</div><ul class="area-q">${qs.map(q=>`<li>${escapeHtml(q)}</li>`).join('')}</ul>` : ''}
@@ -5169,10 +5263,10 @@ function renderAreasPage(){
           <div class="area-q-title">${d.areaMoreBelongs}</div><p>${d.areaMore[a].belongs}</p>
           <div class="area-q-title">${d.areaMoreHigh}</div><p>${d.areaMore[a].high}</p>
           <div class="area-q-title">${d.areaMoreStep}</div><p>${d.areaMore[a].step}</p></details>` : ''}
-        <div class="area-sl"><div class="area-sl-lab"><span>${d.areasIst}</span><b id="aist-${a}">${ist} %</b></div>
+        ${joy ? areasJoyHtml() : `<div class="area-sl"><div class="area-sl-lab"><span>${d.areasIst}</span><b id="aist-${a}">${ist} %</b></div>
           <input type="range" class="range-ist" min="1" max="100" value="${ist}" style="--v:${ist}%" oninput="areasSlide('${a}','ist',this)"></div>
         <div class="area-sl"><div class="area-sl-lab"><span>${d.areasWish}</span><b class="gold" id="awish-${a}">${wish} %</b></div>
-          <input type="range" class="range-wish" min="1" max="100" value="${wish}" style="--v:${wish}%" oninput="areasSlide('${a}','wish',this)"></div>
+          <input type="range" class="range-wish" min="1" max="100" value="${wish}" style="--v:${wish}%" oninput="areasSlide('${a}','wish',this)"></div>`}
         ${AREAS.indexOf(a) < AREAS.length - 1 ? `<button class="ghost-btn area-next" onclick="areasToggle('${AREAS[AREAS.indexOf(a) + 1]}')">${d.areasNext} ›</button>` : ''}
       </div>` : ''}
     </div>`;
@@ -5186,6 +5280,22 @@ function renderAreasPage(){
     ${AREAS.map(card).join('')}
     <button class="primary-btn areas-cta" onclick="areasSave()">${first ? d.areasSaveFirst : d.areasSave}</button>
     ${first ? `<button class="ghost-btn areas-restore" onclick="document.getElementById('import-file-input').click()">${d.restoreFromBackup}</button>` : ''}`;
+}
+// Freude on the Bereiche page (1.85.0): five suns to tap instead of sliders, and what the wheel leads us to expect
+function areasJoyHtml(){
+  const d = t(), sel = areasDraft.joy;
+  // the expected joy if the wheel were saved like this
+  const snaps = getWheelSnapshots(), draft = { ts:Date.now(), values:Object.assign({}, areasDraft.ist) };
+  const sr = joySeries(isFirstRun() ? [draft] : [draft].concat(snaps)), e = sr[sr.length - 1].expected;
+  return `<div class="area-q-title">${escapeHtml(d.joyFeelQ)}</div>
+    <div class="joy-suns">${JOY_SUNS.map(v=>`<button class="joy-sun-btn${sel !== null && v <= sel ? ' on' : ''}" onclick="areasJoy(${v})" aria-label="${v} %"><img src="img/icons/ico-freude.webp" alt=""></button>`).join('')}</div>
+    <p class="joy-expected">${escapeHtml(d.joyExpected.replace('{e}', e))}</p>`;
+}
+function areasJoy(v){
+  areasDraft.joy = areasDraft.joy === v ? null : v; // tapping the chosen sun again takes it back
+  const sc = document.querySelector('#areas-page > .modal'), top = sc ? sc.scrollTop : 0;
+  renderAreasPage();
+  if(sc) sc.scrollTop = top;
 }
 function areasToggle(a){
   areasOpenA = areasOpenA === a ? null : a;
@@ -5204,7 +5314,8 @@ function areasSlide(a, kind, el){
 }
 function areasSave(){
   const ts = Date.now(); // one shared time for all five areas: one wheel
-  AREAS.forEach(a=>addBewertung(a, areasDraft.ist[a], ts, areasDraft.wish[a]));
+  WHEEL_AREAS.forEach(a=>addBewertung(a, areasDraft.ist[a], ts, areasDraft.wish[a]));
+  if(areasDraft.joy !== null) addBewertung('freude', areasDraft.joy, ts); // the joy felt (1.85.0), no wish
   areasDraft = null; areasOpenA = AREAS[0];
   try{ localStorage.setItem(WISH_ASKED_KEY, '1'); localStorage.setItem(JOY_ASKED_KEY, '1'); }catch(e){}
   saveState();
@@ -5217,7 +5328,7 @@ function openEvalModal(){ areasDraft = null; areasOpenA = AREAS[0]; navGo('areas
 // people who already have wheels but no wishes yet are asked once, kindly (1.76.0)
 const WISH_ASKED_KEY = 'ewolfe_wish_asked', JOY_ASKED_KEY = 'ewolfe_joy_asked';
 async function maybeAskWishes(){
-  const noJoy = !isFirstRun() && !(state.bewertungen.freude || []).length;
+  const noJoy = false; // 1.85.0: Freude is no slider any more, nobody needs to be asked for it
   if(isFirstRun() || (hasWishes() && !noJoy) || syncGateNeeded()) return false;
   let asked = false; try{ asked = !!localStorage.getItem(noJoy ? JOY_ASKED_KEY : WISH_ASKED_KEY); }catch(e){}
   if(asked) return false;
@@ -5296,10 +5407,10 @@ function openWheelCompare(){
   for(let ring=1; ring<=4; ring++){
     const r = MAXR*ring/4;
     let pts='';
-    for(let i=0;i<AREAS.length;i++){ const a=axisAngle(i); pts += (CX+r*Math.cos(a))+','+(CY+r*Math.sin(a))+' '; }
+    for(let i=0;i<WHEEL_AREAS.length;i++){ const a=axisAngle(i); pts += (CX+r*Math.cos(a))+','+(CY+r*Math.sin(a))+' '; }
     grid += `<polygon points="${pts}" fill="none" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(243,234,214,0.6)'}" stroke-width="1.6"/>`;
   }
-  for(let i=0;i<AREAS.length;i++){
+  for(let i=0;i<WHEEL_AREAS.length;i++){
     const p = ptFor(i,100);
     grid += `<line x1="${CX}" y1="${CY}" x2="${p.x}" y2="${p.y}" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(243,234,214,0.6)'}" stroke-width="1.6"/>`;
   }
@@ -5310,8 +5421,8 @@ function openWheelCompare(){
 
   /* Small steps have to be visible: only the newest wheel is filled; the older ones are drawn as clear lines on top
      (the second one mint, the third yellow, both solid), each with dots at its five points. */
-  const ptsOf = s=>AREAS.map((a,idx)=>{ const p=ptFor(idx, s.values[a]); return p.x.toFixed(1)+','+p.y.toFixed(1); }).join(' ');
-  const dotsOf = (s, col, r)=>AREAS.map((a,idx)=>{ const p=ptFor(idx, s.values[a]); return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r}" fill="${col}"/>`; }).join('');
+  const ptsOf = s=>WHEEL_AREAS.map((a,idx)=>{ const p=ptFor(idx, s.values[a]); return p.x.toFixed(1)+','+p.y.toFixed(1); }).join(' ');
+  const dotsOf = (s, col, r)=>WHEEL_AREAS.map((a,idx)=>{ const p=ptFor(idx, s.values[a]); return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r}" fill="${col}"/>`; }).join('');
   let polys = `<polygon points="${ptsOf(newest)}" fill="${COMPARE_COLORS[0]}" fill-opacity="0.42" stroke="none"/>`;
   for(let i=snaps.length-1; i>=1; i--){
     const col = COMPARE_COLORS[i] || COMPARE_COLORS[COMPARE_COLORS.length-1];
@@ -5319,9 +5430,9 @@ function openWheelCompare(){
   }
   polys += `<polygon points="${ptsOf(newest)}" fill="none" stroke="${COMPARE_COLORS[0]}" stroke-width="4" stroke-linejoin="round"/>` + dotsOf(newest, COMPARE_COLORS[0], 7);
   // the wish (how it should be) of the newest wheel as a dotted line on top (1.84.4)
-  const cmpWish = newest.wishes && AREAS.every(a=>newest.wishes[a] !== undefined) ? newest.wishes : null;
+  const cmpWish = newest.wishes && WHEEL_AREAS.every(a=>newest.wishes[a] !== undefined) ? newest.wishes : null;
   if(cmpWish){
-    polys += `<polygon points="${AREAS.map((a, idx)=>{ const p = ptFor(idx, cmpWish[a]); return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ')}" fill="none" stroke="${KNOB_GOLD}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 14"/>`;
+    polys += `<polygon points="${WHEEL_AREAS.map((a, idx)=>{ const p = ptFor(idx, cmpWish[a]); return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ')}" fill="none" stroke="${KNOB_GOLD}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 14"/>`;
   }
 
   svg.innerHTML = bg + grid + polys + labels;
@@ -5329,7 +5440,7 @@ function openWheelCompare(){
 
   // a few words on how it went: improvements, and a kind word when something went down
   let ups = 0, downs = 0;
-  if(snaps.length > 1) AREAS.forEach(a=>{ const dl = newest.values[a] - oldest.values[a]; if(dl > 0) ups++; else if(dl < 0) downs++; });
+  if(snaps.length > 1) WHEEL_AREAS.forEach(a=>{ const dl = newest.values[a] - oldest.values[a]; if(dl > 0) ups++; else if(dl < 0) downs++; });
   const parts = [];
   if(snaps.length > 1){
     // one of several wordings, always the same one for the same wheels
@@ -5337,6 +5448,8 @@ function openWheelCompare(){
     if(ups) parts.push(ups === 1 ? pick(d.cmpUp1V) : ups === 5 ? pick(d.cmpUpAllV) : pick(d.cmpUpV).replace('{n}', ups));
     if(downs) parts.push(pick(d.cmpDownV));
     if(!ups && !downs) parts.push(pick(d.cmpSameV));
+    const js = joySeries(), jAt = ts=>js.find(x=>x.ts === ts), jn = jAt(newest.ts), jo = jAt(oldest.ts);
+    if(jn && jo) parts.push(d.joyCmp.replace('{a}', joyShown(jo)).replace('{b}', joyShown(jn)));
   }
   document.getElementById('wheel-compare-text').innerHTML = parts.map(x=>`<p>${escapeHtml(x)}</p>`).join('');
   document.getElementById('wheel-compare-legend').innerHTML = snaps.map((s,i)=>{
@@ -5392,17 +5505,17 @@ function openWheelSnapshot(idx){
   for(let ring=1; ring<=4; ring++){
     const r = MAXR*ring/4;
     let pts='';
-    for(let i=0;i<AREAS.length;i++){ const a=axisAngle(i); pts += (CX+r*Math.cos(a))+','+(CY+r*Math.sin(a))+' '; }
+    for(let i=0;i<WHEEL_AREAS.length;i++){ const a=axisAngle(i); pts += (CX+r*Math.cos(a))+','+(CY+r*Math.sin(a))+' '; }
     grid += `<polygon points="${pts}" fill="none" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(243,234,214,0.6)'}" stroke-width="1.6"/>`;
   }
-  for(let i=0;i<AREAS.length;i++){
+  for(let i=0;i<WHEEL_AREAS.length;i++){
     const p = ptFor(i,100);
     grid += `<line x1="${CX}" y1="${CY}" x2="${p.x}" y2="${p.y}" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(243,234,214,0.6)'}" stroke-width="1.6"/>`;
   }
 
   const labels = wheelLabelsSvg(svg, a=>snap.values[a]);
 
-  const dataPts = AREAS.map((a,i)=>{ const p=ptFor(i,snap.values[a]); return p.x+','+p.y; }).join(' ');
+  const dataPts = WHEEL_AREAS.map((a,i)=>{ const p=ptFor(i,snap.values[a]); return p.x+','+p.y; }).join(' ');
   svg.innerHTML = bg + grid + `<polygon points="${dataPts}" fill="url(#gradWheelSnap)" stroke="${IST_COL}" stroke-width="2" opacity="0.9"/>` + labels;
   wheelLabelsFit(svg);
 
@@ -6235,7 +6348,7 @@ function trophyEvents(){
   const wheels = oncePerDay(first.map(x=>x.ts));
   let improved10 = null, improvedAll = null;
   for(let i = 1; i < first.length; i++){
-    const ups = AREAS.map(a=>{ const arr = state.bewertungen[a] || []; return arr[i] && arr[0] ? arr[i].value - arr[0].value : null; }).filter(v=>v !== null);
+    const ups = WHEEL_AREAS.map(a=>{ const arr = state.bewertungen[a] || []; return arr[i] && arr[0] ? arr[i].value - arr[0].value : null; }).filter(v=>v !== null);
     if(improved10 === null && ups.some(v=>v >= 10)) improved10 = first[i].ts;
     if(improvedAll === null && ups.length >= 5 && ups.every(v=>v > 0)) improvedAll = first[i].ts;
   }
@@ -6342,7 +6455,7 @@ function trophyDefs(){
   // 1.81.0, both designs: the aeroplane – in one area the "now" has reached the wish (and was below it before);
   // the classic car – wheels of life in 12 different months, a true classic
   let arrived = null;
-  AREAS.forEach(a=>{ let below = false; (state.bewertungen[a] || []).slice().sort((x, y)=>x.ts - y.ts).forEach(x=>{
+  WHEEL_AREAS.forEach(a=>{ let below = false; (state.bewertungen[a] || []).slice().sort((x, y)=>x.ts - y.ts).forEach(x=>{
     if(x.wish === undefined || x.wish === null) return;
     if(x.value < x.wish) below = true; else if(below && (arrived === null || x.ts < arrived)) arrived = x.ts; }); });
   out.push({ id:'arrived', kind:'img', img:BIZ ? 'rl/plane' : 'trophy-plane', scale:0.8, aspect:BIZ ? 1.68 : 2.07, need:1, list:arrived ? [arrived] : [],
@@ -6940,12 +7053,12 @@ function wheelPictureSvg(){
   let grid = '';
   for(let ring=1; ring<=4; ring++){
     const r = MAXR*ring/4; let pts='';
-    for(let i=0;i<AREAS.length;i++){ const a=axisAngle(i); pts += (CX+r*Math.cos(a)).toFixed(1)+','+(CY+r*Math.sin(a)).toFixed(1)+' '; }
+    for(let i=0;i<WHEEL_AREAS.length;i++){ const a=axisAngle(i); pts += (CX+r*Math.cos(a)).toFixed(1)+','+(CY+r*Math.sin(a)).toFixed(1)+' '; }
     grid += `<polygon points="${pts}" fill="none" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(255,255,255,0.16)'}" stroke-width="1.5"/>`;
   }
-  for(let i=0;i<AREAS.length;i++){ const p = ptFor(i,100); grid += `<line x1="${CX}" y1="${CY}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(255,255,255,0.16)'}" stroke-width="1.5"/>`; }
-  const dataPts = AREAS.map((a,i)=>{ const p=ptFor(i,currentValue(a)); return p.x.toFixed(1)+','+p.y.toFixed(1); }).join(' ');
-  const latest = Math.max(0, ...AREAS.map(a=>{ const arr = state.bewertungen[a]; return arr.length ? arr[arr.length-1].ts : 0; }));
+  for(let i=0;i<WHEEL_AREAS.length;i++){ const p = ptFor(i,100); grid += `<line x1="${CX}" y1="${CY}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="${RETREAT ? 'rgba(41,39,35,0.29)' : 'rgba(255,255,255,0.16)'}" stroke-width="1.5"/>`; }
+  const dataPts = WHEEL_AREAS.map((a,i)=>{ const p=ptFor(i,currentValue(a)); return p.x.toFixed(1)+','+p.y.toFixed(1); }).join(' ');
+  const latest = Math.max(0, ...WHEEL_AREAS.map(a=>{ const arr = state.bewertungen[a]; return arr.length ? arr[arr.length-1].ts : 0; }));
   const ds = new Date(latest || Date.now()).toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
   const font = 'Inter, -apple-system, Helvetica, Arial, sans-serif';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 ${h}" width="800" height="${h}">`
