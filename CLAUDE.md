@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.83.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.84.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -354,6 +354,17 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Staub-Regal jetzt die ersten zwei aktiven Tage (`appActiveDays() < 3`).
 - **A Gentleman's Study:** Hund deutlich größer vor dem Regal (`.shelf-dog` height 34 %).
 - Seit 1.83.2: neue Zitronen-Glocken (Zitronenzweig: Blüten → grüne Frucht → gelbe Zitrone), schmaler (Seitenverhältnis 0,70). Übungsbilder für die Achtsamkeit (Lotus, Kirschzweig, Zitrone, Steine, Herzen, Klangschale, Glocke, Decke) liegen im Sammelordner unter „Originale ChatGPT/Achtsamkeit“, noch nicht eingebaut.
+
+## Drittes Design „A Morning Retreat“ (seit 1.84.0)
+- `ewolfe_design` = `retreat`. Das `<head>`-Skript setzt `html.theme-biz` **und** `html.theme-retreat`; im Code `RETREAT` und
+  `BIZ` (BIZ ist auch hier wahr: bis eigene Bilder kommen, nutzt es alle Bilder und Funktionen von A Gentleman's Study,
+  mit rotem Platzhalter-Hinweis überall: Trophäen über `rlMissing`, Regal, Vitrine, Cover, Titelseite, Impulskarten per CSS).
+- Hell: Beige #efe6d8, Karten #f8f2e8, Salbei #7f9a80 (Knöpfe, helle Schrift), Salbei dunkel #5a7760 (Unterüberschriften, Ist-Linie),
+  Sand #c8b08a (Wunsch, Rahmen), Schrift #3d3a35. Überschriften Cormorant Garamond, Text Jost, runde Knöpfe. CSS-Block
+  „Design A Morning Retreat“ am Ende des CSS; Rad-Farben über `RETREAT ? … : BIZ ? … : …` (IST_COL, GAP_*, KNOB_GOLD, Gitter).
+- Linien-Symbole sind die von A Gentleman's Study, per `filter:brightness(0.38)` dunkel.
+- Design-Auswahl: drei Knöpfe untereinander (`DESIGNS`, `DESIGN_SUB`); Wechsel lädt neu, wenn sich `window.EW_DESIGN` ändert.
+- Prompts und Entscheidungen: Sammelordner „3 Morning Retreat Style“.
 
 ## Sechster Bereich „Freude“ (seit 1.77.0)
 - `AREAS` hat jetzt sechs Einträge, `freude` als letzter (Symbol `img/icons/ico-freude.webp`, gefaltete Goldsonne). Das Rad ist
