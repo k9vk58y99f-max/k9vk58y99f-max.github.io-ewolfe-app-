@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.89.6`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.90.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -496,6 +496,13 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - **1.89.1:** Räume auch für A Gentleman's Study (`rl2/room`, Navy-Bibliothek mit Parkfenster) und A Mystery World (`mw2/room`, Zaubersalon mit
   Sternenfenster), gleiche Größe/Lage wie das Gewächshaus. Lady: Krippe mit heiliger Familie (`rt2/crib`), neue Armillarsphäre (`rt2/armillary`),
   fünf Eier auf Goldständern (kleiner: 0,42–0,46), Schuhe kleiner und tiefer vor dem Kleid.
+
+## Seit 1.90.0
+- A Mystery World: Regal mit Spinnweben (`mw2/shelf-dusty`, `-narrow`, `-fronts`) für die ersten zwei aktiven Tage.
+- A Lady's Conservatory: Weihnachtsbaum im himbeerfarbenen Topf (`rt2/tree`) steht vom 24.12. bis 6.1. an der Stelle des Rosen-Tischchens
+  (`xmasTree`, `.shelf-xmas`); sechste Cover-Farbe Rot (`TB_COVERS` hat in LC zusätzlich `crimson`, `RL_COVER.crimson = 'red'`);
+  alle Glasglocken, Cover, Buchrücken, Advent- und Feiertagskarten in den neuen Farben. Kleid steht tiefer auf dem Teppich
+  (`.lib-dress-wrap` margin-bottom `--dh`×−0,13).
 
 ## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
 - Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt

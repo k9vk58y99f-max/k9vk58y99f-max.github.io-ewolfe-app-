@@ -1220,7 +1220,7 @@ html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) / var(--sa, 0.44) * 5
 .dress-medal{ background:none; border:none; padding:0; margin:0 calc(var(--dh) * -0.0035); cursor:pointer; filter:drop-shadow(0 2px 2px rgba(0,0,0,0.45)); }
 .dress-medal img{ display:block; height:calc(var(--dh) * 0.062); width:auto; }
 /* A Lady's Conservatory: the dress is as high as 0.9 of the bookcase; brooches in a small cluster at the neckline, the pendant watch at the waist */
-html.theme-retreat .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96); margin:0 calc(var(--sw) * 0.02); }
+html.theme-retreat .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96); margin:0 calc(var(--sw) * 0.02) calc(var(--dh) * -0.13); z-index:3; } /* stand feet on the floor a little in front of the bookcase, the shoes in front of them (they hang 8 % below the feet) */
 html.theme-retreat .dress-medals{ left:53%; top:17.5%; width:17%; row-gap:0; }
 html.theme-retreat .dress-medal{ margin:0 calc(var(--dh) * -0.002); filter:drop-shadow(0 1px 1px rgba(0,0,0,0.4)); }
 html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
@@ -1375,6 +1375,7 @@ html.theme-retreat .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.375)); justify-co
   background-position:calc(var(--lh) * -0.306) calc(100% + var(--lh) * 0.045); border-radius:14px; }
 html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--lh) * 0.099); }
 html.theme-retreat .lib-row{ gap:calc(var(--lh) * 0.012); }
+html.theme-retreat .shelf-orchid.shelf-xmas{ height:68%; bottom:-11%; transform:translateX(-45%); }
 /* 21.10.2026: rooms for the other two designs as well (same size and position as the conservatory): A Gentleman's Study a navy country-house
    library with a park window, A Mystery World a magical library salon with a starry window */
 html:not(.theme-retreat) .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.39)); padding-bottom:calc(var(--lh) * 0.16) !important; min-width:max(100%, calc(var(--lh) * 2.36));
@@ -1854,7 +1855,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; heig
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.89.6';
+const APP_VERSION = '1.90.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6275,7 +6276,7 @@ function tbSpineHtml(key){
    The rows end in the middle of each board; above eye level the board's front edge lies over the trophies (fronts). */
 const SHELF_ROWS2 = [[7.5, 23], [23.9, 39.3], [39.9, 55.8], [56.8, 72.6], [74.2, 89.9]];
 const SHELVES = {
-  dusty:{ img:'mw2/shelf', fronts:'mw2/shelf-fronts', aspect:501 / 1279, roof:1.8, x:[0.8, 88.4], rows:SHELF_ROWS2 }, // the cobweb version is still to come
+  dusty:{ img:'mw2/shelf-dusty', fronts:'mw2/shelf-dusty-fronts', aspect:501 / 1279, roof:1.8, x:[0.8, 88.4], rows:SHELF_ROWS2 }, // with cobwebs (the first two active days)
   clean:{ img:'mw2/shelf', fronts:'mw2/shelf-fronts', aspect:501 / 1279, roof:1.8, x:[0.8, 88.4], rows:SHELF_ROWS2 },
   ivy:{ img:'mw2/shelf-ivy', fronts:'mw2/shelf-ivy-fronts', aspect:501 / 1280, roof:1.8, x:[0.8, 88.4], rows:SHELF_ROWS2 },
   rl:RETREAT
@@ -6290,7 +6291,7 @@ const SHELVES = {
    compartment), the big shelf then holds only trophies. Cut from the big pictures (middle taken out); k = its width relative
    to the big shelf, ov = how far it slides under the big one so the two touch. Same in both designs. */
 const NARROW = {
-  dusty:{ img:'mw2/shelf-narrow', fronts:'mw2/shelf-narrow-fronts', aspect:332 / 1279, x:[16.3, 90.4], k:332 / 501, ov:0 },
+  dusty:{ img:'mw2/shelf-dusty-narrow', fronts:'mw2/shelf-dusty-narrow-fronts', aspect:332 / 1279, x:[16.3, 90.4], k:332 / 501, ov:0 },
   clean:{ img:'mw2/shelf-narrow', fronts:'mw2/shelf-narrow-fronts', aspect:332 / 1279, x:[16.3, 90.4], k:332 / 501, ov:0 },
   ivy:{ img:'mw2/shelf-ivy-narrow', fronts:'mw2/shelf-ivy-narrow-fronts', aspect:337 / 1280, x:[16.6, 90.5], k:337 / 501, ov:0, plant:{ img:'mw2/ivy', w:19.6, over:11.9 } },
   rl:RETREAT
@@ -6462,10 +6463,11 @@ function tbRenderLibrary(){
   }), 80);
   // A Morning Retreat (1.84.2): from level 3 (where A Mystery World gets its ivy) a white orchid on a fine plant stand,
   // to the left of the shelf (and of the narrow one), a little in front of it
-  const orchid = RETREAT && lv >= 3;
+  const xmasTree = RETREAT && isChristmasTime(); // 21.10.2026: the Lady's Christmas tree takes the place of the rose table
+  const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : ''}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">' : ''}${narrowHtml}${shelfHtml}</div>${DRESS ? `<div class="lib-dress-wrap"><img class="lib-dress" src="img/${RETREAT ? 'rt2/dress-shoes' : 'rl/dress-form'}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div></div>` : ''}${vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}</div>${DRESS ? `<div class="lib-dress-wrap"><img class="lib-dress" src="img/${RETREAT ? 'rt2/dress-shoes' : 'rl/dress-form'}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div></div>` : ''}${vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;
@@ -6828,12 +6830,12 @@ function tbCoverSetupOpen(diary){
 /* ---- Covers (since 1.63.0): the person's paper covers with the golden lotus in several colours (img/covers/<farbe>-p|l.webp).
    Older diaries map their chosen colour to the nearest cover. Landscape books use a landscape cover where one exists,
    otherwise the navy landscape one (more come later: add the colour to TB_COVER_LAND). ---- */
-const TB_COVERS = ['navy', 'blue', 'green', 'violet', 'red'];
+const TB_COVERS = RETREAT ? ['navy', 'blue', 'green', 'violet', 'red', 'crimson'] : ['navy', 'blue', 'green', 'violet', 'red']; // A Lady's Conservatory: a sixth colour, crimson red (21.10.2026)
 const TB_COVER_LAND = ['navy', 'green', 'violet', 'red', 'blue'];
 const TB_COLOR_TO_COVER = { '#2f1c52':'violet', '#3d10c9':'blue', '#0e4a3a':'green', '#111730':'navy', '#5a2bef':'violet', '#7a1f3d':'red' };
 function tbCoverName(diary){ const c = diary.cover; return TB_COVERS.includes(c.cover) ? c.cover : (c.colorChosen && TB_COLOR_TO_COVER[c.color]) || 'navy'; }
 // A Gentleman's Study (1.82.0): plain leather covers and spines in its own colours, slot by slot for the same five choices
-const RL_COVER = RETREAT ? { navy:'forest', blue:'celadon', green:'sage', violet:'raspberry', red:'burgundy' } : { navy:'navy', blue:'charcoal', green:'green', violet:'cognac', red:'burgundy' }; // A Lady's Conservatory: linen covers (1.86.8)
+const RL_COVER = RETREAT ? { navy:'forest', blue:'celadon', green:'sage', violet:'raspberry', red:'burgundy', crimson:'red' } : { navy:'navy', blue:'charcoal', green:'green', violet:'cognac', red:'burgundy' }; // A Lady's Conservatory: linen covers (1.86.8)
 const COVER_DIR = RETREAT ? 'rt2' : 'rl';
 const coverThumb = n=>BIZ ? `img/${COVER_DIR}/covers/${RL_COVER[n]}-p.webp` : `img/covers/${n}-p.webp`;
 function tbCoverUrl(diary){ const n = tbCoverName(diary); if(BIZ) return `img/${COVER_DIR}/covers/${RL_COVER[n] || RL_COVER.navy}-${tbIsLand(diary) ? 'l' : 'p'}.webp`; return tbIsLand(diary) ? `img/covers/${TB_COVER_LAND.includes(n) ? n : 'navy'}-l.webp` : `img/covers/${n}-p.webp`; }
