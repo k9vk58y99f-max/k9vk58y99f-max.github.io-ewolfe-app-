@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.91.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.91.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -507,9 +507,8 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 ## Seit 1.91.0
 - A Lady's Conservatory: alle 19 Sticker eigene Bilder (`rt2/stickers/<key>`, Hund `rt2/dog`, Hundekopf `rt2/dog-head`; `stickerPath`), kein roter Hinweis mehr.
   Rose = pinke Rose mit Band, Musik = Stimmgabel mit Band (Wunsch des Nutzers).
-- A Mystery World: alle Trophäenbilder (`img/trophy-*`, `crystal-*`, `orb-*`, `faberge-*`) vom Navy-Rand befreit (Navy ≈ RGB 9/21/57 aus den
-  Rändern herausgerechnet; Glasglocken und Kugeln per Farbe-zu-Alpha, Glas jetzt durchsichtig). Deshalb im Tagebuch keine nachtblaue Karte mehr
-  hinter Trophäen (`.tb-page-img.is-trophy` nur noch Schatten).
+- A Mystery World: Versuch, die Trophäen vom Navy-Rand zu befreien (1.91.0), gefiel dem Nutzer gar nicht und wurde in 1.91.1 komplett
+  zurückgenommen (alte Bilder, nachtblaue Karte im Tagebuch bleibt). Nicht noch einmal per Skript versuchen; nur mit neuen Bildern vor Grau.
 
 ## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
 - Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt

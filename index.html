@@ -814,7 +814,8 @@ html:not(.theme-retreat) .lib-row{ padding-left:max(8px, calc((100cqw - var(--sw
 .tb-page-img.is-sticker{ box-shadow:none; border-radius:0; filter:drop-shadow(0 3px 6px rgba(0,0,0,0.25)); }
 /* trophies were cut out from a night-blue background (glass, glow): in the diary they stand on a small night-blue card
    with a gold edge, so no dark fringes show on the white paper (1.74.2) */
-.tb-page-img.is-trophy{ filter:drop-shadow(0 3px 5px rgba(0,0,0,0.25)); } /* 22.10.2026: the A Mystery World trophies are cut clean from the navy now – no navy card any more */
+.tb-page-img.is-trophy{ background:radial-gradient(ellipse at 50% 42%, #2b2470 0%, #141a4a 62%, #0b1026 100%); padding:9% 10% 8%;
+  border-radius:10px; box-shadow:0 0 0 2px #e8b84a, 0 4px 10px rgba(0,0,0,0.3); filter:none; box-sizing:border-box; }
 .tb-sticker-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; padding:4px 6px 8px 34px; }
 .tb-sticker-btn{ aspect-ratio:1; border-radius:12px; border:1px solid var(--ew-line); background:var(--ew-panel-2); padding:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .tb-sticker-btn img, .tb-sticker-btn svg{ width:100%; height:100%; object-fit:contain; display:block; }
@@ -1854,7 +1855,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; heig
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.91.0';
+const APP_VERSION = '1.91.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
