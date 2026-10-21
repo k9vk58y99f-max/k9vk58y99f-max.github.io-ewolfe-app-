@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.87.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.88.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -448,6 +448,33 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Knopf #a58552, Vergleich #a7734f, Platzhalter #90877a; feine Linien rgba(41,39,35,…) mit höherer Deckkraft (0,13 → 0,25,
   0,18 → 0,29 usw.); Linien-Symbole `brightness(0.26)` statt 0,38. Hintergründe unverändert. Neue Bilder aus den Prompts
   werden erst eingebaut, wenn sie da sind.
+
+## Seit 1.88.0: neue Farben für A Lady's Conservatory, Vitrinen so hoch wie Regale, schmales Regal immer
+- **Neue Bilder in `img/rt2/`** (die alten in `img/rt/` bleiben für Armillarsphäre, Glasglocken, Plakette, Cover-Reste). Originale und Freisteller:
+  Sammelordner „3 Morning Retreat Style/Originale ChatGPT/Neue Farben (21.10.2026)“ und „Fertige Bilder/Neue Farben (21.10.2026)“.
+- **Farben „bunter“** (`:root.theme-biz.theme-retreat`): Knöpfe/Ist-Linie Waldgrün #1B4D2A, Überschriften Burgund #7A0B25 (`--rt-burgundy`,
+  Regel `html.theme-retreat.theme-retreat :is(.modal-title, …)`), Unterüberschriften #B81F57 (`--rt-sage-d`), Wunsch/Regler/aktive Leiste
+  Himbeere #D62C68 (`--gold`, `KNOB_GOLD`, Knopf `img/rt2/knob.webp`), Seladon #79B8A7 (`--rt-celadon`, Lücke im Rad), Grund Creme mit Rosé-Hauch.
+- **Bibliothek:** Himbeer-Regal `rt2/shelf` (454×1212, `x:[12, 86.5]`), schmales Regal `rt2/shelf-narrow` (Mitte herausgenommen, `ov` 0,1 = eine
+  gemeinsame Wand), Vitrine `rt2/vitrine` (435×1192, fünf Fächer `VX [21, 79]`), Hintergrund `rt2/conservatory` (grüne Wand, roter Teppich; nur
+  540 px breit, deshalb unscharf – neues Bild bestellt). Hintergrund in Regalhöhen gemessen (`--lh` = `--sw / --sa`). Regal und Vitrine dicht
+  beieinander (`gap` `--lh`×0,012). Rosen-Tischchen `rt2/rose-table` steht vorn vor der linken Regalkante (`.shelf-orchid`, z-index 4).
+  Bibliothek-Symbol `rt2/shelf-icon`. Hund gemalt `rt2/dog`, `rt2/dog-lying` (Sticker-Kopf `rt2/dog-head` liegt bereit).
+- **Trophäen stehen richtig** (nur LC): Reihen enden auf der Mitte des Bodens (`rows` …23,6 / 40,9 / 56,8 / 73,4 / 90,2), kein Versatz mehr
+  (`transform:none`). Über Augenhöhe (Fächer 1 und 2) liegt die Vorderkante des Bodens als Bild darüber (`.shelf-fronts`, `rt2/shelf-fronts`,
+  `rt2/shelf-narrow-fronts`) und verdeckt ein Stück vom Fuß. Vitrine: Füße genau auf dem Glas (`VR0` …21,9 / 35,5 / 49,1 / 62,5 / 76).
+- **Trophäen-Zuordnung LC:** Freude = Fahrrad, Ein Klassiker = Auto, Erste Dankbarkeit = Rosenkarte, Angekommen = Segelboot, +10 = Kerzenleuchter,
+  Ziele = roter Pokal, Treue = Uhr, alle besser = Blumenschale, Nikolaus/Stiefel/Stern/Ostereier neu (`RT_TRO`, `RT_EGGS`, `trophyRl`).
+  Broschen und Uhr klein (kommen später auf die Büste). Glasglocken passen nicht mehr: roter Hinweis (`rlMissing` erkennt nur `rt2/` und die
+  Armillarsphäre als fertig). Krippe fehlt (Prompt K2 mit heiliger Familie).
+- **Achtsamkeit LC:** eigene Bilder `rt2/medi/*` (`RT_MEDI` in `imgPic`, Atem-Animation, Glocke für eigene Übungen), kein roter Hinweis mehr.
+- **Impulskarten LC:** 48 gemalte Szenen `rt2/cards/<id>` (`RT_CARDS`), Vorderseite `rt2/card-front` (Bildfenster oben durchsichtig),
+  Rückseite `rt2/card-back`; Bild quer oben im Fenster (`CARD_WIN` mit `cover:true`, auch beim Übertragen ins Tagebuch), Text darunter.
+  Advent und Feiertage fehlen noch (zeigen das alte Bild mit rotem Hinweis).
+- **Cover LC:** `rt2/covers/<forest|celadon|sage|raspberry|burgundy>-p|l`, Rücken `rt2/spine-*` (`COVER_DIR` = `rt2`, `RL_COVER`). Nur kleine
+  Kacheln geliefert, deshalb weich.
+- **Alle Designs:** Jede Vitrine ist genau so hoch wie das Regal (Breite = `--sw / --sa` × Seitenverhältnis der Vitrine). Das schmale Regal für
+  die Tagebücher steht immer da (`NAR = true`), das große trägt nur Trophäen.
 
 ## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
 - Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt

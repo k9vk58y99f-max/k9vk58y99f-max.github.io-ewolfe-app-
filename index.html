@@ -666,7 +666,7 @@ html:not(.theme-biz) .shelf-wreath{ right:8%; bottom:calc(100% - var(--roof) - 1
 html:not(.theme-biz) .shelf-tree{ left:-18%; bottom:-4%; height:60%; }
 html:not(.theme-biz) .shelf-cat{ left:14%; bottom:calc(100% - var(--roof) - 0.6%); height:19%; }
 html:not(.theme-biz) .shelf-fox{ left:-13%; bottom:-6%; height:31%; }
-html:not(.theme-biz) .lib-row .vitrine-img{ background-image:url(img/vitrine-slim.webp); aspect-ratio:598/1213; width:calc(var(--sw) * 0.9) !important; margin:0 !important; }
+html:not(.theme-biz) .lib-row .vitrine-img{ background-image:url(img/vitrine-slim.webp); aspect-ratio:598/1213; width:calc(var(--sw) / var(--sa, 0.5) * 598 / 1213) !important; margin:0 !important; } /* every cabinet exactly as high as the shelf (wish of the user, 21.10.2026) */
 /* a red note on pictures that are still to come – in both designs (1.81.0) */
 .ph-note{ position:relative; }
 .ph-note::after{ content:'Platzhalter – neues Bild folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
@@ -1201,17 +1201,17 @@ html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .
 /* since 1.86.4 A Gentleman's Study has its own exercise pictures: the note stays only on the breathing animation and the stickers
    (and, in A Lady's Conservatory, on everything that still shows the pictures of A Gentleman's Study) */
 html.theme-biz .medi-card-img{ display:inline-block; }
-html.theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after, html.theme-retreat :is(.tb-sticker-btn)::after, html.theme-retreat :is(.breath-stage, .medi-card-img, .medi-player-img, .grat-pic)::after{
+html.theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after, html.theme-retreat :is(.tb-sticker-btn)::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font-family:Inter, sans-serif; font-weight:700; font-size:var(--ph-fs, 13px); letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30;
   text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html[lang=en].theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after, html[lang=en].theme-retreat :is(.tb-sticker-btn)::after, html[lang=en].theme-retreat :is(.breath-stage, .medi-card-img, .medi-player-img, .grat-pic)::after{ content:'Placeholder – new design coming'; }
+html[lang=en].theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after, html[lang=en].theme-retreat :is(.tb-sticker-btn)::after{ content:'Placeholder – new design coming'; }
 html.theme-biz :is(.medi-card-img, .tb-sticker-btn, .rl-ph-s){ --ph-fs:7px; }
 html.theme-biz .breath-stage{ --ph-fs:18px; }
 /* our dog in front of the walnut bookcase, a little to the right over its edge */
 html.theme-biz .lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.44)), 520px); padding-bottom:calc(var(--sw) / var(--sa, 0.44) * 0.07); }
-html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) * 0.72) !important; margin:0 !important; }
+html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) / var(--sa, 0.44) * 347 / 1000) !important; margin:0 !important; } /* as high as the shelf */
 /* the tailor's dress form in a green riding tailcoat (1.86.6), right of the bookcase; the medals will be pinned on it later */
 .lib-dress-wrap{ position:relative; flex:none; --dh:calc(var(--sw) / 0.44 * 0.86); height:var(--dh); margin:0 0 0 calc(var(--sw) * -0.02); }
 .lib-dress{ display:block; height:100%; width:auto; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.35)); pointer-events:none; }
@@ -1281,20 +1281,23 @@ html.theme-biz .icon-default .tb-cover-caption .tb-cover-year, html.theme-biz .t
    warm sand accents, dark warm text; Cormorant Garamond for headings, Jost for text, round buttons. It sits on top of
    A Gentleman's Study and uses its pictures (with the red placeholder note) until its own come. The diary pages stay. ===== */
 :root.theme-biz.theme-retreat{
-  --ew-navy:#f7f3ea; --ew-navy-2:#fffdf8; --ew-ink:#262622; --ew-white:#262622;
-  --ew-violet:#2f4f3e; --ew-green:#2f4f3e; --ew-uv-violet:#e8eedf; --ew-uv-violet-2:#dfe8d8; --ew-uv-navy:#f7f3ea; --ew-uv-navy-2:#fffdf8;
-  --ew-uv-lilac:#3f6150; --ew-uv-lilac-soft:rgba(47,79,62,0.5);
-  --ew-text:#262622; --ew-text-dim:#625e55; --ew-line:rgba(41,39,35,0.25);
-  --gold:#b08d57; --gold-text:#86683a; --gold-rgb:176,141,87; --ew-turquoise:#2f4f3e;
-  --ew-panel:#fffdf8; --ew-panel-2:#f9f5ee; --ew-radius:14px;
+  /* new colours (preview 21.10.2026, „more colourful“): the colour card – deep forest green #1B4D2A (buttons, now-line),
+     deep burgundy #7A0B25 (headings), deep raspberry #D62C68 (sub-headings darker #B81F57, wish, active), rich celadon #79B8A7
+     (soft fills), soft sage #87A994, gold #B8893A */
+  --ew-navy:#fbf6ee; --ew-navy-2:#fffdf8; --ew-ink:#262622; --ew-white:#262622;
+  --ew-violet:#1B4D2A; --ew-green:#1B4D2A; --ew-uv-violet:#f6e3e8; --ew-uv-violet-2:#e3f1ec; --ew-uv-navy:#fbf6ee; --ew-uv-navy-2:#fffdf8;
+  --ew-uv-lilac:#1B4D2A; --ew-uv-lilac-soft:rgba(27,77,42,0.5);
+  --ew-text:#262622; --ew-text-dim:#5f5a52; --ew-line:rgba(41,39,35,0.25);
+  --gold:#D62C68; --gold-text:#B81F57; --gold-rgb:214,44,104; --ew-turquoise:#1B4D2A;
+  --ew-panel:#fffdf8; --ew-panel-2:#fbf3f1; --ew-radius:14px;
   --biz-display:'Cormorant Garamond', Georgia, serif;
-  --rt-sage:#2f4f3e; --rt-sage-d:#3f6150; --rt-soft:#e8eedf; --rt-card:#fffdf8;
+  --rt-sage:#1B4D2A; --rt-sage-d:#B81F57; --rt-soft:#e3f1ec; --rt-card:#fffdf8; --rt-burgundy:#7A0B25; --rt-celadon:#79B8A7;
   color-scheme:light;
 }
-html.theme-retreat body, html.theme-retreat .page-modal, html.theme-retreat .tb-overlay{ background:linear-gradient(180deg, #f7f3ea 0%, #f7f3ea 60%, #e8eedf 100%) fixed !important; color:var(--ew-text); font-family:'Jost', 'Inter', sans-serif; }
-html.theme-retreat::before{ background:#f7f3ea; }
+html.theme-retreat body, html.theme-retreat .page-modal, html.theme-retreat .tb-overlay{ background:linear-gradient(180deg, #fbf6ee 0%, #fbf3ef 55%, #f3e1e6 100%) fixed !important; color:var(--ew-text); font-family:'Jost', 'Inter', sans-serif; }
+html.theme-retreat::before{ background:#fbf6ee; }
 html.theme-retreat body{ font-weight:400; }
-html.theme-retreat .topbar{ background:linear-gradient(180deg, rgba(247,243,234,0.96), rgba(247,243,234,0.7)); }
+html.theme-retreat .topbar{ background:linear-gradient(180deg, rgba(251,246,238,0.96), rgba(251,246,238,0.7)); }
 /* headings: soft serif, no capitals; subheadings in dark sage */
 html.theme-retreat .modal-title, html.theme-retreat .scene-head h1, html.theme-retreat .tb-topbar h2, html.theme-retreat #t-scene-title, html.theme-retreat .modal-top h2{
   font-stretch:normal; font-weight:400 !important; text-transform:none; letter-spacing:0.01em; font-size:calc(var(--fs-h) * 1.3); color:var(--ew-text) !important; }
@@ -1311,10 +1314,11 @@ html.theme-retreat #t-logo{ font-stretch:normal; letter-spacing:0.2em; color:var
 html.theme-retreat .primary-btn, html.theme-retreat .ghost-btn, html.theme-retreat .seg-btn, html.theme-retreat .mini-btn, html.theme-retreat .medi-start-btn, html.theme-retreat .chip,
 html.theme-retreat .tb-chip-btn, html.theme-retreat .timer-chips button, html.theme-retreat .tb-del-book, html.theme-retreat .home-goals-btn, html.theme-retreat .areas-cta,
 html.theme-retreat .mood-opt span{ font-family:'Jost', sans-serif !important; font-stretch:normal; font-weight:400 !important; letter-spacing:0.1em; }
-html.theme-retreat .primary-btn{ background:var(--rt-sage) !important; color:#fbf8f0 !important; border:none !important; border-radius:999px !important; box-shadow:0 4px 14px rgba(47,79,62,0.22) !important; }
+html.theme-retreat .primary-btn{ background:var(--rt-sage) !important; color:#fbf8f0 !important; border:none !important; border-radius:999px !important; box-shadow:0 4px 14px rgba(27,77,42,0.25) !important; }
+html.theme-retreat .panel{ border-top:3px solid var(--rt-celadon) !important; }
 html.theme-retreat .ghost-btn{ border:1px solid var(--gold) !important; color:var(--gold-text) !important; background:transparent !important; border-radius:999px !important; }
 html.theme-retreat .seg-btn{ border-radius:999px; color:var(--ew-text); }
-html.theme-retreat .seg-btn.active{ background:var(--rt-soft); color:var(--rt-sage-d); box-shadow:inset 0 0 0 1px var(--rt-sage); }
+html.theme-retreat .seg-btn.active{ background:var(--rt-soft); color:var(--rt-sage); box-shadow:inset 0 0 0 1px var(--rt-celadon); }
 html.theme-retreat .design-btn{ border-radius:14px !important; }
 html.theme-retreat .panel{ background:var(--rt-card); border:none; border-radius:14px; box-shadow:0 2px 10px rgba(90,80,60,0.06); }
 html.theme-retreat .modal{ background:#fffdf8; color:var(--ew-text); }
@@ -1323,10 +1327,10 @@ html.theme-retreat input:not([type=range]):not([type=checkbox]):not([type=radio]
   background:#fffdf8 !important; color:var(--ew-text) !important; border:1px solid rgba(41,39,35,0.275) !important; }
 html.theme-retreat ::placeholder{ color:#90877a; }
 /* sliders: the now in dark sage, the wish in sand */
-html.theme-retreat input[type=range]::-webkit-slider-thumb{ background:url(img/rt/knob.webp) center/100% 100% no-repeat !important; border:none !important; }
-html.theme-retreat input[type=range]::-moz-range-thumb{ background:url(img/rt/knob.webp) center/100% 100% no-repeat !important; border:none !important; }
-html.theme-retreat input[type=range].range-ist{ background:linear-gradient(90deg, #8ea88a 0, #3f6150 var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
-html.theme-retreat input[type=range].range-wish{ background:linear-gradient(90deg, #dcc59a 0, #b08d57 var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
+html.theme-retreat input[type=range]::-webkit-slider-thumb{ background:url(img/rt2/knob.webp) center/100% 100% no-repeat !important; border:none !important; }
+html.theme-retreat input[type=range]::-moz-range-thumb{ background:url(img/rt2/knob.webp) center/100% 100% no-repeat !important; border:none !important; }
+html.theme-retreat input[type=range].range-ist{ background:linear-gradient(90deg, #79B8A7 0, #1B4D2A var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
+html.theme-retreat input[type=range].range-wish{ background:linear-gradient(90deg, #f0a3bd 0, #D62C68 var(--v, 50%), rgba(41,39,35,0.24) var(--v, 50%)); }
 /* line icons: the linen icons of A Gentleman's Study, made dark on the light ground */
 html.theme-retreat .nav-gold, html.theme-retreat .area-ico image, html.theme-retreat .gold-ui, html.theme-retreat .gold-x, html.theme-retreat .gold-arrow, html.theme-retreat .gold-user,
 html.theme-retreat .gold-gear, html.theme-retreat .tb-lib-ico, html.theme-retreat svg image[href*="icons-rl/"], html.theme-retreat img[src*="icons-rl/"]{ filter:brightness(0.26) !important; }
@@ -1334,7 +1338,7 @@ html.theme-retreat .gold-gear, html.theme-retreat .tb-lib-ico, html.theme-retrea
 html.theme-retreat .bottom-nav{ background:rgba(255,253,248,0.97); border-top:1px solid rgba(41,39,35,0.225); box-shadow:0 -4px 16px rgba(90,80,60,0.06); }
 html.theme-retreat .nav-item, html.theme-retreat .nav-item:hover{ color:var(--ew-text-dim); font-family:'Jost', sans-serif; }
 html.theme-retreat .nav-item.active{ color:var(--rt-sage-d); }
-html.theme-retreat .nav-item.active::after{ background:var(--rt-sage); left:34%; right:34%; height:2px; border-radius:2px; }
+html.theme-retreat .nav-item.active::after{ background:var(--gold); left:30%; right:30%; height:3px; border-radius:2px; }
 html.theme-retreat .tb-tools-fab, html.theme-retreat .tb-del-fab{ background:var(--rt-sage) !important; border:none !important; }
 html.theme-retreat #sync-btn.has-note::after{ background:var(--rt-sage); box-shadow:0 0 6px rgba(47,79,62,0.7); }
 html.theme-retreat .bereich-value{ fill:var(--ew-text); }
@@ -1350,24 +1354,31 @@ html.theme-retreat .tb-spine:first-child::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:46%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font:700 13px/1.15 Inter, sans-serif; letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html.theme-retreat .vitrine-img{ background-image:url(img/rt/vitrine.webp); aspect-ratio:386/1200; }
-html.theme-retreat .lib-row .vitrine-img{ width:calc(var(--sw) * 0.68) !important; } /* 1.86.3: the cabinet with short feet, almost as high as the shelf */
-html.theme-retreat .club-plaque{ left:31.7%; top:91.6%; width:44%; height:2.5%; background-image:url(img/rt/plaque.webp) !important; box-shadow:0 1px 3px rgba(90,80,60,0.35) !important; } /* on the cream plinth (1.86.2); own gold plaque and ranks since 1.86.8 */
+html.theme-retreat .vitrine-img{ background-image:url(img/rt2/vitrine.webp); aspect-ratio:435/1192; }
+html.theme-retreat .lib-row .vitrine-img{ width:calc(var(--sw) / var(--sa, 0.375) * 435 / 1192) !important; } /* raspberry cabinet, exactly as high as the shelf */
+html.theme-retreat .club-plaque{ left:22%; top:94.4%; width:56%; height:3.2%; background-image:url(img/rt/plaque.webp) !important; box-shadow:0 1px 3px rgba(90,80,60,0.35) !important; } /* on the cream plinth (1.86.2); own gold plaque and ranks since 1.86.8 */
 html.theme-retreat .club-rank, html.theme-retreat .club-dia{ color:#4a3410; font-family:'Cormorant Garamond', serif; font-stretch:normal; letter-spacing:0.12em; }
-html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:28%; } /* the bookcase without ivy is symmetric (1.86.3) */
+html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:22%; } /* the bookcase without ivy is symmetric (1.86.3) */
 /* the library stands in the conservatory (1.86.2, img/rt/conservatory.webp = „Gewächshaus 4“, 1536×1024): the cream wall
    (13–62 % of the picture) behind the bookcases, the floor line (86 %) at their feet; scrolling right leads to the open doors
    into the forest, so the row is as wide as the picture */
-html.theme-retreat .lib-row{ justify-content:flex-start; padding-bottom:calc(var(--sw) * 0.15); /* 1.87.2: room for the floor below the furniture (it was cut off in 1.86.7) */ min-width:max(100%, calc(var(--sw) * 4.78));
-  background:url(img/rt/conservatory.webp) no-repeat; background-size:calc(var(--sw) * 5.4) auto; /* wall ≈ 2.65 shelf widths: narrow + shelf + cabinet */
-  background-position:calc(var(--sw) * -0.62) calc(100% + var(--sw) * 0.265); border-radius:14px; }
-html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--sw) * 0.2); }
+/* new colours (21.10.2026): the raspberry bookcase is slimmer, so the picture is measured in shelf heights (--lh), not widths */
+html.theme-retreat .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.375)); justify-content:flex-start; padding-bottom:calc(var(--lh) * 0.16); /* room for the floor below the furniture and the table in front */ min-width:max(100%, calc(var(--lh) * 2.36));
+  background:url(img/rt2/conservatory.webp) no-repeat; background-size:calc(var(--lh) * 2.667) auto;
+  background-position:calc(var(--lh) * -0.306) calc(100% + var(--lh) * 0.045); border-radius:14px; }
+html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--lh) * 0.099); }
+html.theme-retreat .lib-row{ gap:calc(var(--lh) * 0.012); } /* bookcase and cabinet close together (21.10.2026) */
+/* 21.10.2026: the trophies stand exactly on the boards / the glass; above eye level the front edge of the board hides a bit of their foot */
+html.theme-retreat .shelf-comp .shelf-trophy, html.theme-retreat .vitrine-img .shelf-trophy{ transform:none; }
+html.theme-retreat .shelf-fronts{ position:absolute; inset:0; background:url(img/rt2/shelf-fronts.webp) 0 0/100% 100% no-repeat; z-index:2; pointer-events:none; }
+html.theme-retreat .shelf-narrow .shelf-fronts{ background-image:url(img/rt2/shelf-narrow-fronts.webp); }
 html.theme-retreat .tb-spine:first-child::after{ display:none; }
 html.theme-retreat :is(.goal-table-card, .imp-mini, .panel){ box-shadow:0 2px 14px rgba(90,80,60,0.08) !important; }
 html.theme-retreat .imp-card{ filter:drop-shadow(0 12px 22px rgba(90,80,60,0.2)); }
-html.theme-retreat .imp-card::after{ content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:40%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
-  width:90%; text-align:center; font:700 6cqw/1.15 Inter, sans-serif; text-transform:uppercase; color:#ff3b30; text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html[lang=en].theme-retreat .imp-card::after{ content:'Placeholder – new design coming'; }
+/* impulse cards (21.10.2026): cream card, the painting as landscape at the top of the window, the words below it */
+html.theme-retreat .imp-card:not(.imp-mini){ aspect-ratio:632/951; }
+html.theme-retreat .imp-win{ left:6.65%; top:5.05%; width:86.55%; height:45%; background:#f2e9d9; }
+html.theme-retreat .imp-words{ top:53%; height:25%; }
 html.theme-retreat .medi-streak > div:first-child{ flex:1; min-width:0; }
 html.theme-retreat .medi-streak .ghost-btn{ letter-spacing:0.03em; text-transform:none; }
 html.theme-retreat .gate-link{ font-family:'Jost', sans-serif !important; }
@@ -1382,9 +1393,10 @@ html.theme-retreat .mood-opt:is(:hover, :active){ color:var(--rt-sage-d) !import
 html.theme-retreat .breath-violet-btn{ color:#fbf8f0 !important; background:var(--rt-sage) !important; }
 html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(247,243,234,0.86) !important; }
 /* the orchid on its plant stand (1.84.2): left of the shelf, a little in front; the row makes room for it */
-html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.44)), 520px); padding-left:calc(var(--sw) * 0.44); }
-html.theme-retreat .lib-row.has-orchid .shelf-unit{ scroll-margin-left:calc(var(--sw) * 0.44); } /* the snap must not hide the orchid */
-html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:56%; transform:translateX(-86%); /* 1.86.6: the hexagonal inlaid table with the orchid */ z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
+html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.44)), 520px); padding-left:calc(var(--sw) / var(--sa, 0.375) * 0.28); }
+html.theme-retreat .lib-row.has-orchid .shelf-unit{ scroll-margin-left:calc(var(--sw) / var(--sa, 0.375) * 0.28); } /* the snap must not hide the orchid */
+html.theme-retreat.theme-retreat :is(.modal-title, .scene-head h1, .tb-topbar h2, #t-scene-title, .modal-top h2){ color:var(--rt-burgundy) !important; } /* new colours: headings burgundy */
+html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; height:76%; transform:translateX(-38%); z-index:4; /* 21.10.2026: the inlaid table with roses */ /* 1.86.6: the hexagonal inlaid table with the orchid */ z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
 </style>
 </head>
 <body data-theme="dark">
@@ -1825,7 +1837,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.87.3';
+const APP_VERSION = '1.88.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -1883,7 +1895,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-10-17';
+const APP_BUILD = '2026-10-21';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Freude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Freude stellst du nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Freude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du spürst, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Freude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -2376,7 +2388,8 @@ function blossomApply(els, open){
    (cards, players). */
 // A Gentleman's Study (1.86.4): its own mindfulness pictures (img/rl/medi/, brass, crystal, walnut; cut from navy)
 const RL_MEDI = { lotus:'rl/medi/lotus', 'ex-cherry':'rl/medi/cherry', 'ex-lemon':'rl/medi/lemon', 'ex-stones':'rl/medi/stones', 'ex-hearts':'rl/medi/hearts', 'ex-bowl':'rl/medi/bowl', bodyscan:'rl/medi/blanket' };
-function imgPic(file){ file = (BIZ && RL_MEDI[file]) || file; return `<svg viewBox="-90 -90 180 180" aria-hidden="true"><image href="img/${file}.webp" x="-88" y="-88" width="176" height="176" preserveAspectRatio="xMidYMid meet"/></svg>`; }
+const RT_MEDI = { lotus:'rt2/medi/lotus', 'ex-cherry':'rt2/medi/cherry', 'ex-lemon':'rt2/medi/lemon', 'ex-stones':'rt2/medi/stones', 'ex-hearts':'rt2/medi/hearts', 'ex-bowl':'rt2/medi/bowl', bodyscan:'rt2/medi/blanket' };
+function imgPic(file){ file = (RETREAT && RT_MEDI[file]) || (BIZ && RL_MEDI[file]) || file; return `<svg viewBox="-90 -90 180 180" aria-hidden="true"><image href="img/${file}.webp" x="-88" y="-88" width="176" height="176" preserveAspectRatio="xMidYMid meet"/></svg>`; }
 function blossomPictureSvg(id){ return imgPic('ex-cherry'); }
 function bodyscanPictureSvg(id){ return imgPic('bodyscan'); } // the golden woman, for the body scan once its recording exists
 function lotusPictureSvg(id){ return imgPic('lotus'); } // the blue lotus on its green lily pads
@@ -2458,7 +2471,7 @@ function renderMeditationen(){
      <button class="primary-btn medi-start-btn" onclick="mediRun('${m.id}')">${ico('play')}${d.mediStart}</button>${mediInfoHtml(m)}`)).join('');
   // the person's own exercises: a card with the symbol they chose
   const own = all.filter(m=>!m.builtIn).slice().reverse().map(m=>card(m,
-    BIZ ? imgPic('rl/medi/bell') : ownPictureSvg(MEDI_ICONS[m.icon] ? m.icon : 'leaf', m.id), // A Gentleman's Study: the brass bell for every own exercise (1.86.4)
+    BIZ ? imgPic(RETREAT ? 'rt2/medi/bell' : 'rl/medi/bell') : ownPictureSvg(MEDI_ICONS[m.icon] ? m.icon : 'leaf', m.id), // A Gentleman's Study: the brass bell for every own exercise (1.86.4)
     `${m.notes ? `<p>${escapeHtml(mediNotes(m))}</p>` : ''}
      ${m.media ? `<div class="medi-media">${m.media.type.startsWith('video/') ? `<video controls src="${m.media.dataUrl}"></video>` : `<audio controls src="${m.media.dataUrl}"></audio>`}</div>` : ''}
      <div class="medi-card-actions">
@@ -2835,7 +2848,7 @@ function breathLotusBuild(kind){
   if(g.dataset.kind !== kind){
     // since 1.63.1 a still picture without background (the videos are not good enough yet)
     // A Gentleman's Study (1.86.5): its own lotus of brass and enamel / the cherry branch in the crystal vase (img/rl/medi/)
-    g.innerHTML = `<image href="img/${BIZ ? (kind === 'blossom' ? 'rl/medi/cherry' : 'rl/medi/lotus') : kind === 'blossom' ? 'ex-cherry' : 'lotus'}.webp" x="-100" y="-100" width="200" height="200" preserveAspectRatio="xMidYMid meet"/>`;
+    g.innerHTML = `<image href="img/${BIZ ? (kind === 'blossom' ? (RETREAT ? 'rt2/medi/cherry' : 'rl/medi/cherry') : RETREAT ? 'rt2/medi/lotus' : 'rl/medi/lotus') : kind === 'blossom' ? 'ex-cherry' : 'lotus'}.webp" x="-100" y="-100" width="200" height="200" preserveAspectRatio="xMidYMid meet"/>`;
     g.dataset.kind = kind;
     g.dataset.base = BIZ ? 0.84 : kind === 'blossom' ? 0.92 : 0.86;
     g.setAttribute('transform', `translate(120 120) scale(${g.dataset.base})`); // the branch fills the space where the lake would be
@@ -3129,7 +3142,7 @@ const stickerFile = key=>STICKER_ALIAS[key] || (STICKERS.includes(key) ? key : '
 // A Gentleman's Study (1.86.6): its own stickers (img/rl/stickers/, brass, enamel, crystal, cut from navy); the dog is the study's
 // dog, only the dog's head has no picture of its own yet (it keeps the old one with the red note)
 const RL_STICKER = new Set(['leaf', 'moon', 'sun', 'wave', 'heart-red', 'heart-pink', 'star', 'mountains', 'rainbow-land', 'music', 'lotus', 'cherry', 'rose', 'fox', 'rabbit', 'rainbow', 'treasure']);
-const stickerPath = f=>BIZ && RL_STICKER.has(f) ? 'rl/stickers/' + f : BIZ && f === 'dog' ? 'rl/dog' : 'stickers/' + f;
+const stickerPath = f=>RETREAT && f === 'dog' ? 'rt2/dog' : BIZ && RL_STICKER.has(f) ? 'rl/stickers/' + f : BIZ && f === 'dog' ? 'rl/dog' : 'stickers/' + f;
 const stickerOld = f=>BIZ && !RL_STICKER.has(f) && f !== 'dog';
 function stickerSvg(key){ return `<svg viewBox="-90 -90 180 180" aria-hidden="true"><image href="img/${stickerPath(stickerFile(key))}.webp" x="-84" y="-84" width="168" height="168" preserveAspectRatio="xMidYMid meet"/></svg>`; }
 function ownPictureSvg(key, id){ return stickerSvg(key); }
@@ -3279,11 +3292,14 @@ let impulsePicSeq = 0;
    keeps its classic picture with the red placeholder note. */
 const RL_CARDS = new Set(['adv01', 'adv02', 'adv03', 'adv04', 'adv05', 'adv06', 'adv07', 'adv08', 'adv09', 'adv10', 'adv11', 'adv12', 'adv13', 'adv14', 'adv15', 'adv16', 'adv17', 'adv18', 'adv19', 'adv20', 'adv21', 'adv22', 'adv23', 'adv24', 'advSun1', 'advSun2', 'advSun3', 'advSun4', 'ascension', 'ber1', 'ber2', 'ber3', 'ber4', 'ber5', 'ber6', 'ber7', 'ber8', 'bez1', 'bez2', 'bez3', 'bez4', 'bez5', 'bez6', 'bez7', 'bez8', 'easter', 'eastermon', 'epiphany', 'fin1', 'fin2', 'fin3', 'fin4', 'fin5', 'fin6', 'fin7', 'fin8', 'fre1', 'fre2', 'fre3', 'fre4', 'fre5', 'fre6', 'fre7', 'fre8', 'ges1', 'ges2', 'ges3', 'ges4', 'ges5', 'ges6', 'ges7', 'ges8', 'goodfri', 'harvest', 'holysat', 'martin', 'maundy', 'newyear', 'palm', 'pentecost', 'pentecostmon', 'sin1', 'sin2', 'sin3', 'sin4', 'sin5', 'sin6', 'sin7', 'sin8', 'xmas1', 'xmas2']);
 const rlCardName = c=>{ if(!/^h-/.test(c.id)) return c.id; const k = c.id.slice(2), m = /^adv(\d+)$/.exec(k); return m ? 'adv' + String(m[1]).padStart(2, '0') : k; };
-const cardHasRl = c=>BIZ && RL_CARDS.has(rlCardName(c));
-const cardImg = c=>cardHasRl(c) ? 'rl/cards/' + rlCardName(c) : c.img;
-const CARD_FRONT = BIZ ? 'img/rl/card-front.webp' : 'img/card-front.webp', CARD_BACK = BIZ ? 'img/rl/card-back.webp' : 'img/card-back.webp';
+// A Lady's Conservatory (21.10.2026): painted conservatory scenes for the 48 impulses (img/rt2/cards/<id>), cream card with a gold
+// hairline (img/rt2/card-front) and a sage linen back with the monogram (img/rt2/card-back); advent and holidays still follow
+const RT_CARDS = new Set(['ges1', 'ges2', 'ges3', 'ges4', 'ges5', 'ges6', 'ges7', 'ges8', 'bez1', 'bez2', 'bez3', 'bez4', 'bez5', 'bez6', 'bez7', 'bez8', 'fin1', 'fin2', 'fin3', 'fin4', 'fin5', 'fin6', 'fin7', 'fin8', 'ber1', 'ber2', 'ber3', 'ber4', 'ber5', 'ber6', 'ber7', 'ber8', 'sin1', 'sin2', 'sin3', 'sin4', 'sin5', 'sin6', 'sin7', 'sin8', 'fre1', 'fre2', 'fre3', 'fre4', 'fre5', 'fre6', 'fre7', 'fre8']);
+const cardHasRl = c=>BIZ && (RETREAT ? RT_CARDS : RL_CARDS).has(rlCardName(c));
+const cardImg = c=>cardHasRl(c) ? (RETREAT ? 'rt2/cards/' : 'rl/cards/') + rlCardName(c) : c.img;
+const CARD_FRONT = RETREAT ? 'img/rt2/card-front.webp' : BIZ ? 'img/rl/card-front.webp' : 'img/card-front.webp', CARD_BACK = RETREAT ? 'img/rt2/card-back.webp' : BIZ ? 'img/rl/card-back.webp' : 'img/card-back.webp';
 // where the picture sits on the card front (as a share of the card)
-const CARD_WIN = BIZ ? { x:0.0895, y:0.0799, w:0.8197, h:0.5721, fill:1 } : { x:0.072, y:0.115, w:0.856, h:0.613, fill:0.86 };
+const CARD_WIN = RETREAT ? { x:0.0665, y:0.0505, w:0.8655, h:0.45, fill:1, cover:true } : BIZ ? { x:0.0895, y:0.0799, w:0.8197, h:0.5721, fill:1 } : { x:0.072, y:0.115, w:0.856, h:0.613, fill:0.86 };
 function impulsePicHtml(c){
   const k = /^ph(\d)$/.exec(c.img || '');
   return k ? IMPULSE_PH[+k[1]]('ip' + (++impulsePicSeq)) : `<img src="img/${cardImg(c)}.webp" alt="" draggable="false" onerror="if(!this.dataset.f){ this.dataset.f = 1; this.src = 'img/stickers/star.webp'; }">`;
@@ -3516,14 +3532,16 @@ async function impulseCardImage(c){
   const wx = W * CARD_WIN.x, wy = H * CARD_WIN.y, ww = W * CARD_WIN.w, wh = H * CARD_WIN.h;
   const grad = g.createRadialGradient(W / 2, wy + wh * 0.45, 10, W / 2, wy + wh * 0.45, wh * 0.75); grad.addColorStop(0, '#fffdf6'); grad.addColorStop(1, '#f3ead6');
   g.fillStyle = grad; g.fillRect(wx, wy, ww, wh);
-  const ps = Math.min(ww, wh) * CARD_WIN.fill; g.drawImage(pic, wx + (ww - ps) / 2, wy + (wh - ps) / 2, ps, ps);
+  if(CARD_WIN.cover){ const k = Math.max(ww / pic.naturalWidth, wh / pic.naturalHeight), sw = ww / k, sh = wh / k; // landscape paintings fill the window (A Lady's Conservatory)
+    g.drawImage(pic, (pic.naturalWidth - sw) / 2, (pic.naturalHeight - sh) / 2, sw, sh, wx, wy, ww, wh); }
+  else { const ps = Math.min(ww, wh) * CARD_WIN.fill; g.drawImage(pic, wx + (ww - ps) / 2, wy + (wh - ps) / 2, ps, ps); }
   g.drawImage(frame, 0, 0, W, H);
   const fs = W * (BIZ ? 0.054 : 0.05), lh = fs * (BIZ ? 1.3 : 1.38), maxW = W * 0.74, words = txt.split(/\s+/), lines = []; let line = '';
   const FONT = BIZ ? `300 ${fs}px 'Noto Serif Display', Georgia, serif` : `600 ${fs}px Inter, -apple-system, Helvetica, Arial, sans-serif`;
   g.font = FONT; if(BIZ && 'fontStretch' in g) g.fontStretch = 'extra-condensed';
   words.forEach(w=>{ const tl = line ? line + ' ' + w : w; if(g.measureText(tl).width > maxW && line){ lines.push(line); line = w; } else line = tl; });
   if(line) lines.push(line);
-  const total = lines.length * lh + (by ? lh * 0.95 : 0), top = H * (BIZ ? 0.82 : 0.845) - total / 2 + lh * 0.75;
+  const total = lines.length * lh + (by ? lh * 0.95 : 0), top = H * (RETREAT ? 0.655 : BIZ ? 0.82 : 0.845) - total / 2 + lh * 0.75;
   g.fillStyle = BIZ ? '#2a2318' : '#ffffff'; g.textAlign = 'center';
   lines.forEach((l, i)=>g.fillText(l, W / 2, top + i * lh));
   if(by){ g.font = BIZ ? `400 ${fs * 0.72}px 'Noto Serif Display', Georgia, serif` : `italic 400 ${fs * 0.82}px Inter, -apple-system, Helvetica, Arial, sans-serif`; g.fillStyle = BIZ ? '#ab8b54' : '#e8c27a'; g.fillText('– ' + by, W / 2, top + lines.length * lh + lh * 0.2); }
@@ -4455,11 +4473,11 @@ function joyImpulse(){
 function joyRenderDeep(){ const el = document.getElementById('joy-deep-wrap'); if(el) el.innerHTML = joyDeepHtml(); }
 /* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
    main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
-const GAP_VIOLET = RETREAT ? [142, 168, 138] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [222, 210, 172] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#b08d57' : BIZ ? '#d3b681' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
+const GAP_VIOLET = RETREAT ? [214, 44, 104] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [121, 184, 167] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#D62C68' : BIZ ? '#d3b681' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
 // Since 1.84.4 every knob (sliders, the Box Breathing dot, the wish corners in every wheel) is KNOB_PX wide on the screen,
 // whatever the size of the drawing: `s` is only the first guess, knobFix() sets the real size once the drawing is shown.
 const KNOB_PX = 18; // 1.84.5: 30 % smaller than before
-const KNOB_IMG = RETREAT ? 'img/rt/knob.webp' : BIZ ? 'img/rl/knob.webp' : 'img/knob-gold.webp'; // the same knob as on the sliders
+const KNOB_IMG = RETREAT ? 'img/rt2/knob.webp' : BIZ ? 'img/rl/knob.webp' : 'img/knob-gold.webp'; // the same knob as on the sliders
 const wishKnob = (x, y, s, k)=>`<image class="ew-knob"${k ? ` data-scale="${k}"` : ''} data-cx="${(x).toFixed(1)}" data-cy="${(y).toFixed(1)}" href="${KNOB_IMG}" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
 const knobRO = typeof ResizeObserver === 'function' ? new ResizeObserver(es=>es.forEach(e=>knobFix(e.target))) : null;
 function knobFix(root){
@@ -4479,7 +4497,7 @@ function knobFix(root){
 }
 new MutationObserver(()=>{ if(!knobFix.__q){ knobFix.__q = 1; setTimeout(()=>{ knobFix.__q = 0; knobFix(); }, 0); } })
   .observe(document.documentElement, { childList:true, subtree:true });
-const IST_COL = RETREAT ? '#2f4f3e' : BIZ ? '#ece7d8' : '#b8a4ff';
+const IST_COL = RETREAT ? '#1B4D2A' : BIZ ? '#ece7d8' : '#b8a4ff';
 function wheelGapSvg(P, pt, ist, wish){
   const gaps = ist.map((v, i)=>Math.max(0, wish[i] - v)), mx = Math.max(...gaps), mn = Math.min(...gaps);
   // all gaps equal: the colour in between
@@ -5103,11 +5121,11 @@ function renderScene(animate, onIntroDone){
     <linearGradient id="uvBg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/>
       <stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#e8eedf' : BIZ ? '#13233a' : '#3d10c9'}"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#f6e3e8' : BIZ ? '#13233a' : '#3d10c9'}"/>
     </linearGradient>
     <linearGradient id="gradWheel" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#2f4f3e' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
   `; // (1.78.0) no own background any more: the wheel sits on the page like on Bereiche
@@ -5241,7 +5259,7 @@ function miniWheelSvg(values){
   return `<svg width="90" height="90" viewBox="0 0 90 90">
     <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#2f4f3e' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.85"/>
     </linearGradient></defs>
     ${grid}<polygon points="${dataPts}" fill="url(#${gid})" stroke="${IST_COL}" stroke-width="1.5"/>
   </svg>`;
@@ -5415,7 +5433,7 @@ function maybeShowAreasIntro(){
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
 let compareSelection = [];
-const COMPARE_COLORS = RETREAT ? ['#2f4f3e', '#b08d57', '#8ea88a'] : BIZ ? ['#ece7d8', '#d3b681', '#7fae97'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
+const COMPARE_COLORS = RETREAT ? ['#1B4D2A', '#D62C68', '#79B8A7'] : BIZ ? ['#ece7d8', '#d3b681', '#7fae97'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
 const COMPARE_FILL_OPACITY = [0.34, 0.34, 0.34]; // all three equally transparent; only draw order (newest in front) differs
 document.getElementById('compare-toggle-btn').onclick = ()=>{
   compareMode = !compareMode;
@@ -5460,7 +5478,7 @@ function openWheelCompare(){
     <linearGradient id="uvBgCmp" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/>
       <stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#e8eedf' : BIZ ? '#13233a' : '#3d10c9'}"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#f6e3e8' : BIZ ? '#13233a' : '#3d10c9'}"/>
     </linearGradient>
   </defs>
 `; // no own background: the window's colour runs on evenly under the wheel and the text
@@ -5554,11 +5572,11 @@ function openWheelSnapshot(idx){
     <linearGradient id="uvBgSnap" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/>
       <stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#e8eedf' : BIZ ? '#13233a' : '#3d10c9'}"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#f6e3e8' : BIZ ? '#13233a' : '#3d10c9'}"/>
     </linearGradient>
     <linearGradient id="gradWheelSnap" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#2f4f3e' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="800" height="${vbH}" fill="url(#uvBgSnap)"/>`;
@@ -6139,7 +6157,7 @@ document.getElementById('tb-mode-toggle-btn').onclick = ()=>{
   if(!tbEditMode && tbPageIdx===0){ /* stay on title page, fine either way */ }
   tbRender();
 };
-document.querySelector('#tb-library-btn .tb-lib-shelf').src = RETREAT ? 'img/rt/shelf-icon.webp' : BIZ ? 'img/rl/shelf-icon.webp' : 'img/shelf-icon.webp';
+document.querySelector('#tb-library-btn .tb-lib-shelf').src = RETREAT ? 'img/rt2/shelf-icon.webp' : BIZ ? 'img/rl/shelf-icon.webp' : 'img/shelf-icon.webp';
 document.getElementById('tb-library-btn').onclick = ()=>{ tbView='library'; tbRender(); };
 
 /* The diary page on tablets and computers: as wide as the screen allows (less the margins), and everything on it grows in
@@ -6243,11 +6261,12 @@ const SHELVES = {
   // A Gentleman's Study (1.80.0): one plain walnut bookcase, always the same (img/rl/shelf.webp, measured inner walls and boards)
   rl:RETREAT
     // A Lady's Conservatory (1.86.2): its own cream bookcase with sage back and ivy on the left (img/rt/shelf, measured)
-    ? { img:'rt/shelf', aspect:681 / 1379, roof:1.8, x:[16.7, 90.6], rows:[[9.8, 25.2], [27, 41.3], [42.9, 57.5], [58.8, 73.3], [75, 89.6]] }
+    // new colours (preview 21.10.2026): raspberry bookcase with sage back (img/rt2/shelf, measured)
+    ? { img:'rt2/shelf', aspect:454 / 1212, roof:1.8, x:[12, 86.5], rows:[[8.7, 23.6], [25.7, 40.9], [42.1, 56.8], [58.5, 73.4], [75.9, 90.2]] }
     : { img:'rl/shelf', aspect:552 / 1254, roof:1.8, x:[9.6, 90.4], rows:[[5, 21.3], [23, 38.4], [40, 56.3], [58, 72.8], [75, 87.3]] },
   // A Lady's Conservatory with the narrow bookcase (1.86.3): the ivy moves to the narrow one, the big one is mirrored from its
   // right half (no ivy), and both share one middle wall (the left post of this one)
-  rtPlain:{ img:'rt/shelf-plain', aspect:630 / 1379, roof:1.8, x:[10, 89.8], rows:[[9.8, 25.2], [27, 41.3], [42.9, 57.5], [58.8, 73.3], [75, 89.6]] }
+  rtPlain:{ img:'rt2/shelf', aspect:454 / 1212, roof:1.8, x:[12, 86.5], rows:[[8.7, 23.6], [25.7, 40.9], [42.1, 56.8], [58.5, 73.4], [75.9, 90.2]] } // the raspberry bookcase has no ivy: always the same
 };
 // the cobwebs stay for the first two active days (since 1.83.0; before: one), from the 3rd the shelf is clean, ivy from level 3
 /* The narrow bookcase (1.81.0): as soon as the diaries no longer fit into the top compartment, a narrow bookcase of the same
@@ -6259,7 +6278,7 @@ const NARROW = {
   clean:{ img:'shelf-slim-clean-narrow', aspect:219 / 667, x:[24, 76.7], k:0.646, ov:0.03 },
   ivy:{ img:'shelf-slim-clean-narrow', aspect:219 / 667, x:[24, 76.7], k:219 / 357, ov:0.03 }, // the ivy only grows on the wide shelf (1.83.0)
   rl:RETREAT
-    ? { img:'rt/shelf-narrow', aspect:359 / 1379, x:[31.8, 93.6], k:359 / 630, ov:41 / 630 } // 1.86.3: with the ivy, no right post (shares the big one's)
+    ? { img:'rt2/shelf-narrow', aspect:281 / 1212, x:[19.4, 78.3], k:281 / 454, ov:0.1 } // ov: the big one covers the narrow one's right post (one shared wall) // raspberry: cut from the big one (middle taken out)
     : { img:'rl/shelf-narrow', aspect:352 / 1254, x:[15.1, 84.9], k:0.6377, ov:0.082 }
 };
 const shelfKey = ()=>BIZ ? 'rl' : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
@@ -6321,7 +6340,7 @@ function tbRenderLibrary(){
     if(cur.length) rows.push(cur); return rows; };
   let bookRows = packRows(books.map(b=>({ ...b, book:true, g:0.7 })), 0);
   // too many diaries for the top compartment: they all move into the narrow bookcase on the left
-  const NS = NARROW[shelfKey()], NAR = bookRows.length > 1;
+  const NS = NARROW[shelfKey()], NAR = true; // 21.10.2026 (wish of the user): the narrow bookcase for the diaries always stands there, in every design (before: only when the top compartment was full)
   if(RETREAT && NAR){ SH = SHELVES.rtPlain; SHELF_X = SH.x; } // A Lady's Conservatory: the big one without ivy, one shared middle wall (1.86.3)
   const nCap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (NS.x[1] - NS.x[0]) / (r[1] - r[0]) * 100 * NS.aspect; };
   let narrowRows = [];
@@ -6378,7 +6397,7 @@ function tbRenderLibrary(){
   // our dog belongs to every design (1.80.3): in A Gentleman's Study he sits (on weekends lies) in front of the bookcase as well,
   // in his own picture (img/rl/dog, img/rl/dog-lying) – until it is there, the classic one with the red placeholder note
   const bizDog = days < 15 ? '' : (()=>{ const cls = wkend ? 'shelf-dog-lying' : 'shelf-dog';
-    if(RL_DOG_READY) return animal('rl/' + (wkend ? 'dog-lying' : 'dog'), cls);
+    if(RL_DOG_READY) return animal((RETREAT ? 'rt2/' : 'rl/') + (wkend ? 'dog-lying' : 'dog'), cls); // A Lady's Conservatory: our dog, painted (21.10.2026)
     return animal(wkend ? 'stickers/dog-lying' : 'dog', cls) + `<span class="shelf-animal ${cls} rl-ph-dog" aria-hidden="true"></span>`; })();
   const animals = BIZ ? bizDog : !decorOn() ? '' : dogSpot /* the cat no longer sits on top (1.87.2): it will get another place later */
     + (lv >= 6 ? animal('fox', 'shelf-fox') : '') + (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + animal('eggs', 'shelf-eggs') : '')
@@ -6393,15 +6412,15 @@ function tbRenderLibrary(){
   const shelfHtml = `<div class="shelf-img" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%;aspect-ratio:${(SH.aspect || 1).toFixed(4)}">${clubPlaqueHtml()}${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rowsAll[i];
       return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : row ? ' shelf-comp-books' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
-    }).join('')}</div>`;
+    }).join('')}${RETREAT ? '<div class="shelf-fronts" aria-hidden="true"></div>' : ''}</div>`;
   const next = trophyNext();
   // the cabinet: four glass compartments (in % of img/vitrine.webp), trophies centred, a little smaller if needed
   let vitHtml = '';
   if(VIT){
     // A Lady's Conservatory (1.86.2): a brass-and-glass plant cabinet, four glass shelves above the ferns
-    const VX = RETREAT ? [11, 89] : BIZ ? [13.5, 86.5] : [26, 74], VR0 = RETREAT ? [[14, 24.2], [25.6, 36.6], [38.1, 49.2], [50.6, 61.6]] : BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[10, 24.5], [26, 39], [41, 52.5], [54, 67], [69, 80]];
+    const VX = RETREAT ? [21, 79] : BIZ ? [13.5, 86.5] : [26, 74], VR0 = RETREAT ? [[9.5, 21.9], [23.6, 35.5], [37.2, 49.1], [50.8, 62.5], [64.2, 76]] : BIZ ? [[5.5, 24.6], [26, 44.6], [46, 64.6], [66, 86.6]] : [[10, 24.5], [26, 39], [41, 52.5], [54, 67], [69, 80]];
     const VR = useOld ? VR0.slice(1) : VR0; // the top compartment then holds the old diaries
-    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (RETREAT ? 386 / 1200 : BIZ ? 0.348 : 0.493) - 10; // the picture is about 0.66 times as wide as high (A Gentleman's Study: 0.348)
+    const cap = i=>(VX[1] - VX[0]) / (VR[i][1] - VR[i][0]) * 100 * (RETREAT ? 435 / 1192 : BIZ ? 0.348 : 0.493) - 10; // the picture is about 0.66 times as wide as high (A Gentleman's Study: 0.348)
     const items = feast.map(x=>{ const h = 92 * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
     let kk = 1, rows = [];
     for(;;){ rows = []; let cur = [], used = 0;
@@ -6411,7 +6430,7 @@ function tbRenderLibrary(){
     vitHtml = `<div class="vitrine-img">${oldRow}${VR.map(([y0, y1], i)=>`<div class="shelf-comp shelf-comp-tro" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(troHtml).join('')}</div>`).join('')}</div>`;
   }
   const narrowHtml = NAR ? `<div class="shelf-img shelf-narrow" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
-      `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}</div>`).join('')}</div>` : '';
+      `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}</div>`).join('')}${RETREAT ? '<div class="shelf-fronts" aria-hidden="true"></div>' : ''}</div>` : '';
   // 1.87.2: the shelf is as high as in the other designs; where the orchid table does not fit next to it as well (phones),
   // the row starts at the shelf and the table peeks in from the left (scroll left to see it whole)
   setTimeout(()=>document.querySelectorAll('.lib-scroll').forEach(el=>{
@@ -6427,7 +6446,7 @@ function tbRenderLibrary(){
   const orchid = RETREAT && lv >= 3;
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : ''}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? '<img class="shelf-orchid" src="img/rt/hex-table.webp" alt="">' : ''}${narrowHtml}${shelfHtml}</div>${DRESS ? `<div class="lib-dress-wrap"><img class="lib-dress" src="img/rl/dress-form.webp" alt=""><div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div></div>` : ''}${vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">' : ''}${narrowHtml}${shelfHtml}</div>${DRESS ? `<div class="lib-dress-wrap"><img class="lib-dress" src="img/rl/dress-form.webp" alt=""><div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div></div>` : ''}${vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;
@@ -6607,7 +6626,7 @@ const DRESS_ALL_MEDALS = true; // all medals reached so far on the tailcoat (fal
 // A Gentleman's Study: these two stood too far forward on the board (their bases); lifted a little = further back (1.86.8)
 const TRO_LIFT = { 'rl/telescope':-9, 'rl/cup-silver':-7 };
 // pieces that look right above eye level too (flat or seen from the front, 1.87.3): medals, brooches, obelisks, rose quartz, star, Nikolaus, eggs, balloon, bicycle, plane
-const TRO_FRONT = /medal|brooch|obelisk|quartz|(^|\/)star$|trophy-star|nikolaus$|egg|balloon|bicycle|(^|\/|-)(plane|car)$|ships-wheel|trophy-wheel|telescope|orb-/;
+const TRO_FRONT = /medal|brooch|obelisk|quartz|(^|\/)star$|trophy-star|nikolaus$|egg|balloon|bicycle|sailboat|candlestick|(^|\/|-)(plane|car)$|ships-wheel|trophy-wheel|telescope|orb-/;
 /* A Gentleman's Study (1.80.0): the same trophies, other pictures (img/rl/): medals, crystal obelisks, glass cloches, silver cups,
    ship's wheel, pocket watch, sundial, telescope … – [picture, width/height]. A trophy that grows keeps its picture and grows
    in size; a picture that is not there yet (the crib) stays the classic one. */
@@ -6624,25 +6643,33 @@ const RL_EGGS = [['egg-cream', 0.57, 0.75], ['egg-cobalt', 0.58, 0.9], ['egg-gre
 // porcelain cup, pendant watch, sundial with jasmine, watering can, flower urn, balloon, bicycle); what is still missing (Nikolaus,
 // boot, star, crib, Easter eggs) keeps the picture of A Gentleman's Study as placeholder
 const RT_TRO = {
-  ex:[1, 2, 3, 4, 5, 6].map(i=>['brooch-' + i, 0.99]),
-  streak:[['quartz-1', 0.587], ['quartz-2', 0.552], ['quartz-3', 0.529], ['quartz-4', 0.506], ['quartz-5', 0.445], ['quartz-6', 0.443]],
+  // new colours (preview 21.10.2026, img/rt2/): brooches and rose quartz in the colours of the colour card
+  ex:[['rt2/brooch-1', 0.969], ['rt2/brooch-2', 0.985], ['rt2/brooch-3', 0.985], ['rt2/brooch-4', 1.003], ['rt2/brooch-5', 1.003], ['rt2/brooch-6', 0.997]],
+  streak:[['rt2/quartz-1', 0.537], ['rt2/quartz-2', 0.524], ['rt2/quartz-3', 0.505], ['rt2/quartz-4', 0.496], ['rt2/quartz-5', 0.442], ['rt2/quartz-6', 0.464]],
   box:[['cloche-lotus-1', 0.873], ['cloche-lotus-2', 0.877], ['cloche-lotus-3', 0.87]],
   b478:[['cloche-cherry-1', 0.834], ['cloche-cherry-2', 0.843], ['cloche-cherry-3', 0.845]], lemon:[['cloche-lemon-1', 0.798], ['cloche-lemon-2', 0.791], ['cloche-lemon-3', 0.789]],
   stones:[['cloche-stones-1', 0.823], ['cloche-stones-2', 0.821], ['cloche-stones-3', 0.829]], bowl:[['cloche-bowl-1', 0.8], ['cloche-bowl-2', 0.795], ['cloche-bowl-3', 0.798]],
-  grat:[['cloche-hearts-1', 0.807], ['cloche-hearts-2', 0.811], ['cloche-hearts-3', 0.809]],
-  wheel:['armillary', 0.629], goal:['cup', 1.2], loyal:['watch', 0.698], joy:['sundial', 0.977], up10:['wateringcan', 1.84], upall:['flower-urn', 1.12]
+  grat:[['rt2/card-rose', 1.261], ['cloche-hearts-2', 0.811], ['cloche-hearts-3', 0.809]], // first gratitude = the rose card (21.10.2026)
+  // 21.10.2026: joy = the bicycle (instead of the sundial), +10 = the candlestick, arrived = the sailing boat, a true classic = the car
+  wheel:['armillary', 0.629], goal:['rt2/cup', 1.239], loyal:['rt2/watch', 0.723], joy:['rt2/bicycle', 1.551], up10:['rt2/candlestick', 0.246], upall:['rt2/flower-urn', 1.482],
+  nikolaus:['rt2/nikolaus', 0.392], nikolaus2:['rt2/boot', 0.984], xmas:['rt2/star', 1.072]
 };
-const RT_BOOKS = [['rt/books-1', 3.28, 0.31], ['rt/books-2', 2.3, 0.47], ['rt/books-3', 1.68, 0.65], ['rt/books-4', 1.35, 0.82]];
+const RT_EGGS = [1, 2, 3, 4, 5].map(i=>['rt2/egg-' + i, 0.745]);
+const RT_BOOKS = [['rt2/books-1', 3.455, 0.31], ['rt2/books-2', 2.151, 0.47], ['rt2/books-3', 1.539, 0.65], ['rt2/books-4', 1.237, 0.82]];
 // A Gentleman's Study: a trophy whose picture is not yet one of the new design (img/rl/) gets the red placeholder note
-const rlMissing = x=>BIZ && x.kind === 'img' && !(RETREAT ? /^rt\//.test(x.img || '') : /^rl\//.test(x.img || '')); // A Lady's Conservatory: own pictures in rt/ (1.86.8)
+const rlMissing = x=>BIZ && x.kind === 'img' && !(RETREAT ? /^rt2\//.test(x.img || '') || /^rt\/armillary/.test(x.img || '') : /^rl\//.test(x.img || '')); // new colours: only rt2/ is new (the cloches no longer fit) // A Lady's Conservatory: own pictures in rt/ (1.86.8)
 function trophyRl(x){
   if(RETREAT){ // A Lady's Conservatory: its own picture where there is one (1.86.8)
     if(x.group === 'page') return { ...x, img:RT_BOOKS[x.stage][0], aspect:RT_BOOKS[x.stage][1], scale:RT_BOOKS[x.stage][2] };
+    if(/^easter\d+$/.test(x.id)){ const i = FAB_IDX(x), e = RT_EGGS[i % RT_EGGS.length], y = x.id.slice(6);
+      return { ...x, img:e[0], aspect:e[1], scale:[0.42, 0.48, 0.54][Math.min(i, 2)], /* much smaller than the Fabergé eggs (21.10.2026) */ title:(state.settings.lang === 'en' ? 'Easter egg ' : 'Osterei ') + y }; }
+    if(x.id === 'arrived') return { ...x, img:'rt2/sailboat', aspect:1.119, scale:0.8 };
+    if(x.id === 'classic12') return { ...x, img:'rt2/car', aspect:2.578, scale:0.6 };
     const rs = RT_TRO[x.group] || RT_TRO[x.id];
     if(rs){ const r = Array.isArray(rs[0]) ? rs[Math.min(x.stage || 0, rs.length - 1)] : rs;
       const CLr = ['box', 'b478', 'lemon', 'stones', 'bowl', 'grat'];
-      const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.42 + x.stage * 0.05 : CLr.includes(x.group) ? 0.62 + x.stage * 0.12 : x.scale;
-      return { ...x, img:'rt/' + r[0], aspect:r[1], scale }; }
+      const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.26 + x.stage * 0.03 : x.group === 'loyal' ? 0.42 : CLr.includes(x.group) ? 0.62 + x.stage * 0.12 : x.scale;
+      return { ...x, img:(r[0].includes('/') ? '' : 'rt/') + r[0], aspect:r[1], scale }; }
   }
   let m = null;
   const st = RL_TRO[x.group];
@@ -6787,8 +6814,8 @@ const TB_COVER_LAND = ['navy', 'green', 'violet', 'red', 'blue'];
 const TB_COLOR_TO_COVER = { '#2f1c52':'violet', '#3d10c9':'blue', '#0e4a3a':'green', '#111730':'navy', '#5a2bef':'violet', '#7a1f3d':'red' };
 function tbCoverName(diary){ const c = diary.cover; return TB_COVERS.includes(c.cover) ? c.cover : (c.colorChosen && TB_COLOR_TO_COVER[c.color]) || 'navy'; }
 // A Gentleman's Study (1.82.0): plain leather covers and spines in its own colours, slot by slot for the same five choices
-const RL_COVER = RETREAT ? { navy:'sage', blue:'ivory', green:'forest', violet:'blush', red:'celadon' } : { navy:'navy', blue:'charcoal', green:'green', violet:'cognac', red:'burgundy' }; // A Lady's Conservatory: linen covers (1.86.8)
-const COVER_DIR = RETREAT ? 'rt' : 'rl';
+const RL_COVER = RETREAT ? { navy:'forest', blue:'celadon', green:'sage', violet:'raspberry', red:'burgundy' } : { navy:'navy', blue:'charcoal', green:'green', violet:'cognac', red:'burgundy' }; // A Lady's Conservatory: linen covers (1.86.8)
+const COVER_DIR = RETREAT ? 'rt2' : 'rl';
 const coverThumb = n=>BIZ ? `img/${COVER_DIR}/covers/${RL_COVER[n]}-p.webp` : `img/covers/${n}-p.webp`;
 function tbCoverUrl(diary){ const n = tbCoverName(diary); if(BIZ) return `img/${COVER_DIR}/covers/${RL_COVER[n] || RL_COVER.navy}-${tbIsLand(diary) ? 'l' : 'p'}.webp`; return tbIsLand(diary) ? `img/covers/${TB_COVER_LAND.includes(n) ? n : 'navy'}-l.webp` : `img/covers/${n}-p.webp`; }
 function tbSetCover(n){ const c = tbEnsureYear(tbYear).cover; c.cover = n; c.image = null; saveState(); tbRender(); }
@@ -7204,8 +7231,8 @@ function wheelPictureSvg(){
   const ds = new Date(latest || Date.now()).toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
   const font = 'Inter, -apple-system, Helvetica, Arial, sans-serif';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 ${h}" width="800" height="${h}">`
-    + `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/><stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/><stop offset="100%" stop-color="${RETREAT ? '#e8eedf' : BIZ ? '#13233a' : '#3d10c9'}"/></linearGradient>`
-    + `<linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/><stop offset="100%" stop-color="${RETREAT ? '#2f4f3e' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient></defs>`
+    + `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/><stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/><stop offset="100%" stop-color="${RETREAT ? '#f6e3e8' : BIZ ? '#13233a' : '#3d10c9'}"/></linearGradient>`
+    + `<linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/><stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient></defs>`
     + `<rect width="800" height="${h}" rx="44" fill="url(#bg)"/>`
     + `<text x="44" y="78" font-family="${font}" font-size="40" font-weight="700" fill="#ffffff">${escapeHtml(d.navHome)}</text>`
     + `<text x="756" y="78" text-anchor="end" font-family="${font}" font-size="32" fill="#e8b84a">${ds}</text>`
