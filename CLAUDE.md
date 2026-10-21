@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.88.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.89.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -475,6 +475,24 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Kacheln geliefert, deshalb weich.
 - **Alle Designs:** Jede Vitrine ist genau so hoch wie das Regal (Breite = `--sw / --sa` × Seitenverhältnis der Vitrine). Das schmale Regal für
   die Tagebücher steht immer da (`NAR = true`), das große trägt nur Trophäen.
+
+## Seit 1.89.0: ein Regal pro Design (Bücher- und Trophäenteil), gleiche Vitrinen, Lady-Kleid
+- **Neue Regale in allen drei Designs** (Bilder des Nutzers, gerade von vorn, Augenhöhe = mittleres Fach): je ein Möbel mit schmalem Bücherteil
+  links und Trophäenteil rechts, an der Mittelwand geschnitten (`NARROW` = Bücherteil, `SHELVES` = Trophäenteil, `ov` 0, `k` = Breitenverhältnis).
+  Dateien: A Mystery World `img/mw2/shelf(-ivy)(-narrow)`, A Gentleman's Study `img/rl2/shelf(-plant)(-narrow)` (ab Stufe 3 mit Monstera:
+  `rlPlant`), A Lady's Conservatory `img/rt2/shelf(-narrow)`. Überhängende Pflanzen als eigenes Bild links am Bücherteil (`NARROW.*.plant`,
+  `.shelf-plant`). Gemeinsame Fächer `SHELF_ROWS2`; die Reihen enden auf der Mitte der Böden. Über Augenhöhe liegt die Bodenkante vor den
+  Trophäen (`*-fronts.webp`, `.shelf-fronts`, Bild über `SH.fronts`/`NS.fronts`). Das Bücherteil steht immer da (`NAR = true`).
+  Ein Regal mit Spinnweben für A Mystery World fehlt noch (`dusty` zeigt vorerst das saubere).
+- **Vitrinen** in allen Designs aus derselben Vorlage, gerade von vorn: `mw2/vitrine`, `rl2/vitrine`, `rt2/vitrine`; Fächer überall
+  `VX [17.2, 83.9]`, `VR0` = fünf Glasböden; Höhe = Regalhöhe (Breite = `--sw / --sa` × Seitenverhältnis).
+- **Plakette** in allen Designs auf dem Sockel des Trophäenteils (`.club-plaque` 19 % / 94,2 %).
+- **A Lady's Conservatory:** scharfer Hintergrund `rt2/conservatory` (1536×1024); grünes besticktes Kleid mit Schuhen (`rt2/dress-shoes`,
+  Schuhe im Maßstab Puppe ≈ 160 cm, Schuh ≈ 25 cm) statt der Schneiderpuppe; die Broschen (Übungen) sitzen als kleine Gruppe am Ausschnitt,
+  die Uhr (Treue) an der Taille (`.dress-watch`), beide nicht mehr im Regal. Neue Glasglocken Zitrone, Kirsche, Klangschale (`rt2/cloche-*`);
+  Lotus, Steine, Herzen fehlen noch. Ostereier auf Goldständern (`RT_EGGS`: Himbeere, Burgund, Rot nur mit Goldband; Grün folgt).
+  Advent- und Feiertagskarten `rt2/cards/<adv01…24|advSun1…4|xmas1|xmas2|newyear|epiphany|palm|maundy|goodfri|holysat|easter|eastermon|martin>`
+  (`RT_CARDS` = alle Dateien im Ordner); es fehlen ascension, pentecost, pentecostmon, harvest. Rosen-Tischchen ab Stufe 3 (wie der Efeu).
 
 ## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
 - Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt
