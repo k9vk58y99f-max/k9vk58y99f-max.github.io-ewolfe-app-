@@ -814,8 +814,7 @@ html:not(.theme-retreat) .lib-row{ padding-left:max(8px, calc((100cqw - var(--sw
 .tb-page-img.is-sticker{ box-shadow:none; border-radius:0; filter:drop-shadow(0 3px 6px rgba(0,0,0,0.25)); }
 /* trophies were cut out from a night-blue background (glass, glow): in the diary they stand on a small night-blue card
    with a gold edge, so no dark fringes show on the white paper (1.74.2) */
-.tb-page-img.is-trophy{ background:radial-gradient(ellipse at 50% 42%, #2b2470 0%, #141a4a 62%, #0b1026 100%); padding:9% 10% 8%;
-  border-radius:10px; box-shadow:0 0 0 2px #e8b84a, 0 4px 10px rgba(0,0,0,0.3); filter:none; box-sizing:border-box; }
+.tb-page-img.is-trophy{ filter:drop-shadow(0 3px 5px rgba(0,0,0,0.25)); } /* 22.10.2026: the A Mystery World trophies are cut clean from the navy now – no navy card any more */
 .tb-sticker-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; padding:4px 6px 8px 34px; }
 .tb-sticker-btn{ aspect-ratio:1; border-radius:12px; border:1px solid var(--ew-line); background:var(--ew-panel-2); padding:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .tb-sticker-btn img, .tb-sticker-btn svg{ width:100%; height:100%; object-fit:contain; display:block; }
@@ -1201,12 +1200,12 @@ html.theme-biz :is(.medi-card-img, .breath-stage, .medi-player-img, .grat-pic, .
 /* since 1.86.4 A Gentleman's Study has its own exercise pictures: the note stays only on the breathing animation and the stickers
    (and, in A Lady's Conservatory, on everything that still shows the pictures of A Gentleman's Study) */
 html.theme-biz .medi-card-img{ display:inline-block; }
-html.theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after, html.theme-retreat :is(.tb-sticker-btn)::after{
+html.theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after{
   content:'Platzhalter – neues Design folgt'; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-14deg); z-index:6; pointer-events:none;
   width:max-content; max-width:92%; text-align:center; white-space:normal; line-height:1.15;
   font-family:Inter, sans-serif; font-weight:700; font-size:var(--ph-fs, 13px); letter-spacing:0.02em; text-transform:uppercase; color:#ff3b30;
   text-shadow:0 0 3px rgba(255,255,255,0.85), 0 0 1px #fff; }
-html[lang=en].theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after, html[lang=en].theme-retreat :is(.tb-sticker-btn)::after{ content:'Placeholder – new design coming'; }
+html[lang=en].theme-biz :is(.tb-sticker-btn.st-old, .rl-ph)::after{ content:'Placeholder – new design coming'; }
 html.theme-biz :is(.medi-card-img, .tb-sticker-btn, .rl-ph-s){ --ph-fs:7px; }
 html.theme-biz .breath-stage{ --ph-fs:18px; }
 /* our dog in front of the walnut bookcase, a little to the right over its edge */
@@ -1855,7 +1854,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; heig
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.90.2';
+const APP_VERSION = '1.91.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -3160,8 +3159,9 @@ const stickerFile = key=>STICKER_ALIAS[key] || (STICKERS.includes(key) ? key : '
 // A Gentleman's Study (1.86.6): its own stickers (img/rl/stickers/, brass, enamel, crystal, cut from navy); the dog is the study's
 // dog, only the dog's head has no picture of its own yet (it keeps the old one with the red note)
 const RL_STICKER = new Set(['leaf', 'moon', 'sun', 'wave', 'heart-red', 'heart-pink', 'star', 'mountains', 'rainbow-land', 'music', 'lotus', 'cherry', 'rose', 'fox', 'rabbit', 'rainbow', 'treasure']);
-const stickerPath = f=>RETREAT && f === 'dog' ? 'rt2/dog' : BIZ && RL_STICKER.has(f) ? 'rl/stickers/' + f : BIZ && f === 'dog' ? 'rl/dog' : 'stickers/' + f;
-const stickerOld = f=>BIZ && !RL_STICKER.has(f) && f !== 'dog';
+const stickerPath = f=>RETREAT ? (f === 'dog' ? 'rt2/dog' : f === 'dog-head' ? 'rt2/dog-head' : 'rt2/stickers/' + f) : // A Lady's Conservatory: all 19 own stickers (22.10.2026)
+  RETREAT && f === 'dog' ? 'rt2/dog' : BIZ && RL_STICKER.has(f) ? 'rl/stickers/' + f : BIZ && f === 'dog' ? 'rl/dog' : 'stickers/' + f;
+const stickerOld = f=>BIZ && !RETREAT && !RL_STICKER.has(f) && f !== 'dog';
 function stickerSvg(key){ return `<svg viewBox="-90 -90 180 180" aria-hidden="true"><image href="img/${stickerPath(stickerFile(key))}.webp" x="-84" y="-84" width="168" height="168" preserveAspectRatio="xMidYMid meet"/></svg>`; }
 function ownPictureSvg(key, id){ return stickerSvg(key); }
 function ownPictureSvgDrawn(key, id){
