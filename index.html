@@ -1372,7 +1372,7 @@ html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:22%; } /* the b
 /* new colours (21.10.2026): the raspberry bookcase is slimmer, so the picture is measured in shelf heights (--lh), not widths */
 html.theme-retreat .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.375)); justify-content:flex-start; padding-bottom:calc(var(--lh) * 0.16); /* room for the floor below the furniture and the table in front */ min-width:max(100%, calc(var(--lh) * 2.36));
   background:url(img/rt2/conservatory.webp) no-repeat; background-size:calc(var(--lh) * 2.667) auto;
-  background-position:calc(var(--lh) * -0.306) calc(100% + var(--lh) * 0.045); border-radius:14px; }
+  background-position:calc(var(--lh) * -0.17) calc(100% + var(--lh) * 0.045); border-radius:14px; } /* 22.10.2026: newest conservatory – the furniture stands further left on the wall */
 html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--lh) * 0.099); }
 html.theme-retreat .lib-row{ gap:calc(var(--lh) * 0.012); }
 html.theme-retreat .shelf-orchid.shelf-xmas{ height:68%; bottom:-11%; transform:translateX(-45%); }
@@ -1855,7 +1855,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; heig
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.91.2';
+const APP_VERSION = '1.91.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
