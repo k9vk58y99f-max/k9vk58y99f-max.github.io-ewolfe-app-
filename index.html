@@ -681,6 +681,10 @@ html[lang=en] .ph-note::after{ content:'Placeholder – picture coming'; }
 .lib-row{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc(100vh - var(--nav-h, 70px) - 170px), 1000px);
   display:flex; align-items:flex-end; gap:4cqw; width:max-content; min-width:100%; justify-content:center; padding:24px 8px 18px; box-sizing:border-box; }
 .shelf-unit{ position:relative; display:flex; align-items:flex-end; flex:none; scroll-snap-align:start; }
+/* 1.87.3: in every design the row is as wide as the conservatory of A Lady's Conservatory (4.78 shelf widths), so one can always scroll
+   as far to the right; the backgrounds for the other two designs follow */
+.lib-row{ min-width:max(100%, calc(var(--sw) * 4.78)); justify-content:flex-start !important; }
+html:not(.theme-retreat) .lib-row{ padding-left:max(8px, calc((100cqw - var(--sw) * (1 + var(--nk, 0) - var(--nov, 0))) / 2)) !important; }
 .lib-row .shelf-img{ width:var(--sw) !important; flex:none; }
 .lib-row .shelf-narrow{ width:calc(var(--sw) * var(--nk)) !important; margin-right:calc(var(--sw) * var(--nov) * -1); background-size:100% 100%; background-repeat:no-repeat; z-index:0; }
 .lib-row .shelf-narrow + .shelf-img{ z-index:1; margin-top:0; }
@@ -1128,6 +1132,9 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
   --ew-panel:#121a30; --ew-panel-2:#18213b; --ew-radius:4px;
   --biz-display:'Noto Serif Display', 'Marcellus', serif;
 }
+/* 1.87.3: A Gentleman's Study 20 % more contrast (WCAG against #0c1226 × 1.2: linen 12.5 → 15, bronze 7.9 → 9.5, light bronze 9.7 → 11.6) */
+:root.theme-biz:not(.theme-retreat){ --ew-text:#ece7d8; --ew-text-dim:rgba(236,231,216,0.70); --ew-line:rgba(236,231,216,0.17); --ew-uv-lilac:#ece7d8; --ew-uv-lilac-soft:rgba(236,231,216,0.6);
+  --gold:#d3b681; --gold-text:#e3c99d; --gold-rgb:211,182,129; --ew-turquoise:#d3b681; }
 html.theme-biz body, html.theme-biz .page-modal, html.theme-biz .tb-overlay{ background:linear-gradient(180deg, #0c1226 0%, #0a0e1f 60%) fixed; }
 html.theme-biz::before{ background:#0c1226; }
 /* no frames: the frame, its dark band and the veil on the home page go away; the content uses the full width */
@@ -1186,7 +1193,7 @@ html.theme-biz .vitrine-img{ background-image:url(img/rl/vitrine.webp); aspect-r
 @media (min-width:760px){ html.theme-biz .shelf-wrap.with-vitrine .shelf-img{ width:min(40%, calc((100vh - var(--nav-h, 70px) - 170px) * 0.44), 520px); }
   html.theme-biz .shelf-wrap.with-vitrine .vitrine-img{ width:min(26%, calc((100vh - var(--nav-h, 70px) - 170px) * 0.3), 340px); } }
 html.theme-biz .shelf-hint{ color:var(--ew-text-dim); }
-html.theme-biz #sync-btn.has-note::after{ background:#c9a463; box-shadow:0 0 8px rgba(201,164,99,0.8); }
+html.theme-biz #sync-btn.has-note::after{ background:var(--gold); box-shadow:0 0 8px rgba(201,164,99,0.8); }
 html.theme-biz #t-logo{ font-family:var(--biz-display); font-stretch:62.5%; font-weight:400; text-transform:uppercase; letter-spacing:0.16em; }
 html.theme-biz .bereich-value{ fill:var(--ew-text); }
 /* A Gentleman's Study: everything that still shows a picture of the classic design carries a red note until its new picture comes */
@@ -1818,7 +1825,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-3%; height:
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.87.2';
+const APP_VERSION = '1.87.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -1851,7 +1858,7 @@ const DEFAULT_MEDITATIONEN = [
   { id:'seed-atem', title:'3-Minuten Atemübung', url:null, notes:'4 Sekunden einatmen, 4 halten, 6 ausatmen. So lange wiederholen, bis du ruhiger wirst.', media:null, ts:1 },
   { id:'seed-bodyscan', title:'Body-Scan zum Einschlafen', url:null, notes:'Von den Zehen bis zum Kopf jeden Körperteil kurz wahrnehmen und bewusst entspannen.', media:null, ts:2 },
   { id:'seed-box', title:'Box Breathing', url:null, notes:null, notesKey:'mediBoxNote', media:null, tool:'box', ts:4, builtIn:true },
-  { id:'seed-lemon', title:'Lemonmeditation', url:null, notes:null, notesKey:'mediLemonNote', media:null, audio:'audio/lemonmeditation.m4a', ts:3, builtIn:true },
+  { id:'seed-lemon', title:'Lemonmeditation', titleKey:'exLemonTitle', url:null, notes:null, notesKey:'mediLemonNote', media:null, audio:'audio/lemonmeditation.m4a', ts:3, builtIn:true },
   { id:'seed-478', title:'4-7-8-Atmung', titleKey:'ex478Title', url:null, notes:null, notesKey:'ex478Note', media:null, tool:'b478', ts:5, builtIn:true },
   { id:'seed-54321', title:'5-4-3-2-1', titleKey:'exGroundTitle', url:null, notes:null, notesKey:'exGroundNote', media:null, tool:'ground', ts:7, builtIn:true },
   { id:'seed-dank', title:'Dankbarkeit am Abend', titleKey:'exGratTitle', url:null, notes:null, notesKey:'exGratNote', media:null, tool:'grat', ts:8, builtIn:true },
@@ -2447,12 +2454,12 @@ function renderMeditationen(){
   const builtIns = MEDI_ORDER.map(id=>all.find(m=>m.id === id && m.builtIn)).filter(Boolean)
     .concat(all.filter(m=>m.builtIn && !MEDI_ORDER.includes(m.id)));
   const cards = builtIns.map(m=>card(m, mediPicture(m),
-    `<p>${escapeHtml(m.notesKey ? d[m.notesKey] : (m.notes || ''))}</p>
+    `<p>${escapeHtml(m.notesKey ? d[m.notesKey] : (mediNotes(m) || ''))}</p>
      <button class="primary-btn medi-start-btn" onclick="mediRun('${m.id}')">${ico('play')}${d.mediStart}</button>${mediInfoHtml(m)}`)).join('');
   // the person's own exercises: a card with the symbol they chose
   const own = all.filter(m=>!m.builtIn).slice().reverse().map(m=>card(m,
     BIZ ? imgPic('rl/medi/bell') : ownPictureSvg(MEDI_ICONS[m.icon] ? m.icon : 'leaf', m.id), // A Gentleman's Study: the brass bell for every own exercise (1.86.4)
-    `${m.notes ? `<p>${escapeHtml(m.notes)}</p>` : ''}
+    `${m.notes ? `<p>${escapeHtml(mediNotes(m))}</p>` : ''}
      ${m.media ? `<div class="medi-media">${m.media.type.startsWith('video/') ? `<video controls src="${m.media.dataUrl}"></video>` : `<audio controls src="${m.media.dataUrl}"></audio>`}</div>` : ''}
      <div class="medi-card-actions">
        ${m.url ? `<a class="primary-btn medi-start-btn" style="flex:1;text-decoration:none;" href="${escapeHtml(m.url)}" target="_blank" rel="noopener noreferrer">${ico('play')}${d.mediOpenLink}</a>` : ''}
@@ -3577,7 +3584,17 @@ function achMoodHtml(){
   const bm = best && (state.meditationen || []).find(m=>m.id === best);
   return `<div class="medi-mood-card"><h3 class="goal-table-card-h">${d.moodStatTitle}</h3><p>${line}</p>${bm ? `<p>${d.moodStatBest.replace('{x}', escapeHtml(mediTitle(bm)))}</p>` : ''}</div>`;
 }
-function mediTitle(m){ return m.titleKey ? t()[m.titleKey] : m.title; }
+// the two sample entries (seed-atem, seed-bodyscan) are stored in German; while their text is unchanged they follow the language (1.87.3)
+const SEED_TEXT = {
+  'seed-atem':{ title:'3-Minuten Atemübung', notes:'4 Sekunden einatmen, 4 halten, 6 ausatmen. So lange wiederholen, bis du ruhiger wirst.', tk:'seedAtemTitle', nk:'seedAtemNote' },
+  'seed-bodyscan':{ title:'Body-Scan zum Einschlafen', notes:'Von den Zehen bis zum Kopf jeden Körperteil kurz wahrnehmen und bewusst entspannen.', tk:'seedScanTitle', nk:'seedScanNote' }
+};
+function mediTitle(m){ const sd = SEED_TEXT[m.id]; return m.titleKey ? t()[m.titleKey] : sd && m.title === sd.title ? t()[sd.tk] : m.title; }
+function mediNotes(m){ const sd = SEED_TEXT[m.id]; return sd && m.notes === sd.notes ? t()[sd.nk] : m.notes; }
+Object.assign(I18N.de, { exLemonTitle:'Lemonmeditation', seedAtemTitle:'3-Minuten Atemübung', seedAtemNote:'4 Sekunden einatmen, 4 halten, 6 ausatmen. So lange wiederholen, bis du ruhiger wirst.',
+  seedScanTitle:'Body-Scan zum Einschlafen', seedScanNote:'Von den Zehen bis zum Kopf jeden Körperteil kurz wahrnehmen und bewusst entspannen.' });
+Object.assign(I18N.en, { exLemonTitle:'Lemon meditation', seedAtemTitle:'3-minute breathing exercise', seedAtemNote:'Breathe in for 4 seconds, hold for 4, breathe out for 6. Repeat until you feel calmer.',
+  seedScanTitle:'Body scan for falling asleep', seedScanNote:'From your toes up to your head, briefly notice each part of your body and consciously relax it.' });
 
 /* ---- music on/off for the silent meditation (same setting as Box Breathing) ---- */
 function exToggleMusic(){
@@ -4248,7 +4265,7 @@ Object.assign(I18N.en, {
   groundDone:'Well done. You are fully in the here and now.', groundNext:'Next', groundBack:'Back', groundFinish:'Done',
   gratPh:['I am grateful for …','I am grateful for …','I am grateful for …'], gratToDiary:'Add to my diary', gratSave:'Save', gratRecent:'Recently', gratDiaryHead:'♥ Grateful on {date}:', gratSaved:'Lovely! Your three things are saved.', gratSavedDiary:'Lovely! Your three things are now in your diary as well.', gratEmpty:'Write down at least one thing.',
   timerMin:'{n} min', timerStart:'Start', timerMusic:'Music', timerLeft:'{t} left', timerDoneMsg:'Your meditation is complete.',
-  mediIconPick:'Symbol', mediOpenLink:'Open link', mediDelete:'Delete'
+  mediIconPick:'Icon', mediOpenLink:'Open link', mediDelete:'Delete'
 });
 /* Achtsamkeit: the longer, optional texts about an exercise (shown under its Start button) and several wordings for
    the comparison of wheels, so it does not always read the same */
@@ -4438,12 +4455,12 @@ function joyImpulse(){
 function joyRenderDeep(){ const el = document.getElementById('joy-deep-wrap'); if(el) el.innerHTML = joyDeepHtml(); }
 /* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
    main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
-const GAP_VIOLET = RETREAT ? [142, 168, 138] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [222, 210, 172] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#b08d57' : BIZ ? '#c9a463' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
+const GAP_VIOLET = RETREAT ? [142, 168, 138] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [222, 210, 172] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#b08d57' : BIZ ? '#d3b681' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
 // Since 1.84.4 every knob (sliders, the Box Breathing dot, the wish corners in every wheel) is KNOB_PX wide on the screen,
 // whatever the size of the drawing: `s` is only the first guess, knobFix() sets the real size once the drawing is shown.
 const KNOB_PX = 18; // 1.84.5: 30 % smaller than before
 const KNOB_IMG = RETREAT ? 'img/rt/knob.webp' : BIZ ? 'img/rl/knob.webp' : 'img/knob-gold.webp'; // the same knob as on the sliders
-const wishKnob = (x, y, s)=>`<image class="ew-knob" data-cx="${(x).toFixed(1)}" data-cy="${(y).toFixed(1)}" href="${KNOB_IMG}" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
+const wishKnob = (x, y, s, k)=>`<image class="ew-knob"${k ? ` data-scale="${k}"` : ''} data-cx="${(x).toFixed(1)}" data-cy="${(y).toFixed(1)}" href="${KNOB_IMG}" x="${(x - s / 2).toFixed(1)}" y="${(y - s / 2).toFixed(1)}" width="${s}" height="${s}"/>`;
 const knobRO = typeof ResizeObserver === 'function' ? new ResizeObserver(es=>es.forEach(e=>knobFix(e.target))) : null;
 function knobFix(root){
   (root || document).querySelectorAll('.ew-knob').forEach(el=>{
@@ -4462,7 +4479,7 @@ function knobFix(root){
 }
 new MutationObserver(()=>{ if(!knobFix.__q){ knobFix.__q = 1; setTimeout(()=>{ knobFix.__q = 0; knobFix(); }, 0); } })
   .observe(document.documentElement, { childList:true, subtree:true });
-const IST_COL = RETREAT ? '#2f4f3e' : BIZ ? '#dcd4b8' : '#b8a4ff';
+const IST_COL = RETREAT ? '#2f4f3e' : BIZ ? '#ece7d8' : '#b8a4ff';
 function wheelGapSvg(P, pt, ist, wish){
   const gaps = ist.map((v, i)=>Math.max(0, wish[i] - v)), mx = Math.max(...gaps), mn = Math.min(...gaps);
   // all gaps equal: the colour in between
@@ -5050,7 +5067,7 @@ function wheelLabelsSvg(svg, valueOf, deltaOf, inline){
     let txt = '';
     if(hasVal){
       const y1 = L.I + L.g + L.fs*0.82;
-      txt += `<text x="0" y="${y1.toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}"${inline ? ` fill="${RETREAT ? '#262622' : BIZ ? '#dcd4b8' : '#cdbdff'}"${font}` : ' class="bereich-value"'}>${valTxt}</text>`;
+      txt += `<text x="0" y="${y1.toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}"${inline ? ` fill="${RETREAT ? '#262622' : BIZ ? '#ece7d8' : '#cdbdff'}"${font}` : ' class="bereich-value"'}>${valTxt}</text>`;
       if(hasDl){
         const cls = dl > 0 ? 'up' : (dl < 0 ? 'down' : 'same');
         txt += `<text x="0" y="${(y1 + L.lh).toFixed(1)}" text-anchor="middle" font-size="${L.fs.toFixed(1)}" class="bereich-delta ${cls}">${dlTxt}</text>`;
@@ -5118,7 +5135,7 @@ function renderScene(animate, onIntroDone){
     wishSvg = `<defs>${gap.defs}</defs>${gap.shapes}`;
     // the wish: a line in the colour of the gold knob, with the folded-paper knobs on its corners (1.78.0)
     var wishTop = `<polygon points="${wPts}" fill="none" stroke="${KNOB_GOLD}" stroke-width="6" stroke-linejoin="round"/>`
-      + ist.map((v, i)=>{ const p = ptFor(i, v); return `<circle cx="${p.x}" cy="${p.y}" r="7" fill="${IST_COL}"/>`; }).join('')
+      + ist.map((v, i)=>{ const p = ptFor(i, v); return `<circle class="ew-knob" data-scale="0.8" cx="${p.x}" cy="${p.y}" r="7" fill="${IST_COL}"/>`; }).join('')
       + wish.map((v, i)=>{ const p = ptFor(i, v); return wishKnob(p.x, p.y, 17); }).join('');
   }
 
@@ -5156,7 +5173,7 @@ function renderScene(animate, onIntroDone){
 function joySunSvg(){
   const j = joyNow(); if(!j) return '';
   const k = (WHEEL_LAB && WHEEL_LAB.k) || 1, v = joyShown(j), sz = (26 + 28 * v / 100) * k, cy = CY - 6 * k;
-  const col = RETREAT ? '#262622' : BIZ ? '#d9b679' : '#f6d27a';
+  const col = RETREAT ? '#262622' : BIZ ? '#e3c99d' : '#f6d27a';
   return `<defs><filter id="joyGlow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="${(7 * k).toFixed(1)}"/></filter></defs>
     <g id="joy-sun" style="cursor:pointer" onclick="event.stopPropagation(); joyInfo()">
     <circle cx="${CX}" cy="${cy.toFixed(1)}" r="${(sz * 0.62).toFixed(1)}" fill="${KNOB_GOLD}" opacity="${(0.15 + 0.6 * v / 100).toFixed(2)}" filter="url(#joyGlow)"/>
@@ -5290,7 +5307,7 @@ function areasWheelSvg(){
   return `<svg class="areas-wheel" viewBox="0 0 260 248" aria-hidden="true"><defs>${gap.defs}</defs>${g}${gap.shapes}`
     + poly(ist, `fill="${RETREAT ? 'rgba(255,253,248,0.9)' : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)'}" stroke="${IST_COL}" stroke-width="1.6"`)
     + poly(wish, `fill="none" stroke="${KNOB_GOLD}" stroke-width="2.6" stroke-linejoin="round"`)
-    + wish.map((v, i)=>{ const p = pt(i, v); return wishKnob(p.x, p.y, 12); }).join('') + `</svg>`;
+    + wish.map((v, i)=>{ const p = pt(i, v); return wishKnob(p.x, p.y, 12, 0.7); }).join('') + `</svg>`; // 1.87.3: smaller than in the big wheel (wish of the user)
 }
 function renderAreasPage(){
   const d = t(), first = isFirstRun();
@@ -5398,7 +5415,7 @@ function maybeShowAreasIntro(){
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
 let compareSelection = [];
-const COMPARE_COLORS = RETREAT ? ['#2f4f3e', '#b08d57', '#8ea88a'] : BIZ ? ['#dcd4b8', '#c9a463', '#6f9c86'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
+const COMPARE_COLORS = RETREAT ? ['#2f4f3e', '#b08d57', '#8ea88a'] : BIZ ? ['#ece7d8', '#d3b681', '#7fae97'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
 const COMPARE_FILL_OPACITY = [0.34, 0.34, 0.34]; // all three equally transparent; only draw order (newest in front) differs
 document.getElementById('compare-toggle-btn').onclick = ()=>{
   compareMode = !compareMode;
@@ -6310,20 +6327,41 @@ function tbRenderLibrary(){
   let narrowRows = [];
   if(NAR){ narrowRows = packRows(books.map(b=>({ ...b, book:true, g:0.7 })), 0, 0, false, nCap); bookRows = [];
     if(narrowRows.length > SHELF_ROWS.length) narrowRows = narrowRows.slice(0, SHELF_ROWS.length - 1).concat([narrowRows.slice(SHELF_ROWS.length - 1).flat()]); }
-  const below = Math.max(0, SHELF_ROWS.length - bookRows.length);
-  const troAt = k=>tro.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:1.6 }));
-  let k = 1, troRows = packRows(troAt(1), bookRows.length);
-  while(troRows.length > below && k > 0.7){ k -= 0.04; troRows = packRows(troAt(k), bookRows.length); }
-  let extra = [];
-  const fillLast = bookRows.length > 1; // the plus (or books) spilled into a lower compartment: trophies may fill the rest of it
-  if(!NAR && (troRows.length > below || fillLast)){ // too full below: up to 3 next to the books, as long as they fit in the top compartment
-    const last = bookRows[bookRows.length - 1], room = rowCap(bookRows.length - 1) - 2 * WALL - last.reduce((s, it, i)=>s + it.w + (i ? (it.plus ? PLUS_GAP : it.g) : 0), 0);
-    let used = 0; const all = troAt(k);
-    for(const it of all){ if((!fillLast && extra.length >= 3) || used + it.w + 3 > room) break; extra.push(it); used += it.w + 3; }
-    troRows = packRows(all.slice(extra.length), bookRows.length);
-  }
-  if(extra.length) bookRows[bookRows.length - 1] = bookRows[bookRows.length - 1].concat(extra.map((it, i)=>({ ...it, g:i ? 1.6 : 3 })));
-  const packed = bookRows.concat(troRows);
+  /* Perspective (1.87.3, wish of the user): the trophy pictures are taken a little from above (one sees the base, into the cups,
+     onto the sundial). That only looks right in compartments at or below eye level (the middle one and lower). Above it – the
+     upper compartments, next to the books and on top of the shelf – only flat or front-facing pieces stand (TRO_FRONT).
+     Every trophy has the same size in every compartment (heights relative to a middle compartment); what is too tall for a
+     low compartment goes into another one. */
+  const EYE = Math.floor(SHELF_ROWS.length / 2);
+  const rowHs = SHELF_ROWS.map(r=>r[1] - r[0]), refH = rowHs.slice().sort((a, b)=>a - b)[Math.floor(rowHs.length / 2)];
+  const front = o=>TRO_FRONT.test((o.x && o.x.img) || o.x.id || '');
+  const usedW = r=>r.reduce((sm, it, i)=>sm + it.w + (i ? (it.plus ? PLUS_GAP : it.g) : 0), 0);
+  const place = (k, anyRow)=>{
+    const rows = SHELF_ROWS.map((_, i)=>i < bookRows.length ? bookRows[i].slice() : []), rest = [];
+    // order of the compartments: right below the books downwards (as before); the book compartments come last and only for front pieces
+    const order = SHELF_ROWS.map((_, i)=>i).filter(i=>i >= bookRows.length).concat(bookRows.map((_, i)=>i).reverse());
+    tro.forEach(o=>{
+      const fits = (i, relaxed)=>{
+        if(i < EYE && !front(o) && !relaxed) return false;
+        const f = refH / rowHs[i], h = o.h * k * f, w = o.w * k * f;
+        if(h > 96) return false; // too tall for this compartment
+        const isBooks = i < bookRows.length, g = rows[i].length ? (isBooks ? 3 : 1.6) : 0;
+        return usedW(rows[i]) + g + w <= rowCap(i) - 2 * WALL;
+      };
+      let ok = order.find(i=>fits(i));
+      if(ok === undefined && anyRow) ok = order.find(i=>fits(i, true));
+      if(ok === undefined){ rest.push(o); return; }
+      const f = refH / rowHs[ok]; rows[ok].push({ ...o, h:o.h * k * f, w:o.w * k * f, g:ok < bookRows.length && !rows[ok].some(it=>!it.book) ? 3 : 1.6 });
+    });
+    return { rows, rest };
+  };
+  // a little smaller first (down to 86 %), then rather above eye level than smaller still, and only then on top of the shelf
+  let k = 1, pl = place(1);
+  while(pl.rest.length && k > 0.87){ k -= 0.04; pl = place(k); }
+  if(pl.rest.length) pl = place(k, true);
+  while(pl.rest.length && k > 0.7){ k -= 0.04; pl = place(k, true); }
+  // whatever still does not fit stands on top of the shelf (as before)
+  const packed = pl.rows.concat(pl.rest.length ? [pl.rest.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:1.6 }))] : []);
   const roof = packed.slice(SHELF_ROWS.length).flat().filter(it=>!it.book);
   const rowsAll = packed.slice(0, SHELF_ROWS.length).map(r=>({ kind:r.every(it=>!it.book) ? 'tro' : 'books', r }));
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
@@ -6568,6 +6606,8 @@ const trophyPh = x=>x.phNote || rlMissing(x);
 const DRESS_ALL_MEDALS = true; // all medals reached so far on the tailcoat (false: only the highest)
 // A Gentleman's Study: these two stood too far forward on the board (their bases); lifted a little = further back (1.86.8)
 const TRO_LIFT = { 'rl/telescope':-9, 'rl/cup-silver':-7 };
+// pieces that look right above eye level too (flat or seen from the front, 1.87.3): medals, brooches, obelisks, rose quartz, star, Nikolaus, eggs, balloon, bicycle, plane
+const TRO_FRONT = /medal|brooch|obelisk|quartz|(^|\/)star$|trophy-star|nikolaus$|egg|balloon|bicycle|(^|\/|-)(plane|car)$|ships-wheel|trophy-wheel|telescope|orb-/;
 /* A Gentleman's Study (1.80.0): the same trophies, other pictures (img/rl/): medals, crystal obelisks, glass cloches, silver cups,
    ship's wheel, pocket watch, sundial, telescope … – [picture, width/height]. A trophy that grows keeps its picture and grows
    in size; a picture that is not there yet (the crib) stays the classic one. */

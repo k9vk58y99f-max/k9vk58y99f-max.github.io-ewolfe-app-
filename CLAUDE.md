@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.87.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.87.3`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -382,6 +382,14 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   steht dort näher vor dem Regal. A Lady's Conservatory: unten wieder Boden zu sehen (`padding-bottom` `--sw`×0,15, Hintergrund y
   `100% + --sw×0,265`); passt das Orchideen-Tischchen auf dem Handy nicht daneben, beginnt die Zeile beim Regal (Hund ganz sichtbar),
   das Tischchen schaut links herein (Skript in `tbRenderLibrary`, setzt `scrollLeft` und `scroll-margin-left`). Seitlich scrollen bleibt überall.
+- **Seit 1.87.3:** Kontrast in A Gentleman's Study 20 % stärker (`:root.theme-biz:not(.theme-retreat)`: Leinen #ece7d8, Bronze #d3b681,
+  helle Bronze #e3c99d; WCAG gegen #0c1226 × 1,2). Ist-Punkte im großen Lebensrad haben die Größe der Wunsch-Knöpfe (`ew-knob`, `data-scale` 0,8,
+  weil das Knopfbild einen Rand hat); im kleinen Rad auf „Bereiche“ sind die Wunsch-Knöpfe kleiner (`wishKnob(…, 0.7)`). Englisch: die zwei
+  Beispiel-Übungen (`SEED_TEXT`, `mediTitle`/`mediNotes`), „Lemon meditation“ (`exLemonTitle`), „Icon“. Bibliothek in allen Designs so breit wie das
+  Gewächshaus (4,78 `--sw`), Regal anfangs mittig. **Trophäen nach Perspektive:** die Bilder sind leicht von oben aufgenommen; über Augenhöhe
+  (Fächer über dem mittleren, neben den Büchern, auf dem Regal) stehen nur flache/frontale Stücke (`TRO_FRONT`); jede Trophäe ist in jedem Fach gleich
+  groß (Höhe relativ zum mittleren Fach), was zu hoch ist, kommt in ein anderes Fach; erst etwas kleiner (bis 86 %), dann auch über Augenhöhe, erst
+  zuletzt aufs Regal (`place()` in `tbRenderLibrary`).
 - Seit 1.83.2: neue Zitronen-Glocken (Zitronenzweig: Blüten → grüne Frucht → gelbe Zitrone), schmaler (Seitenverhältnis 0,70). Übungsbilder für die Achtsamkeit (Lotus, Kirschzweig, Zitrone, Steine, Herzen, Klangschale, Glocke, Decke) liegen im Sammelordner unter „Originale ChatGPT/Achtsamkeit“, noch nicht eingebaut.
 
 ## Drittes Design „A Lady's Conservatory“ (seit 1.84.0, bis 1.86.0 „A Morning Retreat“)
