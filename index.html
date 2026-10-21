@@ -1220,7 +1220,7 @@ html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) / var(--sa, 0.44) * 5
 .dress-medal{ background:none; border:none; padding:0; margin:0 calc(var(--dh) * -0.0035); cursor:pointer; filter:drop-shadow(0 2px 2px rgba(0,0,0,0.45)); }
 .dress-medal img{ display:block; height:calc(var(--dh) * 0.062); width:auto; }
 /* A Lady's Conservatory: the dress is as high as 0.9 of the bookcase; brooches in a small cluster at the neckline, the pendant watch at the waist */
-html.theme-retreat .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.9); margin:0 calc(var(--sw) * 0.02); }
+html.theme-retreat .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96); margin:0 calc(var(--sw) * 0.02); }
 html.theme-retreat .dress-medals{ left:53%; top:17.5%; width:17%; row-gap:0; }
 html.theme-retreat .dress-medal{ margin:0 calc(var(--dh) * -0.002); filter:drop-shadow(0 1px 1px rgba(0,0,0,0.4)); }
 html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
@@ -1374,7 +1374,12 @@ html.theme-retreat .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.375)); justify-co
   background:url(img/rt2/conservatory.webp) no-repeat; background-size:calc(var(--lh) * 2.667) auto;
   background-position:calc(var(--lh) * -0.306) calc(100% + var(--lh) * 0.045); border-radius:14px; }
 html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--lh) * 0.099); }
-html.theme-retreat .lib-row{ gap:calc(var(--lh) * 0.012); } /* bookcase and cabinet close together (21.10.2026) */
+html.theme-retreat .lib-row{ gap:calc(var(--lh) * 0.012); }
+/* 21.10.2026: rooms for the other two designs as well (same size and position as the conservatory): A Gentleman's Study a navy country-house
+   library with a park window, A Mystery World a magical library salon with a starry window */
+html:not(.theme-retreat) .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.39)); padding-bottom:calc(var(--lh) * 0.16) !important; min-width:max(100%, calc(var(--lh) * 2.36));
+  background:url(img/rl2/room.webp) no-repeat; background-size:calc(var(--lh) * 2.667) auto; background-position:calc(var(--lh) * -0.306) calc(100% + var(--lh) * 0.045); border-radius:14px; }
+html:not(.theme-biz) .lib-row{ background-image:url(img/mw2/room.webp); } /* bookcase and cabinet close together (21.10.2026) */
 /* 21.10.2026: the trophies stand exactly on the boards / the glass; above eye level the front edge of the board hides a bit of their foot */
 /* 21.10.2026, all designs: trophies stand exactly on the boards / the glass; above eye level the board's front edge hides a bit of their foot;
    the bookcase is one piece of furniture in two sections (no overlap); the plinth carries the plaque */
@@ -1849,7 +1854,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; heig
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.89.0';
+const APP_VERSION = '1.89.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6665,10 +6670,10 @@ const RT_TRO = {
   stones:[['cloche-stones-1', 0.823], ['cloche-stones-2', 0.821], ['cloche-stones-3', 0.829]], bowl:[['rt2/cloche-bowl-1', 0.848], ['rt2/cloche-bowl-2', 0.848], ['rt2/cloche-bowl-3', 0.85]],
   grat:[['rt2/card-rose', 1.261], ['cloche-hearts-2', 0.811], ['cloche-hearts-3', 0.809]], // first gratitude = the rose card (21.10.2026)
   // 21.10.2026: joy = the bicycle (instead of the sundial), +10 = the candlestick, arrived = the sailing boat, a true classic = the car
-  wheel:['armillary', 0.629], goal:['rt2/cup', 1.239], loyal:['rt2/watch', 0.723], joy:['rt2/bicycle', 1.551], up10:['rt2/candlestick', 0.246], upall:['rt2/flower-urn', 1.482],
-  nikolaus:['rt2/nikolaus', 0.392], nikolaus2:['rt2/boot', 0.984], xmas:['rt2/star', 1.072]
+  wheel:['rt2/armillary', 0.701], goal:['rt2/cup', 1.239], loyal:['rt2/watch', 0.723], joy:['rt2/bicycle', 1.551], up10:['rt2/candlestick', 0.246], upall:['rt2/flower-urn', 1.482],
+  nikolaus:['rt2/nikolaus', 0.392], nikolaus2:['rt2/boot', 0.984], xmas:['rt2/star', 1.07], xmas2:['rt2/crib', 1.521]
 };
-const RT_EGGS = [['rt2/egg2-1', 0.668], ['rt2/egg2-2', 0.669], ['rt2/egg2-red1', 0.621]]; // on small gold stands (21.10.2026): raspberry, burgundy, red (only the gold band); the green ones follow
+const RT_EGGS = [['rt2/egg2-1', 0.668], ['rt2/egg2-2', 0.669], ['rt2/egg2-red1', 0.621], ['rt2/egg2-g1', 0.644], ['rt2/egg2-g2', 0.643]]; // on small gold stands (21.10.2026): raspberry, burgundy, red (only the gold band); the green ones follow
 const RT_BOOKS = [['rt2/books-1', 3.455, 0.31], ['rt2/books-2', 2.151, 0.47], ['rt2/books-3', 1.539, 0.65], ['rt2/books-4', 1.237, 0.82]];
 // A Gentleman's Study: a trophy whose picture is not yet one of the new design (img/rl/) gets the red placeholder note
 const rlMissing = x=>BIZ && x.kind === 'img' && !(RETREAT ? /^rt2\//.test(x.img || '') || /^rt\/armillary/.test(x.img || '') : /^rl\//.test(x.img || '')); // new colours: only rt2/ is new (the cloches no longer fit) // A Lady's Conservatory: own pictures in rt/ (1.86.8)
@@ -6676,7 +6681,7 @@ function trophyRl(x){
   if(RETREAT){ // A Lady's Conservatory: its own picture where there is one (1.86.8)
     if(x.group === 'page') return { ...x, img:RT_BOOKS[x.stage][0], aspect:RT_BOOKS[x.stage][1], scale:RT_BOOKS[x.stage][2] };
     if(/^easter\d+$/.test(x.id)){ const i = FAB_IDX(x), e = RT_EGGS[i % RT_EGGS.length], y = x.id.slice(6);
-      return { ...x, img:e[0], aspect:e[1], scale:[0.5, 0.56, 0.62][Math.min(i, 2)], /* much smaller than the Fabergé eggs (21.10.2026) */ title:(state.settings.lang === 'en' ? 'Easter egg ' : 'Osterei ') + y }; }
+      return { ...x, img:e[0], aspect:e[1], scale:[0.42, 0.44, 0.46][Math.min(i, 2)], /* much smaller than the Fabergé eggs (21.10.2026) */ title:(state.settings.lang === 'en' ? 'Easter egg ' : 'Osterei ') + y }; }
     if(x.id === 'arrived') return { ...x, img:'rt2/sailboat', aspect:1.119, scale:0.8 };
     if(x.id === 'classic12') return { ...x, img:'rt2/car', aspect:2.578, scale:0.6 };
     const rs = RT_TRO[x.group] || RT_TRO[x.id];

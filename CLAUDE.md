@@ -125,7 +125,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.89.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.89.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -493,6 +493,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Lotus, Steine, Herzen fehlen noch. Ostereier auf Goldständern (`RT_EGGS`: Himbeere, Burgund, Rot nur mit Goldband; Grün folgt).
   Advent- und Feiertagskarten `rt2/cards/<adv01…24|advSun1…4|xmas1|xmas2|newyear|epiphany|palm|maundy|goodfri|holysat|easter|eastermon|martin>`
   (`RT_CARDS` = alle Dateien im Ordner); es fehlen ascension, pentecost, pentecostmon, harvest. Rosen-Tischchen ab Stufe 3 (wie der Efeu).
+- **1.89.1:** Räume auch für A Gentleman's Study (`rl2/room`, Navy-Bibliothek mit Parkfenster) und A Mystery World (`mw2/room`, Zaubersalon mit
+  Sternenfenster), gleiche Größe/Lage wie das Gewächshaus. Lady: Krippe mit heiliger Familie (`rt2/crib`), neue Armillarsphäre (`rt2/armillary`),
+  fünf Eier auf Goldständern (kleiner: 0,42–0,46), Schuhe kleiner und tiefer vor dem Kleid.
 
 ## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
 - Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt
