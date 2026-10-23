@@ -12,9 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="eWolfe">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#080b28">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Marcellus&family=Noto+Serif+Display:wdth,wght@62.5,300;62.5,400&family=Caveat:wght@500;600&family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="fonts/fonts.css" rel="stylesheet"> <!-- 22.10.2026: fonts served from our own site (no IP address goes to Google) -->
 <script>
 /* Design (since 1.80.0): "biz" = Business (cool, calm, navy/green/cognac, no frames) or "classic" = gold & paper.
    Chosen per device in the first window and in the settings. A new device starts with Business; a device that already
@@ -1855,7 +1853,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; heig
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.91.3';
+const APP_VERSION = '1.92.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -1913,7 +1911,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-10-22';
+const APP_BUILD = '2026-10-23';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Freude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Freude stellst du nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Freude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du spürst, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Freude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
