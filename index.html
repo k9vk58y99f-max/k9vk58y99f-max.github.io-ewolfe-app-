@@ -1934,7 +1934,7 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.96.2';
+const APP_VERSION = '1.97.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -3988,7 +3988,7 @@ function uiDialogShow(message, opts){
     document.getElementById('dialog-msg').textContent = message;
     const extra = document.getElementById('dialog-extra'); extra.innerHTML = opts.html || ''; extra.style.display = opts.html ? '' : 'none';
     ok.textContent = opts.okText || t().dialogOk;
-    cancel.textContent = t().dialogCancel;
+    cancel.textContent = opts.cancelText || t().dialogCancel;
     cancel.style.display = opts.confirm ? '' : 'none';
     alt.style.display = opts.altText ? '' : 'none';
     if(opts.altText) alt.textContent = opts.altText;
@@ -4540,6 +4540,8 @@ Object.assign(I18N.en.areasText, {"gesundheit": "Your health is the foundation f
 // 24.10.2026: the user's text for Berufung
 I18N.de.areasText.berufung = "Deine Berufung bedeutet, deine Stärken und Talente zu entfalten, dich persönlich weiterzuentwickeln und einen Sinn in dem zu finden, was du tust. Es geht nicht nur um beruflichen Erfolg oder finanzielle Sicherheit, sondern auch darum, mit Freude und Überzeugung deinen eigenen Weg zu gehen."; I18N.de.areaQuestions.berufung = ["Erfüllt dich das, womit du den größten Teil deines Tages verbringst?", "Kannst du deine Stärken und Talente in deine Arbeit einbringen?", "Fühlst du dich gefordert, ohne dauerhaft überfordert zu sein?", "Hast du eine Vorstellung davon, wohin du dich entwickeln möchtest?"]; I18N.de.areaMore.berufung = {"belongs": "Beruf, Ausbildung, persönliche Stärken, Talente, Weiterentwicklung und das Gefühl, mit dem eigenen Tun etwas Sinnvolles zu bewirken.", "high": "Du kannst deine Fähigkeiten entfalten, lernst regelmäßig Neues und gehst überwiegend mit Freude an deine Aufgaben. Du empfindest deine Tätigkeit als sinnvoll und hast das Gefühl, dich persönlich und beruflich weiterzuentwickeln.", "step": "Nimm dir heute einen Moment Zeit und notiere eine Stärke, die du eingesetzt hast. Erkenne bewusst an, was du bereits kannst und bewirkst."};
 I18N.en.areasText.berufung = "Your purpose means developing your strengths and talents, growing as a person and finding meaning in what you do. It is not only about professional success or financial security, but also about following your own path with joy and conviction."; I18N.en.areaQuestions.berufung = ["Does what you spend most of your day on fulfil you?", "Can you bring your strengths and talents into your work?", "Do you feel challenged without being constantly overwhelmed?", "Do you have an idea of where you would like to grow?"]; I18N.en.areaMore.berufung = {"belongs": "Work, training, personal strengths, talents, growth and the feeling of achieving something meaningful through what you do.", "high": "You can develop your abilities, learn new things regularly and mostly approach your tasks with joy. You find your work meaningful and feel that you are growing personally and professionally.", "step": "Take a moment today and note one strength you used. Consciously acknowledge what you can already do and achieve."};
+Object.assign(I18N.de, {"wheelRemind": "Dein letztes Lebensrad ist {m} Monate alt.\n\nZeit für ein neues? Nimm dir ein paar Minuten und schau, wo du heute stehst. Mit „Vergleichen“ siehst du danach, wie du gewachsen bist.", "wheelRemindNow": "Jetzt ausfüllen", "wheelRemindCal": "Im Kalender erinnern", "wheelRemindLater": "Später", "wheelRemindEvent": "eWolfe: Zeit für ein neues Lebensrad", "wheelRemindCalDone": "Die Kalenderdatei wurde erstellt. Öffne sie und tippe auf „Hinzufügen“, dann erinnert dich dein Kalender alle drei Monate an ein neues Lebensrad.", "noteWheel": "Dein letztes Lebensrad ist drei Monate oder älter – Zeit für ein neues."});
+Object.assign(I18N.en, {"wheelRemind": "Your last wheel of life is {m} months old.\n\nTime for a new one? Take a few minutes to see where you stand today. Afterwards “Compare” shows you how you have grown.", "wheelRemindNow": "Fill it in now", "wheelRemindCal": "Remind me in my calendar", "wheelRemindLater": "Later", "wheelRemindEvent": "eWolfe: time for a new wheel of life", "wheelRemindCalDone": "The calendar file has been created. Open it and tap “Add”, then your calendar will remind you every three months to fill in a new wheel of life.", "noteWheel": "Your last wheel of life is three months old or older – time for a new one."});
 Object.assign(I18N.de, { clubRanks:['', 'Gast', 'Anwärter', 'Mitglied', 'Ratsmitglied', 'Vorstand', 'Ehrenmitglied'], clubRankLabel:'Dein Rang',
   ladyRanks:['', 'Gast', 'Gärtnerin', 'Botanikerin', 'Kuratorin', 'Patronin', 'Ehrenpatronin'], glowRanks:['', 'Funke', 'Glut', 'Flamme', 'Stern', 'Komet', 'Sonne'],
   ladyUp:['', 'Willkommen als Gärtnerin. Sieben aktive Tage – die ersten Samen sind gesät.', 'Du bist jetzt Botanikerin. 30 aktive Tage – du kennst deine Pflanzen und sie wachsen.', 'Du bist jetzt Kuratorin. 100 aktive Tage – dein Gewächshaus blüht.', 'Willkommen als Patronin. Ein halbes Jahr bleibst du dir treu.', 'Ehrenpatronin. Ein ganzes Jahr mit dir selbst – deine Vitrine steht bereit.'],
@@ -8444,11 +8446,45 @@ function syncStatusLine(){
   if(syncStatus === 'pending') return syncMsg || d.stPending;
   return syncLastAt ? d.syncLast + ' ' + new Date(syncLastAt).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) : d.syncNever;
 }
+
+/* ---- Reminder: a new wheel of life every three months (1.97.0, wish of the user) ----
+   When the newest wheel is three months old, the app asks once when it opens (again a week later after "later");
+   while it is due, it also stands under "Mitteilungen". A calendar file can remind every three months as well. */
+const WHEEL_REMIND_DAYS = 91, WHEEL_SNOOZE_KEY = 'ewolfe_wheel_snooze';
+function lastWheelTs(){ let m = 0; WHEEL_AREAS.forEach(a=>(state.bewertungen[a] || []).forEach(x=>{ if(x.ts > m) m = x.ts; })); return m; }
+function wheelDue(){ const l = lastWheelTs(); return !!l && Date.now() - l >= WHEEL_REMIND_DAYS * 864e5; }
+async function maybeWheelReminder(){
+  if(isFirstRun() || syncGateNeeded()) return false;
+  for(let i = 0; i < 20 && sbSession && !syncLastAt; i++) await new Promise(r=>setTimeout(r, 500)); // a wheel from another device comes with the first sync
+  if(!wheelDue()) return false;
+  let sn = 0; try{ sn = +localStorage.getItem(WHEEL_SNOOZE_KEY) || 0; }catch(e){}
+  if(Date.now() - sn < 7 * 864e5) return false;
+  try{ localStorage.setItem(WHEEL_SNOOZE_KEY, String(Date.now())); }catch(e){}
+  const d = t(), months = Math.max(3, Math.floor((Date.now() - lastWheelTs()) / (30.44 * 864e5)));
+  const r = await uiDialog(d.wheelRemind.replace('{m}', months), { confirm:true, okText:d.wheelRemindNow, altText:d.wheelRemindCal, cancelText:d.wheelRemindLater });
+  if(r === true) openEvalModal(); else if(r === 'alt') wheelRemindCalendar();
+  return true;
+}
+function wheelRemindCalendar(){
+  const d = t(), pad = n=>String(n).padStart(2, '0');
+  const start = new Date(Math.max(Date.now() + 864e5, (lastWheelTs() || Date.now()) + WHEEL_REMIND_DAYS * 864e5)); start.setHours(19, 0, 0, 0);
+  const loc = dt=>dt.getFullYear() + pad(dt.getMonth() + 1) + pad(dt.getDate()) + 'T' + pad(dt.getHours()) + pad(dt.getMinutes()) + '00';
+  const end = new Date(start.getTime() + 30 * 60000), url = syncAppUrl() || location.href.split('#')[0];
+  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//eWolfe//Lebensrad//DE', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT',
+    'UID:ewolfe-wheel-' + Date.now() + '@ewolfe', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''),
+    'DTSTART:' + loc(start), 'DTEND:' + loc(end), 'RRULE:FREQ=MONTHLY;INTERVAL=3', 'SUMMARY:' + d.wheelRemindEvent, 'URL:' + url, 'DESCRIPTION:' + url,
+    'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + d.wheelRemindEvent, 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], { type:'text/calendar;charset=utf-8' })); a.download = 'ewolfe-lebensrad-erinnerung.ics';
+  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+  uiNotice(d.wheelRemindCalDone);
+}
 /* ---- Notifications: the dot at the account icon only shows when there is something for the person to do ---- */
 let updateVersion = null, updateCheckedAt = 0;
 function appNotes(){
   const d = t(), notes = [];
   if(updateVersion) notes.push({ text:d.noteUpdate.replace('{v}', updateVersion), btn:d.noteUpdateBtn, act:applyUpdate });
+  if(wheelDue()) notes.push({ text:d.noteWheel, btn:d.wheelRemindNow, act:()=>{ closeModal('settings-modal'); openEvalModal(); } }); // a new wheel every three months
   if(sbSession && syncStatus === 'error') notes.push({ text:d.noteSyncErr + (syncMsg ? ' ' + syncMsg : ''), btn:d.noteSyncRetry, act:()=>syncNow() });
   return notes;
 }
@@ -8773,7 +8809,7 @@ function init(){
     renderScene(true, ()=> setTimeout(()=>{ if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()) openEvalModal(); }, 200));
   } else {
     // returning user: play the intro every time the app opens, then reveal last time's wheel (and ask to sign in if needed)
-    renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()) maybeAskWishes().then(asked=>{ if(!asked) maybeShowImpulseCard(); }); });
+    renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()) maybeAskWishes().then(asked=>{ if(!asked) maybeWheelReminder().then(shown=>{ if(!shown) maybeShowImpulseCard(); }); }); });
     renderPanels();
   }
 }
