@@ -1461,6 +1461,22 @@ html.theme-biz:not(.theme-retreat) .lib-row .lib-dress-wrap{ --dh:calc(var(--sw)
 /* 24.10.2026 (wish of the user): the dog has the same size in every design – as in A Gentleman's Study */
 html:not(.theme-biz) .shelf-dog{ height:34%; }
 html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
+/* End-to-end encryption and privacy (1.95.0) */
+#privacy-modal{ z-index:130 !important; }
+.privacy-body{ line-height:1.55; }
+.privacy-body h3{ margin:18px 0 6px; }
+.privacy-body p, .privacy-body li{ margin:0 0 8px; }
+.privacy-body ul{ padding-left:20px; margin:0 0 8px; }
+.privacy-draft{ border:1px solid #c0392b; color:#c0392b; border-radius:10px; padding:8px 12px; margin:4px 0 12px; }
+.pw-rules{ list-style:none; padding:0; margin:2px 0 8px; font-size:var(--fs-text); }
+.pw-rules li{ opacity:0.75; margin:2px 0; }
+.pw-rules li::before{ content:'○'; display:inline-block; width:1.4em; }
+.pw-rules li.ok{ opacity:1; color:var(--gold-text, #58d48f); }
+.pw-rules li.ok::before{ content:'✓'; }
+#dialog-extra{ margin:4px 0 12px; }
+.e2e-code{ font-family:ui-monospace, Menlo, monospace; font-size:19px; letter-spacing:0.06em; text-align:center; padding:12px 8px; border:1px dashed currentColor; border-radius:10px; user-select:all; -webkit-user-select:all; word-break:break-all; }
+.e2e-code-btns{ display:flex; gap:8px; justify-content:center; margin-top:10px; flex-wrap:wrap; }
+.e2e-badge{ margin:0 0 10px; }
 </style>
 </head>
 <body data-theme="dark">
@@ -1566,6 +1582,10 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
     <div class="settings-section">
       <div class="settings-head" id="t-set-account">Konto &amp; Cloud-Sync</div>
       <div id="settings-sync"></div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-head" id="t-set-privacy">Datenschutz</div>
+      <div id="settings-privacy"></div>
     </div>
     <div class="settings-section">
       <div class="settings-head" id="t-set-design">Design</div>
@@ -1753,6 +1773,16 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
     <div id="sync-body"></div>
   </div>
 </div>
+<!-- Privacy policy (1.95.0): lies above everything, also above the sign-in gate -->
+<div class="modal-backdrop" id="privacy-modal">
+  <div class="modal">
+    <div class="modal-top">
+      <h2 class="modal-title" id="privacy-title">Datenschutz</h2>
+      <button class="icon-btn" onclick="closeModal('privacy-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
+    </div>
+    <div id="privacy-body" class="privacy-body"></div>
+  </div>
+</div>
 <div class="modal-backdrop page-modal" id="medi-modal">
   <div class="modal">
     <div class="modal-top">
@@ -1787,6 +1817,7 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 <div class="dialog-backdrop" id="dialog-modal">
   <div class="dialog-box">
     <p id="dialog-msg"></p>
+    <div id="dialog-extra" style="display:none;"></div>
     <div class="dialog-actions">
       <button class="ghost-btn" id="dialog-cancel">Abbrechen</button>
       <button class="ghost-btn" id="dialog-merge" style="display:none;"></button>
@@ -1901,7 +1932,7 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.94.2';
+const APP_VERSION = '1.95.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2008,7 +2039,7 @@ const I18N = {
     importSuccess:'Backup erfolgreich wiederhergestellt.', importError:'Diese Datei konnte nicht gelesen werden. Ist es eine gültige eWolfe-Backup-Datei?',
     exportError:'Backup konnte nicht heruntergeladen werden.',
     dialogOk:'OK', dialogCancel:'Abbrechen', restoreFromBackup:'⬆ Backup wiederherstellen',
-    mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Ohne Anmeldung bleibt alles wie bisher nur auf diesem Gerät.', syncEmail:'E-Mail', syncPassword:'Passwort (mindestens 6 Zeichen)', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Die Übertragung ist verschlüsselt, die Server stehen in Frankfurt (EU). Dein Passwort wird nicht in der App gespeichert.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort ist zu schwach (mindestens 6 Zeichen).', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort (mindestens 6 Zeichen)', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediBoxNote:'Vier gleich lange Atemzüge, wie die Seiten eines Quadrats: einatmen, halten, ausatmen, halten – je 4 Sekunden. Folge einfach dem Punkt, während sich der Lotus mit deinem Atem öffnet und schließt. Sanfte Handpan-Musik begleitet dich.', breathStart:'Starten', breathPause:'Pause', breathResume:'Weiter', breathStop:'Beenden', breathIn:'Einatmen', breathHold:'Halten', breathOut:'Ausatmen', breathRound:'Runde', breathMusicOn:'Musik ausschalten', breathMusicOff:'Musik einschalten', mediAdd:'Meditation oder Übung hinzufügen', mediStart:'Starten', langPickTitle:'Willkommen bei eWolfe', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
+    mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Sie werden auf deinem Gerät verschlüsselt, bevor sie es verlassen.', syncEmail:'E-Mail', syncPassword:'Passwort', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Deine Daten werden auf deinem Gerät verschlüsselt (Ende-zu-Ende), bevor sie zum Server in Frankfurt (EU) gehen. Lesen können sie nur deine Geräte – niemand sonst, auch wir nicht.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort erfüllt noch nicht alle Regeln.', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediBoxNote:'Vier gleich lange Atemzüge, wie die Seiten eines Quadrats: einatmen, halten, ausatmen, halten – je 4 Sekunden. Folge einfach dem Punkt, während sich der Lotus mit deinem Atem öffnet und schließt. Sanfte Handpan-Musik begleitet dich.', breathStart:'Starten', breathPause:'Pause', breathResume:'Weiter', breathStop:'Beenden', breathIn:'Einatmen', breathHold:'Halten', breathOut:'Ausatmen', breathRound:'Runde', breathMusicOn:'Musik ausschalten', breathMusicOff:'Musik einschalten', mediAdd:'Meditation oder Übung hinzufügen', mediStart:'Starten', langPickTitle:'Willkommen bei eWolfe', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
     tblTitle:'Ziele im Überblick', goalsSub:'Bis zu 5 Ziele pro Lebensbereich – am besten eine gute Mischung: ein paar kleine Ziele, die du schnell erreichst, einige mittlere und höchstens ein großes, langfristiges Ziel.', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahme', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
     areaDesc:{ gesundheit:'Fitness, Ernährung, Erholung, Entspannung, Lebenserwartung', beziehungen:'Familie, Partnerschaft, Freunde, Zuwendung zu sich selbst', finanzen:'Einkommen, Wohlstand, Vermögen, Investitionen', berufung:'Aufgaben, Leistungen, Karriere, Erfolg', sinn:'Persönlichkeit, Sinn, Selbstverwirklichung, Erfüllung, Glück', freude:'Lachen, Leichtigkeit, Hobbys, Genuss, Begeisterung' } },
   en:{ appName:'eWolfe', navAreas:'Areas', areasTitle:'Areas of life', areasIntro:'Your wheel of life is made of five areas. Together they show you how balanced your life is right now – and joy in life grows out of them.', areasText:{ gesundheit:'Your physical and mental fitness, your energy, your diet, your sleep and restful breaks.', beziehungen:'Your relationship with yourself, your partnership, family, friendships and social contacts.', finanzen:'Your financial security, your savings, your spending habits and how you handle money.', berufung:'Fulfilment at work, career and personal growth – and the feeling of doing something meaningful rather than just earning money.', sinn:'Inner peace, mindfulness, your values and the meaning you find – the connection to yourself or to something greater.', freude:'Joy in life is not the mood of a single day but the joy you take in your life as a whole. You do not set it with a slider – it grows out of the other five areas. When they grow, joy in life often grows too. It does not have to, but it can. So we ask you how much joy you find in your life and compare it with what your wheel would lead us to expect. If joy does not grow along, that is no mistake but an invitation to look deeper.' }, areasHowTitle:'How to create your wheel of life', areasStep1Title:'Rate', areasStep1:'Go through the five areas one by one and move the slider to the value from 1 to 100 that most honestly describes where you are right now.', areasStep2Title:'The result', areasStep2:'The rounder your wheel, the more balanced your life. Spikes and dents show you at a glance where you are losing energy right now – and where it is worth starting.', areasStartFirst:'Create your first wheel of life', areasContinue:'Continue with your wheels of life', goalsEdit:'Edit goals', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
@@ -2057,7 +2088,7 @@ const I18N = {
     importSuccess:'Backup restored successfully.', importError:'This file could not be read. Is it a valid eWolfe backup file?',
     exportError:'The backup could not be downloaded.',
     dialogOk:'OK', dialogCancel:'Cancel', restoreFromBackup:'⬆ Restore backup',
-    mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. Without signing in, everything stays on this device only, as before.', syncEmail:'Email', syncPassword:'Password (at least 6 characters)', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'The connection is encrypted and the servers are in Frankfurt (EU). Your password is not stored in the app.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password is too weak (at least 6 characters).', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', gateWelcome:'Welcome to eWolfe', gateIntroUp:'Create your account. Your data is then stored safely and stays the same on all your devices.', gateIntroIn:'Welcome back! Sign in with your account.', gateHaveAccount:'I already have an account – sign in', gateNoAccount:'No account yet? Create one', gateForgot:'Forgot password?', gateForgotTitle:'Forgot password', gateForgotIntro:'Enter your email. We will send you a link to set a new password.', gateForgotSend:'Send link', gateForgotSent:'If there is an account with this email, a message with a link is on its way. Open the link and set a new password. Please also check your spam folder.', gateBackToSignIn:'Back to sign in', gateNewPwTitle:'New password', gateNewPwIntro:'Set a new password for {email} now.', gateNewPwPh:'New password (at least 6 characters)', gateNewPwSave:'Save password', gateNewPwDone:'Your new password is saved. You are signed in and can use it on all your devices from now on.', gateLinkExpired:'The link has expired or was already used. Please request a new one via Forgot password.', eSamePw:'The new password must be different from the old one.', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file', mediBoxNote:'Four breaths of equal length, like the sides of a square: breathe in, hold, breathe out, hold – 4 seconds each. Simply follow the dot while the lotus opens and closes with your breath. Gentle handpan music keeps you company.', breathStart:'Start', breathPause:'Pause', breathResume:'Resume', breathStop:'Stop', breathIn:'Breathe in', breathHold:'Hold', breathOut:'Breathe out', breathRound:'Round', breathMusicOn:'Turn music off', breathMusicOff:'Turn music on', mediAdd:'Add a meditation or exercise', mediStart:'Start', langPickTitle:'Welcome to eWolfe', mediLemonNote:'Before you begin: have some lemon essential oil ready. If you do not have any at hand, simply use the fresh peel of a citrus fruit – its scent will guide you through the meditation just as well.',
+    mediTitle:'Mindfulness', syncBtnTitle:'Cloud sync', syncTitle:'Cloud sync', syncIntro:'Sign in to keep your data the same on all your devices. It is encrypted on your device before it leaves it.', syncEmail:'Email', syncPassword:'Password', syncSignIn:'Sign in', syncSignUp:'Create account', syncSignOut:'Sign out', syncNowBtn:'Sync now', syncPrivacy:'Your data is encrypted on your device (end to end) before it goes to the server in Frankfurt (EU). Only your devices can read it – nobody else, not even us.', syncAs:'Signed in as', syncLast:'Last synced at', syncNever:'Not synced yet.', syncKeepLocal:'Signing out keeps all data on this device.', stSyncing:'Syncing …', stPending:'Changes are waiting to be synced.', stDeferred:'Syncing waits until you are done editing.', stError:'Sync failed:', eFill:'Please enter email and password.', eBadLogin:'Email or password is wrong.', eExists:'An account with this email already exists. Please sign in.', eWeak:'The password does not meet all the rules yet.', eNotConfirmed:'Please confirm your email first using the link in the mail.', eRate:'Too many attempts. Please wait a moment.', eEmail:'Please enter a valid email address.', eNetwork:'No connection to the server. Check your internet. (Sync is not possible in the Claude preview, use your own app address.)', eGeneric:'Error:', eConfirmMail:'Almost done: we sent you a confirmation email. Please confirm it and then sign in.', eSession:'You were signed out. Please sign in again.', eConflict:'Another device changed things at the same time. Please tap Sync now once more.', syncFirstMerge:'There is already data on this device and in your account. It will be merged, nothing gets deleted. Tip: save a backup first (⬇).', syncOtherAccount:'This device holds data that may belong to another account. If you continue, it will be merged into your account {email} and saved there.', syncMergeOk:'Merge', gateWelcome:'Welcome to eWolfe', gateIntroUp:'Create your account. Your data is then stored safely and stays the same on all your devices.', gateIntroIn:'Welcome back! Sign in with your account.', gateHaveAccount:'I already have an account – sign in', gateNoAccount:'No account yet? Create one', gateForgot:'Forgot password?', gateForgotTitle:'Forgot password', gateForgotIntro:'Enter your email. We will send you a link to set a new password.', gateForgotSend:'Send link', gateForgotSent:'If there is an account with this email, a message with a link is on its way. Open the link and set a new password. Please also check your spam folder.', gateBackToSignIn:'Back to sign in', gateNewPwTitle:'New password', gateNewPwIntro:'Set a new password for {email} now.', gateNewPwPh:'New password', gateNewPwSave:'Save password', gateNewPwDone:'Your new password is saved. You are signed in and can use it on all your devices from now on.', gateLinkExpired:'The link has expired or was already used. Please request a new one via Forgot password.', eSamePw:'The new password must be different from the old one.', syncDoneMerged:'Done: the data on this device and in your account was merged.', syncDonePulled:'Done: your data was loaded from your account.', syncDoneUploaded:'Done: your data is now saved in your account.', mediSub:'Collect meditations and links that are good for you.', mediNone:'Nothing saved yet.', mediTitlePh:'Title', mediUrlPh:'Link (optional)', mediNotesPh:'Notes (optional)', mediAttach:'🎵 Attach audio/video', mediAttachLimit:'Larger files use more of the app\'s storage — for very large files, a link is safer.', mediTooBig:'Not enough room in the app\'s storage right now ({room} free). Choose a smaller file, export a backup first, or add a link instead.', mediRemoveFile:'Remove file', mediBoxNote:'Four breaths of equal length, like the sides of a square: breathe in, hold, breathe out, hold – 4 seconds each. Simply follow the dot while the lotus opens and closes with your breath. Gentle handpan music keeps you company.', breathStart:'Start', breathPause:'Pause', breathResume:'Resume', breathStop:'Stop', breathIn:'Breathe in', breathHold:'Hold', breathOut:'Breathe out', breathRound:'Round', breathMusicOn:'Turn music off', breathMusicOff:'Turn music on', mediAdd:'Add a meditation or exercise', mediStart:'Start', langPickTitle:'Welcome to eWolfe', mediLemonNote:'Before you begin: have some lemon essential oil ready. If you do not have any at hand, simply use the fresh peel of a citrus fruit – its scent will guide you through the meditation just as well.',
     tblTitle:'Goals at a glance', goalsSub:'Up to 5 goals per area of life – ideally a good mix: a few small goals you can reach quickly, some medium ones and at most one big, long-term goal.', tblAchTitle:'Achieved goals at a glance', tblAchCount:'Achieved', tblAchLabel:'Achieved', tblAchNone:'No achieved goals yet.', tblAchHint:'Most recently achieved goals come first. Tap a cell to open the achieved goals of that area.', tblArea:'Areas', tblDesc:'', tblStand:'Date', tblPts:'pts', tblReason:'Reason', tblActions:'Action', tblHint:'Tap a cell to open that area. Under the percentage: change since the previous assessment.',
     areaDesc:{ gesundheit:'Fitness, nutrition, recovery, relaxation, life expectancy', beziehungen:'Family, partnership, friends, caring for yourself', finanzen:'Income, prosperity, assets, investments', berufung:'Tasks, achievements, career, success', sinn:'Personality, meaning, self-fulfilment, contentment, happiness', freude:'Laughter, lightness, hobbies, enjoyment, enthusiasm' } }
 };
@@ -3674,6 +3705,36 @@ const SEED_TEXT = {
 };
 function mediTitle(m){ const sd = SEED_TEXT[m.id]; return m.titleKey ? t()[m.titleKey] : sd && m.title === sd.title ? t()[sd.tk] : m.title; }
 function mediNotes(m){ const sd = SEED_TEXT[m.id]; return sd && m.notes === sd.notes ? t()[sd.nk] : m.notes; }
+Object.assign(I18N.de, { setPrivacy:'Datenschutz', privacyTitle:'Datenschutz', privacyLink:'Datenschutzerklärung',
+  e2eUnlockTitle:'Daten entsperren', e2eUnlockIntro:'Deine Daten werden ab jetzt Ende-zu-Ende-verschlüsselt. Gib bitte einmal dein Passwort für {email} ein, damit dieses Gerät sie ver- und entschlüsseln kann.',
+  e2eUnlockBtn:'Entsperren', e2eUseCode:'Passwort geändert? Mit Wiederherstellungs-Code entsperren', e2eBackToPw:'Zurück zum Passwort', e2eSignOut:'Abmelden',
+  e2eCodeIntro:'Gib deinen Wiederherstellungs-Code ein. Damit entsperrt eWolfe deine verschlüsselten Daten und verbindet sie mit deinem jetzigen Passwort.',
+  e2eCodePh:'Wiederherstellungs-Code', e2eCodeBtn:'Mit Code entsperren', e2eOldPw:'Deine Daten sind noch mit einem früheren Passwort verschlossen. Gib bitte deinen Wiederherstellungs-Code ein.',
+  e2eBadCode:'Dieser Code passt nicht. Achte auf jedes Zeichen.', e2eNoCode:'Code verloren? Neu beginnen',
+  e2eResetWarn:'Ohne Wiederherstellungs-Code kann niemand deine bisherigen Daten im Konto entschlüsseln – auch wir nicht.\n\nWenn du neu beginnst, werden sie durch den Stand dieses Geräts ersetzt und sind endgültig verloren. Wirklich neu beginnen?',
+  e2eResetOk:'Neu beginnen',
+  e2eCodeNew:'Dein Wiederherstellungs-Code\n\nDeine Daten sind jetzt Ende-zu-Ende-verschlüsselt: Nur deine Geräte können sie lesen – niemand sonst, auch wir nicht.\n\nWenn du dein Passwort vergisst, brauchst du diesen Code. Schreib ihn auf oder bewahre ihn an einem sicheren Ort auf (zum Beispiel im Passwort-Manager). Du findest ihn auch später in den Einstellungen.',
+  e2eCodeShow:'Dein Wiederherstellungs-Code\n\nBewahre ihn sicher auf. Du brauchst ihn, wenn du dein Passwort vergisst.',
+  e2eCodeSaved:'Ich habe den Code gesichert', e2eCopy:'Kopieren', e2eCopied:'Kopiert', e2eDownload:'Als Datei sichern',
+  e2eOn:'Ende-zu-Ende-verschlüsselt: Nur deine Geräte können deine Daten lesen.', e2eShowCodeBtn:'Wiederherstellungs-Code anzeigen',
+  e2eFileHead:'eWolfe – Wiederherstellungs-Code', e2eFileNote:'Bewahre diesen Code sicher auf. Damit entsperrst du deine verschlüsselten Daten, wenn du dein Passwort vergessen hast.',
+  e2eError:'Deine Daten konnten auf diesem Gerät nicht entschlüsselt werden.',
+  pwRuleLen:'mindestens 10 Zeichen', pwRuleUpper:'ein Großbuchstabe', pwRuleLower:'ein Kleinbuchstabe', pwRuleDigit:'eine Zahl', pwRuleSpecial:'ein Sonderzeichen' });
+Object.assign(I18N.en, { setPrivacy:'Privacy', privacyTitle:'Privacy', privacyLink:'Privacy policy',
+  e2eUnlockTitle:'Unlock your data', e2eUnlockIntro:'From now on your data is encrypted end to end. Please enter your password for {email} once, so this device can encrypt and decrypt it.',
+  e2eUnlockBtn:'Unlock', e2eUseCode:'Changed your password? Unlock with your recovery code', e2eBackToPw:'Back to the password', e2eSignOut:'Sign out',
+  e2eCodeIntro:'Enter your recovery code. eWolfe uses it to unlock your encrypted data and links it to your current password.',
+  e2eCodePh:'Recovery code', e2eCodeBtn:'Unlock with code', e2eOldPw:'Your data is still locked with an earlier password. Please enter your recovery code.',
+  e2eBadCode:'This code does not fit. Check every character.', e2eNoCode:'Lost your code? Start over',
+  e2eResetWarn:'Without the recovery code nobody can decrypt the data in your account – not even us.\n\nIf you start over, it is replaced by what is on this device and is lost for good. Really start over?',
+  e2eResetOk:'Start over',
+  e2eCodeNew:'Your recovery code\n\nYour data is now encrypted end to end: only your devices can read it – nobody else, not even us.\n\nIf you forget your password, you will need this code. Write it down or keep it in a safe place (for example in your password manager). You can also find it later in the settings.',
+  e2eCodeShow:'Your recovery code\n\nKeep it safe. You need it if you forget your password.',
+  e2eCodeSaved:'I have saved the code', e2eCopy:'Copy', e2eCopied:'Copied', e2eDownload:'Save as a file',
+  e2eOn:'Encrypted end to end: only your devices can read your data.', e2eShowCodeBtn:'Show recovery code',
+  e2eFileHead:'eWolfe – recovery code', e2eFileNote:'Keep this code safe. It unlocks your encrypted data if you have forgotten your password.',
+  e2eError:'Your data could not be decrypted on this device.',
+  pwRuleLen:'at least 10 characters', pwRuleUpper:'an upper-case letter', pwRuleLower:'a lower-case letter', pwRuleDigit:'a number', pwRuleSpecial:'a special character' });
 Object.assign(I18N.de, { exLemonTitle:'Lemonmeditation', seedAtemTitle:'3-Minuten Atemübung', seedAtemNote:'4 Sekunden einatmen, 4 halten, 6 ausatmen. So lange wiederholen, bis du ruhiger wirst.',
   seedScanTitle:'Body-Scan zum Einschlafen', seedScanNote:'Von den Zehen bis zum Kopf jeden Körperteil kurz wahrnehmen und bewusst entspannen.' });
 Object.assign(I18N.en, { exLemonTitle:'Lemon meditation', seedAtemTitle:'3-minute breathing exercise', seedAtemNote:'Breathe in for 4 seconds, hold for 4, breathe out for 6. Repeat until you feel calmer.',
@@ -3907,6 +3968,7 @@ function uiDialogShow(message, opts){
     const alt = document.getElementById('dialog-alt');
     const merge = document.getElementById('dialog-merge');
     document.getElementById('dialog-msg').textContent = message;
+    const extra = document.getElementById('dialog-extra'); extra.innerHTML = opts.html || ''; extra.style.display = opts.html ? '' : 'none';
     ok.textContent = opts.okText || t().dialogOk;
     cancel.textContent = t().dialogCancel;
     cancel.style.display = opts.confirm ? '' : 'none';
@@ -4617,6 +4679,7 @@ function applyLang(){
   document.getElementById('nav-medi-label').textContent = d.navMedi;
   document.getElementById('t-settings-title').textContent = d.settingsTitle;
   document.getElementById('t-set-account').textContent = d.setAccount;
+  document.getElementById('t-set-privacy').textContent = d.setPrivacy;
   document.getElementById('t-set-lang').textContent = d.setLang;
   document.getElementById('t-set-backup').textContent = d.setBackup;
   document.getElementById('t-set-decor').textContent = d.setDecor;
@@ -7667,7 +7730,7 @@ function tbBindHandlers(){
 
 /* ================= Init ================= */
 /* ================= Cloud-Sync (Supabase) =================
-   Optional. Signed out, the app works exactly as before (everything stays on this device).
+   Signing in is required (since 1.15.0). Since 1.95.0 everything is encrypted end to end before it is sent (see e2e… below).
    Signed in, the whole app state is kept in one row per person (table user_data, protected by
    row-level security: each person can only ever read/write their own row). The two values below
    are meant to be public (the key is a "publishable" one); they only open the door that the
@@ -7701,7 +7764,7 @@ const LASTEMAIL_KEY = 'ewolfe_last_email';
 let syncAuthMode = null; // 'in' | 'up' | 'forgot' – chosen on the gate, null = pick automatically
 let syncRecovery = false; // signed in through a "forgot password" link: a new password has to be set first
 let syncGateNote = '';    // one-off message for the sign-in window, e.g. an expired link
-function syncGateNeeded(){ return !sbSession || syncRecovery; }
+function syncGateNeeded(){ return !sbSession || syncRecovery || !e2eReady(); } // 1.95.0: also when this device does not have the data key yet
 function syncAppUrl(){ return /^https?:$/.test(location.protocol) ? location.origin + location.pathname : ''; }
 /* The e-mail link from "forgot password" leads back to the app with the sign-in in the address (#access_token=…&type=recovery).
    It is taken out of the address right away, the person is signed in and asked for a new password. */
@@ -7811,6 +7874,236 @@ async function sbSignOut(){
   sbSaveSession(null);
 }
 
+
+/* ---- End-to-end encryption (1.95.0, wish of the user: the operators must not be able to read anything but what is technically needed) ----
+   Everything that goes into the account is encrypted on the device (AES-256-GCM) before it leaves it. The server (and whoever runs it)
+   only sees the e-mail address, the revision, the time and one unreadable block. One random data key per account encrypts the data;
+   it is kept in the account twice, each time locked: with the password (PBKDF2-SHA256, 600 000 rounds – deliberately slow) and with
+   the recovery code. Each device keeps the data key locally (like the data itself), so it can sync without asking again.
+   Password forgotten AND recovery code lost = the data in the account cannot be decrypted by anybody. */
+const E2E_KEY = 'ewolfe_e2e_v1', E2E_ITER = 600000, E2E_RC_ITER = 200000;
+let e2e = null;            // { uid, raw (data key, base64), kv (version of the locks), kdf, pw, rc, code }
+let e2eNewCodeToShow = ''; // a freshly made recovery code, shown once after the sync
+let e2eMode = 'pw';        // the unlock window: 'pw' or 'code'
+let e2ePendingPw = '';     // a password that was just set (forgot-password link) and still needs the recovery code
+const e2eB64 = buf=>{ const a = new Uint8Array(buf); let s = ''; for(let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
+const e2eUnB64 = s=>Uint8Array.from(atob(s), c=>c.charCodeAt(0));
+const e2eRnd = n=>crypto.getRandomValues(new Uint8Array(n));
+const E2E_GZ = typeof CompressionStream === 'function' && typeof DecompressionStream === 'function';
+async function e2eGz(bytes, pack){ const st = new Blob([bytes]).stream().pipeThrough(pack ? new CompressionStream('gzip') : new DecompressionStream('gzip')); return new Uint8Array(await new Response(st).arrayBuffer()); }
+async function e2eKek(secret, salt, it){
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({ name:'PBKDF2', hash:'SHA-256', salt:e2eUnB64(salt), iterations:it }, base, { name:'AES-GCM', length:256 }, false, ['encrypt', 'decrypt']);
+}
+async function e2eEnc(key, bytes){ const iv = e2eRnd(12); return { iv:e2eB64(iv), ct:e2eB64(await crypto.subtle.encrypt({ name:'AES-GCM', iv }, key, bytes)) }; }
+async function e2eDec(key, box){ return new Uint8Array(await crypto.subtle.decrypt({ name:'AES-GCM', iv:e2eUnB64(box.iv) }, key, e2eUnB64(box.ct))); }
+const e2eDataKey = ()=>crypto.subtle.importKey('raw', e2eUnB64(e2e.raw), 'AES-GCM', false, ['encrypt', 'decrypt']);
+const e2eCodeNorm = c=>String(c || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+function e2eNewCode(){ // 24 characters without look-alikes (0/O, 1/I/L) ≈ 119 bits
+  const A = '23456789ABCDEFGHJKMNPQRSTUVWXYZ'; let out = '';
+  while(out.length < 24) e2eRnd(32).forEach(x=>{ if(x < 248 && out.length < 24) out += A[x % 31]; });
+  return out.match(/.{4}/g).join('-');
+}
+function e2eLoad(){ try{ const r = JSON.parse(localStorage.getItem(E2E_KEY) || 'null'); e2e = r && r.raw ? r : null; }catch(e){ e2e = null; } }
+function e2eSave(){ try{ if(e2e) localStorage.setItem(E2E_KEY, JSON.stringify(e2e)); else localStorage.removeItem(E2E_KEY); }catch(e){} }
+function e2eReady(){ return !!(e2e && sbSession && sbSession.user && e2e.uid === sbSession.user.id); }
+function e2eForget(){ e2e = null; e2eSave(); }
+const e2eIsEnv = d=>!!(d && d.e2e === 1 && d.ct && d.pw);
+async function e2eCreate(password){
+  const rawBytes = e2eRnd(32), code = e2eNewCode(), kdf = { salt:e2eB64(e2eRnd(16)), it:E2E_ITER }, rcSalt = e2eB64(e2eRnd(16));
+  const pw = await e2eEnc(await e2eKek(password, kdf.salt, kdf.it), rawBytes);
+  const rc = Object.assign({ salt:rcSalt, it:E2E_RC_ITER }, await e2eEnc(await e2eKek(e2eCodeNorm(code), rcSalt, E2E_RC_ITER), rawBytes));
+  e2e = { uid:sbUid(), raw:e2eB64(rawBytes), kv:Date.now(), kdf, pw, rc, code:null };
+  e2e.code = await e2eEnc(await e2eDataKey(), new TextEncoder().encode(code)); // so every unlocked device can show the code again
+  e2eSave(); e2eNewCodeToShow = code;
+}
+function e2eAdopt(env, rawBytes){ e2e = { uid:sbUid(), raw:e2eB64(rawBytes), kv:env.kv || 0, kdf:env.kdf, pw:env.pw, rc:env.rc, code:env.code }; e2eSave(); }
+async function e2eUnlockPw(env, password){ e2eAdopt(env, await e2eDec(await e2eKek(password, env.kdf.salt, env.kdf.it), env.pw)); }
+async function e2eUnlockCode(env, code){ e2eAdopt(env, await e2eDec(await e2eKek(e2eCodeNorm(code), env.rc.salt, env.rc.it), env.rc)); }
+async function e2eRewrapPw(password){ // a new password locks the same data key (the data itself stays as it is)
+  const kdf = { salt:e2eB64(e2eRnd(16)), it:E2E_ITER };
+  e2e.pw = await e2eEnc(await e2eKek(password, kdf.salt, kdf.it), e2eUnB64(e2e.raw)); e2e.kdf = kdf; e2e.kv = Date.now(); e2eSave();
+}
+async function e2eCode(){ return new TextDecoder().decode(await e2eDec(await e2eDataKey(), e2e.code)); }
+async function e2eSeal(payload){
+  let bytes = new TextEncoder().encode(JSON.stringify(payload));
+  const z = E2E_GZ ? 1 : 0; if(z) bytes = await e2eGz(bytes, true);
+  const box = await e2eEnc(await e2eDataKey(), bytes);
+  return { e2e:1, v:1, z, kv:e2e.kv, kdf:e2e.kdf, pw:e2e.pw, rc:e2e.rc, code:e2e.code, iv:box.iv, ct:box.ct };
+}
+async function e2eOpen(env){
+  let bytes;
+  try{ bytes = await e2eDec(await e2eDataKey(), env); }catch(e){ throw new SbError(-1, 'e2e_key', 'e2e key'); } // made with another key
+  if(env.z) bytes = await e2eGz(bytes, false);
+  // another device changed the password: take over its newer locks (the data key is the same)
+  if((env.kv || 0) > (e2e.kv || 0)){ Object.assign(e2e, { kv:env.kv, kdf:env.kdf, pw:env.pw, rc:env.rc, code:env.code }); e2eSave(); }
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+// after signing in: take the data key from the account, or make one (new account, or data from before 1.95.0)
+async function e2eAfterAuth(password){
+  if(e2eReady()) return true;
+  const full = await syncGetFull();
+  if(full && e2eIsEnv(full.data)){
+    try{ await e2eUnlockPw(full.data, password); return true; }
+    catch(e){ e2eMode = 'code'; return false; } // locked with an earlier password: the recovery code is needed
+  }
+  await e2eCreate(password); return true;
+}
+async function e2eShowCodeDialog(code, isNew){
+  const d = t(), q = JSON.stringify(code).replace(/"/g, '&quot;');
+  await uiDialog(isNew ? d.e2eCodeNew : d.e2eCodeShow, { okText:isNew ? d.e2eCodeSaved : d.dialogOk,
+    html:`<div class="e2e-code">${escapeHtml(code)}</div><div class="e2e-code-btns"><button class="ghost-btn" onclick="e2eCopy(this, ${q})">${d.e2eCopy}</button><button class="ghost-btn" onclick="e2eDownloadCode(${q})">${d.e2eDownload}</button></div>` });
+}
+async function e2eShowNewCode(){ if(!e2eNewCodeToShow) return; const c = e2eNewCodeToShow; e2eNewCodeToShow = ''; await e2eShowCodeDialog(c, true); }
+function e2eCopy(btn, code){ try{ navigator.clipboard.writeText(code).then(()=>{ btn.textContent = t().e2eCopied; }); }catch(e){} }
+function e2eDownloadCode(code){
+  const d = t(), email = (sbSession && sbSession.user && sbSession.user.email) || '';
+  const txt = d.e2eFileHead + '\n\n' + email + '\n\n' + code + '\n\n' + d.e2eFileNote + '\n';
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type:'text/plain' }));
+  a.download = 'eWolfe-' + (state.settings.lang === 'en' ? 'recovery-code' : 'Wiederherstellungs-Code') + '.txt';
+  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+// password rules (like Apple): at least 10 characters, upper and lower case, a number, a special character – one tick per rule
+const pwChecks = p=>[[p.length >= 10, 'pwRuleLen'], [/[A-ZÄÖÜ]/.test(p), 'pwRuleUpper'], [/[a-zäöüß]/.test(p), 'pwRuleLower'], [/\d/.test(p), 'pwRuleDigit'], [/[^A-Za-z0-9ÄÖÜäöüß\s]/.test(p), 'pwRuleSpecial']];
+const pwOk = p=>pwChecks(p).every(c=>c[0]);
+function pwRulesHtml(p){ const d = t(); return pwChecks(p || '').map(([ok, k])=>`<li class="${ok ? 'ok' : ''}">${d[k]}</li>`).join(''); }
+function pwRulesWire(){ const inp = document.getElementById('sync-pass'), ul = document.getElementById('pw-rules'); if(inp && ul) inp.addEventListener('input', ()=>{ ul.innerHTML = pwRulesHtml(inp.value); }); }
+// the unlock window (a signed-in device without the data key)
+async function e2eDoUnlock(){
+  const d = t(), msgEl = document.getElementById('sync-form-msg'), btn = document.getElementById('sync-main-btn');
+  const setMsg = (txt, cls)=>{ msgEl.textContent = txt; msgEl.className = 'sync-msg' + (cls ? ' ' + cls : ''); };
+  const email = (sbSession && sbSession.user && sbSession.user.email) || '';
+  const passEl = document.getElementById('sync-pass'), codeEl = document.getElementById('sync-code');
+  const pass = e2ePendingPw || (passEl ? passEl.value : ''), code = codeEl ? codeEl.value : '';
+  setMsg('');
+  if(!pass || (e2eMode === 'code' && !code)){ setMsg(d.eFill, 'err'); return; }
+  btn.disabled = true;
+  try{
+    if(!e2ePendingPw) await sbSignIn(email, pass); // checks the password (and renews the sign-in)
+    if(e2eMode === 'code'){
+      const full = await syncGetFull();
+      if(full && e2eIsEnv(full.data)){
+        try{ await e2eUnlockCode(full.data, code); }catch(e){ setMsg(d.e2eBadCode, 'err'); return; }
+        await e2eRewrapPw(pass); // from now on the current password opens it again
+      }else await e2eCreate(pass);
+    }else if(!(await e2eAfterAuth(pass))){ syncGateNote = d.e2eOldPw; renderSyncModal(); return; }
+    e2ePendingPw = ''; e2eMode = 'pw'; syncGateNote = '';
+    syncLeaveGate(); syncSet('idle');
+    await syncNow();
+    await e2eShowNewCode();
+    if(sbSession && !maybeShowAreasIntro() && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
+  }catch(e){ setMsg(syncErrText(e), 'err'); }
+  finally{ if(btn) btn.disabled = false; }
+}
+// recovery code lost: start over with a new key – the old data in the account is replaced by this device's (after a clear warning)
+async function e2eStartOver(){
+  const d = t(), passEl = document.getElementById('sync-pass'), msgEl = document.getElementById('sync-form-msg');
+  const pass = e2ePendingPw || (passEl ? passEl.value : '');
+  if(!pass){ msgEl.textContent = d.eFill; msgEl.className = 'sync-msg err'; return; }
+  if(!(await uiDialog(d.e2eResetWarn, { confirm:true, okText:d.e2eResetOk }))) return;
+  try{
+    if(!e2ePendingPw) await sbSignIn((sbSession.user && sbSession.user.email) || '', pass);
+    await e2eCreate(pass);
+    const env = await e2eSeal(syncPayload(state));
+    let row = null;
+    for(let i = 0; i < 3 && !row; i++){ const head = await syncGetHead(); row = head ? await syncPatch(head.revision, env) : await syncInsert(env); }
+    if(!row) throw new SbError(409, 'conflict', 'conflict');
+    syncRemember(sbUid(), row.revision, syncHash(state), syncCounts(state), e2e.kv);
+    e2ePendingPw = ''; e2eMode = 'pw'; syncGateNote = '';
+    syncLeaveGate(); syncSet('idle'); syncLastAt = Date.now();
+    await e2eShowNewCode();
+  }catch(e){ msgEl.textContent = syncErrText(e); msgEl.className = 'sync-msg err'; }
+}
+
+/* ---- Privacy policy (1.95.0). A DRAFT written from what the code really does – it must be checked by a lawyer before the public start.
+   Placeholders in [square brackets] still have to be filled in (operator, address, contract with Supabase). ---- */
+const PRIVACY = {
+de:`<p class="privacy-draft">Entwurf – vor dem öffentlichen Start rechtlich prüfen lassen. Angaben in [eckigen Klammern] fehlen noch.</p>
+<p>Stand: Oktober 2026</p>
+<h3>Kurz gesagt</h3>
+<ul>
+<li>Deine Inhalte – Lebensräder, Ziele, Tagebuch, Übungen – werden auf deinem Gerät verschlüsselt, bevor sie es verlassen (Ende-zu-Ende-Verschlüsselung). Lesen können sie nur deine Geräte, niemand sonst – auch wir nicht.</li>
+<li>Keine Werbung, kein Tracking, keine Analyse-Dienste, keine Cookies zu Werbe- oder Statistikzwecken.</li>
+<li>Die Server stehen in Frankfurt am Main (EU).</li>
+</ul>
+<h3>1. Verantwortlich</h3>
+<p>[Name des Betreibers]<br>[Anschrift]<br>E-Mail: [E-Mail-Adresse]</p>
+<h3>2. Welche Daten wir verarbeiten</h3>
+<ul>
+<li><strong>Konto:</strong> deine E-Mail-Adresse und dein Passwort. Das Passwort wird beim Anmeldedienst nur als sogenannter Hash gespeichert, nie im Klartext. Dazu kommen technische Angaben zur Anmeldung (Zeitpunkte, Anmelde-Token).</li>
+<li><strong>Deine Inhalte:</strong> Lebensräder (Ist- und Wunschwerte), Ziele, Ereignisse, Tagebuchseiten mit Text, Zeichnungen und Fotos, eigene Übungen, erledigte Übungen und deine Stimmung davor und danach. Diese Inhalte können Angaben zu deiner Gesundheit, deinem Glauben oder anderen sehr persönlichen Themen enthalten. Sie liegen bei uns ausschließlich verschlüsselt.</li>
+<li><strong>Technische Daten:</strong> Beim Aufruf der App und bei jeder Verbindung zum Server werden technisch nötige Daten verarbeitet, vor allem deine IP-Adresse, Datum und Uhrzeit, die angefragte Datei und die Art deines Browsers.</li>
+</ul>
+<h3>3. Ende-zu-Ende-Verschlüsselung</h3>
+<p>Bevor deine Inhalte an den Server gehen, verschlüsselt die App sie auf deinem Gerät mit AES-256-GCM. Der Schlüssel dafür wird auf deinem Gerät erzeugt. Er ist im Konto nur verschlossen hinterlegt: einmal mit deinem Passwort (abgeleitet mit PBKDF2-SHA256 und 600 000 Durchläufen) und einmal mit deinem Wiederherstellungs-Code. Auf dem Server sehen wir deshalb nur deine E-Mail-Adresse, die Zeitpunkte der Speicherung, die Größe und einen unlesbaren Datenblock.</p>
+<p><strong>Wichtig:</strong> Wenn du dein Passwort vergisst und auch deinen Wiederherstellungs-Code nicht mehr hast, kann niemand deine Daten im Konto wiederherstellen – auch wir nicht. Bewahre den Code deshalb sicher auf. Du findest ihn in den Einstellungen unter „Datenschutz“.</p>
+<h3>4. Speicherung auf deinem Gerät</h3>
+<p>Die App speichert deine Inhalte, deine Einstellungen (Sprache, Design) und deine Anmeldung im Speicher deines Browsers (localStorage) auf deinem Gerät. Das ist für die App technisch notwendig (§ 25 Abs. 2 Nr. 2 TDDDG). Auf dem Gerät selbst liegen die Daten unverschlüsselt. Schütze dein Gerät deshalb mit einer Code-Sperre. Beim Abmelden bleiben die Daten auf dem Gerät erhalten. Du kannst sie entfernen, indem du die Websitedaten im Browser löschst.</p>
+<h3>5. Dienstleister</h3>
+<ul>
+<li><strong>Supabase</strong> (Supabase Inc., USA; Rechenzentrum in Frankfurt am Main, EU): Anmeldung, E-Mails zum Zurücksetzen des Passworts und Speicherung deiner verschlüsselten Daten. [Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO – im Supabase-Dashboard abschließen und hier mit Datum nennen.]</li>
+<li><strong>GitHub Pages</strong> (GitHub Inc., USA): liefert die Dateien der App aus (Programm, Bilder, Klänge) und verarbeitet dabei deine IP-Adresse. GitHub ist nach dem EU-US Data Privacy Framework zertifiziert.</li>
+</ul>
+<p>Schriften, Bilder und Klänge kommen alle von der eigenen Adresse der App. Es gibt keine Verbindung zu Google oder anderen Drittanbietern.</p>
+<h3>6. Rechtsgrundlagen</h3>
+<ul>
+<li>Bereitstellung der App und deines Kontos: Art. 6 Abs. 1 lit. b DSGVO (Nutzungsvertrag).</li>
+<li>Inhalte mit Angaben zu Gesundheit, Glauben oder ähnlich besonderen Themen: deine ausdrückliche Einwilligung, Art. 9 Abs. 2 lit. a DSGVO. Du gibst sie, indem du solche Inhalte selbst einträgst. Du kannst sie jederzeit widerrufen, indem du die Inhalte löschst oder dein Konto löschen lässt.</li>
+<li>Technische Daten zur sicheren Auslieferung: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem sicheren, funktionierenden Angebot).</li>
+</ul>
+<h3>7. Wie lange wir Daten speichern</h3>
+<p>Deine Kontodaten und deine verschlüsselten Inhalte speichern wir, bis du dein Konto löschen lässt. Gelöschte Einträge werden beim nächsten Abgleich auch im Konto entfernt. Technische Protokolle der Dienstleister werden nach deren Fristen gelöscht, in der Regel nach wenigen Tagen bis Wochen.</p>
+<h3>8. Deine Rechte</h3>
+<p>Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21 DSGVO) sowie das Recht, eine Einwilligung zu widerrufen. Eine Kopie all deiner Inhalte bekommst du jederzeit selbst über „Backup herunterladen“ in den Einstellungen. Um dein Konto löschen zu lassen, schreib uns an [E-Mail-Adresse].</p>
+<p>Du kannst dich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der Behörde deines Bundeslandes.</p>
+<h3>9. Alter</h3>
+<p>eWolfe ist für Menschen ab 16 Jahren gedacht. Jüngere nutzen die App bitte nur mit Zustimmung ihrer Eltern.</p>
+<h3>10. Änderungen</h3>
+<p>Wenn sich die App ändert, passen wir diese Erklärung an. Die jeweils aktuelle Fassung steht immer hier in der App.</p>`,
+en:`<p class="privacy-draft">Draft – to be checked by a lawyer before the public launch. Details in [square brackets] are still missing.</p>
+<p>Last updated: October 2026</p>
+<h3>In short</h3>
+<ul>
+<li>Your content – wheels of life, goals, diary, exercises – is encrypted on your device before it leaves it (end-to-end encryption). Only your devices can read it, nobody else – not even us.</li>
+<li>No advertising, no tracking, no analytics services, no cookies for advertising or statistics.</li>
+<li>The servers are in Frankfurt am Main (EU).</li>
+</ul>
+<h3>1. Controller</h3>
+<p>[Name of the operator]<br>[Address]<br>Email: [email address]</p>
+<h3>2. What data we process</h3>
+<ul>
+<li><strong>Account:</strong> your email address and your password. The sign-in service stores the password only as a so-called hash, never in plain text. In addition, technical sign-in details (times, sign-in tokens).</li>
+<li><strong>Your content:</strong> wheels of life (current and wished values), goals, events, diary pages with text, drawings and photos, your own exercises, completed exercises and your mood before and after. This content may include information about your health, your faith or other very personal matters. We only ever hold it in encrypted form.</li>
+<li><strong>Technical data:</strong> when you open the app and whenever it connects to the server, technically necessary data is processed, above all your IP address, date and time, the requested file and your type of browser.</li>
+</ul>
+<h3>3. End-to-end encryption</h3>
+<p>Before your content goes to the server, the app encrypts it on your device with AES-256-GCM. The key for this is created on your device. It is only stored in the account in locked form: once with your password (derived with PBKDF2-SHA256 and 600,000 rounds) and once with your recovery code. On the server we therefore only see your email address, the times of saving, the size and an unreadable block of data.</p>
+<p><strong>Important:</strong> if you forget your password and no longer have your recovery code either, nobody can restore the data in your account – not even us. Keep the code in a safe place. You can find it in the settings under “Privacy”.</p>
+<h3>4. Storage on your device</h3>
+<p>The app stores your content, your settings (language, design) and your sign-in in your browser's storage (localStorage) on your device. This is technically necessary for the app (Section 25 (2) no. 2 TDDDG). On the device itself the data is not encrypted, so please protect your device with a passcode. When you sign out, the data stays on the device. You can remove it by deleting the website data in your browser.</p>
+<h3>5. Service providers</h3>
+<ul>
+<li><strong>Supabase</strong> (Supabase Inc., USA; data centre in Frankfurt am Main, EU): sign-in, emails for resetting the password, and storage of your encrypted data. [Data processing agreement under Art. 28 GDPR – conclude it in the Supabase dashboard and name it here with its date.]</li>
+<li><strong>GitHub Pages</strong> (GitHub Inc., USA): delivers the app's files (program, pictures, sounds) and processes your IP address in doing so. GitHub is certified under the EU-US Data Privacy Framework.</li>
+</ul>
+<p>Fonts, pictures and sounds all come from the app's own address. There is no connection to Google or other third parties.</p>
+<h3>6. Legal bases</h3>
+<ul>
+<li>Providing the app and your account: Art. 6 (1) (b) GDPR (contract of use).</li>
+<li>Content with information about health, faith or similarly special matters: your explicit consent, Art. 9 (2) (a) GDPR. You give it by entering such content yourself. You can withdraw it at any time by deleting the content or having your account deleted.</li>
+<li>Technical data for secure delivery: Art. 6 (1) (f) GDPR (legitimate interest in a secure, working service).</li>
+</ul>
+<h3>7. How long we keep data</h3>
+<p>We keep your account data and your encrypted content until you have your account deleted. Deleted entries are also removed from the account at the next sync. The service providers' technical logs are deleted according to their own periods, usually after a few days to weeks.</p>
+<h3>8. Your rights</h3>
+<p>You have the right of access (Art. 15), rectification (Art. 16), erasure (Art. 17), restriction (Art. 18), data portability (Art. 20) and objection (Art. 21 GDPR), and the right to withdraw consent. You can get a copy of all your content yourself at any time via “Download backup” in the settings. To have your account deleted, write to us at [email address].</p>
+<p>You can also complain to a data protection supervisory authority, for example the one in your country or region.</p>
+<h3>9. Age</h3>
+<p>eWolfe is meant for people aged 16 and over. Younger people should only use the app with their parents' consent.</p>
+<h3>10. Changes</h3>
+<p>When the app changes, we adapt this statement. The current version is always here in the app.</p>`
+};
+
 /* ---- what is synced, and how to tell whether it changed ---- */
 function syncPayload(st){
   return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {} };
@@ -7903,11 +8196,12 @@ async function syncPatch(rev, data){
 function syncCounts(st){
   return { cw: Math.max(0, ...AREAS.map(a=>(st.bewertungen[a] || []).length)), cp: backupSummary(st).diaryPages };
 }
-function syncRemember(uid, revision, hash, counts){
-  syncMetaSave(Object.assign({ userId:uid, revision, hash }, counts));
+function syncRemember(uid, revision, hash, counts, kv){
+  syncMetaSave(Object.assign({ userId:uid, revision, hash, kv:kv || 0 }, counts)); // kv: the version of the locks this device last wrote/read (1.95.0)
 }
 async function syncNow(){
   if(!sbSession) return;
+  if(!e2eReady()){ syncSet('off'); syncShowGate(); return; } // 1.95.0: never send anything unencrypted
   if(syncBusy){ syncAgain = true; return; }
   syncBusy = true; syncSet('syncing');
   clearTimeout(syncTimer); clearTimeout(syncRetryTimer);
@@ -7923,8 +8217,8 @@ async function syncNow(){
       const pristine = localIsPristine();
       const head = await syncGetHead();
       if(!head){
-        const row = await syncInsert(syncPayload(state));
-        if(row){ syncRemember(uid, row.revision, localHash, localCounts); if(!metaOk && !pristine) firstPairing = 'uploaded'; done = true; }
+        const row = await syncInsert(await e2eSeal(syncPayload(state)));
+        if(row){ syncRemember(uid, row.revision, localHash, localCounts, e2e.kv); if(!metaOk && !pristine) firstPairing = 'uploaded'; done = true; }
         continue;
       }
       // Two safety nets before this device may overwrite what is in the account:
@@ -7932,24 +8226,27 @@ async function syncNow(){
       // 2) wheels and diary pages are never removed by normal use, so if there are suddenly clearly fewer
       //    than at the last sync, something went wrong locally: merge with the account instead of uploading
       const shrunk = metaOk && (localCounts.cw < (meta.cw || 0) || localCounts.cp <= (meta.cp || 0) - 2);
-      if(metaOk && !pristine && !shrunk && head.revision === meta.revision){
-        if(localHash === meta.hash){ done = true; continue; } // nothing changed anywhere
-        const row = await syncPatch(head.revision, syncPayload(state));
-        if(row){ syncRemember(uid, row.revision, localHash, localCounts); done = true; }
+      // (a device with nothing of its own may write the very same state it just received – re-encrypted, e.g. data from before 1.95.0)
+      if(metaOk && !shrunk && head.revision === meta.revision && (!pristine || localHash === meta.hash)){
+        if(localHash === meta.hash && meta.kv === e2e.kv){ done = true; continue; } // nothing changed anywhere
+        const row = await syncPatch(head.revision, await e2eSeal(syncPayload(state)));
+        if(row){ syncRemember(uid, row.revision, localHash, localCounts, e2e.kv); done = true; }
         continue; // else: somebody wrote in between, look again
       }
       // the account has changed since this device last synced, or this device is new to it, or it needs protecting
       if(syncEditorOpen()){ deferred = true; break; }
       const full = await syncGetFull();
       if(!full) continue;
-      const remote = syncNormalize(full.data);
+      const remoteEnc = e2eIsEnv(full.data); // before 1.95.0 the data was stored unencrypted; it is encrypted with the next write
+      const remote = syncNormalize(remoteEnc ? await e2eOpen(full.data) : full.data);
       if(pristine || (metaOk && !shrunk && localHash === meta.hash)){
         remote.geloescht = delUnion(state.geloescht, remote.geloescht); // e.g. a sample meditation removed before signing in
         delApply(remote);
         syncApplyState(remote); // this device has nothing newer of its own: just receive
-        syncRemember(uid, full.revision, syncHash(state), syncCounts(state));
+        // remember the locks as they are in the account: if this device has newer ones (a new password), the next round writes them
+        syncRemember(uid, full.revision, syncHash(state), syncCounts(state), remoteEnc ? full.data.kv || 0 : 0);
         if(!metaOk) firstPairing = 'pulled';
-        done = true; continue;
+        done = remoteEnc && (full.data.kv || 0) === e2e.kv; continue; // unencrypted in the account: the next round writes it back encrypted
       }
       if(!metaOk){
         const other = meta.userId && meta.userId !== uid;
@@ -7959,8 +8256,8 @@ async function syncNow(){
       }
       const merged = syncMerge(state, remote);
       syncApplyState(merged.state);
-      const row = await syncPatch(full.revision, syncPayload(state));
-      if(row){ syncRemember(uid, row.revision, syncHash(state), syncCounts(state)); done = true; }
+      const row = await syncPatch(full.revision, await e2eSeal(syncPayload(state)));
+      if(row){ syncRemember(uid, row.revision, syncHash(state), syncCounts(state), e2e.kv); done = true; }
       // else: lost a race; the merged result is already local, loop and merge with the newer version
     }
     if(!done && !deferred) failed = new SbError(409, 'conflict', 'conflict');
@@ -7971,6 +8268,7 @@ async function syncNow(){
     syncBusy = false;
   }
   if(failed){
+    if(failed.code === 'e2e_key'){ e2eForget(); syncSet('off'); syncShowGate(); return; } // the account was locked with another key: unlock again
     if(!sbSession){ syncSet('off', t().eSession); syncShowGate(); }
     else{
       syncSet('error', syncErrText(failed));
@@ -8008,6 +8306,7 @@ function syncErrText(e){
   if(code === 'validation_failed' || code === 'email_address_invalid' || msg.includes('invalid email') || msg.includes('unable to validate email')) return d.eEmail;
   if(code === 'no_session') return d.eSession;
   if(code === 'conflict') return d.eConflict;
+  if(code === 'e2e_key') return d.e2eError;
   return d.eGeneric + ' ' + (e.message || e.status);
 }
 
@@ -8118,14 +8417,41 @@ function renderSyncModal(){
       <div class="form-block">
         <input type="email" autocomplete="username" value="${escapeHtml((sbSession && sbSession.user && sbSession.user.email) || '')}" style="display:none;">
         <input class="small-input" id="sync-pass" type="password" autocomplete="new-password" placeholder="${d.gateNewPwPh}" style="width:100%;margin-bottom:6px;">
+        <ul class="pw-rules" id="pw-rules">${pwRulesHtml('')}</ul>
         <div id="sync-form-msg" class="sync-msg"></div>
         <button class="primary-btn" style="width:100%;" id="sync-main-btn">${d.gateNewPwSave}</button>
         ${langBtn}
       </div>`;
     document.getElementById('sync-main-btn').onclick = syncSaveNewPassword;
     document.getElementById('sync-pass').addEventListener('keydown', e=>{ if(e.key === 'Enter') syncSaveNewPassword(); });
+    pwRulesWire();
     wireLang();
     setTimeout(()=>{ try{ document.getElementById('sync-pass').focus({ preventScroll:true }); }catch(e){} }, 50);
+  }else if(sbSession && !e2eReady()){
+    // 1.95.0: signed in, but this device does not have the data key yet – password (or recovery code) once
+    const email = (sbSession.user && sbSession.user.email) || '', code = e2eMode === 'code';
+    document.getElementById('t-sync-title').textContent = d.e2eUnlockTitle;
+    body.innerHTML = `
+      <p class="modal-sub">${escapeHtml(code ? d.e2eCodeIntro : d.e2eUnlockIntro.replace('{email}', email))}</p>
+      <div class="form-block">
+        <input type="email" autocomplete="username" value="${escapeHtml(email)}" style="display:none;">
+        ${code ? `<input class="small-input" id="sync-code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="${d.e2eCodePh}" style="width:100%;margin-bottom:8px;">` : ''}
+        ${e2ePendingPw ? '' : `<input class="small-input" id="sync-pass" type="password" autocomplete="current-password" placeholder="${d.syncPassword}" style="width:100%;margin-bottom:6px;">`}
+        <div id="sync-form-msg" class="sync-msg"></div>
+        <button class="primary-btn" style="width:100%;" id="sync-main-btn">${code ? d.e2eCodeBtn : d.e2eUnlockBtn}</button>
+        <button class="gate-link" id="e2e-switch-btn" style="padding-bottom:0;">${code ? d.e2eBackToPw : d.e2eUseCode}</button>
+        ${code ? `<button class="gate-link" id="e2e-reset-btn" style="padding-bottom:0;">${d.e2eNoCode}</button>` : ''}
+        <button class="gate-link" id="e2e-out-btn">${d.e2eSignOut}</button>
+        <div class="medi-attach-hint" style="margin-top:6px;">${d.syncPrivacy} <button class="gate-link" style="display:inline;padding:0;" onclick="privacyOpen()">${d.privacyLink}</button></div>
+        ${langBtn}
+      </div>`;
+    document.getElementById('sync-main-btn').onclick = e2eDoUnlock;
+    document.getElementById('e2e-switch-btn').onclick = ()=>{ e2eMode = code ? 'pw' : 'code'; syncGateNote = ''; renderSyncModal(); };
+    if(code) document.getElementById('e2e-reset-btn').onclick = e2eStartOver;
+    document.getElementById('e2e-out-btn').onclick = async ()=>{ await sbSignOut(); e2ePendingPw = ''; e2eMode = 'pw'; syncSet('off'); syncAuthMode = null; syncGateNote = ''; renderSyncModal(); };
+    ['sync-pass', 'sync-code'].forEach(id=>{ const el = document.getElementById(id); if(el) el.addEventListener('keydown', e=>{ if(e.key === 'Enter') e2eDoUnlock(); }); });
+    wireLang();
+    const f = document.getElementById(code ? 'sync-code' : 'sync-pass'); if(f) setTimeout(()=>{ try{ f.focus({ preventScroll:true }); }catch(e){} }, 50);
   }else if(sbSession){
     body.innerHTML = `
       <p class="modal-sub">${d.syncAs} <strong>${escapeHtml((sbSession.user && sbSession.user.email) || '')}</strong></p>
@@ -8156,11 +8482,12 @@ function renderSyncModal(){
       <div class="form-block">
         <input class="small-input" id="sync-email" type="email" autocomplete="username" placeholder="${d.syncEmail}" style="width:100%;margin-bottom:8px;" value="${escapeHtml(up ? '' : syncLastEmail())}">
         <input class="small-input" id="sync-pass" type="password" autocomplete="${up ? 'new-password' : 'current-password'}" placeholder="${d.syncPassword}" style="width:100%;margin-bottom:6px;">
+        ${up ? `<ul class="pw-rules" id="pw-rules">${pwRulesHtml('')}</ul>` : ''}
         <div id="sync-form-msg" class="sync-msg"></div>
         <button class="primary-btn" style="width:100%;" id="sync-main-btn">${up ? d.syncSignUp : d.syncSignIn}</button>
         ${up ? '' : `<button class="gate-link" id="sync-forgot-btn" style="padding-bottom:0;">${d.gateForgot}</button>`}
         <button class="gate-link" id="sync-switch-btn">${up ? d.gateHaveAccount : d.gateNoAccount}</button>
-        <div class="medi-attach-hint" style="margin-top:6px;">${d.syncPrivacy}</div>
+        <div class="medi-attach-hint" style="margin-top:6px;">${d.syncPrivacy} <button class="gate-link" style="display:inline;padding:0;" onclick="privacyOpen()">${d.privacyLink}</button></div>
         ${langBtn}
       </div>`;
     document.getElementById('sync-main-btn').onclick = ()=>syncDoAuth(mode);
@@ -8168,11 +8495,12 @@ function renderSyncModal(){
     if(!up) document.getElementById('sync-forgot-btn').onclick = ()=>{ syncAuthMode = 'forgot'; syncGateNote = ''; renderSyncModal(); };
     wireLang();
     document.getElementById('sync-pass').addEventListener('keydown', e=>{ if(e.key === 'Enter') syncDoAuth(mode); });
+    if(up) pwRulesWire();
     const focusEl = document.getElementById(!up && syncLastEmail() ? 'sync-pass' : 'sync-email');
     setTimeout(()=>{ try{ focusEl.focus({ preventScroll:true }); }catch(e){} }, 50);
   }
   const noteEl = document.getElementById('sync-form-msg');
-  if(syncGateNote && noteEl && !sbSession){ noteEl.textContent = syncGateNote; noteEl.className = 'sync-msg err'; }
+  if(syncGateNote && noteEl && (!sbSession || !e2eReady())){ noteEl.textContent = syncGateNote; noteEl.className = 'sync-msg err'; }
   syncUpdateUi();
 }
 async function syncDoAuth(mode){
@@ -8182,6 +8510,7 @@ async function syncDoAuth(mode){
   const setMsg = (txt, cls)=>{ msgEl.textContent = txt; msgEl.className = 'sync-msg' + (cls ? ' ' + cls : ''); };
   setMsg('');
   if(!email || !pass){ setMsg(t().eFill, 'err'); return; }
+  if(mode === 'up' && !pwOk(pass)){ setMsg(t().eWeak, 'err'); return; } // 1.95.0: the password rules
   const btns = [document.getElementById('sync-main-btn'), document.getElementById('sync-switch-btn')];
   btns.forEach(b=>b.disabled = true);
   try{
@@ -8195,10 +8524,13 @@ async function syncDoAuth(mode){
     syncGateNote = '';
     syncLastAt = 0;
     syncAuthMode = null;
+    // 1.95.0: the data key – from the account (unlocked with the password), or a new one with a recovery code
+    if(!(await e2eAfterAuth(pass))){ syncGateNote = t().e2eOldPw; syncSet('off'); renderSyncModal(); return; }
     syncSet('idle');
     const wasGate = document.getElementById('sync-modal').classList.contains('gate');
     if(wasGate) syncLeaveGate(); else renderSyncModal();
     await syncNow();
+    await e2eShowNewCode();
     // a brand-new person (nothing in the account either) goes on to create their first Lebensrad
     if(wasGate && sbSession && !maybeShowAreasIntro() && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
   }catch(e){
@@ -8227,7 +8559,7 @@ async function syncSaveNewPassword(){
   const pass = document.getElementById('sync-pass').value;
   const msgEl = document.getElementById('sync-form-msg'), btn = document.getElementById('sync-main-btn');
   const setMsg = (txt, cls)=>{ msgEl.textContent = txt; msgEl.className = 'sync-msg' + (cls ? ' ' + cls : ''); };
-  if(pass.length < 6){ setMsg(t().eWeak, 'err'); return; }
+  if(!pwOk(pass)){ setMsg(t().eWeak, 'err'); return; } // 1.95.0: the password rules
   btn.disabled = true;
   try{
     await sbRequest('/auth/v1/user', { method:'PUT', body:{ password:pass } });
@@ -8236,9 +8568,19 @@ async function syncSaveNewPassword(){
     setMsg(syncErrText(e), 'err'); btn.disabled = false; return;
   }
   syncRecovery = false; syncAuthMode = null; syncGateNote = '';
+  // 1.95.0: the data key now has to be locked with the new password. On this device it is already here; otherwise the recovery code opens it
+  try{
+    if(e2eReady()) await e2eRewrapPw(pass);
+    else{
+      const full = await syncGetFull();
+      if(full && e2eIsEnv(full.data)){ e2ePendingPw = pass; e2eMode = 'code'; syncGateNote = ''; renderSyncModal(); return; }
+      await e2eCreate(pass);
+    }
+  }catch(e){ setMsg(syncErrText(e), 'err'); btn.disabled = false; return; }
   syncLeaveGate();
   await uiNotice(t().gateNewPwDone);
   await syncNow();
+  await e2eShowNewCode();
   if(sbSession && !maybeShowAreasIntro() && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
 }
 function openSyncModal(){ renderSyncModal(); openModal('sync-modal'); }
@@ -8255,9 +8597,18 @@ function renderSettingsSync(){
   document.getElementById('sync-out-btn').onclick = async ()=>{ await sbSignOut(); closeModal('settings-modal'); syncSet('off'); syncAuthMode = null; syncShowGate(); };
   syncUpdateUi();
 }
-function openSettings(){ renderSettingsSync(); renderNotes(); openModal('settings-modal'); }
+function renderSettingsPrivacy(){
+  const d = t(), box = document.getElementById('settings-privacy');
+  box.innerHTML = (e2eReady() ? `<p class="settings-note e2e-badge">${d.e2eOn}</p><button class="ghost-btn settings-row" id="e2e-code-btn">${d.e2eShowCodeBtn}</button>` : '')
+    + `<button class="ghost-btn settings-row" onclick="privacyOpen()">${d.privacyLink}</button>`;
+  const b = document.getElementById('e2e-code-btn');
+  if(b) b.onclick = async ()=>{ try{ await e2eShowCodeDialog(await e2eCode(), false); }catch(e){ uiNotice(d.e2eError); } };
+}
+function privacyOpen(){ const d = t(); document.getElementById('privacy-title').textContent = d.privacyTitle; document.getElementById('privacy-body').innerHTML = PRIVACY[state.settings.lang === 'en' ? 'en' : 'de']; openModal('privacy-modal'); }
+function openSettings(){ renderSettingsSync(); renderSettingsPrivacy(); renderNotes(); openModal('settings-modal'); }
 function syncInit(){
   sbLoadSession();
+  e2eLoad();
   syncHandleAuthLink();
   document.getElementById('sync-btn').onclick = openSettings;
   if(sbSession){

@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.94.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.95.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -554,11 +554,19 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Lady-Rosentischchen weiter hinten (bottom −4 %); nach dem Tausch Bücher/Auto wird das eingetauschte Stück kleiner, wenn die Reihe sonst überläuft.
 - Prompts Weihnachtsbaum (schmiedeeiserner Ständer, alter Glasschmuck) und Adventskranz für alle drei Designs:
   Sammelordner „Weihnachtsbaum und Adventskranz – Prompts (24.10.2026).md“.
-- **Geplant (Datenschutz, noch nicht gebaut):** Ende-zu-Ende-Verschlüsselung (AES-256 auf dem Gerät, Schlüssel aus dem Passwort mit
-  absichtlich langsamer Ableitung, Wiederherstellungs-Code, Code in den Einstellungen wieder anzeigbar), Passwort-Regel wie Apple
-  (mind. 10 Zeichen, Groß-/Kleinbuchstabe, Zahl, Sonderzeichen, Häkchen je Regel), Speicher-Erinnerung (80 %/90 %, später 22 MB),
-  verschlüsseltes Backup + monatliche Erinnerung, danach IndexedDB statt localStorage und Fotos einzeln im Supabase-Speicher.
-  Grundsatz des Nutzers: Betreiber sehen keine Daten der Nutzer außer den technisch nötigen.
+- **1.95.0 Ende-zu-Ende-Verschlüsselung (gebaut):** Abschnitt „End-to-end encryption“ vor `syncPayload`. Ein zufälliger Datenschlüssel (AES-256-GCM)
+  je Konto verschlüsselt alles, was in `user_data.data` geht (Umschlag `{ e2e:1, v, z (gzip), kv, kdf, pw, rc, code, iv, ct }`). Der Schlüssel liegt im Konto
+  zweimal verschlossen: mit dem Passwort (PBKDF2-SHA256, 600 000 Runden, `pw`/`kdf`) und mit dem Wiederherstellungs-Code (24 Zeichen, `rc`); der Code selbst
+  liegt mit dem Datenschlüssel verschlüsselt im Umschlag (`code`), damit jedes entsperrte Gerät ihn in den Einstellungen wieder zeigen kann. Jedes Gerät hält
+  den Schlüssel lokal (`ewolfe_e2e_v1`). `kv` = Version der Schlösser: neues Passwort → neue `kv`, andere Geräte übernehmen neuere Schlösser beim Lesen
+  (`e2eOpen`); `syncRemember` merkt sich `kv`, eine Abweichung erzwingt einen Schreibvorgang. Ohne Schlüssel kein Sync: Sperre „Daten entsperren“
+  (Passwort, oder Code + Passwort, oder „Neu beginnen“ mit Warnung: `e2eStartOver`). Alte unverschlüsselte Zeilen werden beim ersten Sync verschlüsselt.
+  Passwort vergessen: neues Passwort → auf einem Gerät mit Schlüssel neu verschlossen (`e2eRewrapPw`), sonst Code nötig (`e2ePendingPw`).
+  Passwort-Regeln (`pwChecks`/`pwOk`, Häkchen `#pw-rules`): 10 Zeichen, groß, klein, Zahl, Sonderzeichen – bei „Konto erstellen“ und neuem Passwort.
+  Einstellungen → „Datenschutz“: Hinweis, „Wiederherstellungs-Code anzeigen“, Datenschutzerklärung (`PRIVACY` de/en, Fenster `#privacy-modal`, ENTWURF
+  mit Platzhaltern [Betreiber, Anschrift, E-Mail, AVV mit Supabase]). Getestet mit nachgebautem Supabase (Skript `e2etest.py` im Sammelordner).
+- **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
+  im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
 ## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
 - Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt
