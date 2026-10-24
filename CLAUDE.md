@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.93.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.93.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -536,6 +536,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   bleiben für Tagebuchseiten liegen). Medaillen in A Gentleman's Study unverändert alle am Frack.
 - 1.93.1: Die Treue-Uhr (60/150/250 aktive Tage) hängt nicht mehr am Lady-Kleid, sie steht im Regal; eine kleine Kaminuhr ist bestellt
   (Prompt in „3 Morning Retreat Style/Alle offenen Prompts – A Lady's Conservatory.md“), dann `RT_TRO.loyal` umstellen.
+- 1.93.2: Treue in A Lady's Conservatory = himbeerrote Kaminuhr mit Rosen und Gold (`rt2/clock`, `RT_TRO.loyal`), wächst je Stufe etwas (0,62/0,70/0,78). Original: „3 Morning Retreat Style/Originale ChatGPT/Kaminuhr (24.10.2026)“.
 - Prompts Weihnachtsbaum (schmiedeeiserner Ständer, alter Glasschmuck) und Adventskranz für alle drei Designs:
   Sammelordner „Weihnachtsbaum und Adventskranz – Prompts (24.10.2026).md“.
 - **Geplant (Datenschutz, noch nicht gebaut):** Ende-zu-Ende-Verschlüsselung (AES-256 auf dem Gerät, Schlüssel aus dem Passwort mit

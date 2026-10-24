@@ -1874,7 +1874,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; heig
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.93.1';
+const APP_VERSION = '1.93.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6360,7 +6360,7 @@ function tbRenderLibrary(){
   const VIT = appLevel() >= 6, isFeast = x=>/^(easter\d+|nikolaus2?|xmas2?)$/.test(x.id);
   // A Gentleman's Study (1.86.8): the exercise medals are pinned on the tailcoat of the dress form like orders, not on the shelf
   const DRESS = BIZ; // A Lady's Conservatory (21.10.2026): the embroidered green dress with the shoes, the brooches and the watch on the bodice
-  const onDress = x=>DRESS && x.group === 'ex'; // 1.93.1: the loyalty watch is no longer on the dress, it stands in the shelf (a small mantel clock is ordered)
+  const onDress = x=>DRESS && x.group === 'ex'; // 1.93.1: the loyalty watch is no longer on the dress, it stands in the shelf; since 1.93.2 as the rose mantel clock
   const allShown = trophyShelf().filter(x=>!onDress(x)), shown = VIT ? allShown.filter(x=>!isFeast(x)) : allShown, feast = VIT ? allShown.filter(isFeast) : [];
   const medals = DRESS ? trophyList().filter(x=>x.group === 'ex' && x.at).map(trophyRl).filter(x=>DRESS_ALL_MEDALS || x.stage === Math.max(...trophyList().filter(y=>y.group === 'ex' && y.at).map(y=>y.stage))) : [];
   const dressWatch = null;
@@ -6699,7 +6699,7 @@ const RT_TRO = {
   stones:[['rt2/cloche-stones-1', 0.842], ['rt2/cloche-stones-2', 0.842], ['rt2/cloche-stones-3', 0.845]], bowl:[['rt2/cloche-bowl-1', 0.848], ['rt2/cloche-bowl-2', 0.848], ['rt2/cloche-bowl-3', 0.85]],
   grat:[['rt2/card-rose', 1.261], ['rt2/cloche-hearts-2', 0.846], ['rt2/cloche-hearts-3', 0.85]], // first gratitude = the rose card (21.10.2026)
   // 21.10.2026: joy = the bicycle (instead of the sundial), +10 = the candlestick, arrived = the sailing boat, a true classic = the car
-  wheel:['rt2/armillary', 0.701], goal:['rt2/cup', 1.239], loyal:['rt2/watch', 0.723], joy:['rt2/bicycle', 1.551], up10:['rt2/candlestick', 0.246], upall:['rt2/flower-urn', 1.482],
+  wheel:['rt2/armillary', 0.701], goal:['rt2/cup', 1.239], loyal:['rt2/clock', 0.63] /* 24.10.2026: the rose mantel clock instead of the pocket watch */, joy:['rt2/bicycle', 1.551], up10:['rt2/candlestick', 0.246], upall:['rt2/flower-urn', 1.482],
   nikolaus:['rt2/nikolaus', 0.392], nikolaus2:['rt2/boot', 0.984], xmas:['rt2/star', 1.07], xmas2:['rt2/crib', 1.521]
 };
 const RT_EGGS = [['rt2/egg2-1', 0.668], ['rt2/egg2-2', 0.669], ['rt2/egg2-red1', 0.621], ['rt2/egg2-g1', 0.644], ['rt2/egg2-g2', 0.643]]; // on small gold stands (21.10.2026): raspberry, burgundy, red (only the gold band); the green ones follow
@@ -6716,7 +6716,7 @@ function trophyRl(x){
     const rs = RT_TRO[x.group] || RT_TRO[x.id];
     if(rs){ const r = Array.isArray(rs[0]) ? rs[Math.min(x.stage || 0, rs.length - 1)] : rs;
       const CLr = ['box', 'b478', 'lemon', 'stones', 'bowl', 'grat'];
-      const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.26 + x.stage * 0.03 : x.group === 'loyal' ? 0.6 : CLr.includes(x.group) ? 0.62 + x.stage * 0.12 : x.scale;
+      const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.26 + x.stage * 0.03 : x.group === 'loyal' ? 0.62 + x.stage * 0.08 /* the mantel clock grows a little with each stage */ : CLr.includes(x.group) ? 0.62 + x.stage * 0.12 : x.scale;
       return { ...x, img:(r[0].includes('/') ? '' : 'rt/') + r[0], aspect:r[1], scale }; }
   }
   let m = null;
