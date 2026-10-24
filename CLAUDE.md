@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.93.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.94.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -537,6 +537,15 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - 1.93.1: Die Treue-Uhr (60/150/250 aktive Tage) hängt nicht mehr am Lady-Kleid, sie steht im Regal; eine kleine Kaminuhr ist bestellt
   (Prompt in „3 Morning Retreat Style/Alle offenen Prompts – A Lady's Conservatory.md“), dann `RT_TRO.loyal` umstellen.
 - 1.93.2: Treue in A Lady's Conservatory = himbeerrote Kaminuhr mit Rosen und Gold (`rt2/clock`, `RT_TRO.loyal`), wächst je Stufe etwas (0,62/0,70/0,78). Original: „3 Morning Retreat Style/Originale ChatGPT/Kaminuhr (24.10.2026)“.
+- **1.94.0 Regal mit angebauter Vitrine (ab Stufe 6, alle Designs):** ein Möbel (Bilder des Nutzers „… – Regal mit Vitrine (neu)“), an den
+  Mittelwänden in drei Bilder geschnitten: `mw2|rl2|rt2/sv-narrow`, `sv-shelf`, `sv-vitrine` (+ `sv-narrow-fronts`/`sv-shelf-fronts`: Bodenkanten über
+  Augenhöhe und die Pflanzen Efeu/Monstera, die vor dem Bücherteil hängen). Daten in `SHELF_SV` (Fächer, `VX`/`VR` der Vitrine, Plakette `plaque`
+  [top, Höhe] → CSS `--plt`/`--plh`). Die Vitrine steckt dann in `.shelf-unit` (`.vit-joined`, ohne Lücke, gleiche Höhe). Hund und Mystery-Krippe stehen
+  vor der Vitrine, nicht vor der Plakette. Skripte (Freistellen vom Grau, Schneiden, Messen): Sammelordner „Bibliothek nach 1, 2, 3 Jahren (24.10.2026)“.
+  Neue Weihnachtsbäume (`mw2/tree`, `rl2/tree`, `rt2/tree`; schmiedeeiserner Ständer, alter Glasschmuck) links neben dem Regal (`.shelf-xmas-side`),
+  jetzt auch in A Gentleman's Study. Adventskränze bleiben die alten. Mystery und Gentleman: Regal hinten an der Wand und weiter links (`.lib-row.has-left`,
+  Raum nach unten verschoben). Lady: neuer Hintergrund „Gewächshaus mit Laterne“ (`rt2/conservatory`), Kleid weiter links, Hund 30 % größer,
+  Bücherstapel und Auto getauscht (Tausch nach dem Einräumen in `tbRenderLibrary`), Ziele-Pokal halb so groß.
 - Prompts Weihnachtsbaum (schmiedeeiserner Ständer, alter Glasschmuck) und Adventskranz für alle drei Designs:
   Sammelordner „Weihnachtsbaum und Adventskranz – Prompts (24.10.2026).md“.
 - **Geplant (Datenschutz, noch nicht gebaut):** Ende-zu-Ende-Verschlüsselung (AES-256 auf dem Gerät, Schlüssel aus dem Passwort mit
