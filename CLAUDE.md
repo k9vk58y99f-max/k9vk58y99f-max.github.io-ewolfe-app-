@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.97.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.97.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -582,6 +582,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Rad ≥ 91 Tage alt, Dialog „Jetzt ausfüllen“ (→ `openEvalModal`) / „Im Kalender erinnern“ (`wheelRemindCalendar`, .ics mit `RRULE:FREQ=MONTHLY;INTERVAL=3`,
   19 Uhr) / „Später“ (wieder nach 7 Tagen, `ewolfe_wheel_snooze`). Solange fällig, auch unter „Mitteilungen“ (`appNotes`, Punkt am Konto-Symbol).
   Wartet bis zu 10 s auf den ersten Sync, damit ein Rad von einem anderen Gerät zählt. `uiDialog` kennt jetzt `cancelText`.
+- 1.97.1 Startseite: großer Knopf „Ziele bearbeiten“ (`#home-goals-wrap`, Text `goalsEdit`) unter dem Rad, über „Frühere Lebensräder“; öffnet die Ziele-Seite (klickt `#goals-btn`), nur sichtbar, wenn es schon ein Rad gibt.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

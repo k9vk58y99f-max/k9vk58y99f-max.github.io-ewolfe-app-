@@ -1541,6 +1541,8 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 
 <div id="joy-deep-wrap"></div>
 <div class="home-new" id="home-new-wrap"><button class="primary-btn" id="new-bewertung-btn">Neues Lebensrad erstellen</button></div>
+<!-- 1.97.1 (wish of the user): a big button under the wheel, above the earlier wheels, to the goals page -->
+<div class="home-new" id="home-goals-wrap"><button class="primary-btn" id="home-goals-go" onclick="document.getElementById('goals-btn').click()">Ziele bearbeiten</button></div>
 <div class="goal-table-card wheel-hist-home" id="wheel-hist-home">
   <h3 id="t-wheel-hist-title">Frühere Lebensräder</h3>
   <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
@@ -1934,7 +1936,7 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.97.0';
+const APP_VERSION = '1.97.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -1992,7 +1994,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-10-24';
+const APP_BUILD = '2026-10-25';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -4698,6 +4700,7 @@ function applyLang(){
   document.getElementById('new-bewertung-btn').textContent = d.newWheel;
   document.getElementById('nav-home-label').textContent = d.navHome;
   document.getElementById('nav-goals-label').textContent = d.navGoals;
+  document.getElementById('home-goals-go').textContent = d.goalsEdit;
   document.getElementById('nav-areas-label').textContent = d.navAreas;
   if(document.getElementById('areas-page').classList.contains('open')) renderAreasPage();
   document.getElementById('t-goals-title').textContent = d.goalsTitle;
@@ -5426,6 +5429,7 @@ function renderWheelHistory(){
   const list = document.getElementById('wheel-history-list');
   wheelSnapshotsCache = getWheelSnapshots();
   document.getElementById('wheel-hist-home').style.display = isFirstRun() ? 'none' : '';
+  document.getElementById('home-goals-wrap').style.display = isFirstRun() ? 'none' : '';
   document.getElementById('home-new-wrap').style.display = 'none'; // since 1.76.0 wheels are made on the Bereiche page
   compareSelection = compareSelection.filter(i=>i < wheelSnapshotsCache.length);
   if(!wheelSnapshotsCache.length){ pinned.innerHTML=''; list.innerHTML = `<div class="note">${d.noWheelHist}</div>`; return; }
