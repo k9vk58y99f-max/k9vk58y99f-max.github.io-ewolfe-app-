@@ -1394,7 +1394,7 @@ html.theme-retreat .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.375)); justify-co
   background-position:calc(var(--lh) * -0.17) calc(100% + var(--lh) * 0.045); border-radius:14px; } /* 22.10.2026: newest conservatory – the furniture stands further left on the wall */
 html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--lh) * 0.099); }
 html.theme-retreat .lib-row{ gap:calc(var(--lh) * 0.012); }
-html.theme-retreat .shelf-orchid.shelf-xmas{ height:95%; /* 40 % bigger (24.10.2026) */ bottom:-11%; transform:translateX(-100%); }
+html.theme-retreat .shelf-orchid.shelf-xmas{ height:89.6%; bottom:-3%; transform:translateX(-96%); } /* 24.10.2026: tree and crib in exactly the same place in all designs */
 /* 21.10.2026: rooms for the other two designs as well (same size and position as the conservatory): A Gentleman's Study a navy country-house
    library with a park window, A Mystery World a magical library salon with a starry window */
 html:not(.theme-retreat) .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.39)); padding-bottom:calc(var(--lh) * 0.16) !important; min-width:max(100%, calc(var(--lh) * 2.36));
@@ -1433,7 +1433,7 @@ html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(247,243,234,0.8
 html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.44)), 520px); padding-left:calc(var(--sw) / var(--sa, 0.375) * 0.46); background-position-x:calc(var(--sw) / var(--sa, 0.375) * 0.01); } /* 1.92.3: room for the table next to the bookcase, the room moves along */
 html.theme-retreat .lib-row.has-orchid .shelf-unit{ scroll-margin-left:calc(var(--sw) / var(--sa, 0.375) * 0.46); } /* the snap must not hide the orchid */
 html.theme-retreat.theme-retreat :is(.modal-title, .scene-head h1, .tb-topbar h2, #t-scene-title, .modal-top h2){ color:var(--rt-burgundy) !important; } /* new colours: headings burgundy */
-html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; height:62%; transform:translateX(-98%); /* 1.92.3: beside the bookcase, not in front of it */ z-index:4; /* 21.10.2026: the inlaid table with roses */ /* 1.86.6: the hexagonal inlaid table with the orchid */ z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
+html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-4%; /* 24.10.2026: further back, on the same line as the Christmas tree */ height:62%; transform:translateX(-98%); /* 1.92.3: beside the bookcase, not in front of it */ z-index:4; /* 21.10.2026: the inlaid table with roses */ /* 1.86.6: the hexagonal inlaid table with the orchid */ z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
 /* 24.10.2026: after a year the cabinet is built onto the bookcase – no gap, exactly as high, one plinth with the plaque */
 html .lib-row .shelf-unit .vitrine-img.vit-joined{ width:calc(var(--sw) / var(--sa, 0.4) * var(--va)) !important; aspect-ratio:auto !important; height:calc(var(--sw) / var(--sa, 0.4)); margin:0 !important; background-size:100% 100% !important; background-repeat:no-repeat !important; flex:none; z-index:0; }
 html .lib-row .shelf-img.sv .club-plaque{ top:var(--plt) !important; height:var(--plh) !important; }
@@ -1441,11 +1441,11 @@ html .lib-row .shelf-unit .shelf-img.sv{ z-index:1; }
 /* the dog in front of the cabinet, not in front of the plaque (24.10.2026) */
 html .lib-row .shelf-img.sv .shelf-dog-lying{ right:-66% !important; }
 html .lib-row .shelf-img.sv .shelf-dog{ right:-62% !important; }
-button.shelf-crib-side.is-tro{ pointer-events:auto; background:none; border:0; padding:0; height:24%; bottom:-5%; transform:translateX(-122%); }
+button.shelf-crib-side.is-tro{ pointer-events:auto; background:none; border:0; padding:0; }
 button.shelf-crib-side.is-tro img{ height:100%; width:auto; display:block; }
 html .lib-row.has-xmas.has-xmas.has-xmas{ padding-left:calc(var(--lh) * 0.64) !important; } /* room for the bigger tree */
 html .lib-row.has-xmas .shelf-unit{ scroll-margin-left:calc(var(--lh) * 0.64) !important; }
-.shelf-unit > .shelf-crib-side{ position:absolute; left:0; bottom:-6%; height:30%; transform:translateX(-118%); z-index:4; pointer-events:none; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.45)); } /* in front of the tree */
+.shelf-unit > .shelf-crib-side{ position:absolute; left:0; bottom:-5%; height:20.4%; transform:translateX(-72%); /* 24.10.2026: all cribs equally high, 15 % smaller, further right towards the bookcase */ z-index:4; pointer-events:none; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.45)); } /* in front of the tree */
 html:not(.theme-biz) .lib-row .shelf-fox{ left:auto !important; right:-175% !important; } /* 24.10.2026: right beside the cabinet, where the other designs have the dress */
 /* the Christmas tree of A Mystery World and A Gentleman's Study: left beside the bookcase, like the Lady's */
 .shelf-unit > .shelf-xmas-side{ position:absolute; left:0; bottom:-3%; height:89.6%; /* 40 % bigger (24.10.2026) */ transform:translateX(-96%); z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.4)); }
@@ -1901,7 +1901,7 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.94.1';
+const APP_VERSION = '1.94.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6475,6 +6475,9 @@ function tbRenderLibrary(){
     const A = find(fa), B = find(fb); if(!A || !B || A[0] === B[0]) return;
     const a = pl.rows[A[0]][A[1]], b = pl.rows[B[0]][B[1]], fA = rowHs[B[0]] ? rowHs[A[0]] / rowHs[B[0]] : 1;
     pl.rows[A[0]][A[1]] = { ...b, h:b.h / fA, w:b.w / fA }; pl.rows[B[0]][B[1]] = { ...a, h:a.h * fA, w:a.w * fA }; // same size in every compartment
+    // if a row is now too full (the car is wider than the books), the swapped-in piece gets a little smaller – never the others
+    [[A[0], A[1]], [B[0], B[1]]].forEach(([r, j])=>{ const over = usedW(pl.rows[r]) - (rowCap(r) - 2 * WALL);
+      if(over > 0){ const it = pl.rows[r][j], f = Math.max(0.6, (it.w - over) / it.w); pl.rows[r][j] = { ...it, h:it.h * f, w:it.w * f }; } });
   });
   // whatever still does not fit stands on top of the shelf (as before)
   const packed = pl.rows.concat(pl.rest.length ? [pl.rest.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:1.6 }))] : []);
