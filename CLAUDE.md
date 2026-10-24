@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.95.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.95.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -552,6 +552,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Herren-Schneiderpuppe so hoch wie das Lady-Kleid (`--dh` = Regalhöhe × 0,96).
 - 1.94.2: Bäume und Krippen in allen Designs an derselben Stelle und gleich groß (Baum 89,6 % Regalhöhe, Krippe 20,4 %, rechts vor dem Baum);
   Lady-Rosentischchen weiter hinten (bottom −4 %); nach dem Tausch Bücher/Auto wird das eingetauschte Stück kleiner, wenn die Reihe sonst überläuft.
+- 1.95.1 Lady-Regal: obere zwei Reihen enden tiefer im Boden, die ganze Bodenkante liegt davor (`rt2/sv-*-fronts`, Perspektive); Bücherstapel ×0,65,
+  Kerzenständer ×1,2, Fahrrad ×0,8, Bouquet ×1,2, Glasglocken ×0,85, Rosenquarz-Obelisk ×0,8 (`trophyRl`). Fach mit dem Bücherstapel: Boot links, Bouquet
+  mittig, Bücher ganz rechts (`row.spread` → `.tro-spread`); passt es nicht, gibt erst das Bouquet (bis 75 %), dann die Bücher (bis 60 %) nach.
 - Prompts Weihnachtsbaum (schmiedeeiserner Ständer, alter Glasschmuck) und Adventskranz für alle drei Designs:
   Sammelordner „Weihnachtsbaum und Adventskranz – Prompts (24.10.2026).md“.
 - **1.95.0 Ende-zu-Ende-Verschlüsselung (gebaut):** Abschnitt „End-to-end encryption“ vor `syncPayload`. Ein zufälliger Datenschlüssel (AES-256-GCM)

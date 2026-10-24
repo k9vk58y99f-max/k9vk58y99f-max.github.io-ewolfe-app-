@@ -708,6 +708,7 @@ html:not(.theme-retreat) .lib-row{ padding-left:max(8px, calc((100cqw - var(--sw
 .shelf-roof .shelf-trophy:hover, .shelf-roof .shelf-trophy:active{ transform:scale(1.06); }
 .shelf-comp{ position:absolute; display:flex; align-items:flex-end; justify-content:flex-start; gap:0 0.45%; padding:0 0.6%; container-type:size; overflow:visible; } /* in % of the compartment: cqh here would measure the screen, not the shelf (1.73.2) */
 .shelf-comp-tro{ justify-content:center; }
+.shelf-comp.tro-spread{ justify-content:space-between; padding:0 3%; } /* boat left, bouquet in the middle, books at the far right (A Lady's Conservatory) */
 .shelf-comp.shelf-comp-books{ padding:0; gap:0; } /* gaps on the children: their cqh measure the compartment (1.75.0) */
 .shelf-comp.shelf-comp-books > *{ margin-left:0.7cqh; }
 .shelf-comp.shelf-comp-books > :first-child{ margin-left:6cqh; } /* a little air to the left wall */
@@ -1932,7 +1933,7 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.95.0';
+const APP_VERSION = '1.95.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6423,7 +6424,7 @@ const SHELF_SV = {
     shelf:{ img:'rl2/sv-shelf', fronts:'rl2/sv-shelf-fronts', aspect:416 / 1164, roof:3.6, x:[2.4, 97.1], rows:[[12.4, 26.5], [27, 42.2], [42.6, 57.2], [57.7, 71.8], [73.2, 88]], plaque:[94.8, 3.4] },
     vit:{ img:'rl2/sv-vitrine', aspect:416 / 1164, VX:[7.5, 83.7], VR:[[12.4, 26.9], [27.1, 42.3], [42.5, 57.5], [57.7, 73.2], [73.5, 88]] } },
   rt:{ narrow:{ img:'rt2/sv-narrow', fronts:'rt2/sv-narrow-fronts', aspect:292 / 1133, x:[27.4, 95.2], k:292 / 484, ov:0 },
-    shelf:{ img:'rt2/sv-shelf', fronts:'rt2/sv-shelf-fronts', aspect:484 / 1133, roof:0.8, x:[2.9, 97.1], rows:[[8.8, 24], [24.8, 39.4], [39.9, 55.2], [56.2, 70.6], [72.6, 88]], plaque:[94.3, 3.7] },
+    shelf:{ img:'rt2/sv-shelf', fronts:'rt2/sv-shelf-fronts', aspect:484 / 1133, roof:0.8, x:[2.9, 97.1], rows:[[8.8, 24.4], [24.8, 39.6], [39.9, 55.2], [56.2, 70.6], [72.6, 88]], plaque:[94.3, 3.7] },
     vit:{ img:'rt2/sv-vitrine', aspect:426 / 1133, VX:[7, 83.3], VR:[[8.8, 24.1], [24.5, 39.6], [40.1, 56], [56.5, 72], [72.6, 87.4]] } }
 };
 const shelfKey = ()=>BIZ ? (!RETREAT && appLevel() >= 3 ? 'rlPlant' : 'rl') : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
@@ -6542,6 +6543,24 @@ function tbRenderLibrary(){
     [[A[0], A[1]], [B[0], B[1]]].forEach(([r, j])=>{ const over = usedW(pl.rows[r]) - (rowCap(r) - 2 * WALL);
       if(over > 0){ const it = pl.rows[r][j], f = Math.max(0.6, (it.w - over) / it.w); pl.rows[r][j] = { ...it, h:it.h * f, w:it.w * f }; } });
   });
+  // 24.10.2026 (wish of the user), A Lady's Conservatory: the bouquet joins the book stack's compartment – boat left, bouquet in the middle,
+  // books at the far right; if the row is too full, the bouquet gets a little smaller first, then the books
+  if(RETREAT){
+    const loc = f=>{ for(let i = 0; i < pl.rows.length; i++){ const j = pl.rows[i].findIndex(it=>!it.book && f(it.x)); if(j >= 0) return [i, j]; } return null; };
+    const P = loc(x=>x.group === 'page');
+    // take a piece out of its compartment and into the books' one (same size in every compartment)
+    const take = f=>{ const L = loc(f); if(!L || !P || L[0] === P[0]) return null; const it = pl.rows[L[0]].splice(L[1], 1)[0], g = rowHs[L[0]] / rowHs[P[0]]; return { ...it, h:it.h * g, w:it.w * g }; };
+    if(P){
+      const uMoved = take(x=>x.id === 'upall'), bMoved = take(x=>x.id === 'arrived');
+      const row = pl.rows[P[0]], books = row.find(it=>!it.book && it.x.group === 'page');
+      const u = uMoved || row.find(it=>!it.book && it.x.id === 'upall'), boat = bMoved || row.find(it=>!it.book && it.x.id === 'arrived');
+      const rest = row.filter(it=>it !== books && it !== boat && it !== u);
+      const ordered = [boat, ...rest, u, books].filter(Boolean);
+      row.length = 0; ordered.forEach(it=>row.push(it)); row.spread = true;
+      const fit = (it, min)=>{ const over = usedW(row) - (rowCap(P[0]) - 2 * WALL); if(over > 0){ const i = row.indexOf(it), g = Math.max(min, (it.w - over) / it.w); row[i] = { ...it, h:it.h * g, w:it.w * g }; } };
+      fit(row[row.length - 2], 0.75); fit(row[row.length - 1], 0.6); // the bouquet gives way a little first, then the books
+    }
+  }
   // whatever still does not fit stands on top of the shelf (as before)
   const packed = pl.rows.concat(pl.rest.length ? [pl.rest.map(o=>({ ...o, h:o.h * k, w:o.w * k, g:1.6 }))] : []);
   const roof = packed.slice(SHELF_ROWS.length).flat().filter(it=>!it.book);
@@ -6574,7 +6593,7 @@ function tbRenderLibrary(){
       <div class="shelf-roof-side">${roof.slice(0, half).map(troHtml).join('')}</div><div class="shelf-roof-side right">${roof.slice(half).map(troHtml).join('')}</div></div>` : '';
   const shelfHtml = `<div class="shelf-img${SH.plaque ? ' sv' : ''}" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%;aspect-ratio:${(SH.aspect || 1).toFixed(4)}${SH.plaque ? `;--plt:${SH.plaque[0]}%;--plh:${SH.plaque[1]}%` : ''}">${clubPlaqueHtml()}${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rowsAll[i];
-      return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : row ? ' shelf-comp-books' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
+      return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : row ? ' shelf-comp-books' : ''}${row && row.r.spread ? ' tro-spread' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}${SH.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${SH.fronts}.webp)"></div>` : ''}</div>`;
   const next = trophyNext();
   // the cabinet: four glass compartments (in % of img/vitrine.webp), trophies centred, a little smaller if needed
@@ -6829,7 +6848,7 @@ const RT_BOOKS = [['rt2/books-1', 3.455, 0.31], ['rt2/books-2', 2.151, 0.47], ['
 const rlMissing = x=>BIZ && x.kind === 'img' && !(RETREAT ? /^rt2\//.test(x.img || '') || /^rt\/armillary/.test(x.img || '') : /^rl\//.test(x.img || '')); // new colours: only rt2/ is new (the cloches no longer fit) // A Lady's Conservatory: own pictures in rt/ (1.86.8)
 function trophyRl(x){
   if(RETREAT){ // A Lady's Conservatory: its own picture where there is one (1.86.8)
-    if(x.group === 'page') return { ...x, img:RT_BOOKS[x.stage][0], aspect:RT_BOOKS[x.stage][1], scale:RT_BOOKS[x.stage][2] };
+    if(x.group === 'page') return { ...x, img:RT_BOOKS[x.stage][0], aspect:RT_BOOKS[x.stage][1], scale:RT_BOOKS[x.stage][2] * 0.65 }; // 24.10.2026: the book stack clearly smaller
     if(/^easter\d+$/.test(x.id)){ const i = FAB_IDX(x), e = RT_EGGS[i % RT_EGGS.length], y = x.id.slice(6);
       return { ...x, img:e[0], aspect:e[1], scale:[0.42, 0.44, 0.46][Math.min(i, 2)], /* much smaller than the Fabergé eggs (21.10.2026) */ title:(state.settings.lang === 'en' ? 'Easter egg ' : 'Osterei ') + y }; }
     if(x.id === 'arrived') return { ...x, img:'rt2/sailboat', aspect:1.119, scale:0.8 };
@@ -6837,7 +6856,8 @@ function trophyRl(x){
     const rs = RT_TRO[x.group] || RT_TRO[x.id];
     if(rs){ const r = Array.isArray(rs[0]) ? rs[Math.min(x.stage || 0, rs.length - 1)] : rs;
       const CLr = ['box', 'b478', 'lemon', 'stones', 'bowl', 'grat'];
-      const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.26 + x.stage * 0.03 : x.group === 'loyal' ? 0.62 + x.stage * 0.08 /* the mantel clock grows a little with each stage */ : x.group === 'goal' ? x.scale * 0.5 /* 24.10.2026: the red cup half as big */ : CLr.includes(x.group) ? 0.62 + x.stage * 0.12 : x.scale;
+      // 24.10.2026 (wish of the user): stone obelisk 20 % smaller, cloches 15 % smaller, bicycle 20 % smaller, candlestick 20 % taller, bouquet 20 % bigger
+      const scale = x.group === 'streak' ? (0.5 + x.stage * 0.1) * 0.8 : x.group === 'joy' ? x.scale * 0.8 : x.id === 'up10' ? x.scale * 1.2 : x.id === 'upall' ? x.scale * 1.2 : x.group === 'ex' ? 0.26 + x.stage * 0.03 : x.group === 'loyal' ? 0.62 + x.stage * 0.08 /* the mantel clock grows a little with each stage */ : x.group === 'goal' ? x.scale * 0.5 /* 24.10.2026: the red cup half as big */ : CLr.includes(x.group) ? (0.62 + x.stage * 0.12) * 0.85 : x.scale;
       return { ...x, img:(r[0].includes('/') ? '' : 'rt/') + r[0], aspect:r[1], scale }; }
   }
   let m = null;
