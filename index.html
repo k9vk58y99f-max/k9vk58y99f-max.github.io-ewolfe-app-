@@ -1230,6 +1230,19 @@ html.theme-retreat .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96
 html.theme-retreat .dress-medals{ left:41.5%; top:17.8%; width:17%; row-gap:0; } /* centred under the dip of the sweetheart neckline (1.92.2) */
 html.theme-retreat .dress-medal{ margin:0 calc(var(--dh) * -0.002); filter:drop-shadow(0 1px 1px rgba(0,0,0,0.4)); }
 html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
+/* 1.93.0: one brooch, centred under the dip of the neckline (positions per dress) */
+.dress-brooch{ position:absolute; left:var(--bx, 50%); top:var(--by, 19%); transform:translate(-50%, -50%); background:none; border:none; padding:0; cursor:pointer; filter:drop-shadow(0 1px 1.5px rgba(0,0,0,0.45)); z-index:2; }
+.dress-brooch img{ display:block; height:calc(var(--dh) * 0.034); width:auto; }
+.lib-dress-wrap.dress-wide{ --bx:50%; --by:19.6%; }
+.lib-dress-wrap.dress-emerald{ --bx:51.9%; --by:19.8%; }
+.lib-dress-wrap.dress-celadon{ --bx:51.1%; --by:19.4%; }
+.lib-dress-wrap.dress-emerald .dress-watch, .lib-dress-wrap.dress-celadon .dress-watch{ left:30%; top:25.5%; }
+.brooch-pick{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:10px 0 6px; }
+.brooch-pick-btn{ width:44px; height:44px; padding:4px; border-radius:10px; border:1px solid var(--ew-line); background:transparent; cursor:pointer; }
+.brooch-pick-btn.on{ border-color:var(--gold); box-shadow:0 0 0 1px var(--gold); }
+.brooch-pick-btn img{ width:100%; height:100%; object-fit:contain; display:block; }
+.brooch-worn{ font-size:var(--fs-text); color:var(--gold-text); margin:4px 0 8px; }
+.brooch-wear-btn{ margin:4px auto 8px; }
 .dress-watch{ position:absolute; left:33%; top:30%; background:none; border:none; padding:0; cursor:pointer; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4)); }
 .dress-watch img{ display:block; height:calc(var(--dh) * 0.05); width:auto; }
 html.theme-biz .lib-wrap.more::after{ border-radius:2px; }
@@ -1861,7 +1874,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; heig
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.92.4';
+const APP_VERSION = '1.93.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4332,8 +4345,8 @@ Object.assign(I18N.de, { diaryLandPhone:'Tipp: Auf dem Handy ist das Hochformat 
 Object.assign(I18N.de, { diaryLandPhoneWarn:'Querformat auf dem Handy?\n\nAuf dem Handy wird eine Querformat-Seite sehr klein: die Schrift ist winzig und Schreiben und Zeichnen sind mühsam. Das Format gilt für das ganze Buch und lässt sich später nicht ändern.\n\nWenn du vor allem am Handy schreibst, nimm lieber das Hochformat.', diaryLandKeep:'Trotzdem Querformat' });
 Object.assign(I18N.en, { diaryLandPhoneWarn:'Landscape on a phone?\n\nOn a phone a landscape page becomes very small: the text is tiny and writing and drawing are fiddly. The format applies to the whole book and cannot be changed later.\n\nIf you mostly write on your phone, portrait is the better choice.', diaryLandKeep:'Landscape anyway' });
 Object.assign(I18N.en, { diaryLandPhone:'Tip: on a phone the portrait format is more comfortable. Landscape suits tablets and computers better.' });
-Object.assign(I18N.de, {"trophyToDiary": "Ins Tagebuch", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
-Object.assign(I18N.en, {"trophyToDiary": "Add to diary", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
+Object.assign(I18N.de, {"broochWear": "Am Kleid tragen", "broochWorn": "Diese Brosche trägt das Kleid", "trophyToDiary": "Ins Tagebuch", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
+Object.assign(I18N.en, {"broochWear": "Wear on the dress", "broochWorn": "The dress wears this brooch", "trophyToDiary": "Add to diary", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
 Object.assign(I18N.de, { designHint:'Die App startet danach kurz neu. Deine Daten bleiben, wie sie sind.' });
 Object.assign(I18N.en, { designHint:'The app restarts briefly. Your data stays as it is.' });
 Object.assign(I18N.de, { setDecor:'Tiere & Feiertagsschmuck', decorOn:'Anzeigen', decorOff:'Ausblenden', decorHint:'Tiere am Regal, Osterhase, Nikolaus, Adventskranz, Baum und Schnee. Deine Trophäen bleiben immer.' });
@@ -6351,6 +6364,10 @@ function tbRenderLibrary(){
   const allShown = trophyShelf().filter(x=>!onDress(x)), shown = VIT ? allShown.filter(x=>!isFeast(x)) : allShown, feast = VIT ? allShown.filter(isFeast) : [];
   const medals = DRESS ? trophyList().filter(x=>x.group === 'ex' && x.at).map(trophyRl).filter(x=>DRESS_ALL_MEDALS || x.stage === Math.max(...trophyList().filter(y=>y.group === 'ex' && y.at).map(y=>y.stage))) : [];
   const dressWatch = DRESS && RETREAT ? trophyShelf().filter(x=>x.group === 'loyal').map(trophyRl)[0] : null;
+  // A Lady's Conservatory (1.93.0): the wide dress at first, after a year the slim emerald one, every year 24.12.–1.1. the celadon one;
+  // only ONE brooch, in the middle of the neckline – the one chosen in the trophy view, otherwise the most precious reached
+  const dressKind = RETREAT ? (isXmasDressTime() ? 'celadon' : appLevel() >= 6 ? 'emerald' : 'wide') : '';
+  const worn = RETREAT ? broochWorn() : null;
   const tro = shown.map(x=>{ const h = (x.kind === 'img' ? 96 : 80) * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
   const fill = (items, gap, maxW)=>{ const rows = []; let cur = [], used = 0;
     items.forEach(it=>{ if(cur.length && used + it.w + gap > (maxW || SHELF_ROW_W - 8)){ rows.push(cur); cur = []; used = 0; } cur.push(it); used += it.w + gap; });
@@ -6477,7 +6494,7 @@ function tbRenderLibrary(){
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : ''}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}</div>${DRESS ? `<div class="lib-dress-wrap"><img class="lib-dress" src="img/${RETREAT ? 'rt2/dress-shoes' : 'rl/dress-form'}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div></div>` : ''}${vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}</div>${DRESS ? `<div class="lib-dress-wrap${dressKind ? ' dress-' + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl/dress-form'}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" onclick="trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div>` : ''}${vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;
@@ -6675,7 +6692,7 @@ const RL_EGGS = [['egg-cream', 0.57, 0.75], ['egg-cobalt', 0.58, 0.9], ['egg-gre
 // boot, star, crib, Easter eggs) keeps the picture of A Gentleman's Study as placeholder
 const RT_TRO = {
   // new colours (preview 21.10.2026, img/rt2/): brooches and rose quartz in the colours of the colour card
-  ex:[['rt2/brooch-1', 0.969], ['rt2/brooch-2', 0.985], ['rt2/brooch-3', 0.985], ['rt2/brooch-4', 1.003], ['rt2/brooch-5', 1.003], ['rt2/brooch-6', 0.997]],
+  ex:[['rt2/brooch-n1', 0.594], ['rt2/brooch-n2', 0.769], ['rt2/brooch-n3', 1.019], ['rt2/brooch-n4', 0.927], ['rt2/brooch-n5', 0.882], ['rt2/brooch-n6', 0.681]], // 24.10.2026: new antique brooches (spray, violets, basket, star flower, wreath, Victorian diamond)
   streak:[['rt2/quartz-1', 0.537], ['rt2/quartz-2', 0.524], ['rt2/quartz-3', 0.505], ['rt2/quartz-4', 0.496], ['rt2/quartz-5', 0.442], ['rt2/quartz-6', 0.464]],
   box:[['rt2/cloche-lotus-1', 0.84], ['rt2/cloche-lotus-2', 0.841], ['rt2/cloche-lotus-3', 0.841]],
   b478:[['rt2/cloche-cherry-1', 0.84], ['rt2/cloche-cherry-2', 0.84], ['rt2/cloche-cherry-3', 0.84]], lemon:[['rt2/cloche-lemon-1', 0.846], ['rt2/cloche-lemon-2', 0.846], ['rt2/cloche-lemon-3', 0.846]], // new colours (21.10.2026)
@@ -6747,13 +6764,24 @@ function trophySvg(x, id){
     + `<circle cy="${56 - r}" r="${r + 26}" fill="url(#${P}g)"/><circle cy="${56 - r}" r="${r}" fill="url(#${P}o)"/><ellipse cx="${-r * 0.35}" cy="${56 - r * 1.4}" rx="${r * 0.32}" ry="${r * 0.18}" fill="#fff" fill-opacity="0.7"/>${stand}</svg>`;
 }
 let trophyCur = null;
+// A Lady's Conservatory: one brooch on the dress (1.93.0), chosen per device (state.settings.brooch), else the most precious reached
+function isXmasDressTime(now){ now = now || new Date(); const m = now.getMonth(), d = now.getDate(); return (m === 11 && d >= 24) || (m === 0 && d <= 1); }
+function broochesReached(){ return trophyList().filter(x=>x.group === 'ex' && x.at).sort((a, b)=>a.stage - b.stage); }
+function broochWorn(){ const got = broochesReached(); return got.find(x=>x.id === state.settings.brooch) || got[got.length - 1] || null; }
+function broochWear(id){ state.settings.brooch = id; saveState(); trophyShow(id); if(typeof tbRender === 'function' && tbView === 'library') tbRender(); }
+function broochPickHtml(x){
+  if(!RETREAT || x.group !== 'ex' || !x.at) return '';
+  const d = t(), got = broochesReached(), w = broochWorn();
+  return `<div class="brooch-pick">${got.map(b=>`<button class="brooch-pick-btn${b.id === x.id ? ' on' : ''}" onclick="event.stopPropagation(); trophyShow('${b.id}')" aria-label="${escapeHtml(b.title)}"><img src="img/${trophyRl(b).img}.webp" alt=""></button>`).join('')}</div>
+    ${w && w.id === x.id ? `<div class="brooch-worn">${d.broochWorn}</div>` : `<button class="ghost-btn brooch-wear-btn" onclick="event.stopPropagation(); broochWear('${x.id}')">${d.broochWear}</button>`}`;
+}
 function trophyShow(id, isNew){
   const d = t(), x = trophyList().find(y=>y.id === id); if(!x) return;
   trophyCur = x;
   const date = x.at > 1 ? new Date(x.at).toLocaleDateString(state.settings.lang === 'en' ? 'en-GB' : 'de-DE', { day:'2-digit', month:'2-digit', year:'numeric' }) : '';
   document.getElementById('trophy-box').innerHTML = `${isNew ? `<div class="trophy-new">${d.trophyNew}</div>` : ''}
     <div class="trophy-pic${trophyPh(x) ? ' ph-note' : ''}">${trophySvg(x, 'big' + x.id)}${TROPHY_PLACEHOLDER && x.kind !== 'img' ? `<div class="imp-ph trophy-ph">${d.impulsePlaceholder}</div>` : ''}</div>
-    <h3 class="trophy-title">${escapeHtml(x.title)}</h3><p class="trophy-desc">${escapeHtml(x.desc)}</p>${date ? `<div class="trophy-date">${d.trophySince.replace('{d}', date)}</div>` : ''}
+    <h3 class="trophy-title">${escapeHtml(x.title)}</h3><p class="trophy-desc">${escapeHtml(x.desc)}</p>${date ? `<div class="trophy-date">${d.trophySince.replace('{d}', date)}</div>` : ''}${broochPickHtml(x)}
     ${x.kind === 'img' ? `<button class="ghost-btn trophy-diary-btn" onclick="event.stopPropagation(); trophyToDiary()">${ico('book')}${d.trophyToDiary}</button>` : ''}
     <div class="imp-hint">${d.impulseTapHint}</div>`;
   const box = document.getElementById('trophy-box'); box.classList.remove('flip'); void box.offsetWidth; box.classList.add('flip');

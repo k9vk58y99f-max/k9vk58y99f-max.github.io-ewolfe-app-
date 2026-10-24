@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.92.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.93.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -528,6 +528,12 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   (Rest vom Freistellen) – durch die Löcher schien die grüne Wand als helle Bögen. Löcher geschlossen (Alpha 255 im Inneren), Regal-Rückwände
   zusätzlich glatt nachgerechnet. Andere Designs geprüft: dort nur Randpixel. Neue Bilder nach dem Freistellen immer vor einer
   farbigen Fläche prüfen.
+- **1.93.0 Lady-Kleider und Broschen:** bis Stufe 6 das weite Kleid (`rt2/dress-shoes`), ab einem Jahr das schmale Smaragd-Kleid
+  (`rt2/dress-emerald`), jedes Jahr 24.12.–1.1. das Seladon-Kleid mit Goldstickerei (`rt2/dress-celadon`, `isXmasDressTime`); Klasse
+  `dress-<art>` an `.lib-dress-wrap` setzt die Lage der Brosche (`--bx`/`--by`, waagerecht mittig im Ausschnitt). Nur **eine** Brosche
+  (`.dress-brooch`): die in der Trophäen-Ansicht gewählte (`broochPickHtml`, `broochWear`, je Gerät `state.settings.brooch`), sonst die
+  kostbarste erreichte (`broochWorn`). Neue Broschen `rt2/brooch-n1…6` (neue Namen gegen alte Zwischenspeicher; die alten `brooch-1…6`
+  bleiben für Tagebuchseiten liegen). Medaillen in A Gentleman's Study unverändert alle am Frack.
 - Prompts Weihnachtsbaum (schmiedeeiserner Ständer, alter Glasschmuck) und Adventskranz für alle drei Designs:
   Sammelordner „Weihnachtsbaum und Adventskranz – Prompts (24.10.2026).md“.
 - **Geplant (Datenschutz, noch nicht gebaut):** Ende-zu-Ende-Verschlüsselung (AES-256 auf dem Gerät, Schlüssel aus dem Passwort mit
