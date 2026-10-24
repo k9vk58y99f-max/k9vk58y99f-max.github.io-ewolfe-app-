@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.96.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.96.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -574,6 +574,10 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   wird mit dem neuen Passwort neu verschlossen). Angebot einmal nach Anmeldung/Entsperren (`pkOffer`, „Später“ je Gerät: `ewolfe_pk_later`), in den
   Einstellungen einrichten/weitere/entfernen. Braucht z. B. iOS 18 / macOS 15; sonst Hinweis `pkNoPrf`. Die Anmeldung am Konto bleibt E-Mail + Passwort.
   Getestet mit virtuellem Authenticator (Chrome, `hasPrf`): Skript `pktest.py` im Sammelordner „Datenschutz (24.10.2026)“.
+- 1.96.1 Neue Texte des Nutzers auf der Seite Bereiche (de/en, Block „new texts of the user for the Bereiche page“): Karte „Das Lebensrad – Erkenne, wo du
+  stehst …“ (`whyTitle`/`whyShort`/`whyText`, erster Eintrag ohne Überschrift, Absätze mit `\n\n`), „Dein nächster Schritt“ (`whyNext`) nur vor dem ersten Rad;
+  Texte, Fragen und „Mehr erfahren“ für Gesundheit, Beziehungen, Finanzen, Spiritualität, Lebensfreude (Berufung unverändert, kam kein neuer Text);
+  Empfehlung „alle drei Monate ein neues Lebensrad“ in „Deine Entwicklung bewusst verfolgen“ und in `areasIntroNew`.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
