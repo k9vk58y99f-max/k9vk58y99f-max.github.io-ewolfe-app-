@@ -1933,7 +1933,7 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.95.1';
+const APP_VERSION = '1.96.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -3706,6 +3706,22 @@ const SEED_TEXT = {
 };
 function mediTitle(m){ const sd = SEED_TEXT[m.id]; return m.titleKey ? t()[m.titleKey] : sd && m.title === sd.title ? t()[sd.tk] : m.title; }
 function mediNotes(m){ const sd = SEED_TEXT[m.id]; return sd && m.notes === sd.notes ? t()[sd.nk] : m.notes; }
+Object.assign(I18N.de, { pkOffer:'Mit Face ID oder Touch ID entsperren?\n\nRichte einen Passkey ein. Er liegt sicher in deinem iCloud-Schlüsselbund (oder deinem Passwort-Manager) und ist so auf all deinen Geräten. Dann öffnest du deine Daten auf einem neuen Gerät oder bei vergessenem Passwort einfach mit Face ID – ohne Wiederherstellungs-Code.',
+  pkSetupBtn:'Passkey einrichten', pkDone:'Fertig: Dein Passkey ist eingerichtet. Ab jetzt kannst du deine Daten auch mit Face ID oder Touch ID entsperren.',
+  pkFail:'Der Passkey konnte nicht eingerichtet oder benutzt werden.', pkCancel:'Der Passkey wurde nicht benutzt.',
+  pkNoPrf:'Dieses Gerät oder dieser Passwort-Manager kann Daten noch nicht mit einem Passkey entsperren (nötig ist zum Beispiel iOS 18 oder macOS 15). Passwort und Wiederherstellungs-Code funktionieren weiterhin.',
+  pkUnlock:'Mit Passkey entsperren', pkNone:'Für dieses Konto ist noch kein Passkey eingerichtet.', pkNoMatch:'Dieser Passkey gehört nicht zu deinem Konto.',
+  pkOn:'Passkey eingerichtet ({n}): Du kannst deine Daten auch mit Face ID oder Touch ID entsperren.', pkAdd:'Weiteren Passkey einrichten', pkRemove:'Passkeys entfernen',
+  pkHint:'Mit einem Passkey öffnest du deine Daten auf neuen Geräten und bei vergessenem Passwort mit Face ID oder Touch ID – ohne Code.',
+  pkRemoveAsk:'Alle Passkeys von diesem Konto entfernen? Entsperren geht dann wieder nur mit Passwort oder Wiederherstellungs-Code.\n\nDen Eintrag selbst kannst du in der App „Passwörter“ löschen.' });
+Object.assign(I18N.en, { pkOffer:'Unlock with Face ID or Touch ID?\n\nSet up a passkey. It is kept safely in your iCloud Keychain (or your password manager) and so is on all your devices. Then you open your data on a new device or after forgetting your password simply with Face ID – without the recovery code.',
+  pkSetupBtn:'Set up passkey', pkDone:'Done: your passkey is set up. From now on you can also unlock your data with Face ID or Touch ID.',
+  pkFail:'The passkey could not be set up or used.', pkCancel:'The passkey was not used.',
+  pkNoPrf:'This device or password manager cannot unlock data with a passkey yet (it needs for example iOS 18 or macOS 15). Password and recovery code keep working.',
+  pkUnlock:'Unlock with passkey', pkNone:'No passkey has been set up for this account yet.', pkNoMatch:'This passkey does not belong to your account.',
+  pkOn:'Passkey set up ({n}): you can also unlock your data with Face ID or Touch ID.', pkAdd:'Set up another passkey', pkRemove:'Remove passkeys',
+  pkHint:'With a passkey you open your data on new devices and after forgetting your password with Face ID or Touch ID – without the code.',
+  pkRemoveAsk:'Remove all passkeys from this account? Unlocking then only works with your password or recovery code again.\n\nYou can delete the entry itself in the Passwords app.' });
 Object.assign(I18N.de, { setPrivacy:'Datenschutz', privacyTitle:'Datenschutz', privacyLink:'Datenschutzerklärung',
   e2eUnlockTitle:'Daten entsperren', e2eUnlockIntro:'Deine Daten werden ab jetzt Ende-zu-Ende-verschlüsselt. Gib bitte einmal dein Passwort für {email} ein, damit dieses Gerät sie ver- und entschlüsseln kann.',
   e2eUnlockBtn:'Entsperren', e2eUseCode:'Passwort geändert? Mit Wiederherstellungs-Code entsperren', e2eBackToPw:'Zurück zum Passwort', e2eSignOut:'Abmelden',
@@ -7933,11 +7949,11 @@ async function e2eCreate(password){
   const rawBytes = e2eRnd(32), code = e2eNewCode(), kdf = { salt:e2eB64(e2eRnd(16)), it:E2E_ITER }, rcSalt = e2eB64(e2eRnd(16));
   const pw = await e2eEnc(await e2eKek(password, kdf.salt, kdf.it), rawBytes);
   const rc = Object.assign({ salt:rcSalt, it:E2E_RC_ITER }, await e2eEnc(await e2eKek(e2eCodeNorm(code), rcSalt, E2E_RC_ITER), rawBytes));
-  e2e = { uid:sbUid(), raw:e2eB64(rawBytes), kv:Date.now(), kdf, pw, rc, code:null };
+  e2e = { uid:sbUid(), raw:e2eB64(rawBytes), kv:Date.now(), kdf, pw, rc, code:null, pk:[] }; // a new key: earlier passkey locks no longer fit
   e2e.code = await e2eEnc(await e2eDataKey(), new TextEncoder().encode(code)); // so every unlocked device can show the code again
   e2eSave(); e2eNewCodeToShow = code;
 }
-function e2eAdopt(env, rawBytes){ e2e = { uid:sbUid(), raw:e2eB64(rawBytes), kv:env.kv || 0, kdf:env.kdf, pw:env.pw, rc:env.rc, code:env.code }; e2eSave(); }
+function e2eAdopt(env, rawBytes){ e2e = { uid:sbUid(), raw:e2eB64(rawBytes), kv:env.kv || 0, kdf:env.kdf, pw:env.pw, rc:env.rc, code:env.code, pk:env.pk || [] }; e2eSave(); }
 async function e2eUnlockPw(env, password){ e2eAdopt(env, await e2eDec(await e2eKek(password, env.kdf.salt, env.kdf.it), env.pw)); }
 async function e2eUnlockCode(env, code){ e2eAdopt(env, await e2eDec(await e2eKek(e2eCodeNorm(code), env.rc.salt, env.rc.it), env.rc)); }
 async function e2eRewrapPw(password){ // a new password locks the same data key (the data itself stays as it is)
@@ -7949,14 +7965,14 @@ async function e2eSeal(payload){
   let bytes = new TextEncoder().encode(JSON.stringify(payload));
   const z = E2E_GZ ? 1 : 0; if(z) bytes = await e2eGz(bytes, true);
   const box = await e2eEnc(await e2eDataKey(), bytes);
-  return { e2e:1, v:1, z, kv:e2e.kv, kdf:e2e.kdf, pw:e2e.pw, rc:e2e.rc, code:e2e.code, iv:box.iv, ct:box.ct };
+  return { e2e:1, v:1, z, kv:e2e.kv, kdf:e2e.kdf, pw:e2e.pw, rc:e2e.rc, code:e2e.code, pk:e2e.pk || [], iv:box.iv, ct:box.ct };
 }
 async function e2eOpen(env){
   let bytes;
   try{ bytes = await e2eDec(await e2eDataKey(), env); }catch(e){ throw new SbError(-1, 'e2e_key', 'e2e key'); } // made with another key
   if(env.z) bytes = await e2eGz(bytes, false);
   // another device changed the password: take over its newer locks (the data key is the same)
-  if((env.kv || 0) > (e2e.kv || 0)){ Object.assign(e2e, { kv:env.kv, kdf:env.kdf, pw:env.pw, rc:env.rc, code:env.code }); e2eSave(); }
+  if((env.kv || 0) > (e2e.kv || 0)){ Object.assign(e2e, { kv:env.kv, kdf:env.kdf, pw:env.pw, rc:env.rc, code:env.code, pk:env.pk || [] }); e2eSave(); }
   return JSON.parse(new TextDecoder().decode(bytes));
 }
 // after signing in: take the data key from the account, or make one (new account, or data from before 1.95.0)
@@ -8007,13 +8023,17 @@ async function e2eDoUnlock(){
         await e2eRewrapPw(pass); // from now on the current password opens it again
       }else await e2eCreate(pass);
     }else if(!(await e2eAfterAuth(pass))){ syncGateNote = d.e2eOldPw; renderSyncModal(); return; }
-    e2ePendingPw = ''; e2eMode = 'pw'; syncGateNote = '';
-    syncLeaveGate(); syncSet('idle');
-    await syncNow();
-    await e2eShowNewCode();
-    if(sbSession && !maybeShowAreasIntro() && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
+    await e2eUnlocked();
   }catch(e){ setMsg(syncErrText(e), 'err'); }
   finally{ if(btn) btn.disabled = false; }
+}
+async function e2eUnlocked(){
+  e2ePendingPw = ''; e2eMode = 'pw'; syncGateNote = '';
+  syncLeaveGate(); syncSet('idle');
+  await syncNow();
+  await e2eShowNewCode();
+  await pkOffer();
+  if(sbSession && !maybeShowAreasIntro() && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
 }
 // recovery code lost: start over with a new key – the old data in the account is replaced by this device's (after a clear warning)
 async function e2eStartOver(){
@@ -8032,7 +8052,82 @@ async function e2eStartOver(){
     e2ePendingPw = ''; e2eMode = 'pw'; syncGateNote = '';
     syncLeaveGate(); syncSet('idle'); syncLastAt = Date.now();
     await e2eShowNewCode();
+    await pkOffer();
   }catch(e){ msgEl.textContent = syncErrText(e); msgEl.className = 'sync-msg err'; }
+}
+
+/* ---- Passkey (1.96.0): Face ID / Touch ID instead of the recovery code ----
+   A passkey lives in the iCloud keychain (or Google's / another password manager) and so reaches all of a person's devices.
+   With the WebAuthn "PRF" extension the passkey hands out a secret that never leaves the device unencrypted; it locks the data key a
+   third time (next to password and recovery code). A new device or a forgotten password then only needs Face ID. Each passkey has its
+   own lock in the envelope: pk = [{ id (credential id, base64url), salt, iv, ct }]. Signing in to the account still uses the password. */
+const PK_LATER_KEY = 'ewolfe_pk_later';
+const b64url = buf=>e2eB64(buf).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64url = s=>e2eUnB64(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4));
+const pkSupported = ()=>!!(window.PublicKeyCredential && navigator.credentials && navigator.credentials.create && window.isSecureContext);
+const pkKey = out=>crypto.subtle.importKey('raw', out, 'AES-GCM', false, ['encrypt', 'decrypt']);
+class PkError extends Error{ constructor(kind){ super(kind); this.kind = kind; } }
+async function pkGetOutput(list){ // ask the passkey for its secret; returns the matching lock and the secret
+  const evalBy = {}; list.forEach(p=>{ evalBy[p.id] = { first:e2eUnB64(p.salt) }; });
+  let cred;
+  try{ cred = await navigator.credentials.get({ publicKey:{ challenge:e2eRnd(32), rpId:location.hostname, allowCredentials:list.map(p=>({ type:'public-key', id:unb64url(p.id) })),
+    userVerification:'required', timeout:120000, extensions:{ prf:{ evalByCredential:evalBy } } } }); }
+  catch(e){ throw new PkError('cancel'); }
+  const r = cred && cred.getClientExtensionResults().prf, out = r && r.results && r.results.first;
+  if(!out) throw new PkError('noprf');
+  const entry = list.find(p=>p.id === b64url(cred.rawId));
+  if(!entry) throw new PkError('nomatch');
+  return { entry, out:new Uint8Array(out) };
+}
+async function pkCreate(){ // make a passkey for this account and lock the data key with it
+  const email = (sbSession && sbSession.user && sbSession.user.email) || 'eWolfe', salt = e2eRnd(32);
+  let cred;
+  try{ cred = await navigator.credentials.create({ publicKey:{ rp:{ name:'eWolfe', id:location.hostname }, user:{ id:new TextEncoder().encode(sbUid()), name:email, displayName:email },
+    challenge:e2eRnd(32), pubKeyCredParams:[{ type:'public-key', alg:-7 }, { type:'public-key', alg:-257 }], timeout:120000,
+    authenticatorSelection:{ residentKey:'required', userVerification:'required' }, extensions:{ prf:{ eval:{ first:salt } } } } }); }
+  catch(e){ throw new PkError('cancel'); }
+  const ext = cred.getClientExtensionResults().prf;
+  if(ext && ext.enabled === false) throw new PkError('noprf');
+  const id = b64url(cred.rawId), lock = { id, salt:e2eB64(salt) };
+  // some systems give the secret right away, others only when the passkey is used – then ask once more
+  let out = ext && ext.results && ext.results.first ? new Uint8Array(ext.results.first) : null;
+  if(!out) out = (await pkGetOutput([Object.assign({ iv:'', ct:'' }, lock)])).out;
+  Object.assign(lock, await e2eEnc(await pkKey(out), e2eUnB64(e2e.raw)));
+  e2e.pk = (e2e.pk || []).filter(p=>p.id !== id).concat(lock); e2e.kv = Date.now(); e2eSave();
+}
+function pkErrText(e){ const d = t(); return e && e.kind === 'noprf' ? d.pkNoPrf : e && e.kind === 'nomatch' ? d.pkNoMatch : e && e.kind === 'cancel' ? d.pkCancel : d.pkFail; }
+async function pkSetup(fromOffer){
+  const d = t();
+  try{ await pkCreate(); }catch(e){ if(!(fromOffer && e.kind === 'cancel')) await uiNotice(pkErrText(e)); return false; }
+  syncNow(); // the new lock goes into the account
+  await uiNotice(d.pkDone);
+  if(document.getElementById('settings-modal').classList.contains('open')) renderSettingsPrivacy();
+  return true;
+}
+// offered once after signing in (not again on this device after "later"); always available in the settings
+async function pkOffer(){
+  if(!pkSupported() || !e2eReady() || (e2e.pk || []).length) return;
+  try{ if(localStorage.getItem(PK_LATER_KEY)) return; }catch(e){}
+  try{ if(PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable && !(await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())) return; }catch(e){}
+  const d = t();
+  if(await uiDialog(d.pkOffer, { confirm:true, okText:d.pkSetupBtn })) await pkSetup(true);
+  else try{ localStorage.setItem(PK_LATER_KEY, '1'); }catch(e){}
+}
+// the unlock window: open the data key with the passkey
+async function e2ePkUnlock(){
+  const d = t(), msgEl = document.getElementById('sync-form-msg');
+  const setMsg = (txt, cls)=>{ msgEl.textContent = txt; msgEl.className = 'sync-msg' + (cls ? ' ' + cls : ''); };
+  setMsg('');
+  try{
+    const full = await syncGetFull();
+    if(!full || !e2eIsEnv(full.data) || !(full.data.pk || []).length){ setMsg(d.pkNone, 'err'); return; }
+    const { entry, out } = await pkGetOutput(full.data.pk);
+    let raw;
+    try{ raw = await e2eDec(await pkKey(out), entry); }catch(e){ throw new PkError('nomatch'); }
+    e2eAdopt(full.data, raw);
+    if(e2ePendingPw) await e2eRewrapPw(e2ePendingPw); // after "forgot password": the new password opens it from now on
+  }catch(e){ setMsg(e instanceof PkError ? pkErrText(e) : syncErrText(e), 'err'); return; }
+  await e2eUnlocked();
 }
 
 /* ---- Privacy policy (1.95.0). A DRAFT written from what the code really does – it must be checked by a lawyer before the public start.
@@ -8055,8 +8150,8 @@ de:`<p class="privacy-draft">Entwurf – vor dem öffentlichen Start rechtlich p
 <li><strong>Technische Daten:</strong> Beim Aufruf der App und bei jeder Verbindung zum Server werden technisch nötige Daten verarbeitet, vor allem deine IP-Adresse, Datum und Uhrzeit, die angefragte Datei und die Art deines Browsers.</li>
 </ul>
 <h3>3. Ende-zu-Ende-Verschlüsselung</h3>
-<p>Bevor deine Inhalte an den Server gehen, verschlüsselt die App sie auf deinem Gerät mit AES-256-GCM. Der Schlüssel dafür wird auf deinem Gerät erzeugt. Er ist im Konto nur verschlossen hinterlegt: einmal mit deinem Passwort (abgeleitet mit PBKDF2-SHA256 und 600 000 Durchläufen) und einmal mit deinem Wiederherstellungs-Code. Auf dem Server sehen wir deshalb nur deine E-Mail-Adresse, die Zeitpunkte der Speicherung, die Größe und einen unlesbaren Datenblock.</p>
-<p><strong>Wichtig:</strong> Wenn du dein Passwort vergisst und auch deinen Wiederherstellungs-Code nicht mehr hast, kann niemand deine Daten im Konto wiederherstellen – auch wir nicht. Bewahre den Code deshalb sicher auf. Du findest ihn in den Einstellungen unter „Datenschutz“.</p>
+<p>Bevor deine Inhalte an den Server gehen, verschlüsselt die App sie auf deinem Gerät mit AES-256-GCM. Der Schlüssel dafür wird auf deinem Gerät erzeugt. Er ist im Konto nur verschlossen hinterlegt: einmal mit deinem Passwort (abgeleitet mit PBKDF2-SHA256 und 600 000 Durchläufen), einmal mit deinem Wiederherstellungs-Code und – wenn du einen einrichtest – mit deinem Passkey. Der Passkey bleibt in deinem Schlüsselbund bzw. Passwort-Manager; wir erhalten davon nur eine Kennung und den damit verschlossenen Schlüssel. Auf dem Server sehen wir deshalb nur deine E-Mail-Adresse, die Zeitpunkte der Speicherung, die Größe und einen unlesbaren Datenblock.</p>
+<p><strong>Wichtig:</strong> Wenn du dein Passwort vergisst und weder deinen Wiederherstellungs-Code noch einen Passkey hast, kann niemand deine Daten im Konto wiederherstellen – auch wir nicht. Bewahre den Code deshalb sicher auf. Du findest ihn in den Einstellungen unter „Datenschutz“.</p>
 <h3>4. Speicherung auf deinem Gerät</h3>
 <p>Die App speichert deine Inhalte, deine Einstellungen (Sprache, Design) und deine Anmeldung im Speicher deines Browsers (localStorage) auf deinem Gerät. Das ist für die App technisch notwendig (§ 25 Abs. 2 Nr. 2 TDDDG). Auf dem Gerät selbst liegen die Daten unverschlüsselt. Schütze dein Gerät deshalb mit einer Code-Sperre. Beim Abmelden bleiben die Daten auf dem Gerät erhalten. Du kannst sie entfernen, indem du die Websitedaten im Browser löschst.</p>
 <h3>5. Dienstleister</h3>
@@ -8097,8 +8192,8 @@ en:`<p class="privacy-draft">Draft – to be checked by a lawyer before the publ
 <li><strong>Technical data:</strong> when you open the app and whenever it connects to the server, technically necessary data is processed, above all your IP address, date and time, the requested file and your type of browser.</li>
 </ul>
 <h3>3. End-to-end encryption</h3>
-<p>Before your content goes to the server, the app encrypts it on your device with AES-256-GCM. The key for this is created on your device. It is only stored in the account in locked form: once with your password (derived with PBKDF2-SHA256 and 600,000 rounds) and once with your recovery code. On the server we therefore only see your email address, the times of saving, the size and an unreadable block of data.</p>
-<p><strong>Important:</strong> if you forget your password and no longer have your recovery code either, nobody can restore the data in your account – not even us. Keep the code in a safe place. You can find it in the settings under “Privacy”.</p>
+<p>Before your content goes to the server, the app encrypts it on your device with AES-256-GCM. The key for this is created on your device. It is only stored in the account in locked form: once with your password (derived with PBKDF2-SHA256 and 600,000 rounds), once with your recovery code and – if you set one up – with your passkey. The passkey stays in your keychain or password manager; we only receive an identifier and the key locked with it. On the server we therefore only see your email address, the times of saving, the size and an unreadable block of data.</p>
+<p><strong>Important:</strong> if you forget your password and have neither your recovery code nor a passkey, nobody can restore the data in your account – not even us. Keep the code in a safe place. You can find it in the settings under “Privacy”.</p>
 <h3>4. Storage on your device</h3>
 <p>The app stores your content, your settings (language, design) and your sign-in in your browser's storage (localStorage) on your device. This is technically necessary for the app (Section 25 (2) no. 2 TDDDG). On the device itself the data is not encrypted, so please protect your device with a passcode. When you sign out, the data stays on the device. You can remove it by deleting the website data in your browser.</p>
 <h3>5. Service providers</h3>
@@ -8459,6 +8554,7 @@ function renderSyncModal(){
         ${e2ePendingPw ? '' : `<input class="small-input" id="sync-pass" type="password" autocomplete="current-password" placeholder="${d.syncPassword}" style="width:100%;margin-bottom:6px;">`}
         <div id="sync-form-msg" class="sync-msg"></div>
         <button class="primary-btn" style="width:100%;" id="sync-main-btn">${code ? d.e2eCodeBtn : d.e2eUnlockBtn}</button>
+        ${pkSupported() ? `<button class="ghost-btn" style="width:100%;margin-top:8px;" id="pk-unlock-btn">${d.pkUnlock}</button>` : ''}
         <button class="gate-link" id="e2e-switch-btn" style="padding-bottom:0;">${code ? d.e2eBackToPw : d.e2eUseCode}</button>
         ${code ? `<button class="gate-link" id="e2e-reset-btn" style="padding-bottom:0;">${d.e2eNoCode}</button>` : ''}
         <button class="gate-link" id="e2e-out-btn">${d.e2eSignOut}</button>
@@ -8466,6 +8562,7 @@ function renderSyncModal(){
         ${langBtn}
       </div>`;
     document.getElementById('sync-main-btn').onclick = e2eDoUnlock;
+    if(pkSupported()) document.getElementById('pk-unlock-btn').onclick = e2ePkUnlock;
     document.getElementById('e2e-switch-btn').onclick = ()=>{ e2eMode = code ? 'pw' : 'code'; syncGateNote = ''; renderSyncModal(); };
     if(code) document.getElementById('e2e-reset-btn').onclick = e2eStartOver;
     document.getElementById('e2e-out-btn').onclick = async ()=>{ await sbSignOut(); e2ePendingPw = ''; e2eMode = 'pw'; syncSet('off'); syncAuthMode = null; syncGateNote = ''; renderSyncModal(); };
@@ -8551,6 +8648,7 @@ async function syncDoAuth(mode){
     if(wasGate) syncLeaveGate(); else renderSyncModal();
     await syncNow();
     await e2eShowNewCode();
+    await pkOffer();
     // a brand-new person (nothing in the account either) goes on to create their first Lebensrad
     if(wasGate && sbSession && !maybeShowAreasIntro() && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
   }catch(e){
@@ -8601,6 +8699,7 @@ async function syncSaveNewPassword(){
   await uiNotice(t().gateNewPwDone);
   await syncNow();
   await e2eShowNewCode();
+  await pkOffer();
   if(sbSession && !maybeShowAreasIntro() && isFirstRun() && !document.getElementById('eval-modal').classList.contains('open')) openEvalModal();
 }
 function openSyncModal(){ renderSyncModal(); openModal('sync-modal'); }
@@ -8619,10 +8718,17 @@ function renderSettingsSync(){
 }
 function renderSettingsPrivacy(){
   const d = t(), box = document.getElementById('settings-privacy');
-  box.innerHTML = (e2eReady() ? `<p class="settings-note e2e-badge">${d.e2eOn}</p><button class="ghost-btn settings-row" id="e2e-code-btn">${d.e2eShowCodeBtn}</button>` : '')
+  const nPk = e2eReady() ? (e2e.pk || []).length : 0;
+  box.innerHTML = (e2eReady() ? `<p class="settings-note e2e-badge">${d.e2eOn}</p>`
+      + (pkSupported() ? `<p class="settings-note">${nPk ? d.pkOn.replace('{n}', nPk) : d.pkHint}</p><button class="ghost-btn settings-row" id="pk-add-btn">${nPk ? d.pkAdd : d.pkSetupBtn}</button>` : '')
+      + (nPk ? `<button class="ghost-btn settings-row" id="pk-del-btn">${d.pkRemove}</button>` : '')
+      + `<button class="ghost-btn settings-row" id="e2e-code-btn">${d.e2eShowCodeBtn}</button>` : '')
     + `<button class="ghost-btn settings-row" onclick="privacyOpen()">${d.privacyLink}</button>`;
   const b = document.getElementById('e2e-code-btn');
   if(b) b.onclick = async ()=>{ try{ await e2eShowCodeDialog(await e2eCode(), false); }catch(e){ uiNotice(d.e2eError); } };
+  const add = document.getElementById('pk-add-btn'); if(add) add.onclick = ()=>pkSetup(false);
+  const del = document.getElementById('pk-del-btn');
+  if(del) del.onclick = async ()=>{ if(!(await uiDialog(d.pkRemoveAsk, { confirm:true, okText:d.pkRemove }))) return; e2e.pk = []; e2e.kv = Date.now(); e2eSave(); syncNow(); renderSettingsPrivacy(); };
 }
 function privacyOpen(){ const d = t(); document.getElementById('privacy-title').textContent = d.privacyTitle; document.getElementById('privacy-body').innerHTML = PRIVACY[state.settings.lang === 'en' ? 'en' : 'de']; openModal('privacy-modal'); }
 function openSettings(){ renderSettingsSync(); renderSettingsPrivacy(); renderNotes(); openModal('settings-modal'); }
