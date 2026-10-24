@@ -1394,7 +1394,7 @@ html.theme-retreat .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.375)); justify-co
   background-position:calc(var(--lh) * -0.17) calc(100% + var(--lh) * 0.045); border-radius:14px; } /* 22.10.2026: newest conservatory – the furniture stands further left on the wall */
 html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--lh) * 0.099); }
 html.theme-retreat .lib-row{ gap:calc(var(--lh) * 0.012); }
-html.theme-retreat .shelf-orchid.shelf-xmas{ height:68%; bottom:-11%; transform:translateX(-100%); }
+html.theme-retreat .shelf-orchid.shelf-xmas{ height:95%; /* 40 % bigger (24.10.2026) */ bottom:-11%; transform:translateX(-100%); }
 /* 21.10.2026: rooms for the other two designs as well (same size and position as the conservatory): A Gentleman's Study a navy country-house
    library with a park window, A Mystery World a magical library salon with a starry window */
 html:not(.theme-retreat) .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.39)); padding-bottom:calc(var(--lh) * 0.16) !important; min-width:max(100%, calc(var(--lh) * 2.36));
@@ -1441,9 +1441,14 @@ html .lib-row .shelf-unit .shelf-img.sv{ z-index:1; }
 /* the dog in front of the cabinet, not in front of the plaque (24.10.2026) */
 html .lib-row .shelf-img.sv .shelf-dog-lying{ right:-66% !important; }
 html .lib-row .shelf-img.sv .shelf-dog{ right:-62% !important; }
-html .lib-row .shelf-img.sv .shelf-crib{ right:-92% !important; height:32% !important; } /* A Mystery World at Christmas: the crib with the dog in front of the cabinet */
+button.shelf-crib-side.is-tro{ pointer-events:auto; background:none; border:0; padding:0; height:24%; bottom:-5%; transform:translateX(-122%); }
+button.shelf-crib-side.is-tro img{ height:100%; width:auto; display:block; }
+html .lib-row.has-xmas.has-xmas.has-xmas{ padding-left:calc(var(--lh) * 0.64) !important; } /* room for the bigger tree */
+html .lib-row.has-xmas .shelf-unit{ scroll-margin-left:calc(var(--lh) * 0.64) !important; }
+.shelf-unit > .shelf-crib-side{ position:absolute; left:0; bottom:-6%; height:30%; transform:translateX(-118%); z-index:4; pointer-events:none; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.45)); } /* in front of the tree */
+html:not(.theme-biz) .lib-row .shelf-fox{ left:auto !important; right:-175% !important; } /* 24.10.2026: right beside the cabinet, where the other designs have the dress */
 /* the Christmas tree of A Mystery World and A Gentleman's Study: left beside the bookcase, like the Lady's */
-.shelf-unit > .shelf-xmas-side{ position:absolute; left:0; bottom:-3%; height:64%; transform:translateX(-96%); z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.4)); }
+.shelf-unit > .shelf-xmas-side{ position:absolute; left:0; bottom:-3%; height:89.6%; /* 40 % bigger (24.10.2026) */ transform:translateX(-96%); z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.4)); }
 /* 24.10.2026 (wish of the user): in A Mystery World and A Gentleman's Study the bookcase stands back against the wall and further left,
    like in A Lady's Conservatory: the room moves down until its wall ends at the feet of the furniture */
 html:not(.theme-retreat) .lib-row.has-left{ padding-left:calc(var(--lh) * 0.42) !important; justify-content:flex-start !important; }
@@ -1452,9 +1457,10 @@ html:not(.theme-biz) .lib-row.has-left{ background-position:calc(var(--lh) * -0.
 html.theme-biz:not(.theme-retreat) .lib-row.has-left{ background-position:calc(var(--lh) * -0.306) calc(100% + var(--lh) * 0.19) !important; }
 /* A Lady's Conservatory: the dress stand further left (wish of the user, 24.10.2026) */
 html.theme-retreat .lib-row .lib-dress-wrap{ margin-left:calc(var(--sw) * -0.16) !important; }
-/* A Lady's Conservatory: the dog 30 % bigger again (wish of the user, 24.10.2026) */
-html.theme-retreat .shelf-dog{ height:44.2%; }
-html.theme-retreat .shelf-dog-lying{ height:16.3%; }
+html.theme-biz:not(.theme-retreat) .lib-row .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96); } /* 24.10.2026: the gentleman's dress form as tall as the lady's */
+/* 24.10.2026 (wish of the user): the dog has the same size in every design – as in A Gentleman's Study */
+html:not(.theme-biz) .shelf-dog{ height:34%; }
+html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 </style>
 </head>
 <body data-theme="dark">
@@ -1895,7 +1901,7 @@ html.theme-retreat .shelf-dog-lying{ height:16.3%; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.94.0';
+const APP_VERSION = '1.94.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6397,7 +6403,8 @@ function tbRenderLibrary(){
   // A Gentleman's Study (1.86.8): the exercise medals are pinned on the tailcoat of the dress form like orders, not on the shelf
   const DRESS = BIZ; // A Lady's Conservatory (21.10.2026): the embroidered green dress with the shoes, the brooches and the watch on the bodice
   const onDress = x=>DRESS && x.group === 'ex'; // 1.93.1: the loyalty watch is no longer on the dress, it stands in the shelf; since 1.93.2 as the rose mantel clock
-  const allShown = trophyShelf().filter(x=>!onDress(x)), shown = VIT ? allShown.filter(x=>!isFeast(x)) : allShown, feast = VIT ? allShown.filter(isFeast) : [];
+  const cribFront = BIZ && isChristmasTime() ? trophyShelf().find(x=>x.id === 'xmas2') : null; // 24.10.2026: at Christmas the crib stands in front of the tree
+  const allShown = trophyShelf().filter(x=>!onDress(x) && !(cribFront && x.id === cribFront.id)), shown = VIT ? allShown.filter(x=>!isFeast(x)) : allShown, feast = VIT ? allShown.filter(isFeast) : [];
   const medals = DRESS ? trophyList().filter(x=>x.group === 'ex' && x.at).map(trophyRl).filter(x=>DRESS_ALL_MEDALS || x.stage === Math.max(...trophyList().filter(y=>y.group === 'ex' && y.at).map(y=>y.stage))) : [];
   const dressWatch = null;
   // A Lady's Conservatory (1.93.0): the wide dress at first, after a year the slim emerald one, every year 24.12.–1.1. the celadon one;
@@ -6483,7 +6490,7 @@ function tbRenderLibrary(){
   const animal = (name, cls)=>`<img class="shelf-animal ${cls}" src="img/${/[\/-]/.test(name) ? name : 'stickers/' + name}.webp" alt="" onerror="this.remove()">`;
   // the dog's place (1.78.0): at Christmas the crib stands there (the dog lies in it), on weekends the dog lies down
   const wkend = [0, 6].includes(new Date().getDay());
-  const dogSpot = isChristmasTime() ? animal('stickers/crib-dog', 'shelf-crib') : days >= 15 ? (wkend ? animal('stickers/dog-lying', 'shelf-dog-lying') : animal('dog', 'shelf-dog')) : '';
+  const dogSpot = isChristmasTime() ? '' /* 24.10.2026: the crib now stands in front of the Christmas tree (xmasOtherHtml) */ : days >= 15 ? (wkend ? animal('stickers/dog-lying', 'shelf-dog-lying') : animal('dog', 'shelf-dog')) : '';
   // our dog belongs to every design (1.80.3): in A Gentleman's Study he sits (on weekends lies) in front of the bookcase as well,
   // in his own picture (img/rl/dog, img/rl/dog-lying) – until it is there, the classic one with the red placeholder note
   const bizDog = days < 15 ? '' : (()=>{ const cls = wkend ? 'shelf-dog-lying' : 'shelf-dog';
@@ -6537,11 +6544,12 @@ function tbRenderLibrary(){
   // 24.10.2026: new Christmas trees (wrought-iron stand, old glass ornaments) in all three designs, left beside the bookcase;
   // A Gentleman's Study now has one too (A Mystery World only with animals & decorations switched on)
   const xmasOther = !RETREAT && isChristmasTime() && (BIZ || decorOn());
-  const xmasOtherHtml = xmasOther ? `<img class="shelf-xmas shelf-xmas-side" src="img/${BIZ ? 'rl2' : 'mw2'}/tree.webp" alt="">` : '';
+  const xmasOtherHtml = xmasOther ? `<img class="shelf-xmas shelf-xmas-side" src="img/${BIZ ? 'rl2' : 'mw2'}/tree.webp" alt="">${BIZ ? '' : '<img class="shelf-crib-side" src="img/stickers/crib-dog.webp" alt="">'}` : '';
+  const cribHtml = cribFront ? `<button class="shelf-crib-side is-tro" onclick="trophyShow('${cribFront.id}')" title="${escapeHtml(cribFront.title)}" aria-label="${escapeHtml(cribFront.title)}"><img src="img/${trophyRl(cribFront).img}.webp" alt=""></button>` : ''; // A Mystery World: the crib with our dog in front of the tree
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
-  return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : RETREAT ? '' : ' has-left'}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-wrap${dressKind ? ' dress-' + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl/dress-form'}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" onclick="trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div>` : ''}${SV ? '' : vitHtml}</div></div></div>
+  return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : RETREAT ? '' : ' has-left'}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-wrap${dressKind ? ' dress-' + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl/dress-form'}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" onclick="trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div>` : ''}${SV ? '' : vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;

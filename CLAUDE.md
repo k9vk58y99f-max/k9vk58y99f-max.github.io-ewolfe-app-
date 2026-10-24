@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.94.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.94.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -546,6 +546,10 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   jetzt auch in A Gentleman's Study. Adventskränze bleiben die alten. Mystery und Gentleman: Regal hinten an der Wand und weiter links (`.lib-row.has-left`,
   Raum nach unten verschoben). Lady: neuer Hintergrund „Gewächshaus mit Laterne“ (`rt2/conservatory`), Kleid weiter links, Hund 30 % größer,
   Bücherstapel und Auto getauscht (Tausch nach dem Einräumen in `tbRenderLibrary`), Ziele-Pokal halb so groß.
+- 1.94.1: Weihnachtsbäume 40 % größer, davor die Krippe (Mystery: `stickers/crib-dog`; Gentleman/Lady: die Krippen-Trophäe `xmas2` wandert
+  in der Weihnachtszeit aus der Vitrine vor den Baum, `cribFront`, `.shelf-crib-side`), Zeile hat dann links mehr Platz (`.has-xmas`).
+  Mystery-Fuchs rechts neben der Vitrine (wo sonst die Puppe steht). Hund in allen Designs so groß wie in A Gentleman's Study (34 % / 12,5 %).
+  Herren-Schneiderpuppe so hoch wie das Lady-Kleid (`--dh` = Regalhöhe × 0,96).
 - Prompts Weihnachtsbaum (schmiedeeiserner Ständer, alter Glasschmuck) und Adventskranz für alle drei Designs:
   Sammelordner „Weihnachtsbaum und Adventskranz – Prompts (24.10.2026).md“.
 - **Geplant (Datenschutz, noch nicht gebaut):** Ende-zu-Ende-Verschlüsselung (AES-256 auf dem Gerät, Schlüssel aus dem Passwort mit
