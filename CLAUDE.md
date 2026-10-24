@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.92.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.92.4`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -524,6 +524,10 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Raum `background-position-x` mitgeschoben); AGS: Medaillen 20 % kleiner, linker Rand bleibt, untere Reihe halb unter der oberen
   (`nth-child(n+4)` margin-top), obere linke per `clip-path` am Revers abgeschnitten; AGS-Trophäen im Tagebuch auf Navy-Karte mit
   Bronzerand (`tbIsRlTrophyImg`, `.is-trophy-rl`), weil die Freisteller Navy-Ränder haben.
+- 1.92.4: Lady-Regal, Bücherteil und Vitrine (`rt2/shelf`, `rt2/shelf-narrow`, `rt2/vitrine`) hatten halb durchsichtige Rückwände
+  (Rest vom Freistellen) – durch die Löcher schien die grüne Wand als helle Bögen. Löcher geschlossen (Alpha 255 im Inneren), Regal-Rückwände
+  zusätzlich glatt nachgerechnet. Andere Designs geprüft: dort nur Randpixel. Neue Bilder nach dem Freistellen immer vor einer
+  farbigen Fläche prüfen.
 - Prompts Weihnachtsbaum (schmiedeeiserner Ständer, alter Glasschmuck) und Adventskranz für alle drei Designs:
   Sammelordner „Weihnachtsbaum und Adventskranz – Prompts (24.10.2026).md“.
 - **Geplant (Datenschutz, noch nicht gebaut):** Ende-zu-Ende-Verschlüsselung (AES-256 auf dem Gerät, Schlüssel aus dem Passwort mit
