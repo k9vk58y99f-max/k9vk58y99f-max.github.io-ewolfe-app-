@@ -663,7 +663,7 @@ html:not(.theme-biz) .shelf-boot{ left:40%; bottom:-5%; height:14%; }
 html:not(.theme-biz) .shelf-wreath{ right:8%; bottom:calc(100% - var(--roof) - 1.2%); height:11%; }
 html:not(.theme-biz) .shelf-tree{ left:-18%; bottom:-4%; height:60%; }
 html:not(.theme-biz) .shelf-cat{ left:14%; bottom:calc(100% - var(--roof) - 0.6%); height:19%; }
-html:not(.theme-biz) .shelf-fox{ left:-13%; bottom:-6%; height:31%; }
+html:not(.theme-biz) .shelf-fox{ left:-74%; bottom:-6%; height:31%; } /* 1.92.3: in front of the book part, never in front of the dog */
 html:not(.theme-biz) .lib-row .vitrine-img{ background-image:url(img/mw2/vitrine.webp); aspect-ratio:536/1425; width:calc(var(--sw) / var(--sa, 0.5) * 536 / 1425) !important; margin:0 !important; } /* every cabinet exactly as high as the shelf (wish of the user, 21.10.2026) */
 /* a red note on pictures that are still to come – in both designs (1.81.0) */
 .ph-note{ position:relative; }
@@ -813,6 +813,7 @@ html:not(.theme-retreat) .lib-row{ padding-left:max(8px, calc((100cqw - var(--sw
    with a gold edge, so no dark fringes show on the white paper (1.74.2) */
 .tb-page-img.is-trophy{ background:radial-gradient(ellipse at 50% 42%, #2b2470 0%, #141a4a 62%, #0b1026 100%); padding:9% 10% 8%;
   border-radius:10px; box-shadow:0 0 0 2px #e8b84a, 0 4px 10px rgba(0,0,0,0.3); filter:none; box-sizing:border-box; }
+.tb-page-img.is-trophy-rl{ background:radial-gradient(ellipse at 50% 42%, #24305e 0%, #141a3a 62%, #0c1226 100%); box-shadow:0 0 0 2px #c9a463, 0 4px 10px rgba(0,0,0,0.3); border-radius:6px; }
 .tb-sticker-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; padding:4px 6px 8px 34px; }
 .tb-sticker-btn{ aspect-ratio:1; border-radius:12px; border:1px solid var(--ew-line); background:var(--ew-panel-2); padding:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .tb-sticker-btn img, .tb-sticker-btn svg{ width:100%; height:100%; object-fit:contain; display:block; }
@@ -1216,6 +1217,14 @@ html.theme-biz .lib-row .vitrine-img{ width:calc(var(--sw) / var(--sa, 0.44) * 5
 .dress-medals{ position:absolute; left:59%; top:20%; width:25%; display:flex; flex-wrap:wrap; justify-content:center; row-gap:calc(var(--dh) * 0.004); }
 .dress-medal{ background:none; border:none; padding:0; margin:0 calc(var(--dh) * -0.0035); cursor:pointer; filter:drop-shadow(0 2px 2px rgba(0,0,0,0.45)); }
 .dress-medal img{ display:block; height:calc(var(--dh) * 0.062); width:auto; }
+/* 1.92.3 (A Gentleman's Study): 20 % smaller, the left edge stays, they close up from the right; the lower row tucked under the
+   upper one so only the lower half of its ribbons shows; the top left medal disappears under the lapel (clip) */
+html:not(.theme-retreat) .dress-medals{ width:20%; justify-content:flex-start; }
+html:not(.theme-retreat) .dress-medal{ position:relative; margin:0 calc(var(--dh) * -0.0028); }
+html:not(.theme-retreat) .dress-medal img{ height:calc(var(--dh) * 0.0496); }
+html:not(.theme-retreat) .dress-medal:nth-child(-n+3){ z-index:2; }
+html:not(.theme-retreat) .dress-medal:nth-child(n+4){ margin-top:calc(var(--dh) * -0.0139); }
+html:not(.theme-retreat) .dress-medal:first-child{ clip-path:polygon(53% 0, 100% 0, 100% 100%, 0 100%, 0 37%); } /* along the edge of the lapel */
 /* A Lady's Conservatory: the dress is as high as 0.9 of the bookcase; brooches in a small cluster at the neckline, the pendant watch at the waist */
 html.theme-retreat .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96); margin:0 calc(var(--sw) * 0.02) calc(var(--dh) * -0.13); z-index:3; } /* stand feet on the floor a little in front of the bookcase, the shoes in front of them (they hang 8 % below the feet) */
 html.theme-retreat .dress-medals{ left:41.5%; top:17.8%; width:17%; row-gap:0; } /* centred under the dip of the sweetheart neckline (1.92.2) */
@@ -1372,7 +1381,7 @@ html.theme-retreat .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.375)); justify-co
   background-position:calc(var(--lh) * -0.17) calc(100% + var(--lh) * 0.045); border-radius:14px; } /* 22.10.2026: newest conservatory – the furniture stands further left on the wall */
 html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--lh) * 0.099); }
 html.theme-retreat .lib-row{ gap:calc(var(--lh) * 0.012); }
-html.theme-retreat .shelf-orchid.shelf-xmas{ height:68%; bottom:-11%; transform:translateX(-45%); }
+html.theme-retreat .shelf-orchid.shelf-xmas{ height:68%; bottom:-11%; transform:translateX(-100%); }
 /* 21.10.2026: rooms for the other two designs as well (same size and position as the conservatory): A Gentleman's Study a navy country-house
    library with a park window, A Mystery World a magical library salon with a starry window */
 html:not(.theme-retreat) .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.39)); padding-bottom:calc(var(--lh) * 0.16) !important; min-width:max(100%, calc(var(--lh) * 2.36));
@@ -1408,10 +1417,10 @@ html.theme-retreat .mood-opt:is(:hover, :active){ color:var(--rt-sage-d) !import
 html.theme-retreat .breath-violet-btn{ color:#fbf8f0 !important; background:var(--rt-sage) !important; }
 html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(247,243,234,0.86) !important; }
 /* the orchid on its plant stand (1.84.2): left of the shelf, a little in front; the row makes room for it */
-html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.44)), 520px); padding-left:calc(var(--sw) / var(--sa, 0.375) * 0.28); }
-html.theme-retreat .lib-row.has-orchid .shelf-unit{ scroll-margin-left:calc(var(--sw) / var(--sa, 0.375) * 0.28); } /* the snap must not hide the orchid */
+html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.44)), 520px); padding-left:calc(var(--sw) / var(--sa, 0.375) * 0.46); background-position-x:calc(var(--sw) / var(--sa, 0.375) * 0.01); } /* 1.92.3: room for the table next to the bookcase, the room moves along */
+html.theme-retreat .lib-row.has-orchid .shelf-unit{ scroll-margin-left:calc(var(--sw) / var(--sa, 0.375) * 0.46); } /* the snap must not hide the orchid */
 html.theme-retreat.theme-retreat :is(.modal-title, .scene-head h1, .tb-topbar h2, #t-scene-title, .modal-top h2){ color:var(--rt-burgundy) !important; } /* new colours: headings burgundy */
-html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; height:76%; transform:translateX(-38%); z-index:4; /* 21.10.2026: the inlaid table with roses */ /* 1.86.6: the hexagonal inlaid table with the orchid */ z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
+html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; height:62%; transform:translateX(-98%); /* 1.92.3: beside the bookcase, not in front of it */ z-index:4; /* 21.10.2026: the inlaid table with roses */ /* 1.86.6: the hexagonal inlaid table with the orchid */ z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
 </style>
 </head>
 <body data-theme="dark">
@@ -1852,7 +1861,7 @@ html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-13.8%; heig
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.92.2';
+const APP_VERSION = '1.92.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6328,7 +6337,7 @@ function tbRenderLibrary(){
   let SH = shelfNow(); SHELF_X = SH.x; SHELF_ROWS = SH.rows;
   // with the cabinet (level 6) the diaries of earlier years stand in its top compartment, if there are several (1.78.2)
   const allKeys = tbBookKeys(), thisY = tbCurrentYearStr();
-  const oldKeys = appLevel() >= 6 ? allKeys.filter(k=>tbBookYear(k) < thisY) : [];
+  const oldKeys = []; // since 1.92.3 no diaries in the display cabinet any more (wish of the person): all stay in the book part
   const useOld = oldKeys.length >= 2, keys = useOld ? allKeys.filter(k=>!oldKeys.includes(k)) : allKeys;
   // widths in units of the compartment height
   const spine = key=>{ const dia = state.tagebuch.jahre[key], land = tbIsLand(dia), pages = dia.seiten.filter(p=>p.type !== 'titel').length;
@@ -6753,6 +6762,8 @@ function trophyShow(id, isNew){
 // the trophy into the newest diary of this year: its picture and a line with the date (on a fresh page if the last one has something on it)
 // a picture in the diary that is a trophy (also those put in before 1.74.2)
 function tbIsTrophyImg(src){ return /^img\/(crystal-|orb-|trophy-|faberge-|stickers\/nikolaus)/.test(src || ''); }
+// A Gentleman's Study (1.92.3): its trophies were cut out from navy as well – a small navy card with a bronze edge in the diary
+function tbIsRlTrophyImg(src){ return /^img\/rl\/(books-|boot|car|cloche-|crib|cup-|egg-|medal-|nikolaus|obelisk-|plane|pocket-watch|ships-wheel|star|sundial|telescope)/.test(src || ''); }
 async function trophyToDiary(){
   const x = trophyCur; if(!x || x.kind !== 'img') return;
   const d = t(), en = state.settings.lang === 'en', year = tbLatestBook(new Date().getFullYear());
@@ -7072,7 +7083,7 @@ function tbRenderPageSlot(idx){
     }
     const sel = tbSelImg && tbSelImg.page===idx && tbSelImg.i===i;
     return `<div class="tb-img-box${sel?' sel':''}" data-page-idx="${idx}" data-idx="${i}" style="left:${img.xPct}%;top:${img.yPct}%;width:${img.wPct}%;">
-      <img class="tb-page-img${img.sticker ? ' is-sticker' : ''}${tbIsTrophyImg(img.src) ? ' is-trophy' : ''}" src="${img.src}" draggable="false" alt="">
+      <img class="tb-page-img${img.sticker ? ' is-sticker' : ''}${tbIsTrophyImg(img.src) ? ' is-trophy' : ''}${tbIsRlTrophyImg(img.src) ? ' is-trophy is-trophy-rl' : ''}" src="${img.src}" draggable="false" alt="">
       <button class="tb-img-del" title="${d.diaryImgDelete}" aria-label="${d.diaryImgDelete}">${ico('trash')}</button>
       <span class="tb-img-resize" title="${d.diaryImgResize}" aria-label="${d.diaryImgResize}"></span>
     </div>`;

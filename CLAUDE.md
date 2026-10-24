@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.92.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.92.3`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -519,6 +519,11 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   kleiner, wenn die Zeile nicht passt (`--spine-fit` aus der Zeichenzahl, Hoch-/Querformat). Nichts wird mehr abgeschnitten.
 - 1.92.2: Broschen am Lady-Kleid mittig unter der Spitze des Ausschnitts (`html.theme-retreat .dress-medals` left 41,5 %, top 17,8 %),
   nicht mehr auf der Brust. Prompt für sechs neue, kostbarere Broschen: „3 Morning Retreat Style/Broschen – Prompts (24.10.2026).md“.
+- 1.92.3: keine Tagebücher mehr in der Vitrine (alle im Bücherteil, `oldKeys = []`); Mystery: Fuchs vor dem Bücherteil (`left:-74%`),
+  nie vor dem Hund; Lady: Rosentischchen/Weihnachtsbaum links neben dem Regal (`translateX(-98%)`, Zeile `padding-left` 0,46 `--lh`,
+  Raum `background-position-x` mitgeschoben); AGS: Medaillen 20 % kleiner, linker Rand bleibt, untere Reihe halb unter der oberen
+  (`nth-child(n+4)` margin-top), obere linke per `clip-path` am Revers abgeschnitten; AGS-Trophäen im Tagebuch auf Navy-Karte mit
+  Bronzerand (`tbIsRlTrophyImg`, `.is-trophy-rl`), weil die Freisteller Navy-Ränder haben.
 - Prompts Weihnachtsbaum (schmiedeeiserner Ständer, alter Glasschmuck) und Adventskranz für alle drei Designs:
   Sammelordner „Weihnachtsbaum und Adventskranz – Prompts (24.10.2026).md“.
 - **Geplant (Datenschutz, noch nicht gebaut):** Ende-zu-Ende-Verschlüsselung (AES-256 auf dem Gerät, Schlüssel aus dem Passwort mit
