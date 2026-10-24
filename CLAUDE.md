@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.92.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.92.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -511,6 +511,19 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Rose = pinke Rose mit Band, Musik = Stimmgabel mit Band (Wunsch des Nutzers).
 - A Mystery World: Versuch, die Trophäen vom Navy-Rand zu befreien (1.91.0), gefiel dem Nutzer gar nicht und wurde in 1.91.1 komplett
   zurückgenommen (alte Bilder, nachtblaue Karte im Tagebuch bleibt). Nicht noch einmal per Skript versuchen; nur mit neuen Bildern vor Grau.
+
+## Seit 1.92.1
+- **Lebensfreude** statt „Freude“ (de; en „Joy in life“): Bereichsname, Sonne, Karte, Vergleich, Trophäentext. Die Frage (`joyFeelQ`)
+  macht klar, dass es um das Leben geht, nicht um einen Tag („denk an die letzten Wochen“). Stimmung des Moments = Achtsamkeit.
+- **Buchrücken:** Titel und Jahr stehen in einer senkrechten Zeile (`.shelf-key` steckt in `.shelf-title`), die Schrift wird
+  kleiner, wenn die Zeile nicht passt (`--spine-fit` aus der Zeichenzahl, Hoch-/Querformat). Nichts wird mehr abgeschnitten.
+- Prompts Weihnachtsbaum (schmiedeeiserner Ständer, alter Glasschmuck) und Adventskranz für alle drei Designs:
+  Sammelordner „Weihnachtsbaum und Adventskranz – Prompts (24.10.2026).md“.
+- **Geplant (Datenschutz, noch nicht gebaut):** Ende-zu-Ende-Verschlüsselung (AES-256 auf dem Gerät, Schlüssel aus dem Passwort mit
+  absichtlich langsamer Ableitung, Wiederherstellungs-Code, Code in den Einstellungen wieder anzeigbar), Passwort-Regel wie Apple
+  (mind. 10 Zeichen, Groß-/Kleinbuchstabe, Zahl, Sonderzeichen, Häkchen je Regel), Speicher-Erinnerung (80 %/90 %, später 22 MB),
+  verschlüsseltes Backup + monatliche Erinnerung, danach IndexedDB statt localStorage und Fotos einzeln im Supabase-Speicher.
+  Grundsatz des Nutzers: Betreiber sehen keine Daten der Nutzer außer den technisch nötigen.
 
 ## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
 - Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt
