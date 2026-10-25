@@ -1248,6 +1248,7 @@ html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
 /* 25.10.2026: new pictures – Pentecost (sage coat over the embroidered skirt), Easter (emerald), New Year (celadon-gold, corrected) */
 .lib-dress-wrap.dress-pentecost{ --bx:60.5%; --by:14.4%; } /* on the right lapel (marked by the user) */
 .lib-dress-wrap.dress-celadon2{ --bx:51%; --by:16.2%; } /* where the cups meet at the top, on the middle line (marked by the user) */
+.lib-dress-wrap:is(.dress-blouse-pink, .dress-blouse-navy){ --bx:61%; --by:17.5%; } /* on the left breast of the blouse, where a logo would sit */
 .lib-dress-wrap.dress-emerald2{ --bx:50%; --by:20.8%; } /* at the bottom of the V between the cups (marked by the user) */
 .lib-dress-wrap.dress-emerald .dress-watch, .lib-dress-wrap.dress-celadon .dress-watch{ left:30%; top:25.5%; }
 .brooch-pick{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:10px 0 6px; }
@@ -1966,7 +1967,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.98.2';
+const APP_VERSION = '1.98.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -7007,7 +7008,8 @@ function ladyDressKind(now){
   const e = easterSunday(now.getFullYear()), is = add=>{ const x = new Date(e.getFullYear(), e.getMonth(), e.getDate() + add); return x.getMonth() === m && x.getDate() === d; }; // calendar days (no trouble with summer time)
   if(is(0) || is(1)) return 'emerald2';
   if(is(49) || is(50)) return 'pentecost';
-  return 'burgundy';
+  // everyday (25.10.2026): the burgundy dress and the two blouses with skirts take turns, one each day
+  return ['burgundy', 'blouse-pink', 'blouse-navy'][Math.floor(Date.UTC(now.getFullYear(), m, d) / 864e5) % 3];
 }
 // 25.10.2026 (wish of the user): the gentleman's dress form – the tuxedo from Christmas Eve to New Year's Day, on Epiphany and on
 // Easter Sunday and Monday; the navy double-breasted waistcoat on all other feast days; otherwise the green velvet riding coat

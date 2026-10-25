@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.98.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.98.3`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -619,6 +619,8 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   „Ausgang“): Alltag grüner Samt-Reitrock (`rl2/dress-riding`, ersetzt `rl/dress-form`; die Mary Janes aus dem Bild entfernt), Smoking
   (`rl2/dress-tux`) vom 24.12. bis 1.1., am 6.1. und Ostersonntag/-montag, zweireihige Navy-Weste (`rl2/dress-vest`) an allen anderen Feiertagen aus
   `holidayKey` (ohne Advent). `gentDressKind()`, Klasse `gent-<art>`; die Medaillen je Outfit auf der freien linken Brust (`.gent-* .dress-medals`).
+- 1.98.3: Lady-Alltag wechselt täglich zwischen Burgund-Kleid, Bluse Pink + Rock Burgund (`rt2/dress-blouse-pink`) und Bluse Weiß + Rock Navy
+  (`rt2/dress-blouse-navy`), beide mit Budapester-Pumps (`ladyDressKind`, Tag seit 1970 modulo 3). Brosche auf der Bluse links auf Logo-Höhe (61 % / 17,5 %).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
