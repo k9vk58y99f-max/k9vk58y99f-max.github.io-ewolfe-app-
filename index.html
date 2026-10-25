@@ -1234,16 +1234,16 @@ html.theme-retreat .dress-medal{ margin:0 calc(var(--dh) * -0.002); filter:drop-
 html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
 /* 1.93.0: one brooch, centred under the dip of the neckline (positions per dress) */
 .dress-brooch{ position:absolute; left:var(--bx, 50%); top:var(--by, 19%); transform:translate(-50%, -50%); background:none; border:none; padding:0; cursor:pointer; filter:drop-shadow(0 1px 1.5px rgba(0,0,0,0.45)); z-index:2; }
-.dress-brooch img{ display:block; height:calc(var(--dh) * 0.034); width:auto; }
+.dress-brooch img{ display:block; height:calc(var(--dh) * 0.039); width:auto; } /* 25.10.2026: 15 % bigger */
 .lib-dress-wrap.dress-wide{ --bx:50%; --by:19.6%; }
 .lib-dress-wrap.dress-emerald{ --bx:51.9%; --by:19.8%; }
 .lib-dress-wrap.dress-celadon{ --bx:51.1%; --by:19.4%; }
 .lib-dress-wrap.dress-burgundy{ --bx:49.3%; --by:10.4%; } /* on the high collar, above the keyhole */
 .lib-dress-wrap.dress-plaid{ --bx:50.8%; --by:16.2%; } /* in the middle of the square neckline */
 /* 25.10.2026: new pictures – Pentecost (sage coat over the embroidered skirt), Easter (emerald), New Year (celadon-gold, corrected) */
-.lib-dress-wrap.dress-pentecost{ --bx:51.5%; --by:19.5%; } /* where the lapels cross */
-.lib-dress-wrap.dress-celadon2{ --bx:50%; --by:17%; } /* between the cups, below the crossing straps */
-.lib-dress-wrap.dress-emerald2{ --bx:50%; --by:17.5%; }
+.lib-dress-wrap.dress-pentecost{ --bx:60.5%; --by:14.4%; } /* on the right lapel (marked by the user) */
+.lib-dress-wrap.dress-celadon2{ --bx:51%; --by:16.2%; } /* where the cups meet at the top, on the middle line (marked by the user) */
+.lib-dress-wrap.dress-emerald2{ --bx:50%; --by:20.8%; } /* at the bottom of the V between the cups (marked by the user) */
 .lib-dress-wrap.dress-emerald .dress-watch, .lib-dress-wrap.dress-celadon .dress-watch{ left:30%; top:25.5%; }
 .brooch-pick{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:10px 0 6px; }
 .brooch-pick-btn{ width:44px; height:44px; padding:4px; border-radius:10px; border:1px solid var(--ew-line); background:transparent; cursor:pointer; }
@@ -1961,7 +1961,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.98.0';
+const APP_VERSION = '1.98.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6492,8 +6492,8 @@ function libScrollHint(el){ if(el && el.parentNode){ el.parentNode.classList.tog
 function libArrow(btn, dir){ const sc = btn.parentNode.querySelector('.lib-scroll'); if(sc) sc.scrollBy({ left:dir * Math.max(120, sc.clientWidth * 0.7), behavior:'smooth' }); }
 // the landscape outside the window follows the seasons (25.10.2026): a picture per season where there is one, otherwise the summer room
 // 25.10.2026: spring, autumn and winter for A Gentleman's Study and A Lady's Conservatory (winter: the conservatory door closed;
-// the picture with the open door is kept as rt2/room-winter-open). A Mystery World: only summer so far
-const ROOM_FILES = { rl2:{ summer:'room', spring:'room-spring', autumn:'room-autumn', winter:'room-winter' }, mw2:{ summer:'room' },
+// the picture with the open door is kept as rt2/room-winter-open); A Mystery World as well (night with moon and castle in every season)
+const ROOM_FILES = { rl2:{ summer:'room', spring:'room-spring', autumn:'room-autumn', winter:'room-winter' }, mw2:{ summer:'room', spring:'room-spring', autumn:'room-autumn', winter:'room-winter' },
   rt2:{ summer:'room', spring:'room-spring', autumn:'room-autumn', winter:'room-winter' } };
 function roomSeason(now){ const m = (now || new Date()).getMonth(); return m >= 2 && m <= 4 ? 'spring' : m >= 5 && m <= 7 ? 'summer' : m >= 8 && m <= 10 ? 'autumn' : 'winter'; }
 function roomPicture(){ const dir = RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2', f = ROOM_FILES[dir]; return 'img/' + dir + '/' + (f[roomSeason()] || f.summer) + '.webp'; }

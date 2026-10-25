@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.98.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.98.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -612,6 +612,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   - Supabase: Sicherungskopie `backup.user_data_20261024` gelöscht.
   - Bestellte Bilder (Sammelordner „Ausgang“): Gentleman Weste zweireihig und Smoking (Medaillen müssen auf die linke Brust passen), Lady Bluse
     (Celadon) und Rock (Deep Forest Green) mit halbhohen Budapestern, Mystery-Jahreszeiten.
+- 1.98.1: Mystery-Räume je Jahreszeit (`mw2/room-spring|autumn|winter`, draußen immer Nacht mit Mond und Schloss). Lady-Broschen 15 % größer
+  (`.dress-brooch img` 0,039 `--dh`) und an den vom Nutzer markierten Stellen: Pfingsten auf dem rechten Revers (60,5 % / 14,4 %), Ostern unten im V
+  zwischen den Körbchen (50 % / 20,8 %), Silvester oben zwischen den Körbchen (51 % / 16,2 %).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
