@@ -1240,6 +1240,10 @@ html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
 .lib-dress-wrap.dress-celadon{ --bx:51.1%; --by:19.4%; }
 .lib-dress-wrap.dress-burgundy{ --bx:49.3%; --by:10.4%; } /* on the high collar, above the keyhole */
 .lib-dress-wrap.dress-plaid{ --bx:50.8%; --by:16.2%; } /* in the middle of the square neckline */
+/* 25.10.2026: new pictures – Pentecost (sage coat over the embroidered skirt), Easter (emerald), New Year (celadon-gold, corrected) */
+.lib-dress-wrap.dress-pentecost{ --bx:51.5%; --by:19.5%; } /* where the lapels cross */
+.lib-dress-wrap.dress-celadon2{ --bx:50%; --by:17%; } /* between the cups, below the crossing straps */
+.lib-dress-wrap.dress-emerald2{ --bx:50%; --by:17.5%; }
 .lib-dress-wrap.dress-emerald .dress-watch, .lib-dress-wrap.dress-celadon .dress-watch{ left:30%; top:25.5%; }
 .brooch-pick{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:10px 0 6px; }
 .brooch-pick-btn{ width:44px; height:44px; padding:4px; border-radius:10px; border:1px solid var(--ew-line); background:transparent; cursor:pointer; }
@@ -1311,23 +1315,24 @@ html.theme-biz .icon-default .tb-cover-caption .tb-cover-year, html.theme-biz .t
    warm sand accents, dark warm text; Cormorant Garamond for headings, Jost for text, round buttons. It sits on top of
    A Gentleman's Study and uses its pictures (with the red placeholder note) until its own come. The diary pages stay. ===== */
 :root.theme-biz.theme-retreat{
+  /* 25.10.2026 (wish of the user): no hard white any more – cards, windows, bar and button text in soft ivory (#f8f1e5, #f6eee1), page in warm cream (#f8f1e5) */
   /* new colours (preview 21.10.2026, „more colourful“): the colour card – deep forest green #1B4D2A (buttons, now-line),
      deep burgundy #7A0B25 (headings), deep raspberry #D62C68 (sub-headings darker #B81F57, wish, active), rich celadon #79B8A7
      (soft fills), soft sage #87A994, gold #B8893A */
-  --ew-navy:#fbf6ee; --ew-navy-2:#fffdf8; --ew-ink:#262622; --ew-white:#262622;
-  --ew-violet:#1B4D2A; --ew-green:#1B4D2A; --ew-uv-violet:#f6e3e8; --ew-uv-violet-2:#e3f1ec; --ew-uv-navy:#fbf6ee; --ew-uv-navy-2:#fffdf8;
+  --ew-navy:#f8f1e5; --ew-navy-2:#f8f1e5; --ew-ink:#262622; --ew-white:#262622;
+  --ew-violet:#1B4D2A; --ew-green:#1B4D2A; --ew-uv-violet:#f6e3e8; --ew-uv-violet-2:#e3f1ec; --ew-uv-navy:#f8f1e5; --ew-uv-navy-2:#f8f1e5;
   --ew-uv-lilac:#1B4D2A; --ew-uv-lilac-soft:rgba(27,77,42,0.5);
   --ew-text:#262622; --ew-text-dim:#5f5a52; --ew-line:rgba(41,39,35,0.25);
   --gold:#D62C68; --gold-text:#B81F57; --gold-rgb:214,44,104; --ew-turquoise:#1B4D2A;
-  --ew-panel:#fffdf8; --ew-panel-2:#fbf3f1; --ew-radius:14px;
+  --ew-panel:#f8f1e5; --ew-panel-2:#f2e8e0; --ew-radius:14px;
   --biz-display:'Cormorant Garamond', Georgia, serif;
-  --rt-sage:#1B4D2A; --rt-sage-d:#B81F57; --rt-soft:#e3f1ec; --rt-card:#fffdf8; --rt-burgundy:#7A0B25; --rt-celadon:#79B8A7;
+  --rt-sage:#1B4D2A; --rt-sage-d:#B81F57; --rt-soft:#e3f1ec; --rt-card:#f8f1e5; --rt-burgundy:#7A0B25; --rt-celadon:#79B8A7;
   color-scheme:light;
 }
-html.theme-retreat body, html.theme-retreat .page-modal, html.theme-retreat .tb-overlay{ background:linear-gradient(180deg, #fbf6ee 0%, #fbf3ef 55%, #f3e1e6 100%) fixed !important; color:var(--ew-text); font-family:'Jost', 'Inter', sans-serif; }
-html.theme-retreat::before{ background:#fbf6ee; }
+html.theme-retreat body, html.theme-retreat .page-modal, html.theme-retreat .tb-overlay{ background:linear-gradient(180deg, #f8f1e5 0%, #f6ebe4 55%, #f2e1e0 100%) fixed !important; color:var(--ew-text); font-family:'Jost', 'Inter', sans-serif; }
+html.theme-retreat::before{ background:#f8f1e5; }
 html.theme-retreat body{ font-weight:400; }
-html.theme-retreat .topbar{ background:linear-gradient(180deg, rgba(251,246,238,0.96), rgba(251,246,238,0.7)); }
+html.theme-retreat .topbar{ background:linear-gradient(180deg, rgba(248,241,229,0.96), rgba(248,241,229,0.7)); }
 /* headings: soft serif, no capitals; subheadings in dark sage */
 html.theme-retreat .modal-title, html.theme-retreat .scene-head h1, html.theme-retreat .tb-topbar h2, html.theme-retreat #t-scene-title, html.theme-retreat .modal-top h2{
   font-stretch:normal; font-weight:400 !important; text-transform:none; letter-spacing:0.01em; font-size:calc(var(--fs-h) * 1.3); color:var(--ew-text) !important; }
@@ -1344,14 +1349,14 @@ html.theme-retreat #t-logo{ font-stretch:normal; letter-spacing:0.2em; color:var
 html.theme-retreat .primary-btn, html.theme-retreat .ghost-btn, html.theme-retreat .seg-btn, html.theme-retreat .mini-btn, html.theme-retreat .medi-start-btn, html.theme-retreat .chip,
 html.theme-retreat .tb-chip-btn, html.theme-retreat .timer-chips button, html.theme-retreat .tb-del-book, html.theme-retreat .home-goals-btn, html.theme-retreat .areas-cta,
 html.theme-retreat .mood-opt span{ font-family:'Jost', sans-serif !important; font-stretch:normal; font-weight:400 !important; letter-spacing:0.1em; }
-html.theme-retreat .primary-btn{ background:var(--rt-sage) !important; color:#fbf8f0 !important; border:none !important; border-radius:999px !important; box-shadow:0 4px 14px rgba(27,77,42,0.25) !important; }
+html.theme-retreat .primary-btn{ background:var(--rt-sage) !important; color:#f6eee1 !important; border:none !important; border-radius:999px !important; box-shadow:0 4px 14px rgba(27,77,42,0.25) !important; }
 html.theme-retreat .panel{ border-top:3px solid var(--rt-celadon) !important; }
 html.theme-retreat .ghost-btn{ border:1px solid var(--gold) !important; color:var(--gold-text) !important; background:transparent !important; border-radius:999px !important; }
 html.theme-retreat .seg-btn{ border-radius:999px; color:var(--ew-text); }
 html.theme-retreat .seg-btn.active{ background:var(--rt-soft); color:var(--rt-sage); box-shadow:inset 0 0 0 1px var(--rt-celadon); }
 html.theme-retreat .design-btn{ border-radius:14px !important; }
 html.theme-retreat .panel{ background:var(--rt-card); border:none; border-radius:14px; box-shadow:0 2px 10px rgba(90,80,60,0.06); }
-html.theme-retreat .modal{ background:#fffdf8; color:var(--ew-text); }
+html.theme-retreat .modal{ background:#f8f1e5; color:var(--ew-text); }
 html.theme-retreat .modal-backdrop:not(.page-modal){ background:rgba(41,39,35,0.35); }
 html.theme-retreat input:not([type=range]):not([type=checkbox]):not([type=radio]), html.theme-retreat textarea, html.theme-retreat select{
   background:#fffdf8 !important; color:var(--ew-text) !important; border:1px solid rgba(41,39,35,0.275) !important; }
@@ -1365,7 +1370,7 @@ html.theme-retreat input[type=range].range-wish{ background:linear-gradient(90de
 html.theme-retreat .nav-gold, html.theme-retreat .area-ico image, html.theme-retreat .gold-ui, html.theme-retreat .gold-x, html.theme-retreat .gold-arrow, html.theme-retreat .gold-user,
 html.theme-retreat .gold-gear, html.theme-retreat .tb-lib-ico, html.theme-retreat svg image[href*="icons-rl/"], html.theme-retreat img[src*="icons-rl/"]{ filter:brightness(0.26) !important; }
 /* bottom bar: light, the page that is showing in dark sage */
-html.theme-retreat .bottom-nav{ background:rgba(255,253,248,0.97); border-top:1px solid rgba(41,39,35,0.225); box-shadow:0 -4px 16px rgba(90,80,60,0.06); }
+html.theme-retreat .bottom-nav{ background:rgba(248,241,229,0.97); border-top:1px solid rgba(41,39,35,0.225); box-shadow:0 -4px 16px rgba(90,80,60,0.06); }
 html.theme-retreat .nav-item, html.theme-retreat .nav-item:hover{ color:var(--ew-text-dim); font-family:'Jost', sans-serif; }
 html.theme-retreat .nav-item.active{ color:var(--rt-sage-d); }
 html.theme-retreat .nav-item.active::after{ background:var(--gold); left:30%; right:30%; height:3px; border-radius:2px; }
@@ -1393,17 +1398,24 @@ html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:22%; } /* the b
    (13–62 % of the picture) behind the bookcases, the floor line (86 %) at their feet; scrolling right leads to the open doors
    into the forest, so the row is as wide as the picture */
 /* new colours (21.10.2026): the raspberry bookcase is slimmer, so the picture is measured in shelf heights (--lh), not widths */
-html.theme-retreat .shelf-orchid.shelf-xmas{ height:89.6%; bottom:-3%; transform:translateX(-96%); } /* 24.10.2026: tree and crib in exactly the same place in all designs */
+html.theme-retreat .shelf-orchid.shelf-xmas{ height:89.6%; bottom:-3%; transform:translateX(-95.56%); /* 25.10.2026: tip of the tree exactly where the gentleman's is */ } /* 24.10.2026: tree and crib in exactly the same place in all designs */
 /* 21.10.2026: rooms for the other two designs as well (same size and position as the conservatory): A Gentleman's Study a navy country-house
    library with a park window, A Mystery World a magical library salon with a starry window */
 /* 25.10.2026 (wish of the user): ONE room layout for all three designs – same size, same place for the bookcase and the dress. Each room picture
    has its own offset (--rx, --ry in shelf heights) until all rooms share the composition of the gentleman's room (prompts of 25.10.2026) */
-html .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.39)); --rx:-0.306; --ry:0.19; padding-bottom:calc(var(--lh) * 0.16) !important; min-width:max(100%, calc(var(--lh) * 2.36));
-  background:url(img/rl2/room.webp) no-repeat; background-size:calc(var(--lh) * 2.667) auto; border-radius:14px; justify-content:flex-start !important;
-  padding-left:calc(var(--lh) * 0.42) !important; background-position:calc(var(--lh) * var(--rx)) calc(100% + var(--lh) * var(--ry)) !important; }
-html .lib-row .shelf-unit{ scroll-margin-left:calc(var(--lh) * 0.42); }
-html:not(.theme-biz) .lib-row{ --ry:0.30; }
-html.theme-retreat .lib-row{ background-image:url(img/rt2/conservatory.webp); --rx:-0.17; --ry:0.045; } /* the present conservatory, until the new room comes */
+html .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.39)); --rx:0; --rs:1; --px:0.72; --ry:0.19; padding-bottom:calc(var(--lh) * 0.16) !important; min-width:max(100%, calc(var(--lh) * 2.667 * var(--rs)));
+  background:url(img/rl2/room.webp) no-repeat; background-size:calc(var(--lh) * 2.667 * var(--rs)) auto; border-radius:14px; justify-content:flex-start !important;
+  padding-left:calc(var(--lh) * var(--px)) !important; background-position:calc(var(--lh) * var(--rx)) calc(100% + var(--lh) * var(--ry)) !important; }
+html .lib-row .shelf-unit{ scroll-margin-left:calc(var(--lh) * var(--px)); }
+html .lib-row.lib-row.lib-row{ padding-left:calc(var(--lh) * var(--px)) !important; } /* stronger than the old centring rule (1.81.0), so the bookcase keeps its place in the room */
+/* 25.10.2026 (wish of the user): the whole room can be seen (row as wide as the room picture, no offset to the left); --px = where the bookcase
+   stands in the room. A Gentleman's Study: bookcase and dress form 15 % further left than before (room x 1.13 → 0.72 shelf heights = 15 % of the room); the same in every design */
+/* all three rooms share one composition (25.10.2026). Measured in the 1536×1024 pictures: bottom of the wall y_w (Gentleman 780, Mystery 752,
+   Lady 735) and bottom of the lamp y_l (237, 262, 237). --rs scales a room so that the lamp hangs as high above the floor as in the gentleman's
+   room ((780 − 237) / (y_w − y_l)); --px puts the bookcase at the same place on the screen in every design (0.72); --ry puts the bottom of the wall exactly at
+   the feet of the bookcase: ry = 0.19 − 1.778 × (1 − 780/1024) + 1.778 × rs × (1 − y_w/1024) */
+html:not(.theme-biz) .lib-row{ --rs:1.108; --ry:0.2895; }
+html.theme-retreat .lib-row{ background-image:url(img/rt2/room.webp); --rs:1.090; --ry:0.3132; } /* the new lady's room in the composition of the gentleman's room */
 html:not(.theme-biz) .lib-row{ background-image:url(img/mw2/room.webp); } /* bookcase and cabinet close together (21.10.2026) */
 /* 21.10.2026: the trophies stand exactly on the boards / the glass; above eye level the front edge of the board hides a bit of their foot */
 /* 21.10.2026, all designs: trophies stand exactly on the boards / the glass; above eye level the board's front edge hides a bit of their foot;
@@ -1425,14 +1437,14 @@ html.theme-retreat .medi-streak > div:first-child{ flex:1; min-width:0; }
 html.theme-retreat .medi-streak .ghost-btn{ letter-spacing:0.03em; text-transform:none; }
 html.theme-retreat .gate-link{ font-family:'Jost', sans-serif !important; }
 html.theme-retreat .tb-topbar{ background:rgba(247,243,234,0.96) !important; color:var(--ew-text); }
-html.theme-retreat .tb-shelf-gear{ background:rgba(255,253,248,0.85); }
+html.theme-retreat .tb-shelf-gear{ background:rgba(248,241,229,0.85); }
 html.theme-retreat .tb-cover{ position:relative; }
 /* 1.86.8: own linen covers – no placeholder note on cover and title page any more */
-html.theme-retreat .lib-wrap.more::after{ background:rgba(255,253,248,0.92); color:var(--rt-sage-d); box-shadow:0 0 0 1px rgba(47,79,62,0.5); }
+html.theme-retreat .lib-wrap.more::after{ background:rgba(248,241,229,0.92); color:var(--rt-sage-d); box-shadow:0 0 0 1px rgba(47,79,62,0.5); }
 /* text that was written light on dark: dark here */
 html.theme-retreat :is(.mood-opt, .mood-cmp-one, .compare-text, .imp-hint, .ground-num, .timer-chips button, #breath-phase, .trophy-box){ color:var(--ew-text) !important; }
 html.theme-retreat .mood-opt:is(:hover, :active){ color:var(--rt-sage-d) !important; border-color:var(--rt-sage); }
-html.theme-retreat .breath-violet-btn{ color:#fbf8f0 !important; background:var(--rt-sage) !important; }
+html.theme-retreat .breath-violet-btn{ color:#f6eee1 !important; background:var(--rt-sage) !important; }
 html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(247,243,234,0.86) !important; }
 /* the orchid on its plant stand (1.84.2): left of the shelf, a little in front; the row makes room for it */
  /* 1.92.3: room for the table next to the bookcase, the room moves along */
@@ -1448,15 +1460,16 @@ html .lib-row .shelf-img.sv .shelf-dog-lying{ right:-66% !important; }
 html .lib-row .shelf-img.sv .shelf-dog{ right:-62% !important; }
 button.shelf-crib-side.is-tro{ pointer-events:auto; background:none; border:0; padding:0; }
 button.shelf-crib-side.is-tro img{ height:100%; width:auto; display:block; }
-html .lib-row.has-xmas.has-xmas.has-xmas{ padding-left:calc(var(--lh) * 0.64) !important; } /* room for the bigger tree */
-html .lib-row.has-xmas .shelf-unit{ scroll-margin-left:calc(var(--lh) * 0.64) !important; }
+html .lib-row.has-xmas.has-xmas.has-xmas{ padding-left:calc(var(--lh) * max(var(--px), 0.64)) !important; } /* room for the bigger tree */
+html .lib-row.has-xmas .shelf-unit{ scroll-margin-left:calc(var(--lh) * max(var(--px), 0.64)) !important; }
 .shelf-unit > .shelf-crib-side{ position:absolute; left:0; bottom:-5%; height:20.4%; transform:translateX(-72%); /* 24.10.2026: all cribs equally high, 15 % smaller, further right towards the bookcase */ z-index:4; pointer-events:none; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.45)); } /* in front of the tree */
 /* the Christmas tree of A Mystery World and A Gentleman's Study: left beside the bookcase, like the Lady's */
 .shelf-unit > .shelf-xmas-side{ position:absolute; left:0; bottom:-3%; height:89.6%; /* 40 % bigger (24.10.2026) */ transform:translateX(-96%); z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.4)); }
+html:not(.theme-biz) .shelf-unit > .shelf-xmas-side{ transform:translateX(-99.05%); } /* 25.10.2026: the tip of every tree in the same place as the gentleman's (measured) */
 /* 24.10.2026 (wish of the user): in A Mystery World and A Gentleman's Study the bookcase stands back against the wall and further left,
    like in A Lady's Conservatory: the room moves down until its wall ends at the feet of the furniture */
 /* A Lady's Conservatory: the dress stand further left (wish of the user, 24.10.2026) */
-html.theme-biz:not(.theme-retreat) .lib-row .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96); } /* 24.10.2026: the gentleman's dress form as tall as the lady's */
+html.theme-biz:not(.theme-retreat) .lib-row .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96); margin-bottom:calc(var(--dh) * -0.06); } /* 25.10.2026: on the floor, not floating */ /* 24.10.2026: the gentleman's dress form as tall as the lady's */
 /* 24.10.2026 (wish of the user): the dog has the same size in every design – as in A Gentleman's Study */
 html:not(.theme-biz) .shelf-dog{ height:34%; }
 html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
@@ -1488,7 +1501,7 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 .lib-wrap.more .lib-arrow-r{ display:flex; right:4px; }
 .lib-wrap.less .lib-arrow-l{ display:flex; left:4px; }
 html.theme-biz .lib-arrow{ border-radius:2px; }
-html.theme-retreat .lib-arrow{ background:rgba(255,253,248,0.92); color:var(--rt-sage-d); box-shadow:0 0 0 1px rgba(47,79,62,0.5); }
+html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt-sage-d); box-shadow:0 0 0 1px rgba(47,79,62,0.5); }
 </style>
 </head>
 <body data-theme="dark">
@@ -1552,7 +1565,9 @@ html.theme-retreat .lib-arrow{ background:rgba(255,253,248,0.92); color:var(--rt
 <div id="joy-deep-wrap"></div>
 <div class="home-new" id="home-new-wrap"><button class="primary-btn" id="new-bewertung-btn">Neues Lebensrad erstellen</button></div>
 <!-- 1.97.1 (wish of the user): a big button under the wheel, above the earlier wheels, to the goals page -->
-<div class="home-new" id="home-goals-wrap"><button class="primary-btn" id="home-goals-go" onclick="document.getElementById('goals-btn').click()">Ziele bearbeiten</button></div>
+<div class="home-new" id="home-goals-wrap"><button class="primary-btn" id="home-goals-go" onclick="document.getElementById('goals-btn').click()">Ziele bearbeiten</button>
+  <!-- 25.10.2026 (wish of the user): the wheel goes into the diary from here, like a trophy (no longer from the diary's tools) -->
+  <button class="ghost-btn" id="home-wheel-diary" onclick="wheelToDiary()" style="margin-top:10px;width:100%;">Lebensrad ins Tagebuch</button></div>
 <div class="goal-table-card wheel-hist-home" id="wheel-hist-home">
   <h3 id="t-wheel-hist-title">Frühere Lebensräder</h3>
   <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
@@ -1946,7 +1961,7 @@ html.theme-retreat .lib-arrow{ background:rgba(255,253,248,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.97.2';
+const APP_VERSION = '1.98.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4464,8 +4479,8 @@ Object.assign(I18N.de, { diaryLandPhone:'Tipp: Auf dem Handy ist das Hochformat 
 Object.assign(I18N.de, { diaryLandPhoneWarn:'Querformat auf dem Handy?\n\nAuf dem Handy wird eine Querformat-Seite sehr klein: die Schrift ist winzig und Schreiben und Zeichnen sind mühsam. Das Format gilt für das ganze Buch und lässt sich später nicht ändern.\n\nWenn du vor allem am Handy schreibst, nimm lieber das Hochformat.', diaryLandKeep:'Trotzdem Querformat' });
 Object.assign(I18N.en, { diaryLandPhoneWarn:'Landscape on a phone?\n\nOn a phone a landscape page becomes very small: the text is tiny and writing and drawing are fiddly. The format applies to the whole book and cannot be changed later.\n\nIf you mostly write on your phone, portrait is the better choice.', diaryLandKeep:'Landscape anyway' });
 Object.assign(I18N.en, { diaryLandPhone:'Tip: on a phone the portrait format is more comfortable. Landscape suits tablets and computers better.' });
-Object.assign(I18N.de, {"broochWear": "Am Kleid tragen", "broochWorn": "Diese Brosche trägt das Kleid", "trophyToDiary": "Ins Tagebuch", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
-Object.assign(I18N.en, {"broochWear": "Wear on the dress", "broochWorn": "The dress wears this brooch", "trophyToDiary": "Add to diary", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
+Object.assign(I18N.de, {"broochWear": "Am Kleid tragen", "broochWorn": "Diese Brosche trägt das Kleid", "trophyToDiary": "Ins Tagebuch", "wheelToDiary": "Lebensrad ins Tagebuch", "wheelDiaryHead": "Mein Lebensrad vom {date}", "wheelDiarySaved": "Dein Lebensrad steht jetzt in deinem Tagebuch.", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
+Object.assign(I18N.en, {"broochWear": "Wear on the dress", "broochWorn": "The dress wears this brooch", "trophyToDiary": "Add to diary", "wheelToDiary": "Wheel of life to diary", "wheelDiaryHead": "My wheel of life from {date}", "wheelDiarySaved": "Your wheel of life is now in your diary.", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
 Object.assign(I18N.de, { designHint:'Die App startet danach kurz neu. Deine Daten bleiben, wie sie sind.' });
 Object.assign(I18N.en, { designHint:'The app restarts briefly. Your data stays as it is.' });
 Object.assign(I18N.de, { setDecor:'Tiere & Feiertagsschmuck', decorOn:'Anzeigen', decorOff:'Ausblenden', decorHint:'Tiere am Regal, Osterhase, Nikolaus, Adventskranz, Baum und Schnee. Deine Trophäen bleiben immer.' });
@@ -4711,6 +4726,7 @@ function applyLang(){
   document.getElementById('nav-home-label').textContent = d.navHome;
   document.getElementById('nav-goals-label').textContent = d.navGoals;
   document.getElementById('home-goals-go').textContent = d.goalsEdit;
+  document.getElementById('home-wheel-diary').textContent = d.wheelToDiary;
   document.getElementById('nav-areas-label').textContent = d.navAreas;
   if(document.getElementById('areas-page').classList.contains('open')) renderAreasPage();
   document.getElementById('t-goals-title').textContent = d.goalsTitle;
@@ -6430,15 +6446,16 @@ function tbSpineHtml(key){
    the narrow book part on the left (NARROW) and the trophy part on the right (SHELVES), cut at the middle post so they join exactly.
    The rows end in the middle of each board; above eye level the board's front edge lies over the trophies (fronts). */
 const SHELF_ROWS2 = [[7.5, 23], [23.9, 39.3], [39.9, 55.8], [56.8, 72.6], [74.2, 89.9]];
+const SHELF_ROWS_RT = [[9.3, 24.4], [24.7, 39.8], [40.1, 55.5], [55.8, 71.4], [71.8, 88]]; // A Lady's Conservatory, cream bookcase (25.10.2026)
 const SHELVES = {
   dusty:{ img:'mw2/shelf-dusty', fronts:'mw2/shelf-dusty-fronts', aspect:501 / 1279, roof:1.8, x:[0.8, 88.4], rows:SHELF_ROWS2 }, // with cobwebs (the first two active days)
   clean:{ img:'mw2/shelf', fronts:'mw2/shelf-fronts', aspect:501 / 1279, roof:1.8, x:[0.8, 88.4], rows:SHELF_ROWS2 },
   ivy:{ img:'mw2/shelf-ivy', fronts:'mw2/shelf-ivy-fronts', aspect:501 / 1280, roof:1.8, x:[0.8, 88.4], rows:SHELF_ROWS2 },
   rl:RETREAT
-    ? { img:'rt2/shelf', fronts:'rt2/shelf-fronts', aspect:496 / 1279, roof:1.8, x:[0.8, 84.7], rows:SHELF_ROWS2 }
+    ? { img:'rt2/shelf', fronts:'rt2/shelf-fronts', aspect:640 / 1138, roof:1.8, x:[2.5, 87.7], rows:SHELF_ROWS_RT } // 25.10.2026: cream and green
     : { img:'rl2/shelf', fronts:'rl2/shelf-fronts', aspect:504 / 1278, roof:1.8, x:[0.8, 89.3], rows:SHELF_ROWS2 },
   rlPlant:{ img:'rl2/shelf-plant', fronts:'rl2/shelf-plant-fronts', aspect:480 / 1279, roof:1.8, x:[0.8, 88.8], rows:SHELF_ROWS2 }, // A Gentleman's Study from level 3: with the monstera
-  rtPlain:{ img:'rt2/shelf', fronts:'rt2/shelf-fronts', aspect:496 / 1279, roof:1.8, x:[0.8, 84.7], rows:SHELF_ROWS2 }
+  rtPlain:{ img:'rt2/shelf', fronts:'rt2/shelf-fronts', aspect:640 / 1138, roof:1.8, x:[2.5, 87.7], rows:SHELF_ROWS_RT }
 };
 // the cobwebs stay for the first two active days (since 1.83.0; before: one), from the 3rd the shelf is clean, ivy from level 3
 /* The narrow bookcase (1.81.0): as soon as the diaries no longer fit into the top compartment, a narrow bookcase of the same
@@ -6450,7 +6467,7 @@ const NARROW = {
   clean:{ img:'mw2/shelf-narrow', fronts:'mw2/shelf-narrow-fronts', aspect:332 / 1279, x:[16.3, 90.4], k:332 / 501, ov:0 },
   ivy:{ img:'mw2/shelf-ivy-narrow', fronts:'mw2/shelf-ivy-narrow-fronts', aspect:337 / 1280, x:[16.6, 90.5], k:337 / 501, ov:0, plant:{ img:'mw2/ivy', w:19.6, over:11.9 } },
   rl:RETREAT
-    ? { img:'rt2/shelf-narrow', fronts:'rt2/shelf-narrow-fronts', aspect:335 / 1279, x:[22.4, 90.4], k:335 / 496, ov:0 }
+    ? { img:'rt2/shelf-narrow', fronts:'rt2/shelf-narrow-fronts', aspect:311 / 1138, x:[25.7, 94.9], k:311 / 640, ov:0 }
     : { img:'rl2/shelf-narrow', fronts:'rl2/shelf-narrow-fronts', aspect:330 / 1278, x:[15.2, 91.5], k:330 / 504, ov:0 },
   rlPlant:{ img:'rl2/shelf-plant-narrow', fronts:'rl2/shelf-plant-narrow-fronts', aspect:324 / 1279, x:[13.9, 91.4], k:324 / 480, ov:0, plant:{ img:'rl2/plant', w:61.1, over:12.3 } }
 };
@@ -6464,16 +6481,20 @@ const SHELF_SV = {
   rl:{ narrow:{ img:'rl2/sv-narrow', fronts:'rl2/sv-narrow-fronts', aspect:393 / 1164, x:[47.1, 97.5], k:393 / 416, ov:0 },
     shelf:{ img:'rl2/sv-shelf', fronts:'rl2/sv-shelf-fronts', aspect:416 / 1164, roof:3.6, x:[2.4, 97.1], rows:[[12.4, 26.5], [27, 42.2], [42.6, 57.2], [57.7, 71.8], [73.2, 88]], plaque:[94.8, 3.4] },
     vit:{ img:'rl2/sv-vitrine', aspect:416 / 1164, VX:[7.5, 83.7], VR:[[12.4, 26.9], [27.1, 42.3], [42.5, 57.5], [57.7, 73.2], [73.5, 88]] } },
-  rt:{ narrow:{ img:'rt2/sv-narrow', fronts:'rt2/sv-narrow-fronts', aspect:292 / 1133, x:[27.4, 95.2], k:292 / 484, ov:0 },
-    shelf:{ img:'rt2/sv-shelf', fronts:'rt2/sv-shelf-fronts', aspect:484 / 1133, roof:0.8, x:[2.9, 97.1], rows:[[8.8, 24.4], [24.8, 39.6], [39.9, 55.2], [56.2, 70.6], [72.6, 88]], plaque:[94.3, 3.7] },
-    vit:{ img:'rt2/sv-vitrine', aspect:426 / 1133, VX:[7, 83.3], VR:[[8.8, 24.1], [24.5, 39.6], [40.1, 56], [56.5, 72], [72.6, 87.4]] } }
+  // 25.10.2026: A Lady's Conservatory in cream with back walls in the green of the room (pictures of the user, measured again)
+  rt:{ narrow:{ img:'rt2/sv-narrow', fronts:'rt2/sv-narrow-fronts', aspect:293 / 1130, x:[27.3, 94.5], k:293 / 487, ov:0 },
+    shelf:{ img:'rt2/sv-shelf', fronts:'rt2/sv-shelf-fronts', aspect:487 / 1130, roof:0.8, x:[3.3, 95.1], rows:[[9, 24.1], [24.4, 39.3], [39.6, 55.1], [55.5, 71.2], [71.5, 87.8]], plaque:[94.8, 3.7] },
+    vit:{ img:'rt2/sv-vitrine', aspect:419 / 1130, VX:[5.7, 83.5], VR:[[9.6, 24.1], [24.5, 39.7], [40.1, 56.1], [56.4, 72.6], [72.9, 86.5]] } }
 };
 const shelfKey = ()=>BIZ ? (!RETREAT && appLevel() >= 3 ? 'rlPlant' : 'rl') : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
 // the library scrolls sideways (1.81.0): a small arrow at the right edge while there is more to see
 function libScrollHint(el){ if(el && el.parentNode){ el.parentNode.classList.toggle('more', el.scrollLeft + el.clientWidth < el.scrollWidth - 8); el.parentNode.classList.toggle('less', el.scrollLeft > 8); } }
 function libArrow(btn, dir){ const sc = btn.parentNode.querySelector('.lib-scroll'); if(sc) sc.scrollBy({ left:dir * Math.max(120, sc.clientWidth * 0.7), behavior:'smooth' }); }
 // the landscape outside the window follows the seasons (25.10.2026): a picture per season where there is one, otherwise the summer room
-const ROOM_FILES = { rl2:{ summer:'room' }, mw2:{ summer:'room' }, rt2:{ summer:'conservatory' } };
+// 25.10.2026: spring, autumn and winter for A Gentleman's Study and A Lady's Conservatory (winter: the conservatory door closed;
+// the picture with the open door is kept as rt2/room-winter-open). A Mystery World: only summer so far
+const ROOM_FILES = { rl2:{ summer:'room', spring:'room-spring', autumn:'room-autumn', winter:'room-winter' }, mw2:{ summer:'room' },
+  rt2:{ summer:'room', spring:'room-spring', autumn:'room-autumn', winter:'room-winter' } };
 function roomSeason(now){ const m = (now || new Date()).getMonth(); return m >= 2 && m <= 4 ? 'spring' : m >= 5 && m <= 7 ? 'summer' : m >= 8 && m <= 10 ? 'autumn' : 'winter'; }
 function roomPicture(){ const dir = RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2', f = ROOM_FILES[dir]; return 'img/' + dir + '/' + (f[roomSeason()] || f.summer) + '.webp'; }
 const shelfNow = ()=>SHELVES[BIZ ? (!RETREAT && appLevel() >= 3 ? 'rlPlant' : 'rl') : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy'];
@@ -6832,7 +6853,7 @@ function trophyDefs(){
   out.push({ id:'classic12', kind:'img', img:RETREAT ? 'rt/bicycle' : BIZ ? 'rl/car' : 'trophy-car', scale:BIZ ? 0.6 : 0.5, aspect:RETREAT ? 1.63 : BIZ ? 2.61 : 3.77, need:12, list:months,
     title:L('Ein Klassiker', 'A true classic'), desc:L('In zwölf verschiedenen Monaten hast du ein Lebensrad erstellt – zeitlos wie ein Klassiker.', 'You created a wheel of life in twelve different months – timeless, like a classic.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle Lebensbereiche haben sich verbessert.', 'All areas of life have improved.') });
-  return (BIZ ? out.map(trophyRl) : out.map(trophyClassicNew)).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x);
+  return (BIZ ? out.map(trophyRl) : out.map(trophyClassicNew)).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x).map(trophyEvenWidth);
 }
 /* A Mystery World (1.81.2): fewer orbs – the same objects as in A Gentleman's Study, in golden paper style (ship's wheel, cup,
    pocket watch, telescope, grand cup, growing stacks of books). A picture replaces its orb as soon as its file is listed
@@ -6891,6 +6912,24 @@ const RT_TRO = {
 };
 const RT_EGGS = [['rt2/egg2-1', 0.668], ['rt2/egg2-2', 0.669], ['rt2/egg2-red1', 0.621], ['rt2/egg2-g1', 0.644], ['rt2/egg2-g2', 0.643]]; // on small gold stands (21.10.2026): raspberry, burgundy, red (only the gold band); the green ones follow
 const RT_BOOKS = [['rt2/books-1', 3.455, 0.31], ['rt2/books-2', 2.151, 0.47], ['rt2/books-3', 1.539, 0.65], ['rt2/books-4', 1.237, 0.82]];
+/* 25.10.2026 (wish of the user): glass cloches and obelisks equally wide in every design – as wide as in A Gentleman's Study, stage by stage.
+   The height follows from the picture (width / height). Not for the first gratitude of A Lady's Conservatory (the rose card). */
+const CLOCHE_GROUPS = ['box', 'b478', 'lemon', 'stones', 'bowl', 'grat'];
+const CLOCHE_W = [0.62 * 0.84, 0.74 * 0.84, 0.86 * 0.84]; // A Gentleman's Study: scale × width/height of its cloches
+const OBELISK_W = RL_TRO.streak.map((o, i)=>(0.5 + i * 0.1) * o[1]); // the crystal obelisks of A Gentleman's Study
+// the real width/height of the cloches of A Mystery World (the old values were only estimates)
+const MW_CLOCHE_AR = { 'trophy-lotus-1':0.891, 'trophy-lotus-2':0.931, 'trophy-lotus-3':0.919, 'trophy-cherry-1':0.663, 'trophy-cherry-2':0.629, 'trophy-cherry-3':0.652,
+  'trophy-lemon-1':0.866, 'trophy-lemon-2':0.877, 'trophy-lemon-3':0.758, 'trophy-stones-1':0.687, 'trophy-stones-2':0.671, 'trophy-stones-3':0.677,
+  'trophy-bowl-1':0.746, 'trophy-bowl-2':0.712, 'trophy-bowl-3':0.713, 'trophy-hearts-1':0.729, 'trophy-hearts-2':0.692, 'trophy-hearts-3':0.704 };
+function trophyEvenWidth(x){
+  if(x.kind !== 'img' || !x.img) return x;
+  if(CLOCHE_GROUPS.includes(x.group) && /cloche|^trophy-(lotus|cherry|lemon|stones|bowl|hearts)-/.test(x.img)){
+    const ar = MW_CLOCHE_AR[x.img] || x.aspect;
+    return { ...x, aspect:ar, scale:CLOCHE_W[Math.min(x.stage || 0, 2)] / ar };
+  }
+  if(x.group === 'streak' && /obelisk|quartz/.test(x.img)) return { ...x, scale:OBELISK_W[Math.min(x.stage || 0, 5)] / x.aspect };
+  return x;
+}
 // A Gentleman's Study: a trophy whose picture is not yet one of the new design (img/rl/) gets the red placeholder note
 const rlMissing = x=>BIZ && x.kind === 'img' && !(RETREAT ? /^rt2\//.test(x.img || '') || /^rt\/armillary/.test(x.img || '') : /^rl\//.test(x.img || '')); // new colours: only rt2/ is new (the cloches no longer fit) // A Lady's Conservatory: own pictures in rt/ (1.86.8)
 function trophyRl(x){
@@ -6954,11 +6993,15 @@ function trophySvg(x, id){
 let trophyCur = null;
 // A Lady's Conservatory: one brooch on the dress (1.93.0), chosen per device (state.settings.brooch), else the most precious reached
 // 25.10.2026 (wish of the user): the plaid dress 24.–30.12. and on 6.1., the celadon-gold one on New Year's Eve and New Year's Day,
-// otherwise the burgundy everyday dress with flat shoes (the emerald and the wide dress are resting until new pictures come)
+// the emerald one on Easter Sunday and Monday, the sage coat with the embroidered skirt on Whit Sunday and Monday,
+// otherwise the burgundy everyday dress with flat shoes (the old wide dress is resting)
 function ladyDressKind(now){
   now = now || new Date(); const m = now.getMonth(), d = now.getDate();
   if((m === 11 && d >= 24 && d <= 30) || (m === 0 && d === 6)) return 'plaid';
-  if((m === 11 && d === 31) || (m === 0 && d === 1)) return 'celadon';
+  if((m === 11 && d === 31) || (m === 0 && d === 1)) return 'celadon2';
+  const e = easterSunday(now.getFullYear()), is = add=>{ const x = new Date(e.getFullYear(), e.getMonth(), e.getDate() + add); return x.getMonth() === m && x.getDate() === d; }; // calendar days (no trouble with summer time)
+  if(is(0) || is(1)) return 'emerald2';
+  if(is(49) || is(50)) return 'pentecost';
   return 'burgundy';
 }
 function isXmasDressTime(now){ now = now || new Date(); const m = now.getMonth(), d = now.getDate(); return (m === 11 && d >= 24) || (m === 0 && d <= 1); }
@@ -7390,7 +7433,6 @@ function tbToolsHtml(){
       <button class="tb-tools-item ${tbToolsSub==='new'?'active':''}" onclick="tbToolsFold('new')">${ico('plus')}${d.diaryNewPage}${chev('new')}</button>
       ${subRow('new', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('${pt}')">${tbTypeLabel(pt)}</button>`).join('')
         + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), true)">${d.diaryAreasPage}</button>`)}
-      ${(isTitle || isFirstRun()) ? '' : `<button class="tb-tools-item" onclick="tbInsertWheel()">${ico('wheel')}${d.diaryInsertWheel}</button>`}
       ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='sticker'?'active':''}" onclick="tbToolsFold('sticker')">${ico('image')}${d.diaryStickers}${chev('sticker')}</button>
       ${tbToolsSub==='sticker' ? `<div class="tb-sticker-grid">${TB_STICKERS.map((st, i)=>`<button class="tb-sticker-btn${stickerOld(st.k) ? ' st-old' : ''}" onclick="tbInsertSticker(${i})" title="${escapeHtml(d.stickerNames[st.k] || st.k)}" aria-label="${escapeHtml(d.stickerNames[st.k] || st.k)}">${st.src ? `<img src="${st.src}" alt="">` : st.svg()}</button>`).join('')}</div>` : ''}`}
       <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbView='pages';tbRender();">${ico('pages')}${d.diaryPagesOverview}</button>
@@ -7462,6 +7504,21 @@ function tbInsertSticker(i){
   saveState(); tbRender();
 }
 /* The current wheel of life as a picture on the page: moves, resizes and deletes like a photo */
+// 25.10.2026: the current wheel as a picture into the newest diary of the year, with its date – like trophyToDiary
+async function wheelToDiary(){
+  if(isFirstRun()) return;
+  const d = t(), en = state.settings.lang === 'en', year = tbLatestBook(new Date().getFullYear());
+  const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
+  let page = diary.seiten[diary.seiten.length - 1];
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
+  page.images = page.images || [];
+  page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(wheelPictureSvg()), xPct:14, yPct:4, wPct:72 });
+  const list = state.bewertungen[WHEEL_AREAS[0]] || [], last = list[list.length - 1];
+  const date = new Date(last && last.ts ? last.ts : Date.now()).toLocaleDateString(en ? 'en-GB' : 'de-DE', { day:'2-digit', month:'2-digit', year:'numeric' });
+  await tbAppendBlock(diary, d.wheelDiaryHead.replace('{date}', date));
+  uiNotice(d.wheelDiarySaved);
+}
 function tbInsertWheel(){
   const page = tbEnsureYear(tbYear).seiten[tbPageIdx];
   tbToolsOpen = false; tbToolsSub = '';

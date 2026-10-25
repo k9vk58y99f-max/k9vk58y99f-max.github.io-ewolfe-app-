@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.97.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.98.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -589,6 +589,29 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   (0,40 `--lh` breit, zentriert); in A Mystery World steht dort ab Stufe 6 der Fuchs (`foxSpot`). Scroll-Pfeile sind echte Knöpfe (`.lib-arrow`, `libArrow`).
   Lady-Kleider: `ladyDressKind()` – Burgund (Alltag, `rt2/dress-burgundy`), Kariert 24.–30.12. und 6.1. (`rt2/dress-plaid`), Seladon-Gold 31.12./1.1.;
   Smaragd und das weite Kleid ruhen. Prompts für Räume (Jahreszeiten, neuer Lady-Raum) und Kleider: „Räume und Kleider – Prompts (25.10.2026).md“.
+- **1.98.0 (25.10.2026):**
+  - **Glasglocken und Obelisken** in allen Designs gleich breit wie in A Gentleman's Study, je Stufe (`trophyEvenWidth`, `CLOCHE_W`, `OBELISK_W`,
+    `MW_CLOCHE_AR` = echte Seitenverhältnisse der Mystery-Glocken); die Höhe ergibt sich aus dem Bild. Lady-Rosenkarte (erste Dankbarkeit) und
+    Mystery-Kristall (Tage in Folge) bleiben.
+  - **Bibliothek: ganzer Raum sichtbar** (Zeile = Raumbild, `--rx` 0). Ein Aufbau für alle Designs: `--px` 0,72 (Regal überall an derselben Stelle,
+    Gentleman-Regal und -Puppe dadurch 15 % weiter links im Raum), `--rs` skaliert einen Raum so, dass die Lampe gleich hoch über dem Boden hängt wie
+    im Herrenzimmer, `--ry` setzt die Wandunterkante genau an die Füße des Regals (Formel im CSS-Kommentar; gemessen: Wandunterkante y 780/752/735,
+    Lampe unten y 237/262/237 in den 1536×1024-Bildern). Eine alte Regel zentrierte das Regal im Fenster – jetzt überstimmt (`html .lib-row.lib-row.lib-row`).
+    Gentleman-Puppe steht auf dem Teppich (`margin-bottom` −0,06 `--dh`). Weihnachten verschiebt kein Regal mehr; Baumspitze in allen Designs an
+    derselben Stelle wie beim Gentleman-Baum (gemessen, `translateX` je Design).
+  - **Räume je Jahreszeit** (`ROOM_FILES`): Gentleman und Lady Frühling/Herbst/Winter (`room-spring|autumn|winter`), Lady-Winter mit geschlossener
+    Tür (offene Tür als Reserve `rt2/room-winter-open`). Mystery nur Sommer (Prompts: Sammelordner „Ausgang/7 Mystery – Jahreszeiten“).
+  - **A Lady's Conservatory:** neuer Raum `rt2/room` (Aufbau des Herrenzimmers, Salbeiwand mit Cremeleisten); **Regal in Creme mit Rückwänden im
+    Wandgrün** (Bilder des Nutzers, freigestellt und neu gemessen: `rt2/shelf`, `shelf-narrow`, `sv-*` + `-fronts`, `SHELF_ROWS_RT`, `SHELF_SV.rt`),
+    Bibliothek-Symbol `rt2/shelf-icon` daraus neu. **Kein hartes Weiß mehr:** Karten/Fenster/Leiste Elfenbein #f8f1e5, Hintergrund dasselbe Elfenbein
+    mit Rosé-Verlauf nach unten. **Kleider-Kalender** (`ladyDressKind`): Ostersonntag/-montag Smaragd (`rt2/dress-emerald2`), Pfingstsonntag/-montag
+    salbeigrüner Mantel über besticktem Rock (`rt2/dress-pentecost`), Silvester/Neujahr Seladon-Gold korrigiert (`rt2/dress-celadon2`), 24.–30.12. und 6.1.
+    Kariert, sonst Burgund. Broschen-Lage je Kleid über `--bx/--by`. Eine einzelne Vitrine gibt es nicht mehr (vor dem ersten Jahr Regal ohne, danach mit).
+  - **Startseite:** Knopf „Lebensrad ins Tagebuch“ (`wheelToDiary`, wie bei den Trophäen: Bild + „Mein Lebensrad vom …“ auf die nächste freie Seite
+    im neuesten Buch); im Tagebuch-Werkzeugmenü entfernt.
+  - Supabase: Sicherungskopie `backup.user_data_20261024` gelöscht.
+  - Bestellte Bilder (Sammelordner „Ausgang“): Gentleman Weste zweireihig und Smoking (Medaillen müssen auf die linke Brust passen), Lady Bluse
+    (Celadon) und Rock (Deep Forest Green) mit halbhohen Budapestern, Mystery-Jahreszeiten.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
