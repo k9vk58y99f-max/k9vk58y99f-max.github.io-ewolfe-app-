@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.98.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.98.4`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -621,6 +621,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   `holidayKey` (ohne Advent). `gentDressKind()`, Klasse `gent-<art>`; die Medaillen je Outfit auf der freien linken Brust (`.gent-* .dress-medals`).
 - 1.98.3: Lady-Alltag wechselt täglich zwischen Burgund-Kleid, Bluse Pink + Rock Burgund (`rt2/dress-blouse-pink`) und Bluse Weiß + Rock Navy
   (`rt2/dress-blouse-navy`), beide mit Budapester-Pumps (`ladyDressKind`, Tag seit 1970 modulo 3). Brosche auf der Bluse links auf Logo-Höhe (61 % / 17,5 %).
+- 1.98.4: viertes Lady-Alltagsoutfit: Schluppenbluse mit grünem Bleistiftrock (`rt2/dress-bow-green`; im Bild des Nutzers waren die Schuhe
+  vertauscht – jeder Schuh an Ort und Stelle gespiegelt, danach 20 % kleiner); Wechsel jetzt über vier Outfits (modulo 4). Brosche auf dem Knoten der
+  Schleife. Prompts für sechs weitere Kleider: Sammelordner „Ausgang/8 Lady – neue Kleider“.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
