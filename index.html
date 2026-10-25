@@ -1227,6 +1227,11 @@ html:not(.theme-retreat) .dress-medal img{ height:calc(var(--dh) * 0.0496); }
 html:not(.theme-retreat) .dress-medal:nth-child(-n+3){ z-index:2; }
 html:not(.theme-retreat) .dress-medal:nth-child(n+4){ margin-top:calc(var(--dh) * -0.0139); }
 html:not(.theme-retreat) .dress-medal:first-child{ clip-path:polygon(53% 0, 100% 0, 100% 100%, 0 100%, 0 37%); } /* along the edge of the lapel */
+/* 25.10.2026: the three new outfits of the gentleman's dress form – the medals on the plain left breast of each (measured) */
+html .lib-dress-wrap.gent-riding .dress-medals{ left:67.5%; top:19%; } /* right of the buttons of the velvet riding coat */
+html .lib-dress-wrap.gent-vest .dress-medals{ left:60.5%; top:19.5%; } /* beside the shawl collar of the waistcoat */
+html .lib-dress-wrap.gent-tux .dress-medals{ left:63%; top:21.5%; } /* below the satin lapel of the dinner jacket */
+html .lib-dress-wrap:is(.gent-riding, .gent-vest, .gent-tux) .dress-medal:first-child{ clip-path:none; }
 /* A Lady's Conservatory: the dress is as high as 0.9 of the bookcase; brooches in a small cluster at the neckline, the pendant watch at the waist */
 html.theme-retreat .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96); margin:0 calc(var(--sw) * 0.02) calc(var(--dh) * -0.13); z-index:3; } /* stand feet on the floor a little in front of the bookcase, the shoes in front of them (they hang 8 % below the feet) */
 html.theme-retreat .dress-medals{ left:41.5%; top:17.8%; width:17%; row-gap:0; } /* centred under the dip of the sweetheart neckline (1.92.2) */
@@ -1961,7 +1966,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.98.1';
+const APP_VERSION = '1.98.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6540,7 +6545,7 @@ function tbRenderLibrary(){
   const dressWatch = null;
   // A Lady's Conservatory (1.93.0): the wide dress at first, after a year the slim emerald one, every year 24.12.–1.1. the celadon one;
   // only ONE brooch, in the middle of the neckline – the one chosen in the trophy view, otherwise the most precious reached
-  const dressKind = RETREAT ? ladyDressKind() : ''; // 25.10.2026: burgundy every day, plaid at Christmas, celadon-gold at New Year
+  const dressKind = RETREAT ? ladyDressKind() : BIZ ? gentDressKind() : ''; // 25.10.2026: burgundy every day, plaid at Christmas, celadon-gold at New Year
   const worn = RETREAT ? broochWorn() : null;
   const tro = shown.map(x=>{ const h = (x.kind === 'img' ? 96 : 80) * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
   const fill = (items, gap, maxW)=>{ const rows = []; let cur = [], used = 0;
@@ -6702,7 +6707,7 @@ function tbRenderLibrary(){
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap"><button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? ' dress-' + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl/dress-form'}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" onclick="trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" onclick="trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;
@@ -7003,6 +7008,14 @@ function ladyDressKind(now){
   if(is(0) || is(1)) return 'emerald2';
   if(is(49) || is(50)) return 'pentecost';
   return 'burgundy';
+}
+// 25.10.2026 (wish of the user): the gentleman's dress form – the tuxedo from Christmas Eve to New Year's Day, on Epiphany and on
+// Easter Sunday and Monday; the navy double-breasted waistcoat on all other feast days; otherwise the green velvet riding coat
+function gentDressKind(now){
+  now = now || new Date(); const m = now.getMonth(), d = now.getDate(), k = holidayKey(now);
+  if((m === 11 && d >= 24) || (m === 0 && (d === 1 || d === 6)) || k === 'easter' || k === 'eastermon') return 'tux';
+  if(k && !/^adv/.test(k)) return 'vest';
+  return 'riding';
 }
 function isXmasDressTime(now){ now = now || new Date(); const m = now.getMonth(), d = now.getDate(); return (m === 11 && d >= 24) || (m === 0 && d <= 1); }
 function broochesReached(){ return trophyList().filter(x=>x.group === 'ex' && x.at).sort((a, b)=>a.stage - b.stage); }
