@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.97.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.97.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -583,6 +583,12 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   19 Uhr) / „Später“ (wieder nach 7 Tagen, `ewolfe_wheel_snooze`). Solange fällig, auch unter „Mitteilungen“ (`appNotes`, Punkt am Konto-Symbol).
   Wartet bis zu 10 s auf den ersten Sync, damit ein Rad von einem anderen Gerät zählt. `uiDialog` kennt jetzt `cancelText`.
 - 1.97.1 Startseite: großer Knopf „Ziele bearbeiten“ (`#home-goals-wrap`, Text `goalsEdit`) unter dem Rad, über „Frühere Lebensräder“; öffnet die Ziele-Seite (klickt `#goals-btn`), nur sichtbar, wenn es schon ein Rad gibt.
+- 1.97.2 Bibliothek in allen Designs gleich aufgebaut: eine Regel `html .lib-row` (Raum 2,667 `--lh` breit, Regal ab 0,42 `--lh`, Versatz des Raumbilds je
+  Design `--rx`/`--ry`; Lady vorerst das alte Gewächshaus mit −0,17/0,045, bis der neue Raum im Aufbau des Herrenzimmers kommt). Raumbild je Jahreszeit
+  (`ROOM_FILES`, `roomSeason`, `roomPicture`; neue Bilder als `room-spring|autumn|winter` eintragen). Puppe immer am selben Platz: `.lib-dress-spot`
+  (0,40 `--lh` breit, zentriert); in A Mystery World steht dort ab Stufe 6 der Fuchs (`foxSpot`). Scroll-Pfeile sind echte Knöpfe (`.lib-arrow`, `libArrow`).
+  Lady-Kleider: `ladyDressKind()` – Burgund (Alltag, `rt2/dress-burgundy`), Kariert 24.–30.12. und 6.1. (`rt2/dress-plaid`), Seladon-Gold 31.12./1.1.;
+  Smaragd und das weite Kleid ruhen. Prompts für Räume (Jahreszeiten, neuer Lady-Raum) und Kleider: „Räume und Kleider – Prompts (25.10.2026).md“.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

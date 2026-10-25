@@ -1238,6 +1238,8 @@ html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
 .lib-dress-wrap.dress-wide{ --bx:50%; --by:19.6%; }
 .lib-dress-wrap.dress-emerald{ --bx:51.9%; --by:19.8%; }
 .lib-dress-wrap.dress-celadon{ --bx:51.1%; --by:19.4%; }
+.lib-dress-wrap.dress-burgundy{ --bx:49.3%; --by:10.4%; } /* on the high collar, above the keyhole */
+.lib-dress-wrap.dress-plaid{ --bx:50.8%; --by:16.2%; } /* in the middle of the square neckline */
 .lib-dress-wrap.dress-emerald .dress-watch, .lib-dress-wrap.dress-celadon .dress-watch{ left:30%; top:25.5%; }
 .brooch-pick{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:10px 0 6px; }
 .brooch-pick-btn{ width:44px; height:44px; padding:4px; border-radius:10px; border:1px solid var(--ew-line); background:transparent; cursor:pointer; }
@@ -1391,16 +1393,17 @@ html.theme-retreat .shelf-narrow + .shelf-img .club-plaque{ left:22%; } /* the b
    (13–62 % of the picture) behind the bookcases, the floor line (86 %) at their feet; scrolling right leads to the open doors
    into the forest, so the row is as wide as the picture */
 /* new colours (21.10.2026): the raspberry bookcase is slimmer, so the picture is measured in shelf heights (--lh), not widths */
-html.theme-retreat .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.375)); justify-content:flex-start; padding-bottom:calc(var(--lh) * 0.16); /* room for the floor below the furniture and the table in front */ min-width:max(100%, calc(var(--lh) * 2.36));
-  background:url(img/rt2/conservatory.webp) no-repeat; background-size:calc(var(--lh) * 2.667) auto;
-  background-position:calc(var(--lh) * -0.17) calc(100% + var(--lh) * 0.045); border-radius:14px; } /* 22.10.2026: newest conservatory – the furniture stands further left on the wall */
-html.theme-retreat .lib-row:not(.has-orchid){ padding-left:calc(var(--lh) * 0.099); }
-html.theme-retreat .lib-row{ gap:calc(var(--lh) * 0.012); }
 html.theme-retreat .shelf-orchid.shelf-xmas{ height:89.6%; bottom:-3%; transform:translateX(-96%); } /* 24.10.2026: tree and crib in exactly the same place in all designs */
 /* 21.10.2026: rooms for the other two designs as well (same size and position as the conservatory): A Gentleman's Study a navy country-house
    library with a park window, A Mystery World a magical library salon with a starry window */
-html:not(.theme-retreat) .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.39)); padding-bottom:calc(var(--lh) * 0.16) !important; min-width:max(100%, calc(var(--lh) * 2.36));
-  background:url(img/rl2/room.webp) no-repeat; background-size:calc(var(--lh) * 2.667) auto; background-position:calc(var(--lh) * -0.306) calc(100% + var(--lh) * 0.045); border-radius:14px; }
+/* 25.10.2026 (wish of the user): ONE room layout for all three designs – same size, same place for the bookcase and the dress. Each room picture
+   has its own offset (--rx, --ry in shelf heights) until all rooms share the composition of the gentleman's room (prompts of 25.10.2026) */
+html .lib-row{ --lh:calc(var(--sw) / var(--sa, 0.39)); --rx:-0.306; --ry:0.19; padding-bottom:calc(var(--lh) * 0.16) !important; min-width:max(100%, calc(var(--lh) * 2.36));
+  background:url(img/rl2/room.webp) no-repeat; background-size:calc(var(--lh) * 2.667) auto; border-radius:14px; justify-content:flex-start !important;
+  padding-left:calc(var(--lh) * 0.42) !important; background-position:calc(var(--lh) * var(--rx)) calc(100% + var(--lh) * var(--ry)) !important; }
+html .lib-row .shelf-unit{ scroll-margin-left:calc(var(--lh) * 0.42); }
+html:not(.theme-biz) .lib-row{ --ry:0.30; }
+html.theme-retreat .lib-row{ background-image:url(img/rt2/conservatory.webp); --rx:-0.17; --ry:0.045; } /* the present conservatory, until the new room comes */
 html:not(.theme-biz) .lib-row{ background-image:url(img/mw2/room.webp); } /* bookcase and cabinet close together (21.10.2026) */
 /* 21.10.2026: the trophies stand exactly on the boards / the glass; above eye level the front edge of the board hides a bit of their foot */
 /* 21.10.2026, all designs: trophies stand exactly on the boards / the glass; above eye level the board's front edge hides a bit of their foot;
@@ -1432,8 +1435,8 @@ html.theme-retreat .mood-opt:is(:hover, :active){ color:var(--rt-sage-d) !import
 html.theme-retreat .breath-violet-btn{ color:#fbf8f0 !important; background:var(--rt-sage) !important; }
 html.theme-retreat .modal-backdrop.imp-backdrop{ background:rgba(247,243,234,0.86) !important; }
 /* the orchid on its plant stand (1.84.2): left of the shelf, a little in front; the row makes room for it */
-html.theme-retreat .lib-row.has-orchid{ --sw:min(calc((100cqw - 16px) / (1 + var(--nk, 0) - var(--nov, 0))), calc((100vh - var(--nav-h, 70px) - 190px) * var(--sa, 0.44)), 520px); padding-left:calc(var(--sw) / var(--sa, 0.375) * 0.46); background-position-x:calc(var(--sw) / var(--sa, 0.375) * 0.01); } /* 1.92.3: room for the table next to the bookcase, the room moves along */
-html.theme-retreat .lib-row.has-orchid .shelf-unit{ scroll-margin-left:calc(var(--sw) / var(--sa, 0.375) * 0.46); } /* the snap must not hide the orchid */
+ /* 1.92.3: room for the table next to the bookcase, the room moves along */
+
 html.theme-retreat.theme-retreat :is(.modal-title, .scene-head h1, .tb-topbar h2, #t-scene-title, .modal-top h2){ color:var(--rt-burgundy) !important; } /* new colours: headings burgundy */
 html.theme-retreat .shelf-orchid{ position:absolute; left:0; bottom:-4%; /* 24.10.2026: further back, on the same line as the Christmas tree */ height:62%; transform:translateX(-98%); /* 1.92.3: beside the bookcase, not in front of it */ z-index:4; /* 21.10.2026: the inlaid table with roses */ /* 1.86.6: the hexagonal inlaid table with the orchid */ z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(90,80,60,0.3)); }
 /* 24.10.2026: after a year the cabinet is built onto the bookcase – no gap, exactly as high, one plinth with the plaque */
@@ -1448,17 +1451,11 @@ button.shelf-crib-side.is-tro img{ height:100%; width:auto; display:block; }
 html .lib-row.has-xmas.has-xmas.has-xmas{ padding-left:calc(var(--lh) * 0.64) !important; } /* room for the bigger tree */
 html .lib-row.has-xmas .shelf-unit{ scroll-margin-left:calc(var(--lh) * 0.64) !important; }
 .shelf-unit > .shelf-crib-side{ position:absolute; left:0; bottom:-5%; height:20.4%; transform:translateX(-72%); /* 24.10.2026: all cribs equally high, 15 % smaller, further right towards the bookcase */ z-index:4; pointer-events:none; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.45)); } /* in front of the tree */
-html:not(.theme-biz) .lib-row .shelf-fox{ left:auto !important; right:-175% !important; } /* 24.10.2026: right beside the cabinet, where the other designs have the dress */
 /* the Christmas tree of A Mystery World and A Gentleman's Study: left beside the bookcase, like the Lady's */
 .shelf-unit > .shelf-xmas-side{ position:absolute; left:0; bottom:-3%; height:89.6%; /* 40 % bigger (24.10.2026) */ transform:translateX(-96%); z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.4)); }
 /* 24.10.2026 (wish of the user): in A Mystery World and A Gentleman's Study the bookcase stands back against the wall and further left,
    like in A Lady's Conservatory: the room moves down until its wall ends at the feet of the furniture */
-html:not(.theme-retreat) .lib-row.has-left{ padding-left:calc(var(--lh) * 0.42) !important; justify-content:flex-start !important; }
-html:not(.theme-retreat) .lib-row.has-left .shelf-unit{ scroll-margin-left:calc(var(--lh) * 0.42); }
-html:not(.theme-biz) .lib-row.has-left{ background-position:calc(var(--lh) * -0.306) calc(100% + var(--lh) * 0.30) !important; }
-html.theme-biz:not(.theme-retreat) .lib-row.has-left{ background-position:calc(var(--lh) * -0.306) calc(100% + var(--lh) * 0.19) !important; }
 /* A Lady's Conservatory: the dress stand further left (wish of the user, 24.10.2026) */
-html.theme-retreat .lib-row .lib-dress-wrap{ margin-left:calc(var(--sw) * -0.16) !important; }
 html.theme-biz:not(.theme-retreat) .lib-row .lib-dress-wrap{ --dh:calc(var(--sw) / var(--sa, 0.39) * 0.96); } /* 24.10.2026: the gentleman's dress form as tall as the lady's */
 /* 24.10.2026 (wish of the user): the dog has the same size in every design – as in A Gentleman's Study */
 html:not(.theme-biz) .shelf-dog{ height:34%; }
@@ -1479,6 +1476,19 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 .e2e-code{ font-family:ui-monospace, Menlo, monospace; font-size:19px; letter-spacing:0.06em; text-align:center; padding:12px 8px; border:1px dashed currentColor; border-radius:10px; user-select:all; -webkit-user-select:all; word-break:break-all; }
 .e2e-code-btns{ display:flex; gap:8px; justify-content:center; margin-top:10px; flex-wrap:wrap; }
 .e2e-badge{ margin:0 0 10px; }
+/* 25.10.2026: the dress (A Mystery World: the fox) always stands on the same spot, centred in a box of the same width in every design */
+.lib-row .lib-dress-spot{ flex:none; position:relative; display:flex; justify-content:center; align-items:flex-end; width:calc(var(--lh) * 0.40); align-self:stretch;
+  margin-left:calc(var(--lh) * -0.04); z-index:3; }
+.lib-row .lib-dress-spot .lib-dress-wrap{ margin-left:0 !important; margin-right:0 !important; }
+.lib-row .lib-fox{ height:calc(var(--lh) * 0.31); width:auto; margin-bottom:calc(var(--lh) * -0.06); filter:drop-shadow(0 6px 8px rgba(0,0,0,0.4)); pointer-events:none; }
+/* scroll arrows that work (25.10.2026): real buttons on both sides instead of a picture of an arrow */
+.lib-wrap.more::after{ display:none !important; }
+.lib-arrow{ display:none; position:absolute; top:50%; transform:translateY(-50%); z-index:6; width:38px; height:38px; border-radius:50%; align-items:center; justify-content:center;
+  background:rgba(10,14,31,0.75); color:var(--gold-text); font-size:24px; line-height:1; border:none; box-shadow:0 0 0 1px rgba(var(--gold-rgb),0.5); cursor:pointer; padding:0 0 3px; }
+.lib-wrap.more .lib-arrow-r{ display:flex; right:4px; }
+.lib-wrap.less .lib-arrow-l{ display:flex; left:4px; }
+html.theme-biz .lib-arrow{ border-radius:2px; }
+html.theme-retreat .lib-arrow{ background:rgba(255,253,248,0.92); color:var(--rt-sage-d); box-shadow:0 0 0 1px rgba(47,79,62,0.5); }
 </style>
 </head>
 <body data-theme="dark">
@@ -1936,7 +1946,7 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.97.1';
+const APP_VERSION = '1.97.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6460,7 +6470,12 @@ const SHELF_SV = {
 };
 const shelfKey = ()=>BIZ ? (!RETREAT && appLevel() >= 3 ? 'rlPlant' : 'rl') : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
 // the library scrolls sideways (1.81.0): a small arrow at the right edge while there is more to see
-function libScrollHint(el){ if(el && el.parentNode) el.parentNode.classList.toggle('more', el.scrollLeft + el.clientWidth < el.scrollWidth - 8); }
+function libScrollHint(el){ if(el && el.parentNode){ el.parentNode.classList.toggle('more', el.scrollLeft + el.clientWidth < el.scrollWidth - 8); el.parentNode.classList.toggle('less', el.scrollLeft > 8); } }
+function libArrow(btn, dir){ const sc = btn.parentNode.querySelector('.lib-scroll'); if(sc) sc.scrollBy({ left:dir * Math.max(120, sc.clientWidth * 0.7), behavior:'smooth' }); }
+// the landscape outside the window follows the seasons (25.10.2026): a picture per season where there is one, otherwise the summer room
+const ROOM_FILES = { rl2:{ summer:'room' }, mw2:{ summer:'room' }, rt2:{ summer:'conservatory' } };
+function roomSeason(now){ const m = (now || new Date()).getMonth(); return m >= 2 && m <= 4 ? 'spring' : m >= 5 && m <= 7 ? 'summer' : m >= 8 && m <= 10 ? 'autumn' : 'winter'; }
+function roomPicture(){ const dir = RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2', f = ROOM_FILES[dir]; return 'img/' + dir + '/' + (f[roomSeason()] || f.summer) + '.webp'; }
 const shelfNow = ()=>SHELVES[BIZ ? (!RETREAT && appLevel() >= 3 ? 'rlPlant' : 'rl') : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy'];
 let SHELF_X = SHELVES.ivy.x, SHELF_ROWS = SHELVES.ivy.rows;
 const SHELF_ROW_W = 290; // usable width of a compartment in units of its height (cqh)
@@ -6504,7 +6519,7 @@ function tbRenderLibrary(){
   const dressWatch = null;
   // A Lady's Conservatory (1.93.0): the wide dress at first, after a year the slim emerald one, every year 24.12.–1.1. the celadon one;
   // only ONE brooch, in the middle of the neckline – the one chosen in the trophy view, otherwise the most precious reached
-  const dressKind = RETREAT ? (isXmasDressTime() ? 'celadon' : appLevel() >= 6 ? 'emerald' : 'wide') : '';
+  const dressKind = RETREAT ? ladyDressKind() : ''; // 25.10.2026: burgundy every day, plaid at Christmas, celadon-gold at New Year
   const worn = RETREAT ? broochWorn() : null;
   const tro = shown.map(x=>{ const h = (x.kind === 'img' ? 96 : 80) * (x.scale || 0.8); return { x, h, w:h * (x.aspect || 0.9) + 1 }; });
   const fill = (items, gap, maxW)=>{ const rows = []; let cur = [], used = 0;
@@ -6613,7 +6628,7 @@ function tbRenderLibrary(){
     if(RL_DOG_READY) return animal((RETREAT ? 'rt2/' : 'rl/') + (wkend ? 'dog-lying' : 'dog'), cls); // A Lady's Conservatory: our dog, painted (21.10.2026)
     return animal(wkend ? 'stickers/dog-lying' : 'dog', cls) + `<span class="shelf-animal ${cls} rl-ph-dog" aria-hidden="true"></span>`; })();
   const animals = BIZ ? bizDog : !decorOn() ? '' : dogSpot /* the cat no longer sits on top (1.87.2): it will get another place later */
-    + (lv >= 6 ? animal('fox', 'shelf-fox') : '') + (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + animal('eggs', 'shelf-eggs') : '')
+    + /* the fox stands on the dress spot since 1.97.2 (foxSpot) */ (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + animal('eggs', 'shelf-eggs') : '')
     + (isNikolausTime() ? animal('nikolaus', 'shelf-nikolaus') + `<img class="shelf-animal shelf-boot" src="img/trophy-boot.webp" alt="">` : '')
     // Advent: the wreath on top of the shelf, one candle more every Sunday; Christmas: the tree beside it and snow
     + (adventCandles() ? animal('advent-' + adventCandles(), 'shelf-wreath') : '')
@@ -6656,6 +6671,7 @@ function tbRenderLibrary(){
   }), 80);
   // A Morning Retreat (1.84.2): from level 3 (where A Mystery World gets its ivy) a white orchid on a fine plant stand,
   // to the left of the shelf (and of the narrow one), a little in front of it
+  const foxSpot = !BIZ && decorOn() && lv >= 6 ? '<div class="lib-dress-spot lib-fox-spot"><img class="lib-fox" src="img/stickers/fox.webp" alt="" onerror="this.remove()"></div>' : ''; // A Mystery World: the fox where the others have the dress
   const xmasTree = RETREAT && isChristmasTime(); // 21.10.2026: the Lady's Christmas tree takes the place of the rose table
   // 24.10.2026: new Christmas trees (wrought-iron stand, old glass ornaments) in all three designs, left beside the bookcase;
   // A Gentleman's Study now has one too (A Mystery World only with animals & decorations switched on)
@@ -6664,8 +6680,8 @@ function tbRenderLibrary(){
   const cribHtml = cribFront ? `<button class="shelf-crib-side is-tro" onclick="trophyShow('${cribFront.id}')" title="${escapeHtml(cribFront.title)}" aria-label="${escapeHtml(cribFront.title)}"><img src="img/${trophyRl(cribFront).img}.webp" alt=""></button>` : ''; // A Mystery World: the crib with our dog in front of the tree
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
-  return `<div class="lib-wrap"><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row${orchid ? ' has-orchid' : RETREAT ? '' : ' has-left'}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-wrap${dressKind ? ' dress-' + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl/dress-form'}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" onclick="trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div>` : ''}${SV ? '' : vitHtml}</div></div></div>
+  return `<div class="lib-wrap"><button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? ' dress-' + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl/dress-form'}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" onclick="trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${tbCoverSettingsHtml()}`;
@@ -6937,6 +6953,14 @@ function trophySvg(x, id){
 }
 let trophyCur = null;
 // A Lady's Conservatory: one brooch on the dress (1.93.0), chosen per device (state.settings.brooch), else the most precious reached
+// 25.10.2026 (wish of the user): the plaid dress 24.–30.12. and on 6.1., the celadon-gold one on New Year's Eve and New Year's Day,
+// otherwise the burgundy everyday dress with flat shoes (the emerald and the wide dress are resting until new pictures come)
+function ladyDressKind(now){
+  now = now || new Date(); const m = now.getMonth(), d = now.getDate();
+  if((m === 11 && d >= 24 && d <= 30) || (m === 0 && d === 6)) return 'plaid';
+  if((m === 11 && d === 31) || (m === 0 && d === 1)) return 'celadon';
+  return 'burgundy';
+}
 function isXmasDressTime(now){ now = now || new Date(); const m = now.getMonth(), d = now.getDate(); return (m === 11 && d >= 24) || (m === 0 && d <= 1); }
 function broochesReached(){ return trophyList().filter(x=>x.group === 'ex' && x.at).sort((a, b)=>a.stage - b.stage); }
 function broochWorn(){ const got = broochesReached(); return got.find(x=>x.id === state.settings.brooch) || got[got.length - 1] || null; }
