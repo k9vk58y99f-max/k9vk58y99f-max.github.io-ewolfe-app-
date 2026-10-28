@@ -1,0 +1,25 @@
+{
+ "name": "eWolfe",
+ "short_name": "eWolfe",
+ "description": "Persönliche Lebensentwicklungs-App: Lebensrad, Ziele, Tagebuch, Achtsamkeit.",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait-primary",
+ "background_color": "#080b28",
+ "theme_color": "#080b28",
+ "icons": [
+  {
+   "src": "img/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "img/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  }
+ ]
+}

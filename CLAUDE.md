@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.98.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.99.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -624,6 +624,37 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - 1.98.4: viertes Lady-Alltagsoutfit: Schluppenbluse mit grünem Bleistiftrock (`rt2/dress-bow-green`; im Bild des Nutzers waren die Schuhe
   vertauscht – jeder Schuh an Ort und Stelle gespiegelt, danach 20 % kleiner); Wechsel jetzt über vier Outfits (modulo 4). Brosche auf dem Knoten der
   Schleife. Prompts für sechs weitere Kleider: Sammelordner „Ausgang/8 Lady – neue Kleider“.
+- **1.99.0 (28.10.2026):**
+  - **Sync repariert** (externe Prüfung bestätigt): `achtsamkeit.log` reist jetzt mit (`syncPayload`, `syncNormalize`, `achUnion`; ein Stand ohne das Feld
+    löscht nie lokale Einträge, `syncApplyState` vereinigt immer; wächst das Log dabei, wird im nächsten Durchgang hochgeladen). **Änderungsstempel**
+    für Tagebuchseiten und Ziele (`mt`, `md` = Gerät `ewolfe_device_id`, `h` = Vorgänger-Stempel; Fingerabdrücke je Gerät in `ewolfe_fp_v1`,
+    `syncStampItems` vor jedem Vergleich, `syncFpRefresh` nach Übernahme, `syncFpInit` beim Start). `syncResolve`: die neuere Fassung gewinnt,
+    wenn sie aus der anderen hervorgeht (auch kürzere/gleich lange Korrekturen); unabhängige Änderungen einer Seite = Konflikt: neuere bleibt,
+    ältere als eigene Seite `<id>~<hash>` mit `konflikt` dahinter (gelber Hinweis, „Behalten“/„Löschen“, `tbConflictKeep`), gleiche Id auf allen Geräten.
+    Ziele: kein Überspringen mehr bei 5 aktiven (`mergeBackupInto(..., 'sync')`, auch über Bereiche hinweg, Prioritäten neu 1…n); mehr als 5 →
+    Hinweis `goalsOverNote` auf der Ziele-Seite. Backup-Import bleibt „nichts Vorhandenes überschreiben“. Alte Daten ohne Stempel werden über ihren
+    Inhalt erkannt (`'f' + Fingerabdruck`). Test: `synctest.py` mit nachgebautem Supabase (zwei Geräte), im Scratchpad.
+  - **Ziele:** ein Formular für alles (`goalEditOpen/Save/Delete`, `#goal-edit-modal`, z-index 120): Knopf „+ Ziel hinzufügen“ oben auf der Ziele-Seite
+    mit Bereichswahl, leere Tabellenzelle = neues Ziel in dem Bereich, Ziel antippen = bearbeiten (Titel, Grund, Maßnahmen, Datum, Bereich,
+    erreicht/wieder aktiv, Erreicht-Datum). Im Bereichsfenster schließt nur das Häkchen ab (`.goal-check-box`), der Titel öffnet das Formular,
+    ✕ fragt nach. Ziele-Seite auch vor dem ersten Rad (Hinweis + Knopf, Tabelle ohne Prozentzeile). Tabellen-Pfeile für die Maus (`gtArrowsInit`).
+  - **Überall:** Konto-Symbol `#acct-float` auf jeder Seite, in allen Designs 40 px vom rechten Rand (`ACCT_RIGHT`); Fenster über dem Tagebuch
+    (`html.diary-open`). Versionszeile am Ende jeder Seite (`pageFooters`, Bibliothek); Startseite unten Datenschutz · Impressum · AGB (`legalOpen`,
+    Texte `IMPRINT`/`TERMS`, ENTWURF, Haftungsausschluss für körperliche/seelische Schäden im gesetzlich zulässigen Rahmen). Kein Gummiband-Ziehen,
+    Hintergrund hinter der App in Design-Farbe (`overscroll-behavior`, `<head>`-Skript). Favicon/Manifest = Monogramm (`manifest.webmanifest`,
+    `manifest-classic.webmanifest`, `img/rl/icon-*`, `img/icon-*`).
+  - Tagebuch: „Bild hinzufügen“ im Werkzeug-Menü (neben Sticker); Lady: helle Symbole auf den grünen Knöpfen und dem Cover; auf dem Handy zeigt
+    „Ansicht/Schreiben“ nur das Symbol. Lebensräder vergleichen: „Vergleich ins Tagebuch“ (`comparePictureSvg`, `compareToDiary`), Lady-Legende lesbar.
+  - Trophäen **teilen** (`trophyShare`, Bild 1080×1350 im Design, Teilen-Menü oder Download).
+  - Bibliothek: Puppen an der Wand neben dem Regal (Füße auf Regalhöhe), Herrenpuppe 8 % kleiner (nicht kleiner als die Dame). Brosche mit dem Finger
+    verschiebbar (`broochPosStyle`, `state.settings.broochPos` je Outfit, je Gerät); Blusen: über der Brustlinie (16 %).
+  - **Lady-Alltag nach Jahreszeit** (`ladyDressKind`): Sommer kurz/ohne Arm (Burgund, Blusen pink/navy, Rot ärmellos, Weiß bestickt, Teppich-Neckholder),
+    Herbst/Winter langarm (Schluppenbluse mit Slingbacks `bow-slingback`, Rot mit Strickjacke, Paisley grün, Teppichrock mit Pullover, Bestickt mit
+    Strickjacke, Military, Matrosen-Jeans), Frühling alle; Feiertagskleider unverändert. Freigestellt aus den Chat-Bildern (539 px breit) mit
+    `fixshoes.py` (Schuhe ohne Grau, Kontaktschatten; `SMOOTHBG=1` für glatte Bodenflächen).
+  - Bilder repariert: Budapester (Blusen) neu geschnitten, Lady-Buchrücken ohne Goldlinien, Lady-Trophäen ohne grauen Schatten (Bücherstapel,
+    Broschen, Rosenkarte), Kartenvorderseite mit sauberen Ecken, Klangschale neu aus dem Original (Rand nicht mehr abgeschnitten).
+  - Bestellt (Sammelordner „Ausgang“): 9 Lady-Bücherstapel scharf (alte nur 230 px breit), 10 Mystery-Trophäen neu (Nutzer soll sagen, welche).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
