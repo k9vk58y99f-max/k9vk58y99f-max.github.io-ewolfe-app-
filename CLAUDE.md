@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.99.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.99.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -655,6 +655,8 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   - Bilder repariert: Budapester (Blusen) neu geschnitten, Lady-Buchrücken ohne Goldlinien, Lady-Trophäen ohne grauen Schatten (Bücherstapel,
     Broschen, Rosenkarte), Kartenvorderseite mit sauberen Ecken, Klangschale neu aus dem Original (Rand nicht mehr abgeschnitten).
   - Bestellt (Sammelordner „Ausgang“): 9 Lady-Bücherstapel scharf (alte nur 230 px breit), 10 Mystery-Trophäen neu (Nutzer soll sagen, welche).
+- 1.99.1: Glasglocken (alle Designs, `isCloche` in `tbRenderLibrary`) belegen zuerst die untersten Fächer (Wunsch des Nutzers); die übrigen Trophäen
+  füllen wie bisher von oben. Mystery-Glasglocken sind in Ordnung; neue Mystery-Trophäen nur mit Perspektive „gerade von vorn, Augenhöhe“ prompten.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

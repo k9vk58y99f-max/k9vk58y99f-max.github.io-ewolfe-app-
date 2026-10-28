@@ -2075,7 +2075,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.99.0';
+const APP_VERSION = '1.99.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -7018,12 +7018,17 @@ function tbRenderLibrary(){
   const EYE = Math.floor(SHELF_ROWS.length / 2);
   const rowHs = SHELF_ROWS.map(r=>r[1] - r[0]), refH = rowHs.slice().sort((a, b)=>a - b)[Math.floor(rowHs.length / 2)];
   const front = o=>TRO_FRONT.test((o.x && o.x.img) || o.x.id || '');
+  const isCloche = o=>/cloche|trophy-(lotus|cherry|lemon|stones|bowl|hearts)-\d/.test((o.x && o.x.img) || '');
   const usedW = r=>r.reduce((sm, it, i)=>sm + it.w + (i ? (it.plus ? PLUS_GAP : it.g) : 0), 0);
   const place = (k, anyRow)=>{
     const rows = SHELF_ROWS.map((_, i)=>i < bookRows.length ? bookRows[i].slice() : []), rest = [];
     // order of the compartments: right below the books downwards (as before); the book compartments come last and only for front pieces
     const order = SHELF_ROWS.map((_, i)=>i).filter(i=>i >= bookRows.length).concat(bookRows.map((_, i)=>i).reverse());
-    tro.forEach(o=>{
+    // 28.10.2026 (wish of the user): the glass bells look best low down – they take the lowest compartments first
+    const orderLow = order.filter(i=>i >= bookRows.length).reverse().concat(order.filter(i=>i < bookRows.length));
+    const bells = tro.filter(isCloche), others = tro.filter(o=>!isCloche(o));
+    bells.concat(others).forEach(o=>{
+      const order2 = isCloche(o) ? orderLow : order;
       const fits = (i, relaxed)=>{
         if(i < EYE && !front(o) && !relaxed) return false;
         const f = refH / rowHs[i], h = o.h * k * f, w = o.w * k * f;
@@ -7031,8 +7036,8 @@ function tbRenderLibrary(){
         const isBooks = i < bookRows.length, g = rows[i].length ? (isBooks ? 3 : 1.6) : 0;
         return usedW(rows[i]) + g + w <= rowCap(i) - 2 * WALL;
       };
-      let ok = order.find(i=>fits(i));
-      if(ok === undefined && anyRow) ok = order.find(i=>fits(i, true));
+      let ok = order2.find(i=>fits(i));
+      if(ok === undefined && anyRow) ok = order2.find(i=>fits(i, true));
       if(ok === undefined){ rest.push(o); return; }
       const f = refH / rowHs[ok]; rows[ok].push({ ...o, h:o.h * k * f, w:o.w * k * f, g:ok < bookRows.length && !rows[ok].some(it=>!it.book) ? 3 : 1.6 });
     });
