@@ -741,7 +741,7 @@ html.theme-biz .habit-title{ color:#ab8b54 !important; } html.theme-retreat .hab
 .lib-clipboard{ position:absolute; right:100%; top:20%; height:21%; margin-right:calc(var(--lh, 600px) * 0.035); z-index:3; }
 .shelf-comp .lib-clipboard{ right:auto; left:14%; top:auto; bottom:0; height:84%; margin:0; transform:rotate(-5deg); transform-origin:50% 100%; }
 .lib-clipboard{ background:none; border:none; padding:0; cursor:pointer; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.35)); }
-.lib-clipboard svg{ height:100%; width:auto; display:block; }
+.lib-clipboard svg, .lib-clipboard img{ height:100%; width:auto; display:block; }
 .tb-conflict{ position:absolute; left:8px; right:8px; top:8px; z-index:6; background:#fff4d6; color:#3a2a08; border:1px solid #d9a93a; border-radius:10px; padding:8px 10px; font:14px/1.4 Inter, -apple-system, sans-serif; box-shadow:0 4px 14px rgba(0,0,0,0.18); }
 .tb-conflict-btns{ display:flex; gap:8px; margin-top:6px; }
 .tb-conflict-btns .ghost-btn{ flex:1; padding:6px 8px; color:#3a2a08 !important; border-color:#b88a2a !important; background:#fff !important; font-size:13px; }
@@ -2168,7 +2168,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.99.5';
+const APP_VERSION = '1.99.6';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -7383,7 +7383,9 @@ function tbRenderLibrary(){
   }
   // 28.10.2026 (wish of the user): the clipboard (habit tracker) leans in the middle compartment of the book part – or the next free one below
   const clipRow = (()=>{ const mid = Math.floor(SHELF_ROWS.length / 2); for(let i = mid; i < SHELF_ROWS.length; i++) if(!(narrowRows[i] || []).length) return i; return -1; })();
-  const clipHtml = `<button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipboardSvg()}</button>`;
+  // pictures of the user for A Mystery World and A Gentleman's Study (28.10.2026); A Lady's Conservatory keeps the drawn one until hers comes
+  const clipImg = RETREAT ? '' : BIZ ? 'rl2/clipboard' : 'mw2/clipboard';
+  const clipHtml = `<button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipImg ? `<img src="img/${clipImg}.webp" alt="">` : clipboardSvg()}</button>`;
   const narrowHtml = NAR ? `<div class="shelf-img shelf-narrow" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
       `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${NS.plant ? `<img class="shelf-plant" src="img/${NS.plant.img}.webp" alt="" style="width:${NS.plant.w}%;left:${NS.plant.over - NS.plant.w}%">` : ''}</div>` : '';
   // 1.87.2: the shelf is as high as in the other designs; where the orchid table does not fit next to it as well (phones),
@@ -7513,13 +7515,13 @@ function trophyDefs(){
   // turns (blue, mint, pink); the Nikolaus boot for an exercise on 6 December (once)
   // the eggs grow: first year a small pink one, then a bigger blue one, then the biggest, the light mint one (from then on
   // every year another big egg, the colours taking turns)
-  const FAB = [['faberge-pink', 0.75], ['faberge-blue', 0.9], ['faberge-mint', 1.05]], yearOf = ts=>new Date(ts).getFullYear();
+  const FAB = [['faberge-n-pink', 0.75], ['faberge-n-blue', 0.9], ['faberge-n-mint', 1.05]], yearOf = ts=>new Date(ts).getFullYear();
   const eastDone = ev.done.filter(e=>isEasterTime(new Date(e.ts)));
   const eastYears = [...new Set(eastDone.map(e=>yearOf(e.ts)))].sort((a, b)=>a - b), thisYear = new Date().getFullYear();
   trophyDefsEasterYears = eastYears.includes(thisYear) ? eastYears : eastYears.concat(thisYear);
   trophyDefsEasterYears.forEach((y, i)=>{
     const first = eastDone.find(e=>yearOf(e.ts) === y);
-    out.push({ id:'easter' + y, kind:'img', img:FAB[i % 3][0], scale:FAB[Math.min(i, 2)][1], aspect:0.53, need:1, list:first ? [first.ts] : [],
+    out.push({ id:'easter' + y, kind:'img', img:FAB[i % 3][0], scale:FAB[Math.min(i, 2)][1], aspect:0.504, need:1, list:first ? [first.ts] : [],
       title:L('Fabergé-Ei ' + y, 'Fabergé egg ' + y), desc:L('Du hast dir in der Osterzeit ' + y + ' Zeit für dich genommen. Christus ist auferstanden – jedes Jahr ein neues Ei für deine Sammlung.', 'You took time for yourself in the Easter season ' + y + '. Christ is risen – every year a new egg for your collection.') });
   });
   // Saint Nicholas: in the first year with an exercise on 6 December a small Saint Nicholas, in the second the boot
