@@ -671,6 +671,74 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-page-empty{ background:#efe9db; }
 
 .tb-page-mini-tools{ position:absolute; top:8px; right:8px; display:flex; gap:4px; z-index:2; }
+/* 1.99.2: the day page and the trophy collage */
+.tb-day{ position:absolute; inset:0; padding:calc(12px * var(--tbk)) calc(22px * var(--tbk)) calc(10px * var(--tbk)); display:flex; flex-direction:column; gap:calc(2px * var(--tbk)); color:#2a2318; }
+.tb-day.inactive textarea{ pointer-events:none; }
+.tb-day-date{ font-family:'Marcellus', serif; font-size:calc(16px * var(--tbk)); color:#8a5a00; text-align:right; padding-bottom:calc(2px * var(--tbk)); }
+.tb-day-block{ flex:1; min-height:0; display:flex; flex-direction:column; border-bottom:1px solid rgba(42,35,24,0.12); }
+.tb-day-head{ display:flex; align-items:center; justify-content:space-between; gap:6px; font-weight:700; font-size:calc(14px * var(--tbk)); color:#2f8f62; padding:calc(5px * var(--tbk)) 0 calc(1px * var(--tbk)); }
+.tb-day-text{ flex:1; min-height:0; width:100%; border:none; outline:none; resize:none; background:transparent; padding:0; font-family:'Inter',sans-serif; font-size:calc(15px * var(--tbk)); line-height:calc(24px * var(--tbk)); color:#2a2318; overflow:hidden; }
+.tb-day .tb-day-text{ border:none !important; background:transparent !important; box-shadow:none !important; border-radius:0 !important; }
+.tb-day-text.font-hand{ font-family:'Caveat',cursive; font-size:calc(21px * var(--tbk)); }
+.tb-day-areas{ display:flex; gap:calc(3px * var(--tbk)); }
+.tb-day-area, .tb-day-mood{ background:none; border:1px solid transparent; border-radius:50%; padding:calc(2px * var(--tbk)); cursor:pointer; opacity:0.45; line-height:0; }
+.tb-day-area .area-ico{ width:calc(18px * var(--tbk)); height:calc(18px * var(--tbk)); margin:0; }
+.tb-day-area.on, .tb-day-mood.on{ opacity:1; border-color:#c99a2e; background:rgba(201,154,46,0.14); }
+.tb-day-moodrow{ flex:none; border-bottom:none; }
+.tb-day-moods{ display:flex; justify-content:space-around; padding:calc(4px * var(--tbk)) 0; }
+.tb-day-mood svg{ width:calc(30px * var(--tbk)); height:calc(30px * var(--tbk)); fill:none; stroke:#2a2318; stroke-width:1.6; stroke-linecap:round; }
+.tb-collage{ position:absolute; inset:0; padding:calc(16px * var(--tbk)) calc(20px * var(--tbk)); display:flex; flex-direction:column; color:#2a2318; pointer-events:none; }
+.tb-collage-head{ font-family:'Marcellus', serif; font-size:calc(20px * var(--tbk)); color:#8a5a00; text-align:center; border-bottom:1.5px solid #c99a2e; padding-bottom:calc(6px * var(--tbk)); margin-bottom:calc(10px * var(--tbk)); }
+.tb-collage-grid{ flex:1; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:calc(12px * var(--tbk)); min-height:0; }
+.tb-collage-cell{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; min-height:0; text-align:center; }
+.tb-collage-pic{ flex:1; min-height:0; width:100%; display:flex; align-items:flex-end; justify-content:center; }
+.tb-collage-pic .tb-page-img{ width:auto; max-width:78%; max-height:100%; object-fit:contain; }
+.tb-collage-pic .tb-page-img.is-trophy{ max-width:70%; }
+.tb-collage-title{ font-family:'Marcellus', serif; font-size:calc(14px * var(--tbk)); margin-top:calc(6px * var(--tbk)); line-height:1.25; }
+.tb-collage-date{ font-size:calc(12px * var(--tbk)); color:#6b6152; }
+html.theme-biz .tb-day-date, html.theme-biz .tb-collage-head{ color:#ab8b54; border-color:#ab8b54; }
+html.theme-biz .tb-day-head{ color:#5d6f5a; }
+html.theme-retreat .tb-day-date, html.theme-retreat .tb-collage-head{ color:var(--rt-burgundy, #7A0B25); border-color:var(--gold); }
+html.theme-retreat .tb-day-head{ color:var(--rt-sage-d); }
+/* 1.99.2: the clipboard (habit tracker) */
+#habit-modal{ z-index:120; }
+html.diary-open #habit-modal{ z-index:270; }
+.habit-modal{ background:transparent !important; border:none !important; box-shadow:none !important; padding:0 !important; max-width:620px; }
+.habit-board{ position:relative; background:linear-gradient(135deg, #8a5a2b, #6b4220 60%, #5a3618); border-radius:18px; padding:30px 14px 14px; box-shadow:0 18px 40px rgba(0,0,0,0.45), inset 0 0 0 2px rgba(255,255,255,0.06); }
+html.theme-retreat .habit-board{ background:linear-gradient(135deg, #e9dcc6, #d9c6a6 60%, #cdb48e); }
+.habit-clip{ position:absolute; left:50%; top:-8px; width:120px; height:34px; transform:translateX(-50%); border-radius:10px 10px 6px 6px; background:linear-gradient(180deg, #f1dc9a, #c9a463 55%, #9c7a3f); box-shadow:0 4px 8px rgba(0,0,0,0.35); }
+.habit-clip::after{ content:''; position:absolute; left:50%; top:8px; width:34px; height:10px; transform:translateX(-50%); border-radius:6px; background:rgba(0,0,0,0.25); }
+.habit-paper{ background:#fbf6ea; color:#2a2318; border-radius:6px; padding:16px 12px 12px; box-shadow:0 2px 6px rgba(0,0,0,0.25); }
+.habit-top{ display:flex; align-items:center; justify-content:space-between; }
+.habit-title{ margin:0; font-family:'Marcellus', serif; font-weight:400; font-size:var(--fs-h); color:#8a5a00 !important; }
+html.theme-biz .habit-title{ color:#ab8b54 !important; } html.theme-retreat .habit-title{ color:var(--rt-burgundy, #7A0B25) !important; }
+.habit-close{ background:#fff !important; border-color:#d8ccb4 !important; }
+.habit-close img{ filter:brightness(0) opacity(0.65) !important; }
+.habit-week{ display:flex; align-items:center; justify-content:center; gap:14px; margin:8px 0 10px; font-weight:600; color:#4a4033; }
+.habit-nav{ width:36px; height:36px; border-radius:50%; border:1px solid #d8ccb4; background:#fff; color:#2a2318; font-size:20px; cursor:pointer; }
+.habit-table{ width:100%; border-collapse:collapse; table-layout:fixed; }
+.habit-table th{ font-size:12px; font-weight:600; color:#6b6152; padding:2px 0 6px; }
+.habit-table th.today{ color:#2f8f62; }
+.habit-table th.habit-name-h{ width:38%; text-align:left; }
+.habit-table td{ border-top:1px solid #e6dcc8; padding:4px 1px; text-align:center; }
+.habit-name{ display:flex; align-items:center; gap:6px; width:100%; text-align:left; background:none; border:none; padding:6px 2px; font:inherit; font-size:14px; color:#2a2318; cursor:pointer; overflow-wrap:anywhere; }
+.habit-name .area-ico{ width:18px; height:18px; flex:none; margin:0; }
+.habit-cell{ width:100%; max-width:34px; aspect-ratio:1; height:auto; border-radius:8px; border:1.5px solid #cbbd9f; background:#fff; cursor:pointer; padding:0; color:#2f8f62; font-size:20px; line-height:1; }
+.habit-cell.on{ background:#e3f3e8; border-color:#2f8f62; }
+.habit-cell.today{ box-shadow:0 0 0 2px rgba(47,143,98,0.35); }
+.habit-cell.future{ opacity:0.4; }
+.habit-empty{ text-align:center; color:#6b6152; padding:16px 6px; }
+.habit-actions{ display:flex; gap:8px; margin-top:12px; }
+.habit-actions .habit-btn{ flex:1; padding:10px 8px; border-radius:10px; border:1px solid #cbbd9f; background:#fff; color:#2a2318; font:inherit; font-size:14px; font-weight:600; cursor:pointer; }
+.habit-form{ background:#f3ead6; border-radius:10px; padding:10px; margin-top:10px; }
+.habit-form .small-input{ width:100%; background:#fff !important; color:#2a2318 !important; }
+.habit-form .ge-area{ color:#2a2318; border-color:#d8ccb4; }
+.habit-form .ge-area .area-ico{ width:18px; height:18px; }
+.habit-form-btns{ display:flex; gap:8px; margin-top:8px; }
+.habit-form-btns button{ flex:1; }
+.habit-form-btns .habit-btn{ padding:10px 8px; border-radius:10px; border:1px solid #cbbd9f; background:#fff; color:#2a2318; font:inherit; font-size:14px; cursor:pointer; }
+.lib-clipboard{ position:absolute; right:100%; top:20%; height:21%; margin-right:calc(var(--lh, 600px) * 0.035); z-index:3; background:none; border:none; padding:0; cursor:pointer; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.35)); }
+.lib-clipboard svg{ height:100%; width:auto; display:block; }
 .tb-conflict{ position:absolute; left:8px; right:8px; top:8px; z-index:6; background:#fff4d6; color:#3a2a08; border:1px solid #d9a93a; border-radius:10px; padding:8px 10px; font:14px/1.4 Inter, -apple-system, sans-serif; box-shadow:0 4px 14px rgba(0,0,0,0.18); }
 .tb-conflict-btns{ display:flex; gap:8px; margin-top:6px; }
 .tb-conflict-btns .ghost-btn{ flex:1; padding:6px 8px; color:#3a2a08 !important; border-color:#b88a2a !important; background:#fff !important; font-size:13px; }
@@ -1970,6 +2038,28 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
   </div>
 </div>
 
+<!-- 1.99.2: the clipboard – a habit tracker, one sheet per week -->
+<div class="modal-backdrop" id="habit-modal">
+  <div class="modal habit-modal">
+    <div class="habit-board">
+      <div class="habit-clip" aria-hidden="true"></div>
+      <div class="habit-paper">
+        <div class="habit-top">
+          <h2 class="habit-title" id="habit-title"></h2>
+          <button class="icon-btn habit-close" onclick="closeModal('habit-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
+        </div>
+        <div class="habit-week"><button class="habit-nav" onclick="habitWeekGo(-1)" aria-label="‹">‹</button><span id="habit-week-label"></span><button class="habit-nav" onclick="habitWeekGo(1)" aria-label="›">›</button></div>
+        <div id="habit-grid"></div>
+        <div id="habit-form" style="display:none;"></div>
+        <div class="habit-actions">
+          <button class="habit-btn" id="habit-add-btn" onclick="habitEdit(null)"></button>
+          <button class="habit-btn" id="habit-diary-btn" onclick="habitToDiary()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Bereich Detail Modal -->
 <div class="modal-backdrop" id="detail-modal">
   <div class="modal">
@@ -2075,7 +2165,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.99.1';
+const APP_VERSION = '1.99.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2287,6 +2377,7 @@ function appActiveDays(){
     const idTs = id=>{ const m = /^[a-z](\d{12,})/.exec(id || ''); return m ? +m[1] : 0; };
     AREAS.forEach(a=>(state.ziele[a] || []).forEach(g=>{ const ts = idTs(g.id); if(ts) days.add(achDay(ts)); if(g.achievedAt) days.add(achDay(g.achievedAt)); }));
     (state.ereignisse || []).forEach(e=>{ const ts = idTs(e.id); if(ts) days.add(achDay(ts)); });
+    Object.entries((state.habits && state.habits.marks) || {}).forEach(([k, m])=>{ if(m && m.v && m.t) days.add(achDay(m.t)); }); // ticked habits (1.99.2)
     Object.values(state.tagebuch.jahre || {}).forEach(y=>(y.seiten || []).forEach(p=>{
       if(p.type === 'titel') return;
       const written = (p.text && p.text.trim()) || (p.strokes && p.strokes.length) || (p.images && p.images.length) || tbAreaTextLen(p);
@@ -3791,7 +3882,7 @@ async function impulseToDiary(){
   const d = t(), year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
   let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
   if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
   page.images = page.images || [];
   let src; try{ src = await impulseCardImage(c); }catch(e){ return; }
@@ -3984,7 +4075,7 @@ function gratToDiary(items){
    on that page, the text starts below the lowest one, with a line of space, instead of lying half on top of it. */
 async function tbAppendBlock(diary, block){
   let page = diary.seiten[diary.seiten.length - 1];
-  if(!page || page.type === 'titel' || page.bereiche){
+  if(!page || page.type === 'titel' || page.bereiche || page.tages || page.collage){
     page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] };
     diary.seiten.push(page);
   }
@@ -4180,7 +4271,15 @@ function shrinkImageFile(file, maxSide, quality){
 }
 let shrinkRunning = false;
 // how much has been written on an "areas" page (five fields)
-function tbAreaTextLen(p){ return p && p.bereiche ? Object.values(p.bereiche).join('').trim().length : 0; }
+function tbAreaTextLen(p){
+  if(!p) return 0;
+  let n = p.bereiche ? Object.values(p.bereiche).join('').trim().length : 0;
+  // 1.99.2: the day page (six fields) and the trophy collage count as written too
+  if(p.tages) n += ['dank', 'fokus', 'schritt', 'gut', 'gelernt'].map(k=>p.tages[k] || '').join('').trim().length + (p.tages.mood !== undefined && p.tages.mood !== null ? 1 : 0);
+  if(p.collage) n += p.collage.length * 10;
+  return n;
+}
+var DAY_FIELDS = ['dank', 'fokus', 'schritt', 'gut', 'gelernt']; // the fields of the day page (1.99.2)
 async function shrinkStoredImages(){
   if(shrinkRunning) return false;
   shrinkRunning = true;
@@ -4340,6 +4439,7 @@ const UI_ICONS = {
   chevron:'<path d="M6 9l6 6 6-6"/>',
   volume:'<path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.8 5.2a9.6 9.6 0 0 1 0 13.6"/>',
   mute:'<path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M22 9l-6 6M16 9l6 6"/>',
+  check:'<rect x="4" y="3.5" width="16" height="18" rx="2.5"/><path d="M9 3.5V2h6v1.5"/><path d="M8 10l1.6 1.6L12.5 8.7M8 16l1.6 1.6 2.9-2.9M14.5 10h2.5M14.5 16h2.5"/>',
   share:'<path d="M12 3v12"/><path d="M7.5 7.5 12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>'
 };
 const GOLD_ICO = { trash:'trash', pencil:'pen', plus:'plus', eye:'eye', play:'play', pause:'pause', volume:'volume', mute:'volume', bell:'bell', arrowL:'left', arrowR:'right', gear:'gear', book:'diary' };
@@ -4371,6 +4471,7 @@ function delApply(st){
   AREAS.forEach(a=>{ if(st.bewertungen && Array.isArray(st.bewertungen[a])) st.bewertungen[a] = st.bewertungen[a].filter(e=>!gone('b', a + ':' + e.ts)); });
   st.ereignisse = (st.ereignisse || []).filter(e=>!gone('e', e.id));
   st.meditationen = (st.meditationen || []).filter(m=>!gone('m', m.id));
+  if(st.habits && Array.isArray(st.habits.list)) st.habits.list = st.habits.list.filter(h=>!gone('h', h.id)); // 1.99.2
   Object.values((st.tagebuch && st.tagebuch.jahre) || {}).forEach(y=>{
     if(Array.isArray(y.seiten)) y.seiten = y.seiten.filter(p=>p.type==='titel' || !gone('s', p.id));
   });
@@ -4533,6 +4634,8 @@ function mergeBackupInto(cur, inc, mode){
     });
     out.achtsamkeit.log.sort((a,b)=>a.ts - b.ts);
   }
+  // habit tracker (1.99.2): habits by id (the one changed last wins), ticks by day and habit (the latest tick or untick wins)
+  out.habits = habitsMerge(habitsOf(out), habitsOf(inc));
   // diary: whole years that are missing are added; inside a shared year missing pages are added
   const score = pg=>((pg.text||'').length) + tbAreaTextLen(pg) + ((pg.strokes||[]).length*10) + ((pg.images||[]).length*50);
   const written = pg=>pg.type!=='titel' && score(pg)>0;
@@ -4640,6 +4743,10 @@ Object.assign(I18N.de, { // 1.99.0
   tbConflictText:'Zweite Fassung dieser Seite (geändert am {date} auf einem anderen Gerät). Die neuere Fassung steht eine Seite davor.',
   tbConflictKeep:'Behalten', tbConflictDrop:'Löschen',
   broochMoveHint:'Tipp: Du kannst die Brosche am Kleid mit dem Finger verschieben.',
+  habitTitle:'Gewohnheiten', habitWeek:'KW {n}', habitAdd:'Gewohnheit', habitToDiary:'Ins Tagebuch', habitEmpty:'Noch keine Gewohnheiten. Lege bis zu 8 an – zum Beispiel „10 Minuten Bewegung“ oder „Ein Glas Wasser am Morgen“ – und hake jeden Tag ab, was du geschafft hast.',
+  habitNamePh:'Gewohnheit, z. B. 10 Minuten lesen', habitDeleteConfirm:'Die Gewohnheit „{t}“ wirklich löschen?', habitSaved:'Das Wochenblatt steht jetzt in deinem Tagebuch.',
+  diaryDayPage:'Tagesseite', day_dank:'Wofür ich heute dankbar bin', day_fokus:'Mein Fokus heute', day_schritt:'Ein kleiner Schritt zu einem Ziel', day_gut:'Was heute gut war', day_gelernt:'Was ich heute gelernt habe', day_mood:'Wie geht es mir?',
+  collageTitle:'Meine Trophäen', collageAlready:'Diese Trophäe ist schon auf deiner Trophäen-Seite im Tagebuch.',
   trophyShare:'Teilen', trophyShareText:'Meine Trophäe in eWolfe: {t}', trophyShareSaved:'Das Bild der Trophäe wurde gespeichert. Du findest es in deinen Downloads und kannst es von dort teilen.', trophyShareFail:'Das Bild konnte nicht erstellt werden. Bitte versuche es noch einmal.',
   cmpToDiary:'Vergleich ins Tagebuch', cmpDiaryTitle:'Meine Lebensräder im Vergleich', cmpDiaryHead:'Meine Lebensräder im Vergleich: {dates}', cmpDiarySaved:'Der Vergleich steht jetzt in deinem Tagebuch.'
 });
@@ -4656,6 +4763,10 @@ Object.assign(I18N.en, {
   tbConflictText:'Second version of this page (changed on {date} on another device). The newer version is one page before.',
   tbConflictKeep:'Keep', tbConflictDrop:'Delete',
   broochMoveHint:'Tip: you can move the brooch on the dress with your finger.',
+  habitTitle:'Habits', habitWeek:'Week {n}', habitAdd:'Habit', habitToDiary:'Add to diary', habitEmpty:'No habits yet. Add up to 8 – for example “10 minutes of exercise” or “A glass of water in the morning” – and tick off every day what you managed.',
+  habitNamePh:'Habit, e.g. read for 10 minutes', habitDeleteConfirm:'Really delete the habit “{t}”?', habitSaved:'The week sheet is now in your diary.',
+  diaryDayPage:'Day page', day_dank:'What I am grateful for today', day_fokus:'My focus today', day_schritt:'A small step towards a goal', day_gut:'What was good today', day_gelernt:'What I learned today', day_mood:'How am I feeling?',
+  collageTitle:'My trophies', collageAlready:'This trophy is already on your trophy page in the diary.',
   trophyShare:'Share', trophyShareText:'My trophy in eWolfe: {t}', trophyShareSaved:'The picture of the trophy was saved. You will find it in your downloads and can share it from there.', trophyShareFail:'The picture could not be made. Please try again.',
   cmpToDiary:'Comparison to diary', cmpDiaryTitle:'My wheels of life compared', cmpDiaryHead:'My wheels of life compared: {dates}', cmpDiarySaved:'The comparison is now in your diary.'
 });
@@ -6036,7 +6147,7 @@ async function compareToDiary(){
   const d = t(), year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
   let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
   if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
   page.images = page.images || [];
   page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(comparePictureSvg(snaps)), xPct:12, yPct:3, wPct:76 });
@@ -6601,6 +6712,123 @@ function gtArrowsInit(wrap){
   requestAnimationFrame(upd);
 }
 
+/* ---- 1.99.2: habit tracker on a clipboard. state.habits = { list:[{ id, name, area, mt }], marks:{ 'YYYY-MM-DD|id': { v:1|0, t } } }.
+   One sheet per week (Monday to Sunday), at most 8 habits. Synced like the rest; a deleted habit leaves 'h:' + id in the deletion list. ---- */
+const HABIT_MAX = 8;
+function habitsOf(st){
+  if(!st.habits || typeof st.habits !== 'object') st.habits = {};
+  if(!Array.isArray(st.habits.list)) st.habits.list = [];
+  if(!st.habits.marks || typeof st.habits.marks !== 'object') st.habits.marks = {};
+  return st.habits;
+}
+function habitsMerge(a, b){
+  const list = [], byId = {};
+  [a, b].forEach(h=>((h && h.list) || []).forEach(x=>{
+    if(!x || !x.id) return;
+    const i = byId[x.id];
+    if(i === undefined){ byId[x.id] = list.length; list.push(JSON.parse(JSON.stringify(x))); }
+    else if((x.mt || 0) > (list[i].mt || 0)) list[i] = JSON.parse(JSON.stringify(x));
+  }));
+  const marks = Object.assign({}, (a && a.marks) || {});
+  Object.entries((b && b.marks) || {}).forEach(([k, m])=>{ if(m && (!marks[k] || (m.t || 0) > (marks[k].t || 0))) marks[k] = m; });
+  list.sort((x, y)=>(x.pos || 0) - (y.pos || 0) || String(x.id).localeCompare(String(y.id)));
+  return { list, marks };
+}
+const dayKey = dt=>dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0');
+function weekStart(dt){ const x = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+function isoWeek(dt){ const x = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate())); const n = x.getUTCDay() || 7; x.setUTCDate(x.getUTCDate() + 4 - n); const y0 = new Date(Date.UTC(x.getUTCFullYear(), 0, 1)); return Math.ceil(((x - y0) / 864e5 + 1) / 7); }
+let habitWeek = weekStart(new Date());
+function habitDays(){ return [0, 1, 2, 3, 4, 5, 6].map(i=>{ const x = new Date(habitWeek); x.setDate(x.getDate() + i); return x; }); }
+function habitOn(id, dt){ const m = habitsOf(state).marks[dayKey(dt) + '|' + id]; return !!(m && m.v); }
+function habitOpen(){ habitWeek = weekStart(new Date()); habitRender(); openModal('habit-modal'); }
+function habitWeekGo(n){ habitWeek.setDate(habitWeek.getDate() + 7 * n); habitWeek = new Date(habitWeek); habitRender(); }
+function habitRender(){
+  const d = t(), H = habitsOf(state), days = habitDays(), today = dayKey(new Date()), lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB';
+  document.getElementById('habit-title').textContent = d.habitTitle;
+  const f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
+  document.getElementById('habit-week-label').textContent = d.habitWeek.replace('{n}', isoWeek(days[0])) + ' · ' + f(days[0]) + '–' + f(days[6]);
+  const wd = days.map(x=>x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2));
+  document.getElementById('habit-grid').innerHTML = H.list.length ? `<table class="habit-table"><thead><tr><th class="habit-name-h"></th>${days.map((x, i)=>`<th class="${dayKey(x) === today ? 'today' : ''}">${wd[i]}<br>${x.getDate()}</th>`).join('')}</tr></thead><tbody>`
+    + H.list.map(h=>`<tr><td><button class="habit-name" onclick="habitEdit('${h.id}')">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}</span></button></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
+        return `<td><button class="habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} onclick="habitToggle('${h.id}', '${k}')" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`).join('')
+    + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`;
+  const add = document.getElementById('habit-add-btn'); add.textContent = '+ ' + d.habitAdd; add.style.display = H.list.length < HABIT_MAX ? '' : 'none';
+  const dia = document.getElementById('habit-diary-btn'); dia.textContent = d.habitToDiary; dia.style.display = H.list.length ? '' : 'none';
+}
+function habitToggle(id, k){
+  const H = habitsOf(state), key = k + '|' + id, on = !!(H.marks[key] && H.marks[key].v);
+  H.marks[key] = { v:on ? 0 : 1, t:Date.now() };
+  saveState(); habitRender();
+}
+let habitEditArea = null;
+function habitEdit(id){
+  const d = t(), h = id ? habitsOf(state).list.find(x=>x.id === id) : null;
+  habitEditArea = h ? h.area || null : null;
+  const box = document.getElementById('habit-form');
+  box.style.display = '';
+  box.innerHTML = `<div class="habit-form"><input class="small-input" id="habit-name-in" maxlength="40" placeholder="${escapeHtml(d.habitNamePh)}" value="${escapeHtml(h ? h.name : '')}">
+    <div class="ge-areas" style="margin-top:8px;">${AREAS.map(a=>`<button type="button" class="ge-area${habitEditArea === a ? ' on' : ''}" data-a="${a}" onclick="habitEditArea = habitEditArea === '${a}' ? null : '${a}'; this.parentElement.querySelectorAll('.ge-area').forEach(b=>b.classList.toggle('on', b.dataset.a === habitEditArea));" title="${escapeHtml(d.bereiche[a])}">${areaIco(a)}</button>`).join('')}</div>
+    <div class="habit-form-btns"><button class="primary-btn" onclick="habitSave(${h ? `'${h.id}'` : 'null'})">${d.goalSave}</button><button class="habit-btn" onclick="habitFormClose()">${d.dialogCancel}</button>${h ? `<button class="habit-btn" onclick="habitDelete('${h.id}')">${d.delete}</button>` : ''}</div></div>`;
+  setTimeout(()=>{ try{ document.getElementById('habit-name-in').focus(); }catch(e){} }, 50);
+}
+function habitFormClose(){ const b = document.getElementById('habit-form'); b.style.display = 'none'; b.innerHTML = ''; }
+function habitSave(id){
+  const H = habitsOf(state), name = (document.getElementById('habit-name-in').value || '').trim();
+  if(!name){ document.getElementById('habit-name-in').classList.add('invalid'); return; }
+  let h = id ? H.list.find(x=>x.id === id) : null;
+  if(!h){ if(H.list.length >= HABIT_MAX) return; h = { id:'h' + Date.now() + Math.random().toString(36).slice(2, 6), pos:H.list.length }; H.list.push(h); }
+  h.name = name; h.area = habitEditArea || null; h.mt = Date.now();
+  saveState(); habitFormClose(); habitRender();
+}
+async function habitDelete(id){
+  const H = habitsOf(state), h = H.list.find(x=>x.id === id); if(!h) return;
+  if(!(await uiConfirm(t().habitDeleteConfirm.replace('{t}', h.name)))) return;
+  H.list = H.list.filter(x=>x.id !== id);
+  delMark('h', id);
+  saveState(); habitFormClose(); habitRender();
+}
+// the week's sheet as a picture for the diary
+function habitSheetSvg(){
+  const d = t(), H = habitsOf(state), days = habitDays(), lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB', font = 'Inter, -apple-system, Helvetica, Arial, sans-serif';
+  const W = 800, top = 150, rowH = 62, nameW = 300, colW = (W - 60 - nameW) / 7, h = top + Math.max(1, H.list.length) * rowH + 40;
+  const accent = RETREAT ? '#7A0B25' : BIZ ? '#8a6f42' : '#8a5a00', green = '#2f8f62';
+  const f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
+  let out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${h}" width="${W}" height="${h}"><rect width="${W}" height="${h}" rx="18" fill="#fbf6ea" stroke="#d8ccb4" stroke-width="3"/>`
+    + `<text x="30" y="62" font-family="${font}" font-size="38" font-weight="700" fill="${accent}">${escapeHtml(d.habitTitle)}</text>`
+    + `<text x="${W - 30}" y="62" text-anchor="end" font-family="${font}" font-size="26" fill="#4a4033">${escapeHtml(d.habitWeek.replace('{n}', isoWeek(days[0])) + ' · ' + f(days[0]) + '–' + f(days[6]))}</text>`;
+  days.forEach((x, i)=>{ out += `<text x="${30 + nameW + colW * (i + 0.5)}" y="${top - 18}" text-anchor="middle" font-family="${font}" font-size="22" fill="#6b6152">${escapeHtml(x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2))} ${x.getDate()}</text>`; });
+  H.list.forEach((hb, r)=>{
+    const y = top + r * rowH;
+    out += `<line x1="30" y1="${y}" x2="${W - 30}" y2="${y}" stroke="#e6dcc8" stroke-width="2"/>`;
+    out += `<text x="34" y="${y + rowH / 2 + 9}" font-family="${font}" font-size="26" fill="#2a2318">${escapeHtml(hb.name.length > 20 ? hb.name.slice(0, 19) + '…' : hb.name)}</text>`;
+    days.forEach((x, i)=>{
+      const cx = 30 + nameW + colW * (i + 0.5), cy = y + rowH / 2, on = habitOn(hb.id, x);
+      out += `<rect x="${cx - 20}" y="${cy - 20}" width="40" height="40" rx="9" fill="${on ? '#e3f3e8' : '#ffffff'}" stroke="${on ? green : '#cbbd9f'}" stroke-width="2.5"/>`;
+      if(on) out += `<path d="M${cx - 11} ${cy + 1}l7 7 15-16" fill="none" stroke="${green}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    });
+  });
+  return out + `</svg>`;
+}
+async function habitToDiary(){
+  const d = t(), year = tbLatestBook(new Date().getFullYear());
+  const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
+  let page = diary.seiten[diary.seiten.length - 1];
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
+  page.images = page.images || [];
+  page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(habitSheetSvg()), xPct:6, yPct:4, wPct:88 });
+  saveState();
+  uiNotice(d.habitSaved);
+}
+// a drawn clipboard for the library (until pictures in the style of each design arrive)
+function clipboardSvg(){
+  const board = RETREAT ? ['#e9dcc6', '#cdb48e'] : BIZ ? ['#7a4a26', '#4f2f16'] : ['#9a6a35', '#5e3b1b'];
+  return `<svg viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cbB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${board[0]}"/><stop offset="1" stop-color="${board[1]}"/></linearGradient><linearGradient id="cbC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1dc9a"/><stop offset=".55" stop-color="#c9a463"/><stop offset="1" stop-color="#9c7a3f"/></linearGradient></defs>`
+    + `<rect x="6" y="10" width="108" height="146" rx="10" fill="url(#cbB)"/><rect x="16" y="24" width="88" height="122" rx="3" fill="#fbf6ea"/>`
+    + [0, 1, 2, 3, 4].map(i=>`<rect x="24" y="${42 + i * 19}" width="11" height="11" rx="2.5" fill="#fff" stroke="#b7a684" stroke-width="1.4"/>${i < 3 ? `<path d="M26 ${48 + i * 19}l3 3 6-7" fill="none" stroke="#2f8f62" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>` : ''}<line x1="42" y1="${48 + i * 19}" x2="${86 - (i % 2) * 14}" y2="${48 + i * 19}" stroke="#c8bba0" stroke-width="2.2" stroke-linecap="round"/>`).join('')
+    + `<rect x="38" y="2" width="44" height="18" rx="5" fill="url(#cbC)"/><rect x="52" y="6" width="16" height="5" rx="2.5" fill="rgba(0,0,0,0.28)"/></svg>`;
+}
+
 /* ---- Events ---- */
 let selectedEvBereiche = [];
 function renderEvents(){
@@ -7150,7 +7378,7 @@ function tbRenderLibrary(){
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap"><button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}"><button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipboardSvg()}</button>${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     <p class="page-footer">eWolfe · Version ${APP_VERSION}</p>
@@ -7526,17 +7754,18 @@ function trophyShow(id, isNew){
 function tbIsTrophyImg(src){ return /^img\/(crystal-|orb-|trophy-|faberge-|stickers\/nikolaus)/.test(src || ''); }
 // A Gentleman's Study (1.92.3): its trophies were cut out from navy as well – a small navy card with a bronze edge in the diary
 function tbIsRlTrophyImg(src){ return /^img\/rl\/(books-|boot|car|cloche-|crib|cup-|egg-|medal-|nikolaus|obelisk-|plane|pocket-watch|ships-wheel|star|sundial|telescope)/.test(src || ''); }
+/* 1.99.2 (wish of the user): trophies go small onto a collage page "My trophies", four per page, with name and date. The page stays
+   where it was begun in the diary; when it is full, the next trophy begins a new one at the end. */
 async function trophyToDiary(){
   const x = trophyCur; if(!x || x.kind !== 'img') return;
-  const d = t(), en = state.settings.lang === 'en', year = tbLatestBook(new Date().getFullYear());
+  const d = t(), year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
-  let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
-  if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
-  page.images = page.images || [];
-  page.images.push({ src:'img/' + x.img + '.webp', xPct:28, yPct:4, wPct:44, sticker:true });
-  const date = new Date(x.at > 1 ? x.at : Date.now()).toLocaleDateString(en ? 'en-GB' : 'de-DE', { day:'2-digit', month:'2-digit', year:'numeric' });
-  await tbAppendBlock(diary, d.trophyDiaryHead.replace('{date}', date) + '\n' + x.title + '\n' + x.desc);
+  const src = 'img/' + x.img + '.webp';
+  if(diary.seiten.some(p=>p.collage && p.collage.some(c=>c.id === x.id && c.src === src))){ closeModal('trophy-modal'); uiNotice(d.collageAlready); return; }
+  let page = diary.seiten.find(p=>p.collage && p.collage.length < 4);
+  if(!page){ page = { id:'p' + Date.now(), type:'blank', text:'', strokes:[], images:[], collage:[] }; diary.seiten.push(page); }
+  page.collage.push({ id:x.id, src, title:x.title, at:x.at > 1 ? x.at : Date.now() });
+  saveState();
   closeModal('trophy-modal');
   uiNotice(d.trophySaved);
 }
@@ -7679,7 +7908,7 @@ function tbCoverSettingsHtml(){
   const mats = TB_MATERIALS.map(m=>`<button class="tb-chip-btn${c.material===m?' active':''}" onclick="tbSetCoverMaterial('${m}')">${d['diaryMat'+m.charAt(0).toUpperCase()+m.slice(1)]}</button>`).join('');
   const fonts = `<button class="tb-chip-btn${c.titleFont!=='hand'?' active':''}" onclick="tbSetCoverFont('print')">${d.diaryFontPrint}</button>
     <button class="tb-chip-btn${c.titleFont==='hand'?' active':''}" onclick="tbSetCoverFont('hand')">${d.diaryFontHand}</button>`;
-  const typeChips = TB_STYLE_ORDER.concat('areas').map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
+  const typeChips = TB_STYLE_ORDER.concat('areas', 'day').map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
   return `<div class="tb-tools-backdrop" onclick="tbCoverSettingsOpen=false; tbRender();"></div>
     <div class="tb-cover-pop" role="dialog">
       <div class="tb-cover-pop-head"><span><img class="gold-gear" src="img/icons/ico-gear.webp" alt="">${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
@@ -7910,7 +8139,16 @@ function tbRenderPageSlot(idx){
   const miniTools = page.konflikt ? `<div class="tb-conflict">${escapeHtml(d.tbConflictText.replace('{date}', page.konflikt.at ? new Date(page.konflikt.at).toLocaleString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}) : '–'))}
       <span class="tb-conflict-btns"><button class="ghost-btn" onclick="tbConflictKeep(${idx})">${d.tbConflictKeep}</button><button class="ghost-btn" onclick="tbDeletePage(${idx})">${d.tbConflictDrop}</button></span></div>` : '';
   const inactive = (tbMode!=='text'||!tbEditMode) ? 'inactive' : '';
-  const textPart = page.bereiche
+  const pageDate = ()=>{ const m = /^p(\d{12,13})/.exec(page.id || ''); return new Date(m ? +m[1] : Date.now()).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' }); };
+  const textPart = page.collage
+    ? `<div class="tb-collage"><div class="tb-collage-head">${escapeHtml(d.collageTitle)}</div><div class="tb-collage-grid">${page.collage.map(c=>`<div class="tb-collage-cell"><div class="tb-collage-pic"><img class="tb-page-img is-sticker${tbIsTrophyImg(c.src) ? ' is-trophy' : ''}${tbIsRlTrophyImg(c.src) ? ' is-trophy is-trophy-rl' : ''}" src="${c.src}" alt=""></div><div class="tb-collage-title">${escapeHtml(c.title || '')}</div><div class="tb-collage-date">${c.at > 1 ? new Date(c.at).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { day:'2-digit', month:'2-digit', year:'numeric' }) : ''}</div></div>`).join('')}</div></div>`
+    : page.tages
+    ? `<div class="tb-day ${inactive}"><div class="tb-day-date">${escapeHtml(pageDate())}</div>
+        ${DAY_FIELDS.map(k=>`<div class="tb-day-block tb-day-${k}"><div class="tb-day-head">${escapeHtml(d['day_' + k])}${k === 'fokus' ? `<span class="tb-day-areas">${WHEEL_AREAS.concat('freude').map(a=>`<button class="tb-day-area${page.tages.area === a ? ' on' : ''}" data-page-idx="${idx}" data-a="${a}" title="${escapeHtml(d.bereiche[a])}" aria-label="${escapeHtml(d.bereiche[a])}">${areaIco(a)}</button>`).join('')}</span>` : ''}</div>
+          <textarea class="tb-day-text ${page.font==='hand'?'font-hand':''}" data-page-idx="${idx}" data-k="${k}" ${tbEditMode?'':'readonly'}>${escapeHtml(page.tages[k] || '')}</textarea></div>`).join('')}
+        <div class="tb-day-block tb-day-moodrow"><div class="tb-day-head">${escapeHtml(d.day_mood)}</div><div class="tb-day-moods">${[0,1,2,3,4].map(l=>`<button class="tb-day-mood${page.tages.mood === l ? ' on' : ''}" data-page-idx="${idx}" data-l="${l}" title="${escapeHtml(d.moods[l])}" aria-label="${escapeHtml(d.moods[l])}">${moodFace(l)}</button>`).join('')}</div></div>
+      </div>`
+    : page.bereiche
     ? `<div class="tb-areas ${inactive}">${AREAS.map(a=>`<div class="tb-area-block">
           <div class="tb-area-head">${areaIco(a)}${d.bereiche[a]}</div>
           <textarea class="tb-area-text ${page.font==='hand'?'font-hand':''}" data-page-idx="${idx}" data-area="${a}" ${tbEditMode?'':'readonly'}>${escapeHtml(page.bereiche[a]||'')}</textarea>
@@ -7956,9 +8194,9 @@ function tbPageNavHtml(){
 let tbToolsOpen = false, tbToolsSub = ''; // tbToolsSub: which row is folded open ('font' | 'new' | 'style')
 const TB_TOOLS = [['text','pencil','diaryWrite'], ['draw','pen','diaryDraw'], ['eraseFree','eraser','diaryEraseFree'], ['eraseObj','objErase','diaryEraseObj']];
 const TB_STYLE_ORDER = ['blank','lined','grid','dotted'];
-function tbTypeLabel(pt){ return pt === 'areas' ? t().diaryAreasPage : t()['diaryPage' + pt.charAt(0).toUpperCase() + pt.slice(1)]; }
+function tbTypeLabel(pt){ return pt === 'areas' ? t().diaryAreasPage : pt === 'day' ? t().diaryDayPage : t()['diaryPage' + pt.charAt(0).toUpperCase() + pt.slice(1)]; }
 // the page type for text that continues on a new page ("Lebensbereiche" as default only applies to pages you add yourself)
-function tbTextType(diary){ return diary.defaultPageType && diary.defaultPageType !== 'areas' ? diary.defaultPageType : 'blank'; }
+function tbTextType(diary){ return diary.defaultPageType && diary.defaultPageType !== 'areas' && diary.defaultPageType !== 'day' ? diary.defaultPageType : 'blank'; }
 function tbToolsHtml(){
   const d = t();
   const page = tbEnsureYear(tbYear).seiten[tbPageIdx] || {};
@@ -7981,7 +8219,9 @@ function tbToolsHtml(){
       <div class="tb-tools-sep"></div>
       <button class="tb-tools-item ${tbToolsSub==='new'?'active':''}" onclick="tbToolsFold('new')">${ico('plus')}${d.diaryNewPage}${chev('new')}</button>
       ${subRow('new', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('${pt}')">${tbTypeLabel(pt)}</button>`).join('')
-        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), true)">${d.diaryAreasPage}</button>`)}
+        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), true)">${d.diaryAreasPage}</button>`
+        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), false, true)">${d.diaryDayPage}</button>`)}
+      <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbRender();habitOpen()">${ico('check')}${d.habitTitle}</button>
       ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='sticker'?'active':''}" onclick="tbToolsFold('sticker')">${ico('image')}${d.diaryStickers}${chev('sticker')}</button>
       <label class="tb-tools-item" style="cursor:pointer;">${ico('image')}${d.diaryAddImage}<input type="file" accept="image/*" id="tb-img-input-menu" style="display:none;"></label>
       ${tbToolsSub==='sticker' ? `<div class="tb-sticker-grid">${TB_STICKERS.map((st, i)=>`<button class="tb-sticker-btn${stickerOld(st.k) ? ' st-old' : ''}" onclick="tbInsertSticker(${i})" title="${escapeHtml(d.stickerNames[st.k] || st.k)}" aria-label="${escapeHtml(d.stickerNames[st.k] || st.k)}">${st.src ? `<img src="${st.src}" alt="">` : st.svg()}</button>`).join('')}</div>` : ''}`}
@@ -8025,11 +8265,13 @@ function tbCyclePageType(idx){
   page.type = TB_PAGE_TYPES[(i+1) % TB_PAGE_TYPES.length];
   saveState(); tbRender();
 }
-function tbAddPage(type, areas){
+function tbAddPage(type, areas, day){
   const diary = tbEnsureYear(tbYear);
   if(type === 'areas'){ type = 'blank'; areas = true; } // "Lebensbereiche" chosen as the default page
+  if(type === 'day'){ type = 'blank'; day = true; } // 1.99.2: the day page chosen as the default page
   const pg = { id:'p'+Date.now(), type, text:'', strokes:[], images:[] };
   if(areas) pg.bereiche = {}; // a page with the five areas as small headings, each with its own text
+  if(day) pg.tages = {}; // the day page: grateful, focus, a small step, what was good, what I learned, mood
   diary.seiten.push(pg);
   tbPageIdx = diary.seiten.length-1;
   saveState();
@@ -8060,7 +8302,7 @@ async function wheelToDiary(){
   const d = t(), en = state.settings.lang === 'en', year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
   let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
   if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
   page.images = page.images || [];
   page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(wheelPictureSvg()), xPct:14, yPct:4, wPct:72 });
@@ -8225,6 +8467,26 @@ function tbBindSlot(idx){
       tbTextSaveTimer = setTimeout(saveState, 500);
     });
   });
+
+  // 1.99.2: the day page – six fields, a focus area and a mood face
+  document.querySelectorAll(`.tb-day-text[data-page-idx="${idx}"]`).forEach(el=>{
+    el.__last = el.value;
+    el.addEventListener('input', ()=>{
+      if(el.scrollHeight > el.clientHeight + 1){ const pos = Math.min(el.selectionStart, el.__last.length); el.value = el.__last; try{ el.setSelectionRange(pos, pos); }catch(e){} return; }
+      el.__last = el.value;
+      page.tages = page.tages || {};
+      page.tages[el.dataset.k] = el.value;
+      clearTimeout(tbTextSaveTimer);
+      tbTextSaveTimer = setTimeout(saveState, 500);
+    });
+  });
+  document.querySelectorAll(`.tb-day-area[data-page-idx="${idx}"], .tb-day-mood[data-page-idx="${idx}"]`).forEach(b=>b.addEventListener('click', ()=>{
+    if(!tbEditMode) return;
+    page.tages = page.tages || {};
+    if(b.dataset.a) page.tages.area = page.tages.area === b.dataset.a ? null : b.dataset.a;
+    else{ const l = +b.dataset.l; page.tages.mood = page.tages.mood === l ? null : l; }
+    saveState(); tbRender();
+  }));
 
   const canvas = document.getElementById('tb-page-canvas-'+idx);
   if(canvas){
@@ -8953,7 +9215,7 @@ Object.assign(I18N.en, { legal_privacy:'Privacy', legal_imprint:'Imprint', legal
 /* ---- what is synced, and how to tell whether it changed ---- */
 function syncPayload(st){
   // 1.99.0: the mindfulness log (exercises, moods, gratitude) travels too – before, it stayed on the device where it was made
-  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {}, achtsamkeit:{ log:(st.achtsamkeit && Array.isArray(st.achtsamkeit.log)) ? st.achtsamkeit.log : [] } };
+  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {}, achtsamkeit:{ log:(st.achtsamkeit && Array.isArray(st.achtsamkeit.log)) ? st.achtsamkeit.log : [] }, habits:habitsOf(st) };
 }
 function syncHash(st){
   const s = JSON.stringify(syncPayload(st));
@@ -8976,6 +9238,7 @@ function syncNormalize(d){
   // an account written by an app before 1.99.0 has no mindfulness log: an empty one, never a reason to drop local entries (achUnion)
   if(!o.achtsamkeit || typeof o.achtsamkeit !== 'object') o.achtsamkeit = {};
   if(!Array.isArray(o.achtsamkeit.log)) o.achtsamkeit.log = [];
+  habitsOf(o); // 1.99.2: the habit tracker (an account from an older app has none)
   return o;
 }
 // all mindfulness entries of both sides, by id; a mood given later wins (the log is only ever added to)
@@ -8996,6 +9259,7 @@ function localIsPristine(){
     && !(state.ereignisse || []).length
     && (state.meditationen || []).every(m=>String(m.id).startsWith('seed-'))
     && !((state.achtsamkeit && state.achtsamkeit.log) || []).length
+    && !habitsOf(state).list.length && !Object.keys(habitsOf(state).marks).length
     && backupSummary(state).diaryPages === 0;
 }
 function syncEditorOpen(){
@@ -9021,6 +9285,8 @@ function syncApplyState(newState){
     newState.settings = state.settings; // every device keeps its own language
     // 1.99.0: what this device has in its mindfulness log is never dropped, also not by an account an older app wrote
     newState.achtsamkeit = Object.assign({}, newState.achtsamkeit || {}, { log:achUnion(state.achtsamkeit && state.achtsamkeit.log, newState.achtsamkeit && newState.achtsamkeit.log) });
+    newState.habits = habitsMerge(habitsOf(state), habitsOf(newState)); // the same for the habit tracker (1.99.2)
+    delApply(newState);
     state = newState;
     saveState();
     closeModal('eval-modal');
@@ -9101,11 +9367,11 @@ async function syncNow(){
       if(pristine || (metaOk && !shrunk && localHash === meta.hash)){
         remote.geloescht = delUnion(state.geloescht, remote.geloescht); // e.g. a sample meditation removed before signing in
         delApply(remote);
-        const remoteAch = remote.achtsamkeit.log.length;
+        const remoteAch = remote.achtsamkeit.log.length, remoteHab = JSON.stringify(habitsOf(remote));
         syncApplyState(remote); // this device has nothing newer of its own: just receive
         syncFpRefresh(); // what just arrived is not an edit of this device
-        // mindfulness entries the account did not have (e.g. written by an app before 1.99.0) go back up in the next round
-        const achGrew = state.achtsamkeit.log.length > remoteAch;
+        // mindfulness entries / habits the account did not have (e.g. written by an app before 1.99.0) go back up in the next round
+        const achGrew = state.achtsamkeit.log.length > remoteAch || JSON.stringify(habitsOf(state)) !== remoteHab;
         // remember the locks as they are in the account: if this device has newer ones (a new password), the next round writes them
         syncRemember(uid, full.revision, achGrew ? 'ach' : syncHash(state), syncCounts(state), remoteEnc ? full.data.kv || 0 : 0);
         if(!metaOk) firstPairing = 'pulled';

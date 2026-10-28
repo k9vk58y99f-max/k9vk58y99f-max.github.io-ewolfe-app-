@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.99.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.99.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -657,6 +657,19 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   - Bestellt (Sammelordner „Ausgang“): 9 Lady-Bücherstapel scharf (alte nur 230 px breit), 10 Mystery-Trophäen neu (Nutzer soll sagen, welche).
 - 1.99.1: Glasglocken (alle Designs, `isCloche` in `tbRenderLibrary`) belegen zuerst die untersten Fächer (Wunsch des Nutzers); die übrigen Trophäen
   füllen wie bisher von oben. Mystery-Glasglocken sind in Ordnung; neue Mystery-Trophäen nur mit Perspektive „gerade von vorn, Augenhöhe“ prompten.
+- **1.99.2 Klemmbrett, Tagesseite, Trophäen-Collage (Wunsch des Nutzers):**
+  - **Habit Tracker** auf einem Klemmbrett an der Wand links neben dem Regal (`.lib-clipboard`, gezeichnet `clipboardSvg()`, bis Bilder je Design
+    kommen), auch im Tagebuch-Werkzeugmenü „Gewohnheiten“. Fenster `#habit-modal` (Holzbrett, Klammer, Papier): ein Wochenblatt Mo–So
+    (`habitWeek`, `isoWeek`), bis 8 Gewohnheiten (`HABIT_MAX`) mit optionalem Lebensbereich, Kästchen zum Abhaken (keine Zukunft), „Ins Tagebuch“
+    = Wochenblatt als Bild (`habitSheetSvg`, `habitToDiary`). Daten `state.habits = { list:[{id,name,area,pos,mt}], marks:{'YYYY-MM-DD|id':{v,t}} }`,
+    synchronisiert (`habitsOf`, `habitsMerge`: Gewohnheit mit neuerem `mt`, Haken mit neuerem `t` gewinnt), Löschen = Grabstein `'h:' + id`.
+    Abgehakte Tage zählen als aktive Tage.
+  - **Tagesseite** (eigener Seitentyp, „Neue Seite ▾ → Tagesseite“, auch als bevorzugter Seitentyp `day`): `page.tages = { dank, fokus, area,
+    schritt, gut, gelernt, mood }` – eigene Fragen (bewusst anders als das 6-Minuten-Tagebuch), Fokus mit Lebensbereich-Symbol, Stimmung als Gesicht
+    (`moodFace`), Datum oben. Felder nehmen nichts mehr an, wenn sie voll sind (wie die Bereiche-Seite). `tbAreaTextLen` zählt Tagesseite und Collage mit.
+  - **Trophäen-Collage:** „Ins Tagebuch“ legt die Trophäe klein auf eine Seite „Meine Trophäen“ (`page.collage`, 4 je Seite, Name + Datum, 2×2).
+    Die Seite bleibt, wo sie begonnen wurde; ist sie voll, beginnt am Ende eine neue. Dieselbe Trophäe kommt nicht zweimal.
+  - Bilder fürs Klemmbrett je Design sind bestellt (Prompts im Chat vom 28.10.2026).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
