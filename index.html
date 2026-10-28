@@ -722,6 +722,7 @@ html.theme-biz .habit-title{ color:#ab8b54 !important; } html.theme-retreat .hab
 .habit-table th.habit-name-h{ width:38%; text-align:left; }
 .habit-table td{ border-top:1px solid #e6dcc8; padding:4px 1px; text-align:center; }
 .habit-name{ display:flex; align-items:center; gap:6px; width:100%; text-align:left; background:none; border:none; padding:6px 2px; font:inherit; font-size:14px; color:#2a2318; cursor:pointer; overflow-wrap:anywhere; }
+.habit-streak{ display:block; font-size:11px; color:#2f8f62; font-weight:600; }
 .habit-name .area-ico{ width:18px; height:18px; flex:none; margin:0; }
 .habit-cell{ width:100%; max-width:34px; aspect-ratio:1; height:auto; border-radius:8px; border:1.5px solid #cbbd9f; background:#fff; cursor:pointer; padding:0; color:#2f8f62; font-size:20px; line-height:1; }
 .habit-cell.on{ background:#e3f3e8; border-color:#2f8f62; }
@@ -737,7 +738,9 @@ html.theme-biz .habit-title{ color:#ab8b54 !important; } html.theme-retreat .hab
 .habit-form-btns{ display:flex; gap:8px; margin-top:8px; }
 .habit-form-btns button{ flex:1; }
 .habit-form-btns .habit-btn{ padding:10px 8px; border-radius:10px; border:1px solid #cbbd9f; background:#fff; color:#2a2318; font:inherit; font-size:14px; cursor:pointer; }
-.lib-clipboard{ position:absolute; right:100%; top:20%; height:21%; margin-right:calc(var(--lh, 600px) * 0.035); z-index:3; background:none; border:none; padding:0; cursor:pointer; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.35)); }
+.lib-clipboard{ position:absolute; right:100%; top:20%; height:21%; margin-right:calc(var(--lh, 600px) * 0.035); z-index:3; }
+.shelf-comp .lib-clipboard{ right:auto; left:14%; top:auto; bottom:0; height:84%; margin:0; transform:rotate(-5deg); transform-origin:50% 100%; }
+.lib-clipboard{ background:none; border:none; padding:0; cursor:pointer; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.35)); }
 .lib-clipboard svg{ height:100%; width:auto; display:block; }
 .tb-conflict{ position:absolute; left:8px; right:8px; top:8px; z-index:6; background:#fff4d6; color:#3a2a08; border:1px solid #d9a93a; border-radius:10px; padding:8px 10px; font:14px/1.4 Inter, -apple-system, sans-serif; box-shadow:0 4px 14px rgba(0,0,0,0.18); }
 .tb-conflict-btns{ display:flex; gap:8px; margin-top:6px; }
@@ -1367,7 +1370,7 @@ html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
 /* 25.10.2026: new pictures – Pentecost (sage coat over the embroidered skirt), Easter (emerald), New Year (celadon-gold, corrected) */
 .lib-dress-wrap.dress-pentecost{ --bx:60.5%; --by:14.4%; } /* on the right lapel (marked by the user) */
 .lib-dress-wrap.dress-celadon2{ --bx:51%; --by:16.2%; } /* where the cups meet at the top, on the middle line (marked by the user) */
-.lib-dress-wrap:is(.dress-blouse-pink, .dress-blouse-navy){ --bx:62%; --by:13.8%; } /* 1.99.0: on the left side, just above the bust line (16 %, marked by the user) */
+.lib-dress-wrap:is(.dress-blouse-pink, .dress-blouse-navy, .dress-blouse-green, .dress-blouse-navy2){ --bx:62%; --by:13.8%; } /* 1.99.0: on the left side, just above the bust line (16 %, marked by the user) */
 .dress-brooch{ touch-action:none; } /* it can be moved with a finger (1.99.0) */
 .dress-brooch.dragging{ cursor:grabbing; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
 .lib-dress-wrap.dress-bow-green{ --bx:56.5%; --by:12.6%; } /* on the knot of the bow (the bow covers the left breast) */
@@ -2165,7 +2168,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.99.2';
+const APP_VERSION = '1.99.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4743,6 +4746,10 @@ Object.assign(I18N.de, { // 1.99.0
   tbConflictText:'Zweite Fassung dieser Seite (geändert am {date} auf einem anderen Gerät). Die neuere Fassung steht eine Seite davor.',
   tbConflictKeep:'Behalten', tbConflictDrop:'Löschen',
   broochMoveHint:'Tipp: Du kannst die Brosche am Kleid mit dem Finger verschieben.',
+  habitStreak:'{n} Tage am Stück',
+  habitPraise30:'Wunderbar! 30 Tage am Stück: „{h}“ ist jetzt eine neue Gewohnheit von dir. Mach weiter so!',
+  habitPraise60:'Großartig! 60 Tage ohne Unterbrechung: „{h}“ gehört jetzt fest zu deinem Leben. Darauf kannst du richtig stolz sein!',
+  habitPraise90:'Hervorragend! 90 Tage am Stück – ein ganzes Vierteljahr „{h}“. Du hast etwas in deinem Leben wirklich verändert. Feier dich heute!',
   habitTitle:'Gewohnheiten', habitWeek:'KW {n}', habitAdd:'Gewohnheit', habitToDiary:'Ins Tagebuch', habitEmpty:'Noch keine Gewohnheiten. Lege bis zu 8 an – zum Beispiel „10 Minuten Bewegung“ oder „Ein Glas Wasser am Morgen“ – und hake jeden Tag ab, was du geschafft hast.',
   habitNamePh:'Gewohnheit, z. B. 10 Minuten lesen', habitDeleteConfirm:'Die Gewohnheit „{t}“ wirklich löschen?', habitSaved:'Das Wochenblatt steht jetzt in deinem Tagebuch.',
   diaryDayPage:'Tagesseite', day_dank:'Wofür ich heute dankbar bin', day_fokus:'Mein Fokus heute', day_schritt:'Ein kleiner Schritt zu einem Ziel', day_gut:'Was heute gut war', day_gelernt:'Was ich heute gelernt habe', day_mood:'Wie geht es mir?',
@@ -4763,6 +4770,10 @@ Object.assign(I18N.en, {
   tbConflictText:'Second version of this page (changed on {date} on another device). The newer version is one page before.',
   tbConflictKeep:'Keep', tbConflictDrop:'Delete',
   broochMoveHint:'Tip: you can move the brooch on the dress with your finger.',
+  habitStreak:'{n} days in a row',
+  habitPraise30:'Wonderful! 30 days in a row: “{h}” is now a new habit of yours. Keep it up!',
+  habitPraise60:'Great! 60 days without a break: “{h}” is now a firm part of your life. You can be really proud of that!',
+  habitPraise90:'Outstanding! 90 days in a row – a whole quarter of a year of “{h}”. You have truly changed something in your life. Celebrate yourself today!',
   habitTitle:'Habits', habitWeek:'Week {n}', habitAdd:'Habit', habitToDiary:'Add to diary', habitEmpty:'No habits yet. Add up to 8 – for example “10 minutes of exercise” or “A glass of water in the morning” – and tick off every day what you managed.',
   habitNamePh:'Habit, e.g. read for 10 minutes', habitDeleteConfirm:'Really delete the habit “{t}”?', habitSaved:'The week sheet is now in your diary.',
   diaryDayPage:'Day page', day_dank:'What I am grateful for today', day_fokus:'My focus today', day_schritt:'A small step towards a goal', day_gut:'What was good today', day_gelernt:'What I learned today', day_mood:'How am I feeling?',
@@ -6749,8 +6760,8 @@ function habitRender(){
   document.getElementById('habit-week-label').textContent = d.habitWeek.replace('{n}', isoWeek(days[0])) + ' · ' + f(days[0]) + '–' + f(days[6]);
   const wd = days.map(x=>x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2));
   document.getElementById('habit-grid').innerHTML = H.list.length ? `<table class="habit-table"><thead><tr><th class="habit-name-h"></th>${days.map((x, i)=>`<th class="${dayKey(x) === today ? 'today' : ''}">${wd[i]}<br>${x.getDate()}</th>`).join('')}</tr></thead><tbody>`
-    + H.list.map(h=>`<tr><td><button class="habit-name" onclick="habitEdit('${h.id}')">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}</span></button></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
-        return `<td><button class="habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} onclick="habitToggle('${h.id}', '${k}')" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`).join('')
+    + H.list.map(h=>{ const st = habitStreakNow(h.id); return `<tr><td><button class="habit-name" onclick="habitEdit('${h.id}')">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}${st >= 2 ? `<small class="habit-streak">${escapeHtml(d.habitStreak.replace('{n}', st))}</small>` : ''}</span></button></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
+        return `<td><button class="habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} onclick="habitToggle('${h.id}', '${k}')" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`; }).join('')
     + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`;
   const add = document.getElementById('habit-add-btn'); add.textContent = '+ ' + d.habitAdd; add.style.display = H.list.length < HABIT_MAX ? '' : 'none';
   const dia = document.getElementById('habit-diary-btn'); dia.textContent = d.habitToDiary; dia.style.display = H.list.length ? '' : 'none';
@@ -6758,8 +6769,24 @@ function habitRender(){
 function habitToggle(id, k){
   const H = habitsOf(state), key = k + '|' + id, on = !!(H.marks[key] && H.marks[key].v);
   H.marks[key] = { v:on ? 0 : 1, t:Date.now() };
+  // 28.10.2026 (wish of the user): praise after 30, 60 and 90 days in a row – each step once per habit
+  let praise = null;
+  if(!on){
+    const h = H.list.find(x=>x.id === id), n = habitStreak(id, k);
+    const best = Math.max(0, ...((h && h.praise) || [])), step = [90, 60, 30].find(x=>n >= x && x > best); // only ever a bigger praise than before
+    if(h && step){ h.praise = ((h.praise || []).concat(step)).sort((a, b)=>a - b); h.mt = Date.now(); praise = t()['habitPraise' + step].replace('{h}', h.name); }
+  }
   saveState(); habitRender();
+  if(praise) uiNotice(praise);
 }
+// how many days in a row this habit is ticked, counting back from the given day (YYYY-MM-DD; default today)
+function habitStreak(id, k){
+  const H = habitsOf(state); let n = 0;
+  const [y, m, dd] = (k || dayKey(new Date())).split('-').map(Number), x = new Date(y, m - 1, dd);
+  while(n < 1000){ const m2 = H.marks[dayKey(x) + '|' + id]; if(!(m2 && m2.v)) break; n++; x.setDate(x.getDate() - 1); }
+  return n;
+}
+function habitStreakNow(id){ const n = habitStreak(id); if(n) return n; const y = new Date(); y.setDate(y.getDate() - 1); return habitStreak(id, dayKey(y)); }
 let habitEditArea = null;
 function habitEdit(id){
   const d = t(), h = id ? habitsOf(state).list.find(x=>x.id === id) : null;
@@ -7354,8 +7381,11 @@ function tbRenderLibrary(){
     const oldRow = useOld ? `<div class="shelf-comp shelf-comp-books vit-books" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${VR0[0][0]}%;height:${VR0[0][1] - VR0[0][0]}%">${oldKeys.map(k=>bookHtml(spine(k))).join('')}</div>` : '';
     vitHtml = `<div class="vitrine-img${SV ? ' vit-joined' : ''}"${SV ? ` style="background-image:url(img/${SV.vit.img}.webp);--va:${SV.vit.aspect.toFixed(4)}"` : ''}>${oldRow}${VR.map(([y0, y1], i)=>`<div class="shelf-comp shelf-comp-tro" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(troHtml).join('')}</div>`).join('')}</div>`;
   }
+  // 28.10.2026 (wish of the user): the clipboard (habit tracker) leans in the middle compartment of the book part – or the next free one below
+  const clipRow = (()=>{ const mid = Math.floor(SHELF_ROWS.length / 2); for(let i = mid; i < SHELF_ROWS.length; i++) if(!(narrowRows[i] || []).length) return i; return -1; })();
+  const clipHtml = `<button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipboardSvg()}</button>`;
   const narrowHtml = NAR ? `<div class="shelf-img shelf-narrow" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
-      `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${NS.plant ? `<img class="shelf-plant" src="img/${NS.plant.img}.webp" alt="" style="width:${NS.plant.w}%;left:${NS.plant.over - NS.plant.w}%">` : ''}</div>` : '';
+      `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${NS.plant ? `<img class="shelf-plant" src="img/${NS.plant.img}.webp" alt="" style="width:${NS.plant.w}%;left:${NS.plant.over - NS.plant.w}%">` : ''}</div>` : '';
   // 1.87.2: the shelf is as high as in the other designs; where the orchid table does not fit next to it as well (phones),
   // the row starts at the shelf and the table peeks in from the left (scroll left to see it whole)
   setTimeout(()=>document.querySelectorAll('.lib-scroll').forEach(el=>{
@@ -7378,7 +7408,7 @@ function tbRenderLibrary(){
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap"><button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}"><button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipboardSvg()}</button>${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${NAR && clipRow >= 0 ? '' : clipHtml}${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     <p class="page-footer">eWolfe · Version ${APP_VERSION}</p>
@@ -7504,7 +7534,7 @@ function trophyDefs(){
   const xmDone = ev.done.filter(e=>{ const d = new Date(e.ts); return d.getMonth() === 11 && d.getDate() >= 24 && d.getDate() <= 26; });
   const xmYears = [...new Set(xmDone.map(e=>yearOf(e.ts)))].sort((a, b)=>a - b);
   const xmAt = i=>xmYears[i] ? [xmDone.find(e=>yearOf(e.ts) === xmYears[i]).ts] : [];
-  out.push({ id:'xmas', kind:'img', img:'trophy-star', scale:0.9, aspect:0.75, need:1, list:xmAt(0),
+  out.push({ id:'xmas', kind:'img', img:'trophy-star2', scale:0.9, aspect:0.592, need:1, list:xmAt(0),
     title:L('Stern von Bethlehem', 'Star of Bethlehem'), desc:L('An Weihnachten hast du dir Zeit für dich genommen. „Wir haben seinen Stern gesehen.“', 'At Christmas you took time for yourself. “We have seen his star.”') });
   out.push({ id:'xmas2', kind:'img', img:'trophy-crib', scale:0.9, aspect:1, need:1, list:xmAt(1),
     title:L('Krippe', 'Nativity scene'), desc:L('Schon das zweite Weihnachten mit dir selbst – Friede auf Erden.', 'Your second Christmas with yourself – peace on earth.') });
@@ -7513,7 +7543,7 @@ function trophyDefs(){
   const joyArr = (state.bewertungen.freude || []).slice().sort((x, y)=>x.ts - y.ts);
   [[10, 0.7], [20, 0.82], [30, 0.95]].forEach(([n, sc], i)=>{
     const hit = joyArr.find(e=>joyArr.length && e.value - joyArr[0].value >= n);
-    out.push({ id:'joy' + n, group:'joy', stage:i, kind:'img', img:'orb-sun-' + (i + 1), scale:sc, aspect:[0.56, 0.58, 0.6][i], need:1, list:hit ? [hit.ts] : [],
+    out.push({ id:'joy' + n, group:'joy', stage:i, kind:'img', img:'orb-sun-n', scale:sc, aspect:0.585, need:1, list:hit ? [hit.ts] : [],
       title:L('Sonne der Freude (+' + n + ')', 'Sun of joy (+' + n + ')'), desc:L('Deine Lebensfreude ist um ' + n + ' Punkte gewachsen. Lass sie weiter leuchten!', 'Your joy in life has grown by ' + n + ' points. Let it keep shining!') });
   });
   out.push({ id:'up10', kind:'img', img:'orb-green', scale:0.7, aspect:0.81, need:1, list:ev.improved10 ? [ev.improved10] : [], title:L('Plus 10', 'Plus 10'), desc:L('Ein Lebensbereich ist um 10 Punkte gewachsen.', 'One area of life grew by 10 points.') });
@@ -7523,11 +7553,11 @@ function trophyDefs(){
   WHEEL_AREAS.forEach(a=>{ let below = false; (state.bewertungen[a] || []).slice().sort((x, y)=>x.ts - y.ts).forEach(x=>{
     if(x.wish === undefined || x.wish === null) return;
     if(x.value < x.wish) below = true; else if(below && (arrived === null || x.ts < arrived)) arrived = x.ts; }); });
-  out.push({ id:'arrived', kind:'img', img:RETREAT ? 'rt/balloon' : BIZ ? 'rl/plane' : 'trophy-plane', scale:0.8, aspect:RETREAT ? 0.671 : BIZ ? 1.68 : 2.07, need:1, list:arrived ? [arrived] : [],
+  out.push({ id:'arrived', kind:'img', img:RETREAT ? 'rt/balloon' : BIZ ? 'rl/plane' : 'trophy-n-plane', scale:0.8, aspect:RETREAT ? 0.671 : BIZ ? 1.68 : 1.876, need:1, list:arrived ? [arrived] : [],
     title:L('Angekommen', 'Arrived'), desc:L('In einem Lebensbereich bist du dort angekommen, wo du hinwolltest.', 'In one area of life you have arrived where you wanted to be.') });
   const months = [], mSeen = new Set();
   ev.wheels.slice().sort((x, y)=>x - y).forEach(ts=>{ const d = new Date(ts), k = d.getFullYear() * 12 + d.getMonth(); if(!mSeen.has(k)){ mSeen.add(k); months.push(ts); } });
-  out.push({ id:'classic12', kind:'img', img:RETREAT ? 'rt/bicycle' : BIZ ? 'rl/car' : 'trophy-car', scale:BIZ ? 0.6 : 0.5, aspect:RETREAT ? 1.63 : BIZ ? 2.61 : 3.77, need:12, list:months,
+  out.push({ id:'classic12', kind:'img', img:RETREAT ? 'rt/bicycle' : BIZ ? 'rl/car' : 'trophy-n-car', scale:BIZ ? 0.6 : 0.5, aspect:RETREAT ? 1.63 : BIZ ? 2.61 : 3.03, need:12, list:months,
     title:L('Ein Klassiker', 'A true classic'), desc:L('In zwölf verschiedenen Monaten hast du ein Lebensrad erstellt – zeitlos wie ein Klassiker.', 'You created a wheel of life in twelve different months – timeless, like a classic.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle Lebensbereiche haben sich verbessert.', 'All areas of life have improved.') });
   return (BIZ ? out.map(trophyRl) : out.map(trophyClassicNew)).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x).map(trophyEvenWidth);
@@ -7588,7 +7618,8 @@ const RT_TRO = {
   nikolaus:['rt2/nikolaus', 0.392], nikolaus2:['rt2/boot', 0.984], xmas:['rt2/star', 1.07], xmas2:['rt2/crib', 1.521]
 };
 const RT_EGGS = [['rt2/egg2-1', 0.668], ['rt2/egg2-2', 0.669], ['rt2/egg2-red1', 0.621], ['rt2/egg2-g1', 0.644], ['rt2/egg2-g2', 0.643]]; // on small gold stands (21.10.2026): raspberry, burgundy, red (only the gold band); the green ones follow
-const RT_BOOKS = [['rt2/books-1', 3.455, 0.31], ['rt2/books-2', 2.151, 0.47], ['rt2/books-3', 1.539, 0.65], ['rt2/books-4', 1.237, 0.82]];
+// 28.10.2026: new sharp pictures of the user, straight from the front (the old ones were only 230 px wide)
+const RT_BOOKS = [['rt2/books-n1', 4.107, 0.29], ['rt2/books-n2', 2.662, 0.43], ['rt2/books-n3', 1.971, 0.57], ['rt2/books-n4', 1.715, 0.71]];
 /* 25.10.2026 (wish of the user): glass cloches and obelisks equally wide in every design – as wide as in A Gentleman's Study, stage by stage.
    The height follows from the picture (width / height). Not for the first gratitude of A Lady's Conservatory (the rose card). */
 const CLOCHE_GROUPS = ['box', 'b478', 'lemon', 'stones', 'bowl', 'grat'];
@@ -7681,7 +7712,7 @@ function ladyDressKind(now){
   if(is(49) || is(50)) return 'pentecost';
   // everyday: one outfit each day, in turn. Since 1.99.0 by season (wish of the user): short sleeves or none in summer, long sleeves in
   // autumn and winter, in spring both. The feast-day dresses above stay as they are. The bow blouse now with green slingbacks.
-  const SUMMER = ['burgundy', 'blouse-pink', 'red-sleeveless', 'blouse-navy', 'embroidered-white', 'carpet-halter'];
+  const SUMMER = ['burgundy', 'blouse-green', 'red-sleeveless', 'blouse-navy2', 'embroidered-white', 'carpet-halter']; // 28.10.2026: new blouse outfits, the pink one is gone
   const WINTER = ['bow-slingback', 'red-cardigan', 'paisley-green', 'carpet-sweater', 'embroidered-cardigan', 'military', 'sailor-jeans'];
   const sn = roomSeason(now), list = sn === 'summer' ? SUMMER : sn === 'spring' ? SUMMER.concat(WINTER) : WINTER;
   return list[Math.floor(Date.UTC(now.getFullYear(), m, d) / 864e5) % list.length];
