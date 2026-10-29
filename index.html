@@ -745,6 +745,13 @@ html.theme-biz .habit-title{ color:#ab8b54 !important; } html.theme-retreat .hab
 .shelf-comp .lib-clipboard{ right:auto; left:14%; top:auto; bottom:0; height:84%; margin:0; transform:rotate(-5deg); transform-origin:50% 100%; }
 .lib-clipboard{ background:none; border:none; padding:0; cursor:pointer; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.35)); }
 .lib-clipboard svg, .lib-clipboard img{ height:100%; width:auto; display:block; }
+/* 29.10.2026: the open board is the design's own clipboard picture (border-image: clip and wood of the picture, the paper is ours) */
+.habit-modal, #tb-habit-host{ container-type:inline-size; }
+html:not(.theme-biz) .habit-board.habit-board{ border-style:solid; border-width:38cqw 8cqw 9cqw 10cqw; border-image:url(img/mw2/clipboard.webp) 168 53 45 70 fill stretch; background:none !important; padding:0 !important; box-shadow:none !important; border-radius:0 !important; filter:drop-shadow(0 14px 22px rgba(0,0,0,0.45)); }
+html.theme-biz .habit-board.habit-board{ border-style:solid; border-width:38cqw 7cqw 9.5cqw 7cqw; border-image:url(img/rl2/clipboard.webp) 140 27 35 25 fill stretch; background:none !important; padding:0 !important; box-shadow:none !important; border-radius:0 !important; filter:drop-shadow(0 14px 22px rgba(0,0,0,0.45)); }
+html.theme-retreat .habit-board.habit-board{ border-image-source:url(img/rt2/clipboard.webp); } /* the lady's clipboard: like the gentleman's, with an ornament at the bottom */
+.habit-clip{ display:none !important; }
+.habit-board .habit-paper{ border-radius:2px; box-shadow:none !important; }
 /* 29.10.2026: library – switch diary · habits on top, the other tool peeks out from behind */
 #tb-title{ display:flex; justify-content:center; }
 .tb-switch{ display:inline-flex; gap:4px; padding:3px; border-radius:999px; background:rgba(0,0,0,0.25); border:1px solid var(--ew-line); }
@@ -752,13 +759,15 @@ html.theme-biz .habit-title{ color:#ab8b54 !important; } html.theme-retreat .hab
 .tb-switch button.on{ background:var(--gold); color:#1a1405; opacity:1; }
 html.theme-retreat .tb-switch{ background:rgba(255,255,255,0.6); } html.theme-retreat .tb-switch button.on{ color:#fff; background:var(--rt-burgundy, #7A0B25); }
 html.theme-biz:not(.theme-retreat) .tb-switch button.on{ color:#0c1226; }
-.tb-stack{ position:relative; z-index:0; display:flex; margin:auto; } /* own stacking: the peeking tool lies behind the front one but stays tappable */
+.tb-stack{ position:relative; z-index:0; display:flex; margin:auto; }
+.tb-body-cover .tb-cover-wrap > .tb-stack:not(.tb-stack-habits){ margin:auto auto 0; }
+.tb-body-cover .tb-stack:not(.tb-stack-habits) .tb-cover{ width:min(100cqw, 60cqh) !important; } /* room above the book for the clipboard behind it */ /* own stacking: the peeking tool lies behind the front one but stays tappable */
 .tb-peek{ position:absolute; z-index:-1; border:none; padding:0; background:none; cursor:pointer; filter:drop-shadow(0 8px 14px rgba(0,0,0,0.4)); }
-.tb-peek-clip{ width:44%; top:-11%; right:4%; transform:rotate(8deg); transform-origin:50% 100%; }
+.tb-peek-clip{ width:80%; left:10%; top:0; transform:translateY(-27%); }
 .tb-peek-clip img, .tb-peek-clip svg{ width:100%; height:auto; display:block; }
-.tb-peek-book{ width:40%; aspect-ratio:3/4; top:-12%; left:4%; transform:rotate(-6deg); background-size:100% 100%; border-radius:8px; }
+.tb-peek-book{ width:80%; aspect-ratio:3/4; left:10%; top:0; transform:translateY(-16%); background-size:100% 100%; border-radius:8px; }
 .tb-habits-wrap{ overflow-y:auto; }
-.tb-stack-habits{ width:min(620px, 100%); margin:16% auto auto; }
+.tb-stack-habits{ width:min(620px, 100%); margin:22% auto auto; }
 #tb-habit-host{ width:100%; }
 #tb-habit-host .habit-board{ width:100%; }
 .habit-name-td{ display:flex; align-items:center; gap:2px; }
@@ -776,6 +785,11 @@ html.theme-biz:not(.theme-retreat) .habit-paper{ background:#f4ead2; }
 html.theme-retreat .habit-board{ background:linear-gradient(135deg, #e0417a, #D62C68 50%, #a81c4f); border:2px solid #c9a463; }
 html.theme-retreat .habit-clip{ background:linear-gradient(180deg, #f7e3a8, #c9a463 55%, #9c7a3f); }
 html.theme-retreat .habit-paper{ background:#fdf7ec; box-shadow:inset 0 0 0 2px #1B4D2A33; }
+#privacy-modal{ z-index:650; } /* also above the sign-in and dialogs (the links in the consent) */
+.consent-row{ display:flex; gap:10px; align-items:flex-start; margin:6px 0 10px; font-size:var(--fs-text); line-height:1.4; text-align:left; cursor:pointer; }
+.consent-row input{ width:20px; height:20px; flex:none; margin-top:2px; accent-color:var(--gold); }
+.consent-link{ display:inline !important; padding:0 !important; text-decoration:underline; }
+.consent-links{ font-size:var(--fs-text); line-height:1.5; }
 .tb-conflict{ position:absolute; left:8px; right:8px; top:8px; z-index:6; background:#fff4d6; color:#3a2a08; border:1px solid #d9a93a; border-radius:10px; padding:8px 10px; font:14px/1.4 Inter, -apple-system, sans-serif; box-shadow:0 4px 14px rgba(0,0,0,0.18); }
 .tb-conflict-btns{ display:flex; gap:8px; margin-top:6px; }
 .tb-conflict-btns .ghost-btn{ flex:1; padding:6px 8px; color:#3a2a08 !important; border-color:#b88a2a !important; background:#fff !important; font-size:13px; }
@@ -1801,10 +1815,6 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
       <div id="settings-sync"></div>
     </div>
     <div class="settings-section">
-      <div class="settings-head" id="t-set-privacy">Datenschutz</div>
-      <div id="settings-privacy"></div>
-    </div>
-    <div class="settings-section">
       <div class="settings-head" id="t-set-design">Design</div>
       <div class="seg design-seg" id="design-seg"></div>
       <p class="settings-note" id="t-design-hint"></p>
@@ -1828,6 +1838,10 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
       <div class="settings-head" id="t-set-backup">Backup</div>
       <button class="ghost-btn settings-row" id="export-btn">⬇ <span id="t-export-label">Backup herunterladen</span></button>
       <label class="ghost-btn settings-row" id="import-btn" title="Backup wiederherstellen" style="cursor:pointer;position:relative;overflow:hidden;">⬆ <span id="t-import-label">Backup wiederherstellen</span><input type="file" id="import-file-input" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;"></label>
+    </div>
+    <div class="settings-section">
+      <div class="settings-head" id="t-set-privacy">Datenschutz</div>
+      <div id="settings-privacy"></div>
     </div>
   </div>
 </div>
@@ -2202,7 +2216,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.99.9';
+const APP_VERSION = '2.0.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4781,6 +4795,8 @@ Object.assign(I18N.de, { // 1.99.0
   tbConflictText:'Zweite Fassung dieser Seite (geändert am {date} auf einem anderen Gerät). Die neuere Fassung steht eine Seite davor.',
   tbConflictKeep:'Behalten', tbConflictDrop:'Löschen',
   broochMoveHint:'Tipp: Du kannst die Brosche am Kleid mit dem Finger verschieben.',
+  consentLabel:'Ich stimme den {terms} zu und habe die {privacy} gelesen.', consentNeeded:'Bitte stimme den AGB und der Datenschutzerklärung zu.',
+  consentAsk:'Bevor es weitergeht: Bitte lies die AGB und die Datenschutzerklärung und stimme zu. Das ist nur einmal nötig.', consentAgree:'Zustimmen',
   habitStreak:'{n} Tage am Stück',
   habitPraise30:'Wunderbar! 30 Tage am Stück: „{h}“ ist jetzt eine neue Gewohnheit von dir. Mach weiter so!',
   habitPraise60:'Großartig! 60 Tage ohne Unterbrechung: „{h}“ gehört jetzt fest zu deinem Leben. Darauf kannst du richtig stolz sein!',
@@ -4805,6 +4821,8 @@ Object.assign(I18N.en, {
   tbConflictText:'Second version of this page (changed on {date} on another device). The newer version is one page before.',
   tbConflictKeep:'Keep', tbConflictDrop:'Delete',
   broochMoveHint:'Tip: you can move the brooch on the dress with your finger.',
+  consentLabel:'I agree to the {terms} and have read the {privacy}.', consentNeeded:'Please agree to the terms of use and the privacy statement.',
+  consentAsk:'Before you go on: please read the terms of use and the privacy statement and agree. This is needed only once.', consentAgree:'Agree',
   habitStreak:'{n} days in a row',
   habitPraise30:'Wonderful! 30 days in a row: “{h}” is now a new habit of yours. Keep it up!',
   habitPraise60:'Great! 60 days without a break: “{h}” is now a firm part of your life. You can be really proud of that!',
@@ -6902,7 +6920,7 @@ function habitPageHtml(page, idx){
 }
 // a drawn clipboard for the library (until pictures in the style of each design arrive)
 function clipboardSvg(){
-  const board = RETREAT ? ['#e9dcc6', '#cdb48e'] : BIZ ? ['#7a4a26', '#4f2f16'] : ['#9a6a35', '#5e3b1b'];
+  const board = RETREAT ? ['#e8457f', '#a81c4f'] : BIZ ? ['#7a4a26', '#4f2f16'] : ['#9a6a35', '#5e3b1b']; // Lady: raspberry linen with gold, like her open board
   return `<svg viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cbB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${board[0]}"/><stop offset="1" stop-color="${board[1]}"/></linearGradient><linearGradient id="cbC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1dc9a"/><stop offset=".55" stop-color="#c9a463"/><stop offset="1" stop-color="#9c7a3f"/></linearGradient></defs>`
     + `<rect x="6" y="10" width="108" height="146" rx="10" fill="url(#cbB)"/><rect x="16" y="24" width="88" height="122" rx="3" fill="#fbf6ea"/>`
     + [0, 1, 2, 3, 4].map(i=>`<rect x="24" y="${42 + i * 19}" width="11" height="11" rx="2.5" fill="#fff" stroke="#b7a684" stroke-width="1.4"/>${i < 3 ? `<path d="M26 ${48 + i * 19}l3 3 6-7" fill="none" stroke="#2f8f62" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>` : ''}<line x1="42" y1="${48 + i * 19}" x2="${86 - (i % 2) * 14}" y2="${48 + i * 19}" stroke="#c8bba0" stroke-width="2.2" stroke-linecap="round"/>`).join('')
@@ -7441,7 +7459,7 @@ function tbRenderLibrary(){
   // 28.10.2026 (wish of the user): the clipboard (habit tracker) leans in the middle compartment of the book part – or the next free one below
   const clipRow = (()=>{ const mid = Math.floor(SHELF_ROWS.length / 2); for(let i = mid; i < SHELF_ROWS.length; i++) if(!(narrowRows[i] || []).length) return i; return -1; })();
   // pictures of the user for A Mystery World and A Gentleman's Study (28.10.2026); A Lady's Conservatory keeps the drawn one until hers comes
-  const clipImg = RETREAT ? '' : BIZ ? 'rl2/clipboard' : 'mw2/clipboard';
+  const clipImg = RETREAT ? 'rt2/clipboard' : BIZ ? 'rl2/clipboard' : 'mw2/clipboard';
   const clipHtml = `<button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipImg ? `<img src="img/${clipImg}.webp" alt="">` : clipboardSvg()}</button>`;
   const narrowHtml = NAR ? `<div class="shelf-img shelf-narrow" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
       `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${NS.plant ? `<img class="shelf-plant" src="img/${NS.plant.img}.webp" alt="" style="width:${NS.plant.w}%;left:${NS.plant.over - NS.plant.w}%">` : ''}</div>` : '';
@@ -7547,7 +7565,7 @@ function trophyDefs(){
     n=>L(n + '-mal Stille Meditation – die Stille klingt in dir nach.', 'Silent meditation ' + n + ' times – the stillness resonates in you.'));
   // days in a row: a crystal that grows
   const streakMax = Object.keys(ev.streakAt).length ? Math.max(...Object.keys(ev.streakAt).map(Number)) : 0;
-  [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, group:'streak', stage:i, kind:'img', img:'crystal-n-' + Math.min(i + 1, 5), scale:0.55 + i * 0.08, aspect:[0.527, 0.648, 0.663, 0.622, 0.647, 0.647][i], need:1, needShow:n,
+  [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, group:'streak', stage:i, kind:'img', img:['crystal-n-1', 'crystal-n-2b', 'crystal-n-2', 'crystal-n-3', 'crystal-n-4', 'crystal-n-5'][i], scale:0.55 + i * 0.08, aspect:[0.527, 0.613, 0.648, 0.663, 0.622, 0.647][i], // 29.10.2026: the new one with two points is stage 2, the full druse comes last need:1, needShow:n,
     list:ev.streakAt[n] ? [ev.streakAt[n]] : [], have:()=>Math.min(n, streakMax),
     title:L(n + ' Tage in Folge', n + ' days in a row'), desc:L('Du hast an ' + n + ' Tagen hintereinander geübt.', 'You practised on ' + n + ' days in a row.') }));
   // 29.10.2026: habits – a red crystal that grows when one habit is ticked 30, 60 and 90 days in a row (the two smaller pictures
@@ -7988,7 +8006,7 @@ function tbRenderCover(){
 // the cover can be designed while a diary is new (until it is opened for the first time); afterwards only in the library
 /* 29.10.2026 (wish of the user): the diary page is now called library; on top a switch diary · habits. Closed, the other tool
    always peeks out a little from behind: the clipboard behind the book cover, the book behind the clipboard. */
-function clipPeekHtml(){ const im = RETREAT ? '' : BIZ ? 'rl2/clipboard' : 'mw2/clipboard'; return im ? `<img src="img/${im}.webp" alt="">` : clipboardSvg(); }
+function clipPeekHtml(){ const im = RETREAT ? 'rt2/clipboard' : BIZ ? 'rl2/clipboard' : 'mw2/clipboard'; return im ? `<img src="img/${im}.webp" alt="">` : clipboardSvg(); }
 function tbRenderHabits(){
   const d = t(), diary = tbEnsureYear(tbYear);
   return `<div class="tb-cover-wrap tb-habits-wrap"><div class="tb-stack tb-stack-habits">
@@ -9179,7 +9197,7 @@ de:`<p class="privacy-draft">Entwurf – vor dem öffentlichen Start rechtlich p
 <li>Die Server stehen in Frankfurt am Main (EU).</li>
 </ul>
 <h3>1. Verantwortlich</h3>
-<p>[Name des Betreibers]<br>[Anschrift]<br>E-Mail: [E-Mail-Adresse]</p>
+<p>eWolfe GbR<br>[Anschrift]<br>E-Mail: [E-Mail-Adresse]</p>
 <h3>2. Welche Daten wir verarbeiten</h3>
 <ul>
 <li><strong>Konto:</strong> deine E-Mail-Adresse und dein Passwort. Das Passwort wird beim Anmeldedienst nur als sogenannter Hash gespeichert, nie im Klartext. Dazu kommen technische Angaben zur Anmeldung (Zeitpunkte, Anmelde-Token).</li>
@@ -9221,7 +9239,7 @@ en:`<p class="privacy-draft">Draft – to be checked by a lawyer before the publ
 <li>The servers are in Frankfurt am Main (EU).</li>
 </ul>
 <h3>1. Controller</h3>
-<p>[Name of the operator]<br>[Address]<br>Email: [email address]</p>
+<p>eWolfe GbR<br>[Address]<br>Email: [email address]</p>
 <h3>2. What data we process</h3>
 <ul>
 <li><strong>Account:</strong> your email address and your password. The sign-in service stores the password only as a so-called hash, never in plain text. In addition, technical sign-in details (times, sign-in tokens).</li>
@@ -9260,22 +9278,22 @@ en:`<p class="privacy-draft">Draft – to be checked by a lawyer before the publ
 const IMPRINT = {
 de:`<p class="privacy-draft">Entwurf – Angaben in [eckigen Klammern] fehlen noch.</p>
 <h3>Angaben gemäß § 5 DDG</h3>
-<p>[Name des Betreibers]<br>[Straße und Hausnummer]<br>[PLZ und Ort]<br>Deutschland</p>
+<p>eWolfe GbR<br>vertreten durch die Gesellschafter: [Vor- und Nachnamen]<br>[Straße und Hausnummer]<br>[PLZ und Ort]<br>Deutschland</p>
 <h3>Kontakt</h3>
 <p>E-Mail: [E-Mail-Adresse folgt]</p>
 <h3>Verantwortlich für den Inhalt</h3>
-<p>[Name des Betreibers], Anschrift wie oben.</p>
+<p>eWolfe GbR, Anschrift wie oben.</p>
 <h3>Hinweis</h3>
 <p>eWolfe ist eine App zur persönlichen Reflexion und Selbstorganisation. Sie ersetzt keine ärztliche, psychotherapeutische, rechtliche oder finanzielle Beratung.</p>
 <h3>Verbraucherstreitbeilegung</h3>
 <p>Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>`,
 en:`<p class="privacy-draft">Draft – details in [square brackets] are still missing.</p>
 <h3>Information pursuant to Section 5 DDG (German Digital Services Act)</h3>
-<p>[Name of the operator]<br>[Street and number]<br>[Postcode and town]<br>Germany</p>
+<p>eWolfe GbR<br>represented by the partners: [first and last names]<br>[Street and number]<br>[Postcode and town]<br>Germany</p>
 <h3>Contact</h3>
 <p>Email: [email address to follow]</p>
 <h3>Responsible for the content</h3>
-<p>[Name of the operator], address as above.</p>
+<p>eWolfe GbR, address as above.</p>
 <h3>Note</h3>
 <p>eWolfe is an app for personal reflection and self-organisation. It does not replace medical, psychotherapeutic, legal or financial advice.</p>
 <h3>Consumer dispute resolution</h3>
@@ -9285,7 +9303,7 @@ const TERMS = {
 de:`<p class="privacy-draft">Entwurf – vor dem öffentlichen Start rechtlich prüfen lassen.</p>
 <p>Stand: Oktober 2026</p>
 <h3>1. Geltungsbereich</h3>
-<p>Diese Nutzungsbedingungen gelten für die Nutzung der App eWolfe von [Name des Betreibers] („wir“). Mit dem Anlegen eines Kontos stimmst du ihnen zu.</p>
+<p>Diese Nutzungsbedingungen gelten für die Nutzung der App eWolfe von eWolfe GbR („wir“). Mit dem Anlegen eines Kontos stimmst du ihnen zu.</p>
 <h3>2. Was eWolfe ist – und was nicht</h3>
 <p>eWolfe hilft dir, über dein Leben nachzudenken, Ziele zu setzen, Tagebuch zu schreiben und Achtsamkeitsübungen zu machen. eWolfe ist kein Medizinprodukt und keine Therapie. Die Inhalte (z. B. Atemübungen, Meditationen, Impulse, Fragen) sind allgemeine Anregungen und ersetzen keine ärztliche, psychotherapeutische, rechtliche oder finanzielle Beratung.</p>
 <p>Wenn es dir körperlich oder seelisch nicht gut geht, wende dich bitte an eine Ärztin, einen Arzt oder eine Psychotherapeutin bzw. einen Psychotherapeuten. In einer akuten Krise erreichst du in Deutschland die Telefonseelsorge rund um die Uhr kostenlos unter 0800 111 0 111 oder 0800 111 0 222, im Notfall den Notruf 112.</p>
@@ -9540,6 +9558,7 @@ async function syncNow(){
     await uiNotice(firstPairing === 'merged' ? t().syncDoneMerged : firstPairing === 'pulled' ? t().syncDonePulled : t().syncDoneUploaded);
   }
   if(syncConflictNote){ syncConflictNote = 0; uiNotice(t().syncConflictNote); }
+  consentCheck();
   if(syncAgain){ syncAgain = false; setTimeout(syncNow, 500); }
 }
 function syncOnLocalChange(){
@@ -9773,6 +9792,7 @@ function renderSyncModal(){
         <input class="small-input" id="sync-email" type="email" autocomplete="username" placeholder="${d.syncEmail}" style="width:100%;margin-bottom:8px;" value="${escapeHtml(up ? '' : syncLastEmail())}">
         <input class="small-input" id="sync-pass" type="password" autocomplete="${up ? 'new-password' : 'current-password'}" placeholder="${d.syncPassword}" style="width:100%;margin-bottom:6px;">
         ${up ? `<ul class="pw-rules" id="pw-rules">${pwRulesHtml('')}</ul>` : ''}
+        ${up ? `<label class="consent-row"><input type="checkbox" id="sync-consent"><span>${consentLabelHtml()}</span></label>` : ''}
         <div id="sync-form-msg" class="sync-msg"></div>
         <button class="primary-btn" style="width:100%;" id="sync-main-btn">${up ? d.syncSignUp : d.syncSignIn}</button>
         ${up ? '' : `<button class="gate-link" id="sync-forgot-btn" style="padding-bottom:0;">${d.gateForgot}</button>`}
@@ -9801,6 +9821,7 @@ async function syncDoAuth(mode){
   setMsg('');
   if(!email || !pass){ setMsg(t().eFill, 'err'); return; }
   if(mode === 'up' && !pwOk(pass)){ setMsg(t().eWeak, 'err'); return; } // 1.95.0: the password rules
+  if(mode === 'up'){ const c = document.getElementById('sync-consent'); if(!c || !c.checked){ setMsg(t().consentNeeded, 'err'); return; } consentSave(); } // 29.10.2026
   const btns = [document.getElementById('sync-main-btn'), document.getElementById('sync-switch-btn')];
   btns.forEach(b=>b.disabled = true);
   try{
@@ -9905,6 +9926,26 @@ function renderSettingsPrivacy(){
   if(del) del.onclick = async ()=>{ if(!(await uiDialog(d.pkRemoveAsk, { confirm:true, okText:d.pkRemove }))) return; e2e.pk = []; e2e.kv = Date.now(); e2eSave(); syncNow(); renderSettingsPrivacy(); };
 }
 function privacyOpen(){ legalOpen('privacy'); }
+/* 29.10.2026: terms and privacy must be accepted once at the start – a tick when the account is created; whoever signs in on a
+   device that has not seen it yet (e.g. accounts from before) is asked once. Kept per device (ewolfe_consent_v1, date and version). */
+const CONSENT_KEY = 'ewolfe_consent_v1', CONSENT_VERSION = '2026-10';
+function consentGiven(){ try{ const c = JSON.parse(localStorage.getItem(CONSENT_KEY) || 'null'); return !!(c && c.v === CONSENT_VERSION); }catch(e){ return false; } }
+function consentSave(){ try{ localStorage.setItem(CONSENT_KEY, JSON.stringify({ v:CONSENT_VERSION, t:Date.now() })); }catch(e){} }
+function consentLabelHtml(){
+  const d = t();
+  return d.consentLabel.replace('{terms}', `<button type="button" class="gate-link consent-link" onclick="legalOpen('terms')">${d.legal_terms}</button>`).replace('{privacy}', `<button type="button" class="gate-link consent-link" onclick="legalOpen('privacy')">${d.privacyLink}</button>`);
+}
+let consentAsking = false;
+async function consentCheck(){
+  if(consentAsking || consentGiven() || !sbSession) return;
+  consentAsking = true;
+  try{
+    const d = t();
+    const ok = await uiDialog(d.consentAsk, { confirm:true, okText:d.consentAgree, cancelText:d.syncSignOut, html:`<div class="consent-links">${consentLabelHtml()}</div>` });
+    if(ok){ consentSave(); }
+    else{ await sbSignOut(); syncSet('off'); syncAuthMode = 'in'; syncShowGate(); }
+  }finally{ consentAsking = false; }
+}
 // 1.99.0: privacy, imprint and terms in the same window (from the bottom of the start page and from the settings)
 function legalOpen(kind){
   const d = t(), en = state.settings.lang === 'en' ? 'en' : 'de';

@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.99.9`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.0.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -692,6 +692,12 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Zwei kleinere rote Kristalle kommen noch (dann je Stufe eigenes Bild). In AGS/LC noch Platzhalter (kein eigenes Bild).
 - 1.99.9: Mystery-Kristalle neu vor Grau: Übungen `crystal-n-mint|blue|purple|pink|silver|gold`, Tage in Folge Regenbogen `crystal-n-1…5` (Stufe 6 = 5, größer;
   Bodenspiegelung per `cutbase.py` abgeschnitten), Gewohnheiten `crystal-red-a`, `-b`, `crystal-red`. Originale: „Eingang 24.10.2026“ IMG_1171–1190.
+- **2.0.0 (29.10.2026):** Zustimmung zu AGB + Datenschutz: Häkchen bei „Konto erstellen“ (Pflicht), wer sich auf einem Gerät ohne Zustimmung anmeldet,
+  wird einmal gefragt (`consentCheck` nach jedem Sync, `ewolfe_consent_v1`, `CONSENT_VERSION`; Ablehnen = abmelden). Einstellungen: Datenschutz ganz unten.
+  Rechtliches-Fenster `#privacy-modal` z-index 650 (über Anmeldung und Dialogen). Betreiber „eWolfe GbR“ eingetragen (Gesellschafter-Namen, Anschrift,
+  E-Mail fehlen noch). Offenes Klemmbrett = Bild des Designs als `border-image` (`mw2|rl2|rt2/clipboard`, Lady = Herren-Brett mit Ornament unten in der Mitte),
+  Papier liegt darüber. Hervorlugendes Werkzeug gerade, 80 % breit, oben (`.tb-peek-*`). Regenbogen-Kristall mit zwei Spitzen `crystal-n-2b` als Stufe 2,
+  die anderen rücken auf, volle Druse = 100 Tage.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
