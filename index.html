@@ -2202,7 +2202,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.99.8';
+const APP_VERSION = '1.99.9';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -7526,7 +7526,7 @@ function trophyDefs(){
   // a trophy that grows: every stage has its own picture, only the highest reached one stands on the shelf
   const grow = (group, list, stages, aspect, titleFn, descFn)=>stages.forEach(([n, img, scale], i)=>out.push({ id:group + n, group, stage:i, kind:'img', img, scale, aspect, need:n, list, title:titleFn(n, i), desc:descFn(n, i) }));
   // exercises: crystals in more and more precious colours
-  grow('ex', ev.done.map(e=>e.ts), [[1, 'crystal-mint', 0.55], [5, 'crystal-blue', 0.6], [10, 'crystal-purple', 0.66], [25, 'crystal-pink', 0.72], [50, 'crystal-silver', 0.8], [100, 'crystal-gold', 0.9]], 0.75,
+  grow('ex', ev.done.map(e=>e.ts), [[1, 'crystal-n-mint', 0.55], [5, 'crystal-n-blue', 0.6], [10, 'crystal-n-purple', 0.66], [25, 'crystal-n-pink', 0.72], [50, 'crystal-n-silver', 0.8], [100, 'crystal-n-gold', 0.9]], 0.562, // 29.10.2026: new pictures in front of grey
     n=>n === 1 ? L('Erste Übung', 'First exercise') : L(n + ' Übungen', n + ' exercises'),
     n=>n === 1 ? L('Du hast deine erste Achtsamkeitsübung gemacht.', 'You did your first mindfulness exercise.') : L('Du hast ' + n + ' Achtsamkeitsübungen gemacht.', 'You did ' + n + ' mindfulness exercises.'));
   // Box Breathing and 4-7-8 grow under their glass: bud, half open, open
@@ -7547,7 +7547,7 @@ function trophyDefs(){
     n=>L(n + '-mal Stille Meditation – die Stille klingt in dir nach.', 'Silent meditation ' + n + ' times – the stillness resonates in you.'));
   // days in a row: a crystal that grows
   const streakMax = Object.keys(ev.streakAt).length ? Math.max(...Object.keys(ev.streakAt).map(Number)) : 0;
-  [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, group:'streak', stage:i, kind:'img', img:'crystal-' + (i + 1), scale:0.55 + i * 0.08, aspect:0.75, need:1, needShow:n,
+  [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, group:'streak', stage:i, kind:'img', img:'crystal-n-' + Math.min(i + 1, 5), scale:0.55 + i * 0.08, aspect:[0.527, 0.648, 0.663, 0.622, 0.647, 0.647][i], need:1, needShow:n,
     list:ev.streakAt[n] ? [ev.streakAt[n]] : [], have:()=>Math.min(n, streakMax),
     title:L(n + ' Tage in Folge', n + ' days in a row'), desc:L('Du hast an ' + n + ' Tagen hintereinander geübt.', 'You practised on ' + n + ' days in a row.') }));
   // 29.10.2026: habits – a red crystal that grows when one habit is ticked 30, 60 and 90 days in a row (the two smaller pictures
@@ -7560,7 +7560,7 @@ function trophyDefs(){
         run = prev !== null && Math.round((x - prev) / 864e5) === 1 ? run + 1 : 1; prev = x;
         [30, 60, 90].forEach(n=>{ if(run === n && (!habReach[n] || x < habReach[n])) habReach[n] = x + 12 * 36e5; }); });
     }); }catch(e){}
-  [30, 60, 90].forEach((n, i)=>out.push({ id:'habit' + n, group:'habit', stage:i, kind:'img', img:'crystal-red', scale:[0.55, 0.7, 0.85][i], aspect:0.56, need:1, needShow:n,
+  [30, 60, 90].forEach((n, i)=>out.push({ id:'habit' + n, group:'habit', stage:i, kind:'img', img:['crystal-red-a', 'crystal-red-b', 'crystal-red'][i], scale:[0.55, 0.7, 0.85][i], aspect:[0.572, 0.558, 0.56][i], need:1, needShow:n,
     list:habReach[n] ? [habReach[n]] : [], title:L('Gewohnheit: ' + n + ' Tage', 'Habit: ' + n + ' days'),
     desc:L('Du hast eine Gewohnheit ' + n + ' Tage am Stück gelebt.', 'You kept a habit for ' + n + ' days in a row.') }));
   // glowing orbs: wheels (violet), goals (gold), diary pages (blue), gratitude (pink), growth (green), all areas (rainbow)

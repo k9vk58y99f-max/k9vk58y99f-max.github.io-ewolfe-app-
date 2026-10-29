@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.99.8`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `1.99.9`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -690,6 +690,8 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   `tbBindSlot`), Zukunft gesperrt. Mystery: Seiteninhalt endete eine Leistenhöhe zu früh (blauer Block unten) – `.page-modal > .modal` bottom 38px.
 - 1.99.8: Trophäe Gewohnheiten (Gruppe `habit`, `habit30/60/90`): roter Kristall `crystal-red` wächst, wenn eine Gewohnheit 30/60/90 Tage am Stück abgehakt ist.
   Zwei kleinere rote Kristalle kommen noch (dann je Stufe eigenes Bild). In AGS/LC noch Platzhalter (kein eigenes Bild).
+- 1.99.9: Mystery-Kristalle neu vor Grau: Übungen `crystal-n-mint|blue|purple|pink|silver|gold`, Tage in Folge Regenbogen `crystal-n-1…5` (Stufe 6 = 5, größer;
+  Bodenspiegelung per `cutbase.py` abgeschnitten), Gewohnheiten `crystal-red-a`, `-b`, `crystal-red`. Originale: „Eingang 24.10.2026“ IMG_1171–1190.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
