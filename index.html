@@ -2202,7 +2202,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.99.7';
+const APP_VERSION = '1.99.8';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -7550,6 +7550,19 @@ function trophyDefs(){
   [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, group:'streak', stage:i, kind:'img', img:'crystal-' + (i + 1), scale:0.55 + i * 0.08, aspect:0.75, need:1, needShow:n,
     list:ev.streakAt[n] ? [ev.streakAt[n]] : [], have:()=>Math.min(n, streakMax),
     title:L(n + ' Tage in Folge', n + ' days in a row'), desc:L('Du hast an ' + n + ' Tagen hintereinander geübt.', 'You practised on ' + n + ' days in a row.') }));
+  // 29.10.2026: habits – a red crystal that grows when one habit is ticked 30, 60 and 90 days in a row (the two smaller pictures
+  // are still to come, until then the same picture smaller). The day each length was first reached counts.
+  const habReach = {};
+  try{ const H = habitsOf(state);
+    H.list.forEach(h=>{ const days = Object.keys(H.marks).filter(k=>k.endsWith('|' + h.id) && H.marks[k].v).map(k=>k.split('|')[0]).sort();
+      let run = 0, prev = null;
+      days.forEach(k=>{ const [y, m, dd] = k.split('-').map(Number), x = new Date(y, m - 1, dd).getTime();
+        run = prev !== null && Math.round((x - prev) / 864e5) === 1 ? run + 1 : 1; prev = x;
+        [30, 60, 90].forEach(n=>{ if(run === n && (!habReach[n] || x < habReach[n])) habReach[n] = x + 12 * 36e5; }); });
+    }); }catch(e){}
+  [30, 60, 90].forEach((n, i)=>out.push({ id:'habit' + n, group:'habit', stage:i, kind:'img', img:'crystal-red', scale:[0.55, 0.7, 0.85][i], aspect:0.56, need:1, needShow:n,
+    list:habReach[n] ? [habReach[n]] : [], title:L('Gewohnheit: ' + n + ' Tage', 'Habit: ' + n + ' days'),
+    desc:L('Du hast eine Gewohnheit ' + n + ' Tage am Stück gelebt.', 'You kept a habit for ' + n + ' days in a row.') }));
   // glowing orbs: wheels (violet), goals (gold), diary pages (blue), gratitude (pink), growth (green), all areas (rainbow)
   grow('wheel', ev.wheels, [[1, 'orb-purple', 0.55], [5, 'orb-purple', 0.7], [10, 'orb-purple', 0.85]], 0.83,
     n=>n === 1 ? L('Erstes Lebensrad', 'First wheel of life') : L(n + ' Lebensräder', n + ' wheels of life'),
