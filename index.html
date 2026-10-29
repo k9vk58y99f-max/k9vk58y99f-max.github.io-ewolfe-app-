@@ -723,8 +723,11 @@ html.theme-biz .habit-title{ color:#ab8b54 !important; } html.theme-retreat .hab
 .habit-table td{ border-top:1px solid #e6dcc8; padding:4px 1px; text-align:center; }
 .habit-name{ display:flex; align-items:center; gap:6px; width:100%; text-align:left; background:none; border:none; padding:6px 2px; font:inherit; font-size:14px; color:#2a2318; cursor:pointer; overflow-wrap:anywhere; }
 .habit-streak{ display:block; font-size:11px; color:#2f8f62; font-weight:600; }
+.habit-table th.habit-name-h{ width:40%; }
+.habit-name{ font-size:13.5px !important; overflow-wrap:normal !important; word-break:normal; hyphens:auto; padding:4px 0 !important; gap:4px !important; }
+.habit-paper{ padding-left:8px !important; padding-right:8px !important; }
 .habit-name .area-ico{ width:18px; height:18px; flex:none; margin:0; }
-.habit-cell{ width:100%; max-width:34px; aspect-ratio:1; height:auto; border-radius:8px; border:1.5px solid #cbbd9f; background:#fff; cursor:pointer; padding:0; color:#2f8f62; font-size:20px; line-height:1; }
+.habit-cell{ width:100%; max-width:34px; min-width:0; aspect-ratio:1; height:auto; border-radius:8px; border:1.5px solid #cbbd9f; background:#fff; cursor:pointer; padding:0; color:#2f8f62; font-size:20px; line-height:1; }
 .habit-cell.on{ background:#e3f3e8; border-color:#2f8f62; }
 .habit-cell.today{ box-shadow:0 0 0 2px rgba(47,143,98,0.35); }
 .habit-cell.future{ opacity:0.4; }
@@ -742,6 +745,37 @@ html.theme-biz .habit-title{ color:#ab8b54 !important; } html.theme-retreat .hab
 .shelf-comp .lib-clipboard{ right:auto; left:14%; top:auto; bottom:0; height:84%; margin:0; transform:rotate(-5deg); transform-origin:50% 100%; }
 .lib-clipboard{ background:none; border:none; padding:0; cursor:pointer; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.35)); }
 .lib-clipboard svg, .lib-clipboard img{ height:100%; width:auto; display:block; }
+/* 29.10.2026: library – switch diary · habits on top, the other tool peeks out from behind */
+#tb-title{ display:flex; justify-content:center; }
+.tb-switch{ display:inline-flex; gap:4px; padding:3px; border-radius:999px; background:rgba(0,0,0,0.25); border:1px solid var(--ew-line); }
+.tb-switch button{ border:none; background:transparent; color:inherit; font:inherit; font-size:15px; padding:6px 14px; border-radius:999px; cursor:pointer; opacity:0.7; white-space:nowrap; }
+.tb-switch button.on{ background:var(--gold); color:#1a1405; opacity:1; }
+html.theme-retreat .tb-switch{ background:rgba(255,255,255,0.6); } html.theme-retreat .tb-switch button.on{ color:#fff; background:var(--rt-burgundy, #7A0B25); }
+html.theme-biz:not(.theme-retreat) .tb-switch button.on{ color:#0c1226; }
+.tb-stack{ position:relative; z-index:0; display:flex; margin:auto; } /* own stacking: the peeking tool lies behind the front one but stays tappable */
+.tb-peek{ position:absolute; z-index:-1; border:none; padding:0; background:none; cursor:pointer; filter:drop-shadow(0 8px 14px rgba(0,0,0,0.4)); }
+.tb-peek-clip{ width:44%; top:-11%; right:4%; transform:rotate(8deg); transform-origin:50% 100%; }
+.tb-peek-clip img, .tb-peek-clip svg{ width:100%; height:auto; display:block; }
+.tb-peek-book{ width:40%; aspect-ratio:3/4; top:-12%; left:4%; transform:rotate(-6deg); background-size:100% 100%; border-radius:8px; }
+.tb-habits-wrap{ overflow-y:auto; }
+.tb-stack-habits{ width:min(620px, 100%); margin:16% auto auto; }
+#tb-habit-host{ width:100%; }
+#tb-habit-host .habit-board{ width:100%; }
+.habit-name-td{ display:flex; align-items:center; gap:2px; }
+.habit-del{ flex:none; width:18px; height:22px; border-radius:50%; border:none; background:transparent; color:#a33; font-size:13px; cursor:pointer; opacity:0.55; padding:0; }
+.habit-del:hover{ opacity:1; background:rgba(170,40,40,0.1); }
+.tb-habitpage{ position:absolute; inset:0; z-index:2; padding:calc(16px * var(--tbk)) calc(16px * var(--tbk)); color:#2a2318; }
+.tb-habit-table .habit-name{ cursor:default; font-size:calc(14px * var(--tbk)); }
+/* the clipboard in each design's style */
+html:not(.theme-biz) .habit-board{ background:linear-gradient(135deg, #b8732f 0%, #8a4b1d 45%, #6b3613 100%); border:3px solid #e8b84a; box-shadow:0 18px 40px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,220,140,0.25); }
+html:not(.theme-biz) .habit-clip{ background:linear-gradient(180deg, #ffe7a0, #e8b84a 50%, #b07a1c); clip-path:polygon(0 100%, 8% 30%, 40% 30%, 50% 0, 60% 30%, 92% 30%, 100% 100%); height:44px; top:-20px; width:150px; border-radius:0; }
+html:not(.theme-biz) .habit-paper{ background:linear-gradient(180deg, #fbefcf, #f2dfb2); }
+html.theme-biz:not(.theme-retreat) .habit-board{ background:linear-gradient(135deg, #6b3a1f, #4a2412 60%, #331809); border-radius:14px; }
+html.theme-biz:not(.theme-retreat) .habit-clip{ background:linear-gradient(180deg, #e2c27a, #b8913d 55%, #7a5a24); }
+html.theme-biz:not(.theme-retreat) .habit-paper{ background:#f4ead2; }
+html.theme-retreat .habit-board{ background:linear-gradient(135deg, #e0417a, #D62C68 50%, #a81c4f); border:2px solid #c9a463; }
+html.theme-retreat .habit-clip{ background:linear-gradient(180deg, #f7e3a8, #c9a463 55%, #9c7a3f); }
+html.theme-retreat .habit-paper{ background:#fdf7ec; box-shadow:inset 0 0 0 2px #1B4D2A33; }
 .tb-conflict{ position:absolute; left:8px; right:8px; top:8px; z-index:6; background:#fff4d6; color:#3a2a08; border:1px solid #d9a93a; border-radius:10px; padding:8px 10px; font:14px/1.4 Inter, -apple-system, sans-serif; box-shadow:0 4px 14px rgba(0,0,0,0.18); }
 .tb-conflict-btns{ display:flex; gap:8px; margin-top:6px; }
 .tb-conflict-btns .ghost-btn{ flex:1; padding:6px 8px; color:#3a2a08 !important; border-color:#b88a2a !important; background:#fff !important; font-size:13px; }
@@ -1074,13 +1108,13 @@ body{ background:radial-gradient(ellipse at 50% 55%, #241c66 0%, #141a4a 50%, #0
 @media (orientation:landscape) and (min-width:700px){
   .page-modal::before, .tb-overlay::before, body::before{ border-image-source:url(img/frame-land.png); border-width:26px 30px 18px 30px; top:calc(2px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 1px); }
   .page-modal::after, .tb-overlay::after{ border-width:22px 24px 14px 24px; top:calc(2px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 1px); }
-  .page-modal > .modal{ top:calc(26px + var(--safe-t)) !important; bottom:calc(var(--nav-h, 70px) + 20px) !important; left:32px !important; right:32px !important; }
+  .page-modal > .modal{ top:calc(26px + var(--safe-t)) !important; bottom:20px !important; left:32px !important; right:32px !important; }
   .tb-overlay > .tb-topbar{ margin-top:calc(24px + var(--safe-t)) !important; padding-top:4px !important; padding-bottom:6px !important; }
   .tb-overlay > .tb-body{ margin-bottom:16px !important; }
   .tb-tools-fab{ bottom:calc(var(--nav-h) + 28px) !important; } .tb-del-fab{ bottom:calc(var(--nav-h) + 32px) !important; }
 }
 .page-modal > .modal, .tb-overlay > *{ position:relative; z-index:1; }
-.page-modal > .modal{ background:transparent !important; position:absolute !important; left:38px; right:38px; top:calc(40px + var(--safe-t)); bottom:calc(var(--nav-h, 70px) + 38px); height:auto !important; max-width:none !important; width:auto !important; padding:12px 4px 20px !important; overflow-y:auto !important; overflow-x:hidden !important; }
+.page-modal > .modal{ background:transparent !important; position:absolute !important; left:38px; right:38px; top:calc(40px + var(--safe-t)); bottom:38px; height:auto !important; /* 29.10.2026: the page window already ends above the bar – counting the bar again left an empty band */ max-width:none !important; width:auto !important; padding:12px 4px 20px !important; overflow-y:auto !important; overflow-x:hidden !important; }
 #goals-page > .modal{ padding-left:0 !important; padding-right:0 !important; }
 #goals-page .modal-top, #goals-page .modal-sub{ padding-left:8px; padding-right:8px; }
 .tb-overlay > .tb-topbar{ margin:calc(40px + var(--safe-t)) 36px 0; padding-top:10px !important; }
@@ -2049,7 +2083,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
       <div class="habit-paper">
         <div class="habit-top">
           <h2 class="habit-title" id="habit-title"></h2>
-          <button class="icon-btn habit-close" onclick="closeModal('habit-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
+          <button class="icon-btn habit-close" onclick="habitClose()"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
         </div>
         <div class="habit-week"><button class="habit-nav" onclick="habitWeekGo(-1)" aria-label="‹">‹</button><span id="habit-week-label"></span><button class="habit-nav" onclick="habitWeekGo(1)" aria-label="›">›</button></div>
         <div id="habit-grid"></div>
@@ -2168,7 +2202,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '1.99.6';
+const APP_VERSION = '1.99.7';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2229,7 +2263,7 @@ function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn 
 const APP_BUILD = '2026-10-28';
 /* ================= i18n ================= */
 const I18N = {
-  de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Tagebuch', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
+  de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
     sceneHint:'Tippe auf einen Bereich für Details.', newEval:'Neue Bewertung', evalTitle:'Neue Bewertung',
     evalSub:'Wie schätzt du deine fünf Lebensbereiche gerade ein? Es gibt keine falschen Werte.', save:'Speichern',
     bereiche:{gesundheit:'Gesundheit',beziehungen:'Beziehungen',finanzen:'Finanzen',berufung:'Berufung',sinn:'Spiritualität', freude:'Lebensfreude'},
@@ -2278,7 +2312,7 @@ const I18N = {
     mediTitle:'Achtsamkeit', syncBtnTitle:'Cloud-Sync', syncTitle:'Cloud-Sync', syncIntro:'Melde dich an, damit deine Daten auf allen deinen Geräten gleich bleiben. Sie werden auf deinem Gerät verschlüsselt, bevor sie es verlassen.', syncEmail:'E-Mail', syncPassword:'Passwort', syncSignIn:'Anmelden', syncSignUp:'Konto erstellen', syncSignOut:'Abmelden', syncNowBtn:'Jetzt synchronisieren', syncPrivacy:'Deine Daten werden auf deinem Gerät verschlüsselt (Ende-zu-Ende), bevor sie zum Server in Frankfurt (EU) gehen. Lesen können sie nur deine Geräte – niemand sonst, auch wir nicht.', syncAs:'Angemeldet als', syncLast:'Zuletzt synchronisiert um', syncNever:'Noch nicht synchronisiert.', syncKeepLocal:'Beim Abmelden bleiben alle Daten auf diesem Gerät erhalten.', stSyncing:'Synchronisiere …', stPending:'Änderungen warten auf die Synchronisation.', stDeferred:'Die Synchronisation wartet, bis du mit dem Bearbeiten fertig bist.', stError:'Synchronisation fehlgeschlagen:', eFill:'Bitte E-Mail und Passwort eingeben.', eBadLogin:'E-Mail oder Passwort stimmt nicht.', eExists:'Für diese E-Mail gibt es schon ein Konto. Bitte melde dich an.', eWeak:'Das Passwort erfüllt noch nicht alle Regeln.', eNotConfirmed:'Bitte bestätige zuerst deine E-Mail über den Link in der Mail.', eRate:'Zu viele Versuche. Bitte warte einen Moment.', eEmail:'Bitte gib eine gültige E-Mail-Adresse an.', eNetwork:'Keine Verbindung zum Server. Prüfe dein Internet. (In der Claude-Vorschau ist der Sync nicht möglich, nutze die eigene App-Adresse.)', eGeneric:'Fehler:', eConfirmMail:'Fast fertig: Wir haben dir eine Bestätigungsmail geschickt. Bitte bestätige sie und melde dich danach an.', eSession:'Die Anmeldung ist abgelaufen. Bitte melde dich neu an.', eConflict:'Es gab gleichzeitig Änderungen auf einem anderen Gerät. Bitte tippe gleich noch einmal auf „Jetzt synchronisieren“.', syncFirstMerge:'Auf diesem Gerät und in deinem Konto gibt es schon Daten. Sie werden zusammengeführt, dabei wird nichts gelöscht. Tipp: Speichere vorher ein Backup (⬇).', syncOtherAccount:'Dieses Gerät enthält Daten, die zu einem anderen Konto gehören könnten. Wenn du fortfährst, werden sie mit deinem Konto {email} zusammengeführt und dort gespeichert.', syncMergeOk:'Zusammenführen', gateWelcome:'Willkommen bei eWolfe', gateIntroUp:'Erstelle dein Konto. Deine Daten werden dann sicher gespeichert und sind auf all deinen Geräten gleich.', gateIntroIn:'Willkommen zurück! Melde dich mit deinem Konto an.', gateHaveAccount:'Ich habe schon ein Konto – anmelden', gateNoAccount:'Noch kein Konto? Konto erstellen', gateForgot:'Passwort vergessen?', gateForgotTitle:'Passwort vergessen', gateForgotIntro:'Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.', gateForgotSend:'Link senden', gateForgotSent:'Falls es ein Konto mit dieser E-Mail gibt, ist jetzt eine Mail mit einem Link unterwegs. Öffne den Link und lege ein neues Passwort fest. Schau auch im Spam-Ordner nach.', gateBackToSignIn:'Zurück zur Anmeldung', gateNewPwTitle:'Neues Passwort', gateNewPwIntro:'Lege jetzt ein neues Passwort für {email} fest.', gateNewPwPh:'Neues Passwort', gateNewPwSave:'Passwort speichern', gateNewPwDone:'Dein neues Passwort ist gespeichert. Du bist angemeldet und kannst dich ab jetzt überall damit anmelden.', gateLinkExpired:'Der Link ist abgelaufen oder wurde schon benutzt. Bitte fordere über „Passwort vergessen?“ einen neuen an.', eSamePw:'Das neue Passwort muss sich vom alten unterscheiden.', syncDoneMerged:'Fertig: Die Daten dieses Geräts und deines Kontos wurden zusammengeführt.', syncDonePulled:'Fertig: Deine Daten wurden aus dem Konto geladen.', syncDoneUploaded:'Fertig: Deine Daten sind jetzt im Konto gespeichert.', mediSub:'Sammle Meditationen und Links, die dir guttun.', mediNone:'Noch nichts gesammelt.', mediTitlePh:'Titel', mediUrlPh:'Link (optional)', mediNotesPh:'Notiz (optional)', mediAttach:'🎵 Audio/Video anhängen', mediAttachLimit:'Größere Dateien nutzen mehr vom App-Speicher – bei sehr großen Dateien lieber einen Link.', mediTooBig:'Dafür ist gerade nicht genug Platz im App-Speicher ({room} frei). Bitte eine kleinere Datei wählen, vorher ein Backup exportieren, oder stattdessen einen Link eintragen.', mediRemoveFile:'Datei entfernen', mediBoxNote:'Vier gleich lange Atemzüge, wie die Seiten eines Quadrats: einatmen, halten, ausatmen, halten – je 4 Sekunden. Folge einfach dem Punkt, während sich der Lotus mit deinem Atem öffnet und schließt. Sanfte Handpan-Musik begleitet dich.', breathStart:'Starten', breathPause:'Pause', breathResume:'Weiter', breathStop:'Beenden', breathIn:'Einatmen', breathHold:'Halten', breathOut:'Ausatmen', breathRound:'Runde', breathMusicOn:'Musik ausschalten', breathMusicOff:'Musik einschalten', mediAdd:'Meditation oder Übung hinzufügen', mediStart:'Starten', langPickTitle:'Willkommen bei eWolfe', mediLemonNote:'Bevor du beginnst: Halte ein ätherisches Lemon-Öl bereit. Falls du keines zur Hand hast, nimm einfach die frische Schale einer Zitrusfrucht – ihr Duft begleitet dich ebenso gut durch die Meditation.',
     tblTitle:'Ziele im Überblick', goalsSub:'Bis zu 5 Ziele pro Lebensbereich – am besten eine gute Mischung: ein paar kleine Ziele, die du schnell erreichst, einige mittlere und höchstens ein großes, langfristiges Ziel.', tblAchTitle:'Erreichte Ziele im Überblick', tblAchCount:'Erreicht', tblAchLabel:'Erreicht', tblAchNone:'Noch keine erreichten Ziele.', tblAchHint:'Zuletzt erreichte Ziele stehen oben. Tippe auf ein Feld, um die erreichten Ziele des Bereichs zu öffnen.', tblArea:'Bereiche', tblDesc:'', tblStand:'Datum', tblPts:'Pkt.', tblReason:'Grund', tblActions:'Maßnahme', tblHint:'Tippe auf ein Feld, um den Bereich zu öffnen. Unter der Prozentzahl: Veränderung seit der vorherigen Bewertung.',
     areaDesc:{ gesundheit:'Fitness, Ernährung, Erholung, Entspannung, Lebenserwartung', beziehungen:'Familie, Partnerschaft, Freunde, Zuwendung zu sich selbst', finanzen:'Einkommen, Wohlstand, Vermögen, Investitionen', berufung:'Aufgaben, Leistungen, Karriere, Erfolg', sinn:'Persönlichkeit, Sinn, Selbstverwirklichung, Erfüllung, Glück', freude:'Lachen, Leichtigkeit, Hobbys, Genuss, Begeisterung' } },
-  en:{ appName:'eWolfe', navAreas:'Areas', areasTitle:'Areas of life', areasIntro:'Your wheel of life is made of five areas. Together they show you how balanced your life is right now – and joy in life grows out of them.', areasText:{ gesundheit:'Your physical and mental fitness, your energy, your diet, your sleep and restful breaks.', beziehungen:'Your relationship with yourself, your partnership, family, friendships and social contacts.', finanzen:'Your financial security, your savings, your spending habits and how you handle money.', berufung:'Fulfilment at work, career and personal growth – and the feeling of doing something meaningful rather than just earning money.', sinn:'Inner peace, mindfulness, your values and the meaning you find – the connection to yourself or to something greater.', freude:'Joy in life is not the mood of a single day but the joy you take in your life as a whole. You do not set it with a slider – it grows out of the other five areas. When they grow, joy in life often grows too. It does not have to, but it can. So we ask you how much joy you find in your life and compare it with what your wheel would lead us to expect. If joy does not grow along, that is no mistake but an invitation to look deeper.' }, areasHowTitle:'How to create your wheel of life', areasStep1Title:'Rate', areasStep1:'Go through the five areas one by one and move the slider to the value from 1 to 100 that most honestly describes where you are right now.', areasStep2Title:'The result', areasStep2:'The rounder your wheel, the more balanced your life. Spikes and dents show you at a glance where you are losing energy right now – and where it is worth starting.', areasStartFirst:'Create your first wheel of life', areasContinue:'Continue with your wheels of life', goalsEdit:'Edit goals', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Diary', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
+  en:{ appName:'eWolfe', navAreas:'Areas', areasTitle:'Areas of life', areasIntro:'Your wheel of life is made of five areas. Together they show you how balanced your life is right now – and joy in life grows out of them.', areasText:{ gesundheit:'Your physical and mental fitness, your energy, your diet, your sleep and restful breaks.', beziehungen:'Your relationship with yourself, your partnership, family, friendships and social contacts.', finanzen:'Your financial security, your savings, your spending habits and how you handle money.', berufung:'Fulfilment at work, career and personal growth – and the feeling of doing something meaningful rather than just earning money.', sinn:'Inner peace, mindfulness, your values and the meaning you find – the connection to yourself or to something greater.', freude:'Joy in life is not the mood of a single day but the joy you take in your life as a whole. You do not set it with a slider – it grows out of the other five areas. When they grow, joy in life often grows too. It does not have to, but it can. So we ask you how much joy you find in your life and compare it with what your wheel would lead us to expect. If joy does not grow along, that is no mistake but an invitation to look deeper.' }, areasHowTitle:'How to create your wheel of life', areasStep1Title:'Rate', areasStep1:'Go through the five areas one by one and move the slider to the value from 1 to 100 that most honestly describes where you are right now.', areasStep2Title:'The result', areasStep2:'The rounder your wheel, the more balanced your life. Spikes and dents show you at a glance where you are losing energy right now – and where it is worth starting.', areasStartFirst:'Create your first wheel of life', areasContinue:'Continue with your wheels of life', goalsEdit:'Edit goals', navGoals:'Goals', newWheel:'Create new wheel of life', goalsTitle:'Goals', setNotes:'Notifications', noteUpdate:'A new version of eWolfe is available ({v}). Update to use it – your data stays as it is.', noteUpdateBtn:'Update now', noteSyncErr:'Syncing did not work.', noteSyncRetry:'Try again', noteNone:'', wheelDelete:'Delete', wheelDeleteConfirm:'Really delete the wheel of life from {date}? This cannot be undone.', tblEvTitle:'Events at a glance', tblEvNone:'No events yet. Tap an area in the wheel of life to add one.', tblEvHint:'Newest first. Tap an event to open its area.', navHome:'Wheel', navHistory:'History', navNew:'Rate', navDiary:'Library', navMedi:'Mindfulness', accountTitle:'Account & settings', settingsTitle:'Settings', setAccount:'Account & cloud sync', setLang:'Language', setBackup:'Backup', setReplay:'Play animation', sceneTitle:'Your Wheel of Life', sceneSub:'Your Lebensrad emerges from the eWolfe mark.',
     sceneHint:'Tap an area for details.', newEval:'New assessment', evalTitle:'New assessment',
     evalSub:'How do you rate your five life areas right now? There are no wrong values.', save:'Save',
     bereiche:{gesundheit:'Health',beziehungen:'Relationships',finanzen:'Finances',berufung:'Purpose',sinn:'Spirituality', freude:'Joy in life'},
@@ -3885,7 +3919,7 @@ async function impulseToDiary(){
   const d = t(), year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
   let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || p.habitWeek || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
   if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
   page.images = page.images || [];
   let src; try{ src = await impulseCardImage(c); }catch(e){ return; }
@@ -4078,7 +4112,7 @@ function gratToDiary(items){
    on that page, the text starts below the lowest one, with a line of space, instead of lying half on top of it. */
 async function tbAppendBlock(diary, block){
   let page = diary.seiten[diary.seiten.length - 1];
-  if(!page || page.type === 'titel' || page.bereiche || page.tages || page.collage){
+  if(!page || page.type === 'titel' || page.bereiche || page.tages || page.collage || page.habitWeek){
     page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] };
     diary.seiten.push(page);
   }
@@ -4280,6 +4314,7 @@ function tbAreaTextLen(p){
   // 1.99.2: the day page (six fields) and the trophy collage count as written too
   if(p.tages) n += ['dank', 'fokus', 'schritt', 'gut', 'gelernt'].map(k=>p.tages[k] || '').join('').trim().length + (p.tages.mood !== undefined && p.tages.mood !== null ? 1 : 0);
   if(p.collage) n += p.collage.length * 10;
+  if(p.habitWeek) n += 1;
   return n;
 }
 var DAY_FIELDS = ['dank', 'fokus', 'schritt', 'gut', 'gelernt']; // the fields of the day page (1.99.2)
@@ -6158,7 +6193,7 @@ async function compareToDiary(){
   const d = t(), year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
   let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || p.habitWeek || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
   if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
   page.images = page.images || [];
   page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(comparePictureSvg(snaps)), xPct:12, yPct:3, wPct:76 });
@@ -6751,7 +6786,13 @@ function isoWeek(dt){ const x = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(
 let habitWeek = weekStart(new Date());
 function habitDays(){ return [0, 1, 2, 3, 4, 5, 6].map(i=>{ const x = new Date(habitWeek); x.setDate(x.getDate() + i); return x; }); }
 function habitOn(id, dt){ const m = habitsOf(state).marks[dayKey(dt) + '|' + id]; return !!(m && m.v); }
-function habitOpen(){ habitWeek = weekStart(new Date()); habitRender(); openModal('habit-modal'); }
+function habitOpen(){
+  // since 29.10.2026 the habits are a tool of the library (next to the diary), not a window of their own
+  const ov = document.getElementById('tb-overlay');
+  if(!ov.classList.contains('open')){ document.querySelectorAll('.modal-backdrop.open').forEach(m=>{ if(m.id !== 'sync-modal') m.classList.remove('open'); }); tbEnterDiary(tbLatestBook(tbCurrentYearStr())); }
+  tbSwitchTool('habits');
+}
+function habitClose(){ if(tbView === 'habits'){ tbSwitchTool('diary'); } else closeModal('habit-modal'); }
 function habitWeekGo(n){ habitWeek.setDate(habitWeek.getDate() + 7 * n); habitWeek = new Date(habitWeek); habitRender(); }
 function habitRender(){
   const d = t(), H = habitsOf(state), days = habitDays(), today = dayKey(new Date()), lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB';
@@ -6760,7 +6801,7 @@ function habitRender(){
   document.getElementById('habit-week-label').textContent = d.habitWeek.replace('{n}', isoWeek(days[0])) + ' · ' + f(days[0]) + '–' + f(days[6]);
   const wd = days.map(x=>x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2));
   document.getElementById('habit-grid').innerHTML = H.list.length ? `<table class="habit-table"><thead><tr><th class="habit-name-h"></th>${days.map((x, i)=>`<th class="${dayKey(x) === today ? 'today' : ''}">${wd[i]}<br>${x.getDate()}</th>`).join('')}</tr></thead><tbody>`
-    + H.list.map(h=>{ const st = habitStreakNow(h.id); return `<tr><td><button class="habit-name" onclick="habitEdit('${h.id}')">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}${st >= 2 ? `<small class="habit-streak">${escapeHtml(d.habitStreak.replace('{n}', st))}</small>` : ''}</span></button></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
+    + H.list.map(h=>{ const st = habitStreakNow(h.id); return `<tr><td class="habit-name-td"><button class="habit-del" onclick="habitDelete('${h.id}')" title="${escapeHtml(d.delete)}" aria-label="${escapeHtml(d.delete + ': ' + h.name)}">✕</button><button class="habit-name" onclick="habitEdit('${h.id}')">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}${st >= 2 ? `<small class="habit-streak">${escapeHtml(d.habitStreak.replace('{n}', st))}</small>` : ''}</span></button></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
         return `<td><button class="habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} onclick="habitToggle('${h.id}', '${k}')" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`; }).join('')
     + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`;
   const add = document.getElementById('habit-add-btn'); add.textContent = '+ ' + d.habitAdd; add.style.display = H.list.length < HABIT_MAX ? '' : 'none';
@@ -6836,16 +6877,28 @@ function habitSheetSvg(){
   });
   return out + `</svg>`;
 }
-async function habitToDiary(){
-  const d = t(), year = tbLatestBook(new Date().getFullYear());
-  const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
-  let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
-  if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
-  page.images = page.images || [];
-  page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(habitSheetSvg()), xPct:6, yPct:4, wPct:88 });
-  saveState();
-  uiNotice(d.habitSaved);
+/* 29.10.2026: the week sheet goes into the diary as a page of its own (page.habitWeek = Monday of that week). It shows the ticks
+   live, and as long as the week is not over, boxes can be ticked there as well (the same ticks as on the clipboard). */
+function habitToDiary(){
+  const d = t(), wk = dayKey(habitWeek);
+  const year = tbLatestBook(new Date().getFullYear()); tbYear = year;
+  const diary = tbEnsureYear(year);
+  let idx = diary.seiten.findIndex(p=>p.habitWeek === wk);
+  if(idx < 0){ diary.seiten.push({ id:'p' + Date.now(), type:'blank', text:'', strokes:[], images:[], habitWeek:wk }); idx = diary.seiten.length - 1; saveState(); }
+  tbPageIdx = idx; tbView = 'page'; tbEditMode = false;
+  if(!document.getElementById('tb-overlay').classList.contains('open')){ document.getElementById('tb-overlay').classList.add('open'); navSync(); }
+  tbRender();
+}
+function habitPageHtml(page, idx){
+  const d = t(), H = habitsOf(state), lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB', today = dayKey(new Date());
+  const [y, m, dd] = page.habitWeek.split('-').map(Number), start = new Date(y, m - 1, dd);
+  const days = [0, 1, 2, 3, 4, 5, 6].map(i=>{ const x = new Date(start); x.setDate(x.getDate() + i); return x; });
+  const f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
+  return `<div class="tb-habitpage"><div class="tb-collage-head">${escapeHtml(d.habitTitle)} · ${escapeHtml(d.habitWeek.replace('{n}', isoWeek(start)))} · ${f(days[0])}–${f(days[6])}</div>
+    ${H.list.length ? `<table class="habit-table tb-habit-table"><thead><tr><th class="habit-name-h"></th>${days.map(x=>`<th class="${dayKey(x) === today ? 'today' : ''}">${escapeHtml(x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2))}<br>${x.getDate()}</th>`).join('')}</tr></thead><tbody>`
+      + H.list.map(h=>`<tr><td><span class="habit-name">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}</span></span></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
+        return `<td><button class="habit-cell tb-habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} data-page-idx="${idx}" data-h="${h.id}" data-k="${k}" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`).join('') + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`}
+  </div>`;
 }
 // a drawn clipboard for the library (until pictures in the style of each design arrive)
 function clipboardSvg(){
@@ -7089,7 +7142,10 @@ function tbRender(){
   // pages, modes or closing the diary right after typing never loses the last few characters
   if(tbTextSaveTimer){ clearTimeout(tbTextSaveTimer); tbTextSaveTimer=null; saveState(); }
   const d = t();
-  document.getElementById('tb-title').textContent = d.diaryTitle;
+  // 29.10.2026: the habit board lives in the library too; before the body is rebuilt it goes back to its safe place
+  const board = document.querySelector('#tb-body .habit-board'); if(board) document.querySelector('#habit-modal .habit-modal').appendChild(board);
+  // the switch between the two tools (diary · habits) lies on top, in the place of the title
+  document.getElementById('tb-title').innerHTML = `<span class="tb-switch" role="tablist"><button role="tab" class="${tbView !== 'habits' ? 'on' : ''}" aria-selected="${tbView !== 'habits'}" onclick="tbSwitchTool('diary')">${escapeHtml(d.diaryTitle)}</button><button role="tab" class="${tbView === 'habits' ? 'on' : ''}" aria-selected="${tbView === 'habits'}" onclick="tbSwitchTool('habits')">${escapeHtml(d.habitTitle)}</button></span>`;
   const modeBtn = document.getElementById('tb-mode-toggle-btn');
   modeBtn.style.display = (tbView==='page') ? 'inline-block' : 'none';
   modeBtn.innerHTML = tbEditMode ? ico('eye') + `<span class="tb-mode-label">${d.diaryViewMode}</span>` : ico('pencil') + `<span class="tb-mode-label">${d.diaryEditMode}</span>`;
@@ -7102,9 +7158,10 @@ function tbRender(){
   if(tbView==='page' || tbView==='pages') tbCoverSettingsOpen = false;
   if(tbView!=='page' || (tbSelImg && tbSelImg.page!==tbPageIdx)) tbSelImg = null;
   const body = document.getElementById('tb-body');
-  body.classList.toggle('tb-body-cover', tbView==='cover');
+  body.classList.toggle('tb-body-cover', tbView==='cover' || tbView==='habits');
   body.classList.toggle('tb-body-page', tbView==='page'); // the cover fills the screen, nothing to scroll
   if(tbView==='library') body.innerHTML = tbRenderLibrary();
+  else if(tbView==='habits'){ body.innerHTML = tbRenderHabits(); habitRender(); const host = document.getElementById('tb-habit-host'); if(host) host.appendChild(document.querySelector('#habit-modal .habit-board')); }
   else if(tbView==='cover') body.innerHTML = tbRenderCover();
   else if(tbView==='pages') body.innerHTML = tbRenderPagesOverview();
   else body.innerHTML = tbRenderPage() + tbPagePickHtml();
@@ -7900,7 +7957,8 @@ function tbRenderCover(){
   const fontFamily = c.titleFont==='hand' ? "'Caveat',cursive" : "'Marcellus',serif";
   const hasCustomTitle = !!diary.cover.title;
   const setup = tbCoverSetupOpen(diary);
-  return `<div class="tb-cover-wrap">
+  return `<div class="tb-cover-wrap"><div class="tb-stack">
+    <button class="tb-peek tb-peek-clip" onclick="tbSwitchTool('habits')" aria-label="${escapeHtml(d.habitTitle)}">${clipPeekHtml()}</button>
     <div class="tb-cover tb-cover-tap${matClass}${tbIsLand(diary) ? ' tb-cover-land' : ''}" style="${bg}" role="button" tabindex="0" aria-label="${d.diaryOpen}"
       onclick="tbOpenFirstPage()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tbOpenFirstPage();}">
       <div class="tb-cover-bottom">
@@ -7912,9 +7970,25 @@ function tbRenderCover(){
         <button class="tb-trash-btn" onclick="event.stopPropagation(); tbDeleteBook(tbYear);" title="${d.diaryDeleteBook}" aria-label="${d.diaryDeleteBook}">${ico('trash')}</button>
       </div>
     </div>
-  </div>${tbCoverSettingsHtml()}`;
+  </div></div>${tbCoverSettingsHtml()}`;
 }
 // the cover can be designed while a diary is new (until it is opened for the first time); afterwards only in the library
+/* 29.10.2026 (wish of the user): the diary page is now called library; on top a switch diary · habits. Closed, the other tool
+   always peeks out a little from behind: the clipboard behind the book cover, the book behind the clipboard. */
+function clipPeekHtml(){ const im = RETREAT ? '' : BIZ ? 'rl2/clipboard' : 'mw2/clipboard'; return im ? `<img src="img/${im}.webp" alt="">` : clipboardSvg(); }
+function tbRenderHabits(){
+  const d = t(), diary = tbEnsureYear(tbYear);
+  return `<div class="tb-cover-wrap tb-habits-wrap"><div class="tb-stack tb-stack-habits">
+    <button class="tb-peek tb-peek-book" onclick="tbSwitchTool('diary')" aria-label="${escapeHtml(d.diaryTitle)}" style="background-image:url(${tbCoverUrl(diary)})"></button>
+    <div id="tb-habit-host"></div></div></div>`;
+}
+function tbSwitchTool(which){
+  if(which === 'habits'){ if(tbView !== 'habits'){ tbPrevView = tbView; habitWeek = weekStart(new Date()); } tbView = 'habits'; }
+  else tbView = tbView === 'habits' ? (tbPrevView === 'library' ? 'library' : 'cover') : tbView === 'cover' ? 'cover' : 'cover';
+  tbCoverSettingsOpen = false;
+  tbRender();
+}
+let tbPrevView = 'cover';
 function tbCoverSetupOpen(diary){
   return !diary.setupDone && !diary.seiten.some(p=>p.type!=='titel' && ((p.text||'').trim() || tbAreaTextLen(p) || (p.strokes||[]).length || (p.images||[]).length));
 }
@@ -8173,7 +8247,7 @@ function tbRenderPageSlot(idx){
       <span class="tb-conflict-btns"><button class="ghost-btn" onclick="tbConflictKeep(${idx})">${d.tbConflictKeep}</button><button class="ghost-btn" onclick="tbDeletePage(${idx})">${d.tbConflictDrop}</button></span></div>` : '';
   const inactive = (tbMode!=='text'||!tbEditMode) ? 'inactive' : '';
   const pageDate = ()=>{ const m = /^p(\d{12,13})/.exec(page.id || ''); return new Date(m ? +m[1] : Date.now()).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' }); };
-  const textPart = page.collage
+  const textPart = page.habitWeek ? habitPageHtml(page, idx) : page.collage
     ? `<div class="tb-collage"><div class="tb-collage-head">${escapeHtml(d.collageTitle)}</div><div class="tb-collage-grid">${page.collage.map(c=>`<div class="tb-collage-cell"><div class="tb-collage-pic"><img class="tb-page-img is-sticker${tbIsTrophyImg(c.src) ? ' is-trophy' : ''}${tbIsRlTrophyImg(c.src) ? ' is-trophy is-trophy-rl' : ''}" src="${c.src}" alt=""></div><div class="tb-collage-title">${escapeHtml(c.title || '')}</div><div class="tb-collage-date">${c.at > 1 ? new Date(c.at).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { day:'2-digit', month:'2-digit', year:'numeric' }) : ''}</div></div>`).join('')}</div></div>`
     : page.tages
     ? `<div class="tb-day ${inactive}"><div class="tb-day-date">${escapeHtml(pageDate())}</div>
@@ -8335,7 +8409,7 @@ async function wheelToDiary(){
   const d = t(), en = state.settings.lang === 'en', year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
   let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || p.habitWeek || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
   if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
   page.images = page.images || [];
   page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(wheelPictureSvg()), xPct:14, yPct:4, wPct:72 });
@@ -8468,6 +8542,8 @@ function tbBindSlot(idx){
   const diary = tbEnsureYear(tbYear);
   const page = diary.seiten[idx];
   if(!page || page.type==='titel') return;
+  // the week sheet of the habits: boxes can be ticked in reading and in writing mode (29.10.2026)
+  document.querySelectorAll(`.tb-habit-cell[data-page-idx="${idx}"]`).forEach(b=>b.addEventListener('click', e=>{ e.stopPropagation(); habitToggle(b.dataset.h, b.dataset.k); tbRender(); }));
 
   if(!tbEditMode){
     // view mode: read-only, just paint whatever was drawn — no editing/dragging bound
