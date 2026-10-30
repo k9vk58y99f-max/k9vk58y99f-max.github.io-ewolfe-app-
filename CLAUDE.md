@@ -711,7 +711,13 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   wenn sie lokal fehlen. Mystery-Trophäen (`trophy-n-*`, `crystal-n-*`, `crystal-red*`, `faberge-n-*`, `orb-sun-n`, `trophy-star2`) ohne grau-beigen Schein
   und ohne graue Bodenschatten: `dehalo.py` (Sammelordner „Skripte (29.10.2026)“) rechnet nahe am Rand das Grau (118) heraus. Test: `guided.py` dort
   (beim Test über file:// kann `impulseCardImage` kein Bild erzeugen – im Test ersetzt). Bestellt: Tagebuch-Papier mit Rahmen je Design („Ausgang/12“),
-  Mystery-Klemmbrett mit 8 Zeilen („Ausgang/13“).
+  Klemmbrett mit Wochenblatt je Design („Ausgang/13“).
+  **Wöchentliche Gewohnheiten:** bis 3 (`HABIT_WEEK_MAX`) neben bis 8 täglichen, `h.freq = 'week'` (fehlt = täglich), Wahl im Formular (`habitEditFreq`).
+  Ein Haken gilt für die ganze Woche (`habitWeekOn`, `habitToggleWeek`): gespeichert am Tag des Abhakens (vergangene Woche: deren Sonntag), Abhaken
+  entfernt alle Haken der Woche. Eigener Abschnitt „Wöchentlich“ unter den täglichen Zeilen (`habitWeeklyRows`, Brett und Tagebuchseite), „n Wochen am
+  Stück“, Lob nach 4/8/12 Wochen (`habitPraiseW*`). Trophäe (roter Kristall) zählt nur tägliche Gewohnheiten. **Wunsch des Nutzers:** Klemmbrett und
+  Wochenseite sollen später ganz das Bild von ChatGPT sein (auch das Papier mit vorgedruckten Zeilen und Kästchen: 8 täglich × 7, Trennlinie, 3 wöchentlich
+  mit einem breiten Kästchen); die App schreibt dann nur Tage, Namen und Häkchen darauf. Bis die Bilder da sind, liegt unser Papier im Bild-Rahmen.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

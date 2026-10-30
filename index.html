@@ -734,6 +734,17 @@ html.theme-retreat .tb-habitpage.tb-habitpage{ border-image-source:url(img/rt2/c
 .tb-habit-table .habit-name{ font-size:calc(12.5px * var(--tbk)) !important; }
 .tb-habit-table .habit-name .area-ico{ width:calc(15px * var(--tbk)); height:calc(15px * var(--tbk)); }
 .tb-habit-table .habit-cell{ max-width:calc(30px * var(--tbk)); font-size:calc(17px * var(--tbk)); border-radius:calc(6px * var(--tbk)); }
+/* 30.10.2026: weekly habits */
+.habit-week-h td{ border-top:1.5px solid #c99a2e !important; padding:8px 2px 2px !important; text-align:left !important; font-weight:700; font-size:12px; color:#8a5a00; }
+.tb-habit-table .habit-week-h td{ font-size:calc(11px * var(--tbk)); padding:calc(6px * var(--tbk)) 0 0 !important; }
+html.theme-biz .habit-week-h td{ color:#ab8b54; border-color:#ab8b54 !important; } html.theme-retreat .habit-week-h td{ color:var(--rt-burgundy, #7A0B25); border-color:var(--gold) !important; }
+.habit-week-td{ text-align:center; }
+.habit-cell.habit-cell-week{ max-width:none; width:62%; aspect-ratio:auto; height:30px; }
+.tb-habit-table .habit-streak{ font-size:calc(10px * var(--tbk)); }
+.tb-habit-table .habit-cell.habit-cell-week{ height:calc(26px * var(--tbk)); max-width:none; }
+.habit-freq{ display:flex; gap:6px; margin-top:8px; }
+.habit-freq-btn{ flex:1; padding:8px; border-radius:10px; border:1px solid #cbbd9f; background:#fff; color:#2a2318; font:inherit; font-size:14px; cursor:pointer; }
+.habit-freq-btn.on{ background:#e3f3e8; border-color:#2f8f62; font-weight:600; }
 /* 1.99.2: the clipboard (habit tracker) */
 #habit-modal{ z-index:120; }
 html.diary-open #habit-modal{ z-index:270; }
@@ -4949,6 +4960,8 @@ Object.assign(I18N.de, {"diaryNewBook": "Neues Tagebuch starten", "diaryNewBookT
 Object.assign(I18N.en, {"diaryNewBook": "Start a new diary", "diaryNewBookText": "Which format would you like to write in? It applies to the whole book.", "diaryPortrait": "Portrait", "diaryLandscape": "Landscape"});
 Object.assign(I18N.de, {"diaryKindText": "Was für ein Tagebuch möchtest du?\n\nGeführt: jeden Tag eine Seite mit ein paar festen Fragen – morgens, abends oder beides.\nLeer: freie Seiten mit Linien, Punkten, Karo oder ganz leer.\n\nFreie Seiten kannst du auch im geführten Tagebuch jederzeit einfügen.", "diaryGuided": "Geführtes Tagebuch", "diaryFree": "Leeres Tagebuch", "diaryKind": "Art des Tagebuchs", "guidedWhen": "Geführt", "guidedMorning": "Morgens", "guidedEvening": "Abends", "guidedBoth": "Beides", "diaryGuidedPage": "Geführte Seite", "g_dank": "Dafür bin ich dankbar", "g_ziel": "Das macht heute zu einem guten Tag", "g_satz": "Mein Satz für heute", "g_mom": "Drei schöne Momente heute", "g_besser": "Was ich morgen anders mache", "cardsTitle": "Meine Impulskarten"});
 Object.assign(I18N.en, {"diaryKindText": "What kind of diary would you like?\n\nGuided: each day a page with a few fixed questions – in the morning, in the evening or both.\nFree: pages with lines, dots, grid or blank.\n\nYou can add free pages to a guided diary at any time.", "diaryGuided": "Guided diary", "diaryFree": "Free diary", "diaryKind": "Kind of diary", "guidedWhen": "Guided", "guidedMorning": "Morning", "guidedEvening": "Evening", "guidedBoth": "Both", "diaryGuidedPage": "Guided page", "g_dank": "I am grateful for", "g_ziel": "This would make today a good day", "g_satz": "My sentence for today", "g_mom": "Three good moments today", "g_besser": "What I will do differently tomorrow", "cardsTitle": "My impulse cards"});
+Object.assign(I18N.de, {"habitDaily": "Täglich", "habitWeekly": "Wöchentlich", "habitStreakW": "{n} Wochen am Stück", "habitWeekFull": "Du hast schon 3 wöchentliche Gewohnheiten. Lösche eine, um eine neue anzulegen.", "habitDayFull": "Du hast schon 8 tägliche Gewohnheiten. Lösche eine, um eine neue anzulegen.", "habitPraiseW4": "Schön! 4 Wochen am Stück: „{h}“ gehört jetzt zu deiner Woche.", "habitPraiseW8": "Großartig! 8 Wochen am Stück: „{h}“ ist fest in deinem Leben angekommen.", "habitPraiseW12": "Wunderbar! 12 Wochen am Stück – ein ganzes Vierteljahr „{h}“. Darauf kannst du stolz sein!"});
+Object.assign(I18N.en, {"habitDaily": "Daily", "habitWeekly": "Weekly", "habitStreakW": "{n} weeks in a row", "habitWeekFull": "You already have 3 weekly habits. Delete one to add a new one.", "habitDayFull": "You already have 8 daily habits. Delete one to add a new one.", "habitPraiseW4": "Lovely! 4 weeks in a row: “{h}” is now part of your week.", "habitPraiseW8": "Great! 8 weeks in a row: “{h}” has truly arrived in your life.", "habitPraiseW12": "Wonderful! 12 weeks in a row – a whole quarter of “{h}”. You can be proud of that!"});
 Object.assign(I18N.de, {"shelfHint": "Tippe auf ein Buch, um es aus dem Regal zu nehmen.", "trophyNone": "Hier stehen bald deine Trophäen.", "trophyNextLabel": "Nächste Trophäe:", "trophyNew": "Neue Trophäe!", "trophySince": "Seit {d}"});
 Object.assign(I18N.en, {"shelfHint": "Tap a book to take it off the shelf.", "trophyNone": "Your trophies will stand here soon.", "trophyNextLabel": "Next trophy:", "trophyNew": "New trophy!", "trophySince": "Since {d}"});
 Object.assign(I18N.de, {"stickerNames": {"leaf": "Blatt", "moon": "Mond", "sun": "Sonne", "wave": "Welle", "heart-pink": "Rosa Herz", "heart-red": "Rotes Herz", "star": "Stern", "mountains": "Berge", "rainbow-land": "Regenbogenland", "music": "Musik", "lotus": "Blauer Lotus", "cherry": "Kirschzweig", "rose": "Rose", "fox": "Fuchs", "rabbit": "Hase", "dog": "Hund", "rainbow": "Regenbogen", "treasure": "Schatzkiste"}});
@@ -6857,6 +6870,42 @@ function isoWeek(dt){ const x = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(
 let habitWeek = weekStart(new Date());
 function habitDays(){ return [0, 1, 2, 3, 4, 5, 6].map(i=>{ const x = new Date(habitWeek); x.setDate(x.getDate() + i); return x; }); }
 function habitOn(id, dt){ const m = habitsOf(state).marks[dayKey(dt) + '|' + id]; return !!(m && m.v); }
+/* 30.10.2026 (wish of the user): weekly habits besides the daily ones – up to three, ticked once for the whole week. The tick is
+   stored on the day it was made (or on the Sunday of a past week), so active days keep counting the right day. */
+const HABIT_WEEK_MAX = 3;
+const habitIsWeekly = h=>!!h && h.freq === 'week';
+const habitDailyList = H=>H.list.filter(h=>!habitIsWeekly(h));
+const habitWeeklyList = H=>H.list.filter(habitIsWeekly);
+function habitWeekDays(mondayKey){ const [y, m, dd] = mondayKey.split('-').map(Number); return [0, 1, 2, 3, 4, 5, 6].map(i=>new Date(y, m - 1, dd + i)); }
+function habitWeekOn(id, mondayKey){ return habitWeekDays(mondayKey).some(x=>habitOn(id, x)); }
+function habitWeekStreak(id, mondayKey){
+  let n = 0; const [y, m, dd] = mondayKey.split('-').map(Number), x = new Date(y, m - 1, dd);
+  while(n < 520 && habitWeekOn(id, dayKey(x))){ n++; x.setDate(x.getDate() - 7); }
+  return n;
+}
+function habitWeekStreakNow(id){ const mk = dayKey(weekStart(new Date())); const n = habitWeekStreak(id, mk); if(n) return n; const x = weekStart(new Date()); x.setDate(x.getDate() - 7); return habitWeekStreak(id, dayKey(x)); }
+function habitToggleWeek(id, mondayKey){
+  const H = habitsOf(state), days = habitWeekDays(mondayKey), today = dayKey(new Date()), now = Date.now();
+  if(habitWeekOn(id, mondayKey)) days.forEach(x=>{ const k = dayKey(x) + '|' + id; if(H.marks[k] && H.marks[k].v) H.marks[k] = { v:0, t:now }; });
+  else{
+    const k = days.some(x=>dayKey(x) === today) ? today : dayKey(days[6]);
+    if(k > today) return; // no ticks for a week still to come
+    H.marks[k + '|' + id] = { v:1, t:now };
+    // praise after 4, 8 and 12 weeks in a row – each step once per habit, like the daily ones
+    const h = H.list.find(x=>x.id === id), n = habitWeekStreak(id, mondayKey);
+    const best = Math.max(0, ...((h && h.praise) || [])), step = [12, 8, 4].find(x=>n >= x && x > best);
+    if(h && step){ h.praise = ((h.praise || []).concat(step)).sort((a, b)=>a - b); h.mt = now; saveState(); habitRender(); uiNotice(t()['habitPraiseW' + step].replace('{h}', h.name)); return; }
+  }
+  saveState(); habitRender();
+}
+// the weekly part of a habit table: a small heading row, then each weekly habit with one box for the whole week
+function habitWeeklyRows(H, monday, nameOpen, nameClose, cellAttr){
+  const d = t(), list = habitWeeklyList(H); if(!list.length) return '';
+  const mk = dayKey(monday), cur = dayKey(weekStart(new Date())), fut = mk > cur;
+  return `<tr class="habit-week-h"><td colspan="8">${escapeHtml(d.habitWeekly)}</td></tr>` + list.map(h=>{ const on = habitWeekOn(h.id, mk), st = habitWeekStreakNow(h.id);
+    return `<tr><td class="habit-name-td">${nameOpen(h)}${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}${st >= 2 ? `<small class="habit-streak">${escapeHtml(d.habitStreakW.replace('{n}', st))}</small>` : ''}</span>${nameClose}</td>`
+      + `<td colspan="7" class="habit-week-td"><button class="habit-cell habit-cell-week${on ? ' on' : ''}${mk === cur ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} ${cellAttr(h, mk, on, fut)} aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${mk}">${on ? '✓' : ''}</button></td></tr>`; }).join('');
+}
 function habitOpen(){
   // since 29.10.2026 the habits are a tool of the library (next to the diary), not a window of their own
   const ov = document.getElementById('tb-overlay');
@@ -6872,10 +6921,11 @@ function habitRender(){
   document.getElementById('habit-week-label').textContent = d.habitWeek.replace('{n}', isoWeek(days[0])) + ' · ' + f(days[0]) + '–' + f(days[6]);
   const wd = days.map(x=>x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2));
   document.getElementById('habit-grid').innerHTML = H.list.length ? `<table class="habit-table"><thead><tr><th class="habit-name-h"></th>${days.map((x, i)=>`<th class="${dayKey(x) === today ? 'today' : ''}">${wd[i]}<br>${x.getDate()}</th>`).join('')}</tr></thead><tbody>`
-    + H.list.map(h=>{ const st = habitStreakNow(h.id); return `<tr><td class="habit-name-td"><button class="habit-del" onclick="habitDelete('${h.id}')" title="${escapeHtml(d.delete)}" aria-label="${escapeHtml(d.delete + ': ' + h.name)}">✕</button><button class="habit-name" onclick="habitEdit('${h.id}')">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}${st >= 2 ? `<small class="habit-streak">${escapeHtml(d.habitStreak.replace('{n}', st))}</small>` : ''}</span></button></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
+    + habitDailyList(H).map(h=>{ const st = habitStreakNow(h.id); return `<tr><td class="habit-name-td"><button class="habit-del" onclick="habitDelete('${h.id}')" title="${escapeHtml(d.delete)}" aria-label="${escapeHtml(d.delete + ': ' + h.name)}">✕</button><button class="habit-name" onclick="habitEdit('${h.id}')">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}${st >= 2 ? `<small class="habit-streak">${escapeHtml(d.habitStreak.replace('{n}', st))}</small>` : ''}</span></button></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
         return `<td><button class="habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} onclick="habitToggle('${h.id}', '${k}')" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`; }).join('')
+    + habitWeeklyRows(H, days[0], h=>`<button class="habit-del" onclick="habitDelete('${h.id}')" title="${escapeHtml(d.delete)}" aria-label="${escapeHtml(d.delete + ': ' + h.name)}">✕</button><button class="habit-name" onclick="habitEdit('${h.id}')">`, '</button>', (h, k, on, fut)=>`onclick="habitToggleWeek('${h.id}', '${k}')"`)
     + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`;
-  const add = document.getElementById('habit-add-btn'); add.textContent = '+ ' + d.habitAdd; add.style.display = H.list.length < HABIT_MAX ? '' : 'none';
+  const add = document.getElementById('habit-add-btn'); add.textContent = '+ ' + d.habitAdd; add.style.display = habitDailyList(H).length < HABIT_MAX || habitWeeklyList(H).length < HABIT_WEEK_MAX ? '' : 'none';
   const dia = document.getElementById('habit-diary-btn'); dia.textContent = d.habitToDiary; dia.style.display = H.list.length ? '' : 'none';
 }
 function habitToggle(id, k){
@@ -6899,13 +6949,15 @@ function habitStreak(id, k){
   return n;
 }
 function habitStreakNow(id){ const n = habitStreak(id); if(n) return n; const y = new Date(); y.setDate(y.getDate() - 1); return habitStreak(id, dayKey(y)); }
-let habitEditArea = null;
+let habitEditArea = null, habitEditFreq = 'day';
 function habitEdit(id){
   const d = t(), h = id ? habitsOf(state).list.find(x=>x.id === id) : null;
   habitEditArea = h ? h.area || null : null;
+  habitEditFreq = h && habitIsWeekly(h) ? 'week' : 'day';
   const box = document.getElementById('habit-form');
   box.style.display = '';
   box.innerHTML = `<div class="habit-form"><input class="small-input" id="habit-name-in" maxlength="40" placeholder="${escapeHtml(d.habitNamePh)}" value="${escapeHtml(h ? h.name : '')}">
+    <div class="habit-freq">${[['day', d.habitDaily], ['week', d.habitWeekly]].map(([k, l])=>`<button type="button" class="habit-freq-btn${habitEditFreq === k ? ' on' : ''}" data-f="${k}" onclick="habitEditFreq='${k}'; this.parentElement.querySelectorAll('.habit-freq-btn').forEach(b=>b.classList.toggle('on', b.dataset.f === habitEditFreq));">${escapeHtml(l)}</button>`).join('')}</div>
     <div class="ge-areas" style="margin-top:8px;">${AREAS.map(a=>`<button type="button" class="ge-area${habitEditArea === a ? ' on' : ''}" data-a="${a}" onclick="habitEditArea = habitEditArea === '${a}' ? null : '${a}'; this.parentElement.querySelectorAll('.ge-area').forEach(b=>b.classList.toggle('on', b.dataset.a === habitEditArea));" title="${escapeHtml(d.bereiche[a])}">${areaIco(a)}</button>`).join('')}</div>
     <div class="habit-form-btns"><button class="primary-btn" onclick="habitSave(${h ? `'${h.id}'` : 'null'})">${d.goalSave}</button><button class="habit-btn" onclick="habitFormClose()">${d.dialogCancel}</button>${h ? `<button class="habit-btn" onclick="habitDelete('${h.id}')">${d.delete}</button>` : ''}</div></div>`;
   setTimeout(()=>{ try{ document.getElementById('habit-name-in').focus(); }catch(e){} }, 50);
@@ -6915,8 +6967,11 @@ function habitSave(id){
   const H = habitsOf(state), name = (document.getElementById('habit-name-in').value || '').trim();
   if(!name){ document.getElementById('habit-name-in').classList.add('invalid'); return; }
   let h = id ? H.list.find(x=>x.id === id) : null;
-  if(!h){ if(H.list.length >= HABIT_MAX) return; h = { id:'h' + Date.now() + Math.random().toString(36).slice(2, 6), pos:H.list.length }; H.list.push(h); }
-  h.name = name; h.area = habitEditArea || null; h.mt = Date.now();
+  const week = habitEditFreq === 'week', room = (week ? habitWeeklyList(H).length < HABIT_WEEK_MAX : habitDailyList(H).length < HABIT_MAX) || (h && habitIsWeekly(h) === week);
+  if(!room){ uiNotice(week ? t().habitWeekFull : t().habitDayFull); return; }
+  if(!h){ h = { id:'h' + Date.now() + Math.random().toString(36).slice(2, 6), pos:H.list.length }; H.list.push(h); }
+  if(habitIsWeekly(h) !== week) h.praise = []; // praise counts days or weeks – it starts again when the rhythm changes
+  h.name = name; h.area = habitEditArea || null; h.freq = week ? 'week' : 'day'; h.mt = Date.now();
   saveState(); habitFormClose(); habitRender();
 }
 async function habitDelete(id){
@@ -6967,8 +7022,9 @@ function habitPageHtml(page, idx){
   const f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
   return `<div class="tb-habitpage"><div class="tb-habit-paper"><div class="tb-collage-head">${escapeHtml(d.habitTitle)} · ${escapeHtml(d.habitWeek.replace('{n}', isoWeek(start)))} · ${f(days[0])}–${f(days[6])}</div>
     ${H.list.length ? `<table class="habit-table tb-habit-table"><thead><tr><th class="habit-name-h"></th>${days.map(x=>`<th class="${dayKey(x) === today ? 'today' : ''}">${escapeHtml(x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2))}<br>${x.getDate()}</th>`).join('')}</tr></thead><tbody>`
-      + H.list.map(h=>`<tr><td><span class="habit-name">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}</span></span></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
-        return `<td><button class="habit-cell tb-habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} data-page-idx="${idx}" data-h="${h.id}" data-k="${k}" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`).join('') + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`}
+      + habitDailyList(H).map(h=>`<tr><td><span class="habit-name">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}</span></span></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
+        return `<td><button class="habit-cell tb-habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} data-page-idx="${idx}" data-h="${h.id}" data-k="${k}" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`).join('') + habitWeeklyRows(H, start, h=>'<span class="habit-name">', '</span>', (h, k, on, fut)=>`data-page-idx="${idx}" data-h="${h.id}" data-k="${k}" data-w="1"`).replace(/habit-cell habit-cell-week/g, 'habit-cell tb-habit-cell habit-cell-week')
+      + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`}
   </div></div>`;
 }
 // a drawn clipboard for the library (until pictures in the style of each design arrive)
@@ -7631,7 +7687,7 @@ function trophyDefs(){
   // are still to come, until then the same picture smaller). The day each length was first reached counts.
   const habReach = {};
   try{ const H = habitsOf(state);
-    H.list.forEach(h=>{ const days = Object.keys(H.marks).filter(k=>k.endsWith('|' + h.id) && H.marks[k].v).map(k=>k.split('|')[0]).sort();
+    habitDailyList(H).forEach(h=>{ const days = Object.keys(H.marks).filter(k=>k.endsWith('|' + h.id) && H.marks[k].v).map(k=>k.split('|')[0]).sort();
       let run = 0, prev = null;
       days.forEach(k=>{ const [y, m, dd] = k.split('-').map(Number), x = new Date(y, m - 1, dd).getTime();
         run = prev !== null && Math.round((x - prev) / 864e5) === 1 ? run + 1 : 1; prev = x;
@@ -8683,7 +8739,7 @@ function tbBindSlot(idx){
   const page = diary.seiten[idx];
   if(!page || page.type==='titel') return;
   // the week sheet of the habits: boxes can be ticked in reading and in writing mode (29.10.2026)
-  document.querySelectorAll(`.tb-habit-cell[data-page-idx="${idx}"]`).forEach(b=>b.addEventListener('click', e=>{ e.stopPropagation(); habitToggle(b.dataset.h, b.dataset.k); tbRender(); }));
+  document.querySelectorAll(`.tb-habit-cell[data-page-idx="${idx}"]`).forEach(b=>b.addEventListener('click', e=>{ e.stopPropagation(); if(b.dataset.w) habitToggleWeek(b.dataset.h, b.dataset.k); else habitToggle(b.dataset.h, b.dataset.k); tbRender(); }));
 
   if(!tbEditMode){
     // view mode: read-only, just paint whatever was drawn — no editing/dragging bound
