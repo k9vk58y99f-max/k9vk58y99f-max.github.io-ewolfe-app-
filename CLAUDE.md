@@ -718,6 +718,16 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Stück“, Lob nach 4/8/12 Wochen (`habitPraiseW*`). Trophäe (roter Kristall) zählt nur tägliche Gewohnheiten. **Wunsch des Nutzers:** Klemmbrett und
   Wochenseite sollen später ganz das Bild von ChatGPT sein (auch das Papier mit vorgedruckten Zeilen und Kästchen: 8 täglich × 7, Trennlinie, 3 wöchentlich
   mit einem breiten Kästchen); die App schreibt dann nur Tage, Namen und Häkchen darauf. Bis die Bilder da sind, liegt unser Papier im Bild-Rahmen.
+  **Umgesetzt (30.10.2026):** Klemmbrett = nur noch das Bild `img/<mw2|rl2|rt2>/clipboard2.webp` (aus IMG_6123/6124/6125, freigestellt mit `cutclip.py`,
+  ausgemessen mit `measure.py`, beide im Sammelordner „Skripte (29.10.2026)“): `CLIP_GEO` hält je Design in % des Bildes die 7 Spalten, 8 Zeilen, Kästchengröße,
+  11 Namenslinien, 3 breite Wochen-Kästchen und die Kopflinie. `habitSheetHtml(montag, seitenIdx|null)` legt Titel, Woche, Wochentage, Namen (Caveat),
+  „+ Täglich“/„+ Wöchentlich“ auf freien Linien und Häkchen (SVG) darauf – im Regal-Werkzeug klickbar, im Tagebuch als Wochenseite (`habitPageHtml`, Klassen
+  `tb-habit-cell`, gleiche Bindung). Unter dem Brett nur ‹ KW › und „Ins Tagebuch“; das Formular schwebt über dem Brett, dort steht auch „n Tage/Wochen am
+  Stück“ (auf der Linie ist kein Platz). Neues Klemmbrett-Bild: freistellen, messen, Werte in `CLIP_GEO` eintragen.
+  **Tagebuch-Papier:** jede Seite außer dem Titelblatt liegt auf dem Papier des Designs (`img/<d>/paper-p|l.webp`, aus IMG_6113–6119), CSS-Block „every diary
+  page lies on the paper“: Ränder `--pt/--pb/--ps` als ganze 28-px-Zeilen (hoch 84/112/48, quer 84/84/64 × `--tbk`), Linien/Karo/Punkte nur im Schreibbereich
+  (`--pat` mit `background-clip:content-box`, Ursprung bleibt die Seite, damit Text und Linien im Takt bleiben). Bestehende Seiten haben dadurch weniger Platz
+  (Wunsch des Nutzers: in der Beta egal).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

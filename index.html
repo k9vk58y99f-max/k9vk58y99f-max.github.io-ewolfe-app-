@@ -578,9 +578,9 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 
 .tb-page-wrap{ display:flex; flex-direction:column; align-items:center; gap:12px; }
 .tb-page{ position:relative; width:var(--tb-page-w, min(560px,94vw)); aspect-ratio:3/4; background:#fdfaf3; border-radius:6px; box-shadow:0 18px 48px rgba(0,0,0,0.45); overflow:hidden; }
-.tb-page.type-lined{ background-image: repeating-linear-gradient(#fdfaf3 0 calc(27px * var(--tbk)), #d9d0c1 calc(27px * var(--tbk)) calc(28px * var(--tbk))); background-size:100% calc(28px * var(--tbk)); }
-.tb-page.type-grid{ background-image: repeating-linear-gradient(90deg, #e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))), repeating-linear-gradient(#e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))); background-position:calc(26px * var(--tbk)) calc(27px * var(--tbk)); } /* same 28 px rows as the lines (1.75.0) */
-.tb-page.type-dotted{ background-image: radial-gradient(#cfc3ac calc(1.3px * var(--tbk)), transparent calc(1.3px * var(--tbk))); background-size:calc(28px * var(--tbk)) calc(28px * var(--tbk)); background-position:calc(12px * var(--tbk)) calc(13.5px * var(--tbk)); } /* dots on the same 28 px rows as the lines (1.75.0) */
+.tb-page.type-lined{ --pat:repeating-linear-gradient(transparent 0 calc(27px * var(--tbk)), #d9d0c1 calc(27px * var(--tbk)) calc(28px * var(--tbk))); --pats:100% calc(28px * var(--tbk)); --patp:0 0; }
+.tb-page.type-grid{ --pat:repeating-linear-gradient(90deg, #e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))), repeating-linear-gradient(#e4dccb 0 1px, transparent 1px calc(28px * var(--tbk))); --pats:auto, auto; --patp:calc(26px * var(--tbk)) calc(27px * var(--tbk)), calc(26px * var(--tbk)) calc(27px * var(--tbk)); } /* same 28 px rows as the lines (1.75.0) */
+.tb-page.type-dotted{ --pat:radial-gradient(#cfc3ac calc(1.3px * var(--tbk)), transparent calc(1.3px * var(--tbk))); --pats:calc(28px * var(--tbk)) calc(28px * var(--tbk)); --patp:calc(12px * var(--tbk)) calc(13.5px * var(--tbk)); } /* dots on the same 28 px rows as the lines (1.75.0) */
 .tb-page-titel{ padding:0; }
 .tb-page-titel-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
 .tb-titel-caption{ position:absolute; left:0; right:0; bottom:9%; text-align:center; pointer-events:none; }
@@ -700,19 +700,32 @@ html.theme-biz .tb-day-date, html.theme-biz .tb-collage-head{ color:#ab8b54; bor
 html.theme-biz .tb-day-head{ color:#5d6f5a; }
 html.theme-retreat .tb-day-date, html.theme-retreat .tb-collage-head{ color:var(--rt-burgundy, #7A0B25); border-color:var(--gold); }
 html.theme-retreat .tb-day-head{ color:var(--rt-sage-d); }
+/* 30.10.2026 (wish of the user): every diary page lies on the paper of its design, with a frame; the writing stays inside it.
+   The margins are whole rows of the 28 px grid, so text and ruled lines stay in step. Grid pages have two pattern layers. */
+.tb-page:not(.type-titel){ --pt:calc(84px * var(--tbk)); --pb:calc(112px * var(--tbk)); --ps:calc(48px * var(--tbk)); --paper:url(img/mw2/paper-p.webp);
+  background-color:#fdfaf3; background-image:var(--pat, linear-gradient(transparent, transparent)), var(--paper); background-size:var(--pats, auto), 100% 100%; background-position:var(--patp, 0 0), 0 0;
+  background-repeat:repeat, no-repeat; background-origin:border-box, border-box; background-clip:content-box, border-box; padding:var(--pt) var(--ps) var(--pb); box-sizing:border-box; }
+.tb-page.type-grid:not(.type-titel){ background-image:var(--pat), var(--paper); background-size:auto, auto, 100% 100%; background-position:var(--patp), 0 0; background-repeat:repeat, repeat, no-repeat; background-origin:border-box, border-box, border-box; background-clip:content-box, content-box, border-box; }
+.tb-page.tb-land-page:not(.type-titel){ --pt:calc(84px * var(--tbk)); --pb:calc(84px * var(--tbk)); --ps:calc(64px * var(--tbk)); --paper:url(img/mw2/paper-l.webp); }
+html.theme-biz .tb-page:not(.type-titel){ --paper:url(img/rl2/paper-p.webp); } html.theme-biz .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rl2/paper-l.webp); }
+html.theme-retreat .tb-page:not(.type-titel){ --paper:url(img/rt2/paper-p.webp); } html.theme-retreat .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rt2/paper-l.webp); }
+.tb-page:not(.type-titel) .tb-page-text{ padding:calc(var(--pt) + 24px * var(--tbk)) calc(var(--ps) + 4px * var(--tbk)) var(--pb); }
+.tb-page:not(.type-titel) .tb-page-text.font-hand{ padding-top:calc(var(--pt) + 19.5px * var(--tbk)); }
+.tb-page:not(.type-titel) :is(.tb-areas, .tb-day, .tb-collage, .tb-guided){ inset:calc(var(--pt) - 28px * var(--tbk)) calc(var(--ps) - 16px * var(--tbk)) calc(var(--pb) - 28px * var(--tbk)); }
+.tb-page:not(.type-titel) .tb-habitpage{ top:calc(var(--pt) * 0.5); bottom:calc(var(--pb) * 0.5); }
 /* 30.10.2026: the guided page (morning, evening or both), the card page, and the habit page as the design's clipboard */
 .tb-guided{ position:absolute; inset:0; padding:calc(12px * var(--tbk)) calc(24px * var(--tbk)) calc(14px * var(--tbk)); display:flex; flex-direction:column; color:#2a2318; }
 .tb-guided.inactive .tb-g-in{ pointer-events:none; }
 .tb-g-parts{ flex:1; min-height:0; display:flex; flex-direction:column; gap:calc(12px * var(--tbk)); }
 .tb-land-page .tb-g-parts{ flex-direction:row; gap:calc(24px * var(--tbk)); }
-.tb-g-part{ flex:1; min-height:0; min-width:0; display:flex; flex-direction:column; }
+.tb-g-part{ flex:1 1 auto; min-height:0; min-width:0; display:flex; flex-direction:column; }
 .tb-g-part-h{ display:flex; align-items:center; gap:calc(6px * var(--tbk)); font-family:'Marcellus', serif; font-size:calc(17px * var(--tbk)); color:#8a5a00; border-bottom:1.5px solid #c99a2e; padding-bottom:calc(3px * var(--tbk)); }
 .tb-g-part-h svg{ width:calc(18px * var(--tbk)); height:calc(18px * var(--tbk)); fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
 .tb-g-head{ font-weight:700; font-size:calc(13.5px * var(--tbk)); color:#2f8f62; padding-top:calc(7px * var(--tbk)); }
 .tb-g-row{ display:flex; align-items:center; gap:calc(6px * var(--tbk)); height:calc(28px * var(--tbk)); flex:none; border-bottom:1px solid rgba(42,35,24,0.2); }
 .tb-g-no{ flex:none; width:calc(16px * var(--tbk)); font-size:calc(13px * var(--tbk)); color:#8a7b62; }
 #tb-overlay .tb-guided .tb-g-line{ flex:1; min-width:0; height:100%; padding:0; border:none !important; outline:none; background:transparent !important; box-shadow:none !important; border-radius:0 !important; font-family:'Inter', sans-serif; font-size:calc(15px * var(--tbk)); color:#2a2318 !important; }
-.tb-g-boxblock{ flex:1; min-height:calc(64px * var(--tbk)); display:flex; flex-direction:column; }
+.tb-g-boxblock{ flex:1; min-height:calc(58px * var(--tbk)); display:flex; flex-direction:column; }
 #tb-overlay .tb-guided .tb-g-box{ flex:1; min-height:0; width:100%; padding:0; resize:none; overflow:hidden; outline:none; border:none !important; box-shadow:none !important; border-radius:0 !important; color:#2a2318 !important;
   background:repeating-linear-gradient(to bottom, transparent 0, transparent calc(27px * var(--tbk)), rgba(42,35,24,0.2) calc(27px * var(--tbk)), rgba(42,35,24,0.2) calc(28px * var(--tbk))) !important;
   font-family:'Inter', sans-serif; font-size:calc(15px * var(--tbk)); line-height:calc(28px * var(--tbk)); }
@@ -723,13 +736,6 @@ html.theme-retreat .tb-g-part-h{ color:var(--rt-burgundy, #7A0B25); border-color
 .tb-cards .tb-collage-cell{ justify-content:center; }
 .tb-cards .tb-collage-pic{ flex:none; height:auto; align-items:center; }
 .tb-cards .tb-collage-pic .tb-page-img{ max-width:100%; max-height:none; width:100%; }
-.tb-habitpage.tb-habitpage{ --hb:calc(526px * var(--tbk)); inset:auto; top:calc(8px * var(--tbk)); left:50%; transform:translateX(-50%); width:var(--hb); height:calc(730px * var(--tbk)); padding:0; box-sizing:border-box;
-  border-style:solid; border-width:calc(var(--hb) * 0.38) calc(var(--hb) * 0.08) calc(var(--hb) * 0.09) calc(var(--hb) * 0.10); border-image:url(img/mw2/clipboard.webp) 168 53 45 70 fill stretch; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.3)); }
-.tb-land-page .tb-habitpage.tb-habitpage{ --hb:calc(392px * var(--tbk)); height:calc(544px * var(--tbk)); }
-html.theme-biz .tb-habitpage.tb-habitpage{ border-width:calc(var(--hb) * 0.38) calc(var(--hb) * 0.07) calc(var(--hb) * 0.095) calc(var(--hb) * 0.07); border-image:url(img/rl2/clipboard.webp) 140 27 35 25 fill stretch; }
-html.theme-retreat .tb-habitpage.tb-habitpage{ border-image-source:url(img/rt2/clipboard.webp); }
-.tb-habit-paper{ height:100%; box-sizing:border-box; overflow:hidden; background:#fbf6ea; border-radius:2px; padding:calc(8px * var(--tbk)) calc(6px * var(--tbk)); }
-.tb-habit-paper .tb-collage-head{ font-size:calc(15px * var(--tbk)); }
 .tb-habit-table.tb-habit-table th{ font-size:calc(11px * var(--tbk)); padding:0 0 calc(4px * var(--tbk)); line-height:1.15; }
 .tb-habit-table .habit-name{ font-size:calc(12.5px * var(--tbk)) !important; }
 .tb-habit-table .habit-name .area-ico{ width:calc(15px * var(--tbk)); height:calc(15px * var(--tbk)); }
@@ -745,6 +751,43 @@ html.theme-biz .habit-week-h td{ color:#ab8b54; border-color:#ab8b54 !important;
 .habit-freq{ display:flex; gap:6px; margin-top:8px; }
 .habit-freq-btn{ flex:1; padding:8px; border-radius:10px; border:1px solid #cbbd9f; background:#fff; color:#2a2318; font:inherit; font-size:14px; cursor:pointer; }
 .habit-freq-btn.on{ background:#e3f3e8; border-color:#2f8f62; font-weight:600; }
+/* 30.10.2026: the clipboard sheet is the picture alone; names, days and ticks lie on its lines and boxes */
+#habit-modal .habit-board.hb-v2, #tb-habit-host .habit-board.hb-v2{ border:none !important; border-image:none !important; background:none !important; padding:0 !important; box-shadow:none !important; border-radius:0 !important; filter:none !important; }
+.hb2{ position:relative; width:100%; aspect-ratio:var(--ar); container-type:inline-size; filter:drop-shadow(0 12px 18px rgba(0,0,0,0.4)); --ink:#5b3a12; --tick:#2f7a3a; }
+.hb2-rl2{ --ink:#3f2a17; --tick:#2c5e3a; } .hb2-rt2{ --ink:#1B4D2A; --tick:#1B4D2A; }
+.hb2-img{ position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; user-select:none; }
+.hb2 > div, .hb2 > button{ position:absolute; }
+.hb2-title{ left:0; right:0; text-align:center; font-family:'Marcellus', serif; font-size:5.4cqw; line-height:1; color:var(--ink); }
+.hb2-week{ left:0; right:0; text-align:center; font-size:3cqw; line-height:1; color:var(--ink); opacity:0.8; }
+html.theme-biz .hb2-title{ font-family:'Noto Serif Display', Georgia, serif; font-stretch:62.5%; text-transform:uppercase; letter-spacing:0.06em; }
+html.theme-retreat .hb2-title{ font-family:'Cormorant Garamond', Georgia, serif; font-size:6.4cqw; text-transform:none; letter-spacing:0; color:var(--rt-burgundy, #7A0B25); }
+.hb2-day{ transform:translate(-50%, -50%); font-size:2.7cqw; font-weight:600; line-height:1; color:var(--ink); opacity:0.75; }
+.hb2-day.today{ opacity:1; color:var(--tick); font-weight:800; }
+.hb2-name{ display:flex; align-items:flex-end; gap:0.8cqw; padding:0 0.3cqw 0.4cqw; background:none; border:none; text-align:left; font-family:'Caveat', cursive; font-size:4.4cqw; line-height:1; color:var(--ink); overflow:hidden; white-space:nowrap; cursor:default; }
+button.hb2-name{ cursor:pointer; }
+.hb2-name .area-ico{ width:3.4cqw; height:3.4cqw; flex:none; margin:0 0 0.3cqw; opacity:0.85; }
+.hb2-n{ overflow:hidden; text-overflow:ellipsis; min-width:0; }
+.habit-form-streak{ margin-bottom:6px; font-size:13px; }
+.hb2-plus{ font-family:'Inter', sans-serif; font-size:2.8cqw; opacity:0.55; align-items:flex-end; }
+.hb2-cell{ background:none; border:none; padding:0; cursor:pointer; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent; }
+.hb2-cell svg{ width:5cqw; height:5cqw; fill:none; stroke:var(--tick); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+.hb2-wcell svg{ width:6cqw; height:6cqw; }
+.hb2-cell.future{ cursor:default; }
+.hb2-day-cell.today:not(.on)::after{ content:''; width:2cqw; height:2cqw; border-radius:50%; background:var(--tick); opacity:0.18; }
+.habit-under{ padding:12px 4px 0; }
+.habit-under .habit-week{ color:inherit; }
+.habit-under .habit-close{ margin-left:auto; }
+.tb-habitpage{ position:absolute; top:2%; bottom:2%; left:0; right:0; z-index:2; display:flex; justify-content:center; }
+.tb-habitpage .hb2{ height:100%; width:auto; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.3)); }
+/* the sheet has its own "+" lines, so below it only the week, "add to diary" and close; the form floats over the sheet */
+.hb-v2{ position:relative; }
+.hb-v2 .hb2{ width:min(100%, calc((100dvh - var(--nav-h, 70px) - 250px) * var(--ar))); margin:0 auto; }
+.habit-under .habit-week{ gap:8px; margin:10px 0 0; flex-wrap:nowrap; white-space:nowrap; font-size:14px; }
+.habit-under .habit-diary-small{ padding:7px 10px; border-radius:10px; border:1px solid #cbbd9f; background:#fff; color:#2a2318; font:inherit; font-size:13px; font-weight:600; cursor:pointer; }
+#tb-habit-host .habit-close{ display:none; } /* in the library the switch on top changes the tool */
+.habit-under .habit-nav{ flex:none; width:32px; height:32px; font-size:18px; }
+.habit-under .habit-week{ justify-content:center; }
+.hb-v2 #habit-form{ position:absolute; left:6%; right:6%; top:26%; z-index:6; box-shadow:0 14px 34px rgba(0,0,0,0.45); border-radius:12px; }
 /* 1.99.2: the clipboard (habit tracker) */
 #habit-modal{ z-index:120; }
 html.diary-open #habit-modal{ z-index:270; }
@@ -818,7 +861,6 @@ html.theme-biz:not(.theme-retreat) .tb-switch button.on{ color:#0c1226; }
 .habit-name-td{ display:flex; align-items:center; gap:2px; }
 .habit-del{ flex:none; width:18px; height:22px; border-radius:50%; border:none; background:transparent; color:#a33; font-size:13px; cursor:pointer; opacity:0.55; padding:0; }
 .habit-del:hover{ opacity:1; background:rgba(170,40,40,0.1); }
-.tb-habitpage{ position:absolute; inset:0; z-index:2; padding:calc(16px * var(--tbk)) calc(16px * var(--tbk)); color:#2a2318; }
 .tb-habit-table .habit-name{ cursor:default; font-size:calc(14px * var(--tbk)); }
 /* the clipboard in each design's style */
 html:not(.theme-biz) .habit-board{ background:linear-gradient(135deg, #b8732f 0%, #8a4b1d 45%, #6b3613 100%); border:3px solid #e8b84a; box-shadow:0 18px 40px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,220,140,0.25); }
@@ -2137,20 +2179,12 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 <!-- 1.99.2: the clipboard – a habit tracker, one sheet per week -->
 <div class="modal-backdrop" id="habit-modal">
   <div class="modal habit-modal">
-    <div class="habit-board">
-      <div class="habit-clip" aria-hidden="true"></div>
-      <div class="habit-paper">
-        <div class="habit-top">
-          <h2 class="habit-title" id="habit-title"></h2>
-          <button class="icon-btn habit-close" onclick="habitClose()"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
-        </div>
-        <div class="habit-week"><button class="habit-nav" onclick="habitWeekGo(-1)" aria-label="‹">‹</button><span id="habit-week-label"></span><button class="habit-nav" onclick="habitWeekGo(1)" aria-label="›">›</button></div>
-        <div id="habit-grid"></div>
+    <div class="habit-board hb-v2">
+      <div id="habit-grid"></div>
+      <div class="habit-under">
+        <div class="habit-week"><button class="habit-nav" onclick="habitWeekGo(-1)" aria-label="‹">‹</button><span id="habit-week-label"></span><button class="habit-nav" onclick="habitWeekGo(1)" aria-label="›">›</button><button class="habit-btn habit-diary-small" id="habit-diary-btn" onclick="habitToDiary()"></button><button class="icon-btn habit-close" onclick="habitClose()"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
         <div id="habit-form" style="display:none;"></div>
-        <div class="habit-actions">
-          <button class="habit-btn" id="habit-add-btn" onclick="habitEdit(null)"></button>
-          <button class="habit-btn" id="habit-diary-btn" onclick="habitToDiary()"></button>
-        </div>
+        <button id="habit-add-btn" hidden></button>
       </div>
     </div>
   </div>
@@ -6898,13 +6932,45 @@ function habitToggleWeek(id, mondayKey){
   }
   saveState(); habitRender();
 }
-// the weekly part of a habit table: a small heading row, then each weekly habit with one box for the whole week
-function habitWeeklyRows(H, monday, nameOpen, nameClose, cellAttr){
-  const d = t(), list = habitWeeklyList(H); if(!list.length) return '';
-  const mk = dayKey(monday), cur = dayKey(weekStart(new Date())), fut = mk > cur;
-  return `<tr class="habit-week-h"><td colspan="8">${escapeHtml(d.habitWeekly)}</td></tr>` + list.map(h=>{ const on = habitWeekOn(h.id, mk), st = habitWeekStreakNow(h.id);
-    return `<tr><td class="habit-name-td">${nameOpen(h)}${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}${st >= 2 ? `<small class="habit-streak">${escapeHtml(d.habitStreakW.replace('{n}', st))}</small>` : ''}</span>${nameClose}</td>`
-      + `<td colspan="7" class="habit-week-td"><button class="habit-cell habit-cell-week${on ? ' on' : ''}${mk === cur ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} ${cellAttr(h, mk, on, fut)} aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${mk}">${on ? '✓' : ''}</button></td></tr>`; }).join('');
+/* 30.10.2026 (wish of the user): the clipboard is the picture from ChatGPT alone, paper included – 8 daily rows with 7 boxes,
+   a divider, 3 weekly rows with one wide box. The app only writes the title, the days, the names and the ticks onto it, at the
+   places measured in each picture (CLIP_GEO, in % of the picture: box columns and rows, name lines [x0, x1, y], wide boxes
+   [x0, x1, y0, y1], the line under the head). The same sheet is the week page in the diary. */
+const CLIP_GEO = {"mw2": {"ar": 0.679, "cols": [51.34, 56.39, 61.47, 66.44, 71.36, 76.36, 81.31], "rows": [37.88, 42.08, 46.31, 50.62, 54.9, 59.22, 63.56, 67.93], "box": 3.66, "names": [[17.21, 46.88, 38.99], [17.21, 46.88, 43.15], [17.21, 46.88, 47.38], [17.21, 46.88, 51.68], [17.21, 46.88, 55.98], [17.21, 46.88, 60.31], [17.21, 46.88, 64.64], [17.31, 46.88, 69.07], [17.21, 46.88, 76.86], [17.31, 46.88, 81.63], [17.21, 46.88, 86.53]], "wide": [[49.46, 82.0, 74.01, 77.37], [49.46, 82.0, 78.78, 82.2], [49.46, 82.0, 83.75, 87.11]], "head": 34.08}, "rl2": {"ar": 0.635, "cols": [52.43, 58.18, 63.87, 69.52, 75.16, 80.85, 86.55], "rows": [33.69, 38.11, 42.5, 46.89, 51.31, 55.79, 60.25, 64.7], "box": 3.9, "names": [[11.71, 47.15, 34.76], [11.71, 47.15, 39.15], [11.71, 47.15, 43.57], [11.71, 47.15, 47.99], [11.71, 47.15, 52.41], [11.71, 47.15, 56.8], [11.71, 47.15, 61.22], [11.71, 47.15, 65.61], [11.71, 47.15, 75.05], [11.71, 47.15, 80.68], [11.71, 47.15, 86.37]], "wide": [[50.32, 88.19, 72.07, 75.95], [50.32, 88.19, 77.63, 81.65], [50.32, 88.19, 83.39, 87.27]], "head": 28.06}, "rt2": {"ar": 0.6275, "cols": [52.19, 58.09, 63.96, 69.73, 75.45, 81.23, 87.06], "rows": [33.52, 37.95, 42.38, 46.74, 51.17, 55.64, 60.1, 64.56], "box": 4.06, "names": [[10.91, 46.31, 34.63], [10.91, 46.31, 38.99], [10.91, 46.31, 43.39], [10.91, 46.31, 47.79], [10.91, 46.31, 52.15], [10.91, 46.31, 56.64], [10.91, 46.31, 61.07], [10.91, 46.31, 65.44], [10.91, 46.2, 74.87], [10.91, 46.2, 80.23], [12.41, 46.2, 85.7]], "wide": [[49.52, 88.88, 71.88, 75.77], [49.52, 88.88, 77.25, 81.14], [49.52, 88.88, 82.82, 86.78]], "head": 28.62}};
+const clipDir = ()=>RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2';
+const clipSrc = ()=>'img/' + clipDir() + '/clipboard2.webp';
+const HB_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13.5l5 5L20.5 5"/></svg>';
+function habitSheetHtml(monday, pageIdx){
+  const d = t(), H = habitsOf(state), g = CLIP_GEO[clipDir()], board = pageIdx === null, lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB';
+  const today = dayKey(new Date()), mk = dayKey(monday), cur = dayKey(weekStart(new Date()));
+  const days = habitWeekDays(mk), f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
+  const bh = g.box * g.ar, cw = (g.cols[6] - g.cols[0]) / 6, rh = (g.rows[7] - g.rows[0]) / 7;
+  const at = (l, tp, w, h)=>`left:${l.toFixed(2)}%;top:${tp.toFixed(2)}%;width:${w.toFixed(2)}%;height:${h.toFixed(2)}%`;
+  const name = (h, ln, streak)=>{ const inner = `${h.area ? areaIco(h.area) : ''}<span class="hb2-n">${escapeHtml(h.name)}</span>${streak}`;
+    const st = at(ln[0], ln[2] - rh * 0.92, ln[1] - ln[0], rh * 0.9);
+    return board ? `<button class="hb2-name" style="${st}" onclick="habitEdit('${h.id}')">${inner}</button>` : `<div class="hb2-name" style="${st}">${inner}</div>`; };
+  const cell = (st, on, fut, cls, attrs)=>`<button class="hb2-cell ${cls}${on ? ' on' : ''}${fut ? ' future' : ''}" style="${st}" ${fut ? 'disabled' : ''} ${attrs} aria-pressed="${on}">${on ? HB_CHECK : ''}</button>`;
+  const plus = (ln, freq)=>board ? `<button class="hb2-name hb2-plus" style="${at(ln[0], ln[2] - rh * 0.92, ln[1] - ln[0], rh * 0.9)}" onclick="habitEdit(null, '${freq}')">+ ${escapeHtml(freq === 'week' ? d.habitWeekly : d.habitDaily)}</button>` : '';
+  let o = `<div class="hb2-title" style="top:${(g.head - 7.6).toFixed(2)}%">${escapeHtml(d.habitTitle)}</div>`
+    + `<div class="hb2-week" style="top:${(g.head - 3.7).toFixed(2)}%">${escapeHtml(d.habitWeek.replace('{n}', isoWeek(days[0])) + ' · ' + f(days[0]) + '–' + f(days[6]))}</div>`;
+  const dy = (g.head + g.rows[0] - bh / 2) / 2;
+  o += days.map((x, j)=>`<div class="hb2-day${dayKey(x) === today ? ' today' : ''}" style="left:${g.cols[j]}%;top:${dy.toFixed(2)}%">${escapeHtml(x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2))}</div>`).join('');
+  const daily = habitDailyList(H).slice(0, HABIT_MAX), weekly = habitWeeklyList(H).slice(0, HABIT_WEEK_MAX);
+  daily.forEach((h, i)=>{
+    o += name(h, g.names[i], '');
+    days.forEach((x, j)=>{ const k = dayKey(x), fut = k > today;
+      o += cell(at(g.cols[j] - cw / 2, g.rows[i] - rh / 2, cw, rh), habitOn(h.id, x), fut, 'hb2-day-cell' + (k === today ? ' today' : '') + (board ? '' : ' tb-habit-cell'),
+        board ? `onclick="habitToggle('${h.id}', '${k}')"` : `data-page-idx="${pageIdx}" data-h="${h.id}" data-k="${k}"`); });
+  });
+  if(daily.length < HABIT_MAX) o += plus(g.names[daily.length], 'day');
+  weekly.forEach((h, i)=>{
+    const w = g.wide[i], fut = mk > cur;
+    o += name(h, g.names[8 + i], '');
+    o += cell(at(w[0], w[2], w[1] - w[0], w[3] - w[2]), habitWeekOn(h.id, mk), fut, 'hb2-wcell' + (board ? '' : ' tb-habit-cell'),
+      board ? `onclick="habitToggleWeek('${h.id}', '${mk}')"` : `data-page-idx="${pageIdx}" data-h="${h.id}" data-k="${mk}" data-w="1"`);
+  });
+  if(weekly.length < HABIT_WEEK_MAX) o += plus(g.names[8 + weekly.length], 'week');
+  return `<div class="hb2 hb2-${clipDir()}" style="--ar:${g.ar}"><img class="hb2-img" src="${clipSrc()}" alt="">${o}</div>`;
 }
 function habitOpen(){
   // since 29.10.2026 the habits are a tool of the library (next to the diary), not a window of their own
@@ -6915,17 +6981,9 @@ function habitOpen(){
 function habitClose(){ if(tbView === 'habits'){ tbSwitchTool('diary'); } else closeModal('habit-modal'); }
 function habitWeekGo(n){ habitWeek.setDate(habitWeek.getDate() + 7 * n); habitWeek = new Date(habitWeek); habitRender(); }
 function habitRender(){
-  const d = t(), H = habitsOf(state), days = habitDays(), today = dayKey(new Date()), lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB';
-  document.getElementById('habit-title').textContent = d.habitTitle;
-  const f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
-  document.getElementById('habit-week-label').textContent = d.habitWeek.replace('{n}', isoWeek(days[0])) + ' · ' + f(days[0]) + '–' + f(days[6]);
-  const wd = days.map(x=>x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2));
-  document.getElementById('habit-grid').innerHTML = H.list.length ? `<table class="habit-table"><thead><tr><th class="habit-name-h"></th>${days.map((x, i)=>`<th class="${dayKey(x) === today ? 'today' : ''}">${wd[i]}<br>${x.getDate()}</th>`).join('')}</tr></thead><tbody>`
-    + habitDailyList(H).map(h=>{ const st = habitStreakNow(h.id); return `<tr><td class="habit-name-td"><button class="habit-del" onclick="habitDelete('${h.id}')" title="${escapeHtml(d.delete)}" aria-label="${escapeHtml(d.delete + ': ' + h.name)}">✕</button><button class="habit-name" onclick="habitEdit('${h.id}')">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}${st >= 2 ? `<small class="habit-streak">${escapeHtml(d.habitStreak.replace('{n}', st))}</small>` : ''}</span></button></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
-        return `<td><button class="habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} onclick="habitToggle('${h.id}', '${k}')" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`; }).join('')
-    + habitWeeklyRows(H, days[0], h=>`<button class="habit-del" onclick="habitDelete('${h.id}')" title="${escapeHtml(d.delete)}" aria-label="${escapeHtml(d.delete + ': ' + h.name)}">✕</button><button class="habit-name" onclick="habitEdit('${h.id}')">`, '</button>', (h, k, on, fut)=>`onclick="habitToggleWeek('${h.id}', '${k}')"`)
-    + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`;
-  const add = document.getElementById('habit-add-btn'); add.textContent = '+ ' + d.habitAdd; add.style.display = habitDailyList(H).length < HABIT_MAX || habitWeeklyList(H).length < HABIT_WEEK_MAX ? '' : 'none';
+  const d = t(), H = habitsOf(state), days = habitDays();
+  document.getElementById('habit-week-label').textContent = d.habitWeek.replace('{n}', isoWeek(days[0])); // the dates stand on the sheet
+  document.getElementById('habit-grid').innerHTML = habitSheetHtml(days[0], null);
   const dia = document.getElementById('habit-diary-btn'); dia.textContent = d.habitToDiary; dia.style.display = H.list.length ? '' : 'none';
 }
 function habitToggle(id, k){
@@ -6950,13 +7008,14 @@ function habitStreak(id, k){
 }
 function habitStreakNow(id){ const n = habitStreak(id); if(n) return n; const y = new Date(); y.setDate(y.getDate() - 1); return habitStreak(id, dayKey(y)); }
 let habitEditArea = null, habitEditFreq = 'day';
-function habitEdit(id){
+function habitEdit(id, freq){
   const d = t(), h = id ? habitsOf(state).list.find(x=>x.id === id) : null;
   habitEditArea = h ? h.area || null : null;
-  habitEditFreq = h && habitIsWeekly(h) ? 'week' : 'day';
+  habitEditFreq = h ? (habitIsWeekly(h) ? 'week' : 'day') : (freq || 'day');
   const box = document.getElementById('habit-form');
   box.style.display = '';
-  box.innerHTML = `<div class="habit-form"><input class="small-input" id="habit-name-in" maxlength="40" placeholder="${escapeHtml(d.habitNamePh)}" value="${escapeHtml(h ? h.name : '')}">
+  const streak = h ? (habitIsWeekly(h) ? habitWeekStreakNow(h.id) : habitStreakNow(h.id)) : 0;
+  box.innerHTML = `<div class="habit-form">${streak >= 2 ? `<div class="habit-streak habit-form-streak">${escapeHtml((habitIsWeekly(h) ? d.habitStreakW : d.habitStreak).replace('{n}', streak))}</div>` : ''}<input class="small-input" id="habit-name-in" maxlength="40" placeholder="${escapeHtml(d.habitNamePh)}" value="${escapeHtml(h ? h.name : '')}">
     <div class="habit-freq">${[['day', d.habitDaily], ['week', d.habitWeekly]].map(([k, l])=>`<button type="button" class="habit-freq-btn${habitEditFreq === k ? ' on' : ''}" data-f="${k}" onclick="habitEditFreq='${k}'; this.parentElement.querySelectorAll('.habit-freq-btn').forEach(b=>b.classList.toggle('on', b.dataset.f === habitEditFreq));">${escapeHtml(l)}</button>`).join('')}</div>
     <div class="ge-areas" style="margin-top:8px;">${AREAS.map(a=>`<button type="button" class="ge-area${habitEditArea === a ? ' on' : ''}" data-a="${a}" onclick="habitEditArea = habitEditArea === '${a}' ? null : '${a}'; this.parentElement.querySelectorAll('.ge-area').forEach(b=>b.classList.toggle('on', b.dataset.a === habitEditArea));" title="${escapeHtml(d.bereiche[a])}">${areaIco(a)}</button>`).join('')}</div>
     <div class="habit-form-btns"><button class="primary-btn" onclick="habitSave(${h ? `'${h.id}'` : 'null'})">${d.goalSave}</button><button class="habit-btn" onclick="habitFormClose()">${d.dialogCancel}</button>${h ? `<button class="habit-btn" onclick="habitDelete('${h.id}')">${d.delete}</button>` : ''}</div></div>`;
@@ -7016,16 +7075,8 @@ function habitToDiary(){
   tbRender();
 }
 function habitPageHtml(page, idx){
-  const d = t(), H = habitsOf(state), lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB', today = dayKey(new Date());
-  const [y, m, dd] = page.habitWeek.split('-').map(Number), start = new Date(y, m - 1, dd);
-  const days = [0, 1, 2, 3, 4, 5, 6].map(i=>{ const x = new Date(start); x.setDate(x.getDate() + i); return x; });
-  const f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
-  return `<div class="tb-habitpage"><div class="tb-habit-paper"><div class="tb-collage-head">${escapeHtml(d.habitTitle)} · ${escapeHtml(d.habitWeek.replace('{n}', isoWeek(start)))} · ${f(days[0])}–${f(days[6])}</div>
-    ${H.list.length ? `<table class="habit-table tb-habit-table"><thead><tr><th class="habit-name-h"></th>${days.map(x=>`<th class="${dayKey(x) === today ? 'today' : ''}">${escapeHtml(x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2))}<br>${x.getDate()}</th>`).join('')}</tr></thead><tbody>`
-      + habitDailyList(H).map(h=>`<tr><td><span class="habit-name">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}</span></span></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
-        return `<td><button class="habit-cell tb-habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} data-page-idx="${idx}" data-h="${h.id}" data-k="${k}" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`).join('') + habitWeeklyRows(H, start, h=>'<span class="habit-name">', '</span>', (h, k, on, fut)=>`data-page-idx="${idx}" data-h="${h.id}" data-k="${k}" data-w="1"`).replace(/habit-cell habit-cell-week/g, 'habit-cell tb-habit-cell habit-cell-week')
-      + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`}
-  </div></div>`;
+  const [y, m, dd] = page.habitWeek.split('-').map(Number);
+  return `<div class="tb-habitpage">${habitSheetHtml(new Date(y, m - 1, dd), idx)}</div>`;
 }
 // a drawn clipboard for the library (until pictures in the style of each design arrive)
 function clipboardSvg(){
@@ -7574,7 +7625,7 @@ function tbRenderLibrary(){
   // 28.10.2026 (wish of the user): the clipboard (habit tracker) leans in the middle compartment of the book part – or the next free one below
   const clipRow = (()=>{ const mid = Math.floor(SHELF_ROWS.length / 2); for(let i = mid; i < SHELF_ROWS.length; i++) if(!(narrowRows[i] || []).length) return i; return -1; })();
   // pictures of the user for A Mystery World and A Gentleman's Study (28.10.2026); A Lady's Conservatory keeps the drawn one until hers comes
-  const clipImg = RETREAT ? 'rt2/clipboard' : BIZ ? 'rl2/clipboard' : 'mw2/clipboard';
+  const clipImg = clipDir() + '/clipboard2';
   const clipHtml = `<button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipImg ? `<img src="img/${clipImg}.webp" alt="">` : clipboardSvg()}</button>`;
   const narrowHtml = NAR ? `<div class="shelf-img shelf-narrow" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
       `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${NS.plant ? `<img class="shelf-plant" src="img/${NS.plant.img}.webp" alt="" style="width:${NS.plant.w}%;left:${NS.plant.over - NS.plant.w}%">` : ''}</div>` : '';
@@ -8121,7 +8172,7 @@ function tbRenderCover(){
 // the cover can be designed while a diary is new (until it is opened for the first time); afterwards only in the library
 /* 29.10.2026 (wish of the user): the diary page is now called library; on top a switch diary · habits. Closed, the other tool
    always peeks out a little from behind: the clipboard behind the book cover, the book behind the clipboard. */
-function clipPeekHtml(){ const im = RETREAT ? 'rt2/clipboard' : BIZ ? 'rl2/clipboard' : 'mw2/clipboard'; return im ? `<img src="img/${im}.webp" alt="">` : clipboardSvg(); }
+function clipPeekHtml(){ const im = clipDir() + '/clipboard2'; return im ? `<img src="img/${im}.webp" alt="">` : clipboardSvg(); }
 function tbRenderHabits(){
   const d = t(), diary = tbEnsureYear(tbYear);
   return `<div class="tb-cover-wrap tb-habits-wrap"><div class="tb-stack tb-stack-habits">
