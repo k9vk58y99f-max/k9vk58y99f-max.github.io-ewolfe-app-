@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.0.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.1.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -698,6 +698,20 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   E-Mail fehlen noch). Offenes Klemmbrett = Bild des Designs als `border-image` (`mw2|rl2|rt2/clipboard`, Lady = Herren-Brett mit Ornament unten in der Mitte),
   Papier liegt darüber. Hervorlugendes Werkzeug gerade, 80 % breit, oben (`.tb-peek-*`). Regenbogen-Kristall mit zwei Spitzen `crystal-n-2b` als Stufe 2,
   die anderen rücken auf, volle Druse = 100 Tage.
+- **2.1.0 (30.10.2026) Geführtes oder leeres Tagebuch (Wunsch des Nutzers):** Beim neuen Buch zuerst die Frage Geführt / Leer (`tbNewBookAsk`, danach das Format).
+  `diary.kind` = `guided` | `free` (fehlt = frei), `diary.guided` = `morning` | `evening` | `both`; Einstellungen des Buchs: „Art des Tagebuchs“ und darunter
+  entweder Morgens/Abends/Beides oder die Seitenart (`tbSetKind`, `tbSetGuided`, `tbApplyKind`: eine leere letzte Seite wechselt mit). **Geführte Seite**
+  (`page.guided = { date, mode, dank0–2, ziel0–2, satz, mom0–2, besser }`, `guidedPageHtml`, `GUIDED_KEYS`): Morgens = Dafür bin ich dankbar (3), Das macht
+  heute zu einem guten Tag (3), Mein Satz für heute; Abends = Drei schöne Momente, Was ich morgen anders mache. Eigene Worte, Name bewusst nicht
+  „5-Minuten-Tagebuch“ (Marke). Ersetzt die Tagesseite von 1.99.2 (alte `page.tages` werden weiter angezeigt; `defaultPageType 'day'` wird zu `guided`).
+  Freie Seiten lassen sich im geführten Buch über „Neue Seite“ einfügen (Fortsetzungsseiten dort liniert, `tbTextType`). **Dankbarkeit** aus der Achtsamkeit
+  füllt im geführten Buch mit Morgen-Teil die Dankbarkeits-Zeilen der heutigen Seite (`gratToDiary`), sonst wie bisher auf eine freie Seite.
+  **Eigene Seiten für Eingefügtes:** Impulskarten auf eine Karten-Seite, 2 je Seite (`page.cards`, `cardsPageHtml`); Trophäen wie bisher Collage;
+  Gewohnheiten-Wochenseite = Klemmbrett des Designs als Rahmen (`.tb-habitpage` mit `border-image`, `--hb`). Sync: `kind`/`guided` werden ergänzt,
+  wenn sie lokal fehlen. Mystery-Trophäen (`trophy-n-*`, `crystal-n-*`, `crystal-red*`, `faberge-n-*`, `orb-sun-n`, `trophy-star2`) ohne grau-beigen Schein
+  und ohne graue Bodenschatten: `dehalo.py` (Sammelordner „Skripte (29.10.2026)“) rechnet nahe am Rand das Grau (118) heraus. Test: `guided.py` dort
+  (beim Test über file:// kann `impulseCardImage` kein Bild erzeugen – im Test ersetzt). Bestellt: Tagebuch-Papier mit Rahmen je Design („Ausgang/12“),
+  Mystery-Klemmbrett mit 8 Zeilen („Ausgang/13“).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

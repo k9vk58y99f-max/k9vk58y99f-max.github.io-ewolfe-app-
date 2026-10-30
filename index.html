@@ -700,6 +700,40 @@ html.theme-biz .tb-day-date, html.theme-biz .tb-collage-head{ color:#ab8b54; bor
 html.theme-biz .tb-day-head{ color:#5d6f5a; }
 html.theme-retreat .tb-day-date, html.theme-retreat .tb-collage-head{ color:var(--rt-burgundy, #7A0B25); border-color:var(--gold); }
 html.theme-retreat .tb-day-head{ color:var(--rt-sage-d); }
+/* 30.10.2026: the guided page (morning, evening or both), the card page, and the habit page as the design's clipboard */
+.tb-guided{ position:absolute; inset:0; padding:calc(12px * var(--tbk)) calc(24px * var(--tbk)) calc(14px * var(--tbk)); display:flex; flex-direction:column; color:#2a2318; }
+.tb-guided.inactive .tb-g-in{ pointer-events:none; }
+.tb-g-parts{ flex:1; min-height:0; display:flex; flex-direction:column; gap:calc(12px * var(--tbk)); }
+.tb-land-page .tb-g-parts{ flex-direction:row; gap:calc(24px * var(--tbk)); }
+.tb-g-part{ flex:1; min-height:0; min-width:0; display:flex; flex-direction:column; }
+.tb-g-part-h{ display:flex; align-items:center; gap:calc(6px * var(--tbk)); font-family:'Marcellus', serif; font-size:calc(17px * var(--tbk)); color:#8a5a00; border-bottom:1.5px solid #c99a2e; padding-bottom:calc(3px * var(--tbk)); }
+.tb-g-part-h svg{ width:calc(18px * var(--tbk)); height:calc(18px * var(--tbk)); fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.tb-g-head{ font-weight:700; font-size:calc(13.5px * var(--tbk)); color:#2f8f62; padding-top:calc(7px * var(--tbk)); }
+.tb-g-row{ display:flex; align-items:center; gap:calc(6px * var(--tbk)); height:calc(28px * var(--tbk)); flex:none; border-bottom:1px solid rgba(42,35,24,0.2); }
+.tb-g-no{ flex:none; width:calc(16px * var(--tbk)); font-size:calc(13px * var(--tbk)); color:#8a7b62; }
+#tb-overlay .tb-guided .tb-g-line{ flex:1; min-width:0; height:100%; padding:0; border:none !important; outline:none; background:transparent !important; box-shadow:none !important; border-radius:0 !important; font-family:'Inter', sans-serif; font-size:calc(15px * var(--tbk)); color:#2a2318 !important; }
+.tb-g-boxblock{ flex:1; min-height:calc(64px * var(--tbk)); display:flex; flex-direction:column; }
+#tb-overlay .tb-guided .tb-g-box{ flex:1; min-height:0; width:100%; padding:0; resize:none; overflow:hidden; outline:none; border:none !important; box-shadow:none !important; border-radius:0 !important; color:#2a2318 !important;
+  background:repeating-linear-gradient(to bottom, transparent 0, transparent calc(27px * var(--tbk)), rgba(42,35,24,0.2) calc(27px * var(--tbk)), rgba(42,35,24,0.2) calc(28px * var(--tbk))) !important;
+  font-family:'Inter', sans-serif; font-size:calc(15px * var(--tbk)); line-height:calc(28px * var(--tbk)); }
+#tb-overlay .tb-guided .tb-g-in.font-hand{ font-family:'Caveat', cursive; font-size:calc(21px * var(--tbk)); }
+html.theme-biz .tb-g-part-h{ color:#ab8b54; border-color:#ab8b54; } html.theme-biz .tb-g-head{ color:#5d6f5a; }
+html.theme-retreat .tb-g-part-h{ color:var(--rt-burgundy, #7A0B25); border-color:var(--gold); } html.theme-retreat .tb-g-head{ color:var(--rt-sage-d); }
+.tb-cards-grid{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr; gap:calc(14px * var(--tbk)); }
+.tb-cards .tb-collage-cell{ justify-content:center; }
+.tb-cards .tb-collage-pic{ flex:none; height:auto; align-items:center; }
+.tb-cards .tb-collage-pic .tb-page-img{ max-width:100%; max-height:none; width:100%; }
+.tb-habitpage.tb-habitpage{ --hb:calc(526px * var(--tbk)); inset:auto; top:calc(8px * var(--tbk)); left:50%; transform:translateX(-50%); width:var(--hb); height:calc(730px * var(--tbk)); padding:0; box-sizing:border-box;
+  border-style:solid; border-width:calc(var(--hb) * 0.38) calc(var(--hb) * 0.08) calc(var(--hb) * 0.09) calc(var(--hb) * 0.10); border-image:url(img/mw2/clipboard.webp) 168 53 45 70 fill stretch; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.3)); }
+.tb-land-page .tb-habitpage.tb-habitpage{ --hb:calc(392px * var(--tbk)); height:calc(544px * var(--tbk)); }
+html.theme-biz .tb-habitpage.tb-habitpage{ border-width:calc(var(--hb) * 0.38) calc(var(--hb) * 0.07) calc(var(--hb) * 0.095) calc(var(--hb) * 0.07); border-image:url(img/rl2/clipboard.webp) 140 27 35 25 fill stretch; }
+html.theme-retreat .tb-habitpage.tb-habitpage{ border-image-source:url(img/rt2/clipboard.webp); }
+.tb-habit-paper{ height:100%; box-sizing:border-box; overflow:hidden; background:#fbf6ea; border-radius:2px; padding:calc(8px * var(--tbk)) calc(6px * var(--tbk)); }
+.tb-habit-paper .tb-collage-head{ font-size:calc(15px * var(--tbk)); }
+.tb-habit-table.tb-habit-table th{ font-size:calc(11px * var(--tbk)); padding:0 0 calc(4px * var(--tbk)); line-height:1.15; }
+.tb-habit-table .habit-name{ font-size:calc(12.5px * var(--tbk)) !important; }
+.tb-habit-table .habit-name .area-ico{ width:calc(15px * var(--tbk)); height:calc(15px * var(--tbk)); }
+.tb-habit-table .habit-cell{ max-width:calc(30px * var(--tbk)); font-size:calc(17px * var(--tbk)); border-radius:calc(6px * var(--tbk)); }
 /* 1.99.2: the clipboard (habit tracker) */
 #habit-modal{ z-index:120; }
 html.diary-open #habit-modal{ z-index:270; }
@@ -2216,7 +2250,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.0.0';
+const APP_VERSION = '2.1.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2274,7 +2308,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-10-28';
+const APP_BUILD = '2026-10-30';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -3932,12 +3966,13 @@ async function impulseToDiary(){
   const c = impulseCur; if(!c) return;
   const d = t(), year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
-  let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || p.habitWeek || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
-  if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
-  page.images = page.images || [];
+  // 30.10.2026: cards go onto a card page of their own, two per page; the page stays where it was started
   let src; try{ src = await impulseCardImage(c); }catch(e){ return; }
-  page.images.push({ src, xPct:18, yPct:4, wPct:64, sticker:true });
+  let page = diary.seiten.find(p=>p.cards && p.cards.length < 2);
+  const last = diary.seiten[diary.seiten.length - 1];
+  if(!page && tbPlainEmpty(last)){ page = last; page.cards = []; }
+  if(!page){ page = { id:'p' + Date.now(), type:'blank', text:'', strokes:[], images:[], cards:[] }; diary.seiten.push(page); }
+  page.cards.push({ src, at:Date.now() });
   saveState();
   closeModal('impulse-modal');
   uiNotice(d.impulseSaved);
@@ -4118,6 +4153,19 @@ function gratToDiary(items){
   const prevYear = tbYear; tbYear = year;
   const diary = tbEnsureYear(year);
   tbYear = prevYear;
+  // 30.10.2026: a guided book with a morning part takes the three things in its gratitude lines of today's page;
+  // without a morning part (or when today's lines are already written) they go onto a free page as before
+  if(diary.kind === 'guided' && diary.guided !== 'evening'){
+    const today = dayKey(new Date()), last = diary.seiten[diary.seiten.length - 1];
+    let page = diary.seiten.find(p=>p.guided && p.guided.date === today && p.guided.mode !== 'evening');
+    if(!page && tbGuidedEmpty(last) && last.guided.mode !== 'evening'){ page = last; page.guided.date = today; }
+    if(!page){ page = tbGuidedPage(diary, today); diary.seiten.push(page); }
+    if(!GUIDED_DANK.some(k=>(page.guided[k] || '').trim())){
+      items.slice(0, 3).forEach((x, i)=>{ page.guided[GUIDED_DANK[i]] = x; });
+      saveState();
+      return Promise.resolve();
+    }
+  }
   const date = new Date().toLocaleDateString(state.settings.lang==='de' ? 'de-DE' : 'en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
   const block = d.gratDiaryHead.replace('{date}', date) + '\n' + items.map(x=>'• ' + x).join('\n');
   return tbAppendBlock(diary, block);
@@ -4126,7 +4174,7 @@ function gratToDiary(items){
    on that page, the text starts below the lowest one, with a line of space, instead of lying half on top of it. */
 async function tbAppendBlock(diary, block){
   let page = diary.seiten[diary.seiten.length - 1];
-  if(!page || page.type === 'titel' || page.bereiche || page.tages || page.collage || page.habitWeek){
+  if(!page || page.type === 'titel' || page.bereiche || page.tages || page.collage || page.habitWeek || page.guided || page.cards){
     page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] };
     diary.seiten.push(page);
   }
@@ -4329,6 +4377,8 @@ function tbAreaTextLen(p){
   if(p.tages) n += ['dank', 'fokus', 'schritt', 'gut', 'gelernt'].map(k=>p.tages[k] || '').join('').trim().length + (p.tages.mood !== undefined && p.tages.mood !== null ? 1 : 0);
   if(p.collage) n += p.collage.length * 10;
   if(p.habitWeek) n += 1;
+  if(p.guided) n += GUIDED_KEYS.map(k=>p.guided[k] || '').join('').trim().length;
+  if(p.cards) n += p.cards.length * 10;
   return n;
 }
 var DAY_FIELDS = ['dank', 'fokus', 'schritt', 'gut', 'gelernt']; // the fields of the day page (1.99.2)
@@ -4696,6 +4746,7 @@ function mergeBackupInto(cur, inc, mode){
   Object.entries((inc.tagebuch && inc.tagebuch.jahre) || {}).forEach(([year, iy])=>{
     const cy = out.tagebuch.jahre[year];
     if(!cy){ out.tagebuch.jahre[year] = copy(iy); added.pages += (iy.seiten||[]).filter(written).length; return; }
+    ['kind', 'guided'].forEach(k=>{ if(cy[k] === undefined && iy[k] !== undefined) cy[k] = iy[k]; }); // 30.10.2026: guided or free book
     const idx = {}; cy.seiten.forEach((p,i)=>{ idx[p.id] = i; });
     (iy.seiten||[]).forEach(p=>{
       if(p.type==='titel') return;
@@ -4896,6 +4947,8 @@ Object.assign(I18N.de, {"impulseIntro": "Tippe auf die Karte und zieh dir einen 
 Object.assign(I18N.en, {"impulseIntro": "Tap the card and draw a thought for your day.", "impulseIntroAgain": "Tap the card to see it again. Swipe it aside to draw a new one.", "impulseSwipeHint": "Swipe aside for a new card", "impulseTapHint": "Tap to close"});
 Object.assign(I18N.de, {"diaryNewBook": "Neues Tagebuch starten", "diaryNewBookText": "In welchem Format möchtest du schreiben? Das gilt für das ganze Buch.", "diaryPortrait": "Hochformat", "diaryLandscape": "Querformat"});
 Object.assign(I18N.en, {"diaryNewBook": "Start a new diary", "diaryNewBookText": "Which format would you like to write in? It applies to the whole book.", "diaryPortrait": "Portrait", "diaryLandscape": "Landscape"});
+Object.assign(I18N.de, {"diaryKindText": "Was für ein Tagebuch möchtest du?\n\nGeführt: jeden Tag eine Seite mit ein paar festen Fragen – morgens, abends oder beides.\nLeer: freie Seiten mit Linien, Punkten, Karo oder ganz leer.\n\nFreie Seiten kannst du auch im geführten Tagebuch jederzeit einfügen.", "diaryGuided": "Geführtes Tagebuch", "diaryFree": "Leeres Tagebuch", "diaryKind": "Art des Tagebuchs", "guidedWhen": "Geführt", "guidedMorning": "Morgens", "guidedEvening": "Abends", "guidedBoth": "Beides", "diaryGuidedPage": "Geführte Seite", "g_dank": "Dafür bin ich dankbar", "g_ziel": "Das macht heute zu einem guten Tag", "g_satz": "Mein Satz für heute", "g_mom": "Drei schöne Momente heute", "g_besser": "Was ich morgen anders mache", "cardsTitle": "Meine Impulskarten"});
+Object.assign(I18N.en, {"diaryKindText": "What kind of diary would you like?\n\nGuided: each day a page with a few fixed questions – in the morning, in the evening or both.\nFree: pages with lines, dots, grid or blank.\n\nYou can add free pages to a guided diary at any time.", "diaryGuided": "Guided diary", "diaryFree": "Free diary", "diaryKind": "Kind of diary", "guidedWhen": "Guided", "guidedMorning": "Morning", "guidedEvening": "Evening", "guidedBoth": "Both", "diaryGuidedPage": "Guided page", "g_dank": "I am grateful for", "g_ziel": "This would make today a good day", "g_satz": "My sentence for today", "g_mom": "Three good moments today", "g_besser": "What I will do differently tomorrow", "cardsTitle": "My impulse cards"});
 Object.assign(I18N.de, {"shelfHint": "Tippe auf ein Buch, um es aus dem Regal zu nehmen.", "trophyNone": "Hier stehen bald deine Trophäen.", "trophyNextLabel": "Nächste Trophäe:", "trophyNew": "Neue Trophäe!", "trophySince": "Seit {d}"});
 Object.assign(I18N.en, {"shelfHint": "Tap a book to take it off the shelf.", "trophyNone": "Your trophies will stand here soon.", "trophyNextLabel": "Next trophy:", "trophyNew": "New trophy!", "trophySince": "Since {d}"});
 Object.assign(I18N.de, {"stickerNames": {"leaf": "Blatt", "moon": "Mond", "sun": "Sonne", "wave": "Welle", "heart-pink": "Rosa Herz", "heart-red": "Rotes Herz", "star": "Stern", "mountains": "Berge", "rainbow-land": "Regenbogenland", "music": "Musik", "lotus": "Blauer Lotus", "cherry": "Kirschzweig", "rose": "Rose", "fox": "Fuchs", "rabbit": "Hase", "dog": "Hund", "rainbow": "Regenbogen", "treasure": "Schatzkiste"}});
@@ -6211,7 +6264,7 @@ async function compareToDiary(){
   const d = t(), year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
   let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || p.habitWeek || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || p.habitWeek || p.guided || p.cards || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
   if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
   page.images = page.images || [];
   page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(comparePictureSvg(snaps)), xPct:12, yPct:3, wPct:76 });
@@ -6912,11 +6965,11 @@ function habitPageHtml(page, idx){
   const [y, m, dd] = page.habitWeek.split('-').map(Number), start = new Date(y, m - 1, dd);
   const days = [0, 1, 2, 3, 4, 5, 6].map(i=>{ const x = new Date(start); x.setDate(x.getDate() + i); return x; });
   const f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
-  return `<div class="tb-habitpage"><div class="tb-collage-head">${escapeHtml(d.habitTitle)} · ${escapeHtml(d.habitWeek.replace('{n}', isoWeek(start)))} · ${f(days[0])}–${f(days[6])}</div>
+  return `<div class="tb-habitpage"><div class="tb-habit-paper"><div class="tb-collage-head">${escapeHtml(d.habitTitle)} · ${escapeHtml(d.habitWeek.replace('{n}', isoWeek(start)))} · ${f(days[0])}–${f(days[6])}</div>
     ${H.list.length ? `<table class="habit-table tb-habit-table"><thead><tr><th class="habit-name-h"></th>${days.map(x=>`<th class="${dayKey(x) === today ? 'today' : ''}">${escapeHtml(x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2))}<br>${x.getDate()}</th>`).join('')}</tr></thead><tbody>`
       + H.list.map(h=>`<tr><td><span class="habit-name">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}</span></span></td>${days.map(x=>{ const k = dayKey(x), on = habitOn(h.id, x), fut = k > today;
         return `<td><button class="habit-cell tb-habit-cell${on ? ' on' : ''}${k === today ? ' today' : ''}${fut ? ' future' : ''}" ${fut ? 'disabled' : ''} data-page-idx="${idx}" data-h="${h.id}" data-k="${k}" aria-pressed="${on}" aria-label="${escapeHtml(h.name)} ${k}">${on ? '✓' : ''}</button></td>`; }).join('')}</tr>`).join('') + `</tbody></table>` : `<div class="habit-empty">${escapeHtml(d.habitEmpty)}</div>`}
-  </div>`;
+  </div></div>`;
 }
 // a drawn clipboard for the library (until pictures in the style of each design arrive)
 function clipboardSvg(){
@@ -7040,28 +7093,33 @@ function tbLatestBook(year){
 }
 const tbIsLand = diary=>!!diary && diary.format === 'landscape';
 // a new book of the current year in the chosen format; it opens on its cover with the settings
-function tbNewBook(format){
+function tbNewBook(format, kind){
   const year = tbCurrentYearStr(), ks = tbBookKeys().filter(k=>tbBookYear(k) === year);
   const key = ks.length ? year + '/' + (Math.max(...ks.map(tbBookNo)) + 1) : year;
   const diary = tbEnsureYear(key);
   diary.format = format === 'landscape' ? 'landscape' : 'portrait';
+  tbApplyKind(diary, kind === 'guided' ? 'guided' : 'free');
   saveState();
   tbYear = key; tbView = 'cover'; tbCoverSettingsOpen = true;
   tbRender();
 }
 async function tbNewBookAsk(){
   const d = t();
+  // 30.10.2026: first the kind of book – guided (a few fixed questions each day) or free pages
+  const kind = await uiDialog(d.diaryNewBook + '\n\n' + d.diaryKindText, { okText:d.diaryGuided, altText:d.diaryFree, confirm:true });
+  if(kind !== true && kind !== 'alt') return;
+  const k = kind === true ? 'guided' : 'free';
   const phone = Math.min(window.innerWidth, window.innerHeight) < 600;
   const choice = await uiDialog(d.diaryNewBook + '\n\n' + d.diaryNewBookText + (phone ? '\n\n' + d.diaryLandPhone : ''), { okText:d.diaryPortrait, altText:d.diaryLandscape, confirm:true });
-  if(choice === true) return tbNewBook('portrait');
+  if(choice === true) return tbNewBook('portrait', k);
   if(choice !== 'alt') return;
   // on a phone landscape pages get very small: ask once more, clearly (since 1.87.1)
   if(phone){
     const sure = await uiDialog(d.diaryLandPhoneWarn, { okText:d.diaryPortrait, altText:d.diaryLandKeep, confirm:true });
-    if(sure === true) return tbNewBook('portrait');
+    if(sure === true) return tbNewBook('portrait', k);
     if(sure !== 'alt') return;
   }
-  tbNewBook('landscape');
+  tbNewBook('landscape', k);
 }
 function tbEnsureYear(year){
   if(!state.tagebuch.jahre[year]){
@@ -7083,6 +7141,7 @@ function tbEnsureYear(year){
     saveState();
   }
   if(!diary.defaultPageType) diary.defaultPageType = 'blank';
+  if(diary.defaultPageType === 'day') diary.defaultPageType = diary.kind === 'guided' ? 'guided' : 'blank'; // the old day page is gone (30.10.2026)
   return diary;
 }
 let tbEditMode = true; // true = single-page write/edit view; false = read-only two-page book view
@@ -8046,7 +8105,10 @@ function tbCoverSettingsHtml(){
   const mats = TB_MATERIALS.map(m=>`<button class="tb-chip-btn${c.material===m?' active':''}" onclick="tbSetCoverMaterial('${m}')">${d['diaryMat'+m.charAt(0).toUpperCase()+m.slice(1)]}</button>`).join('');
   const fonts = `<button class="tb-chip-btn${c.titleFont!=='hand'?' active':''}" onclick="tbSetCoverFont('print')">${d.diaryFontPrint}</button>
     <button class="tb-chip-btn${c.titleFont==='hand'?' active':''}" onclick="tbSetCoverFont('hand')">${d.diaryFontHand}</button>`;
-  const typeChips = TB_STYLE_ORDER.concat('areas', 'day').map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
+  const guided = diary.kind === 'guided';
+  const kindChips = [['guided', d.diaryGuided], ['free', d.diaryFree]].map(([k, l])=>`<button class="tb-chip-btn${(guided ? 'guided' : 'free') === k ? ' active' : ''}" onclick="tbSetKind('${k}')">${l}</button>`).join('');
+  const whenChips = [['morning', d.guidedMorning], ['evening', d.guidedEvening], ['both', d.guidedBoth]].map(([k, l])=>`<button class="tb-chip-btn${(diary.guided || 'both') === k ? ' active' : ''}" onclick="tbSetGuided('${k}')">${l}</button>`).join('');
+  const typeChips = TB_STYLE_ORDER.concat('areas').map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
   return `<div class="tb-tools-backdrop" onclick="tbCoverSettingsOpen=false; tbRender();"></div>
     <div class="tb-cover-pop" role="dialog">
       <div class="tb-cover-pop-head"><span><img class="gold-gear" src="img/icons/ico-gear.webp" alt="">${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
@@ -8055,8 +8117,10 @@ function tbCoverSettingsHtml(){
       <div class="tb-cover-choices">${TB_COVERS.map(n=>`<button class="tb-cover-choice${tbCoverName(diary) === n ? ' active' : ''}" onclick="tbSetCover('${n}')" aria-label="${n}"><img src="${coverThumb(n)}" alt=""></button>`).join('')}</div>
       <span class="tb-row-label">${d.diaryFont}</span>
       <div class="tb-chip-row">${fonts}</div>
-      <span class="tb-row-label">${d.diaryDefaultType}</span>
-      <div class="tb-chip-row">${typeChips}</div>
+      <span class="tb-row-label">${d.diaryKind}</span>
+      <div class="tb-chip-row">${kindChips}</div>
+      <span class="tb-row-label">${guided ? d.guidedWhen : d.diaryDefaultType}</span>
+      <div class="tb-chip-row">${guided ? whenChips : typeChips}</div>
       <button class="primary-btn tb-start-btn" onclick="tbCoverSettingsOpen=false; tbOpenFirstPage();">${ico('pencil')}${d.diaryStartWriting}</button>
       ${state.tagebuch.jahre[tbYear] ? `<button class="tb-del-book" onclick="tbDeleteBook('${tbYear}')">${ico('trash')}${d.diaryDeleteBook}</button>` : ''}
     </div>`;
@@ -8278,7 +8342,7 @@ function tbRenderPageSlot(idx){
       <span class="tb-conflict-btns"><button class="ghost-btn" onclick="tbConflictKeep(${idx})">${d.tbConflictKeep}</button><button class="ghost-btn" onclick="tbDeletePage(${idx})">${d.tbConflictDrop}</button></span></div>` : '';
   const inactive = (tbMode!=='text'||!tbEditMode) ? 'inactive' : '';
   const pageDate = ()=>{ const m = /^p(\d{12,13})/.exec(page.id || ''); return new Date(m ? +m[1] : Date.now()).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' }); };
-  const textPart = page.habitWeek ? habitPageHtml(page, idx) : page.collage
+  const textPart = page.guided ? guidedPageHtml(page, idx, inactive) : page.cards ? cardsPageHtml(page) : page.habitWeek ? habitPageHtml(page, idx) : page.collage
     ? `<div class="tb-collage"><div class="tb-collage-head">${escapeHtml(d.collageTitle)}</div><div class="tb-collage-grid">${page.collage.map(c=>`<div class="tb-collage-cell"><div class="tb-collage-pic"><img class="tb-page-img is-sticker${tbIsTrophyImg(c.src) ? ' is-trophy' : ''}${tbIsRlTrophyImg(c.src) ? ' is-trophy is-trophy-rl' : ''}" src="${c.src}" alt=""></div><div class="tb-collage-title">${escapeHtml(c.title || '')}</div><div class="tb-collage-date">${c.at > 1 ? new Date(c.at).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { day:'2-digit', month:'2-digit', year:'numeric' }) : ''}</div></div>`).join('')}</div></div>`
     : page.tages
     ? `<div class="tb-day ${inactive}"><div class="tb-day-date">${escapeHtml(pageDate())}</div>
@@ -8332,9 +8396,9 @@ function tbPageNavHtml(){
 let tbToolsOpen = false, tbToolsSub = ''; // tbToolsSub: which row is folded open ('font' | 'new' | 'style')
 const TB_TOOLS = [['text','pencil','diaryWrite'], ['draw','pen','diaryDraw'], ['eraseFree','eraser','diaryEraseFree'], ['eraseObj','objErase','diaryEraseObj']];
 const TB_STYLE_ORDER = ['blank','lined','grid','dotted'];
-function tbTypeLabel(pt){ return pt === 'areas' ? t().diaryAreasPage : pt === 'day' ? t().diaryDayPage : t()['diaryPage' + pt.charAt(0).toUpperCase() + pt.slice(1)]; }
+function tbTypeLabel(pt){ return pt === 'areas' ? t().diaryAreasPage : pt === 'guided' ? t().diaryGuidedPage : pt === 'day' ? t().diaryDayPage : t()['diaryPage' + pt.charAt(0).toUpperCase() + pt.slice(1)]; }
 // the page type for text that continues on a new page ("Lebensbereiche" as default only applies to pages you add yourself)
-function tbTextType(diary){ return diary.defaultPageType && diary.defaultPageType !== 'areas' && diary.defaultPageType !== 'day' ? diary.defaultPageType : 'blank'; }
+function tbTextType(diary){ return TB_STYLE_ORDER.includes(diary.defaultPageType) ? diary.defaultPageType : diary.kind === 'guided' ? 'lined' : 'blank'; }
 function tbToolsHtml(){
   const d = t();
   const page = tbEnsureYear(tbYear).seiten[tbPageIdx] || {};
@@ -8358,7 +8422,7 @@ function tbToolsHtml(){
       <button class="tb-tools-item ${tbToolsSub==='new'?'active':''}" onclick="tbToolsFold('new')">${ico('plus')}${d.diaryNewPage}${chev('new')}</button>
       ${subRow('new', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('${pt}')">${tbTypeLabel(pt)}</button>`).join('')
         + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), true)">${d.diaryAreasPage}</button>`
-        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), false, true)">${d.diaryDayPage}</button>`)}
+        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('guided')">${d.diaryGuidedPage}</button>`)}
       <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbRender();habitOpen()">${ico('check')}${d.habitTitle}</button>
       ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='sticker'?'active':''}" onclick="tbToolsFold('sticker')">${ico('image')}${d.diaryStickers}${chev('sticker')}</button>
       <label class="tb-tools-item" style="cursor:pointer;">${ico('image')}${d.diaryAddImage}<input type="file" accept="image/*" id="tb-img-input-menu" style="display:none;"></label>
@@ -8406,7 +8470,8 @@ function tbCyclePageType(idx){
 function tbAddPage(type, areas, day){
   const diary = tbEnsureYear(tbYear);
   if(type === 'areas'){ type = 'blank'; areas = true; } // "Lebensbereiche" chosen as the default page
-  if(type === 'day'){ type = 'blank'; day = true; } // 1.99.2: the day page chosen as the default page
+  if(type === 'day') type = 'guided'; // the old day page became the guided page (30.10.2026)
+  if(type === 'guided'){ diary.seiten.push(tbGuidedPage(diary)); tbPageIdx = diary.seiten.length - 1; saveState(); tbRender(); return; }
   const pg = { id:'p'+Date.now(), type, text:'', strokes:[], images:[] };
   if(areas) pg.bereiche = {}; // a page with the five areas as small headings, each with its own text
   if(day) pg.tages = {}; // the day page: grateful, focus, a small step, what was good, what I learned, mood
@@ -8414,6 +8479,50 @@ function tbAddPage(type, areas, day){
   tbPageIdx = diary.seiten.length-1;
   saveState();
   tbRender();
+}
+/* 30.10.2026 (wish of the user): a book is either guided – each day a page with a few fixed questions, in the morning, in the
+   evening or both – or free (pages with lines, dots, grid or blank). Free pages can be added to a guided book at any time.
+   Trophies, cards and habits always go onto pages of their own. */
+const GUIDED_DANK = ['dank0', 'dank1', 'dank2'];
+const GUIDED_KEYS = GUIDED_DANK.concat('ziel0', 'ziel1', 'ziel2', 'satz', 'mom0', 'mom1', 'mom2', 'besser');
+function tbGuidedPage(diary, date){ return { id:'p' + Date.now(), type:'blank', text:'', strokes:[], images:[], guided:{ date:date || dayKey(new Date()), mode:diary.guided || 'both' } }; }
+const tbPlainEmpty = p=>!!p && p.type !== 'titel' && !p.bereiche && !p.tages && !p.collage && !p.habitWeek && !p.guided && !p.cards && !(p.text && p.text.trim()) && !(p.images && p.images.length) && !(p.strokes && p.strokes.length);
+const tbGuidedEmpty = p=>!!p && !!p.guided && !GUIDED_KEYS.some(k=>(p.guided[k] || '').trim()) && !(p.images && p.images.length) && !(p.strokes && p.strokes.length);
+// switches a book between guided and free; an empty last page turns into the other kind, written pages stay as they are
+function tbApplyKind(diary, kind){
+  const i = diary.seiten.length - 1, last = diary.seiten[i];
+  diary.kind = kind;
+  if(kind === 'guided'){
+    diary.guided = diary.guided || 'both';
+    diary.defaultPageType = 'guided';
+    if(tbPlainEmpty(last)) diary.seiten[i] = Object.assign(tbGuidedPage(diary), { id:last.id });
+  } else {
+    if(diary.defaultPageType === 'guided') diary.defaultPageType = 'blank';
+    if(tbGuidedEmpty(last)) diary.seiten[i] = { id:last.id, type:'blank', text:'', strokes:[], images:[] };
+  }
+}
+function tbSetKind(kind){ tbApplyKind(tbEnsureYear(tbYear), kind); saveState(); tbRender(); }
+function tbSetGuided(mode){
+  const diary = tbEnsureYear(tbYear);
+  diary.guided = mode;
+  diary.seiten.forEach(p=>{ if(tbGuidedEmpty(p)) p.guided.mode = mode; }); // pages still empty follow the new choice
+  saveState(); tbRender();
+}
+const G_SUN = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>';
+const G_MOON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1z"/></svg>';
+function guidedPageHtml(page, idx, inactive){
+  const d = t(), g = page.guided, mode = g.mode || 'both', ro = tbEditMode ? '' : 'readonly', hand = page.font === 'hand' ? ' font-hand' : '';
+  const [y, m, dd] = (g.date || dayKey(new Date())).split('-').map(Number);
+  const date = new Date(y, m - 1, dd).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  const lines = (base, label)=>`<div class="tb-g-block"><div class="tb-g-head">${escapeHtml(label)}</div>${[0, 1, 2].map(i=>`<div class="tb-g-row"><span class="tb-g-no">${i + 1}.</span><input class="tb-g-in tb-g-line${hand}" data-page-idx="${idx}" data-k="${base + i}" maxlength="90" value="${escapeHtml(g[base + i] || '')}" ${ro}></div>`).join('')}</div>`;
+  const box = (k, label)=>`<div class="tb-g-block tb-g-boxblock"><div class="tb-g-head">${escapeHtml(label)}</div><textarea class="tb-g-in tb-g-box${hand}" data-page-idx="${idx}" data-k="${k}" ${ro}>${escapeHtml(g[k] || '')}</textarea></div>`;
+  const morning = mode !== 'evening' ? `<div class="tb-g-part"><div class="tb-g-part-h">${G_SUN}${escapeHtml(d.guidedMorning)}</div>${lines('dank', d.g_dank)}${lines('ziel', d.g_ziel)}${box('satz', d.g_satz)}</div>` : '';
+  const evening = mode !== 'morning' ? `<div class="tb-g-part"><div class="tb-g-part-h">${G_MOON}${escapeHtml(d.guidedEvening)}</div>${lines('mom', d.g_mom)}${box('besser', d.g_besser)}</div>` : '';
+  return `<div class="tb-guided ${inactive} mode-${mode}"><div class="tb-day-date">${escapeHtml(date)}</div><div class="tb-g-parts">${morning}${evening}</div></div>`;
+}
+function cardsPageHtml(page){
+  const d = t(), lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB';
+  return `<div class="tb-collage tb-cards"><div class="tb-collage-head">${escapeHtml(d.cardsTitle)}</div><div class="tb-cards-grid">${page.cards.map(c=>`<div class="tb-collage-cell"><div class="tb-collage-pic"><img class="tb-page-img is-sticker" src="${c.src}" alt=""></div><div class="tb-collage-date">${new Date(c.at || Date.now()).toLocaleDateString(lang, { day:'2-digit', month:'2-digit', year:'numeric' })}</div></div>`).join('')}</div></div>`;
 }
 /* Stickers: the pictures of the mindfulness exercises (and more later), to put on a diary page; they move, resize and delete
    like photos. The two folded hearts are the stickers' heart – the new paper heart belongs to the gratitude exercise. */
@@ -8440,7 +8549,7 @@ async function wheelToDiary(){
   const d = t(), en = state.settings.lang === 'en', year = tbLatestBook(new Date().getFullYear());
   const prevYear = tbYear; tbYear = year; const diary = tbEnsureYear(year); tbYear = prevYear;
   let page = diary.seiten[diary.seiten.length - 1];
-  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || p.habitWeek || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
+  const busy = p=>!p || p.type === 'titel' || p.bereiche || p.tages || p.collage || p.habitWeek || p.guided || p.cards || (p.text && p.text.trim()) || (p.images && p.images.length) || (p.strokes && p.strokes.length);
   if(busy(page)){ page = { id:'p' + Date.now(), type:tbTextType(diary), text:'', strokes:[], images:[] }; diary.seiten.push(page); }
   page.images = page.images || [];
   page.images.push({ src:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(wheelPictureSvg()), xPct:14, yPct:4, wPct:72 });
@@ -8603,6 +8712,19 @@ function tbBindSlot(idx){
       el.__last = el.value;
       page.bereiche = page.bereiche || {};
       page.bereiche[el.dataset.area] = el.value;
+      clearTimeout(tbTextSaveTimer);
+      tbTextSaveTimer = setTimeout(saveState, 500);
+    });
+  });
+
+  // 30.10.2026: the guided page – lines and two small fields; a field takes nothing more once it is full
+  document.querySelectorAll(`.tb-g-in[data-page-idx="${idx}"]`).forEach(el=>{
+    el.__last = el.value;
+    el.addEventListener('input', ()=>{
+      if(el.tagName === 'TEXTAREA' && el.scrollHeight > el.clientHeight + 1){ const pos = Math.min(el.selectionStart, el.__last.length); el.value = el.__last; try{ el.setSelectionRange(pos, pos); }catch(e){} return; }
+      el.__last = el.value;
+      page.guided = page.guided || {};
+      page.guided[el.dataset.k] = el.value;
       clearTimeout(tbTextSaveTimer);
       tbTextSaveTimer = setTimeout(saveState, 500);
     });
