@@ -739,6 +739,9 @@ html.theme-retreat .tb-page.tb-paper-plain:not(.type-titel){ --pp-bg:#f8eddd; --
 .tb-page.tb-paper-plain:not(.type-titel)::before, .tb-page.tb-paper-plain:not(.type-titel)::after{ content:''; position:absolute; pointer-events:none; box-sizing:border-box; }
 .tb-page.tb-paper-plain:not(.type-titel)::before{ inset:calc(20px * var(--tbk)); border:max(1px, calc(var(--pp-ow) * var(--tbk))) solid var(--pp-o); }
 .tb-page.tb-paper-plain:not(.type-titel)::after{ inset:calc(25.5px * var(--tbk)); border:max(1px, calc(var(--pp-iw) * var(--tbk))) solid var(--pp-i); }
+/* 1.11.2026 (wish of the user): the pictures of the app are not to be saved or copied – no "save image" on a long press (iPhone/iPad),
+   no dragging out, no selecting. A screenshot can never be prevented. The context menu is blocked in JS (imgGuard). */
+img, svg, canvas{ -webkit-touch-callout:none; -webkit-user-drag:none; user-drag:none; -webkit-user-select:none; user-select:none; }
 .tb-page:not(.type-titel) .tb-page-text{ padding:calc(var(--pt) + 24px * var(--tbk)) calc(var(--ps) + 4px * var(--tbk)) var(--pb); }
 .tb-page:not(.type-titel) .tb-page-text.font-hand{ padding-top:calc(var(--pt) + 19.5px * var(--tbk)); }
 .tb-page:not(.type-titel) :is(.tb-areas, .tb-day, .tb-collage, .tb-guided){ inset:calc(var(--pt) - 28px * var(--tbk)) calc(var(--ps) - 16px * var(--tbk)) calc(var(--pb) - 28px * var(--tbk)); }
@@ -2327,7 +2330,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.2.0';
+const APP_VERSION = '2.2.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2385,7 +2388,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-10-31';
+const APP_BUILD = '2026-11-01';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -6078,6 +6081,12 @@ function renderWheelHistory(){
     .map(x=>cardHtml(x.s,x.idx)).join('');
 }
 document.getElementById('export-btn').onclick = exportBackup;
+// 1.11.2026: no "save image" / "copy image" menu and no dragging pictures out (writing fields keep their normal menu)
+(function imgGuard(){
+  const pic = e=>e.target && e.target.closest && !e.target.closest('textarea, input, [contenteditable]') && (e.target.closest('img, svg, canvas, .lib-row, .tb-page, .shelf-unit') || getComputedStyle(e.target).backgroundImage !== 'none');
+  document.addEventListener('contextmenu', e=>{ if(pic(e)) e.preventDefault(); }, true);
+  document.addEventListener('dragstart', e=>{ if(e.target && e.target.closest && e.target.closest('img, svg, canvas')) e.preventDefault(); }, true);
+})();
 document.getElementById('import-file-input').addEventListener('change', ()=>closeModal('settings-modal')); // the import shows its own dialogs
 document.getElementById('import-file-input').addEventListener('change', e=>{
   const file = e.target.files && e.target.files[0];

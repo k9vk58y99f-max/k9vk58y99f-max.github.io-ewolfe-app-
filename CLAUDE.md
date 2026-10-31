@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -752,6 +752,10 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     Backup zeigt den Speicher und was ihn belegt (`renderSettingsStorage`).
   - Test: `t220.py` (Chromium + WebKit, alle drei Designs, über `python3 -m http.server`, nicht file://) im Scratchpad.
   - **Offen:** Designs trennen (Vorschlag: jedes Buch merkt sich das Design, in dem es angelegt wurde, und behält Cover/Papier) – Entscheidung des Nutzers steht aus.
+- **2.2.1 (1.11.2026) Bilder nicht kopierbar (Wunsch des Nutzers):** `img, svg, canvas` mit `-webkit-touch-callout:none` (kein „Bild sichern“ bei langem
+  Druck auf iPhone/iPad), `user-drag`/`user-select:none`; `imgGuard` blockt das Kontextmenü auf Bildern, Bibliothek (`.lib-row`, `.shelf-unit`),
+  Tagebuchseiten und Flächen mit Hintergrundbild sowie das Herausziehen (`dragstart`). Schreibfelder behalten ihr Menü. Bildschirmfotos und
+  Entwicklerwerkzeuge lassen sich nicht verhindern. Test: `t221.py` im Scratchpad.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
