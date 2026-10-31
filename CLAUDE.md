@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.1.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -728,6 +728,30 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   page lies on the paper“: Ränder `--pt/--pb/--ps` als ganze 28-px-Zeilen (hoch 84/112/48, quer 84/84/64 × `--tbk`), Linien/Karo/Punkte nur im Schreibbereich
   (`--pat` mit `background-clip:content-box`, Ursprung bleibt die Seite, damit Text und Linien im Takt bleiben). Bestehende Seiten haben dadurch weniger Platz
   (Wunsch des Nutzers: in der Beta egal).
+- **2.2.0 (31.10.2026) Tagebuch-Korrekturen (Wünsche des Nutzers):**
+  - **Eine geführte Seite pro Tag** (`tbGuidedToday`): Weiterblättern beim Schreiben legt danach eine freie Seite an (`tbTextType`, liniert);
+    „Neue Seite → Geführte Seite“ springt zur heutigen, mit Hinweis `guidedOnePerDay`.
+  - **Seitenmuster nur auf normalen Seiten:** Seiten mit eigenem Aufbau (`tbOwnLayout`: geführt, Karten, Trophäen-Collage, Gewohnheiten-Woche,
+    alte Tagesseite) bekommen nie Linien/Karo/Punkte (Klasse `type-blank`, Menü „Seitenansicht“ ausgeblendet, `tbSetPageType` ignoriert sie).
+  - **Umbruch:** `tbFitsOffline` misst ohne unteren Rand (`padding-bottom` 0, Höhe bis `--pb`). Safari zählt den unteren Innenabstand nicht in
+    `scrollHeight` – mit dem breiten Papierrand (2.1.0) brach der Text erst mehrere Zeilen unter dem Rahmen um. `tbHandleOverflow` prüft jetzt
+    genauso (nicht mehr am echten Feld). Hochformat: 18 Zeilen je Seite. Außerdem nahm `tbSplitForFitOffline` das letzte Wort mit, wenn der
+    Schnitt genau an einem Zeilenende lag (behoben).
+  - **Schlichtes Papier** je Buch (`diary.paper` = `plain` | `fancy`, Einstellungen „Papier: Verziert / Schlicht“, `tbSetPaper`, synchronisiert wie
+    `kind`): Papierfarbe glatt, zwei Linien des Design-Rahmens ohne Ornamente, per CSS gezeichnet (`.tb-paper-plain` `::before`/`::after`,
+    `--pp-*` je Design, Lage/Farben aus den Papierbildern gemessen). Regel mit `html:root`, sonst gewinnen die Papierregeln der Designs.
+  - **A Lady's Conservatory:** die Lady-Regel für Eingabefelder (weiß, `!important`) gilt nicht mehr im Tagebuch (`:not(.tb-page *)`) – sie
+    verdeckte seit 2.1.0 Papier und Linien jeder freien Seite.
+  - **Gewohnheiten-Woche im Tagebuch ohne Klemmbrett** (`habitPageHtml`): Tabelle auf dem Tagebuchpapier (`.tb-habitweek`, `.tb-hw-*`): Täglich
+    mit 7 Kästchen, Wöchentlich mit einem breiten Kästchen, weiter abhakbar (`tb-habit-cell`). Das Klemmbrett-Bild bleibt im Regal-Werkzeug.
+  - **Woche beginnt am Sonntag** (`weekStart`; die Parameter heißen weiter `mondayKey` = erster Tag der Woche). KW-Nummer = die des Montags
+    (`isoWeek(days[1])`). Alte Wochenseiten (Montag-Schlüssel) zeigen weiter Mo–So.
+  - **Speicher:** Impulskarten im Tagebuch (`cardDataUrl`, 480 px breit): Safari kann kein WebP schreiben und lieferte statt dessen ein PNG von
+    1,1–1,6 MB je Karte – wenige Karten füllten den ganzen Speicher („Tagebuch voll“). Jetzt WebP bzw. in Safari JPEG auf der Papierfarbe
+    (`CARD_PAPER`), ca. 70–150 KB. Alte große Karten verkleinert `shrinkStoredImages` beim Start (`shrinkCardUrl`, ab 120 KB). Einstellungen →
+    Backup zeigt den Speicher und was ihn belegt (`renderSettingsStorage`).
+  - Test: `t220.py` (Chromium + WebKit, alle drei Designs, über `python3 -m http.server`, nicht file://) im Scratchpad.
+  - **Offen:** Designs trennen (Vorschlag: jedes Buch merkt sich das Design, in dem es angelegt wurde, und behält Cover/Papier) – Entscheidung des Nutzers steht aus.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

@@ -696,6 +696,28 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-collage-pic .tb-page-img.is-trophy{ max-width:70%; }
 .tb-collage-title{ font-family:'Marcellus', serif; font-size:calc(14px * var(--tbk)); margin-top:calc(6px * var(--tbk)); line-height:1.25; }
 .tb-collage-date{ font-size:calc(12px * var(--tbk)); color:#6b6152; }
+/* 31.10.2026: the habit week in the diary – only the table on the paper, no clipboard */
+.tb-habitweek{ z-index:2; --hw-c:#8a5a00; --hw-line:rgba(138,90,0,0.28); }
+html.theme-biz .tb-habitweek{ --hw-c:#8a6035; --hw-line:rgba(138,96,53,0.3); }
+html.theme-retreat .tb-habitweek{ --hw-c:#7A0B25; --hw-line:rgba(58,74,38,0.3); }
+.tb-hw-week{ text-align:center; font-size:calc(13px * var(--tbk)); color:#6b6152; margin:calc(-4px * var(--tbk)) 0 calc(10px * var(--tbk)); }
+.tb-hw-grid{ display:flex; flex-direction:column; }
+.tb-hw-row{ display:grid; grid-template-columns:1fr repeat(7, calc(34px * var(--tbk))); align-items:center; min-height:calc(36px * var(--tbk)); border-bottom:1px solid var(--hw-line); }
+.tb-hw-row.tb-hw-days{ border-bottom-color:var(--hw-c); min-height:calc(40px * var(--tbk)); align-items:end; padding-bottom:calc(4px * var(--tbk)); }
+.tb-hw-row.tb-hw-days:not(:first-child){ margin-top:calc(14px * var(--tbk)); }
+.tb-hw-sub{ font-family:'Marcellus', serif; font-size:calc(14px * var(--tbk)); color:var(--hw-c); }
+.tb-hw-day{ text-align:center; font-size:calc(12px * var(--tbk)); color:#4a4033; line-height:1.15; }
+.tb-hw-day small{ display:block; font-size:calc(10.5px * var(--tbk)); color:#7d7262; }
+.tb-hw-day.today{ color:var(--hw-c); font-weight:700; }
+.tb-hw-name{ display:flex; align-items:center; gap:calc(6px * var(--tbk)); min-width:0; font-family:'Caveat', cursive; font-size:calc(19px * var(--tbk)); line-height:1.1; }
+.tb-hw-name span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.tb-hw-name .area-ico{ width:calc(16px * var(--tbk)); height:calc(16px * var(--tbk)); flex:none; margin:0; }
+.tb-hw-box{ pointer-events:auto; justify-self:center; width:calc(22px * var(--tbk)); height:calc(22px * var(--tbk)); padding:0; border:max(1px, calc(1.4px * var(--tbk))) solid var(--hw-c); border-radius:calc(4px * var(--tbk)); background:rgba(255,255,255,0.45); cursor:pointer; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent; }
+.tb-hw-box.today{ box-shadow:0 0 0 calc(2px * var(--tbk)) var(--hw-line); }
+.tb-hw-box:disabled{ opacity:0.4; cursor:default; }
+.tb-hw-box svg{ width:88%; height:88%; fill:none; stroke:#2f8f62; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+.tb-hw-box.tb-hw-wide{ grid-column:2 / span 7; justify-self:stretch; width:auto; margin:0 calc(6px * var(--tbk)); }
+.tb-hw-box.tb-hw-wide svg{ width:calc(20px * var(--tbk)); }
 html.theme-biz .tb-day-date, html.theme-biz .tb-collage-head{ color:#ab8b54; border-color:#ab8b54; }
 html.theme-biz .tb-day-head{ color:#5d6f5a; }
 html.theme-retreat .tb-day-date, html.theme-retreat .tb-collage-head{ color:var(--rt-burgundy, #7A0B25); border-color:var(--gold); }
@@ -709,6 +731,14 @@ html.theme-retreat .tb-day-head{ color:var(--rt-sage-d); }
 .tb-page.tb-land-page:not(.type-titel){ --pt:calc(84px * var(--tbk)); --pb:calc(84px * var(--tbk)); --ps:calc(64px * var(--tbk)); --paper:url(img/mw2/paper-l.webp); }
 html.theme-biz .tb-page:not(.type-titel){ --paper:url(img/rl2/paper-p.webp); } html.theme-biz .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rl2/paper-l.webp); }
 html.theme-retreat .tb-page:not(.type-titel){ --paper:url(img/rt2/paper-p.webp); } html.theme-retreat .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rt2/paper-l.webp); }
+/* 31.10.2026 (wish of the user): plain paper as a choice per book – the two lines of the design's frame without the ornaments,
+   drawn instead of a picture so they stay sharp. Places, widths and colours measured in the paper pictures (mw2/rl2/rt2). */
+html:root .tb-page.tb-paper-plain:not(.type-titel){ --pp-bg:#faeed2; --pp-o:#a06c22; --pp-i:#a8771f; --pp-ow:1.8px; --pp-iw:1.4px; --paper:linear-gradient(var(--pp-bg), var(--pp-bg)); background-color:var(--pp-bg); }
+html.theme-biz .tb-page.tb-paper-plain:not(.type-titel){ --pp-bg:#fbf0db; --pp-o:#8a6035; --pp-i:#5e3a12; --pp-ow:1.5px; --pp-iw:1px; }
+html.theme-retreat .tb-page.tb-paper-plain:not(.type-titel){ --pp-bg:#f8eddd; --pp-o:#3a4a26; --pp-i:#b8954e; --pp-ow:1.5px; --pp-iw:1.1px; }
+.tb-page.tb-paper-plain:not(.type-titel)::before, .tb-page.tb-paper-plain:not(.type-titel)::after{ content:''; position:absolute; pointer-events:none; box-sizing:border-box; }
+.tb-page.tb-paper-plain:not(.type-titel)::before{ inset:calc(20px * var(--tbk)); border:max(1px, calc(var(--pp-ow) * var(--tbk))) solid var(--pp-o); }
+.tb-page.tb-paper-plain:not(.type-titel)::after{ inset:calc(25.5px * var(--tbk)); border:max(1px, calc(var(--pp-iw) * var(--tbk))) solid var(--pp-i); }
 .tb-page:not(.type-titel) .tb-page-text{ padding:calc(var(--pt) + 24px * var(--tbk)) calc(var(--ps) + 4px * var(--tbk)) var(--pb); }
 .tb-page:not(.type-titel) .tb-page-text.font-hand{ padding-top:calc(var(--pt) + 19.5px * var(--tbk)); }
 .tb-page:not(.type-titel) :is(.tb-areas, .tb-day, .tb-collage, .tb-guided){ inset:calc(var(--pt) - 28px * var(--tbk)) calc(var(--ps) - 16px * var(--tbk)) calc(var(--pb) - 28px * var(--tbk)); }
@@ -1635,7 +1665,8 @@ html.theme-retreat .design-btn{ border-radius:14px !important; }
 html.theme-retreat .panel{ background:var(--rt-card); border:none; border-radius:14px; box-shadow:0 2px 10px rgba(90,80,60,0.06); }
 html.theme-retreat .modal{ background:#f8f1e5; color:var(--ew-text); }
 html.theme-retreat .modal-backdrop:not(.page-modal){ background:rgba(41,39,35,0.35); }
-html.theme-retreat input:not([type=range]):not([type=checkbox]):not([type=radio]), html.theme-retreat textarea, html.theme-retreat select{
+/* 31.10.2026: not on diary pages – there the white field hid the paper and the lines of every free page */
+html.theme-retreat input:not([type=range]):not([type=checkbox]):not([type=radio]):not(.tb-page *), html.theme-retreat textarea:not(.tb-page *), html.theme-retreat select{
   background:#fffdf8 !important; color:var(--ew-text) !important; border:1px solid rgba(41,39,35,0.275) !important; }
 html.theme-retreat ::placeholder{ color:#90877a; }
 /* sliders: the now in dark sage, the wish in sand */
@@ -1925,6 +1956,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
       <div class="settings-head" id="t-set-backup">Backup</div>
       <button class="ghost-btn settings-row" id="export-btn">⬇ <span id="t-export-label">Backup herunterladen</span></button>
       <label class="ghost-btn settings-row" id="import-btn" title="Backup wiederherstellen" style="cursor:pointer;position:relative;overflow:hidden;">⬆ <span id="t-import-label">Backup wiederherstellen</span><input type="file" id="import-file-input" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;"></label>
+      <div id="settings-storage" class="settings-note"></div>
     </div>
     <div class="settings-section">
       <div class="settings-head" id="t-set-privacy">Datenschutz</div>
@@ -2295,7 +2327,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.1.0';
+const APP_VERSION = '2.2.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2353,7 +2385,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-10-30';
+const APP_BUILD = '2026-10-31';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -4005,7 +4037,28 @@ async function impulseCardImage(c){
   g.fillStyle = BIZ ? '#2a2318' : '#ffffff'; g.textAlign = 'center';
   lines.forEach((l, i)=>g.fillText(l, W / 2, top + i * lh));
   if(by){ g.font = BIZ ? `400 ${fs * 0.72}px 'Noto Serif Display', Georgia, serif` : `italic 400 ${fs * 0.82}px Inter, -apple-system, Helvetica, Arial, sans-serif`; g.fillStyle = BIZ ? '#ab8b54' : '#e8c27a'; g.fillText('– ' + by, W / 2, top + lines.length * lh + lh * 0.2); }
-  return cv.toDataURL('image/webp', 0.85);
+  return cardDataUrl(cv, W, H);
+}
+/* 31.10.2026: a card in the diary is stored small (480 px wide; shown at most half a page wide). Safari cannot write WebP and
+   handed back a full-size PNG of over 1 MB instead – a few cards filled the whole storage. There: JPEG on the paper colour. */
+const CARD_PAPER = RETREAT ? '#f8eddd' : BIZ ? '#fbf0db' : '#faeed2';
+function cardDataUrl(src, w0, h0){
+  const k = Math.min(1, 480 / w0), c = document.createElement('canvas'); c.width = Math.round(w0 * k); c.height = Math.round(h0 * k);
+  const g = c.getContext('2d'); g.imageSmoothingQuality = 'high';
+  g.drawImage(src, 0, 0, c.width, c.height);
+  const webp = c.toDataURL('image/webp', 0.82);
+  if(webp.startsWith('data:image/webp')) return webp;
+  g.globalCompositeOperation = 'destination-over'; g.fillStyle = CARD_PAPER; g.fillRect(0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', 0.8);
+}
+// cards stored by older versions (full size, on Safari as PNG) are made small once
+function shrinkCardUrl(src){
+  return new Promise(resolve=>{
+    const img = new Image();
+    img.onerror = ()=>resolve(src);
+    img.onload = ()=>{ try{ const out = cardDataUrl(img, img.naturalWidth, img.naturalHeight); resolve(out && out.length < src.length ? out : src); }catch(e){ resolve(src); } };
+    img.src = src;
+  });
 }
 async function impulseToDiary(){
   const c = impulseCur; if(!c) return;
@@ -4442,6 +4495,11 @@ async function shrinkStoredImages(){
           jobs.push(async()=>{ const n = await shrinkDataUrl(im.src, 1400, 0.82); if(n.length < im.src.length){ im.src = n; changed = true; } });
         }
       }));
+      (y.seiten||[]).forEach(p=>(p.cards||[]).forEach(c=>{
+        if(c.src && c.src.length > 120*1024){
+          jobs.push(async()=>{ const n = await shrinkCardUrl(c.src); if(n.length < c.src.length){ c.src = n; changed = true; } });
+        }
+      }));
     });
     for(const j of jobs) await j();
   }catch(e){ console.error('eWolfe: shrinking stored images failed', e); }
@@ -4791,7 +4849,7 @@ function mergeBackupInto(cur, inc, mode){
   Object.entries((inc.tagebuch && inc.tagebuch.jahre) || {}).forEach(([year, iy])=>{
     const cy = out.tagebuch.jahre[year];
     if(!cy){ out.tagebuch.jahre[year] = copy(iy); added.pages += (iy.seiten||[]).filter(written).length; return; }
-    ['kind', 'guided'].forEach(k=>{ if(cy[k] === undefined && iy[k] !== undefined) cy[k] = iy[k]; }); // 30.10.2026: guided or free book
+    ['kind', 'guided', 'paper'].forEach(k=>{ if(cy[k] === undefined && iy[k] !== undefined) cy[k] = iy[k]; }); // 30.10.2026: guided or free book
     const idx = {}; cy.seiten.forEach((p,i)=>{ idx[p.id] = i; });
     (iy.seiten||[]).forEach(p=>{
       if(p.type==='titel') return;
@@ -4992,8 +5050,8 @@ Object.assign(I18N.de, {"impulseIntro": "Tippe auf die Karte und zieh dir einen 
 Object.assign(I18N.en, {"impulseIntro": "Tap the card and draw a thought for your day.", "impulseIntroAgain": "Tap the card to see it again. Swipe it aside to draw a new one.", "impulseSwipeHint": "Swipe aside for a new card", "impulseTapHint": "Tap to close"});
 Object.assign(I18N.de, {"diaryNewBook": "Neues Tagebuch starten", "diaryNewBookText": "In welchem Format möchtest du schreiben? Das gilt für das ganze Buch.", "diaryPortrait": "Hochformat", "diaryLandscape": "Querformat"});
 Object.assign(I18N.en, {"diaryNewBook": "Start a new diary", "diaryNewBookText": "Which format would you like to write in? It applies to the whole book.", "diaryPortrait": "Portrait", "diaryLandscape": "Landscape"});
-Object.assign(I18N.de, {"diaryKindText": "Was für ein Tagebuch möchtest du?\n\nGeführt: jeden Tag eine Seite mit ein paar festen Fragen – morgens, abends oder beides.\nLeer: freie Seiten mit Linien, Punkten, Karo oder ganz leer.\n\nFreie Seiten kannst du auch im geführten Tagebuch jederzeit einfügen.", "diaryGuided": "Geführtes Tagebuch", "diaryFree": "Leeres Tagebuch", "diaryKind": "Art des Tagebuchs", "guidedWhen": "Geführt", "guidedMorning": "Morgens", "guidedEvening": "Abends", "guidedBoth": "Beides", "diaryGuidedPage": "Geführte Seite", "g_dank": "Dafür bin ich dankbar", "g_ziel": "Das macht heute zu einem guten Tag", "g_satz": "Mein Satz für heute", "g_mom": "Drei schöne Momente heute", "g_besser": "Was ich morgen anders mache", "cardsTitle": "Meine Impulskarten"});
-Object.assign(I18N.en, {"diaryKindText": "What kind of diary would you like?\n\nGuided: each day a page with a few fixed questions – in the morning, in the evening or both.\nFree: pages with lines, dots, grid or blank.\n\nYou can add free pages to a guided diary at any time.", "diaryGuided": "Guided diary", "diaryFree": "Free diary", "diaryKind": "Kind of diary", "guidedWhen": "Guided", "guidedMorning": "Morning", "guidedEvening": "Evening", "guidedBoth": "Both", "diaryGuidedPage": "Guided page", "g_dank": "I am grateful for", "g_ziel": "This would make today a good day", "g_satz": "My sentence for today", "g_mom": "Three good moments today", "g_besser": "What I will do differently tomorrow", "cardsTitle": "My impulse cards"});
+Object.assign(I18N.de, {"diaryKindText": "Was für ein Tagebuch möchtest du?\n\nGeführt: jeden Tag eine Seite mit ein paar festen Fragen – morgens, abends oder beides.\nLeer: freie Seiten mit Linien, Punkten, Karo oder ganz leer.\n\nFreie Seiten kannst du auch im geführten Tagebuch jederzeit einfügen.", "diaryGuided": "Geführtes Tagebuch", "diaryFree": "Leeres Tagebuch", "diaryKind": "Art des Tagebuchs", "guidedWhen": "Geführt", "guidedMorning": "Morgens", "guidedEvening": "Abends", "guidedBoth": "Beides", "diaryGuidedPage": "Geführte Seite", "g_dank": "Dafür bin ich dankbar", "g_ziel": "Das macht heute zu einem guten Tag", "g_satz": "Mein Satz für heute", "g_mom": "Drei schöne Momente heute", "g_besser": "Was ich morgen anders mache", "cardsTitle": "Meine Impulskarten", "storageUse": "Speicher auf diesem Gerät: {mb} MB von etwa 5 MB ({p} %).", "storageParts": "Davon Fotos {photos} MB · Impulskarten {cards} MB · Zeichnungen {draw} MB · alles andere {rest} MB", "diaryPaper": "Papier","diaryPaperFancy": "Verziert", "diaryPaperPlain": "Schlicht", "guidedOnePerDay": "Für heute gibt es schon eine geführte Seite. Wenn du mehr schreiben möchtest, füge über „Neue Seite“ eine leere Seite ein."});
+Object.assign(I18N.en, {"diaryKindText": "What kind of diary would you like?\n\nGuided: each day a page with a few fixed questions – in the morning, in the evening or both.\nFree: pages with lines, dots, grid or blank.\n\nYou can add free pages to a guided diary at any time.", "diaryGuided": "Guided diary", "diaryFree": "Free diary", "diaryKind": "Kind of diary", "guidedWhen": "Guided", "guidedMorning": "Morning", "guidedEvening": "Evening", "guidedBoth": "Both", "diaryGuidedPage": "Guided page", "g_dank": "I am grateful for", "g_ziel": "This would make today a good day", "g_satz": "My sentence for today", "g_mom": "Three good moments today", "g_besser": "What I will do differently tomorrow", "cardsTitle": "My impulse cards", "storageUse": "Storage on this device: {mb} MB of about 5 MB ({p} %).", "storageParts": "Photos {photos} MB · impulse cards {cards} MB · drawings {draw} MB · everything else {rest} MB", "diaryPaper": "Paper","diaryPaperFancy": "Ornate", "diaryPaperPlain": "Plain", "guidedOnePerDay": "There is already a guided page for today. To write more, add a blank page via “New page”."});
 Object.assign(I18N.de, {"habitDaily": "Täglich", "habitWeekly": "Wöchentlich", "habitStreakW": "{n} Wochen am Stück", "habitWeekFull": "Du hast schon 3 wöchentliche Gewohnheiten. Lösche eine, um eine neue anzulegen.", "habitDayFull": "Du hast schon 8 tägliche Gewohnheiten. Lösche eine, um eine neue anzulegen.", "habitPraiseW4": "Schön! 4 Wochen am Stück: „{h}“ gehört jetzt zu deiner Woche.", "habitPraiseW8": "Großartig! 8 Wochen am Stück: „{h}“ ist fest in deinem Leben angekommen.", "habitPraiseW12": "Wunderbar! 12 Wochen am Stück – ein ganzes Vierteljahr „{h}“. Darauf kannst du stolz sein!"});
 Object.assign(I18N.en, {"habitDaily": "Daily", "habitWeekly": "Weekly", "habitStreakW": "{n} weeks in a row", "habitWeekFull": "You already have 3 weekly habits. Delete one to add a new one.", "habitDayFull": "You already have 8 daily habits. Delete one to add a new one.", "habitPraiseW4": "Lovely! 4 weeks in a row: “{h}” is now part of your week.", "habitPraiseW8": "Great! 8 weeks in a row: “{h}” has truly arrived in your life.", "habitPraiseW12": "Wonderful! 12 weeks in a row – a whole quarter of “{h}”. You can be proud of that!"});
 Object.assign(I18N.de, {"shelfHint": "Tippe auf ein Buch, um es aus dem Regal zu nehmen.", "trophyNone": "Hier stehen bald deine Trophäen.", "trophyNextLabel": "Nächste Trophäe:", "trophyNew": "Neue Trophäe!", "trophySince": "Seit {d}"});
@@ -6877,7 +6935,7 @@ function gtArrowsInit(wrap){
 }
 
 /* ---- 1.99.2: habit tracker on a clipboard. state.habits = { list:[{ id, name, area, mt }], marks:{ 'YYYY-MM-DD|id': { v:1|0, t } } }.
-   One sheet per week (Monday to Sunday), at most 8 habits. Synced like the rest; a deleted habit leaves 'h:' + id in the deletion list. ---- */
+   One sheet per week (Sunday to Saturday since 31.10.2026; "mondayKey" = the first day of the week), at most 8 habits. Synced like the rest; a deleted habit leaves 'h:' + id in the deletion list. ---- */
 const HABIT_MAX = 8;
 function habitsOf(st){
   if(!st.habits || typeof st.habits !== 'object') st.habits = {};
@@ -6899,7 +6957,8 @@ function habitsMerge(a, b){
   return { list, marks };
 }
 const dayKey = dt=>dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0');
-function weekStart(dt){ const x = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+// 31.10.2026 (wish of the user): the week starts on Sunday; the week number stays the one of its Monday
+function weekStart(dt){ const x = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()); x.setDate(x.getDate() - x.getDay()); return x; }
 function isoWeek(dt){ const x = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate())); const n = x.getUTCDay() || 7; x.setUTCDate(x.getUTCDate() + 4 - n); const y0 = new Date(Date.UTC(x.getUTCFullYear(), 0, 1)); return Math.ceil(((x - y0) / 864e5 + 1) / 7); }
 let habitWeek = weekStart(new Date());
 function habitDays(){ return [0, 1, 2, 3, 4, 5, 6].map(i=>{ const x = new Date(habitWeek); x.setDate(x.getDate() + i); return x; }); }
@@ -6952,7 +7011,7 @@ function habitSheetHtml(monday, pageIdx){
   const cell = (st, on, fut, cls, attrs)=>`<button class="hb2-cell ${cls}${on ? ' on' : ''}${fut ? ' future' : ''}" style="${st}" ${fut ? 'disabled' : ''} ${attrs} aria-pressed="${on}">${on ? HB_CHECK : ''}</button>`;
   const plus = (ln, freq)=>board ? `<button class="hb2-name hb2-plus" style="${at(ln[0], ln[2] - rh * 0.92, ln[1] - ln[0], rh * 0.9)}" onclick="habitEdit(null, '${freq}')">+ ${escapeHtml(freq === 'week' ? d.habitWeekly : d.habitDaily)}</button>` : '';
   let o = `<div class="hb2-title" style="top:${(g.head - 7.6).toFixed(2)}%">${escapeHtml(d.habitTitle)}</div>`
-    + `<div class="hb2-week" style="top:${(g.head - 3.7).toFixed(2)}%">${escapeHtml(d.habitWeek.replace('{n}', isoWeek(days[0])) + ' · ' + f(days[0]) + '–' + f(days[6]))}</div>`;
+    + `<div class="hb2-week" style="top:${(g.head - 3.7).toFixed(2)}%">${escapeHtml(d.habitWeek.replace('{n}', isoWeek(days[1])) + ' · ' + f(days[0]) + '–' + f(days[6]))}</div>`;
   const dy = (g.head + g.rows[0] - bh / 2) / 2;
   o += days.map((x, j)=>`<div class="hb2-day${dayKey(x) === today ? ' today' : ''}" style="left:${g.cols[j]}%;top:${dy.toFixed(2)}%">${escapeHtml(x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2))}</div>`).join('');
   const daily = habitDailyList(H).slice(0, HABIT_MAX), weekly = habitWeeklyList(H).slice(0, HABIT_WEEK_MAX);
@@ -6982,7 +7041,7 @@ function habitClose(){ if(tbView === 'habits'){ tbSwitchTool('diary'); } else cl
 function habitWeekGo(n){ habitWeek.setDate(habitWeek.getDate() + 7 * n); habitWeek = new Date(habitWeek); habitRender(); }
 function habitRender(){
   const d = t(), H = habitsOf(state), days = habitDays();
-  document.getElementById('habit-week-label').textContent = d.habitWeek.replace('{n}', isoWeek(days[0])); // the dates stand on the sheet
+  document.getElementById('habit-week-label').textContent = d.habitWeek.replace('{n}', isoWeek(days[1])); // the dates stand on the sheet
   document.getElementById('habit-grid').innerHTML = habitSheetHtml(days[0], null);
   const dia = document.getElementById('habit-diary-btn'); dia.textContent = d.habitToDiary; dia.style.display = H.list.length ? '' : 'none';
 }
@@ -7048,7 +7107,7 @@ function habitSheetSvg(){
   const f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
   let out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${h}" width="${W}" height="${h}"><rect width="${W}" height="${h}" rx="18" fill="#fbf6ea" stroke="#d8ccb4" stroke-width="3"/>`
     + `<text x="30" y="62" font-family="${font}" font-size="38" font-weight="700" fill="${accent}">${escapeHtml(d.habitTitle)}</text>`
-    + `<text x="${W - 30}" y="62" text-anchor="end" font-family="${font}" font-size="26" fill="#4a4033">${escapeHtml(d.habitWeek.replace('{n}', isoWeek(days[0])) + ' · ' + f(days[0]) + '–' + f(days[6]))}</text>`;
+    + `<text x="${W - 30}" y="62" text-anchor="end" font-family="${font}" font-size="26" fill="#4a4033">${escapeHtml(d.habitWeek.replace('{n}', isoWeek(days[1])) + ' · ' + f(days[0]) + '–' + f(days[6]))}</text>`;
   days.forEach((x, i)=>{ out += `<text x="${30 + nameW + colW * (i + 0.5)}" y="${top - 18}" text-anchor="middle" font-family="${font}" font-size="22" fill="#6b6152">${escapeHtml(x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2))} ${x.getDate()}</text>`; });
   H.list.forEach((hb, r)=>{
     const y = top + r * rowH;
@@ -7074,9 +7133,21 @@ function habitToDiary(){
   if(!document.getElementById('tb-overlay').classList.contains('open')){ document.getElementById('tb-overlay').classList.add('open'); navSync(); }
   tbRender();
 }
+/* 31.10.2026 (wish of the user): in the diary only the sheet, without the clipboard – a table on the page's own paper
+   (days, names, boxes and ticks), still ticked right there as long as the week is not over */
 function habitPageHtml(page, idx){
-  const [y, m, dd] = page.habitWeek.split('-').map(Number);
-  return `<div class="tb-habitpage">${habitSheetHtml(new Date(y, m - 1, dd), idx)}</div>`;
+  const d = t(), H = habitsOf(state), lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB', mk = page.habitWeek;
+  const days = habitWeekDays(mk), today = dayKey(new Date()), cur = dayKey(weekStart(new Date()));
+  const f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
+  const box = (on, fut, attrs, cls)=>`<button class="tb-hw-box tb-habit-cell${cls}${on ? ' on' : ''}" ${fut ? 'disabled' : ''} ${attrs} aria-pressed="${on}">${on ? HB_CHECK : ''}</button>`;
+  const name = h=>`<div class="tb-hw-name">${h.area ? areaIco(h.area) : ''}<span>${escapeHtml(h.name)}</span></div>`;
+  const daily = habitDailyList(H).slice(0, HABIT_MAX), weekly = habitWeeklyList(H).slice(0, HABIT_WEEK_MAX);
+  let o = `<div class="tb-hw-row tb-hw-days"><div class="tb-hw-sub">${escapeHtml(d.habitDaily)}</div>${days.map(x=>`<div class="tb-hw-day${dayKey(x) === today ? ' today' : ''}">${escapeHtml(x.toLocaleDateString(lang, { weekday:'short' }).replace('.', '').slice(0, 2))}<small>${x.getDate()}</small></div>`).join('')}</div>`;
+  o += daily.map(h=>`<div class="tb-hw-row">${name(h)}${days.map(x=>{ const k = dayKey(x); return box(habitOn(h.id, x), k > today, `data-page-idx="${idx}" data-h="${h.id}" data-k="${k}"`, k === today ? ' today' : ''); }).join('')}</div>`).join('');
+  if(weekly.length) o += `<div class="tb-hw-row tb-hw-days"><div class="tb-hw-sub">${escapeHtml(d.habitWeekly)}</div></div>`
+    + weekly.map(h=>`<div class="tb-hw-row">${name(h)}${box(habitWeekOn(h.id, mk), mk > cur, `data-page-idx="${idx}" data-h="${h.id}" data-k="${mk}" data-w="1"`, ' tb-hw-wide')}</div>`).join('');
+  return `<div class="tb-collage tb-habitweek"><div class="tb-collage-head">${escapeHtml(d.habitTitle)}</div>
+    <div class="tb-hw-week">${escapeHtml(d.habitWeek.replace('{n}', isoWeek(days[1])) + ' · ' + f(days[0]) + '–' + f(days[6]))}</div><div class="tb-hw-grid">${o}</div></div>`;
 }
 // a drawn clipboard for the library (until pictures in the style of each design arrive)
 function clipboardSvg(){
@@ -8228,6 +8299,8 @@ function tbCoverSettingsHtml(){
       <div class="tb-chip-row">${kindChips}</div>
       <span class="tb-row-label">${guided ? d.guidedWhen : d.diaryDefaultType}</span>
       <div class="tb-chip-row">${guided ? whenChips : typeChips}</div>
+      <span class="tb-row-label">${d.diaryPaper}</span>
+      <div class="tb-chip-row">${[['fancy', d.diaryPaperFancy], ['plain', d.diaryPaperPlain]].map(([k, l])=>`<button class="tb-chip-btn${(diary.paper === 'plain' ? 'plain' : 'fancy') === k ? ' active' : ''}" onclick="tbSetPaper('${k}')">${l}</button>`).join('')}</div>
       <button class="primary-btn tb-start-btn" onclick="tbCoverSettingsOpen=false; tbOpenFirstPage();">${ico('pencil')}${d.diaryStartWriting}</button>
       ${state.tagebuch.jahre[tbYear] ? `<button class="tb-del-book" onclick="tbDeleteBook('${tbYear}')">${ico('trash')}${d.diaryDeleteBook}</button>` : ''}
     </div>`;
@@ -8293,7 +8366,8 @@ function tbNextPage(){
   const diary = tbEnsureYear(tbYear);
   const i = tbPeekNextIdx();
   if(i>=diary.seiten.length){
-    if(tbEditMode){ tbAddPage(diary.defaultPageType); } // writing: just keep going, no extra click needed
+    // writing: just keep going, no extra click needed; a guided book has one guided page a day, after it come free pages (31.10.2026)
+    if(tbEditMode){ tbAddPage(diary.defaultPageType === 'guided' && tbGuidedToday(diary) >= 0 ? tbTextType(diary) : diary.defaultPageType); }
     return;
   }
   tbPageIdx = i; tbFlip('next');
@@ -8340,6 +8414,9 @@ function tbFitsOffline(text, isHand){
   const el = tbPagEl();
   el.parentElement.className = 'tb-page' + (tbMeasureLand ? ' tb-land-page' : '');
   el.className = 'tb-page-text' + (isHand ? ' font-hand' : '');
+  // 31.10.2026: measured without the bottom margin, the box ends where the writing area ends. Safari leaves the bottom padding
+  // out of scrollHeight, so with the paper's wide margin (2.1.0) text only moved on several lines below the frame.
+  el.style.paddingBottom = '0px'; el.style.height = 'calc(100% - var(--pb, 0px))';
   el.value = text;
   return el.scrollHeight <= el.clientHeight + 1;
 }
@@ -8351,7 +8428,7 @@ function tbSplitForFitOffline(text, isHand){
     if(tbFitsOffline(text.slice(0,mid), isHand)){ best = mid; lo = mid+1; } else hi = mid-1;
   }
   let cut = Math.max(best, 1); // always make progress, even if a single character were all that fits
-  if(cut < text.length){
+  if(cut < text.length && !/\s/.test(text[cut])){ // the cut is not already at a space or line end (31.10.2026: else the last word went along)
     let i = cut;
     while(i > 0 && !/\s/.test(text[i-1])) i--; // back off to a word boundary instead of cutting mid-word
     if(i > 0) cut = i;
@@ -8385,11 +8462,12 @@ function tbRepaginateDiary(diary){
 let tbOverflowTimer = null;
 function tbHandleOverflow(idx){
   const textEl = document.getElementById('tb-page-text-'+idx);
-  if(!textEl || textEl.scrollHeight <= textEl.clientHeight+1) return; // cheap check on the real element first
+  if(!textEl) return;
   const diary = tbEnsureYear(tbYear);
   const page = diary.seiten[idx];
   if(!page) return;
   tbMeasureLand = tbIsLand(diary);
+  if(tbFitsOffline(page.text || '', page.font === 'hand')) return; // measured like the pagination, the same in every browser
   const { fit, rest } = tbSplitForFitOffline(page.text||'', page.font==='hand');
   if(!rest) return;
   page.text = fit;
@@ -8465,7 +8543,7 @@ function tbRenderPageSlot(idx){
     : `<textarea class="tb-page-text ${page.font==='hand'?'font-hand':''} ${inactive}" id="tb-page-text-${idx}" placeholder="" ${tbEditMode?'':'readonly'}
         >${escapeHtml(page.text||'')}</textarea>`;
   const land = tbIsLand(diary);
-  return `<div class="tb-page type-${page.type}${land ? ' tb-land-page' : ''}" data-page-idx="${idx}">
+  return `<div class="tb-page type-${tbOwnLayout(page) ? 'blank' : page.type}${land ? ' tb-land-page' : ''}${diary.paper === 'plain' ? ' tb-paper-plain' : ''}" data-page-idx="${idx}">
       ${textPart}
       <canvas class="tb-page-canvas ${(tbMode!=='text'&&tbEditMode)?'active':''}" id="tb-page-canvas-${idx}" width="${land ? 746 : 560}" height="${land ? 560 : 746}"></canvas>
       ${imgs}
@@ -8535,7 +8613,7 @@ function tbToolsHtml(){
       <label class="tb-tools-item" style="cursor:pointer;">${ico('image')}${d.diaryAddImage}<input type="file" accept="image/*" id="tb-img-input-menu" style="display:none;"></label>
       ${tbToolsSub==='sticker' ? `<div class="tb-sticker-grid">${TB_STICKERS.map((st, i)=>`<button class="tb-sticker-btn${stickerOld(st.k) ? ' st-old' : ''}" onclick="tbInsertSticker(${i})" title="${escapeHtml(d.stickerNames[st.k] || st.k)}" aria-label="${escapeHtml(d.stickerNames[st.k] || st.k)}">${st.src ? `<img src="${st.src}" alt="">` : st.svg()}</button>`).join('')}</div>` : ''}`}
       <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbView='pages';tbRender();">${ico('pages')}${d.diaryPagesOverview}</button>
-      ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='style'?'active':''}" onclick="tbToolsFold('style')">${ico('palette')}${d.diaryPageStyle}${chev('style')}</button>
+      ${isTitle || tbOwnLayout(page) ? '' : `<button class="tb-tools-item ${tbToolsSub==='style'?'active':''}" onclick="tbToolsFold('style')">${ico('palette')}${d.diaryPageStyle}${chev('style')}</button>
       ${subRow('style', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem ${page.type===pt?'active':''}" onclick="tbSetPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join(''))}`}
     </div>` : '';
   const del = isTitle ? '' : `<button class="tb-del-fab" onclick="tbDeletePage(tbPageIdx)" title="${d.diaryDeletePage}" aria-label="${d.diaryDeletePage}">${ico('trash')}</button>`;
@@ -8556,7 +8634,7 @@ function tbSetFont(f){
 }
 function tbSetPageType(pt){
   const page = tbEnsureYear(tbYear).seiten[tbPageIdx];
-  if(page && page.type !== 'titel'){ page.type = pt; saveState(); }
+  if(page && page.type !== 'titel' && !tbOwnLayout(page)){ page.type = pt; saveState(); }
   tbToolsOpen = false; tbToolsSub = '';
   tbRender();
 }
@@ -8578,7 +8656,12 @@ function tbAddPage(type, areas, day){
   const diary = tbEnsureYear(tbYear);
   if(type === 'areas'){ type = 'blank'; areas = true; } // "Lebensbereiche" chosen as the default page
   if(type === 'day') type = 'guided'; // the old day page became the guided page (30.10.2026)
-  if(type === 'guided'){ diary.seiten.push(tbGuidedPage(diary)); tbPageIdx = diary.seiten.length - 1; saveState(); tbRender(); return; }
+  if(type === 'guided'){
+    // 31.10.2026 (wish of the user): one guided page a day is enough – whoever wants to write more adds a free page
+    const gi = tbGuidedToday(diary);
+    if(gi >= 0){ tbPageIdx = gi; tbRender(); uiNotice(t().guidedOnePerDay); return; }
+    diary.seiten.push(tbGuidedPage(diary)); tbPageIdx = diary.seiten.length - 1; saveState(); tbRender(); return;
+  }
   const pg = { id:'p'+Date.now(), type, text:'', strokes:[], images:[] };
   if(areas) pg.bereiche = {}; // a page with the five areas as small headings, each with its own text
   if(day) pg.tages = {}; // the day page: grateful, focus, a small step, what was good, what I learned, mood
@@ -8592,6 +8675,9 @@ function tbAddPage(type, areas, day){
    Trophies, cards and habits always go onto pages of their own. */
 const GUIDED_DANK = ['dank0', 'dank1', 'dank2'];
 const GUIDED_KEYS = GUIDED_DANK.concat('ziel0', 'ziel1', 'ziel2', 'satz', 'mom0', 'mom1', 'mom2', 'besser');
+function tbGuidedToday(diary){ const k = dayKey(new Date()); return diary.seiten.findIndex(p=>p.guided && p.guided.date === k); }
+// pages with a layout of their own (guided, cards, trophies, habits, the old day page) never get lines, grid or dots
+const tbOwnLayout = p=>!!p && !!(p.guided || p.cards || p.collage || p.habitWeek || p.tages);
 function tbGuidedPage(diary, date){ return { id:'p' + Date.now(), type:'blank', text:'', strokes:[], images:[], guided:{ date:date || dayKey(new Date()), mode:diary.guided || 'both' } }; }
 const tbPlainEmpty = p=>!!p && p.type !== 'titel' && !p.bereiche && !p.tages && !p.collage && !p.habitWeek && !p.guided && !p.cards && !(p.text && p.text.trim()) && !(p.images && p.images.length) && !(p.strokes && p.strokes.length);
 const tbGuidedEmpty = p=>!!p && !!p.guided && !GUIDED_KEYS.some(k=>(p.guided[k] || '').trim()) && !(p.images && p.images.length) && !(p.strokes && p.strokes.length);
@@ -8609,6 +8695,7 @@ function tbApplyKind(diary, kind){
   }
 }
 function tbSetKind(kind){ tbApplyKind(tbEnsureYear(tbYear), kind); saveState(); tbRender(); }
+function tbSetPaper(k){ const diary = tbEnsureYear(tbYear); diary.paper = k === 'plain' ? 'plain' : 'fancy'; saveState(); tbRender(); }
 function tbSetGuided(mode){
   const diary = tbEnsureYear(tbYear);
   diary.guided = mode;
@@ -10227,7 +10314,24 @@ function acctFloatUpdate(){
   pageFooters();
   acctFloatUpdate(); setTimeout(acctFloatUpdate, 600); setTimeout(acctFloatUpdate, 5000); // after the opening animation
 })();
-function openSettings(){ renderSettingsSync(); renderSettingsPrivacy(); renderNotes(); openModal('settings-modal'); }
+/* 31.10.2026: how full the browser storage is (about 5 MB for everything) and what fills it, in plain words */
+function renderSettingsStorage(){
+  const box = document.getElementById('settings-storage'); if(!box) return;
+  const d = t(), len = s=>(s ? String(s).length : 0), mb = n=>(n / 1048576).toLocaleString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { maximumFractionDigits:1, minimumFractionDigits:1 });
+  let total = 0, photos = 0, cards = 0, drawings = 0;
+  try{ total = JSON.stringify(state).length; }catch(e){}
+  Object.values((state.tagebuch && state.tagebuch.jahre) || {}).forEach(y=>{
+    photos += len(y.cover && y.cover.image);
+    (y.seiten || []).forEach(p=>{
+      (p.images || []).forEach(im=>{ photos += len(im.src); });
+      (p.cards || []).forEach(c=>{ cards += len(c.src); });
+      drawings += len(JSON.stringify(p.strokes || []));
+    });
+  });
+  const pct = Math.min(100, Math.round(total / (5 * 1048576) * 100));
+  box.innerHTML = `${escapeHtml(d.storageUse.replace('{mb}', mb(total)).replace('{p}', pct))}<br>${escapeHtml(d.storageParts.replace('{photos}', mb(photos)).replace('{cards}', mb(cards)).replace('{draw}', mb(drawings)).replace('{rest}', mb(Math.max(0, total - photos - cards - drawings))))}`;
+}
+function openSettings(){ renderSettingsSync(); renderSettingsPrivacy(); renderSettingsStorage(); renderNotes(); openModal('settings-modal'); }
 function syncInit(){
   sbLoadSession();
   e2eLoad();
