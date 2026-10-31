@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -756,6 +756,16 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Druck auf iPhone/iPad), `user-drag`/`user-select:none`; `imgGuard` blockt das Kontextmenü auf Bildern, Bibliothek (`.lib-row`, `.shelf-unit`),
   Tagebuchseiten und Flächen mit Hintergrundbild sowie das Herausziehen (`dragstart`). Schreibfelder behalten ihr Menü. Bildschirmfotos und
   Entwicklerwerkzeuge lassen sich nicht verhindern. Test: `t221.py` im Scratchpad.
+- **2.2.2 (1.11.2026) iPad-Hochformat, Karten, Lebensrad, Konto-Symbol (Wünsche des Nutzers):**
+  - **Gewohnheiten-Werkzeug:** stand mit `margin-top:22%` (von der Breite) zu tief und wurde unten abgeschnitten. Jetzt
+    `--hw:min(620px, 100cqw, 53cqh)` (Brett samt Zeile „‹ KW › / Ins Tagebuch“ ≈ 1,5–1,7 × Breite, Tagebuch dahinter 0,18 ×), Gruppe senkrecht
+    mittig (`margin:auto`, `padding-top` für das hervorlugende Werkzeug, `.tb-peek` `top` = dieser Abstand). Tagebuch-Cover ebenso mittig statt unten.
+    Geprüft (WebKit) auf 744×1050, 820×1110, 1024×1292, 1366×950, 390×760 in allen Designs (`hb.py`, `sizes.py` im Scratchpad).
+  - **Impulskarten-Seite:** Karten höchstens 80 % der Zelle und nie höher als die Zelle (`.tb-cards-grid` eine Zeile `minmax(0,1fr)`), Datum darunter.
+  - **Lebensrad ins Tagebuch:** `tbAppendBlock` misst ohne unteren Innenabstand (Safari zählt ihn nicht in `scrollHeight`); vorher rutschte
+    „Mein Lebensrad vom …“ zu weit nach unten und der Umbruch schob es auf die nächste Seite. Gilt auch für Trophäen/Dankbarkeit.
+  - **Konto-Symbol** (`acctFloatUpdate`): steht auf jeder Seite an derselben Stelle (Ruheplatz der Kopfleiste über `offsetTop`), auf der
+    Startseite scrollt es nicht mehr mit weg. Getestet auf allen Seiten: sichtbar, obenauf, öffnet die Einstellungen (`acct.py`).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

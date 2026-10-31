@@ -765,10 +765,11 @@ img, svg, canvas{ -webkit-touch-callout:none; -webkit-user-drag:none; user-drag:
 #tb-overlay .tb-guided .tb-g-in.font-hand{ font-family:'Caveat', cursive; font-size:calc(21px * var(--tbk)); }
 html.theme-biz .tb-g-part-h{ color:#ab8b54; border-color:#ab8b54; } html.theme-biz .tb-g-head{ color:#5d6f5a; }
 html.theme-retreat .tb-g-part-h{ color:var(--rt-burgundy, #7A0B25); border-color:var(--gold); } html.theme-retreat .tb-g-head{ color:var(--rt-sage-d); }
-.tb-cards-grid{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr; gap:calc(14px * var(--tbk)); }
-.tb-cards .tb-collage-cell{ justify-content:center; }
-.tb-cards .tb-collage-pic{ flex:none; height:auto; align-items:center; }
-.tb-cards .tb-collage-pic .tb-page-img{ max-width:100%; max-height:none; width:100%; }
+/* 1.11.2026: cards smaller and always whole on the page (also in landscape books): each fits its cell, the date stays below it */
+.tb-cards-grid{ flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:minmax(0, 1fr); gap:calc(14px * var(--tbk)); align-items:center; }
+.tb-cards .tb-collage-cell{ justify-content:center; height:100%; min-height:0; }
+.tb-cards .tb-collage-pic{ flex:0 1 auto; min-height:0; height:auto; max-height:calc(100% - 24px * var(--tbk)); align-items:center; justify-content:center; }
+.tb-cards .tb-collage-pic .tb-page-img{ width:auto; height:auto; max-width:80%; max-height:100%; object-fit:contain; }
 .tb-habit-table.tb-habit-table th{ font-size:calc(11px * var(--tbk)); padding:0 0 calc(4px * var(--tbk)); line-height:1.15; }
 .tb-habit-table .habit-name{ font-size:calc(12.5px * var(--tbk)) !important; }
 .tb-habit-table .habit-name .area-ico{ width:calc(15px * var(--tbk)); height:calc(15px * var(--tbk)); }
@@ -881,7 +882,6 @@ html.theme-retreat .habit-board.habit-board{ border-image-source:url(img/rt2/cli
 html.theme-retreat .tb-switch{ background:rgba(255,255,255,0.6); } html.theme-retreat .tb-switch button.on{ color:#fff; background:var(--rt-burgundy, #7A0B25); }
 html.theme-biz:not(.theme-retreat) .tb-switch button.on{ color:#0c1226; }
 .tb-stack{ position:relative; z-index:0; display:flex; margin:auto; }
-.tb-body-cover .tb-cover-wrap > .tb-stack:not(.tb-stack-habits){ margin:auto auto 0; }
 .tb-body-cover .tb-stack:not(.tb-stack-habits) .tb-cover{ width:min(100cqw, 60cqh) !important; } /* room above the book for the clipboard behind it */ /* own stacking: the peeking tool lies behind the front one but stays tappable */
 .tb-peek{ position:absolute; z-index:-1; border:none; padding:0; background:none; cursor:pointer; filter:drop-shadow(0 8px 14px rgba(0,0,0,0.4)); }
 .tb-peek-clip{ width:80%; left:10%; top:0; transform:translateY(-27%); }
@@ -889,6 +889,13 @@ html.theme-biz:not(.theme-retreat) .tb-switch button.on{ color:#0c1226; }
 .tb-peek-book{ width:80%; aspect-ratio:3/4; left:10%; top:0; transform:translateY(-16%); background-size:100% 100%; border-radius:8px; }
 .tb-habits-wrap{ overflow-y:auto; }
 .tb-stack-habits{ width:min(620px, 100%); margin:22% auto auto; }
+/* 1.11.2026: on tall screens (iPad portrait) the clipboard was pushed down by a margin taken from the width and cut off at the bottom.
+   Now it is sized by the free height too (board with the week row below ≈ 1.5–1.7 × its width, the diary peeking out above ≈ 0.18 × – measured on iPad and phone sizes) and the whole group is centred. */
+.tb-body-cover .tb-habits-wrap > .tb-stack-habits{ --hw:min(620px, 100cqw, 53cqh); width:var(--hw); margin:auto; padding-top:calc(var(--hw) * 0.18); flex:none; }
+.tb-body-cover .tb-cover-wrap > .tb-stack:not(.tb-stack-habits){ margin:auto; padding-top:calc(min(100cqw, 60cqh) * 0.33); }
+/* the peeking tool starts where the padding ends, so it fills exactly the room kept for it above */
+.tb-body-cover .tb-habits-wrap > .tb-stack-habits > .tb-peek{ top:calc(var(--hw) * 0.18); }
+.tb-body-cover .tb-cover-wrap > .tb-stack:not(.tb-stack-habits) > .tb-peek{ top:calc(min(100cqw, 60cqh) * 0.33); }
 #tb-habit-host{ width:100%; }
 #tb-habit-host .habit-board{ width:100%; }
 .habit-name-td{ display:flex; align-items:center; gap:2px; }
@@ -2330,7 +2337,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.2.1';
+const APP_VERSION = '2.2.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4291,8 +4298,10 @@ async function tbAppendBlock(diary, block){
       box.className = 'tb-page' + (tbIsLand(diary) ? ' tb-land-page' : '');
       el.className = 'tb-page-text' + (page.font === 'hand' ? ' font-hand' : '');
       const cs = getComputedStyle(el), lh = parseFloat(cs.lineHeight), H = box.clientHeight, Wd = box.clientWidth;
-      el.style.height = '1px'; el.value = prefix + 'X';
-      const endPx = el.scrollHeight - parseFloat(cs.paddingBottom) - lh; // top of the line where the new text would start
+      // 1.11.2026: measured without the bottom padding – Safari leaves it out of scrollHeight, so the text went several lines too far
+      // down and the pagination moved it onto the next page (e.g. "Mein Lebensrad vom …" below the wheel)
+      el.style.paddingBottom = '0px'; el.style.height = '1px'; el.value = prefix + 'X';
+      const endPx = el.scrollHeight - lh; // top of the line where the new text would start
       el.style.height = '';
       const wantPx = bottom / 100 * H + lh * 0.6;
       if(endPx < wantPx && lh > 0) prefix += '\n'.repeat(Math.ceil((wantPx - endPx) / lh));
@@ -10303,10 +10312,11 @@ function acctFloatUpdate(){
   const show = !win && !document.querySelector('#sync-modal.open');
   document.documentElement.classList.toggle('acct-floating', show);
   if(show){
-    const r = home.getBoundingClientRect(), w = 40;
-    const onHome = !tb && !document.querySelector('.page-modal.open');
-    // on the start page it moves with the page (its bar scrolls away); on the other pages it stays at the top
-    f.style.top = (onHome ? r.top + (r.height - w) / 2 : Math.max(0, r.top + window.scrollY + (r.height - w) / 2 - (document.querySelector('.topbar') && getComputedStyle(document.querySelector('.topbar')).position === 'sticky' ? window.scrollY : 0))) + 'px';
+    const w = 40;
+    // 1.11.2026 (wish of the user): the same on every page – it stays at the top, also on the start page (it used to scroll away there).
+    // The place is the bar's resting place (offsets, not the scrolled position).
+    let y = 0; for(let e = home; e; e = e.offsetParent) y += e.offsetTop;
+    f.style.top = Math.max(0, y + (home.offsetHeight - w) / 2) + 'px';
     f.style.left = (document.documentElement.clientWidth - ACCT_RIGHT - w) + 'px'; f.style.width = w + 'px'; f.style.height = w + 'px';
     f.className = home.className + ' show';
     f.id = 'acct-float';
