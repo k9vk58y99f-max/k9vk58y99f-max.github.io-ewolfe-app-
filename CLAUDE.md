@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.5`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -778,6 +778,15 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     Military-Stiefel ×0,9, grüne Budapester-Wedges ×0,81 (Schleifen bleiben ganz). Navy-Wedges (+7 %) und alle anderen (±5 %) unverändert.
     Skript `shoescale.py` (GrabCut trennt Schuh und Mahagoni-Ständer, `WOODBG=1` wenn der Schuh nicht rot ist, `LACES=1` nimmt Schnürsenkel/Schleifen
     mit, Füße darunter per `cv2.inpaint`), Kopie in `~/Desktop/eWolfe-Skripte/`. Übersicht nummeriert: `dresses.py` (ebenda).
+- **2.2.5 (1.11.2026) Lady-Puppen bereinigt und gleich gestellt (vom Nutzer markiert):**
+  - Graue Schatten aus den Fotos entfernt (unter dem Saum der grünen Bluse, Rechteck hinter dem Navy-Ständer, „Pfeil“ unter dem Knauf der
+    Slingbacks, Grau zwischen den Jeansbeinen): `shadows.py` (geringe Sättigung, mittleres Grau, berührt Transparenz, nur y 600–958, nie auf
+    den Schuhen). Die vier Feiertagskleider bewusst nicht (Seladon/Salbei-Stoffe sind selbst grau-grün).
+  - **Vorbild grüne Bluse:** Kugelfüße des Ständers bei y ≈ 965 von 1100, Schuhe davor bis zum Bildrand. Navy (Füße 1015), Burgunder (1050),
+    Weiß bestickt (1020), Matrosen-Jeans (1010) standen tiefer (größere Puppe): Figur und Ständer ×0,951/0,919/0,946/0,955 um die Mitte oben
+    verkleinert, Schuhe bleiben unverändert an ihrem Platz (`align.py`/`align2.py`: Schuhe per GrabCut in engen Rahmen je Schuh, Ständerfüße/Beine/Knauf
+    als feste „kein Schuh“-Flecken; `BOXONLY=1` wenn Schuh und Ständer dieselbe Farbe haben; alte Umrisse und Schattenreste werden entfernt).
+    Skripte in `~/Desktop/eWolfe-Skripte/`. Neue Kleiderbilder künftig gleich so prüfen (Füße auf 965, Schuhe davor, keine grauen Schatten).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
