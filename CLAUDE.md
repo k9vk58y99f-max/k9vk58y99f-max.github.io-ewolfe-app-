@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 1.11.2026 abends (Version 2.3.3) – zuerst lesen
+## Übergabe – Stand 1.11.2026 abends (Version 2.3.4) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -29,8 +29,8 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
   **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **2.3.2:** schlichtes Regal stattdessen aus Bücher- und
-  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1–2.3.3 sind
-  committet, aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
+  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler.
+  **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1–2.3.4 sind committet, aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
 - **KI-Ältestenrat (Skill `ki-aeltestenrat`, persönlich):** Nutzer schickt Fragen gern durch den Rat und will **lange, ausführliche** Antworten
   (alle Rollen ausführlich, App-Analyse mit Zahlen). Ergebnisse dieser Sitzung:
   - Reduzierter Modus → als Schalter gebaut (2.3.0). Übersehenes Argument: Belohnungen können innere Motivation verdrängen.
@@ -177,7 +177,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.4`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -876,6 +876,14 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   - Neue Dateinamen gegen alte Zwischenspeicher; alte Bilder `rl2/paper-p|l`, `rl2/clipboard2` entfernt (Kopie „veraltet“).
   - Test `t233.py` (Chromium + WebKit, 820/390: Lady Raum + schlicht, Gentleman Raum, Gewohnheiten, Tagebuchseite, Mystery schlicht), Skripte
     `lady_schneiden.py`, `streifen.py`, `messen_regal.py` in `Lebensrad APP/eWolfe-Skripte/`.
+- **2.3.4 (1.11.2026) Schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler (Hinweise des Nutzers):**
+  - Das schlichte Regal war so breit wie der ganze Bücherteil (samt rechtem Pfosten) – das Fach innen war dadurch schmaler als im Regal mit Raum.
+    Neu (`schlicht2.py`): Bücherteil bis 30 px vor die Mittelwand, dann der Trophäenteil ab 30 px + rechte Innenwand (~25 px) vor seinem rechten
+    Pfosten. Das Fach ist so breit wie das Bücherfach plus die rechte Innenwand. Maße je Design in `SIMPLE` (`tbRenderLibrarySimple`):
+    rl2 381×1278 `x:[13.1, 85.8]`, mw2 383×1279 `x:[14.1, 84.9]`, rt2 376×1258 `x:[13.8, 86.4]`; alle drei auf dem Bildschirm gleich breit.
+  - Lady-Pfosten waren ~25 % breiter als beim Gentleman (Front 30 statt 24 px bei gleicher Höhe; dicker wirken sie zusätzlich, weil die Innenwände
+    cremeweiß statt dunkel sind). Je 6–7 px aus linkem, mittlerem und rechtem Pfosten genommen, dafür die Fach-Streifen kleiner (4 bzw. 19 px), Gesamtbreite
+    unverändert (`streifen2.py`). Neu: Bücherteil `x:[16, 92.3]`, Trophäenteil `x:[0.8, 89.7]`. Mystery-Pfosten passen (nicht geändert).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

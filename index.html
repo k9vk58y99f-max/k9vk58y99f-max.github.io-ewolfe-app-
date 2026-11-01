@@ -2360,7 +2360,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.3.3';
+const APP_VERSION = '2.3.4';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -7522,10 +7522,10 @@ const SHELVES = {
   clean:{ img:'mw2/shelf', fronts:'mw2/shelf-fronts', aspect:501 / 1279, roof:1.8, x:[0.8, 88.4], rows:SHELF_ROWS2 },
   ivy:{ img:'mw2/shelf-ivy', fronts:'mw2/shelf-ivy-fronts', aspect:501 / 1280, roof:1.8, x:[0.8, 88.4], rows:SHELF_ROWS2 },
   rl:RETREAT
-    ? { img:'rt2/shelf3', fronts:'rt2/shelf3-fronts', aspect:496 / 1258, roof:1.8, x:[0.8, 88.5], rows:SHELF_ROWS_RT } // 1.11.2026: cream and green, same perspective and width as the other bookcases
+    ? { img:'rt2/shelf3', fronts:'rt2/shelf3-fronts', aspect:496 / 1258, roof:1.8, x:[0.8, 89.7], rows:SHELF_ROWS_RT } // 1.11.2026: cream and green, same perspective, width and post thickness as the other bookcases
     : { img:'rl2/shelf', fronts:'rl2/shelf-fronts', aspect:504 / 1278, roof:1.8, x:[0.8, 89.3], rows:SHELF_ROWS2 },
   rlPlant:{ img:'rl2/shelf-plant', fronts:'rl2/shelf-plant-fronts', aspect:480 / 1279, roof:1.8, x:[0.8, 88.8], rows:SHELF_ROWS2 }, // A Gentleman's Study from level 3: with the monstera
-  rtPlain:{ img:'rt2/shelf3', fronts:'rt2/shelf3-fronts', aspect:496 / 1258, roof:1.8, x:[0.8, 88.5], rows:SHELF_ROWS_RT }
+  rtPlain:{ img:'rt2/shelf3', fronts:'rt2/shelf3-fronts', aspect:496 / 1258, roof:1.8, x:[0.8, 89.7], rows:SHELF_ROWS_RT }
 };
 // the cobwebs stay for the first two active days (since 1.83.0; before: one), from the 3rd the shelf is clean, ivy from level 3
 /* The narrow bookcase (1.81.0): as soon as the diaries no longer fit into the top compartment, a narrow bookcase of the same
@@ -7537,7 +7537,7 @@ const NARROW = {
   clean:{ img:'mw2/shelf-narrow', fronts:'mw2/shelf-narrow-fronts', aspect:332 / 1279, x:[16.3, 90.4], k:332 / 501, ov:0 },
   ivy:{ img:'mw2/shelf-ivy-narrow', fronts:'mw2/shelf-ivy-narrow-fronts', aspect:337 / 1280, x:[16.6, 90.5], k:337 / 501, ov:0, plant:{ img:'mw2/ivy', w:19.6, over:11.9 } },
   rl:RETREAT
-    ? { img:'rt2/shelf3-narrow', fronts:'rt2/shelf3-narrow-fronts', aspect:325 / 1258, x:[17.8, 90.2], k:325 / 496, ov:0 }
+    ? { img:'rt2/shelf3-narrow', fronts:'rt2/shelf3-narrow-fronts', aspect:325 / 1258, x:[16, 92.3], k:325 / 496, ov:0 }
     : { img:'rl2/shelf-narrow', fronts:'rl2/shelf-narrow-fronts', aspect:330 / 1278, x:[15.2, 91.5], k:330 / 504, ov:0 },
   rlPlant:{ img:'rl2/shelf-plant-narrow', fronts:'rl2/shelf-plant-narrow-fronts', aspect:324 / 1279, x:[13.9, 91.4], k:324 / 480, ov:0, plant:{ img:'rl2/plant', w:61.1, over:12.3 } }
 };
@@ -7607,12 +7607,13 @@ function renderLibViewSettings(){
   document.getElementById('t-libview-hint').textContent = d.libViewHint;
 }
 function tbRenderLibrarySimple(){
-  // 2.3.2 (wish of the user): book part + trophy part with the middle taken out (middle post and most of the trophy compartment),
-  // the left part joined to the right end – the perspective is right (left and right inner wall as seen from the front), same width as the
-  // book part; x[1] = inner right wall measured in the new pictures. Never a plant here (no ivy, no monstera – only the clean book part)
-  const SIMPLE_XR = { rl2:83.7, mw2:82.5, rt2:82.5 };
+  // 2.3.2/2.3.3 (wishes of the user): book part + trophy part with the middle taken out (middle post and most of the trophy compartment),
+  // the left part joined to the right end – the perspective is right (left and right inner wall as seen from the front). The compartment is
+  // the whole book compartment plus the right inner wall, so at least as many diaries fit as in the bookcase with the room.
+  // [width, height, x0, x1] of shelf-simple2 (measured). Never a plant here (no ivy, no monstera – only the clean book part)
+  const SIMPLE = { rl2:[381, 1278, 13.1, 85.8], mw2:[383, 1279, 14.1, 84.9], rt2:[376, 1258, 13.8, 86.4] };
   const key = BIZ ? 'rl' : 'clean', SH = SHELVES[key], N0 = NARROW[key], dir = RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2';
-  const d = t(), NS = { img:dir + '/shelf-simple2', fronts:dir + '/shelf-simple2-fronts', aspect:N0.aspect, x:[N0.x[0], SIMPLE_XR[dir]] };
+  const d = t(), NS = { img:dir + '/shelf-simple2', fronts:dir + '/shelf-simple2-fronts', aspect:SIMPLE[dir][0] / SIMPLE[dir][1], x:[SIMPLE[dir][2], SIMPLE[dir][3]] };
   SHELF_X = SH.x; SHELF_ROWS = SH.rows;
   const keys = tbBookKeys(), WALL = 4;
   const cap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (NS.x[1] - NS.x[0]) / (r[1] - r[0]) * 100 * NS.aspect - 2 * WALL; };
