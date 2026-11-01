@@ -9,6 +9,30 @@ Cloud-Sync über Supabase.
 
 Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 
+## Übergabe – Stand 1.11.2026 (Version 2.2.5) – zuerst lesen
+- **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
+  `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
+  Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
+  `git fetch` + `APP_VERSION` der Live-Seite per `curl` (Pages braucht ein paar Minuten).
+- **Testen:** Python-venv mit Playwright (Chromium + WebKit), Pillow, NumPy, SciPy, OpenCV im Scratchpad der Sitzung (geht mit der Sitzung verloren,
+  dann neu anlegen: `python3 -m venv …; pip install playwright pillow numpy scipy opencv-python-headless; python -m playwright install chromium webkit`).
+  App über `python3 -m http.server 8765` laden, nicht `file://`. **Immer auch in WebKit (Safari) testen** – der Nutzer arbeitet auf iPad/iPhone,
+  mehrere Fehler (Umbruch, Kartengröße, Lebensrad-Text) gab es nur in Safari.
+- **Skripte** für Bilder: `~/Desktop/eWolfe-Skripte/` (`shoescale.py`, `align2.py`, `shadows.py`, `dresses.py` – siehe 2.2.4/2.2.5 unten).
+- **Diese Sitzung erledigt (2.2.0–2.2.5):** eine geführte Seite pro Tag, Umbruch nach 18 Zeilen auch in Safari, schlichtes Papier mit Doppellinie,
+  Gewohnheiten-Woche im Tagebuch ohne Klemmbrett, Woche ab Sonntag, Impulskarten klein gespeichert (Ursache „Tagebuch voll“: Safari-PNGs à 1,1–1,6 MB),
+  Speicheranzeige, Lady-Eingabefelder verdeckten das Papier, Bilder nicht kopierbar, iPad-Hochformat (Klemmbrett/Cover), Konto-Symbol überall fest,
+  neue Lady-Ränge (Die Suchende … Die Lichtgestalt), fünf Lady-Kleider aussortiert, Schuhe auf 1,70 m / Gr. 38, graue Schatten weg, Puppen gleich gestellt.
+- **Offen / wartet auf den Nutzer:**
+  - **Designs trennen:** Vorschlag „jedes Tagebuch merkt sich das Design, in dem es angelegt wurde“ (Cover/Papier bleiben) – noch keine Entscheidung.
+  - **Reduzierte Ansicht** (nur überlegt, nicht bauen ohne Auftrag): Vorschlag als Schalter je Design („Bibliothek: Raum / schlicht“) statt eigener
+    Designs; Trophäen zählen still weiter; bleiben: Tagebücher, Klemmbrett, Impulskarten, Sticker. Nutzer wollte erst überlegen; Skizze angeboten.
+  - **Lady-Kleider Nr. 1 (Schluppenbluse/Slingbacks) und Nr. 17 (Pfingsten)** will der Nutzer neu machen; Prompts angeboten. Neue Bilder einpassen:
+    Kugelfüße auf y ≈ 965 von 1100, Schuhe davor, Schuh 38 ≈ 125 px hoch, keine grauen Schatten.
+  - Datenschutz-Liste weiter unten („Noch offen (Datenschutz)“).
+- **Arbeitsweise mit dem Nutzer:** Wünsche kommen oft mehrere auf einmal und mitten in der Arbeit – alle aufnehmen, nacheinander erledigen.
+  Vor dem Einbau von Bildern Vorher/Nachher zeigen; bei Bildbearbeitung genau hinschauen (Schleifen, Ränder, Schatten). Nichts hochladen ohne Ja.
+
 ## Aufbau
 - **Alles steckt in einer Datei: `index.html`** (HTML, CSS und JavaScript, keine Build-Schritte,
   keine externen Bibliotheken). **Schriften seit 1.92.0 lokal** in `fonts/` (`fonts/fonts.css` + woff2, nur Latein/Latein erweitert:
