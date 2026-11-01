@@ -30,7 +30,9 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
   **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **2.3.2:** schlichtes Regal stattdessen aus Bücher- und
   Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“.
-  **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1–2.3.6 sind committet, aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
+  **Stand 1.11.2026, 20:45: 2.3.6 ist live (gepusht und geprüft).** Im Arbeitsordner liegt eine nicht committete Vorschau 2.3.7 (Sticker-Hase neben dem
+  Osterkörbchen) – wartet auf das Ja des Nutzers. **Coach-Teilen Stufe 1** (Lebensräder + Ziele, nur lesen, Einladungscode) gibt es nur als Prototyp außerhalb
+  der App: „Lebensrad APP/Coach teilen – Prototyp Stufe 1 (01.11.2026).html“; nicht einbauen, bevor Coaches gefragt sind. Präsentation aktuell: v9. Details: Handoff 01.11.2026, 20:45.
 - **KI-Ältestenrat (Skill `ki-aeltestenrat`, persönlich):** Nutzer schickt Fragen gern durch den Rat und will **lange, ausführliche** Antworten
   (alle Rollen ausführlich, App-Analyse mit Zahlen). Ergebnisse dieser Sitzung:
   - Reduzierter Modus → als Schalter gebaut (2.3.0). Übersehenes Argument: Belohnungen können innere Motivation verdrängen.

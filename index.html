@@ -938,7 +938,7 @@ html.theme-retreat .habit-paper{ background:#fdf7ec; box-shadow:inset 0 0 0 2px 
 .shelf-dog{ right:8%; bottom:-3%; height:31%; transform:rotate(-4deg); }
 .shelf-dog-lying{ right:2%; bottom:-3%; height:15%; }
 .shelf-crib{ right:1%; bottom:-4%; height:34%; z-index:4; }
-.shelf-rabbit{ left:40%; bottom:-2%; height:19%; z-index:4; }
+.shelf-rabbit{ left:-74%; bottom:-3%; height:17%; z-index:3; } /* 2.3.7: beside the Easter basket */
 .shelf-eggs{ left:-52%; bottom:-4%; height:12%; z-index:4; } /* 2.3.6: the Easter basket in front of the book part, away from the plaque and the dog */
 .shelf-nikolaus{ left:-3%; bottom:-2%; height:46%; z-index:1; }
 .shelf-boot{ left:44%; bottom:-3%; height:12%; z-index:4; }
@@ -952,7 +952,8 @@ html:not(.theme-biz) .lib-row .shelf-img{ background-size:100% 100% !important; 
 html:not(.theme-biz) .shelf-dog{ right:-4%; bottom:-6%; height:36%; transform:rotate(-4deg); }
 html:not(.theme-biz) .shelf-dog-lying{ right:-6%; bottom:-5%; height:17%; }
 html:not(.theme-biz) .shelf-crib{ right:-30%; bottom:-6%; height:40%; }
-html:not(.theme-biz) .shelf-rabbit{ left:30%; bottom:-4%; height:22%; }
+html:not(.theme-biz) .shelf-rabbit{ left:-80%; bottom:-5%; height:18%; }
+:root.theme-biz:not(.theme-retreat) .shelf-rabbit{ left:-20%; z-index:5; } /* the gentleman's hare to the right of the basket (wish of the user) */
 html:not(.theme-biz) .shelf-eggs{ left:-50%; bottom:-5%; height:13%; }
 html:not(.theme-biz) .shelf-nikolaus{ left:-16%; bottom:-4%; height:52%; }
 html:not(.theme-biz) .shelf-boot{ left:40%; bottom:-5%; height:14%; }
@@ -2360,7 +2361,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.3.6';
+const APP_VERSION = '2.3.7';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -3669,7 +3670,7 @@ const stickerFile = key=>STICKER_ALIAS[key] || (STICKERS.includes(key) ? key : '
 // dog, only the dog's head has no picture of its own yet (it keeps the old one with the red note)
 const RL_STICKER = new Set(['leaf', 'moon', 'sun', 'wave', 'heart-red', 'heart-pink', 'star', 'mountains', 'rainbow-land', 'music', 'lotus', 'cherry', 'rose', 'fox', 'rabbit', 'rainbow', 'treasure']);
 const stickerPath = f=>RETREAT ? (f === 'dog' ? 'rt2/dog' : f === 'dog-head' ? 'rt2/dog-head' : 'rt2/stickers/' + f) : // A Lady's Conservatory: all 19 own stickers (22.10.2026)
-  RETREAT && f === 'dog' ? 'rt2/dog' : BIZ && RL_STICKER.has(f) ? 'rl/stickers/' + f : BIZ && f === 'dog' ? 'rl/dog' : 'stickers/' + f;
+  RETREAT && f === 'dog' ? 'rt2/dog' : BIZ && RL_STICKER.has(f) ? 'rl/stickers/' + (f === 'rabbit' ? 'rabbit2' /* 2.3.7: without the navy rest between the legs */ : f) : BIZ && f === 'dog' ? 'rl/dog' : 'stickers/' + f;
 const stickerOld = f=>BIZ && !RETREAT && !RL_STICKER.has(f) && f !== 'dog';
 function stickerSvg(key){ return `<svg viewBox="-90 -90 180 180" aria-hidden="true"><image href="img/${stickerPath(stickerFile(key))}.webp" x="-84" y="-84" width="168" height="168" preserveAspectRatio="xMidYMid meet"/></svg>`; }
 function ownPictureSvg(key, id){ return stickerSvg(key); }
@@ -7774,9 +7775,10 @@ function tbRenderLibrary(){
     if(RL_DOG_READY) return animal((RETREAT ? 'rt2/' : 'rl/') + (wkend ? 'dog-lying' : 'dog'), cls); // A Lady's Conservatory: our dog, painted (21.10.2026)
     return animal(wkend ? 'stickers/dog-lying' : 'dog', cls) + `<span class="shelf-animal ${cls} rl-ph-dog" aria-hidden="true"></span>`; })();
   // 2.3.6: at Easter (Palm Sunday to a week after) an Easter basket of the design stands in front of the shelf, every year, then it goes again
-  const basket = isEasterTime() ? animal((RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2') + '/easter-basket', 'shelf-eggs') : '';
+  // the rabbit of the design's stickers sits beside it
+  const basket = isEasterTime() ? animal(RETREAT ? 'rt2/stickers/rabbit' : BIZ ? 'rl/stickers/rabbit2' : 'stickers/rabbit', 'shelf-rabbit') + animal((RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2') + '/easter-basket', 'shelf-eggs') : '';
   const animals = BIZ ? bizDog + basket : !decorOn() ? '' : dogSpot /* the cat no longer sits on top (1.87.2): it will get another place later */
-    + /* the fox stands on the dress spot since 1.97.2 (foxSpot) */ (isEasterTime() ? animal('rabbit', 'shelf-rabbit') + basket : '')
+    + /* the fox stands on the dress spot since 1.97.2 (foxSpot) */ basket
     + (isNikolausTime() ? animal('nikolaus', 'shelf-nikolaus') + `<img class="shelf-animal shelf-boot" src="img/trophy-boot.webp" alt="">` : '')
     // Advent: the wreath on top of the shelf, one candle more every Sunday; Christmas: the tree beside it and snow
     + (adventCandles() ? animal('advent-' + adventCandles(), 'shelf-wreath') : '')
