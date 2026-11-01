@@ -2360,7 +2360,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.3.0';
+const APP_VERSION = '2.3.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -7605,7 +7605,10 @@ function renderLibViewSettings(){
   document.getElementById('t-libview-hint').textContent = d.libViewHint;
 }
 function tbRenderLibrarySimple(){
-  const d = t(), key = BIZ ? 'rl' : 'clean', SH = SHELVES[key], NS = NARROW[key];
+  // 2.3.1 (wish of the user): the book part mirrored, so both corners are the same (shelf-simple: left half of shelf-narrow + its mirror image);
+  // never a plant here (no ivy, no monstera – only the clean book part)
+  const key = BIZ ? 'rl' : 'clean', SH = SHELVES[key], N0 = NARROW[key], dir = RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2';
+  const d = t(), NS = { img:dir + '/shelf-simple', fronts:dir + '/shelf-simple-fronts', aspect:N0.aspect, x:[N0.x[0], 100 - N0.x[0]] };
   SHELF_X = SH.x; SHELF_ROWS = SH.rows;
   const keys = tbBookKeys(), WALL = 4;
   const cap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (NS.x[1] - NS.x[0]) / (r[1] - r[0]) * 100 * NS.aspect - 2 * WALL; };

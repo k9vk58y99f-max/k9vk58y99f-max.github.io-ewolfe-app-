@@ -9,7 +9,7 @@ Cloud-Sync über Supabase.
 
 Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 
-## Übergabe – Stand 1.11.2026 (Version 2.3.0) – zuerst lesen
+## Übergabe – Stand 1.11.2026 (Version 2.3.1) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -152,7 +152,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -827,6 +827,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     Sprachwahl, Atem-Musik (`ACC_KEEP_KEYS`), Neustart → Anmelde-Sperre.
   - Behoben: In `I18N.de` hatte ein `//`-Kommentar (2.2.3) `glowRanks` verschluckt – Bibliothek in A Mystery World auf Deutsch stürzte ab.
   - Test: `t230.py` im Scratchpad (Chromium + WebKit, drei Designs, iPad 820 und Handy 390, nachgebautes Supabase).
+- **2.3.1 (1.11.2026) Schlichtes Regal symmetrisch (Wunsch des Nutzers):** eigene Bilder `img/<mw2|rl2|rt2>/shelf-simple(-fronts).webp` = linke Hälfte von
+  `shelf-narrow` plus ihr Spiegelbild (beide Ecken gleich; Skript `mirror.py`, Kopie in `~/Desktop/eWolfe-Skripte/`), Fächer `x:[x0, 100 − x0]`.
+  **Im schlichten Regal steht nie eine Pflanze** (kein Efeu, keine Monstera, kein Tischchen) – auch nicht auf höheren Stufen.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
