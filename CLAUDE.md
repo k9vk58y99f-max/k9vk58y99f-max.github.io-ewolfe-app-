@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 1.11.2026 abends (Version 2.3.1) – zuerst lesen
+## Übergabe – Stand 1.11.2026 abends (Version 2.3.2) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -27,8 +27,9 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   neue Lady-Ränge (Die Suchende … Die Lichtgestalt), fünf Lady-Kleider aussortiert, Schuhe auf 1,70 m / Gr. 38, graue Schatten weg, Puppen gleich gestellt.
 - **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
-  **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1 ist committet,
-  aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
+  **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **2.3.2:** schlichtes Regal stattdessen aus Bücher- und
+  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1 und 2.3.2 sind
+  committet, aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
 - **KI-Ältestenrat (Skill `ki-aeltestenrat`, persönlich):** Nutzer schickt Fragen gern durch den Rat und will **lange, ausführliche** Antworten
   (alle Rollen ausführlich, App-Analyse mit Zahlen). Ergebnisse dieser Sitzung:
   - Reduzierter Modus → als Schalter gebaut (2.3.0). Übersehenes Argument: Belohnungen können innere Motivation verdrängen.
@@ -175,7 +176,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -853,6 +854,15 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - **2.3.1 (1.11.2026) Schlichtes Regal symmetrisch (Wunsch des Nutzers):** eigene Bilder `img/<mw2|rl2|rt2>/shelf-simple(-fronts).webp` = linke Hälfte von
   `shelf-narrow` plus ihr Spiegelbild (beide Ecken gleich; Skript `mirror.py`, Kopie in `~/Desktop/eWolfe-Skripte/`), Fächer `x:[x0, 100 − x0]`.
   **Im schlichten Regal steht nie eine Pflanze** (kein Efeu, keine Monstera, kein Tischchen) – auch nicht auf höheren Stufen.
+- **2.3.2 (1.11.2026) Schlichtes Regal perspektivisch richtig (Idee des Nutzers):** `img/<mw2|rl2|rt2>/shelf-simple2(-fronts).webp` (neuer Name gegen alte
+  Zwischenspeicher; `shelf-simple` von 2.3.1 entfernt, Kopie im Ordner „veraltet“). Bücherteil + Trophäenteil nebeneinander, die Mitte (Mittelwand und der
+  Großteil des Trophäenfachs) herausgenommen, linker Teil an den rechten Abschluss gesetzt, Naht im Fach 48 px überblendet; Breite = Bücherteil
+  (Schnitt links bei 250/250/200 px). So sieht man links die linke und rechts die rechte Innenwand. Rechte Fachgrenze `SIMPLE_XR` in
+  `tbRenderLibrarySimple` (rl2 83,7 · mw2 82,5 · rt2 74,7). Lady: grauer Freistell-Saum an den Pfosten entfernt. Skripte in `~/Desktop/eWolfe-Skripte/`:
+  `schlicht-zusammen.py`, `schlicht-rand.py`, `schlicht-kante.py`; Test `t232.py` (Chromium + WebKit, drei Designs, 820 und 390).
+  Texte: überall „Schneiderbüste“ statt „Puppe“ (Wunsch des Nutzers; en „tailor’s bust“ mit typografischem Apostroph – ein gerader würde den String brechen).
+  **Offen:** Das cremefarbene Lady-Regal (`rt2/shelf`, seit 25.10.) stammt nicht aus der gemeinsamen Regal-Serie vom 21.10.: andere Perspektive,
+  Trophäenteil 640 statt ~450 px breit (Lady-Regal in der Bibliothek ~28 % breiter). Prompt für ein neues Bild: Desktop „eWolfe-Präsentationen“.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

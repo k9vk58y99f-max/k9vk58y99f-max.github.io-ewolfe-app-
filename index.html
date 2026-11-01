@@ -2360,7 +2360,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.3.1';
+const APP_VERSION = '2.3.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -5106,13 +5106,13 @@ Object.assign(I18N.en, {"broochWear": "Wear on the dress", "broochWorn": "The dr
 Object.assign(I18N.de, { designHint:'Die App startet danach kurz neu. Deine Daten bleiben, wie sie sind.' });
 Object.assign(I18N.en, { designHint:'The app restarts briefly. Your data stays as it is.' });
 Object.assign(I18N.de, { setLibView:'Bibliothek', libViewRoom:'Raum', libViewSimple:'Schlicht',
-  libViewHint:'Schlicht: nur das Regal mit deinen Tagebüchern und dem Klemmbrett – ohne Raum, Trophäen, Puppe, Tiere und Schmuck. Deine Trophäen zählen still weiter und sind wieder da, sobald du „Raum“ wählst.',
+  libViewHint:'Schlicht: nur das Regal mit deinen Tagebüchern und dem Klemmbrett – ohne Raum, Trophäen, Schneiderbüste, Tiere und Schmuck. Deine Trophäen zählen still weiter und sind wieder da, sobald du „Raum“ wählst.',
   libNewOne:'Du hast eine neue Trophäe erhalten: {t}', libNewMany:'Du hast {n} neue Trophäen erhalten.', libNewLook:'Ansehen',
   accDelete:'Konto löschen', accDeleteAsk:'Konto wirklich löschen? Dein Konto und alle deine Daten in der Cloud werden endgültig gelöscht, ebenso alle Daten auf diesem Gerät. Das lässt sich nicht rückgängig machen. Andere Geräte werden bald danach abgemeldet; ihre Daten bleiben dort, bis du sie selbst löschst.\n\nTipp: Lade vorher ein Backup herunter.',
   accDeleteBackup:'Backup herunterladen', accDeleteGo:'Weiter', accDeletePw:'Zur Sicherheit: Gib dein Passwort ein, um das Löschen zu bestätigen.', accDeleteFinal:'Endgültig löschen',
   accDeleteWrongPw:'Das Passwort stimmt nicht. Es wurde nichts gelöscht.', accDeleteFail:'Das Konto konnte nicht gelöscht werden. Prüfe deine Internetverbindung. Es wurde nichts gelöscht.', accDeleteDone:'Dein Konto und deine Daten sind gelöscht. Alles Gute für deinen Weg!' });
 Object.assign(I18N.en, { setLibView:'Library', libViewRoom:'Room', libViewSimple:'Simple',
-  libViewHint:'Simple: only the bookcase with your diaries and the clipboard – no room, trophies, dress form, animals or decoration. Your trophies keep counting quietly and come back as soon as you choose Room.',
+  libViewHint:'Simple: only the bookcase with your diaries and the clipboard – no room, trophies, tailor’s bust, animals or decoration. Your trophies keep counting quietly and come back as soon as you choose Room.',
   libNewOne:'You have received a new trophy: {t}', libNewMany:'You have received {n} new trophies.', libNewLook:'Look',
   accDelete:'Delete account', accDeleteAsk:'Really delete your account? Your account and all your data in the cloud will be deleted for good, and so will all data on this device. This cannot be undone. Other devices are signed out soon after; their data stays there until you delete it yourself.\n\nTip: download a backup first.',
   accDeleteBackup:'Download backup', accDeleteGo:'Continue', accDeletePw:'For your safety: enter your password to confirm the deletion.', accDeleteFinal:'Delete for good',
@@ -7605,10 +7605,12 @@ function renderLibViewSettings(){
   document.getElementById('t-libview-hint').textContent = d.libViewHint;
 }
 function tbRenderLibrarySimple(){
-  // 2.3.1 (wish of the user): the book part mirrored, so both corners are the same (shelf-simple: left half of shelf-narrow + its mirror image);
-  // never a plant here (no ivy, no monstera – only the clean book part)
+  // 2.3.2 (wish of the user): book part + trophy part with the middle taken out (middle post and most of the trophy compartment),
+  // the left part joined to the right end – the perspective is right (left and right inner wall as seen from the front), same width as the
+  // book part; x[1] = inner right wall measured in the new pictures. Never a plant here (no ivy, no monstera – only the clean book part)
+  const SIMPLE_XR = { rl2:83.7, mw2:82.5, rt2:74.7 };
   const key = BIZ ? 'rl' : 'clean', SH = SHELVES[key], N0 = NARROW[key], dir = RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2';
-  const d = t(), NS = { img:dir + '/shelf-simple', fronts:dir + '/shelf-simple-fronts', aspect:N0.aspect, x:[N0.x[0], 100 - N0.x[0]] };
+  const d = t(), NS = { img:dir + '/shelf-simple2', fronts:dir + '/shelf-simple2-fronts', aspect:N0.aspect, x:[N0.x[0], SIMPLE_XR[dir]] };
   SHELF_X = SH.x; SHELF_ROWS = SH.rows;
   const keys = tbBookKeys(), WALL = 4;
   const cap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (NS.x[1] - NS.x[0]) / (r[1] - r[0]) * 100 * NS.aspect - 2 * WALL; };
