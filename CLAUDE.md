@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 1.11.2026 abends (Version 2.3.4) – zuerst lesen
+## Übergabe – Stand 1.11.2026 abends (Version 2.3.5) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -29,8 +29,8 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
   **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **2.3.2:** schlichtes Regal stattdessen aus Bücher- und
-  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler.
-  **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1–2.3.4 sind committet, aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
+  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen.
+  **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1–2.3.5 sind committet, aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
 - **KI-Ältestenrat (Skill `ki-aeltestenrat`, persönlich):** Nutzer schickt Fragen gern durch den Rat und will **lange, ausführliche** Antworten
   (alle Rollen ausführlich, App-Analyse mit Zahlen). Ergebnisse dieser Sitzung:
   - Reduzierter Modus → als Schalter gebaut (2.3.0). Übersehenes Argument: Belohnungen können innere Motivation verdrängen.
@@ -177,7 +177,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.5`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -884,6 +884,15 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   - Lady-Pfosten waren ~25 % breiter als beim Gentleman (Front 30 statt 24 px bei gleicher Höhe; dicker wirken sie zusätzlich, weil die Innenwände
     cremeweiß statt dunkel sind). Je 6–7 px aus linkem, mittlerem und rechtem Pfosten genommen, dafür die Fach-Streifen kleiner (4 bzw. 19 px), Gesamtbreite
     unverändert (`streifen2.py`). Neu: Bücherteil `x:[16, 92.3]`, Trophäenteil `x:[0.8, 89.7]`. Mystery-Pfosten passen (nicht geändert).
+- **2.3.5 (1.11.2026) Rechtliche Bereinigung (nach der Durchsicht „Rechtliche Durchsicht Zitate und Bilder (01.11.2026).md“ im Sammelordner):**
+  - **Impulskarten ohne geschützte Zitate:** ges2 (Jim Rohn), ber1 (Steve Jobs), bez1 (Albert Schweitzer), fre1 (Karl Barth) jetzt eigene Sätze ohne Namen;
+    fre2 (Chaplin) → Sprichwort „Lachen ist die beste Medizin.“; bez2 Saint-Exupéry eigene Übersetzung (die bekannte deutsche Übersetzung kann geschützt sein).
+    Regel: nur Zitate von Autoren, die vor mehr als 70 Jahren gestorben sind, und keine fremden Übersetzungen neueren Datums.
+  - **„Ein Klassiker“ ohne Marke:** neue Autos des Nutzers ohne Stern/Emblem: `rl/car2` (von Navy freigestellt mit `cutnavy.py`), `trophy-n-car2`,
+    `rt2/car2` (`cutclip.py`). Alte Autos mit Mercedes-Stern entfernt (Kopie „veraltet“). Gentleman/Mystery erinnern in der Form noch an den 300 SL.
+  - **„Fabergé-Ei“ → „Schmuck-Ei“** (en „Ornamental egg“), nur A Mystery World; Gentleman/Lady heißen „Osterei“.
+  - **Schrift-Lizenzen:** `fonts/LICENSES/OFL-<schrift>.txt` (offizielle Texte aus google/fonts).
+  - Test `t235.py` (Chromium + WebKit, drei Designs). Offen: Musiklizenz der Lemon-Meditation.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
