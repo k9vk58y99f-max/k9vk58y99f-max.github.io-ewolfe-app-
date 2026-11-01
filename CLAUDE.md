@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.3`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -766,6 +766,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     „Mein Lebensrad vom …“ zu weit nach unten und der Umbruch schob es auf die nächste Seite. Gilt auch für Trophäen/Dankbarkeit.
   - **Konto-Symbol** (`acctFloatUpdate`): steht auf jeder Seite an derselben Stelle (Ruheplatz der Kopfleiste über `offsetTop`), auf der
     Startseite scrollt es nicht mehr mit weg. Getestet auf allen Seiten: sichtbar, obenauf, öffnet die Einstellungen (`acct.py`).
+- **2.2.3 (1.11.2026) Neue Ränge in A Lady's Conservatory (Wunsch des Nutzers):** `ladyRanks` = Die Suchende, Die Träumerin, Die Entdeckerin,
+  Die Visionärin, Die Weise, Die Lichtgestalt (en: The Seeker, The Dreamer, The Explorer, The Visionary, The Sage, The Luminary); die Aufstiegs-Sätze
+  `ladyUp` neu dazu geschrieben. Ersetzen Gast/Gärtnerin/Botanikerin/Kuratorin/Patronin/Ehrenpatronin von 1.86.8. Passt aufs Messingschild (`fit`).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
