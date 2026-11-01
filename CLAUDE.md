@@ -127,7 +127,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.4`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -769,6 +769,15 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - **2.2.3 (1.11.2026) Neue Ränge in A Lady's Conservatory (Wunsch des Nutzers):** `ladyRanks` = Die Suchende, Die Träumerin, Die Entdeckerin,
   Die Visionärin, Die Weise, Die Lichtgestalt (en: The Seeker, The Dreamer, The Explorer, The Visionary, The Sage, The Luminary); die Aufstiegs-Sätze
   `ladyUp` neu dazu geschrieben. Ersetzen Gast/Gärtnerin/Botanikerin/Kuratorin/Patronin/Ehrenpatronin von 1.86.8. Passt aufs Messingschild (`fit`).
+- **2.2.4 (1.11.2026) Lady-Kleider aussortiert, Schuhe in Größe (Wünsche des Nutzers):**
+  - Aus dem Wechsel (`ladyDressKind`): Rot mit Strickjacke, Paisley grün, Teppichrock mit Pullover, Rot ärmellos, Teppich-Neckholder (Bilder bleiben
+    im Ordner). Alltag jetzt je 4: Sommer `burgundy, blouse-green, blouse-navy2, embroidered-white`; Herbst/Winter `bow-slingback, embroidered-cardigan,
+    military, sailor-jeans`. Bow-Slingback (Nr. 1) und Pfingsten (Nr. 17) will der Nutzer neu machen (neue Bilder).
+  - **Schuhmaß:** Lady 1,70 m, Schuhgröße 38. Maßstab: Schulter bis Boden ≈ 140 cm ≈ 973 px → 6,95 px/cm (alle Kleiderbilder 1100 px hoch, gleicher
+    Aufbau). Ein Schuh 38 in dieser Ansicht ≈ 18 cm hoch (≈ 125 px), Stiefelette ≈ 150 px, Ballerina ≈ 95 px. Verkleinert: Schleifen-Slingbacks ×0,82,
+    Military-Stiefel ×0,9, grüne Budapester-Wedges ×0,81 (Schleifen bleiben ganz). Navy-Wedges (+7 %) und alle anderen (±5 %) unverändert.
+    Skript `shoescale.py` (GrabCut trennt Schuh und Mahagoni-Ständer, `WOODBG=1` wenn der Schuh nicht rot ist, `LACES=1` nimmt Schnürsenkel/Schleifen
+    mit, Füße darunter per `cv2.inpaint`), Kopie in `~/Desktop/eWolfe-Skripte/`. Übersicht nummeriert: `dresses.py` (ebenda).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
