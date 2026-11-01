@@ -2361,7 +2361,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.3.7';
+const APP_VERSION = '2.3.8';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -7552,10 +7552,10 @@ const SHELF_SV = {
   rl:{ narrow:{ img:'rl2/sv-narrow', fronts:'rl2/sv-narrow-fronts', aspect:393 / 1164, x:[47.1, 97.5], k:393 / 416, ov:0 },
     shelf:{ img:'rl2/sv-shelf', fronts:'rl2/sv-shelf-fronts', aspect:416 / 1164, roof:3.6, x:[2.4, 97.1], rows:[[12.4, 26.5], [27, 42.2], [42.6, 57.2], [57.7, 71.8], [73.2, 88]], plaque:[94.8, 3.4] },
     vit:{ img:'rl2/sv-vitrine', aspect:416 / 1164, VX:[7.5, 83.7], VR:[[12.4, 26.9], [27.1, 42.3], [42.5, 57.5], [57.7, 73.2], [73.5, 88]] } },
-  // 25.10.2026: A Lady's Conservatory in cream with back walls in the green of the room (pictures of the user, measured again)
-  rt:{ narrow:{ img:'rt2/sv-narrow', fronts:'rt2/sv-narrow-fronts', aspect:293 / 1130, x:[27.3, 94.5], k:293 / 487, ov:0 },
-    shelf:{ img:'rt2/sv-shelf', fronts:'rt2/sv-shelf-fronts', aspect:487 / 1130, roof:0.8, x:[3.3, 95.1], rows:[[9, 24.1], [24.4, 39.3], [39.6, 55.1], [55.5, 71.2], [71.5, 87.8]], plaque:[94.8, 3.7] },
-    vit:{ img:'rt2/sv-vitrine', aspect:419 / 1130, VX:[5.7, 83.5], VR:[[9.6, 24.1], [24.5, 39.7], [40.1, 56.1], [56.4, 72.6], [72.9, 86.5]] } }
+  // 1.11.2026: A Lady's Conservatory in cream and sage, built like the bookcase rt2/shelf3 (picture of the user from the prompt, measured)
+  rt:{ narrow:{ img:'rt2/sv2-narrow', fronts:'rt2/sv2-narrow-fronts', aspect:292 / 1121, x:[27.7, 94.2], k:292 / 438, ov:0 },
+    shelf:{ img:'rt2/sv2-shelf', fronts:'rt2/sv2-shelf-fronts', aspect:438 / 1121, roof:0.8, x:[4.3, 94.5], rows:[[8.5, 24.3], [24.4, 40.3], [40.5, 55.5], [55.7, 71.1], [71.3, 87.3]], plaque:[94.5, 3.7] },
+    vit:{ img:'rt2/sv2-vitrine', aspect:417 / 1121, VX:[7.2, 80], VR:[[9.1, 24.4], [24.6, 40.3], [40.5, 55.5], [55.7, 72], [72.2, 86.2]] } }
 };
 const shelfKey = ()=>BIZ ? (!RETREAT && appLevel() >= 3 ? 'rlPlant' : 'rl') : appActiveDays() < 3 ? 'dusty' : appLevel() <= 2 ? 'clean' : 'ivy';
 // the library scrolls sideways (1.81.0): a small arrow at the right edge while there is more to see
@@ -7999,7 +7999,7 @@ function trophyDefs(){
     title:L('Angekommen', 'Arrived'), desc:L('In einem Lebensbereich bist du dort angekommen, wo du hinwolltest.', 'In one area of life you have arrived where you wanted to be.') });
   const months = [], mSeen = new Set();
   ev.wheels.slice().sort((x, y)=>x - y).forEach(ts=>{ const d = new Date(ts), k = d.getFullYear() * 12 + d.getMonth(); if(!mSeen.has(k)){ mSeen.add(k); months.push(ts); } });
-  out.push({ id:'classic12', kind:'img', img:RETREAT ? 'rt/bicycle' : BIZ ? 'rl/car2' : 'trophy-n-car2', scale:BIZ ? 0.6 : 0.5, aspect:RETREAT ? 1.63 : BIZ ? 2.653 : 3.029, /* 1.11.2026: invented classic car, no emblem (trademark) */ need:12, list:months,
+  out.push({ id:'classic12', kind:'img', img:RETREAT ? 'rt/bicycle' : BIZ ? 'rl/car3' : 'trophy-n-car3', scale:BIZ ? 0.6 : 0.5, aspect:RETREAT ? 1.63 : BIZ ? 2.596 : 2.794, /* 1.11.2026: invented classic car, no emblem (trademark); car3 = second version of the evening (car2 stays in the repo for collages) */ need:12, list:months,
     title:L('Ein Klassiker', 'A true classic'), desc:L('In zwölf verschiedenen Monaten hast du ein Lebensrad erstellt – zeitlos wie ein Klassiker.', 'You created a wheel of life in twelve different months – timeless, like a classic.') });
   out.push({ id:'upall', kind:'img', img:'orb-rainbow', scale:0.9, aspect:0.87, need:1, list:ev.improvedAll ? [ev.improvedAll] : [], title:L('Rundum gewachsen', 'Grown all around'), desc:L('Alle Lebensbereiche haben sich verbessert.', 'All areas of life have improved.') });
   return (BIZ ? out.map(trophyRl) : out.map(trophyClassicNew)).map(x=>TRO_MISSING.has(x.img) ? { ...x, img:BIZ ? 'rl/cup-silver' : 'orb-gold', aspect:BIZ ? 0.88 : 0.82, phNote:true } : x).map(trophyEvenWidth);
@@ -8088,7 +8088,7 @@ function trophyRl(x){
     if(/^easter\d+$/.test(x.id)){ const i = FAB_IDX(x), e = RT_EGGS[i % RT_EGGS.length], y = x.id.slice(6);
       return { ...x, img:e[0], aspect:e[1], scale:[0.42, 0.44, 0.46][Math.min(i, 2)], /* much smaller than the Fabergé eggs (21.10.2026) */ title:(state.settings.lang === 'en' ? 'Easter egg ' : 'Osterei ') + y }; }
     if(x.id === 'arrived') return { ...x, img:'rt2/sailboat', aspect:1.119, scale:0.8 };
-    if(x.id === 'classic12') return { ...x, img:'rt2/car2', aspect:2.497, scale:0.6 };
+    if(x.id === 'classic12') return { ...x, img:'rt2/car3', aspect:2.554, scale:0.6 };
     const rs = RT_TRO[x.group] || RT_TRO[x.id];
     if(rs){ const r = Array.isArray(rs[0]) ? rs[Math.min(x.stage || 0, rs.length - 1)] : rs;
       const CLr = ['box', 'b478', 'lemon', 'stones', 'bowl', 'grat'];
