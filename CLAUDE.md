@@ -9,7 +9,7 @@ Cloud-Sync über Supabase.
 
 Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 
-## Übergabe – Stand 1.11.2026 (Version 2.3.1) – zuerst lesen
+## Übergabe – Stand 1.11.2026 abends (Version 2.3.1) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -25,6 +25,27 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   neue Lady-Ränge (Die Suchende … Die Lichtgestalt), fünf Lady-Kleider aussortiert, Schuhe auf 1,70 m / Gr. 38, graue Schatten weg, Puppen gleich gestellt.
 - **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
+  **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1 ist committet,
+  aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
+- **KI-Ältestenrat (Skill `ki-aeltestenrat`, persönlich):** Nutzer schickt Fragen gern durch den Rat und will **lange, ausführliche** Antworten
+  (alle Rollen ausführlich, App-Analyse mit Zahlen). Ergebnisse dieser Sitzung:
+  - Reduzierter Modus → als Schalter gebaut (2.3.0). Übersehenes Argument: Belohnungen können innere Motivation verdrängen.
+  - **Preis/Abo (Vorschlag, nicht entschieden):** Abo statt Einmalkauf; Gratis-Kern (Lebensrad, ein Tagebuch, Grundübungen), „eWolfe Plus“
+    4,99 €/Monat bzw. 39,99 €/Jahr, Gründungsmitglieder 29 €/Jahr dauerhaft (erste 100). Erst 10–20 Tester vier Wochen kostenlos (Ziel: 4 von 10
+    nutzen es danach noch mehrmals pro Woche). Verkauf der App heute nicht sinnvoll (8 Konten, kein Umsatz). Vor dem ersten Euro: Gewerbe/GbR,
+    Steuer, Widerruf, Zahlungsanbieter (Stripe/Paddle), Rechte an Zitaten der Impulskarten und an ChatGPT-Bildern prüfen.
+  - **Coach-Lizenz (Idee):** Monatspreis je Paket (bis 5 / 15 / 40 Klientinnen, z. B. 19 / 39–49 / 89 €). Wertvoll erst, wenn Klientinnen
+    **freiwillig** Lebensrad/Ziele/Gewohnheiten mit dem Coach teilen (Tagebuch immer privat; verträgt sich nur mit E2E, wenn die Klientin aktiv
+    teilt; Datenschutz-Regelung nötig). Nach dem Coaching Übergang ins Einzelabo. **Nutzer fragt zuerst 2–3 Coaches** (Würdest du es geben?
+    Was müsstest du sehen? Was würdest du zahlen?) – nichts bauen, bis die Antworten da sind.
+- **PowerPoint-Skill `ewolfe-powerpoint` (persönlich, außerhalb des Repos):** `~/.claude/skills/ewolfe-powerpoint/`, Aufruf `/ewolfe-powerpoint`
+  (Kleinbuchstaben: Claude-Code-Namensregel). Erzeugt bearbeitbare .pptx (16:9) im Markendesign = A Gentleman's Study + EW-Monogramm
+  (Navy #0C1226, Leinen #ECE7D8, Bronze #D3B681, Waldgrün #0E4A3A; Noto Serif Display ExtraCondensed Light + Inter), 17 Folientypen aus einer
+  JSON-Gliederung (`scripts/build_deck.py`), Prüfung `check_deck.py`, Vorschau `vorschau.py` über Quick Look (qlmanage). Eigene venv mit python-pptx
+  im Skill-Ordner. Die vier Schriften sind in `~/Library/Fonts` installiert. Wichtig: python-pptx trägt die Notizvorlage nicht in
+  presentation.xml ein (`p:notesMasterIdLst` fehlt) – Keynote/Quick Look hängen dann; `build_deck.py` korrigiert das (`register_notes_master`).
+  Keynote-Automation funktionierte nicht (Sandbox + blockierender Dialog) – nicht wieder versuchen. Noch keine echte Präsentation damit gebaut;
+  der Nutzer hat den Skill aufgerufen, aber noch kein Material gegeben.
 - **Offen / wartet auf den Nutzer:**
   - **Weitere laute Stellen** (nicht angefasst): Impulskarte beim Start, Lob bei Gewohnheiten, Stimmungsvergleich, Lebensrad-Erinnerung.
   - **Designs trennen:** Vorschlag „jedes Tagebuch merkt sich das Design, in dem es angelegt wurde“ (Cover/Papier bleiben) – noch keine Entscheidung.
