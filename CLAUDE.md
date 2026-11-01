@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 1.11.2026 abends (Version 2.3.6) – zuerst lesen
+## Übergabe – Stand 1.11.2026 abends (Version 2.3.7) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -29,9 +29,9 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
   **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **2.3.2:** schlichtes Regal stattdessen aus Bücher- und
-  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“.
-  **Stand 1.11.2026, 20:45: 2.3.6 ist live (gepusht und geprüft).** Im Arbeitsordner liegt eine nicht committete Vorschau 2.3.7 (Sticker-Hase neben dem
-  Osterkörbchen) – wartet auf das Ja des Nutzers. **Coach-Teilen Stufe 1** (Lebensräder + Ziele, nur lesen, Einladungscode) gibt es nur als Prototyp außerhalb
+  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“. **2.3.7:** Oster-Hase je Design neben dem Körbchen.
+  **Stand 1.11.2026, 20:45: 2.3.6 ist live (gepusht und geprüft).** 2.3.7 (Sticker-Hase neben dem
+  Osterkörbchen) ist committet, aber noch nicht gepusht → „Push origin“. **Coach-Teilen Stufe 1** (Lebensräder + Ziele, nur lesen, Einladungscode) gibt es nur als Prototyp außerhalb
   der App: „Lebensrad APP/Coach teilen – Prototyp Stufe 1 (01.11.2026).html“; nicht einbauen, bevor Coaches gefragt sind. Präsentation aktuell: v9. Details: Handoff 01.11.2026, 20:45.
 - **KI-Ältestenrat (Skill `ki-aeltestenrat`, persönlich):** Nutzer schickt Fragen gern durch den Rat und will **lange, ausführliche** Antworten
   (alle Rollen ausführlich, App-Analyse mit Zahlen). Ergebnisse dieser Sitzung:
@@ -179,7 +179,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.6`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.7`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -904,6 +904,11 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     (wie der Weihnachtsbaum), in Mystery mit dem Hasen nur bei `decorOn()`. Nie in der schlichten Ansicht. `stickers/eggs` steht nicht mehr am Regal,
     bleibt aber für die Impulskarten `easter`/`eastermon` (Mystery).
   - Test `t236.py` (Datum per `clock.set_fixed_time` auf 30.3.2027 bzw. 15.6.2027; Chromium + WebKit, drei Designs, Raum + schlicht).
+- **2.3.7 (1.11.2026) Oster-Hase je Design (Wunsch des Nutzers):** Zur Osterzeit sitzt der Hase aus den Stickern des Designs neben dem Körbchen
+  (`basket` in `tbRenderLibrary`, Klasse `.shelf-rabbit`): Lady `rt2/stickers/rabbit` links davon, Mystery `stickers/rabbit` links davon (nicht mehr
+  mittig vor der Plakette), Gentleman `rl/stickers/rabbit2` rechts davon (Wahl des Nutzers, `:root.theme-biz:not(.theme-retreat) .shelf-rabbit`).
+  `rabbit2` = Bronze-Hase ohne den Navy-Rest zwischen den Beinen (`navyrest.py` in `Lebensrad APP/eWolfe-Skripte/`); `stickerPath` gibt in AGS
+  jetzt `rabbit2` aus. Das alte `rl/stickers/rabbit` bleibt, weil eingefügte Sticker ihren Bildpfad in der Tagebuchseite speichern.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
