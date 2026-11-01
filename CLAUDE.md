@@ -9,7 +9,7 @@ Cloud-Sync über Supabase.
 
 Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 
-## Übergabe – Stand 1.11.2026 (Version 2.2.5) – zuerst lesen
+## Übergabe – Stand 1.11.2026 (Version 2.3.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -23,10 +23,11 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
   Gewohnheiten-Woche im Tagebuch ohne Klemmbrett, Woche ab Sonntag, Impulskarten klein gespeichert (Ursache „Tagebuch voll“: Safari-PNGs à 1,1–1,6 MB),
   Speicheranzeige, Lady-Eingabefelder verdeckten das Papier, Bilder nicht kopierbar, iPad-Hochformat (Klemmbrett/Cover), Konto-Symbol überall fest,
   neue Lady-Ränge (Die Suchende … Die Lichtgestalt), fünf Lady-Kleider aussortiert, Schuhe auf 1,70 m / Gr. 38, graue Schatten weg, Puppen gleich gestellt.
+- **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
+  Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
 - **Offen / wartet auf den Nutzer:**
+  - **Weitere laute Stellen** (nicht angefasst): Impulskarte beim Start, Lob bei Gewohnheiten, Stimmungsvergleich, Lebensrad-Erinnerung.
   - **Designs trennen:** Vorschlag „jedes Tagebuch merkt sich das Design, in dem es angelegt wurde“ (Cover/Papier bleiben) – noch keine Entscheidung.
-  - **Reduzierte Ansicht** (nur überlegt, nicht bauen ohne Auftrag): Vorschlag als Schalter je Design („Bibliothek: Raum / schlicht“) statt eigener
-    Designs; Trophäen zählen still weiter; bleiben: Tagebücher, Klemmbrett, Impulskarten, Sticker. Nutzer wollte erst überlegen; Skizze angeboten.
   - **Lady-Kleider Nr. 1 (Schluppenbluse/Slingbacks) und Nr. 17 (Pfingsten)** will der Nutzer neu machen; Prompts angeboten. Neue Bilder einpassen:
     Kugelfüße auf y ≈ 965 von 1100, Schuhe davor, Schuh 38 ≈ 125 px hoch, keine grauen Schatten.
   - Datenschutz-Liste weiter unten („Noch offen (Datenschutz)“).
@@ -151,7 +152,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.2.5`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -811,8 +812,23 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     verkleinert, Schuhe bleiben unverändert an ihrem Platz (`align.py`/`align2.py`: Schuhe per GrabCut in engen Rahmen je Schuh, Ständerfüße/Beine/Knauf
     als feste „kein Schuh“-Flecken; `BOXONLY=1` wenn Schuh und Ständer dieselbe Farbe haben; alte Umrisse und Schattenreste werden entfernt).
     Skripte in `~/Desktop/eWolfe-Skripte/`. Neue Kleiderbilder künftig gleich so prüfen (Füße auf 965, Schuhe davor, keine grauen Schatten).
+- **2.3.0 (1.11.2026) Schlichte Bibliothek, leise Meldungen, Konto löschen (Wünsche des Nutzers nach dem KI-Ältestenrat):**
+  - **Bibliothek: Raum / Schlicht** (`state.settings.libView`, je Gerät; `libSimple`, `setLibView`, `libViewSegHtml`): Umschalter unter dem Regal und in den
+    Einstellungen (Abschnitt „Bibliothek“, `renderLibViewSettings`). Schlicht = `tbRenderLibrarySimple`: nur der Bücherteil des Regals des Designs (`NARROW.clean`
+    bzw. `NARROW.rl`, ohne Pflanze) mit Tagebüchern, Plus und Klemmbrett, mittig, ohne Raum, Trophäen, Puppe, Tiere, Schmuck, Plakette, Rangzeile.
+    Trophäen und Stufen zählen still weiter. Sticker, Impulskarten, Achtsamkeit unverändert.
+  - **Leise Meldungen:** keine großen Trophäen-Fenster mehr (`trophyCheck` setzt nur noch beim allerersten Mal alle als gesehen) und kein Rang-Fenster
+    (`applyLevel` merkt die Stufe in `ewolfe_level_note`). Beides erscheint als kleine Zeile oben in der Bibliothek, nur in der Raum-Ansicht (`libNewsTake`,
+    `libNewsHtml`: Rang-Satz, „Du hast eine neue Trophäe erhalten: …“ bzw. „n neue Trophäen“, „Ansehen“ öffnet die erste, ✕). Neue Trophäen leuchten
+    dreimal sanft (`.is-new`). Als gesehen gilt alles, sobald die Zeile erscheint; in der schlichten Ansicht bleibt es ungesehen.
+  - **Konto löschen** (Einstellungen → Konto, `accountDelete`): Rückfrage mit „Backup herunterladen“, dann Passwort (wird per Anmeldung geprüft), dann
+    `POST /rest/v1/rpc/delete_own_account`. Supabase-Funktion `public.delete_own_account()` (security definer, `search_path ''`, nur `authenticated`) löscht
+    `auth.users` mit `auth.uid()`; `user_data` geht per `on delete cascade` mit. Danach alle `ewolfe_*`-Schlüssel des Geräts gelöscht außer Design,
+    Sprachwahl, Atem-Musik (`ACC_KEEP_KEYS`), Neustart → Anmelde-Sperre.
+  - Behoben: In `I18N.de` hatte ein `//`-Kommentar (2.2.3) `glowRanks` verschluckt – Bibliothek in A Mystery World auf Deutsch stürzte ab.
+  - Test: `t230.py` im Scratchpad (Chromium + WebKit, drei Designs, iPad 820 und Handy 390, nachgebautes Supabase).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
-  im Supabase-Speicher, Konto in der App löschen; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
+  im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
 ## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten
 - Das Lebensrad hat wieder **fünf** Ecken: `WHEEL_AREAS` (= `AREAS` ohne `freude`) für alles, was gezeichnet oder als Rad gezählt

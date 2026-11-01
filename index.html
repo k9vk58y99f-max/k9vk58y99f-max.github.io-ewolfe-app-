@@ -1828,6 +1828,24 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 .lib-wrap.less .lib-arrow-l{ display:flex; left:4px; }
 html.theme-biz .lib-arrow{ border-radius:2px; }
 html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt-sage-d); box-shadow:0 0 0 1px rgba(47,79,62,0.5); }
+/* 2.3.0: the simple library (only the book part, centred, as high as the bookcase in the room), the switch room / simple under the
+   shelf, the quiet news line on top of the library, new trophies glow softly once, and the delete-account button */
+.lib-simple{ display:flex; justify-content:center; padding:24px 8px 10px; }
+html .lib-simple .shelf-img.lib-simple-shelf{ height:min(calc(100vh - var(--nav-h, 70px) - 230px), 1000px); width:auto !important; max-width:none; margin:0 !important;
+  background-size:100% 100% !important; background-repeat:no-repeat; background-position:center; flex:none; }
+.lib-view-seg{ max-width:260px; margin:14px auto 0; }
+.lib-view-seg .seg-btn{ padding:6px 10px; font-size:13px; }
+.lib-news{ position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:20; width:min(560px, calc(100% - 24px)); box-sizing:border-box;
+  box-shadow:0 8px 24px rgba(0,0,0,0.35); display:flex; align-items:center; gap:10px; margin:0; padding:10px 10px 10px 14px; border-radius:12px;
+  background:var(--ew-panel-2); border:1px solid rgba(var(--gold-rgb), 0.35); color:var(--ew-text); font-size:14px; line-height:1.45; }
+.lib-news-text{ flex:1; display:flex; flex-direction:column; gap:4px; }
+.lib-news-text strong{ color:var(--gold-text); font-weight:500; }
+.lib-news-look{ flex:none; padding:6px 12px; font-size:13px; }
+.lib-news-x{ flex:none; width:30px; height:30px; font-size:14px; color:var(--ew-text-dim); }
+.shelf-trophy.is-new, .dress-medal.is-new{ animation:troNew 2.4s ease-in-out 3; }
+@keyframes troNew{ 0%, 100%{ filter:none; } 50%{ filter:drop-shadow(0 0 1.4cqh rgba(var(--gold-rgb), 0.9)); } }
+.acc-del-btn{ color:#d9534f !important; border-color:rgba(217,83,79,0.45) !important; }
+html.theme-retreat .lib-news{ background:#fffdf8; }
 </style>
 </head>
 <body data-theme="dark">
@@ -1953,6 +1971,11 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
         <button class="seg-btn" id="lang-de-btn">Deutsch</button>
         <button class="seg-btn" id="lang-en-btn">English</button>
       </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-head" id="t-set-libview">Bibliothek</div>
+      <div class="seg lib-view-seg" id="libview-seg"></div>
+      <p class="settings-note" id="t-libview-hint"></p>
     </div>
     <div class="settings-section">
       <div class="settings-head" id="t-set-decor">Tiere &amp; Feiertagsschmuck</div>
@@ -2337,7 +2360,7 @@ html.theme-retreat .lib-arrow{ background:rgba(248,241,229,0.92); color:var(--rt
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.2.5';
+const APP_VERSION = '2.3.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2539,6 +2562,7 @@ const LEVEL_DAYS = [0, 7, 30, 100];
 const LEVEL_MONTHS = [[5, 182], [6, 365]]; // level, days since the first active day
 let appFirstActive = 0, appActiveDayTs = [];
 const LEVEL_SEEN_KEY = 'ewolfe_level_seen';
+const LEVEL_NOTE_KEY = 'ewolfe_level_note'; // 2.3.0: a new level waits here until the library shows it
 let appLevelCache = null;
 function appActiveDays(){
   const days = new Set();
@@ -2608,7 +2632,8 @@ function applyLevel(announce){
   if(!seen){ try{ localStorage.setItem(LEVEL_SEEN_KEY, String(lv)); }catch(e){} return; } // the first time: no fanfare
   if(lv > seen){
     try{ localStorage.setItem(LEVEL_SEEN_KEY, String(lv)); }catch(e){}
-    if(announce !== false) setTimeout(()=>uiNotice((RETREAT ? t().ladyUp : BIZ ? t().clubUp : t().levelUp)[lv - 1] || ''), 600);
+    // 2.3.0 (wish of the user: everything a little quieter): no window any more – the news waits in the library until one goes there
+    if(announce !== false){ try{ localStorage.setItem(LEVEL_NOTE_KEY, String(lv)); }catch(e){} }
   }
 }
 let levelTimer = null;
@@ -5080,6 +5105,18 @@ Object.assign(I18N.de, {"broochWear": "Am Kleid tragen", "broochWorn": "Diese Br
 Object.assign(I18N.en, {"broochWear": "Wear on the dress", "broochWorn": "The dress wears this brooch", "trophyToDiary": "Add to diary", "wheelToDiary": "Wheel of life to diary", "wheelDiaryHead": "My wheel of life from {date}", "wheelDiarySaved": "Your wheel of life is now in your diary.", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
 Object.assign(I18N.de, { designHint:'Die App startet danach kurz neu. Deine Daten bleiben, wie sie sind.' });
 Object.assign(I18N.en, { designHint:'The app restarts briefly. Your data stays as it is.' });
+Object.assign(I18N.de, { setLibView:'Bibliothek', libViewRoom:'Raum', libViewSimple:'Schlicht',
+  libViewHint:'Schlicht: nur das Regal mit deinen Tagebüchern und dem Klemmbrett – ohne Raum, Trophäen, Puppe, Tiere und Schmuck. Deine Trophäen zählen still weiter und sind wieder da, sobald du „Raum“ wählst.',
+  libNewOne:'Du hast eine neue Trophäe erhalten: {t}', libNewMany:'Du hast {n} neue Trophäen erhalten.', libNewLook:'Ansehen',
+  accDelete:'Konto löschen', accDeleteAsk:'Konto wirklich löschen? Dein Konto und alle deine Daten in der Cloud werden endgültig gelöscht, ebenso alle Daten auf diesem Gerät. Das lässt sich nicht rückgängig machen. Andere Geräte werden bald danach abgemeldet; ihre Daten bleiben dort, bis du sie selbst löschst.\n\nTipp: Lade vorher ein Backup herunter.',
+  accDeleteBackup:'Backup herunterladen', accDeleteGo:'Weiter', accDeletePw:'Zur Sicherheit: Gib dein Passwort ein, um das Löschen zu bestätigen.', accDeleteFinal:'Endgültig löschen',
+  accDeleteWrongPw:'Das Passwort stimmt nicht. Es wurde nichts gelöscht.', accDeleteFail:'Das Konto konnte nicht gelöscht werden. Prüfe deine Internetverbindung. Es wurde nichts gelöscht.', accDeleteDone:'Dein Konto und deine Daten sind gelöscht. Alles Gute für deinen Weg!' });
+Object.assign(I18N.en, { setLibView:'Library', libViewRoom:'Room', libViewSimple:'Simple',
+  libViewHint:'Simple: only the bookcase with your diaries and the clipboard – no room, trophies, dress form, animals or decoration. Your trophies keep counting quietly and come back as soon as you choose Room.',
+  libNewOne:'You have received a new trophy: {t}', libNewMany:'You have received {n} new trophies.', libNewLook:'Look',
+  accDelete:'Delete account', accDeleteAsk:'Really delete your account? Your account and all your data in the cloud will be deleted for good, and so will all data on this device. This cannot be undone. Other devices are signed out soon after; their data stays there until you delete it yourself.\n\nTip: download a backup first.',
+  accDeleteBackup:'Download backup', accDeleteGo:'Continue', accDeletePw:'For your safety: enter your password to confirm the deletion.', accDeleteFinal:'Delete for good',
+  accDeleteWrongPw:'The password is not correct. Nothing was deleted.', accDeleteFail:'The account could not be deleted. Check your internet connection. Nothing was deleted.', accDeleteDone:'Your account and your data are deleted. All the best on your way!' });
 Object.assign(I18N.de, { setDecor:'Tiere & Feiertagsschmuck', decorOn:'Anzeigen', decorOff:'Ausblenden', decorHint:'Tiere am Regal, Osterhase, Nikolaus, Adventskranz, Baum und Schnee. Deine Trophäen bleiben immer.' });
 Object.assign(I18N.en, { setDecor:'Animals & feast-day decoration', decorOn:'Show', decorOff:'Hide', decorHint:'Animals at the shelf, Easter rabbit, Saint Nicholas, Advent wreath, tree and snow. Your trophies always stay.' });
 Object.assign(I18N.de, { moodCompareTitle:'Vorher und nachher', moodBeforeLab:'Vorher', moodAfterLab:'Jetzt', moodBetter:'Schön – die Übung hat dir gutgetan!', moodSame:'Du hast dir Zeit für dich genommen. Das zählt.', moodWorse:'Nicht jede Übung fühlt sich gleich an. Schön, dass du drangeblieben bist.' });
@@ -5167,7 +5204,7 @@ I18N.en.areasText.berufung = "Your purpose means developing your strengths and t
 Object.assign(I18N.de, {"wheelRemind": "Dein letztes Lebensrad ist {m} Monate alt.\n\nZeit für ein neues? Nimm dir ein paar Minuten und schau, wo du heute stehst. Mit „Vergleichen“ siehst du danach, wie du gewachsen bist.", "wheelRemindNow": "Jetzt ausfüllen", "wheelRemindCal": "Im Kalender erinnern", "wheelRemindLater": "Später", "wheelRemindEvent": "eWolfe: Zeit für ein neues Lebensrad", "wheelRemindCalDone": "Die Kalenderdatei wurde erstellt. Öffne sie und tippe auf „Hinzufügen“, dann erinnert dich dein Kalender alle drei Monate an ein neues Lebensrad.", "noteWheel": "Dein letztes Lebensrad ist drei Monate oder älter – Zeit für ein neues."});
 Object.assign(I18N.en, {"wheelRemind": "Your last wheel of life is {m} months old.\n\nTime for a new one? Take a few minutes to see where you stand today. Afterwards “Compare” shows you how you have grown.", "wheelRemindNow": "Fill it in now", "wheelRemindCal": "Remind me in my calendar", "wheelRemindLater": "Later", "wheelRemindEvent": "eWolfe: time for a new wheel of life", "wheelRemindCalDone": "The calendar file has been created. Open it and tap “Add”, then your calendar will remind you every three months to fill in a new wheel of life.", "noteWheel": "Your last wheel of life is three months old or older – time for a new one."});
 Object.assign(I18N.de, { clubRanks:['', 'Gast', 'Anwärter', 'Mitglied', 'Ratsmitglied', 'Vorstand', 'Ehrenmitglied'], clubRankLabel:'Dein Rang',
-  ladyRanks:['', 'Die Suchende', 'Die Träumerin', 'Die Entdeckerin', 'Die Visionärin', 'Die Weise', 'Die Lichtgestalt'], // 1.11.2026: new ranks of the user glowRanks:['', 'Funke', 'Glut', 'Flamme', 'Stern', 'Komet', 'Sonne'],
+  ladyRanks:['', 'Die Suchende', 'Die Träumerin', 'Die Entdeckerin', 'Die Visionärin', 'Die Weise', 'Die Lichtgestalt'], /* 1.11.2026: new ranks of the user */ glowRanks:['', 'Funke', 'Glut', 'Flamme', 'Stern', 'Komet', 'Sonne'],
   ladyUp:['', 'Du bist jetzt die Träumerin. Sieben aktive Tage – du hast begonnen, dein Leben neu zu erträumen.', 'Du bist jetzt die Entdeckerin. 30 aktive Tage – du entdeckst, was alles in dir steckt.', 'Du bist jetzt die Visionärin. 100 aktive Tage – du siehst klar, wohin du wachsen möchtest.', 'Du bist jetzt die Weise. Ein halbes Jahr bleibst du dir treu – deine Erfahrung trägt dich.', 'Du bist jetzt die Lichtgestalt. Ein ganzes Jahr mit dir selbst – dein Licht strahlt weit.'],
   clubProgress:'Aktive Tage: {n} · noch {m} bis zum Rang „{r}“', clubProgressMax:'Aktive Tage: {n} · höchster Rang: {r}',
   clubUp:['', 'Willkommen als Anwärter. Sieben aktive Tage – du hast ernsthaft begonnen, an dir zu arbeiten.', 'Du bist jetzt Mitglied. 30 aktive Tage – aus Vorsätzen werden Gewohnheiten.', 'Du bist jetzt Ratsmitglied. 100 aktive Tage – das zeugt von Haltung.', 'Willkommen im Vorstand. Ein halbes Jahr bleibst du dir treu.', 'Ehrenmitglied. Ein ganzes Jahr mit dir selbst – deine Vitrine steht bereit.'] });
@@ -5337,6 +5374,7 @@ function applyLang(){
   document.getElementById('t-set-lang').textContent = d.setLang;
   document.getElementById('t-set-backup').textContent = d.setBackup;
   document.getElementById('t-set-decor').textContent = d.setDecor;
+  renderLibViewSettings();
   document.getElementById('decor-on-btn').textContent = d.decorOn;
   document.getElementById('decor-off-btn').textContent = d.decorOff;
   document.getElementById('t-decor-hint').textContent = d.decorHint;
@@ -7358,6 +7396,7 @@ function openTagebuch(){ tbEnterDiary(tbLatestBook(tbCurrentYearStr())); }
 function closeTagebuch(){
   if(tbTextSaveTimer){ clearTimeout(tbTextSaveTimer); tbTextSaveTimer=null; saveState(); }
   document.getElementById('tb-overlay').classList.remove('open');
+  libFresh = null; libLevel = 0; // the news of the library were seen
   navSync();
 }
 document.getElementById('diary-btn').onclick = openTagebuch;
@@ -7433,6 +7472,7 @@ function tbRender(){
   const body = document.getElementById('tb-body');
   body.classList.toggle('tb-body-cover', tbView==='cover' || tbView==='habits');
   body.classList.toggle('tb-body-page', tbView==='page'); // the cover fills the screen, nothing to scroll
+  if(tbView !== 'library'){ libFresh = null; libLevel = 0; }
   if(tbView==='library') body.innerHTML = tbRenderLibrary();
   else if(tbView==='habits'){ body.innerHTML = tbRenderHabits(); habitRender(); const host = document.getElementById('tb-habit-host'); if(host) host.appendChild(document.querySelector('#habit-modal .habit-board')); }
   else if(tbView==='cover') body.innerHTML = tbRenderCover();
@@ -7545,9 +7585,53 @@ function isEasterTime(now){
   return today - e >= -7 * day && today - e <= 7 * day;
 }
 const RL_DOG_READY = true; // true as soon as img/rl/dog.webp and img/rl/dog-lying.webp are there
+/* 2.3.0 (wish of the user, after the council of elders): the library can be "simple" – only the book part of the bookcase of the design
+   with the diaries and the clipboard, no room, trophies, dress, animals, decoration, plaque or rank. Trophies and levels go on counting
+   quietly; switching back to the room shows everything. Per device (state.settings.libView, settings are not synced). */
+const libSimple = ()=>state.settings.libView === 'simple';
+function setLibView(v){
+  state.settings.libView = v === 'simple' ? 'simple' : 'room'; saveState(); renderLibViewSettings();
+  libFresh = null; libLevel = 0; // back in the room: what came in the meantime is news again
+  if(document.getElementById('tb-overlay').classList.contains('open') && tbView === 'library') tbRender();
+}
+function libViewSegHtml(){
+  const d = t(), s = libSimple();
+  return `<div class="seg lib-view-seg"><button class="seg-btn${s ? '' : ' active'}" onclick="setLibView('room')">${d.libViewRoom}</button><button class="seg-btn${s ? ' active' : ''}" onclick="setLibView('simple')">${d.libViewSimple}</button></div>`;
+}
+function renderLibViewSettings(){
+  const d = t(), el = document.getElementById('libview-seg'); if(!el) return;
+  document.getElementById('t-set-libview').textContent = d.setLibView;
+  el.outerHTML = libViewSegHtml().replace('class="seg lib-view-seg"', 'class="seg lib-view-seg" id="libview-seg"');
+  document.getElementById('t-libview-hint').textContent = d.libViewHint;
+}
+function tbRenderLibrarySimple(){
+  const d = t(), key = BIZ ? 'rl' : 'clean', SH = SHELVES[key], NS = NARROW[key];
+  SHELF_X = SH.x; SHELF_ROWS = SH.rows;
+  const keys = tbBookKeys(), WALL = 4;
+  const cap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (NS.x[1] - NS.x[0]) / (r[1] - r[0]) * 100 * NS.aspect - 2 * WALL; };
+  const books = keys.map(k=>{ const dia = state.tagebuch.jahre[k], land = tbIsLand(dia), pages = dia.seiten.filter(p=>p.type !== 'titel').length;
+    return { key:k, w:((land ? 44 : 34) + Math.min(26, pages / 5)) * 0.62, h:land ? 64 : 86 }; }).concat({ w:27, h:84, plus:true });
+  let rows = [], cur = [], used = 0;
+  books.forEach(b=>{ const g = cur.length ? (b.plus ? 3 : 0.7) : 0; if(cur.length && used + g + b.w > cap(rows.length)){ rows.push(cur); cur = []; used = 0; } used += (cur.length ? (b.plus ? 3 : 0.7) : 0) + b.w; cur.push(b); });
+  if(cur.length) rows.push(cur);
+  if(rows.length > SHELF_ROWS.length) rows = rows.slice(0, SHELF_ROWS.length - 1).concat([rows.slice(SHELF_ROWS.length - 1).flat()]);
+  const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
+    : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
+  const clipRow = (()=>{ for(let i = Math.floor(SHELF_ROWS.length / 2); i < SHELF_ROWS.length; i++) if(!(rows[i] || []).length) return i; return -1; })();
+  const clipImg = clipDir() + '/clipboard2';
+  const clipHtml = `<button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipImg ? `<img src="img/${clipImg}.webp" alt="">` : clipboardSvg()}</button>`;
+  return `<div class="lib-simple"><div class="shelf-img shelf-narrow lib-simple-shelf" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
+      `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}</div></div>
+    ${libViewSegHtml()}
+    <p class="shelf-hint">${keys.length ? d.shelfHint : ''}</p>
+    <p class="page-footer">eWolfe · Version ${APP_VERSION}</p>
+    ${tbCoverSettingsHtml()}`;
+}
 function tbRenderLibrary(){
+  if(libSimple()) return tbRenderLibrarySimple();
+  libNewsTake();
   const d = t();
-  const SV = appLevel() >= 6 ? SHELF_SV[BIZ ? (RETREAT ? 'rt' : 'rl') : 'mw'] : null; // after a year: the bookcase with the cabinet built on (24.10.2026)
+  const SV =appLevel() >= 6 ? SHELF_SV[BIZ ? (RETREAT ? 'rt' : 'rl') : 'mw'] : null; // after a year: the bookcase with the cabinet built on (24.10.2026)
   let SH = SV ? SV.shelf : shelfNow(); SHELF_X = SH.x; SHELF_ROWS = SH.rows;
   // with the cabinet (level 6) the diaries of earlier years stand in its top compartment, if there are several (1.78.2)
   const allKeys = tbBookKeys(), thisY = tbCurrentYearStr();
@@ -7667,7 +7751,7 @@ function tbRenderLibrary(){
   const rowsAll = packed.slice(0, SHELF_ROWS.length).map(r=>({ kind:r.every(it=>!it.book) ? 'tro' : 'books', r }));
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
     : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
-  const troHtml = o=>`<button class="shelf-trophy${trophyPh(o.x) ? ' ph-note ph-note-s' : ''}" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh${TRO_LIFT[o.x.img] ? `;transform:translateY(${TRO_LIFT[o.x.img]}%)` : ''}" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
+  const troHtml = o=>`<button class="shelf-trophy${trophyPh(o.x) ? ' ph-note ph-note-s' : ''}${(libFresh || []).includes(o.x.id) ? ' is-new' : ''}" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh${TRO_LIFT[o.x.img] ? `;transform:translateY(${TRO_LIFT[o.x.img]}%)` : ''}" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
   // the animals come one by one: the dog after 15 active days (since 1.73.9), the cat on top from level 4 (100 days), the fox (as big as
   // the dog, on the floor left) after a year (level 6). The rabbit only visits at Easter, in front of the shelf with eggs.
   // A missing picture (cat, eggs not there yet) simply stays away.
@@ -7739,10 +7823,11 @@ function tbRenderLibrary(){
   const cribHtml = cribFront ? `<button class="shelf-crib-side is-tro" onclick="trophyShow('${cribFront.id}')" title="${escapeHtml(cribFront.title)}" aria-label="${escapeHtml(cribFront.title)}"><img src="img/${trophyRl(cribFront).img}.webp" alt=""></button>` : ''; // A Mystery World: the crib with our dog in front of the tree
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
-  return `<div class="lib-wrap"><button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${NAR && clipRow >= 0 ? '' : clipHtml}${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
+  return `<div class="lib-wrap">${libNewsHtml()}<button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${NAR && clipRow >= 0 ? '' : clipHtml}${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + dressKind) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal${(libFresh || []).includes(m.id) ? ' is-new' : ''}" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
+    ${libViewSegHtml()}
     <p class="page-footer">eWolfe · Version ${APP_VERSION}</p>
     ${tbCoverSettingsHtml()}`;
 }
@@ -8212,13 +8297,33 @@ function trophyCheck(){
       let seen = null;
       try{ seen = JSON.parse(localStorage.getItem(TROPHY_SEEN_KEY) || 'null'); }catch(e){}
       if(!seen){ localStorage.setItem(TROPHY_SEEN_KEY, JSON.stringify(got)); return; }
-      const fresh = got.filter(id=>!seen.includes(id));
-      if(!fresh.length) return;
-      seen.push(fresh[0]); localStorage.setItem(TROPHY_SEEN_KEY, JSON.stringify(seen));
-      trophyShow(fresh[0], true);
+      // 2.3.0 (wish of the user: everything a little quieter): no big window any more – new trophies wait in the library
+      // (libNews), where a small line says so; only the library marks them as seen
     }catch(e){}
   }, 900);
 }
+/* 2.3.0: the news of the library – new trophies and a new rank – appear as one small line on top of the library (room view only),
+   with "Look" and ✕. They are marked as seen when the line appears; it stays until it is closed or one leaves the library.
+   In the simple view nothing is marked, so switching back to the room still shows them. */
+let libFresh = null, libLevel = 0;
+function libNewsTake(){
+  if(libFresh !== null) return;
+  let seen = null; try{ seen = JSON.parse(localStorage.getItem(TROPHY_SEEN_KEY) || 'null'); }catch(e){}
+  const got = trophyList().filter(x=>x.at).map(x=>x.id);
+  libFresh = seen ? got.filter(id=>!seen.includes(id)) : [];
+  try{ localStorage.setItem(TROPHY_SEEN_KEY, JSON.stringify(got)); }catch(e){}
+  try{ libLevel = +(localStorage.getItem(LEVEL_NOTE_KEY) || 0); localStorage.removeItem(LEVEL_NOTE_KEY); }catch(e){ libLevel = 0; }
+}
+function libNewsHtml(){
+  const d = t(), list = trophyList(), fresh = (libFresh || []).map(id=>list.find(x=>x.id === id)).filter(Boolean);
+  const rank = libLevel ? ((RETREAT ? d.ladyUp : BIZ ? d.clubUp : d.levelUp)[libLevel - 1] || '') : '';
+  if(!fresh.length && !rank) return '';
+  const tro = fresh.length === 1 ? d.libNewOne.replace('{t}', `<strong>${escapeHtml(fresh[0].title)}</strong>`) : fresh.length ? d.libNewMany.replace('{n}', fresh.length) : '';
+  return `<div class="lib-news" role="status"><div class="lib-news-text">${rank ? `<span>${escapeHtml(rank)}</span>` : ''}${tro ? `<span>${tro}</span>` : ''}</div>
+    ${fresh.length ? `<button class="ghost-btn lib-news-look" onclick="libNewsLook()">${d.libNewLook}</button>` : ''}<button class="icon-btn lib-news-x" onclick="libNewsClose()" aria-label="${d.dialogOk}">✕</button></div>`;
+}
+function libNewsLook(){ const id = (libFresh || [])[0]; libNewsClose(); if(id) trophyShow(id, true); }
+function libNewsClose(){ libFresh = []; libLevel = 0; const el = document.querySelector('.lib-news'); if(el) el.remove(); document.querySelectorAll('.shelf-trophy.is-new, .dress-medal.is-new').forEach(b=>b.classList.remove('is-new')); }
 function tbEditYearCover(year){ tbYear = year; tbEnsureYear(year); tbCoverSettingsOpen = true; tbRender(); }
 function tbOpenYear(year){
   tbYear = year;
@@ -10240,10 +10345,41 @@ function renderSettingsSync(){
     <div id="sync-status-line" class="sync-msg"></div>
     <button class="primary-btn" style="width:100%;" id="sync-now-btn">${d.syncNowBtn}</button>
     <button class="ghost-btn" style="width:100%;margin-top:8px;" id="sync-out-btn">${d.syncSignOut}</button>
-    <div class="medi-attach-hint" style="margin-top:10px;">${d.syncKeepLocal}</div>`;
+    <div class="medi-attach-hint" style="margin-top:10px;">${d.syncKeepLocal}</div>
+    <button class="ghost-btn acc-del-btn" style="width:100%;margin-top:14px;" id="acc-del-btn">${d.accDelete}</button>`;
   document.getElementById('sync-now-btn').onclick = ()=>syncNow();
   document.getElementById('sync-out-btn').onclick = async ()=>{ await sbSignOut(); closeModal('settings-modal'); syncSet('off'); syncAuthMode = null; syncShowGate(); };
+  document.getElementById('acc-del-btn').onclick = accountDelete;
   syncUpdateUi();
+}
+/* 2.3.0: delete the account in the app (GDPR). Asks twice: first what happens (with a backup offered), then the password.
+   The database function delete_own_account (security definer, only for the signed-in person, only their own row in auth.users)
+   deletes the account; user_data goes with it (on delete cascade). Afterwards everything of this person is removed from this
+   device; only device settings (design, language chosen, breathing music) stay. */
+const ACC_KEEP_KEYS = ['ewolfe_design', 'ewolfe_lang_chosen', 'ewolfe_breath_music'];
+async function accountDelete(){
+  const d = t();
+  if(!sbSession || !sbSession.user) return;
+  for(;;){
+    const a = await uiDialog(d.accDeleteAsk, { confirm:true, okText:d.accDeleteGo, altText:d.accDeleteBackup });
+    if(a === 'alt'){ await exportBackup(); continue; }
+    if(a !== true) return;
+    break;
+  }
+  const ok = await uiDialog(d.accDeletePw, { confirm:true, okText:d.accDeleteFinal, html:`<input class="small-input" id="acc-del-pw" type="password" autocomplete="current-password" placeholder="${d.syncPassword}" style="width:100%;">` });
+  const pw = (document.getElementById('acc-del-pw') || {}).value || '';
+  document.getElementById('dialog-extra').innerHTML = '';
+  if(ok !== true) return;
+  try{ await sbSignIn(sbSession.user.email, pw); }
+  catch(e){ uiNotice(e && e.status === 0 ? d.accDeleteFail : d.accDeleteWrongPw); return; }
+  try{ await sbRequest('/rest/v1/rpc/delete_own_account', { method:'POST', body:{} }); }
+  catch(e){ console.error('eWolfe: deleting the account failed', e); uiNotice(d.accDeleteFail); return; }
+  clearTimeout(syncTimer); clearTimeout(syncRetryTimer);
+  const wipe = ()=>{ try{ Object.keys(localStorage).filter(k=>k.startsWith('ewolfe_') && !ACC_KEEP_KEYS.includes(k)).forEach(k=>localStorage.removeItem(k)); }catch(e){} };
+  wipe(); sbSession = null; e2e = null;
+  await uiNotice(d.accDeleteDone);
+  wipe(); // once more: a timer may have saved in the meantime
+  location.reload();
 }
 function renderSettingsPrivacy(){
   const d = t(), box = document.getElementById('settings-privacy');
