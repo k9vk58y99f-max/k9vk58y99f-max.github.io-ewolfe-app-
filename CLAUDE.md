@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 1.11.2026 abends (Version 2.3.5) – zuerst lesen
+## Übergabe – Stand 1.11.2026 abends (Version 2.3.6) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -29,8 +29,8 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
   **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **2.3.2:** schlichtes Regal stattdessen aus Bücher- und
-  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen.
-  **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1–2.3.5 sind committet, aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
+  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“.
+  **Stand 1.11.2026 abends: 2.3.0 ist live, 2.3.1–2.3.6 sind committet, aber noch nicht gepusht** → Nutzer bitten, in GitHub Desktop „Push origin“ zu klicken, dann Live-Version prüfen.
 - **KI-Ältestenrat (Skill `ki-aeltestenrat`, persönlich):** Nutzer schickt Fragen gern durch den Rat und will **lange, ausführliche** Antworten
   (alle Rollen ausführlich, App-Analyse mit Zahlen). Ergebnisse dieser Sitzung:
   - Reduzierter Modus → als Schalter gebaut (2.3.0). Übersehenes Argument: Belohnungen können innere Motivation verdrängen.
@@ -177,7 +177,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.5`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.6`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -893,6 +893,15 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   - **„Fabergé-Ei“ → „Schmuck-Ei“** (en „Ornamental egg“), nur A Mystery World; Gentleman/Lady heißen „Osterei“.
   - **Schrift-Lizenzen:** `fonts/LICENSES/OFL-<schrift>.txt` (offizielle Texte aus google/fonts).
   - Test `t235.py` (Chromium + WebKit, drei Designs). Offen: Musiklizenz der Lemon-Meditation.
+- **2.3.6 (1.11.2026) Osterkörbchen, überall „Osterei“ (Wünsche des Nutzers):**
+  - Die Oster-Trophäe heißt in allen Designs „Osterei <Jahr>“ / „Easter egg <Jahr>“ (Mystery hieß seit 2.3.5 „Schmuck-Ei“).
+  - **Osterkörbchen** (Bilder des Nutzers, vor grauem Verlauf freigestellt mit `cutgreyg.py`, grauer Bodenschatten fällt mit weg; Kopie in
+    `Lebensrad APP/eWolfe-Skripte/`): `img/rl2/easter-basket` (Nest mit Lilie, Krone, Löwe, grüne Schleife), `img/rt2/easter-basket` (Nest in Rosé,
+    Salbei, Burgund), `img/mw2/easter-basket` (Low-Poly-Korb), je 600 px breit. Zur Osterzeit (`isEasterTime`: Ostersonntag ± 7 Tage) in jedem Jahr
+    vor dem Bücherteil (`.shelf-eggs` left −52 % bzw. Mystery −50 % des Trophäenteils), weg vom Messingschild und vom Hund; in Gentleman/Lady immer
+    (wie der Weihnachtsbaum), in Mystery mit dem Hasen nur bei `decorOn()`. Nie in der schlichten Ansicht. `stickers/eggs` steht nicht mehr am Regal,
+    bleibt aber für die Impulskarten `easter`/`eastermon` (Mystery).
+  - Test `t236.py` (Datum per `clock.set_fixed_time` auf 30.3.2027 bzw. 15.6.2027; Chromium + WebKit, drei Designs, Raum + schlicht).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
