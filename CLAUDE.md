@@ -8,6 +8,8 @@ Zeichnungen, Fotos), Achtsamkeit (Meditationen, Links, Audio/Video), Backup als 
 Cloud-Sync über Supabase.
 
 Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
+eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
+Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
 ## Übergabe – Stand 1.11.2026 abends (Version 2.3.1) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
