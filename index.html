@@ -2370,7 +2370,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.4.0';
+const APP_VERSION = '2.4.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2432,7 +2432,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-11-01';
+const APP_BUILD = '2026-11-03';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -5006,6 +5006,8 @@ Object.assign(I18N.de, { // 1.99.0
   habitPraise30:'Wunderbar! 30 Tage am Stück: „{h}“ ist jetzt eine neue Gewohnheit von dir. Mach weiter so!',
   habitPraise60:'Großartig! 60 Tage ohne Unterbrechung: „{h}“ gehört jetzt fest zu deinem Leben. Darauf kannst du richtig stolz sein!',
   habitPraise90:'Hervorragend! 90 Tage am Stück – ein ganzes Vierteljahr „{h}“. Du hast etwas in deinem Leben wirklich verändert. Feier dich heute!',
+  habitPraise150:'Großartig! 150 Tage am Stück: „{h}“ ist längst ein Teil von dir. Das schaffen nur wenige – sei richtig stolz auf dich!',
+  habitPraise300:'Unglaublich! 300 Tage am Stück – fast ein ganzes Jahr „{h}“. Du hast bewiesen, dass du dir treu bleibst. Feier dich heute ausgiebig!',
   habitTitle:'Gewohnheiten', habitWeek:'KW {n}', habitAdd:'Gewohnheit', habitToDiary:'Ins Tagebuch', habitEmpty:'Noch keine Gewohnheiten. Lege bis zu 8 an – zum Beispiel „10 Minuten Bewegung“ oder „Ein Glas Wasser am Morgen“ – und hake jeden Tag ab, was du geschafft hast.',
   habitNamePh:'Gewohnheit, z. B. 10 Minuten lesen', habitDeleteConfirm:'Die Gewohnheit „{t}“ wirklich löschen?', habitSaved:'Das Wochenblatt steht jetzt in deinem Tagebuch.',
   diaryDayPage:'Tagesseite', day_dank:'Wofür ich heute dankbar bin', day_fokus:'Mein Fokus heute', day_schritt:'Ein kleiner Schritt zu einem Ziel', day_gut:'Was heute gut war', day_gelernt:'Was ich heute gelernt habe', day_mood:'Wie geht es mir?',
@@ -5032,6 +5034,8 @@ Object.assign(I18N.en, {
   habitPraise30:'Wonderful! 30 days in a row: “{h}” is now a new habit of yours. Keep it up!',
   habitPraise60:'Great! 60 days without a break: “{h}” is now a firm part of your life. You can be really proud of that!',
   habitPraise90:'Outstanding! 90 days in a row – a whole quarter of a year of “{h}”. You have truly changed something in your life. Celebrate yourself today!',
+  habitPraise150:'Great! 150 days in a row: “{h}” has long become part of you. Only few manage this – be really proud of yourself!',
+  habitPraise300:'Incredible! 300 days in a row – almost a whole year of “{h}”. You have proven that you stay true to yourself. Celebrate yourself today!',
   habitTitle:'Habits', habitWeek:'Week {n}', habitAdd:'Habit', habitToDiary:'Add to diary', habitEmpty:'No habits yet. Add up to 8 – for example “10 minutes of exercise” or “A glass of water in the morning” – and tick off every day what you managed.',
   habitNamePh:'Habit, e.g. read for 10 minutes', habitDeleteConfirm:'Really delete the habit “{t}”?', habitSaved:'The week sheet is now in your diary.',
   diaryDayPage:'Day page', day_dank:'What I am grateful for today', day_fokus:'My focus today', day_schritt:'A small step towards a goal', day_gut:'What was good today', day_gelernt:'What I learned today', day_mood:'How am I feeling?',
@@ -7132,11 +7136,11 @@ function habitRender(){
 function habitToggle(id, k){
   const H = habitsOf(state), key = k + '|' + id, on = !!(H.marks[key] && H.marks[key].v);
   H.marks[key] = { v:on ? 0 : 1, t:Date.now() };
-  // 28.10.2026 (wish of the user): praise after 30, 60 and 90 days in a row – each step once per habit
+  // 28.10.2026 (wish of the user): praise after 30, 60 and 90 days in a row – each step once per habit; 3.11.2026: also 150 and 300 (the trophies)
   let praise = null;
   if(!on){
     const h = H.list.find(x=>x.id === id), n = habitStreak(id, k);
-    const best = Math.max(0, ...((h && h.praise) || [])), step = [90, 60, 30].find(x=>n >= x && x > best); // only ever a bigger praise than before
+    const best = Math.max(0, ...((h && h.praise) || [])), step = [300, 150, 90, 60, 30].find(x=>n >= x && x > best); // only ever a bigger praise than before
     if(h && step){ h.praise = ((h.praise || []).concat(step)).sort((a, b)=>a - b); h.mt = Date.now(); praise = t()['habitPraise' + step].replace('{h}', h.name); }
   }
   saveState(); habitRender();
@@ -7946,17 +7950,17 @@ function trophyDefs(){
   [3, 5, 7, 14, 30, 100].forEach((n, i)=>out.push({ id:'streak' + n, group:'streak', stage:i, kind:'img', img:['crystal-n-1', 'crystal-n-2b', 'crystal-n-2', 'crystal-n-3', 'crystal-n-4', 'crystal-n-5'][i], scale:0.55 + i * 0.08, aspect:[0.527, 0.613, 0.648, 0.663, 0.622, 0.647][i], // 29.10.2026: the new one with two points is stage 2, the full druse comes last need:1, needShow:n,
     list:ev.streakAt[n] ? [ev.streakAt[n]] : [], have:()=>Math.min(n, streakMax),
     title:L(n + ' Tage in Folge', n + ' days in a row'), desc:L('Du hast an ' + n + ' Tagen hintereinander geübt.', 'You practised on ' + n + ' days in a row.') }));
-  // 29.10.2026: habits – a red crystal that grows when one habit is ticked 30, 60 and 90 days in a row (the two smaller pictures
-  // are still to come, until then the same picture smaller). The day each length was first reached counts.
+  // 29.10.2026: habits – a red crystal that grows when one habit is ticked 30, 90, 150 and 300 days in a row (3.11.2026, wish of the user:
+  // before it was 30/60/90 – too fast, after 90 days almost everything was reached). The day each length was first reached counts.
   const habReach = {};
   try{ const H = habitsOf(state);
     habitDailyList(H).forEach(h=>{ const days = Object.keys(H.marks).filter(k=>k.endsWith('|' + h.id) && H.marks[k].v).map(k=>k.split('|')[0]).sort();
       let run = 0, prev = null;
       days.forEach(k=>{ const [y, m, dd] = k.split('-').map(Number), x = new Date(y, m - 1, dd).getTime();
         run = prev !== null && Math.round((x - prev) / 864e5) === 1 ? run + 1 : 1; prev = x;
-        [30, 60, 90].forEach(n=>{ if(run === n && (!habReach[n] || x < habReach[n])) habReach[n] = x + 12 * 36e5; }); });
+        HABIT_TRO_DAYS.forEach(n=>{ if(run === n && (!habReach[n] || x < habReach[n])) habReach[n] = x + 12 * 36e5; }); });
     }); }catch(e){}
-  [30, 60, 90].forEach((n, i)=>out.push({ id:'habit' + n, group:'habit', stage:i, kind:'img', img:['crystal-red-a', 'crystal-red-b', 'crystal-red'][i], scale:[0.55, 0.7, 0.85][i], aspect:[0.572, 0.558, 0.56][i], need:1, needShow:n,
+  HABIT_TRO_DAYS.forEach((n, i)=>out.push({ id:'habit' + n, group:'habit', stage:i, kind:'img', img:['crystal-red-a', 'crystal-red-b', 'crystal-red', 'crystal-red'][i], scale:[0.55, 0.7, 0.85, 1][i], aspect:[0.572, 0.558, 0.56, 0.56][i], need:1, needShow:n,
     list:habReach[n] ? [habReach[n]] : [], title:L('Gewohnheit: ' + n + ' Tage', 'Habit: ' + n + ' days'),
     desc:L('Du hast eine Gewohnheit ' + n + ' Tage am Stück gelebt.', 'You kept a habit for ' + n + ' days in a row.') }));
   // glowing orbs: wheels (violet), goals (gold), diary pages (blue), gratitude (pink), growth (green), all areas (rainbow)
@@ -8061,13 +8065,16 @@ const TRO_FRONT = /medal|brooch|obelisk|quartz|(^|\/)star$|trophy-star|nikolaus$
 /* A Gentleman's Study (1.80.0): the same trophies, other pictures (img/rl/): medals, crystal obelisks, glass cloches, silver cups,
    ship's wheel, pocket watch, sundial, telescope … – [picture, width/height]. A trophy that grows keeps its picture and grows
    in size; a picture that is not there yet (the crib) stays the classic one. */
+const HABIT_TRO_DAYS = [30, 90, 150, 300];
 const RL_TRO = {
   ex:[['medal-navy', 0.51], ['medal-green', 0.51], ['medal-cognac', 0.51], ['medal-burgundy', 0.51], ['medal-cream', 0.52], ['medal-stripe', 0.51]],
   streak:[['obelisk-1', 0.57], ['obelisk-2', 0.49], ['obelisk-3', 0.41], ['obelisk-4', 0.37], ['obelisk-5', 0.34], ['obelisk-6', 0.31]],
   box:['cloche-lotus', 0.73], b478:[['cloche-cherry-1', 0.84], ['cloche-cherry-2', 0.85], ['cloche-cherry-3', 0.84]], lemon:[['cloche-lemon-1', 0.70], ['cloche-lemon-2', 0.70], ['cloche-lemon-3', 0.70]],
   stones:[['cloche-stones-1', 0.83], ['cloche-stones-2', 0.84], ['cloche-stones-3', 0.83]], bowl:[['cloche-bowl-1', 0.84], ['cloche-bowl-2', 0.85], ['cloche-bowl-3', 0.85]], grat:[['cloche-hearts-1', 0.83], ['cloche-hearts-2', 0.83], ['cloche-hearts-3', 0.82]],
   wheel:['ships-wheel', 0.76], goal:['cup-silver', 0.88], page:['books-pen', 1.7], loyal:['pocket-watch', 1.06], joy:['sundial', 0.62],
-  up10:['telescope', 1.01], upall:['cup-grand', 0.76], nikolaus:['nikolaus', 0.4], nikolaus2:['boot', 1.05], xmas:['star', 0.73], xmas2:['crib', 1.28]
+  up10:['telescope', 1.01], upall:['cup-grand', 0.76], nikolaus:['nikolaus', 0.4], nikolaus2:['boot', 1.05], xmas:['star', 0.73], xmas2:['crib', 1.28],
+  // 3.11.2026: habits = a bonsai that grows; third value = scale, so that pot and stand keep their size and only the tree grows
+  habit:[['bonsai-1', 0.937, 0.51], ['bonsai-2', 0.708, 0.76], ['bonsai-3', 0.795, 0.77], ['bonsai-4', 0.952, 0.9]]
 };
 const RL_EGGS = [['egg-cream', 0.57, 0.75], ['egg-cobalt', 0.58, 0.9], ['egg-green', 0.59, 1.05]];
 // A Lady's Conservatory (1.86.8): its own trophies in img/rt/ (brooches, rose quartz, cloches in three stages, armillary sphere,
@@ -8122,6 +8129,7 @@ function trophyRl(x){
       const scale = x.group === 'streak' ? (0.5 + x.stage * 0.1) * 0.8 : x.group === 'joy' ? x.scale * 0.8 : x.id === 'up10' ? x.scale * 1.2 : x.id === 'upall' ? x.scale * 1.2 : x.group === 'ex' ? 0.26 + x.stage * 0.03 : x.group === 'loyal' ? 0.62 + x.stage * 0.08 /* the mantel clock grows a little with each stage */ : x.group === 'goal' ? x.scale * 0.5 /* 24.10.2026: the red cup half as big */ : CLr.includes(x.group) ? (0.62 + x.stage * 0.12) * 0.85 : x.scale;
       return { ...x, img:(r[0].includes('/') ? '' : 'rt/') + r[0], aspect:r[1], scale }; }
   }
+  if(RETREAT && x.group === 'habit') return x; // A Lady's Conservatory: the rose tree is still to come, until then the red crystal
   let m = null;
   const st = RL_TRO[x.group];
   if(st && Array.isArray(st[0])) m = st[Math.min(x.stage, st.length - 1)]; // own picture per stage (medals, obelisks, cloches since 1.82.0)
@@ -8131,7 +8139,7 @@ function trophyRl(x){
   if(!m) return x;
   // the medals and obelisks have their own stage pictures; everything else grows like before
   const CL = ['b478', 'lemon', 'stones', 'bowl', 'grat'];
-  const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.5 + x.stage * 0.06 : CL.includes(x.group) ? 0.62 + x.stage * 0.12 : x.scale;
+  const scale = x.group === 'streak' ? 0.5 + x.stage * 0.1 : x.group === 'ex' ? 0.5 + x.stage * 0.06 : CL.includes(x.group) ? 0.62 + x.stage * 0.12 : m[2] || x.scale;
   return { ...x, img:'rl/' + m[0], aspect:m[1], scale };
 }
 // which Easter egg of the collection (0 = first year) – the egg trophies are in year order
