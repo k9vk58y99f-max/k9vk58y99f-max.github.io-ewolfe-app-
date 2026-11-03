@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 1.11.2026 abends (Version 2.3.8) – zuerst lesen
+## Übergabe – Stand 3.11.2026 (Version 2.3.9) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -29,7 +29,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
   **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **2.3.2:** schlichtes Regal stattdessen aus Bücher- und
-  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“. **2.3.7:** Oster-Hase je Design neben dem Körbchen. **2.3.8:** neues Lady-Regal mit Vitrine (`rt2/sv2-*`), neue Oldtimer `car3`.
+  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“. **2.3.7:** Oster-Hase je Design neben dem Körbchen. **2.3.8:** neues Lady-Regal mit Vitrine (`rt2/sv2-*`), neue Oldtimer `car3`. **2.3.9:** Start am letzten Tab, Monogramm überall, „Erfolge der Woche“, Bereiche-Seiten liniert, Bronze-Symbole auf Papier.
   **Stand 1.11.2026, 20:45: 2.3.6 ist live (gepusht und geprüft).** 2.3.7 (Sticker-Hase neben dem
   Osterkörbchen) ist committet, aber noch nicht gepusht → „Push origin“. **Coach-Teilen Stufe 1** (Lebensräder + Ziele, nur lesen, Einladungscode) gibt es nur als Prototyp außerhalb
   der App: „Lebensrad APP/Coach teilen – Prototyp Stufe 1 (01.11.2026).html“; nicht einbauen, bevor Coaches gefragt sind. Präsentation aktuell: v9. Details: Handoff 01.11.2026, 20:45.
@@ -179,7 +179,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.8`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.3.9`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -917,6 +917,21 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   Holzsockel, freigestellt mit dem neuen `cutflat.py`, weil Silber ≈ Grau), `trophy-n-car3` (Gold auf Sockel). `car2` bleibt im Repo, weil
   Trophäen-Collagen ihren Bildpfad speichern. Achtung: Die Radkappen von `rl/car3` zeigen in der Mitte ein sternähnliches Zeichen (noch nicht entschieden).
   Test `t238.py` (Chromium + WebKit, drei Designs, iPad quer + Handy, Stufe 6 mit allen Trophäen): keine Skript- oder Ladefehler.
+- **2.3.9 (3.11.2026) Wünsche der Nutzerin (nach dem KI-Ältestenrat zur Tab-Reihenfolge):**
+  - **Start am zuletzt genutzten Tab:** Die Leiste bleibt, wie sie ist. Gibt es ein Lebensrad und mindestens ein Ziel, öffnet die App auf der Seite, die zuletzt
+    offen war (`navRestore` nach dem Intro, `ewolfe_last_nav` je Gerät, gespeichert in `navSync` erst nach `navRestore`, damit der Start nicht „home“ schreibt).
+  - **Logo:** das Monogramm von A Gentleman's Study in allen Designs (apple-touch-icon, Favicon, Manifest, `.logo-dog`, Intro, `ICON_FULL` – der alte
+    Mystery-Base64 ist raus). `manifest-classic.webmanifest` zeigt auch aufs Monogramm (wird nicht mehr eingebunden). Home-Bildschirm-Symbol ändert sich erst
+    beim erneuten Ablegen.
+  - **Tagebuchseite „Erfolge der Woche“** („Neue Seite ▾“, `tbAddPage(…, true, false, true)`, `page.erfolge = { week }` + `page.bereiche`): Lebensbereiche-Seite
+    mit Überschrift und KW (So–Sa), oben Häkchen der Woche, unter jedem Bereich automatisch Gewohnheiten dieses Bereichs und in der Woche erreichte Ziele
+    (`winsHeadHtml`, `winsAreaHtml`, live aus den Daten), darunter eigener Text.
+  - **Lebensbereiche- und Erfolge-Seite nur liniert:** die Felder zeichnen ihre Linien selbst im 24-px-Takt (`.tb-area-text` Hintergrund), Seite selbst `blank`,
+    `tbOwnLayout` zählt `bereiche` mit (kein Menü „Seitenansicht“).
+  - **Bereichs-Symbole auf Papier in Bronze #ab8b54** (Wahl der Nutzerin gegen Grün): Gentleman/Lady auf Tagebuchseiten, Ziele-Seite, Klemmbrett
+    (`PAPER_ICO_SEL`) eigene Dateien `img/icons-rl/bronze/ico-<bereich>.svg` (`designSwapEl`). Grund: **Safari ignoriert CSS-Filter auf `<image>` in SVG** –
+    die per `brightness(0.42)` abgedunkelten hellen Symbole waren auf iPhone/iPad fast unsichtbar. Mystery-Symbole (Goldbilder) bleiben, sie sind gut sichtbar.
+  - Test `t239.py` in `Lebensrad APP/eWolfe-Skripte/` (über `python3 -m http.server 8765`).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
