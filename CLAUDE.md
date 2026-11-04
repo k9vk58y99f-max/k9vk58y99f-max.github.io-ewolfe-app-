@@ -54,7 +54,9 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   der Nutzer hat den Skill aufgerufen, aber noch kein Material gegeben.
 - **Offen / wartet auf den Nutzer:**
   - **Weitere laute Stellen** (nicht angefasst): Impulskarte beim Start, Lob bei Gewohnheiten, Stimmungsvergleich, Lebensrad-Erinnerung.
-  - **Speicher in IndexedDB (2.6.0):** gebaut und getestet (`t260.py`), auf echtem iPad/iPhone noch nicht angesehen. localStorage bleibt Sicherung,
+  - **Ränge entzerren (Wunsch der Nutzerin 4.11.2026, nächste Sitzung):** nur 6 Ränge, die ersten kommen zu dicht (heute `LEVEL_DAYS` 0/7/30/100 aktive Tage,
+    dann `LEVEL_MONTHS` 182/365 Tage seit dem ersten aktiven Tag). Wie bei den Trophäen (2.4.4) mit Bestandsschutz: erreichte Ränge nie wegnehmen.
+  - **Speicher in IndexedDB (2.6.0):** gebaut und getestet (`t260.py`), auf dem iPad von der Nutzerin geprüft: alle Daten da. localStorage bleibt Sicherung,
     solange die Daten unter 3,5 MB sind. Später, wenn es sich bewährt hat: entscheiden, ob die Kopie in localStorage ganz wegfallen soll.
   - **Weihnachtsbaum (2.5.0):** gebaut. Offen: was ab dem 2. Jahr im Geschenk liegt (heute: ab dem 2. Jahr kein Geschenk, der Stern liegt bei der Deko).
   - **Designs trennen:** Vorschlag „jedes Tagebuch merkt sich das Design, in dem es angelegt wurde“ (Cover/Papier bleiben) – noch keine Entscheidung.
