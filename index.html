@@ -597,6 +597,8 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-area-head.tb-wins-head{ font-size:calc(19px * var(--tbk)); justify-content:space-between; align-items:baseline; gap:calc(10px * var(--tbk)); padding-top:0; }
 .tb-wins-week{ font-size:calc(12.5px * var(--tbk)); font-weight:500; opacity:0.8; white-space:nowrap; }
 .tb-wins-week{ display:inline-flex; align-items:center; gap:calc(8px * var(--tbk)); }
+.tb-wins-share{ flex:none; width:calc(28px * var(--tbk)); height:calc(28px * var(--tbk)); padding:0; border:0; background:none; color:inherit; opacity:0.75; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+.tb-wins-share svg{ width:78%; height:78%; }
 .tb-wins-wheel{ width:calc(34px * var(--tbk)); height:calc(34px * var(--tbk)); flex:none; }
 .tb-wins-proud .tb-area-head{ font-size:calc(14px * var(--tbk)); font-style:italic; }
 /* 2.4.0: the month in review – a short row per area (two lines at most), then the own conclusion */
@@ -2370,7 +2372,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.4.2';
+const APP_VERSION = '2.4.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2432,7 +2434,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-11-03';
+const APP_BUILD = '2026-11-04';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -2452,7 +2454,7 @@ const I18N = {
     evNote:'Ein Ereignis verändert deinen Lebensrad-Wert nicht automatisch. Du entscheidest bei der nächsten Bewertung selbst, ob sich etwas verändert hat.',
     complete:'Fertig', delete:'Löschen',
     wheelHistTitle:'Frühere Lebensräder', noWheelHist:'Noch keine früheren Lebensräder gespeichert.',
-    cmpUp:'Du hast dich weiterentwickelt: In {n} von 5 Bereichen hast du dich verbessert.', cmpUp1:'Du hast dich weiterentwickelt: In einem Bereich hast du dich verbessert.', cmpUpAll:'Du hast dich weiterentwickelt: In allen Bereichen hast du dich verbessert.', cmpDown:'Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.', cmpSame:'Dein Lebensrad ist stabil geblieben.', diaryInsertWheel:'Lebensrad einfügen', diaryAreasPage:'Lebensbereiche', winsPage:'Erfolge der Woche', winsWeek:'KW {n} · {from} – {to}', winsHabits:'Gewohnheiten: {n} von {m} Häkchen', winsWeekly:'Wöchentlich: {n} von {m}', winsGoal:'Ziel erreicht: {g}', winsProud:'Worauf bin ich diese Woche am meisten stolz?', winsHint:'Sonntagabend – Zeit für deine Erfolge der Woche.', winsHintGo:'Seite anlegen', monthPage:'Monatsrückblick', monthTitle:'Mein Monat', monthStats:'Häkchen: {h} · Ziele erreicht: {g} · Lebensräder: {w}', monthProud:'Am meisten stolz', monthFazit:'Mein Fazit', evalClose:'Schließen',
+    cmpUp:'Du hast dich weiterentwickelt: In {n} von 5 Bereichen hast du dich verbessert.', cmpUp1:'Du hast dich weiterentwickelt: In einem Bereich hast du dich verbessert.', cmpUpAll:'Du hast dich weiterentwickelt: In allen Bereichen hast du dich verbessert.', cmpDown:'Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.', cmpSame:'Dein Lebensrad ist stabil geblieben.', diaryInsertWheel:'Lebensrad einfügen', diaryAreasPage:'Lebensbereiche', winsPage:'Erfolge der Woche', winsWeek:'KW {n} · {from} – {to}', winsHabits:'Gewohnheiten: {n} von {m} Häkchen', winsWeekly:'Wöchentlich: {n} von {m}', winsGoal:'Ziel erreicht: {g}', winsShare:'Teilen', winsShareText:'Meine Erfolge der Woche in eWolfe', winsShareSaved:'Das Bild deiner Erfolge der Woche wurde gespeichert. Du findest es in deinen Downloads und kannst es von dort teilen.', winsProud:'Worauf bin ich diese Woche am meisten stolz?', winsHint:'Sonntagabend – Zeit für deine Erfolge der Woche.', winsHintGo:'Seite anlegen', monthPage:'Monatsrückblick', monthTitle:'Mein Monat', monthStats:'Häkchen: {h} · Ziele erreicht: {g} · Lebensräder: {w}', monthProud:'Am meisten stolz', monthFazit:'Mein Fazit', evalClose:'Schließen',
     compareOn:'Vergleichen', compareOff:'Abbrechen', compareShow:'Vergleich anzeigen', cmpWish:'Wunsch', joyFeelQ:'Wie viel Freude hast du an deinem Leben? Nicht an einem einzelnen Tag – denk an die letzten Wochen.', joyExpected:'Nach deinem Lebensrad erwartet: {e} %', joyNone:'noch offen', joyTitle:'Lebensfreude', joyInfo:'Gespürte Lebensfreude: {f}\nNach deinem Lebensrad erwartet: {e} %\n\nDie erwartete Lebensfreude beginnt bei 50 % und wächst mit jedem Lebensrad um so viel, wie deine fünf Bereiche im Durchschnitt gewachsen sind; wachsen alle fünf, kommen 5 Punkte dazu. Die Sonne zeigt, wie viel Freude du selbst an deinem Leben hast – nicht an einem einzelnen Tag, sondern in den letzten Wochen.', joyAhead:'Schön – deine Freude ist dir sogar ein Stück voraus.', joyDeepTitle:'Dein Rad wächst – deine Lebensfreude noch nicht', joyDeepText:'Das darf so sein. Lebensfreude muss nicht automatisch mit dem Lebensrad wachsen, aber sie kann es. Wenn sie es gerade nicht tut, dürfen wir tiefer schauen:', joyDeepQs:['Wächst du in den Bereichen, die dir wirklich wichtig sind – oder in denen, die man „sollte“?', 'Gibt es etwas, das dir Kraft nimmt und im Rad gar nicht vorkommt?', 'Wann hast du zuletzt etwas nur aus Freude getan?'], joyGrowV:['Deine Freude wächst mit deinem Lebensrad – das ist ein Grund zu feiern!', 'Dein Rad wächst und deine Freude wächst mit. Genieß diesen Moment!', 'Mehr Freude als beim letzten Mal – du spürst, dass sich etwas bewegt. Wunderbar!', 'Deine Schritte kommen als Freude zu dir zurück. Feier das ruhig ein bisschen!'], joyAheadV:['Deine Freude ist deinem Lebensrad sogar ein Stück voraus – wie schön!', 'Du spürst mehr Freude, als dein Rad erwarten lässt. Was für ein Geschenk!'], joyToDiary:'Ins Tagebuch', joyCardBtn:'Impuls für Lebensfreude', joyDiaryHead:'Lebensfreude – tiefer schauen ({date})', joyCmp:'Lebensfreude: {a} % → {b} %',
     goalLabel:'Ziel', addMoreGoal:'+ Weiteres Ziel', saveGoals:'Ziele speichern',
     achievedCategory:'Erreichte Ziele', noAchievedGoals:'Noch keine erreichten Ziele in diesem Bereich.', achievedOn:'Erreicht am',
@@ -2501,7 +2503,7 @@ const I18N = {
     evNote:'An event does not automatically change your wheel value. You decide at your next assessment whether something actually changed.',
     complete:'Done', delete:'Delete',
     wheelHistTitle:'Past wheels of life', noWheelHist:'No past wheels of life saved yet.',
-    cmpUp:'You have grown: you improved in {n} of 5 areas.', cmpUp1:'You have grown: you improved in one area.', cmpUpAll:'You have grown: you improved in all areas.', cmpDown:'Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.', cmpSame:'Your wheel of life has stayed steady.', diaryInsertWheel:'Insert wheel of life', diaryAreasPage:'Areas of life', winsPage:'Wins of the week', winsWeek:'Week {n} · {from} – {to}', winsHabits:'Habits: {n} of {m} ticks', winsWeekly:'Weekly: {n} of {m}', winsGoal:'Goal reached: {g}', winsProud:'What am I proudest of this week?', winsHint:'Sunday evening – time for your wins of the week.', winsHintGo:'Add the page', monthPage:'Month in review', monthTitle:'My month', monthStats:'Ticks: {h} · Goals reached: {g} · Life wheels: {w}', monthProud:'Proudest of', monthFazit:'My conclusion', evalClose:'Close',
+    cmpUp:'You have grown: you improved in {n} of 5 areas.', cmpUp1:'You have grown: you improved in one area.', cmpUpAll:'You have grown: you improved in all areas.', cmpDown:'Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.', cmpSame:'Your wheel of life has stayed steady.', diaryInsertWheel:'Insert wheel of life', diaryAreasPage:'Areas of life', winsPage:'Wins of the week', winsWeek:'Week {n} · {from} – {to}', winsHabits:'Habits: {n} of {m} ticks', winsWeekly:'Weekly: {n} of {m}', winsGoal:'Goal reached: {g}', winsShare:'Share', winsShareText:'My wins of the week in eWolfe', winsShareSaved:'The picture of your wins of the week was saved. You will find it in your downloads and can share it from there.', winsProud:'What am I proudest of this week?', winsHint:'Sunday evening – time for your wins of the week.', winsHintGo:'Add the page', monthPage:'Month in review', monthTitle:'My month', monthStats:'Ticks: {h} · Goals reached: {g} · Life wheels: {w}', monthProud:'Proudest of', monthFazit:'My conclusion', evalClose:'Close',
     compareOn:'Compare', compareOff:'Cancel', compareShow:'Show comparison', cmpWish:'Wish', joyFeelQ:'How much joy do you find in your life? Not on a single day – think of the last few weeks.', joyExpected:'Expected from your wheel of life: {e} %', joyNone:'not yet', joyTitle:'Joy in life', joyInfo:'Joy in life you feel: {f}\nExpected from your wheel of life: {e} %\n\nThe expected joy in life starts at 50 % and with every wheel grows by as much as your five areas have grown on average; if all five grow, 5 points are added. The sun shows how much joy you yourself find in your life – not on a single day, but over the last few weeks.', joyAhead:'Lovely – your joy is even a little ahead of you.', joyDeepTitle:'Your wheel is growing – your joy in life not yet', joyDeepText:'That is all right. Joy in life does not have to grow automatically with the wheel of life, but it can. When it does not right now, we may look deeper:', joyDeepQs:['Are you growing in the areas that truly matter to you – or in the ones you “should”?', 'Is there something that drains your strength and does not appear in the wheel at all?', 'When did you last do something just for joy?'], joyGrowV:['Your joy is growing with your wheel of life – that is a reason to celebrate!', 'Your wheel is growing and your joy grows with it. Enjoy this moment!', 'More joy than last time – you can feel that something is moving. Wonderful!', 'Your steps come back to you as joy. Go ahead and celebrate a little!'], joyAheadV:['Your joy is even a little ahead of your wheel of life – how lovely!', 'You feel more joy than your wheel would lead us to expect. What a gift!'], joyToDiary:'To the diary', joyCardBtn:'Impulse for joy in life', joyDiaryHead:'Joy in life – looking deeper ({date})', joyCmp:'Joy in life: {a} % → {b} %',
     goalLabel:'Goal', addMoreGoal:'+ Another goal', saveGoals:'Save goals',
     achievedCategory:'Achieved goals', noAchievedGoals:'No achieved goals in this area yet.', achievedOn:'Achieved on',
@@ -4352,7 +4354,7 @@ async function tbAppendBlock(diary, block){
 }
 
 /* ---- silent meditation: choose the time, a gong at the start and at the end ---- */
-const TIMER_CHOICES = [3, 5, 10, 15, 20];
+const TIMER_CHOICES = [3, 5, 7, 10, 15, 20]; // 4.11.2026 (wish of the user): also 7 minutes
 let timerMin = 10, timerRun = null;
 function timerOpen(){
   const d = t();
@@ -8090,7 +8092,9 @@ const RT_TRO = {
   grat:[['rt2/card-rose', 1.261], ['rt2/cloche-hearts-2', 0.846], ['rt2/cloche-hearts-3', 0.85]], // first gratitude = the rose card (21.10.2026)
   // 21.10.2026: joy = the bicycle (instead of the sundial), +10 = the candlestick, arrived = the sailing boat, a true classic = the car
   wheel:['rt2/armillary', 0.701], goal:['rt2/cup', 1.239], loyal:['rt2/clock', 0.63] /* 24.10.2026: the rose mantel clock instead of the pocket watch */, joy:['rt2/bicycle', 1.551], up10:['rt2/candlestick', 0.246], upall:['rt2/flower-urn', 1.482],
-  nikolaus:['rt2/nikolaus', 0.392], nikolaus2:['rt2/boot', 0.984], xmas:['rt2/star', 1.07], xmas2:['rt2/crib', 1.521]
+  nikolaus:['rt2/nikolaus', 0.392], nikolaus2:['rt2/boot', 0.984], xmas:['rt2/star', 1.07], xmas2:['rt2/crib', 1.521],
+  // 4.11.2026: habits = a standard rose tree in a porcelain pot that blooms; third value = scale, so that the pot keeps its size
+  habit:[['rt2/rose-tree-1', 0.432, 0.61], ['rt2/rose-tree-2', 0.467, 0.84], ['rt2/rose-tree-3', 0.507, 1], ['rt2/rose-tree-4', 0.525, 1.15]]
 };
 const RT_EGGS = [['rt2/egg2-1', 0.668], ['rt2/egg2-2', 0.669], ['rt2/egg2-red1', 0.621], ['rt2/egg2-g1', 0.644], ['rt2/egg2-g2', 0.643]]; // on small gold stands (21.10.2026): raspberry, burgundy, red (only the gold band); the green ones follow
 // 28.10.2026: new sharp pictures of the user, straight from the front (the old ones were only 230 px wide)
@@ -8126,10 +8130,9 @@ function trophyRl(x){
     if(rs){ const r = Array.isArray(rs[0]) ? rs[Math.min(x.stage || 0, rs.length - 1)] : rs;
       const CLr = ['box', 'b478', 'lemon', 'stones', 'bowl', 'grat'];
       // 24.10.2026 (wish of the user): stone obelisk 20 % smaller, cloches 15 % smaller, bicycle 20 % smaller, candlestick 20 % taller, bouquet 20 % bigger
-      const scale = x.group === 'streak' ? (0.5 + x.stage * 0.1) * 0.8 : x.group === 'joy' ? x.scale * 0.8 : x.id === 'up10' ? x.scale * 1.2 : x.id === 'upall' ? x.scale * 1.2 : x.group === 'ex' ? 0.26 + x.stage * 0.03 : x.group === 'loyal' ? 0.62 + x.stage * 0.08 /* the mantel clock grows a little with each stage */ : x.group === 'goal' ? x.scale * 0.5 /* 24.10.2026: the red cup half as big */ : CLr.includes(x.group) ? (0.62 + x.stage * 0.12) * 0.85 : x.scale;
+      const scale = x.group === 'streak' ? (0.5 + x.stage * 0.1) * 0.8 : x.group === 'joy' ? x.scale * 0.8 : x.id === 'up10' ? x.scale * 1.2 : x.id === 'upall' ? x.scale * 1.2 : x.group === 'ex' ? 0.26 + x.stage * 0.03 : x.group === 'loyal' ? 0.62 + x.stage * 0.08 /* the mantel clock grows a little with each stage */ : x.group === 'goal' ? x.scale * 0.5 /* 24.10.2026: the red cup half as big */ : CLr.includes(x.group) ? (0.62 + x.stage * 0.12) * 0.85 : r[2] || x.scale;
       return { ...x, img:(r[0].includes('/') ? '' : 'rt/') + r[0], aspect:r[1], scale }; }
   }
-  if(RETREAT && x.group === 'habit') return x; // A Lady's Conservatory: the rose tree is still to come, until then the red crystal
   let m = null;
   const st = RL_TRO[x.group];
   if(st && Array.isArray(st[0])) m = st[Math.min(x.stage, st.length - 1)]; // own picture per stage (medals, obelisks, cloches since 1.82.0)
@@ -8290,16 +8293,34 @@ function canvasWrap(ctx, text, maxW){
   if(cur) lines.push(cur);
   return lines;
 }
-async function trophyShareBlob(x){
-  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
-  const g = c.getContext('2d');
-  const pal = RETREAT ? { a:'#fffdf8', b:'#f2e1e0', line:'#b08d57', title:'#7A0B25', text:'#262622', dim:'#625e55', head:'Cormorant Garamond', body:'Jost' }
+// share pictures (trophies, wins of the week): colours and fonts of the design, gradient and double frame
+function sharePal(){
+  return RETREAT ? { a:'#fffdf8', b:'#f2e1e0', line:'#b08d57', title:'#7A0B25', text:'#262622', dim:'#625e55', head:'Cormorant Garamond', body:'Jost' }
     : BIZ ? { a:'#13233a', b:'#0a0e1f', line:'#c9a463', title:'#e3c99d', text:'#ece7d8', dim:'#b9b2a0', head:'Noto Serif Display', body:'Inter' }
     : { a:'#3d10c9', b:'#080b28', line:'#e8b84a', title:'#f3d27a', text:'#f3ead6', dim:'#cdbdff', head:'Marcellus', body:'Inter' };
-  const bg = g.createLinearGradient(0, 0, W, H); bg.addColorStop(0, pal.a); bg.addColorStop(1, pal.b);
+}
+async function shareCanvasBase(g, W, H){
+  const pal = sharePal(), bg = g.createLinearGradient(0, 0, W, H); bg.addColorStop(0, pal.a); bg.addColorStop(1, pal.b);
   g.fillStyle = bg; g.fillRect(0, 0, W, H);
   g.strokeStyle = pal.line; g.lineWidth = 3; g.strokeRect(44, 44, W - 88, H - 88); g.lineWidth = 1.2; g.strokeRect(58, 58, W - 116, H - 116);
   try{ await document.fonts.ready; }catch(e){}
+  return pal;
+}
+// hands a picture to the share menu of the device, or saves it as a download where there is none
+async function shareBlob(blob, name, text, savedMsg){
+  const d = t(), file = new File([blob], name, { type:'image/png' });
+  if(navigator.canShare && navigator.share && navigator.canShare({ files:[file] })){
+    try{ await navigator.share({ files:[file], text }); }catch(e){ if(e && e.name !== 'AbortError') uiNotice(d.trophyShareFail); }
+    return;
+  }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  uiNotice(savedMsg);
+}
+async function trophyShareBlob(x){
+  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d'), pal = await shareCanvasBase(g, W, H);
   const im = await trophyLoadImg('img/' + x.img + '.webp');
   const box = 640, k = Math.min(box / im.naturalWidth, box / im.naturalHeight);
   const iw = im.naturalWidth * k, ih = im.naturalHeight * k;
@@ -8324,16 +8345,7 @@ async function trophyShare(){
   let blob;
   try{ blob = await trophyShareBlob(x); }catch(e){ console.error('eWolfe: trophy picture failed', e); uiNotice(d.trophyShareFail); return; }
   const name = (state.settings.lang === 'en' ? 'ewolfe-trophy-' : 'ewolfe-trophaee-') + String(x.id).replace(/[^a-z0-9]+/gi, '-') + '.png';
-  const file = new File([blob], name, { type:'image/png' });
-  const text = d.trophyShareText.replace('{t}', x.title);
-  if(navigator.canShare && navigator.share && navigator.canShare({ files:[file] })){
-    try{ await navigator.share({ files:[file], text }); }catch(e){ if(e && e.name !== 'AbortError') uiNotice(d.trophyShareFail); }
-    return;
-  }
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
-  uiNotice(d.trophyShareSaved);
+  await shareBlob(blob, name, d.trophyShareText.replace('{t}', x.title), d.trophyShareSaved);
 }
 // new trophies: shown once (one after the other), only when no other window is open; the first time all old ones are just put on the shelf
 let trophyTimer = null;
@@ -8724,7 +8736,7 @@ function tbRenderPageSlot(idx){
       </div>`
     : page.monat ? monthPageHtml(page, idx, inactive)
     : page.bereiche
-    ? `<div class="tb-areas ${inactive}">${page.erfolge ? winsHeadHtml(page.erfolge.week) : ''}${AREAS.concat(page.erfolge ? ['stolz'] : []).map(a=>a === 'stolz' ? `<div class="tb-area-block tb-wins-proud">
+    ? `<div class="tb-areas ${inactive}">${page.erfolge ? winsHeadHtml(page.erfolge.week, idx) : ''}${AREAS.concat(page.erfolge ? ['stolz'] : []).map(a=>a === 'stolz' ? `<div class="tb-area-block tb-wins-proud">
           <div class="tb-area-head">${escapeHtml(d.winsProud)}</div>
           <textarea class="tb-area-text ${page.font==='hand'?'font-hand':''}" data-page-idx="${idx}" data-area="stolz" ${tbEditMode?'':'readonly'}>${escapeHtml(page.bereiche.stolz||'')}</textarea>
         </div>` : `<div class="tb-area-block">
@@ -8848,7 +8860,7 @@ function tbCyclePageType(idx){
 /* 2.3.9 (wish of the user): "Erfolge der Woche" – the areas page with a heading and the week (Sunday to Saturday, like the habits).
    Under each area what the week brought by itself (habits of that area, goals reached), live from the data; below it one's own words. */
 function winsDays(weekKey){ const end = new Date(); end.setHours(23, 59, 59, 999); return habitWeekDays(weekKey).filter(x=>x <= end); }
-function winsHeadHtml(weekKey){
+function winsHeadHtml(weekKey, idx){
   const d = t(), all = habitWeekDays(weekKey), loc = state.settings.lang === 'de' ? 'de-DE' : 'en-GB', fmt = x=>x.toLocaleDateString(loc, { day:'numeric', month:'numeric' });
   const H = habitsOf(state), daily = habitDailyList(H), weekly = habitWeeklyList(H), days = winsDays(weekKey);
   const ticks = daily.reduce((n, h)=>n + days.filter(x=>habitOn(h.id, x)).length, 0), wDone = weekly.filter(h=>habitWeekOn(h.id, weekKey)).length;
@@ -8856,12 +8868,14 @@ function winsHeadHtml(weekKey){
   if(daily.length && days.length) parts.push(d.winsHabits.replace('{n}', ticks).replace('{m}', daily.length * days.length));
   if(weekly.length) parts.push(d.winsWeekly.replace('{n}', wDone).replace('{m}', weekly.length));
   const from = all[0].getTime();
-  return `<div class="tb-area-head tb-wins-head"><span>${escapeHtml(d.winsPage)}</span><span class="tb-wins-week">${escapeHtml(d.winsWeek.replace('{n}', isoWeek(all[1])).replace('{from}', fmt(all[0])).replace('{to}', fmt(all[6])))}${winsWheelSvg(from, from + 7 * 864e5)}</span></div>`
+  const share = idx === undefined ? '' : `<button class="tb-wins-share" onclick="event.stopPropagation(); winsShare(${idx})" title="${escapeHtml(d.winsShare)}" aria-label="${escapeHtml(d.winsShare)}">${ico('share')}</button>`;
+  return `<div class="tb-area-head tb-wins-head"><span>${escapeHtml(d.winsPage)}</span><span class="tb-wins-week">${escapeHtml(d.winsWeek.replace('{n}', isoWeek(all[1])).replace('{from}', fmt(all[0])).replace('{to}', fmt(all[6])))}${winsWheelSvg(from, from + 7 * 864e5)}${share}</span></div>`
     + (parts.length ? `<div class="tb-win-auto">${escapeHtml(parts.join(' · '))}</div>` : '');
 }
 // 2.4.0: the wheel of the week, small in the corner – only if a wheel was saved in that week
+function winsWheelVals(from, to){ return WHEEL_AREAS.map(a=>{ const e = (state.bewertungen[a] || []).filter(x=>x.ts >= from && x.ts < to).pop(); return e ? e.value : null; }); }
 function winsWheelSvg(from, to){
-  const vals = WHEEL_AREAS.map(a=>{ const e = (state.bewertungen[a] || []).filter(x=>x.ts >= from && x.ts < to).pop(); return e ? e.value : null; });
+  const vals = winsWheelVals(from, to);
   if(vals.every(v=>v === null)) return '';
   const n = WHEEL_AREAS.length, pt = (i, r)=>{ const w = -Math.PI / 2 + i * 2 * Math.PI / n; return (r * Math.cos(w)).toFixed(1) + ',' + (r * Math.sin(w)).toFixed(1); };
   const ring = r=>WHEEL_AREAS.map((a, i)=>pt(i, r)).join(' ');
@@ -8888,6 +8902,53 @@ function monthPageHtml(page, idx, inactive){
       ${row(escapeHtml(d.monthProud), wins.map(p=>(p.bereiche.stolz || '').trim()).filter(Boolean).join(' · '))}
       <div class="tb-area-block"><div class="tb-area-head">${escapeHtml(d.monthFazit)}</div>
         <textarea class="tb-area-text ${page.font==='hand'?'font-hand':''}" data-page-idx="${idx}" data-area="fazit" ${tbEditMode?'':'readonly'}>${escapeHtml((page.bereiche || {}).fazit || '')}</textarea></div></div>`;
+}
+/* 4.11.2026 (wish of the user): share the wins of the week as a picture (1080×1350, in the design like the trophies): title, week, ticks,
+   the wheel of the week, then only the areas with something in them (automatic line + own text), last what one is proudest of */
+function winsAreaAuto(weekKey, a){ const m = winsAreaHtml(weekKey, a).match(/<div class="tb-win-auto">([\s\S]*)<\/div>/); return m ? m[1].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'") : ''; }
+async function winsShareBlob(page){
+  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d'), pal = await shareCanvasBase(g, W, H), d = t(), wk = page.erfolge.week, b = page.bereiche || {};
+  const all = habitWeekDays(wk), loc = state.settings.lang === 'de' ? 'de-DE' : 'en-GB', fmt = x=>x.toLocaleDateString(loc, { day:'numeric', month:'numeric' });
+  const from = all[0].getTime(), vals = winsWheelVals(from, from + 7 * 864e5);
+  const head = (winsHeadHtml(wk).match(/<div class="tb-win-auto">([^<]*)<\/div>/) || [])[1] || '';
+  const blocks = AREAS.map(a=>({ head:d.bereiche[a], auto:winsAreaAuto(wk, a), text:(b[a] || '').trim() })).filter(x=>x.auto || x.text);
+  if((b.stolz || '').trim()) blocks.push({ head:d.winsProud, auto:'', text:b.stolz.trim(), proud:true });
+  const X = 120, TW = W - 2 * X, TOP = 330, BOT = H - 170;
+  // the biggest text size at which everything fits (own text at most 6 lines per area)
+  const lay = k=>{ let h = 0; const out = blocks.map(x=>{
+      g.font = `${Math.round(26 * k)}px "${pal.body}", -apple-system, Helvetica, sans-serif`; const au = x.auto ? canvasWrap(g, x.auto, TW) : [];
+      g.font = `${Math.round(30 * k)}px "${pal.body}", -apple-system, Helvetica, sans-serif`; const tx = x.text ? canvasWrap(g, x.text.replace(/\n+/g, ' '), TW).slice(0, 6) : [];
+      const bh = 44 * k + au.length * 34 * k + tx.length * 40 * k + 26 * k; h += bh; return { x, au, tx }; });
+    return { h, out }; };
+  let k = 1, L = lay(k); while(L.h > BOT - TOP && k > 0.5){ k -= 0.05; L = lay(k); }
+  g.textBaseline = 'alphabetic'; g.textAlign = 'center';
+  g.fillStyle = pal.title; g.font = `64px "${pal.head}", Georgia, serif`; g.fillText(d.winsPage, W / 2, 168);
+  g.fillStyle = pal.dim; g.font = `30px "${pal.body}", -apple-system, Helvetica, sans-serif`;
+  g.fillText(d.winsWeek.replace('{n}', isoWeek(all[1])).replace('{from}', fmt(all[0])).replace('{to}', fmt(all[6])), W / 2, 218);
+  if(head){ g.fillStyle = pal.text; g.font = `28px "${pal.body}", -apple-system, Helvetica, sans-serif`; g.fillText(head, W / 2, 262); }
+  if(vals.some(v=>v !== null)){ // the wheel of the week, small in the upper right corner
+    const cx = W - 150, cy = 150, R = 52, n = WHEEL_AREAS.length, pt = (i, r)=>[cx + r * Math.cos(-Math.PI / 2 + i * 2 * Math.PI / n), cy + r * Math.sin(-Math.PI / 2 + i * 2 * Math.PI / n)];
+    const poly = (rs, fill)=>{ g.beginPath(); rs.forEach((r, i)=>{ const [x, y] = pt(i, r); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.closePath(); if(fill) g.fill(); g.stroke(); };
+    g.strokeStyle = pal.line; g.globalAlpha = 0.4; g.lineWidth = 2; poly(vals.map(()=>R)); poly(vals.map(()=>R / 2)); g.globalAlpha = 1;
+    g.fillStyle = pal.line; g.globalAlpha = 0.3; g.lineWidth = 3; poly(vals.map(v=>R * (v === null ? 50 : v) / 100), true); g.globalAlpha = 1;
+  }
+  g.strokeStyle = pal.line; g.lineWidth = 1.5; g.beginPath(); g.moveTo(X, 292); g.lineTo(W - X, 292); g.stroke();
+  g.textAlign = 'left'; let y = TOP + Math.min(40, Math.max(0, (BOT - TOP - L.h) / 3));
+  L.out.forEach(({ x, au, tx })=>{
+    y += 36 * k; g.fillStyle = pal.title; g.font = `${x.proud ? 'italic ' : ''}${Math.round(34 * k)}px "${pal.head}", Georgia, serif`; g.fillText(x.head, X, y); y += 8 * k;
+    g.fillStyle = pal.dim; g.font = `${Math.round(26 * k)}px "${pal.body}", -apple-system, Helvetica, sans-serif`; au.forEach(l=>{ y += 34 * k; g.fillText(l, X, y); });
+    g.fillStyle = pal.text; g.font = `${Math.round(30 * k)}px "${pal.body}", -apple-system, Helvetica, sans-serif`; tx.forEach(l=>{ y += 40 * k; g.fillText(l, X, y); });
+    y += 26 * k; });
+  if(!blocks.length){ g.textAlign = 'center'; g.fillStyle = pal.dim; g.font = `30px "${pal.body}", -apple-system, Helvetica, sans-serif`; g.fillText('–', W / 2, (TOP + BOT) / 2); }
+  g.textAlign = 'center'; g.fillStyle = pal.line; g.font = `34px "${pal.head}", Georgia, serif`; g.fillText('eWolfe', W / 2, H - 96);
+  return await new Promise((res, rej)=>c.toBlob(bl=>bl ? res(bl) : rej(new Error('no picture')), 'image/png'));
+}
+async function winsShare(idx){
+  const d = t(), page = tbEnsureYear(tbYear).seiten[idx]; if(!page || !page.erfolge) return;
+  let blob; try{ blob = await winsShareBlob(page); }catch(e){ console.error('eWolfe: wins picture failed', e); uiNotice(d.trophyShareFail); return; }
+  const name = (state.settings.lang === 'en' ? 'ewolfe-wins-' : 'ewolfe-erfolge-') + page.erfolge.week + '.png';
+  await shareBlob(blob, name, d.winsShareText, d.winsShareSaved);
 }
 function winsAreaHtml(weekKey, a){
   const d = t(), H = habitsOf(state), days = winsDays(weekKey), all = habitWeekDays(weekKey);

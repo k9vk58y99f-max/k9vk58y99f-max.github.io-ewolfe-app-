@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 3.11.2026 (Version 2.4.2) – zuerst lesen
+## Übergabe – Stand 4.11.2026 (Version 2.4.3) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -29,7 +29,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
   **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **2.3.2:** schlichtes Regal stattdessen aus Bücher- und
-  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“. **2.3.7:** Oster-Hase je Design neben dem Körbchen. **2.3.8:** neues Lady-Regal mit Vitrine (`rt2/sv2-*`), neue Oldtimer `car3`. **2.3.9:** Start am letzten Tab, Monogramm überall, „Erfolge der Woche“, Bereiche-Seiten liniert, Bronze-Symbole auf Papier. **2.4.0:** Lady-Trophäen schweben nicht mehr, Stolz-Frage, Wochen-Rad, Monatsrückblick, Sonntags-Hinweis, kein Hundekopf in AGS. **2.4.1:** Gewohnheiten-Trophäe in 4 Stufen (30/90/150/300 Tage), Gentleman = Bonsai. **2.4.2:** alle Lady-Büsten mit Kupferknauf, neue Kleider Nr. 1 und Nr. 17.
+  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“. **2.3.7:** Oster-Hase je Design neben dem Körbchen. **2.3.8:** neues Lady-Regal mit Vitrine (`rt2/sv2-*`), neue Oldtimer `car3`. **2.3.9:** Start am letzten Tab, Monogramm überall, „Erfolge der Woche“, Bereiche-Seiten liniert, Bronze-Symbole auf Papier. **2.4.0:** Lady-Trophäen schweben nicht mehr, Stolz-Frage, Wochen-Rad, Monatsrückblick, Sonntags-Hinweis, kein Hundekopf in AGS. **2.4.1:** Gewohnheiten-Trophäe in 4 Stufen (30/90/150/300 Tage), Gentleman = Bonsai. **2.4.2:** alle Lady-Büsten mit Kupferknauf, neue Kleider Nr. 1 und Nr. 17. **2.4.3:** Lady-Gewohnheiten-Trophäe Rosenstämmchen, Erfolge der Woche teilen, Stille Meditation 7 Min.
   **Stand 1.11.2026, 20:45: 2.3.6 ist live (gepusht und geprüft).** 2.3.7 (Sticker-Hase neben dem
   Osterkörbchen) ist committet, aber noch nicht gepusht → „Push origin“. **Coach-Teilen Stufe 1** (Lebensräder + Ziele, nur lesen, Einladungscode) gibt es nur als Prototyp außerhalb
   der App: „Lebensrad APP/Coach teilen – Prototyp Stufe 1 (01.11.2026).html“; nicht einbauen, bevor Coaches gefragt sind. Präsentation aktuell: v9. Details: Handoff 01.11.2026, 20:45.
@@ -177,7 +177,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.4.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.4.3`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -930,6 +930,15 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     (`PAPER_ICO_SEL`) eigene Dateien `img/icons-rl/bronze/ico-<bereich>.svg` (`designSwapEl`). Grund: **Safari ignoriert CSS-Filter auf `<image>` in SVG** –
     die per `brightness(0.42)` abgedunkelten hellen Symbole waren auf iPhone/iPad fast unsichtbar. Mystery-Symbole (Goldbilder) bleiben, sie sind gut sichtbar.
   - Test `t239.py` in `Lebensrad APP/eWolfe-Skripte/` (über `python3 -m http.server 8765`).
+- **2.4.3 (4.11.2026) Wünsche der Nutzerin:**
+  - **Lady-Gewohnheiten-Trophäe = Rosenstämmchen im Porzellantopf** in vier Stufen (`rt2/rose-tree-1..4`, `RT_TRO.habit` mit drittem Wert = Größe, der Topf
+    bleibt gleich groß; in `trophyRl` RT-Zweig `r[2] || x.scale`). Freigestellt mit `cutgreyh.py` (`HOLE=24 HOLEMIN=25`) und danach eingeschlossenes Grau
+    zwischen den Blättern (Sättigung < 13, nur im Kronenbereich, nicht die Schleife) entfernt. Kein roter Platzhalter mehr. Mystery bleibt der rote Kristall.
+  - **Erfolge der Woche teilen:** Knopf (Teilen-Symbol) rechts im Kopf der Seite (`.tb-wins-share`, `winsShare(idx)`); Bild 1080×1350 im Design
+    (`winsShareBlob`: Titel, KW, Häkchen, kleines Wochen-Rad, nur Bereiche mit Inhalt = automatische Zeile + eigener Text bis 6 Zeilen, Stolz-Frage;
+    Schrift wird kleiner, bis alles passt). Gemeinsame Teile mit den Trophäen: `sharePal`, `shareCanvasBase`, `shareBlob` (Teilen-Menü oder Download).
+  - **Stille Meditation:** auch 7 Minuten (`TIMER_CHOICES`).
+  - Tests `t241.py` (Rosen im Regal), `t243.py` (Teilen-Bild + 7 Min.) in `Lebensrad APP/eWolfe-Skripte/`.
 - **2.4.2 (3.11.2026) Lady-Schneiderbüsten einheitlich (Wahl der Nutzerin):** Der Knauf samt Halsdeckel ist bei allen Lady-Büsten **kupferfarbenes Metall**
     (passend zum Mahagoni-Ständer; sieht klein wie Holz aus). Die zwei Blusen hatten Gold → umgefärbt mit `knauf_kupfer.py` (`Lebensrad APP/eWolfe-Skripte/`,
     nur oberste 6,5 %, gesättigte Gold-Pixel, Farbton auf ~11 wie military/sailor-jeans): `rt2/dress-blouse-green2`, `rt2/dress-blouse-navy3`. Neue Bilder der
