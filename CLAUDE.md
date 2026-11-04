@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 4.11.2026 (Version 2.5.0) – zuerst lesen
+## Übergabe – Stand 4.11.2026 (Version 2.6.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -54,6 +54,8 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   der Nutzer hat den Skill aufgerufen, aber noch kein Material gegeben.
 - **Offen / wartet auf den Nutzer:**
   - **Weitere laute Stellen** (nicht angefasst): Impulskarte beim Start, Lob bei Gewohnheiten, Stimmungsvergleich, Lebensrad-Erinnerung.
+  - **Speicher in IndexedDB (2.6.0):** gebaut und getestet (`t260.py`), auf echtem iPad/iPhone noch nicht angesehen. localStorage bleibt Sicherung,
+    solange die Daten unter 3,5 MB sind. Später, wenn es sich bewährt hat: entscheiden, ob die Kopie in localStorage ganz wegfallen soll.
   - **Weihnachtsbaum (2.5.0):** gebaut. Offen: was ab dem 2. Jahr im Geschenk liegt (heute: ab dem 2. Jahr kein Geschenk, der Stern liegt bei der Deko).
   - **Designs trennen:** Vorschlag „jedes Tagebuch merkt sich das Design, in dem es angelegt wurde“ (Cover/Papier bleiben) – noch keine Entscheidung.
   - Datenschutz-Liste weiter unten („Noch offen (Datenschutz)“).
@@ -178,7 +180,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.5.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.6.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -987,7 +989,25 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
   - **Sonntags-Hinweis:** sonntags ab 16 Uhr eine leise Zeile in der Bibliothek („Zeit für deine Erfolge der Woche“, Knopf „Seite anlegen“ = `winsHintGo`),
     nur solange es für die Woche keine Erfolge-Seite gibt, einmal je Woche (`winsHintDue`, `ewolfe_wins_hint`).
   - Test `t240.py` in `Lebensrad APP/eWolfe-Skripte/` (Datum per `clock.set_fixed_time` auf Sonntag 8.11.2026, 18:30; Chromium + WebKit, drei Designs, 820/390).
-- **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, IndexedDB statt localStorage, Fotos einzeln
+- **2.6.0 (4.11.2026) Speicher in IndexedDB statt nur localStorage (Wunsch der Nutzerin: mehr Platz als 5 MB):**
+    Datenbank `ewolfe`, Speicher `kv`, ein Eintrag `state` = `{ json, rev, at }` (`idbOpen`, `idbGet`, `idbPut`, Schreibschlange `idbQueue`/`idbFlush`: immer nur
+    ein Schreibvorgang, dazwischen zählt nur der neueste Stand). `saveState` → `storeWrite(json)`: Zähler `storeRev` +1, Kopie in localStorage (`ewolfe_data_v1`,
+    Revision in `ewolfe_data_rev`), solange `json` ≤ 3,5 MB (`LS_COPY_MAX`), dann IndexedDB. Passt es nicht mehr, wird die veraltete Kopie **erst nach**
+    gelungenem IndexedDB-Schreiben gelöscht, damit die kleinen Einstellungen in localStorage Platz behalten; Merker `ewolfe_data_idb` = '1' und
+    `ewolfe_data_settings` (Sprache usw. für den Start). Wird es wieder kleiner, kommt die Kopie zurück.
+    **Start:** `init()` läuft erst nach `storeBoot()` (letzte Zeile: `storeBoot().catch(…).then(init)`). `loadState` liest wie bisher localStorage (synchron),
+    `storeBoot` öffnet IndexedDB (4 s Zeitlimit, manche Safari antworten beim ersten Öffnen nie) und nimmt den IndexedDB-Stand, wenn localStorage nichts hat oder
+    `rev` größer ist als `ewolfe_data_rev`. Erster Start mit 2.6.0: die alten Daten werden nach IndexedDB kopiert (rev 1). Vor `storeBoot` schreibt `saveState`
+    nichts (`storeSavedEarly`). `normalizeState` = die alten Ergänzungen (Tagebuch, Bereiche, Meditationen) für beide Wege.
+    **Sonderfälle:** ohne IndexedDB (alt/gesperrt) wie bisher nur localStorage. Daten nur in IndexedDB, das aber gerade nicht lesbar: `storeBlocked`, Warnung
+    `storageLoadFail` („Seite neu laden … bis dahin wird nichts gespeichert“), es wird nichts geschrieben und nichts zum Cloud-Sync geschickt. Merker gesetzt, aber
+    IndexedDB leer: Warnung `storageLost` (Backup/Cloud-Sync). Sobald nur noch IndexedDB die Daten hat: `navigator.storage.persist()` (`storePersist`).
+    **Grenze:** `storeCeiling()` = 20 MB mit IndexedDB (4,3 MB ohne), bewusst klein, weil der Cloud-Sync alles auf einmal schickt. Daran hängen die Warnung
+    „fast voll“ (ab 85 %, `storeWarnBySize`), der Platz für Meditations-Anhänge (früher `MEDI_SAFE_TOTAL_BYTES`) und die Speicheranzeige („{mb} MB von {max} MB“).
+    Die Warnung merkt sich ihre Art (`storageWarnKind`) für den Sprachwechsel. Änderungsstempel (`syncStampItems`) schreiben über `storeWrite`.
+    Test `t260.py` in `Lebensrad APP/eWolfe-Skripte/` (Chromium + WebKit: Umzug, Neuladen, 6 MB nur in IndexedDB, wieder klein, 18 MB Warnung, gesperrt, ohne IndexedDB);
+    `t250.py` läuft weiter fehlerfrei.
+- **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
 ## Freude wächst aus dem Rad (seit 1.85.0) – ersetzt „Sechster Bereich Freude“ unten

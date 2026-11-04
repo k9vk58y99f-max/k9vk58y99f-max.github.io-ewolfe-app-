@@ -2410,7 +2410,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.5.0';
+const APP_VERSION = '2.6.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2512,6 +2512,8 @@ const I18N = {
     exportBackup:'Backup herunterladen', importBackup:'Backup wiederherstellen',
     storageWarning:'⚠️ Der Speicher ist voll oder gesperrt: Neue Änderungen werden NICHT gespeichert und gehen beim Neuladen verloren. Bitte lade jetzt ein Backup herunter.',
     storageAlmost:'⚠️ Der Speicher ist fast voll. Bitte lade jetzt ein Backup herunter, sonst können neue Änderungen verloren gehen.',
+    storageLoadFail:'⚠️ Deine Daten konnten gerade nicht geladen werden. Bitte lade die Seite neu. Bis dahin wird nichts gespeichert, damit nichts überschrieben wird.',
+    storageLost:'⚠️ Deine gespeicherten Daten wurden auf diesem Gerät nicht gefunden. Mit einem Backup oder dem Cloud-Sync kannst du sie zurückholen.',
     backupSaved:'Backup gespeichert. Enthalten:', backupFingerprint:'Zum Abgleich, falls du die Datei später prüfst:', backupDiaryEmpty:'Hinweis: Im Tagebuch ist aktuell noch nichts geschrieben, dieses Backup enthält deshalb kein Tagebuch.',
     backupStorageFull:'⚠️ Der Browser-Speicher ist voll. Dieses Backup enthält den Stand der gerade geöffneten Seite. Nach einem Neuladen wäre er verloren.',
     importBackupHas:'Im Backup ist enthalten:', importCurrentHas:'Aktuell in der App:',
@@ -2561,6 +2563,8 @@ const I18N = {
     exportBackup:'Download backup', importBackup:'Restore backup',
     storageWarning:'⚠️ Storage is full or blocked: new changes are NOT saved and will be lost on reload. Please download a backup now.',
     storageAlmost:'⚠️ Storage is almost full. Please download a backup now, otherwise new changes could be lost.',
+    storageLoadFail:'⚠️ Your data could not be loaded just now. Please reload the page. Until then nothing is saved, so nothing gets overwritten.',
+    storageLost:'⚠️ Your saved data was not found on this device. You can bring it back from a backup or with cloud sync.',
     backupSaved:'Backup saved. It contains:', backupFingerprint:'To check against, if you look at the file later:', backupDiaryEmpty:'Note: nothing is written in the diary yet, so this backup contains no diary.',
     backupStorageFull:'⚠️ Browser storage is full. This backup holds the state of the page you have open. After a reload it would be lost.',
     importBackupHas:'The backup contains:', importCurrentHas:'Currently in the app:',
@@ -2583,29 +2587,162 @@ const AREA_COLOR = { gesundheit:'#e8b84a', beziehungen:'#e8b84a', finanzen:'#e8b
 
 /* ================= State / storage ================= */
 const STORE_KEY = 'ewolfe_data_v1';
-let loadHadStorageProblem = false;
+/* 2.6.0: the data lives in IndexedDB, which has room for far more than the ~5 MB of localStorage. localStorage keeps a
+   copy as a safety net for as long as the data fits there; which of the two is newer tells a revision counter
+   (STORE_REV_KEY in localStorage, rev in the IndexedDB record). When the data no longer fits, the outdated copy is
+   removed (only after IndexedDB holds the new state), so the small settings in localStorage keep their room;
+   STORE_IDB_KEY then says "only in IndexedDB" and STORE_SET_KEY keeps the settings, so the app starts in the right language.
+   init() waits for storeBoot(), so nothing runs on data that IndexedDB would replace a moment later. */
+const STORE_REV_KEY = 'ewolfe_data_rev', STORE_IDB_KEY = 'ewolfe_data_idb', STORE_SET_KEY = 'ewolfe_data_settings';
+const LS_COPY_MAX = 3.5*1024*1024; // larger states are no longer copied to localStorage
+const STORE_CEILING_LS = 4.3*1024*1024, STORE_CEILING_IDB = 20*1024*1024; // how far the data may grow (warning, attachments); kept modest because cloud sync sends all of it
+let loadHadStorageProblem = false, loadNeedsIdb = false, loadHadLsData = false;
+function defaultState(){
+  const st = { bewertungen:{}, ziele:{}, ereignisse:[], meditationen:DEFAULT_MEDITATIONEN.map(m=>({...m})), tagebuch:{jahre:{}}, settings:{lang:'de', theme:'dark'} };
+  AREAS.forEach(a=>{ st.bewertungen[a]=[]; st.ziele[a]=[]; });
+  return st;
+}
+function normalizeState(st){
+  if(!st.tagebuch) st.tagebuch = { jahre:{} }; // migrate older saved states that predate the diary
+  if(!st.bewertungen) st.bewertungen = {}; if(!st.ziele) st.ziele = {};
+  if(!st.settings) st.settings = { lang:'de', theme:'dark' };
+  AREAS.forEach(a=>{ if(!Array.isArray(st.bewertungen[a])) st.bewertungen[a] = []; if(!Array.isArray(st.ziele[a])) st.ziele[a] = []; }); // e.g. 'freude' (1.77.0)
+  ensureBuiltInMeditations(st);
+  return st;
+}
 function loadState(){
   try{
     const raw = localStorage.getItem(STORE_KEY);
     if(raw){
-      try{ return JSON.parse(raw); }
+      try{ const st = JSON.parse(raw); loadHadLsData = true; return st; }
       catch(parseErr){ console.error('eWolfe: saved data is corrupted', parseErr); loadHadStorageProblem = true; }
+    }else if(localStorage.getItem(STORE_IDB_KEY) === '1'){
+      loadNeedsIdb = true; // too big for localStorage: storeBoot() fetches it from IndexedDB
+      const st = defaultState();
+      try{ const s = JSON.parse(localStorage.getItem(STORE_SET_KEY) || 'null'); if(s && typeof s === 'object') st.settings = s; }catch(e){}
+      return st;
     }
   }catch(e){
     console.error('eWolfe: localStorage is not accessible', e);
     loadHadStorageProblem = true; // likely the same restriction that would also block saving
   }
-  const st = { bewertungen:{}, ziele:{}, ereignisse:[], meditationen:DEFAULT_MEDITATIONEN.map(m=>({...m})), tagebuch:{jahre:{}}, settings:{lang:'de', theme:'dark'} };
-  AREAS.forEach(a=>{ st.bewertungen[a]=[]; st.ziele[a]=[]; });
-  return st;
+  return defaultState();
 }
-let state = loadState();
-if(!state.tagebuch) state.tagebuch = { jahre:{} }; // migrate older saved states that predate the diary
-if(!state.bewertungen) state.bewertungen = {}; if(!state.ziele) state.ziele = {};
-AREAS.forEach(a=>{ if(!Array.isArray(state.bewertungen[a])) state.bewertungen[a] = []; if(!Array.isArray(state.ziele[a])) state.ziele[a] = []; }); // e.g. 'freude' (1.77.0)
-ensureBuiltInMeditations(state);
-if(loadHadStorageProblem) showStorageWarning();
+let state = normalizeState(loadState());
 let localStorageOk = true;
+/* ---- IndexedDB: database 'ewolfe', store 'kv', one record 'state' = { json, rev, at } ---- */
+let idb = null, storeRev = 0, storeLsRev = 0, storeReady = false, storeSavedEarly = false, storeBlocked = false;
+function idbOpen(){
+  return new Promise(resolve=>{
+    let done = false;
+    const finish = db=>{ if(!done){ done = true; resolve(db); } };
+    setTimeout(()=>finish(null), 4000); // some Safari versions never answer the very first open
+    try{
+      const rq = indexedDB.open('ewolfe', 1);
+      rq.onupgradeneeded = ()=>{ try{ rq.result.createObjectStore('kv'); }catch(e){} };
+      rq.onsuccess = ()=>{
+        const db = rq.result;
+        if(done){ try{ db.close(); }catch(e){} return; }
+        db.onversionchange = ()=>{ try{ db.close(); }catch(e){} };
+        finish(db);
+      };
+      rq.onerror = ()=>{ console.error('eWolfe: IndexedDB could not be opened', rq.error); finish(null); };
+      rq.onblocked = ()=>finish(null);
+    }catch(e){ console.error('eWolfe: IndexedDB is not accessible', e); finish(null); }
+  });
+}
+function idbReq(mode, fn){
+  return new Promise((resolve, reject)=>{
+    try{
+      const tx = idb.transaction('kv', mode), rq = fn(tx.objectStore('kv'));
+      tx.oncomplete = ()=>resolve(rq.result);
+      tx.onerror = tx.onabort = ()=>reject(tx.error || rq.error || new Error('IndexedDB transaction failed'));
+    }catch(e){ reject(e); }
+  });
+}
+const idbGet = k=>idbReq('readonly', s=>s.get(k));
+const idbPut = (k, v)=>idbReq('readwrite', s=>s.put(v, k));
+// one write at a time; while one runs, only the newest waiting state is kept
+let idbWriting = false, idbNext = null;
+function idbQueue(rec){ idbNext = rec; if(!idbWriting) idbFlush(); }
+async function idbFlush(){
+  idbWriting = true;
+  while(idbNext){
+    const rec = idbNext; idbNext = null;
+    try{
+      await idbPut('state', { json:rec.json, rev:rec.rev, at:Date.now() });
+      localStorageOk = true; shrinkAfterFailTried = false;
+      if(!rec.lsOk && storeLsRev < rec.rev){
+        // the copy in localStorage is outdated and the data no longer fits there: free its room
+        try{ localStorage.removeItem(STORE_KEY); localStorage.removeItem(STORE_REV_KEY); }catch(e){}
+        try{ localStorage.setItem(STORE_IDB_KEY, '1'); localStorage.setItem(STORE_SET_KEY, JSON.stringify(state.settings || {})); }catch(e){}
+        storePersist();
+      }
+      storeWarnBySize(rec.json.length);
+    }catch(e){
+      console.error('eWolfe: saving to IndexedDB failed', e);
+      if(rec.lsOk) localStorageOk = true; // the copy in localStorage has it, the next start takes it from there
+      else storeSaveFailed();
+    }
+  }
+  idbWriting = false;
+}
+const storeCeiling = ()=>idb ? STORE_CEILING_IDB : STORE_CEILING_LS;
+let storePersistAsked = false;
+function storePersist(){
+  // ask the browser not to clear the data when space runs low (no question to the person in Safari and Chrome)
+  if(storePersistAsked) return; storePersistAsked = true;
+  try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persisted().then(p=>{ if(!p) navigator.storage.persist(); }).catch(()=>{}); }catch(e){}
+}
+function storeWarnBySize(len){
+  if(len > storeCeiling() * 0.85){ showStorageWarning('almost'); if(!shrinkRunning) shrinkStoredImages(); } // warn BEFORE it is full
+  else hideStorageWarning();
+}
+function storeSaveFailed(){
+  localStorageOk = false;
+  showStorageWarning('full');
+  // most likely full because of large photos: shrink them once and try again
+  if(!shrinkAfterFailTried){ shrinkAfterFailTried = true; shrinkStoredImages(); }
+}
+function storeWrite(json){
+  const rev = ++storeRev;
+  let lsOk = false;
+  if(!idb || json.length <= LS_COPY_MAX){
+    try{
+      localStorage.setItem(STORE_KEY, json); lsOk = true; storeLsRev = rev;
+      try{ localStorage.setItem(STORE_REV_KEY, String(rev)); localStorage.removeItem(STORE_IDB_KEY); }catch(e){}
+    }catch(e){ if(!idb) console.error('eWolfe: saving to localStorage failed', e); }
+  }
+  if(idb){ if(lsOk) localStorageOk = true; idbQueue({ json, rev, lsOk }); return; }
+  if(lsOk){ localStorageOk = true; shrinkAfterFailTried = false; storeWarnBySize(json.length); }
+  else storeSaveFailed();
+}
+async function storeBoot(){
+  try{ if(typeof indexedDB !== 'undefined') idb = await idbOpen(); }catch(e){ idb = null; }
+  let lsRev = 0; try{ lsRev = +(localStorage.getItem(STORE_REV_KEY) || 0) || 0; }catch(e){}
+  storeRev = storeLsRev = loadHadLsData ? lsRev : 0;
+  let rec = null;
+  if(idb){
+    try{ rec = await idbGet('state'); }
+    catch(e){ console.error('eWolfe: reading IndexedDB failed', e); idb = null; }
+  }
+  if(!idb && loadNeedsIdb){
+    // the data is in IndexedDB but cannot be read right now: write nothing, so nothing gets overwritten
+    storeBlocked = true; showStorageWarning('load'); return;
+  }
+  let fromIdb = false;
+  if(rec && typeof rec.json === 'string' && (!loadHadLsData || (+rec.rev || 0) > lsRev)){
+    try{ state = normalizeState(JSON.parse(rec.json)); fromIdb = true; storeRev = +rec.rev || 0; loadHadStorageProblem = false; }
+    catch(e){ console.error('eWolfe: saved data in IndexedDB is corrupted', e); }
+  }
+  if(rec && !fromIdb) storeRev = Math.max(storeRev, +rec.rev || 0);
+  if(loadNeedsIdb && !fromIdb){ try{ localStorage.removeItem(STORE_IDB_KEY); }catch(e){} loadHadStorageProblem = true; }
+  storeReady = true;
+  if(loadHadStorageProblem) showStorageWarning(loadNeedsIdb ? 'lost' : 'full');
+  if(fromIdb && !loadHadLsData) storePersist();
+  // the first start with 2.6.0 (or IndexedDB is behind the copy): bring IndexedDB up to date
+  if(!fromIdb && (storeSavedEarly || (idb && loadHadLsData && (!rec || (+rec.rev || 0) < lsRev)))) storeWrite(JSON.stringify(state));
+}
 let shrinkAfterFailTried = false;
 /* ---- Levels: active days (days with an exercise, a wheel, a diary page or gratitude) – they only ever grow, so a pause
    never takes anything away. 1: start (tonal), 2: from 7 days (first gold), 3: from 30 (gold frame and buttons),
@@ -2694,26 +2831,20 @@ let levelTimer = null;
 function saveState(){
   clearTimeout(levelTimer); levelTimer = setTimeout(()=>{ try{ applyLevel(); }catch(e){} }, 800);
   if(typeof trophyCheck === 'function') setTimeout(trophyCheck, 0);
-  try{
-    const json = JSON.stringify(state);
-    localStorage.setItem(STORE_KEY, json);
-    localStorageOk = true; shrinkAfterFailTried = false;
-    if(json.length > 3.6*1024*1024){ showStorageWarning('almost'); if(!shrinkRunning) shrinkStoredImages(); } // warn BEFORE it is full
-    else hideStorageWarning();
-  }catch(e){
-    console.error('eWolfe: saving to localStorage failed', e);
-    localStorageOk = false;
-    showStorageWarning('full');
-    // most likely full because of large photos: shrink them once and try again
-    if(!shrinkAfterFailTried){ shrinkAfterFailTried = true; shrinkStoredImages(); }
-  }
+  // before storeBoot() has looked into IndexedDB nothing is written – it may hold newer data (2.6.0)
+  if(storeReady){ try{ storeWrite(JSON.stringify(state)); }catch(e){ console.error('eWolfe: saving failed', e); storeSaveFailed(); } }
+  else if(storeBlocked) showStorageWarning('load');
+  else storeSavedEarly = true;
   try{ renderOverviewTable(); renderAchievedTable(); renderEventsOverview(); }catch(e){ console.error('eWolfe: overview tables failed to render', e); }
-  try{ syncOnLocalChange(); }catch(e){}
+  if(!storeBlocked){ try{ syncOnLocalChange(); }catch(e){} } // what could not be loaded must not be replaced in the account either
 }
+let storageWarnKind = 'full';
 function showStorageWarning(kind){
   const b = document.getElementById('storage-warning');
   if(!b) return;
-  document.getElementById('storage-warning-text').textContent = (kind==='almost') ? t().storageAlmost : t().storageWarning;
+  storageWarnKind = kind || 'full';
+  const d = t();
+  document.getElementById('storage-warning-text').textContent = kind === 'almost' ? d.storageAlmost : kind === 'load' ? d.storageLoadFail : kind === 'lost' ? d.storageLost : d.storageWarning;
   b.style.display='flex';
 }
 function hideStorageWarning(){
@@ -3113,17 +3244,16 @@ function openMeditationModal(){
   openModal('medi-modal');
 }
 let mediStagedFile = null; // { name, type, dataUrl } — attached but not yet saved
-// Browsers give roughly 5MB of localStorage; instead of one fixed per-file cap, check the ACTUAL
-// room left (current saved size vs. a safe ceiling) so a person can attach whatever genuinely fits,
-// and gets a clear reason — with how much room is free — when it doesn't.
-const MEDI_SAFE_TOTAL_BYTES = 4.3*1024*1024; // stays clear of the ~5MB quota most browsers allow, leaving headroom for the rest of the app's own data
+// Instead of one fixed per-file cap, check the ACTUAL room left (current saved size vs. the ceiling,
+// storeCeiling(): 4.3 MB in localStorage, 20 MB with IndexedDB since 2.6.0) so a person can attach whatever
+// genuinely fits, and gets a clear reason — with how much room is free — when it doesn't.
 document.getElementById('medi-file-input').addEventListener('change', async e=>{
   const file = e.target.files && e.target.files[0];
   e.target.value = '';
   if(!file) return;
   const estDataUrlBytes = Math.ceil(file.size/3)*4 + 100; // base64 + a short data-URL header
   const currentBytes = JSON.stringify(state).length;
-  const room = MEDI_SAFE_TOTAL_BYTES - currentBytes;
+  const room = storeCeiling() - currentBytes;
   if(estDataUrlBytes > room){
     const roomText = room>1024 ? Math.round(room/1024)+' KB' : '0 KB';
     await uiNotice(t().mediTooBig.replace('{room}', roomText));
@@ -4672,7 +4802,7 @@ function uiDialogShow(message, opts){
 function uiConfirm(message){ return uiDialog(message, {confirm:true}); }
 function uiNotice(message){ return uiDialog(message); }
 
-/* ---- Photos are shrunk before they are stored. The whole app state lives in ONE browser-storage entry of only ~5 MB;
+/* ---- Photos are shrunk before they are stored. The whole app state used to live in ONE localStorage entry of only ~5 MB (IndexedDB since 2.6.0);
    a single unshrunk phone photo (several MB) used to fill it, after which NOTHING was saved any more
    (new diary text, goals, assessments) and it was gone after a reload. ---- */
 function shrinkDataUrl(src, maxSide, quality){
@@ -4983,7 +5113,7 @@ function syncStampItems(){
     next[k] = fp;
   });
   fpSave(next);
-  if(changed){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} } // the stamps must survive a reload
+  if(changed && storeReady){ try{ storeWrite(JSON.stringify(state)); }catch(e){} } // the stamps must survive a reload
   return changed;
 }
 function syncFpRefresh(){
@@ -5299,8 +5429,8 @@ Object.assign(I18N.de, {"impulseIntro": "Tippe auf die Karte und zieh dir einen 
 Object.assign(I18N.en, {"impulseIntro": "Tap the card and draw a thought for your day.", "impulseIntroAgain": "Tap the card to see it again. Swipe it aside to draw a new one.", "impulseSwipeHint": "Swipe aside for a new card", "impulseTapHint": "Tap to close"});
 Object.assign(I18N.de, {"diaryNewBook": "Neues Tagebuch starten", "diaryNewBookText": "In welchem Format möchtest du schreiben? Das gilt für das ganze Buch.", "diaryPortrait": "Hochformat", "diaryLandscape": "Querformat"});
 Object.assign(I18N.en, {"diaryNewBook": "Start a new diary", "diaryNewBookText": "Which format would you like to write in? It applies to the whole book.", "diaryPortrait": "Portrait", "diaryLandscape": "Landscape"});
-Object.assign(I18N.de, {"diaryKindText": "Was für ein Tagebuch möchtest du?\n\nGeführt: jeden Tag eine Seite mit ein paar festen Fragen – morgens, abends oder beides.\nLeer: freie Seiten mit Linien, Punkten, Karo oder ganz leer.\n\nFreie Seiten kannst du auch im geführten Tagebuch jederzeit einfügen.", "diaryGuided": "Geführtes Tagebuch", "diaryFree": "Leeres Tagebuch", "diaryKind": "Art des Tagebuchs", "guidedWhen": "Geführt", "guidedMorning": "Morgens", "guidedEvening": "Abends", "guidedBoth": "Beides", "diaryGuidedPage": "Geführte Seite", "g_dank": "Dafür bin ich dankbar", "g_ziel": "Das macht heute zu einem guten Tag", "g_satz": "Mein Satz für heute", "g_mom": "Drei schöne Momente heute", "g_besser": "Was ich morgen anders mache", "cardsTitle": "Meine Impulskarten", "storageUse": "Speicher auf diesem Gerät: {mb} MB von etwa 5 MB ({p} %).", "storageParts": "Davon Fotos {photos} MB · Impulskarten {cards} MB · Zeichnungen {draw} MB · alles andere {rest} MB", "diaryPaper": "Papier","diaryPaperFancy": "Verziert", "diaryPaperPlain": "Schlicht", "guidedOnePerDay": "Für heute gibt es schon eine geführte Seite. Wenn du mehr schreiben möchtest, füge über „Neue Seite“ eine leere Seite ein."});
-Object.assign(I18N.en, {"diaryKindText": "What kind of diary would you like?\n\nGuided: each day a page with a few fixed questions – in the morning, in the evening or both.\nFree: pages with lines, dots, grid or blank.\n\nYou can add free pages to a guided diary at any time.", "diaryGuided": "Guided diary", "diaryFree": "Free diary", "diaryKind": "Kind of diary", "guidedWhen": "Guided", "guidedMorning": "Morning", "guidedEvening": "Evening", "guidedBoth": "Both", "diaryGuidedPage": "Guided page", "g_dank": "I am grateful for", "g_ziel": "This would make today a good day", "g_satz": "My sentence for today", "g_mom": "Three good moments today", "g_besser": "What I will do differently tomorrow", "cardsTitle": "My impulse cards", "storageUse": "Storage on this device: {mb} MB of about 5 MB ({p} %).", "storageParts": "Photos {photos} MB · impulse cards {cards} MB · drawings {draw} MB · everything else {rest} MB", "diaryPaper": "Paper","diaryPaperFancy": "Ornate", "diaryPaperPlain": "Plain", "guidedOnePerDay": "There is already a guided page for today. To write more, add a blank page via “New page”."});
+Object.assign(I18N.de, {"diaryKindText": "Was für ein Tagebuch möchtest du?\n\nGeführt: jeden Tag eine Seite mit ein paar festen Fragen – morgens, abends oder beides.\nLeer: freie Seiten mit Linien, Punkten, Karo oder ganz leer.\n\nFreie Seiten kannst du auch im geführten Tagebuch jederzeit einfügen.", "diaryGuided": "Geführtes Tagebuch", "diaryFree": "Leeres Tagebuch", "diaryKind": "Art des Tagebuchs", "guidedWhen": "Geführt", "guidedMorning": "Morgens", "guidedEvening": "Abends", "guidedBoth": "Beides", "diaryGuidedPage": "Geführte Seite", "g_dank": "Dafür bin ich dankbar", "g_ziel": "Das macht heute zu einem guten Tag", "g_satz": "Mein Satz für heute", "g_mom": "Drei schöne Momente heute", "g_besser": "Was ich morgen anders mache", "cardsTitle": "Meine Impulskarten", "storageUse": "Speicher auf diesem Gerät: {mb} MB von {max} MB ({p} %).", "storageParts": "Davon Fotos {photos} MB · Impulskarten {cards} MB · Zeichnungen {draw} MB · alles andere {rest} MB", "diaryPaper": "Papier","diaryPaperFancy": "Verziert", "diaryPaperPlain": "Schlicht", "guidedOnePerDay": "Für heute gibt es schon eine geführte Seite. Wenn du mehr schreiben möchtest, füge über „Neue Seite“ eine leere Seite ein."});
+Object.assign(I18N.en, {"diaryKindText": "What kind of diary would you like?\n\nGuided: each day a page with a few fixed questions – in the morning, in the evening or both.\nFree: pages with lines, dots, grid or blank.\n\nYou can add free pages to a guided diary at any time.", "diaryGuided": "Guided diary", "diaryFree": "Free diary", "diaryKind": "Kind of diary", "guidedWhen": "Guided", "guidedMorning": "Morning", "guidedEvening": "Evening", "guidedBoth": "Both", "diaryGuidedPage": "Guided page", "g_dank": "I am grateful for", "g_ziel": "This would make today a good day", "g_satz": "My sentence for today", "g_mom": "Three good moments today", "g_besser": "What I will do differently tomorrow", "cardsTitle": "My impulse cards", "storageUse": "Storage on this device: {mb} MB of {max} MB ({p} %).", "storageParts": "Photos {photos} MB · impulse cards {cards} MB · drawings {draw} MB · everything else {rest} MB", "diaryPaper": "Paper","diaryPaperFancy": "Ornate", "diaryPaperPlain": "Plain", "guidedOnePerDay": "There is already a guided page for today. To write more, add a blank page via “New page”."});
 Object.assign(I18N.de, {"habitDaily": "Täglich", "habitWeekly": "Wöchentlich", "habitStreakW": "{n} Wochen am Stück", "habitWeekFull": "Du hast schon 3 wöchentliche Gewohnheiten. Lösche eine, um eine neue anzulegen.", "habitDayFull": "Du hast schon 8 tägliche Gewohnheiten. Lösche eine, um eine neue anzulegen.", "habitPraiseW4": "Schön! 4 Wochen am Stück: „{h}“ gehört jetzt zu deiner Woche.", "habitPraiseW8": "Großartig! 8 Wochen am Stück: „{h}“ ist fest in deinem Leben angekommen.", "habitPraiseW12": "Wunderbar! 12 Wochen am Stück – ein ganzes Vierteljahr „{h}“. Darauf kannst du stolz sein!"});
 Object.assign(I18N.en, {"habitDaily": "Daily", "habitWeekly": "Weekly", "habitStreakW": "{n} weeks in a row", "habitWeekFull": "You already have 3 weekly habits. Delete one to add a new one.", "habitDayFull": "You already have 8 daily habits. Delete one to add a new one.", "habitPraiseW4": "Lovely! 4 weeks in a row: “{h}” is now part of your week.", "habitPraiseW8": "Great! 8 weeks in a row: “{h}” has truly arrived in your life.", "habitPraiseW12": "Wonderful! 12 weeks in a row – a whole quarter of “{h}”. You can be proud of that!"});
 Object.assign(I18N.de, {"shelfHint": "Tippe auf ein Buch, um es aus dem Regal zu nehmen.", "trophyNone": "Hier stehen bald deine Trophäen.", "trophyNextLabel": "Nächste Trophäe:", "trophyNew": "Neue Trophäe!", "trophySince": "Seit {d}"});
@@ -5645,7 +5775,7 @@ function applyLang(){
   document.getElementById('medi-staged-remove').title = d.mediRemoveFile;
   if(document.getElementById('medi-modal').classList.contains('open')) renderMeditationen();
   document.getElementById('eval-restore-btn').textContent = d.restoreFromBackup;
-  if(document.getElementById('storage-warning').style.display!=='none') showStorageWarning(localStorageOk ? 'almost' : 'full');
+  if(document.getElementById('storage-warning').style.display!=='none') showStorageWarning(storageWarnKind);
   if(document.getElementById('tb-overlay').classList.contains('open')) tbRender();
   renderPanels(); renderScene();
 }
@@ -10881,7 +11011,7 @@ function acctFloatUpdate(){
   pageFooters();
   acctFloatUpdate(); setTimeout(acctFloatUpdate, 600); setTimeout(acctFloatUpdate, 5000); // after the opening animation
 })();
-/* 31.10.2026: how full the browser storage is (about 5 MB for everything) and what fills it, in plain words */
+/* 31.10.2026: how full the browser storage is and what fills it, in plain words (2.6.0: of storeCeiling(), 20 MB with IndexedDB) */
 function renderSettingsStorage(){
   const box = document.getElementById('settings-storage'); if(!box) return;
   const d = t(), len = s=>(s ? String(s).length : 0), mb = n=>(n / 1048576).toLocaleString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { maximumFractionDigits:1, minimumFractionDigits:1 });
@@ -10895,8 +11025,8 @@ function renderSettingsStorage(){
       drawings += len(JSON.stringify(p.strokes || []));
     });
   });
-  const pct = Math.min(100, Math.round(total / (5 * 1048576) * 100));
-  box.innerHTML = `${escapeHtml(d.storageUse.replace('{mb}', mb(total)).replace('{p}', pct))}<br>${escapeHtml(d.storageParts.replace('{photos}', mb(photos)).replace('{cards}', mb(cards)).replace('{draw}', mb(drawings)).replace('{rest}', mb(Math.max(0, total - photos - cards - drawings))))}`;
+  const max = storeCeiling(), pct = Math.min(100, Math.round(total / max * 100));
+  box.innerHTML = `${escapeHtml(d.storageUse.replace('{mb}', mb(total)).replace('{max}', Math.round(max / 1048576)).replace('{p}', pct))}<br>${escapeHtml(d.storageParts.replace('{photos}', mb(photos)).replace('{cards}', mb(cards)).replace('{draw}', mb(drawings)).replace('{rest}', mb(Math.max(0, total - photos - cards - drawings))))}`;
 }
 function openSettings(){ renderSettingsSync(); renderSettingsPrivacy(); renderSettingsStorage(); renderNotes(); openModal('settings-modal'); }
 function syncInit(){
@@ -10936,7 +11066,10 @@ function init(){
     renderPanels();
   }
 }
-init();
+storeBoot().catch(e=>{
+  console.error('eWolfe: starting the storage failed', e);
+  if(!storeReady && !storeBlocked){ if(loadNeedsIdb){ storeBlocked = true; showStorageWarning('load'); } else storeReady = true; }
+}).then(init);
 </script>
 </body>
 </html>
