@@ -1804,6 +1804,44 @@ html .lib-row.has-xmas .shelf-unit{ scroll-margin-left:calc(var(--lh) * max(var(
 /* the Christmas tree of A Mystery World and A Gentleman's Study: left beside the bookcase, like the Lady's */
 .shelf-unit > .shelf-xmas-side{ position:absolute; left:0; bottom:-3%; height:89.6%; /* 40 % bigger (24.10.2026) */ transform:translateX(-96%); z-index:3; pointer-events:none; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.4)); }
 html:not(.theme-biz) .shelf-unit > .shelf-xmas-side{ transform:translateX(-99.05%); } /* 25.10.2026: the tip of every tree in the same place as the gentleman's (measured) */
+/* 2.5.0: the tree one decorates oneself – in the place of the decorated one (same height, same width = its tip in the same place); the bare tree centred in it */
+html .shelf-unit > .xt-lib.xt-lib{ pointer-events:auto; cursor:pointer; background:none; border:0; padding:0; aspect-ratio:var(--xa); width:auto; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.35)); }
+.xt-box{ position:absolute; top:0; bottom:0; left:50%; transform:translateX(-50%); aspect-ratio:var(--xb); display:block; }
+.xt-box > .xt-tree, .xm-tree > .xt-tree{ height:100%; width:100%; display:block; }
+.xt-orn, .xt-star{ position:absolute; transform:translateX(-50%); width:auto; pointer-events:none; -webkit-user-drag:none; }
+.xt-orn{ filter:drop-shadow(0 1px 1.5px rgba(0,0,0,0.35)); }
+.xt-star{ filter:drop-shadow(0 0 5px rgba(255,214,130,0.6)); }
+.xt-gift{ position:absolute; left:4%; bottom:-2%; height:15%; width:auto; pointer-events:none; filter:drop-shadow(0 4px 5px rgba(0,0,0,0.4)); }
+#xmas-modal{ position:fixed; inset:0; z-index:125; display:none; flex-direction:column; align-items:center; background:#0c1226; color:#ece7d8; touch-action:none; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; padding:calc(env(safe-area-inset-top, 0px) + 10px) 0 calc(env(safe-area-inset-bottom, 0px) + 10px); }
+html:not(.theme-biz) #xmas-modal{ background:radial-gradient(ellipse at 50% 30%, #1d1b4a, #0b0a24 75%); color:#f4e7c2; }
+html.theme-retreat #xmas-modal{ background:linear-gradient(#f8f1e5, #f1e2da); color:#292723; }
+#xmas-modal.open{ display:flex; }
+html body > #xmas-modal{ position:fixed !important; inset:0 !important; z-index:310 !important; width:auto !important; height:auto !important; margin:0 !important; box-sizing:border-box; } /* the page rule for the body's children must not hold it */
+.xm-head{ width:100%; max-width:720px; display:flex; align-items:center; gap:12px; padding:4px 16px 0; box-sizing:border-box; }
+.xm-title{ font-size:var(--fs-h, 22px); flex:1; }
+html.theme-biz:not(.theme-retreat) .xm-title{ font-family:'Noto Serif Display', serif; font-stretch:62.5%; text-transform:uppercase; letter-spacing:0.04em; }
+html.theme-retreat .xm-title{ font-family:'Cormorant Garamond', serif; color:#7A0B25; font-weight:600; }
+html:not(.theme-biz) .xm-title{ font-family:'Marcellus', serif; color:#e9c46a; }
+.xm-count{ font-size:var(--fs-text, 15px); opacity:0.8; }
+.xm-close{ background:none; border:0; color:inherit; font-size:24px; line-height:1; padding:6px 4px; cursor:pointer; }
+.xm-stage{ flex:1; min-height:0; width:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+.xm-tree{ position:relative; height:min(calc(100vh - 260px), calc(88vw / var(--xb))); height:min(calc(100dvh - 260px), calc(88vw / var(--xb))); aspect-ratio:var(--xb); } /* head, hint and tray take about 260 px */
+.xm-tree .xt-orn, .xm-tree .xt-star{ pointer-events:auto; cursor:grab; touch-action:none; }
+.xm-gift{ position:absolute; left:0; bottom:-2%; height:19%; z-index:2; background:none; border:0; padding:0; cursor:pointer; filter:drop-shadow(0 5px 7px rgba(0,0,0,0.4)); transition:opacity .5s; }
+.xm-gift.is-open{ height:22%; left:-6%; }
+.xm-gift img{ height:100%; width:auto; display:block; }
+.xm-gift.wiggle{ animation:xmWiggle .6s ease-in-out; }
+.xm-gift.fade{ opacity:0; }
+@keyframes xmWiggle{ 0%,100%{ transform:none; } 20%{ transform:rotate(-6deg); } 40%{ transform:rotate(5deg); } 60%{ transform:rotate(-4deg); } 80%{ transform:rotate(2deg); } }
+.xm-hint{ font-size:var(--fs-text, 15px); text-align:center; padding:6px 20px; max-width:640px; opacity:0.9; }
+.xm-tray{ width:100%; max-width:900px; display:flex; gap:6px; overflow-x:auto; padding:6px 16px; box-sizing:border-box; justify-content:safe center; touch-action:pan-x; }
+.xm-piece{ flex:0 0 auto; height:66px; min-width:44px; padding:4px; border-radius:10px; border:1px solid transparent; background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; cursor:grab; touch-action:none; }
+html.theme-retreat .xm-piece{ background:rgba(122,11,37,0.06); }
+.xm-piece img{ height:100%; width:auto; max-width:70px; object-fit:contain; pointer-events:none; }
+.xm-piece.sel{ border-color:var(--gold, #d3b681); background:rgba(211,182,129,0.18); }
+.xm-ghost{ position:fixed; z-index:320; transform:translateX(-50%); pointer-events:none; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+.xm-fly{ position:fixed; z-index:320; transform-origin:50% 50%; transition:transform 1.4s cubic-bezier(.45,.05,.25,1); pointer-events:none; filter:drop-shadow(0 0 10px rgba(255,214,130,0.8)); }
+html body > .xm-ghost, html body > .xm-fly{ position:fixed !important; z-index:320 !important; }
 /* 24.10.2026 (wish of the user): in A Mystery World and A Gentleman's Study the bookcase stands back against the wall and further left,
    like in A Lady's Conservatory: the room moves down until its wall ends at the feet of the furniture */
 /* A Lady's Conservatory: the dress stand further left (wish of the user, 24.10.2026) */
@@ -2372,7 +2410,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.4.4';
+const APP_VERSION = '2.5.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -3986,6 +4024,153 @@ function adventCandles(now){
 }
 // Christmas time for the tree and the snow: 24 December until Epiphany
 function isChristmasTime(now){ now = now || new Date(); const m = now.getMonth(), d = now.getDate(); return (m === 11 && d >= 24) || (m === 0 && d <= 6); }
+
+/* ---- 2.5.0: decorate the Christmas tree yourself (wish of the user, 4.11.2026). From 21 December until Epiphany a bare tree stands beside the bookcase,
+   only its candles are fixed; afterwards it is bare again. Up to 30 ornaments of 12 kinds are hung on it by hand (each kind as often as one likes).
+   state.xmasTree[season] = { o:[[kind 1–12, x, y]], star:0|1, gift:ts, flown:0|1, t } – x/y in % of the tree, y = where the cap hangs; season = the year of the December.
+   The first Christmas one is there, a wrapped present lies under the tree from 21.12.; it opens only on 24.–26.12. (unopened it is gone afterwards).
+   Inside is the topper star; tapped, it flies to the top. It is the trophy 'xmas' (star of Bethlehem): after Christmas in the shelf / cabinet,
+   in later years it lies with the ornaments. ---- */
+const XMAS_MAX = 30;
+// height of every ornament in the original sheet (px) – they were painted to the same scale; the first (a bauble) is 7 % of the tree
+const XMAS_H = { rl2:[259, 258, 257, 264, 220, 391, 307, 258, 236, 210, 242, 205], mw2:[277, 274, 276, 278, 225, 343, 310, 244, 211, 195, 264, 219], rt2:[327, 328, 326, 319, 284, 405, 376, 302, 298, 297, 206, 272] };
+const XMAS_AR = { rl2:[667 / 1100, 512 / 900], mw2:[665 / 1100, 485 / 900], rt2:[671 / 1100, 509 / 900] }; // the bare tree; the old decorated one (its place beside the bookcase was measured with it)
+const XMAS_STAR = { x:50, y:-8.5, h:15 }; // the topper star: centre, top and height in % of the tree – the spring sits on the tip
+const xmasDir = ()=>RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2';
+function isTreeTime(now){ now = now || new Date(); const m = now.getMonth(), d = now.getDate(); return (m === 11 && d >= 21) || (m === 0 && d <= 6); }
+function xmasSeason(now){ now = now || new Date(); return String(now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear()); }
+function xmasOf(st){ if(!st.xmasTree || typeof st.xmasTree !== 'object' || Array.isArray(st.xmasTree)) st.xmasTree = {}; return st.xmasTree; }
+// sync / backup: per season the version changed last wins; an opened present is never lost
+function xmasMerge(a, b){
+  const out = {};
+  [a, b].forEach(x=>Object.entries(x || {}).forEach(([k, v])=>{
+    if(!v || typeof v !== 'object') return;
+    const c = out[k], w = !c || (v.t || 0) > (c.t || 0) ? JSON.parse(JSON.stringify(v)) : c;
+    if(c){ const g = [c.gift, v.gift].filter(Boolean); w.gift = g.length ? Math.min(...g) : 0; w.flown = (c.flown || v.flown) ? 1 : 0; }
+    out[k] = w;
+  }));
+  return out;
+}
+function xmasRecGet(){ const r = xmasOf(state)[xmasSeason()]; return r ? JSON.parse(JSON.stringify(r)) : { o:[], star:0, gift:0, flown:0, t:0 }; }
+function xmasSave(r){ r.t = Date.now(); xmasOf(state)[xmasSeason()] = r; saveState(); }
+function xmasGiftTimes(){ return Object.values(xmasOf(state)).map(v=>v && v.gift).filter(Boolean); }
+// the star was already earned in an earlier Christmas (the present, or before 2.5.0 an exercise on 24.–26.12.)
+function xmasStarBefore(){ const x = trophyDefs().find(y=>y.id === 'xmas'), at = x && x.list[0]; return !!at && at < new Date(+xmasSeason(), 11, 21).getTime(); }
+function xmasGift(now){ now = now || new Date(); const r = xmasRecGet(); if(r.flown || xmasStarBefore()) return ''; if(r.gift) return 'open'; return now.getMonth() === 11 && now.getDate() <= 26 ? 'closed' : ''; }
+function xmasGiftOpenable(now){ now = now || new Date(); return now.getMonth() === 11 && now.getDate() >= 24 && now.getDate() <= 26; }
+function xmasStarInBox(){ const r = xmasRecGet(); return !r.star && (r.flown || xmasStarBefore()); }
+function xmasOrnH(D, k){ const H = XMAS_H[D]; return H[k - 1] / H[0] * 7; }
+function xmasLayerHtml(D, r){
+  return `<img class="xt-tree" src="img/${D}/xmas/tree-bare.webp" alt="" draggable="false">`
+    + (r.o || []).map((p, i)=>`<img class="xt-orn" data-i="${i}" src="img/${D}/xmas/o${String(p[0]).padStart(2, '0')}.webp" style="left:${p[1]}%;top:${p[2]}%;height:${xmasOrnH(D, p[0]).toFixed(2)}%" alt="" draggable="false">`).join('')
+    + (r.star ? `<img class="xt-star" src="img/${D}/xmas/star.webp" style="left:${XMAS_STAR.x}%;top:${XMAS_STAR.y}%;height:${XMAS_STAR.h}%" alt="" draggable="false">` : '');
+}
+// the tree beside the bookcase; cls = the place classes of the decorated tree it replaces
+function xmasTreeHtml(cls){
+  const D = xmasDir(), r = xmasRecGet(), g = xmasGift(), ar = XMAS_AR[D];
+  return `<button class="${cls} xt-lib" style="--xa:${ar[1].toFixed(4)}" onclick="xmasOpen()" title="${escapeHtml(t().xmasTitle)}" aria-label="${escapeHtml(t().xmasTitle)}"><span class="xt-box" style="--xb:${ar[0].toFixed(4)}">${xmasLayerHtml(D, r)}${g ? `<img class="xt-gift" src="img/${D}/xmas/${g === 'open' ? 'gift-open' : 'gift'}.webp" alt="">` : ''}</span></button>`;
+}
+let xmasSel = 0, xmasDrag = null, xmasMask = null;
+function xmasOpen(){
+  let m = document.getElementById('xmas-modal');
+  if(!m){ m = document.createElement('div'); m.id = 'xmas-modal'; document.body.appendChild(m);
+    m.addEventListener('pointerdown', xmasDown); m.addEventListener('click', xmasClick); m.addEventListener('contextmenu', e=>e.preventDefault()); }
+  xmasSel = 0; m.classList.add('open'); xmasRender(); xmasMaskLoad();
+}
+function xmasClose(){ const m = document.getElementById('xmas-modal'); if(m) m.classList.remove('open'); if(document.querySelector('.lib-wrap')) tbRender(); }
+function xmasRender(){
+  const m = document.getElementById('xmas-modal'); if(!m) return;
+  const d = t(), D = xmasDir(), r = xmasRecGet(), g = xmasGift(), n = (r.o || []).length;
+  const tray = Array.from({ length:12 }, (_, k)=>`<button class="xm-piece${xmasSel === k + 1 ? ' sel' : ''}" data-k="${k + 1}"><img src="img/${D}/xmas/o${String(k + 1).padStart(2, '0')}.webp" alt="" draggable="false"></button>`).join('')
+    + (xmasStarInBox() ? `<button class="xm-piece xm-piece-star${xmasSel === 99 ? ' sel' : ''}" data-k="99"><img src="img/${D}/xmas/star.webp" alt="" draggable="false"></button>` : '');
+  const hint = g === 'closed' ? (xmasGiftOpenable() ? d.xmasGiftNow : d.xmasGiftWait) : g === 'open' ? d.xmasStarTap : d.xmasHint;
+  m.innerHTML = `<div class="xm-head"><div class="xm-title">${d.xmasTitle}</div><div class="xm-count">${d.xmasCount.replace('{n}', n).replace('{max}', XMAS_MAX)}</div><button class="xm-close" onclick="xmasClose()" aria-label="✕">✕</button></div>
+    <div class="xm-stage"><div class="xm-tree" style="--xb:${XMAS_AR[D][0].toFixed(4)}">${xmasLayerHtml(D, r)}${g ? `<button class="xm-gift${g === 'open' ? ' is-open' : ''}" onclick="xmasGiftTap(this)" aria-label="🎁"><img src="img/${D}/xmas/${g === 'open' ? 'gift-open' : 'gift'}.webp" alt="" draggable="false"></button>` : ''}</div></div>
+    <div class="xm-hint">${hint}</div><div class="xm-tray">${tray}</div>`;
+}
+// where the tree really is (its outline), so that nothing hangs in the air
+function xmasMaskLoad(){
+  const D = xmasDir(); if(xmasMask && xmasMask.D === D) return;
+  const im = new Image(); im.onload = ()=>{ try{ const w = 120, h = Math.round(w * im.height / im.width), c = document.createElement('canvas'); c.width = w; c.height = h;
+    const x = c.getContext('2d'); x.drawImage(im, 0, 0, w, h); xmasMask = { D, w, h, a:x.getImageData(0, 0, w, h).data }; }catch(e){ xmasMask = null; } };
+  im.src = `img/${D}/xmas/tree-bare.webp`;
+}
+function xmasOnTree(xp, yp){
+  if(xp < 0 || xp > 100 || yp < 2 || yp > 84) return false; // not on the stand
+  if(!xmasMask) return true;
+  const M = xmasMask, cx = Math.round(xp / 100 * M.w), cy = Math.round((yp + 1.5) / 100 * M.h);
+  for(let dy = -1; dy <= 1; dy++) for(let dx = -1; dx <= 1; dx++){ const x = cx + dx, y = cy + dy; if(x >= 0 && y >= 0 && x < M.w && y < M.h && M.a[(y * M.w + x) * 4 + 3] > 80) return true; }
+  return false;
+}
+function xmasDown(e){
+  const piece = e.target.closest('.xm-piece'), onTree = e.target.closest('.xm-tree .xt-orn, .xm-tree .xt-star');
+  if(!piece && !onTree) return;
+  e.preventDefault();
+  const D = xmasDir(), tr = document.querySelector('#xmas-modal .xm-tree').getBoundingClientRect();
+  const isStar = piece ? piece.dataset.k === '99' : onTree.classList.contains('xt-star'), idx = onTree && !isStar ? +onTree.dataset.i : null;
+  const kind = piece ? +piece.dataset.k : isStar ? 99 : xmasRecGet().o[idx][0];
+  const hpx = (isStar ? XMAS_STAR.h : xmasOrnH(D, kind)) / 100 * tr.height;
+  const gh = document.createElement('img'); gh.className = 'xm-ghost'; gh.src = (piece ? piece.querySelector('img') : onTree).getAttribute('src'); gh.style.height = hpx + 'px';
+  xmasDrag = { kind, idx, isStar, fromTree:!!onTree, el:onTree, piece, gh, hpx, x0:e.clientX, y0:e.clientY, moved:false };
+  xmasGhostAt(e.clientX, e.clientY);
+  window.addEventListener('pointermove', xmasMove, { passive:false }); window.addEventListener('pointerup', xmasUp); window.addEventListener('pointercancel', xmasUp);
+}
+// the piece hangs a little above the finger, so that one sees where it goes
+function xmasGhostAt(x, y){ const g = xmasDrag.gh; g.style.left = x + 'px'; g.style.top = (y - xmasDrag.hpx * 0.6 - 18) + 'px'; }
+function xmasMove(e){
+  const g = xmasDrag; if(!g) return; e.preventDefault();
+  if(!g.moved && Math.hypot(e.clientX - g.x0, e.clientY - g.y0) > 6){ g.moved = true; document.body.appendChild(g.gh); if(g.el) g.el.style.visibility = 'hidden'; }
+  if(g.moved) xmasGhostAt(e.clientX, e.clientY);
+}
+function xmasUp(e){
+  window.removeEventListener('pointermove', xmasMove); window.removeEventListener('pointerup', xmasUp); window.removeEventListener('pointercancel', xmasUp);
+  const g = xmasDrag; xmasDrag = null; if(!g) return;
+  g.gh.remove(); if(g.el) g.el.style.visibility = '';
+  if(!g.moved){ if(g.piece){ xmasSel = xmasSel === g.kind ? 0 : g.kind; xmasRender(); } return; }
+  const treeEl = document.querySelector('#xmas-modal .xm-tree'); if(!treeEl) return;
+  const tr = treeEl.getBoundingClientRect(), top = e.clientY - g.hpx * 0.6 - 18;
+  xmasPlace(g, (e.clientX - tr.left) / tr.width * 100, (top - tr.top) / tr.height * 100);
+}
+function xmasPlace(g, xp, yp){
+  const r = xmasRecGet();
+  if(g.isStar){ // the star only belongs on the top; dragged away it goes back into the box
+    const near = xp > 15 && xp < 85 && yp > -15 && yp < 40;
+    if(near) r.star = 1; else if(g.fromTree) r.star = 0; else return xmasRender();
+    xmasSave(r); return xmasRender();
+  }
+  const on = xmasOnTree(xp, yp), x = Math.round(xp * 10) / 10, y = Math.round(yp * 10) / 10;
+  if(g.fromTree){ if(on) r.o[g.idx] = [g.kind, x, y]; else r.o.splice(g.idx, 1); }
+  else if(on){ if(r.o.length >= XMAS_MAX){ uiNotice(t().xmasFull); return; } r.o.push([g.kind, x, y]); }
+  else return xmasRender();
+  xmasSave(r); xmasRender();
+}
+// a piece chosen in the box is hung where one taps on the tree
+function xmasClick(e){
+  if(!xmasSel || e.target.closest('.xm-gift, .xm-piece, .xt-orn, .xt-star, .xm-close')) return;
+  const treeEl = e.target.closest('.xm-tree'); if(!treeEl) return;
+  const tr = treeEl.getBoundingClientRect();
+  xmasPlace({ kind:xmasSel, isStar:xmasSel === 99, fromTree:false }, (e.clientX - tr.left) / tr.width * 100, (e.clientY - tr.top) / tr.height * 100);
+  if(xmasSel === 99) xmasSel = 0;
+}
+function xmasGiftTap(btn){
+  const g = xmasGift(), d = t();
+  if(g === 'closed'){
+    btn.classList.remove('wiggle'); void btn.offsetWidth; btn.classList.add('wiggle');
+    if(!xmasGiftOpenable()){ setTimeout(()=>uiNotice(d.xmasGiftWait), 650); return; }
+    setTimeout(()=>{ const r = xmasRecGet(); r.gift = Date.now(); xmasSave(r); xmasRender(); }, 650);
+    return;
+  }
+  if(g !== 'open') return;
+  // the star rises out of the box and flies to the top of the tree
+  const D = xmasDir(), tr = document.querySelector('#xmas-modal .xm-tree').getBoundingClientRect(), b = btn.getBoundingClientRect();
+  const h = XMAS_STAR.h / 100 * tr.height, w = h * 0.86, f = document.createElement('img');
+  f.src = `img/${D}/xmas/star.webp`; f.className = 'xm-fly'; f.style.height = h + 'px';
+  const x0 = b.left + b.width * 0.36 - w / 2, y0 = b.top, x1 = tr.left + XMAS_STAR.x / 100 * tr.width - w / 2, y1 = tr.top + XMAS_STAR.y / 100 * tr.height;
+  f.style.left = x0 + 'px'; f.style.top = y0 + 'px'; f.style.transform = 'scale(0.55)';
+  document.body.appendChild(f); btn.classList.add('fade');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ f.style.transform = `translate(${x1 - x0}px, ${y1 - y0}px) scale(1)`; }));
+  setTimeout(()=>{ const r = xmasRecGet(); r.star = 1; r.flown = 1; xmasSave(r); f.remove(); xmasRender(); }, 1500);
+}
 const IMPULSE_DAY_KEY = 'ewolfe_impulse_day', IMPULSE_RECENT_KEY = 'ewolfe_impulse_recent';
 let impulseCur = null;
 function impulseDraw(){
@@ -4894,6 +5079,7 @@ function mergeBackupInto(cur, inc, mode){
   }
   // habit tracker (1.99.2): habits by id (the one changed last wins), ticks by day and habit (the latest tick or untick wins)
   out.habits = habitsMerge(habitsOf(out), habitsOf(inc));
+  out.xmasTree = xmasMerge(xmasOf(out), xmasOf(inc)); // 2.5.0
   // diary: whole years that are missing are added; inside a shared year missing pages are added
   const score = pg=>((pg.text||'').length) + tbAreaTextLen(pg) + ((pg.strokes||[]).length*10) + ((pg.images||[]).length*50);
   const written = pg=>pg.type!=='titel' && score(pg)>0;
@@ -5005,6 +5191,9 @@ Object.assign(I18N.de, { // 1.99.0
   consentLabel:'Ich stimme den {terms} zu und habe die {privacy} gelesen.', consentNeeded:'Bitte stimme den AGB und der Datenschutzerklärung zu.',
   consentAsk:'Bevor es weitergeht: Bitte lies die AGB und die Datenschutzerklärung und stimme zu. Das ist nur einmal nötig.', consentAgree:'Zustimmen',
   habitStreak:'{n} Tage am Stück',
+  xmasTitle:'Baum schmücken', xmasCount:'{n} / {max} Teile', xmasHint:'Zieh den Schmuck auf den Baum – oder tipp ein Teil an und dann auf den Baum. Zum Abnehmen einfach wieder herunterziehen.',
+  xmasFull:'Am Baum hängen schon 30 Teile. Nimm eins ab, um ein anderes aufzuhängen.', xmasGiftWait:'Ein Geschenk für dich! Öffnen darfst du es an Heiligabend – bis zum 26. Dezember wartet es hier unter dem Baum.',
+  xmasGiftNow:'Frohe Weihnachten! Tipp auf das Geschenk, um es auszupacken.', xmasStarTap:'Tipp auf den Stern – er gehört an die Spitze.',
   habitPraise30:'Wunderbar! 30 Tage am Stück: „{h}“ ist jetzt eine neue Gewohnheit von dir. Mach weiter so!',
   habitPraise60:'Großartig! 60 Tage ohne Unterbrechung: „{h}“ gehört jetzt fest zu deinem Leben. Darauf kannst du richtig stolz sein!',
   habitPraise90:'Hervorragend! 90 Tage am Stück – ein ganzes Vierteljahr „{h}“. Du hast etwas in deinem Leben wirklich verändert. Feier dich heute!',
@@ -5033,6 +5222,9 @@ Object.assign(I18N.en, {
   consentLabel:'I agree to the {terms} and have read the {privacy}.', consentNeeded:'Please agree to the terms of use and the privacy statement.',
   consentAsk:'Before you go on: please read the terms of use and the privacy statement and agree. This is needed only once.', consentAgree:'Agree',
   habitStreak:'{n} days in a row',
+  xmasTitle:'Decorate the tree', xmasCount:'{n} / {max} pieces', xmasHint:'Drag the ornaments onto the tree – or tap a piece and then the tree. To take one off, simply drag it away again.',
+  xmasFull:'There are already 30 pieces on the tree. Take one off to hang up another.', xmasGiftWait:'A present for you! You may open it on Christmas Eve – it waits here under the tree until 26 December.',
+  xmasGiftNow:'Merry Christmas! Tap the present to unwrap it.', xmasStarTap:'Tap the star – it belongs on the top.',
   habitPraise30:'Wonderful! 30 days in a row: “{h}” is now a new habit of yours. Keep it up!',
   habitPraise60:'Great! 60 days without a break: “{h}” is now a firm part of your life. You can be really proud of that!',
   habitPraise90:'Outstanding! 90 days in a row – a whole quarter of a year of “{h}”. You have truly changed something in your life. Celebrate yourself today!',
@@ -7688,7 +7880,8 @@ function tbRenderLibrary(){
   const DRESS = BIZ; // A Lady's Conservatory (21.10.2026): the embroidered green dress with the shoes, the brooches and the watch on the bodice
   const onDress = x=>DRESS && x.group === 'ex'; // 1.93.1: the loyalty watch is no longer on the dress, it stands in the shelf; since 1.93.2 as the rose mantel clock
   const cribFront = BIZ && isChristmasTime() ? trophyShelf().find(x=>x.id === 'xmas2') : null; // 24.10.2026: at Christmas the crib stands in front of the tree
-  const allShown = trophyShelf().filter(x=>!onDress(x) && !(cribFront && x.id === cribFront.id)), shown = VIT ? allShown.filter(x=>!isFeast(x)) : allShown, feast = VIT ? allShown.filter(isFeast) : [];
+  const treeUp = isTreeTime() && (BIZ || decorOn()); // 2.5.0: while the tree stands, the star belongs on it (or in the box with the ornaments)
+  const allShown = trophyShelf().filter(x=>!onDress(x) && !(cribFront && x.id === cribFront.id) && !(treeUp && x.id === 'xmas')), shown = VIT ? allShown.filter(x=>!isFeast(x)) : allShown, feast = VIT ? allShown.filter(isFeast) : [];
   const medals = DRESS ? trophyList().filter(x=>x.group === 'ex' && x.at).map(trophyRl).filter(x=>DRESS_ALL_MEDALS || x.stage === Math.max(...trophyList().filter(y=>y.group === 'ex' && y.at).map(y=>y.stage))) : [];
   const dressWatch = null;
   // A Lady's Conservatory (1.93.0): the wide dress at first, after a year the slim emerald one, every year 24.12.–1.1. the celadon one;
@@ -7859,16 +8052,16 @@ function tbRenderLibrary(){
   // A Morning Retreat (1.84.2): from level 3 (where A Mystery World gets its ivy) a white orchid on a fine plant stand,
   // to the left of the shelf (and of the narrow one), a little in front of it
   const foxSpot = !BIZ && decorOn() && lv >= 6 ? '<div class="lib-dress-spot lib-fox-spot"><img class="lib-fox" src="img/stickers/fox.webp" alt="" onerror="this.remove()"></div>' : ''; // A Mystery World: the fox where the others have the dress
-  const xmasTree = RETREAT && isChristmasTime(); // 21.10.2026: the Lady's Christmas tree takes the place of the rose table
+  const xmasTree = RETREAT && isTreeTime(); // 2.5.0: from 21 December, to be decorated // 21.10.2026: the Lady's Christmas tree takes the place of the rose table
   // 24.10.2026: new Christmas trees (wrought-iron stand, old glass ornaments) in all three designs, left beside the bookcase;
   // A Gentleman's Study now has one too (A Mystery World only with animals & decorations switched on)
-  const xmasOther = !RETREAT && isChristmasTime() && (BIZ || decorOn());
-  const xmasOtherHtml = xmasOther ? `<img class="shelf-xmas shelf-xmas-side" src="img/${BIZ ? 'rl2' : 'mw2'}/tree.webp" alt="">${BIZ ? '' : '<img class="shelf-crib-side" src="img/stickers/crib-dog.webp" alt="">'}` : '';
+  const xmasOther = !RETREAT && isTreeTime() && (BIZ || decorOn());
+  const xmasOtherHtml = xmasOther ? xmasTreeHtml('shelf-xmas shelf-xmas-side') + (BIZ || !isChristmasTime() ? '' : '<img class="shelf-crib-side" src="img/stickers/crib-dog.webp" alt="">') : '';
   const cribHtml = cribFront ? `<button class="shelf-crib-side is-tro" onclick="trophyShow('${cribFront.id}')" title="${escapeHtml(cribFront.title)}" aria-label="${escapeHtml(cribFront.title)}"><img src="img/${trophyRl(cribFront).img}.webp" alt=""></button>` : ''; // A Mystery World: the crib with our dog in front of the tree
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap">${libNewsHtml()}<button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${NAR && clipRow >= 0 ? '' : clipHtml}${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? '<img class="shelf-orchid shelf-xmas" src="img/rt2/tree.webp" alt="">' : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + (RT_DRESS_FILE[dressKind] || dressKind)) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal${(libFresh || []).includes(m.id) ? ' is-new' : ''}" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${NAR && clipRow >= 0 ? '' : clipHtml}${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? xmasTreeHtml('shelf-orchid shelf-xmas') : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + (RT_DRESS_FILE[dressKind] || dressKind)) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal${(libFresh || []).includes(m.id) ? ' is-new' : ''}" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${libViewSegHtml()}
@@ -8008,9 +8201,10 @@ function trophyDefs(){
   out.push({ id:'nikolaus2', kind:'img', img:'trophy-boot', scale:0.92, aspect:0.7, need:1, list:nikAt(1),
     title:L('Nikolausstiefel', 'Saint Nicholas boot'), desc:L('Schon zum zweiten Mal hast du dir am Nikolaustag Zeit für dich genommen – dein Stiefel ist gefüllt.', 'For the second time you took time for yourself on Saint Nicholas Day – your boot is filled.') });
   // Christmas: an exercise on 24–26 December – in the first year the Star of Bethlehem, in the second the crib
-  const xmDone = ev.done.filter(e=>{ const d = new Date(e.ts); return d.getMonth() === 11 && d.getDate() >= 24 && d.getDate() <= 26; });
-  const xmYears = [...new Set(xmDone.map(e=>yearOf(e.ts)))].sort((a, b)=>a - b);
-  const xmAt = i=>xmYears[i] ? [xmDone.find(e=>yearOf(e.ts) === xmYears[i]).ts] : [];
+  // 2.5.0: opening the present under the tree (24.–26.12.) counts as well
+  const xmDone = ev.done.filter(e=>{ const d = new Date(e.ts); return d.getMonth() === 11 && d.getDate() >= 24 && d.getDate() <= 26; }).map(e=>e.ts).concat(xmasGiftTimes()).sort((a, b)=>a - b);
+  const xmYears = [...new Set(xmDone.map(yearOf))].sort((a, b)=>a - b);
+  const xmAt = i=>xmYears[i] ? [xmDone.find(ts=>yearOf(ts) === xmYears[i])] : [];
   out.push({ id:'xmas', kind:'img', img:'trophy-star2', scale:0.9, aspect:0.592, need:1, list:xmAt(0),
     title:L('Stern von Bethlehem', 'Star of Bethlehem'), desc:L('An Weihnachten hast du dir Zeit für dich genommen. „Wir haben seinen Stern gesehen.“', 'At Christmas you took time for yourself. “We have seen his star.”') });
   out.push({ id:'xmas2', kind:'img', img:'trophy-crib', scale:0.9, aspect:1, need:1, list:xmAt(1),
@@ -10010,7 +10204,7 @@ Object.assign(I18N.en, { legal_privacy:'Privacy', legal_imprint:'Imprint', legal
 /* ---- what is synced, and how to tell whether it changed ---- */
 function syncPayload(st){
   // 1.99.0: the mindfulness log (exercises, moods, gratitude) travels too – before, it stayed on the device where it was made
-  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {}, achtsamkeit:{ log:(st.achtsamkeit && Array.isArray(st.achtsamkeit.log)) ? st.achtsamkeit.log : [] }, habits:habitsOf(st) };
+  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {}, achtsamkeit:{ log:(st.achtsamkeit && Array.isArray(st.achtsamkeit.log)) ? st.achtsamkeit.log : [] }, habits:habitsOf(st), xmasTree:xmasOf(st) };
 }
 function syncHash(st){
   const s = JSON.stringify(syncPayload(st));
@@ -10033,6 +10227,7 @@ function syncNormalize(d){
   // an account written by an app before 1.99.0 has no mindfulness log: an empty one, never a reason to drop local entries (achUnion)
   if(!o.achtsamkeit || typeof o.achtsamkeit !== 'object') o.achtsamkeit = {};
   if(!Array.isArray(o.achtsamkeit.log)) o.achtsamkeit.log = [];
+  xmasOf(o); // 2.5.0: the Christmas tree one decorates oneself
   habitsOf(o); // 1.99.2: the habit tracker (an account from an older app has none)
   return o;
 }
@@ -10081,6 +10276,7 @@ function syncApplyState(newState){
     // 1.99.0: what this device has in its mindfulness log is never dropped, also not by an account an older app wrote
     newState.achtsamkeit = Object.assign({}, newState.achtsamkeit || {}, { log:achUnion(state.achtsamkeit && state.achtsamkeit.log, newState.achtsamkeit && newState.achtsamkeit.log) });
     newState.habits = habitsMerge(habitsOf(state), habitsOf(newState)); // the same for the habit tracker (1.99.2)
+    newState.xmasTree = xmasMerge(xmasOf(state), xmasOf(newState)); // and for the Christmas tree (2.5.0)
     delApply(newState);
     state = newState;
     saveState();
@@ -10162,11 +10358,11 @@ async function syncNow(){
       if(pristine || (metaOk && !shrunk && localHash === meta.hash)){
         remote.geloescht = delUnion(state.geloescht, remote.geloescht); // e.g. a sample meditation removed before signing in
         delApply(remote);
-        const remoteAch = remote.achtsamkeit.log.length, remoteHab = JSON.stringify(habitsOf(remote));
+        const remoteAch = remote.achtsamkeit.log.length, remoteHab = JSON.stringify(habitsOf(remote)) + JSON.stringify(xmasOf(remote));
         syncApplyState(remote); // this device has nothing newer of its own: just receive
         syncFpRefresh(); // what just arrived is not an edit of this device
         // mindfulness entries / habits the account did not have (e.g. written by an app before 1.99.0) go back up in the next round
-        const achGrew = state.achtsamkeit.log.length > remoteAch || JSON.stringify(habitsOf(state)) !== remoteHab;
+        const achGrew = state.achtsamkeit.log.length > remoteAch || JSON.stringify(habitsOf(state)) + JSON.stringify(xmasOf(state)) !== remoteHab;
         // remember the locks as they are in the account: if this device has newer ones (a new password), the next round writes them
         syncRemember(uid, full.revision, achGrew ? 'ach' : syncHash(state), syncCounts(state), remoteEnc ? full.data.kv || 0 : 0);
         if(!metaOk) firstPairing = 'pulled';

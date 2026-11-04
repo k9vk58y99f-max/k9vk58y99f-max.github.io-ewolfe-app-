@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 4.11.2026 (Version 2.4.4) – zuerst lesen
+## Übergabe – Stand 4.11.2026 (Version 2.5.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -29,7 +29,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - **2.3.0 (nach dem KI-Ältestenrat):** Bibliothek „Raum / Schlicht“, Trophäen- und Rang-Meldungen nur noch leise in der Bibliothek,
   Konto löschen in den Einstellungen (Supabase-Funktion `delete_own_account`), Fehler behoben: Bibliothek in A Mystery World auf Deutsch stürzte seit 2.2.3 ab.
   **2.3.1:** schlichtes Regal symmetrisch (Ecken gespiegelt), dort nie eine Pflanze. **2.3.2:** schlichtes Regal stattdessen aus Bücher- und
-  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“. **2.3.7:** Oster-Hase je Design neben dem Körbchen. **2.3.8:** neues Lady-Regal mit Vitrine (`rt2/sv2-*`), neue Oldtimer `car3`. **2.3.9:** Start am letzten Tab, Monogramm überall, „Erfolge der Woche“, Bereiche-Seiten liniert, Bronze-Symbole auf Papier. **2.4.0:** Lady-Trophäen schweben nicht mehr, Stolz-Frage, Wochen-Rad, Monatsrückblick, Sonntags-Hinweis, kein Hundekopf in AGS. **2.4.1:** Gewohnheiten-Trophäe in 4 Stufen (30/90/150/300 Tage), Gentleman = Bonsai. **2.4.2:** alle Lady-Büsten mit Kupferknauf, neue Kleider Nr. 1 und Nr. 17. **2.4.3:** Lady-Gewohnheiten-Trophäe Rosenstämmchen, Erfolge der Woche teilen, Stille Meditation 7 Min. **2.4.4:** Trophäen entzerrt, Bestandsschutz, „Tage in Folge“ repariert.
+  Trophäenteil zusammengefügt (perspektivisch richtig), „Schneiderbüste“ statt „Puppe“. **2.3.3:** neues Lady-Regal, neues Gentleman-Papier und -Klemmbrett. **2.3.4:** schlichtes Fach so groß wie das Bücherfach, Lady-Pfosten schmaler. **2.3.5:** Rechte: Zitate, Autos, Schmuck-Ei, Schrift-Lizenzen. **2.3.6:** Osterkörbchen in allen Designs, überall „Osterei“. **2.3.7:** Oster-Hase je Design neben dem Körbchen. **2.3.8:** neues Lady-Regal mit Vitrine (`rt2/sv2-*`), neue Oldtimer `car3`. **2.3.9:** Start am letzten Tab, Monogramm überall, „Erfolge der Woche“, Bereiche-Seiten liniert, Bronze-Symbole auf Papier. **2.4.0:** Lady-Trophäen schweben nicht mehr, Stolz-Frage, Wochen-Rad, Monatsrückblick, Sonntags-Hinweis, kein Hundekopf in AGS. **2.4.1:** Gewohnheiten-Trophäe in 4 Stufen (30/90/150/300 Tage), Gentleman = Bonsai. **2.4.2:** alle Lady-Büsten mit Kupferknauf, neue Kleider Nr. 1 und Nr. 17. **2.4.3:** Lady-Gewohnheiten-Trophäe Rosenstämmchen, Erfolge der Woche teilen, Stille Meditation 7 Min. **2.4.4:** Trophäen entzerrt, Bestandsschutz, „Tage in Folge“ repariert. **2.5.0:** Weihnachtsbaum selbst schmücken, Geschenk mit Stern.
   **Stand 1.11.2026, 20:45: 2.3.6 ist live (gepusht und geprüft).** 2.3.7 (Sticker-Hase neben dem
   Osterkörbchen) ist committet, aber noch nicht gepusht → „Push origin“. **Coach-Teilen Stufe 1** (Lebensräder + Ziele, nur lesen, Einladungscode) gibt es nur als Prototyp außerhalb
   der App: „Lebensrad APP/Coach teilen – Prototyp Stufe 1 (01.11.2026).html“; nicht einbauen, bevor Coaches gefragt sind. Präsentation aktuell: v9. Details: Handoff 01.11.2026, 20:45.
@@ -54,11 +54,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   der Nutzer hat den Skill aufgerufen, aber noch kein Material gegeben.
 - **Offen / wartet auf den Nutzer:**
   - **Weitere laute Stellen** (nicht angefasst): Impulskarte beim Start, Lob bei Gewohnheiten, Stimmungsvergleich, Lebensrad-Erinnerung.
-  - **Weihnachtsbaum selbst schmücken (Idee der Nutzerin, 4.11.2026, noch nicht gebaut, Bilder fehlen):** jedes Jahr ein kahler Baum je Design, nur die
-    Kerzen fest (heute: Gentleman 7, Mystery 7, Lady 10 Kerzen; ≈ 27/30/35 Schmuckteile); man hängt selbst bis zu 30 Teile auf (≈ 10 Arten je Design: Kugeln, Glocke, Eiszapfen, Vogel, Zapfen, Strohstern, Beerenzweig …, mehrfach
-    nutzbar; gespeichert nur Positionen in %, ≈ 1 KB). Nach dem 6.1. wieder kahl. Wer an Weihnachten (24.–26.12.) aktiv war, findet ein verpacktes Geschenk
-    unter dem Baum → antippen = auspacken → Stern → antippen = fliegt an die Spitze; nach Weihnachten kommt der Stern als Trophäe in die Vitrine, im nächsten
-    Jahr liegt er bei der Deko. Offen: Inhalt des Geschenks ab dem 2. Jahr (Vorschlag: jedes Jahr ein besonderes Schmuckstück für die Deko-Kiste; Krippe bleibt Trophäe).
+  - **Weihnachtsbaum (2.5.0):** gebaut. Offen: was ab dem 2. Jahr im Geschenk liegt (heute: ab dem 2. Jahr kein Geschenk, der Stern liegt bei der Deko).
   - **Designs trennen:** Vorschlag „jedes Tagebuch merkt sich das Design, in dem es angelegt wurde“ (Cover/Papier bleiben) – noch keine Entscheidung.
   - Datenschutz-Liste weiter unten („Noch offen (Datenschutz)“).
 - **Arbeitsweise mit dem Nutzer:** Wünsche kommen oft mehrere auf einmal und mitten in der Arbeit – alle aufnehmen, nacheinander erledigen.
@@ -182,7 +178,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.4.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.5.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -935,6 +931,21 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     (`PAPER_ICO_SEL`) eigene Dateien `img/icons-rl/bronze/ico-<bereich>.svg` (`designSwapEl`). Grund: **Safari ignoriert CSS-Filter auf `<image>` in SVG** –
     die per `brightness(0.42)` abgedunkelten hellen Symbole waren auf iPhone/iPad fast unsichtbar. Mystery-Symbole (Goldbilder) bleiben, sie sind gut sichtbar.
   - Test `t239.py` in `Lebensrad APP/eWolfe-Skripte/` (über `python3 -m http.server 8765`).
+- **2.5.0 (4.11.2026) Weihnachtsbaum selbst schmücken (Idee der Nutzerin):** Vom **21.12. bis 6.1.** steht in allen Designs ein kahler Baum neben dem Regal
+    (`isTreeTime`; Mystery nur bei `decorOn()`; nie in der schlichten Ansicht), nur die Kerzen sind fest. Antippen öffnet „Baum schmücken“ (`xmasOpen`, Fenster
+    `#xmas-modal`, liegt über der Leiste, z-index 310 mit `!important` gegen die Regel `body > *`): unten die Deko-Kiste mit 12 Teilen je Design (ziehen auf den Baum,
+    oder Teil antippen und dann den Baum; vom Baum ziehen = abnehmen), höchstens 30 Teile (`XMAS_MAX`), jedes Teil beliebig oft. Nur auf den Baum selbst (Umriss aus
+    dem Bild, `xmasMask`/`xmasOnTree`, nicht auf den Ständer). Gespeichert je Saison (Jahr des Dezembers, `xmasSeason`): `state.xmasTree[saison] = { o:[[art, x%, y%]],
+    star, gift, flown, t }` (y = Aufhängepunkt), synchronisiert (`syncPayload`, `syncNormalize`, `xmasMerge`: neueres `t` gewinnt, ein geöffnetes Geschenk geht nie
+    verloren; auch in `mergeBackupInto`/`syncApplyState`). Nach dem 6.1. ist der Baum wieder kahl (neue Saison = neuer Eintrag).
+    **Geschenk:** wer den Stern noch nicht hat, findet ab 21.12. ein Geschenk unter dem Baum; vor dem 24. wackelt es nur („Öffnen darfst du es an Heiligabend“),
+    am 24.–26. packt Antippen es aus (`xmasGiftTap`, `gift` = Zeit), darin der Stern; Antippen = er fliegt an die Spitze (`star`, `flown`). Ungeöffnet ist es nach dem
+    26. weg. Das Öffnen zählt für die Trophäe „Stern von Bethlehem“ (`xmas`, wie bisher auch eine Übung am 24.–26.; die Krippe `xmas2` = das zweite solche Weihnachten).
+    Solange der Baum steht, steht der Stern nicht im Regal; ab dem 7.1. wieder dort bzw. in der Vitrine. In späteren Jahren liegt er in der Deko-Kiste (`xmasStarInBox`),
+    kein Geschenk mehr (`xmasStarBefore`). Bilder: `img/<rl2|mw2|rt2>/xmas/tree-bare|star|gift|gift-open|o01…o12.webp` (freigestellt mit `cutgreyh.py`/`cutgreyg.py`,
+    Bögen in 12 Teile geteilt; Originale „Eingang 04.11.2026“, Freisteller „Ausgang/16 Weihnachtsbaum selbst schmücken – alle Designs/Freigestellt (04.11.2026)“).
+    Maße: `XMAS_H` (Höhe jedes Teils im Bogen, erstes = Kugel = 7 % des Baums), `XMAS_AR` (kahler und alter Baum: der alte gibt Platz/Breite vor, damit die
+    Spitze dort bleibt), `XMAS_STAR` (Stern an der Spitze). Test `t250.py` in `Lebensrad APP/eWolfe-Skripte/` (Datum per `clock`, 22.12. → 24.12. → 7.1. → 22.12. Folgejahr).
 - **2.4.4 (4.11.2026) Trophäen entzerrt (Wunsch der Nutzerin: am Anfang ~5 am Tag, später kaum noch):** am ersten Tag nur noch „Erste Übung“,
     danach etwa alle 2–4 Wochen eine. Neue Stufen: Übungen 1/10/25/50/100/200, Glasglocken je Übung 5/20/50, Tage in Folge 7/14/30/60/100/200,
     Lebensräder 2/5/10, Tagebuchseiten 7/30/100/250, Dankbarkeit 7/30/100 (Ziele, Treue, Freude, Gewohnheiten unverändert). **Bestandsschutz:**
