@@ -2410,7 +2410,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.6.0';
+const APP_VERSION = '2.7.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2472,7 +2472,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-11-04';
+const APP_BUILD = '2026-11-05';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -2748,9 +2748,13 @@ let shrinkAfterFailTried = false;
    never takes anything away. 1: start (tonal), 2: from 7 days (first gold), 3: from 30 (gold frame and buttons),
    4: from 100 (shimmer). Since 1.69.0 two more by time: 5 after half a year, 6 after a year (counted from the first
    active day, and only once level 4 is reached) – twinkling stars in the corners of the frame and new animals at the shelf.
-   A new level is announced once. ---- */
-const LEVEL_DAYS = [0, 7, 30, 100];
-const LEVEL_MONTHS = [[5, 182], [6, 365]]; // level, days since the first active day
+   A new level is announced once.
+   2.7.0 (wish of the user: the ranks came too close together): every level needs time since the first active day AND some
+   active days – 3 months/30, half a year/60, a year/120, a year and a half/180, two years/240 (LEVEL_RULES). A level reached
+   under the old rules up to LEVEL_OLD_UNTIL is kept (levelKept), so nobody loses a rank. ---- */
+const LEVEL_RULES = [null, [0, 0], [91, 30], [182, 60], [365, 120], [548, 180], [730, 240]]; // level: [days since the first active day, active days]
+const LEVEL_OLD_DAYS = [0, 7, 30, 100], LEVEL_OLD_MONTHS = [[5, 182], [6, 365]]; // the rules until 2.6.0
+const LEVEL_OLD_UNTIL = new Date(2026, 10, 6).getTime();
 let appFirstActive = 0, appActiveDayTs = [];
 const LEVEL_SEEN_KEY = 'ewolfe_level_seen';
 const LEVEL_NOTE_KEY = 'ewolfe_level_note'; // 2.3.0: a new level waits here until the library shows it
@@ -2777,33 +2781,50 @@ function appActiveDays(){
   return days.size;
 }
 // "Active days: 5 · 2 more to the next level" under the shelf (since 1.73.5)
+// what is still missing to the next level: active days, and days to wait (2.7.0)
+function levelNext(lv){
+  if(lv >= 6) return null;
+  const [dd, need] = LEVEL_RULES[lv + 1], n = appActiveDays();
+  const wait = appFirstActive ? Math.ceil(dd - (Date.now() - appFirstActive) / 864e5) : dd;
+  return { days:Math.max(0, need - n), wait:Math.max(0, wait) };
+}
 function levelProgressText(){
   if(BIZ) return clubProgressText();
-  const d = t(), n = appActiveDays(), lv = appLevel();
-  const next = LEVEL_DAYS.find(x=>x > n);
-  if(next !== undefined) return d.levelProgress.replace('{n}', n).replace('{m}', next - n);
-  if(lv < 6 && appFirstActive){ const dd = LEVEL_MONTHS.find(([l])=>l > lv)[1] - Math.floor((Date.now() - appFirstActive) / 864e5); return d.levelProgressTime.replace('{n}', n).replace('{m}', Math.max(1, dd)); }
-  return d.levelProgressMax.replace('{n}', n);
+  const d = t(), n = appActiveDays(), x = levelNext(appLevel());
+  if(!x) return d.levelProgressMax.replace('{n}', n);
+  if(x.days > x.wait) return d.levelProgress.replace('{n}', n).replace('{m}', x.days);
+  return d.levelProgressTime.replace('{n}', n).replace('{m}', Math.max(1, x.wait));
 }
 /* A Gentleman's Study (1.80.0): the same levels are ranks of a gentlemen's club – Guest, Candidate, Member, Fellow, Senior
    Fellow, Honorary Member. The rank is engraved on a brass plate on the plinth of the bookcase; one small diamond per rank. */
 // the rank names of each design (1.86.8): the gentlemen's club, the ladies of the conservatory, the growing glow of A Mystery World
 const rankNames = d=>RETREAT ? d.ladyRanks : BIZ ? d.clubRanks : d.glowRanks;
 function clubProgressText(){
-  const d = t(), n = appActiveDays(), lv = appLevel(), next = LEVEL_DAYS.find(x=>x > n), R = rankNames(d), rank = R[lv] || '';
-  if(next !== undefined) return d.clubProgress.replace('{n}', n).replace('{m}', next - n).replace('{r}', R[Math.min(lv + 1, 6)] || '');
-  if(lv < 6 && appFirstActive){ const dd = LEVEL_MONTHS.find(([l])=>l > lv)[1] - Math.floor((Date.now() - appFirstActive) / 864e5); return d.clubProgress.replace('{n}', n).replace('{m}', Math.max(1, dd)).replace('{r}', R[lv + 1] || ''); }
-  return d.clubProgressMax.replace('{n}', n).replace('{r}', rank);
+  const d = t(), n = appActiveDays(), lv = appLevel(), R = rankNames(d), x = levelNext(lv);
+  if(!x) return d.clubProgressMax.replace('{n}', n).replace('{r}', R[lv] || '');
+  const r = R[lv + 1] || '';
+  if(x.days > x.wait) return d.clubProgress.replace('{n}', n).replace('{m}', x.days).replace('{r}', r);
+  return d.clubProgressTime.replace('{n}', n).replace('{m}', Math.max(1, x.wait)).replace('{r}', r);
 }
 function clubPlaqueHtml(){
   const d = t(), lv = Math.max(1, appLevel());
   const rank = rankNames(d)[lv] || '', fit = Math.min(1, 9 / Math.max(1, rank.length)); // long names (Ehrenmitglied) a little smaller
   return `<div class="club-plaque" title="${escapeHtml(d.clubRankLabel)}"><span class="club-rank" style="font-size:${(62 * fit).toFixed(1)}cqh">${escapeHtml(rank)}</span><span class="club-dia">${'◆'.repeat(lv)}<i>${'◆'.repeat(6 - lv)}</i></span></div>`;
 }
+// the level the old rules gave up to LEVEL_OLD_UNTIL – from the data, so it is the same on every device
+function levelKept(){
+  const ts = appActiveDayTs.filter(x=>x < LEVEL_OLD_UNTIL);
+  if(!ts.length) return 1;
+  let lv = LEVEL_OLD_DAYS.filter(x=>ts.length >= x).length;
+  if(lv === 4){ const since = (LEVEL_OLD_UNTIL - ts[0]) / 864e5; LEVEL_OLD_MONTHS.forEach(([l, dd])=>{ if(since >= dd) lv = l; }); }
+  return lv;
+}
 function appLevel(){
   if(appLevelCache === null){
-    const n = appActiveDays(); appLevelCache = LEVEL_DAYS.filter(x=>n >= x).length;
-    if(appLevelCache === 4 && appFirstActive){ const since = (Date.now() - appFirstActive) / 864e5; LEVEL_MONTHS.forEach(([lv, dd])=>{ if(since >= dd) appLevelCache = lv; }); }
+    const n = appActiveDays(), since = appFirstActive ? (Date.now() - appFirstActive) / 864e5 : 0;
+    let lv = 1;
+    for(let l = 2; l <= 6; l++){ const [dd, need] = LEVEL_RULES[l]; if(since >= dd && n >= need) lv = l; else break; }
+    appLevelCache = Math.max(lv, levelKept());
   }
   return appLevelCache;
 }
@@ -5547,16 +5568,16 @@ Object.assign(I18N.de, {"wheelRemind": "Dein letztes Lebensrad ist {m} Monate al
 Object.assign(I18N.en, {"wheelRemind": "Your last wheel of life is {m} months old.\n\nTime for a new one? Take a few minutes to see where you stand today. Afterwards “Compare” shows you how you have grown.", "wheelRemindNow": "Fill it in now", "wheelRemindCal": "Remind me in my calendar", "wheelRemindLater": "Later", "wheelRemindEvent": "eWolfe: time for a new wheel of life", "wheelRemindCalDone": "The calendar file has been created. Open it and tap “Add”, then your calendar will remind you every three months to fill in a new wheel of life.", "noteWheel": "Your last wheel of life is three months old or older – time for a new one."});
 Object.assign(I18N.de, { clubRanks:['', 'Gast', 'Anwärter', 'Mitglied', 'Ratsmitglied', 'Vorstand', 'Ehrenmitglied'], clubRankLabel:'Dein Rang',
   ladyRanks:['', 'Die Suchende', 'Die Träumerin', 'Die Entdeckerin', 'Die Visionärin', 'Die Weise', 'Die Lichtgestalt'], /* 1.11.2026: new ranks of the user */ glowRanks:['', 'Funke', 'Glut', 'Flamme', 'Stern', 'Komet', 'Sonne'],
-  ladyUp:['', 'Du bist jetzt die Träumerin. Sieben aktive Tage – du hast begonnen, dein Leben neu zu erträumen.', 'Du bist jetzt die Entdeckerin. 30 aktive Tage – du entdeckst, was alles in dir steckt.', 'Du bist jetzt die Visionärin. 100 aktive Tage – du siehst klar, wohin du wachsen möchtest.', 'Du bist jetzt die Weise. Ein halbes Jahr bleibst du dir treu – deine Erfahrung trägt dich.', 'Du bist jetzt die Lichtgestalt. Ein ganzes Jahr mit dir selbst – dein Licht strahlt weit.'],
-  clubProgress:'Aktive Tage: {n} · noch {m} bis zum Rang „{r}“', clubProgressMax:'Aktive Tage: {n} · höchster Rang: {r}',
-  clubUp:['', 'Willkommen als Anwärter. Sieben aktive Tage – du hast ernsthaft begonnen, an dir zu arbeiten.', 'Du bist jetzt Mitglied. 30 aktive Tage – aus Vorsätzen werden Gewohnheiten.', 'Du bist jetzt Ratsmitglied. 100 aktive Tage – das zeugt von Haltung.', 'Willkommen im Vorstand. Ein halbes Jahr bleibst du dir treu.', 'Ehrenmitglied. Ein ganzes Jahr mit dir selbst – deine Vitrine steht bereit.'] });
+  ladyUp:['', 'Du bist jetzt die Träumerin. Drei Monate – du hast begonnen, dein Leben neu zu erträumen.', 'Du bist jetzt die Entdeckerin. Ein halbes Jahr – du entdeckst, was alles in dir steckt.', 'Du bist jetzt die Visionärin. Ein ganzes Jahr – du siehst klar, wohin du wachsen möchtest.', 'Du bist jetzt die Weise. Anderthalb Jahre bleibst du dir treu – deine Erfahrung trägt dich.', 'Du bist jetzt die Lichtgestalt. Zwei Jahre mit dir selbst – dein Licht strahlt weit.'],
+  clubProgress:'Aktive Tage: {n} · noch {m} bis zum Rang „{r}“', clubProgressTime:'Aktive Tage: {n} · Rang „{r}“ in {m} Tagen', clubProgressMax:'Aktive Tage: {n} · höchster Rang: {r}',
+  clubUp:['', 'Willkommen als Anwärter. Drei Monate – du hast ernsthaft begonnen, an dir zu arbeiten.', 'Du bist jetzt Mitglied. Ein halbes Jahr – aus Vorsätzen werden Gewohnheiten.', 'Du bist jetzt Ratsmitglied. Ein ganzes Jahr – das zeugt von Haltung.', 'Willkommen im Vorstand. Anderthalb Jahre bleibst du dir treu.', 'Ehrenmitglied. Zwei Jahre mit dir selbst – deine Vitrine steht bereit.'] });
 Object.assign(I18N.en, { clubRanks:['', 'Guest', 'Candidate', 'Member', 'Fellow', 'Senior Fellow', 'Honorary Member'], clubRankLabel:'Your rank',
   ladyRanks:['', 'The Seeker', 'The Dreamer', 'The Explorer', 'The Visionary', 'The Sage', 'The Luminary'], glowRanks:['', 'Spark', 'Ember', 'Flame', 'Star', 'Comet', 'Sun'],
-  ladyUp:['', 'You are now The Dreamer. Seven active days – you have begun to dream your life anew.', 'You are now The Explorer. 30 active days – you are discovering all that lies within you.', 'You are now The Visionary. 100 active days – you see clearly where you want to grow.', 'You are now The Sage. For half a year you have stayed true to yourself – your experience carries you.', 'You are now The Luminary. A whole year with yourself – your light shines far.'],
-  clubProgress:'Active days: {n} · {m} more to the rank of {r}', clubProgressMax:'Active days: {n} · highest rank: {r}',
-  clubUp:['', 'Welcome as a candidate. Seven active days – you have truly begun to work on yourself.', 'You are now a member. 30 active days – resolutions are turning into habits.', 'Elected a fellow. 100 active days – that shows character.', 'Senior fellow. For half a year you have stayed true to yourself.', 'Honorary member. A whole year with yourself – your cabinet is ready.'] });
-Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold.", "Deine App erstrahlt in vollem Glanz. Danke für 100 Tage mit dir selbst!", "Ein halbes Jahr mit dir selbst! In den Ecken deines Rahmens funkeln jetzt Sterne.", "Ein ganzes Jahr! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
-Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold.", "Your app shines in full splendour. Thank you for 100 days with yourself!", "Half a year with yourself! Stars now twinkle in the corners of your frame.", "A whole year! Everything sparkles, and a fox has moved in by your shelf. Thank you for staying so true to yourself."]});
+  ladyUp:['', 'You are now The Dreamer. Three months – you have begun to dream your life anew.', 'You are now The Explorer. Half a year – you are discovering all that lies within you.', 'You are now The Visionary. A whole year – you see clearly where you want to grow.', 'You are now The Sage. For a year and a half you have stayed true to yourself – your experience carries you.', 'You are now The Luminary. Two years with yourself – your light shines far.'],
+  clubProgress:'Active days: {n} · {m} more to the rank of {r}', clubProgressTime:'Active days: {n} · rank of {r} in {m} days', clubProgressMax:'Active days: {n} · highest rank: {r}',
+  clubUp:['', 'Welcome as a candidate. Three months – you have truly begun to work on yourself.', 'You are now a member. Half a year – resolutions are turning into habits.', 'Elected a fellow. A whole year – that shows character.', 'Senior fellow. For a year and a half you have stayed true to yourself.', 'Honorary member. Two years with yourself – your cabinet is ready.'] });
+Object.assign(I18N.de, {"levelUp": ["", "Deine App erwacht: Erste goldene Akzente leuchten auf. Drei Monate – schön, dass du dranbleibst!", "Deine App blüht auf: Rahmen und Knöpfe glänzen jetzt in Gold. Ein halbes Jahr mit dir selbst!", "Deine App erstrahlt in vollem Glanz. Danke für ein ganzes Jahr mit dir selbst!", "Anderthalb Jahre mit dir selbst! In den Ecken deines Rahmens funkeln jetzt Sterne.", "Zwei Jahre! Überall funkelt es, und ein Fuchs ist bei deinem Regal eingezogen. Danke, dass du dir selbst so treu bist."]});
+Object.assign(I18N.en, {"levelUp": ["", "Your app is awakening: the first golden accents light up. Three months – lovely that you keep going!", "Your app is blossoming: frame and buttons now shine in gold. Half a year with yourself!", "Your app shines in full splendour. Thank you for a whole year with yourself!", "A year and a half with yourself! Stars now twinkle in the corners of your frame.", "Two years! Everything sparkles, and a fox has moved in by your shelf. Thank you for staying so true to yourself."]});
 function t(){ return I18N[state.settings.lang]; }
 
 // the wish for an area (since 1.76.0): from the newest wheel that has one; null if none yet
