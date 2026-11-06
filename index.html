@@ -2410,7 +2410,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.7.0';
+const APP_VERSION = '2.7.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2472,7 +2472,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-11-05';
+const APP_BUILD = '2026-11-06';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -8074,8 +8074,11 @@ function tbRenderLibrary(){
   const front = o=>TRO_FRONT.test((o.x && o.x.img) || o.x.id || '');
   const isCloche = o=>/cloche|trophy-(lotus|cherry|lemon|stones|bowl|hearts)-\d/.test((o.x && o.x.img) || '');
   const usedW = r=>r.reduce((sm, it, i)=>sm + it.w + (i ? (it.plus ? PLUS_GAP : it.g) : 0), 0);
+  // 2.7.0: the clipboard's compartment in the book part (computed here, the free ones there take trophies when the trophy part is full)
+  const clipRow = (()=>{ const mid = Math.floor(SHELF_ROWS.length / 2); for(let i = mid; i < SHELF_ROWS.length; i++) if(!(narrowRows[i] || []).length) return i; return -1; })();
+  const narrowFree = NAR ? SHELF_ROWS.map((_, i)=>i).filter(i=>!(narrowRows[i] || []).length && i !== clipRow).reverse() : []; // lowest first
   const place = (k, anyRow)=>{
-    const rows = SHELF_ROWS.map((_, i)=>i < bookRows.length ? bookRows[i].slice() : []), rest = [];
+    const rows = SHELF_ROWS.map((_, i)=>i < bookRows.length ? bookRows[i].slice() : []), nrows = SHELF_ROWS.map(()=>[]), rest = [];
     // order of the compartments: right below the books downwards (as before); the book compartments come last and only for front pieces
     const order = SHELF_ROWS.map((_, i)=>i).filter(i=>i >= bookRows.length).concat(bookRows.map((_, i)=>i).reverse());
     // 28.10.2026 (wish of the user): the glass bells look best low down – they take the lowest compartments first
@@ -8090,12 +8093,21 @@ function tbRenderLibrary(){
         const isBooks = i < bookRows.length, g = rows[i].length ? (isBooks ? 3 : 1.6) : 0;
         return usedW(rows[i]) + g + w <= rowCap(i) - 2 * WALL;
       };
+      // 2.7.0: when the trophy part is full, the free compartments of the book part (not the books', not the clipboard's) before the roof
+      const fitsN = (i, relaxed)=>{
+        if(i < EYE && !front(o) && !relaxed) return false;
+        const f = refH / rowHs[i], h = o.h * k * f, w = o.w * k * f;
+        return h <= 96 && usedW(nrows[i]) + (nrows[i].length ? 1.6 : 0) + w <= nCap(i) - 2 * WALL;
+      };
+      const putN = i=>{ const f = refH / rowHs[i]; nrows[i].push({ ...o, h:o.h * k * f, w:o.w * k * f, g:1.6 }); };
       let ok = order2.find(i=>fits(i));
+      if(ok === undefined){ const n = narrowFree.find(i=>fitsN(i)); if(n !== undefined){ putN(n); return; } }
       if(ok === undefined && anyRow) ok = order2.find(i=>fits(i, true));
+      if(ok === undefined && anyRow){ const n = narrowFree.find(i=>fitsN(i, true)); if(n !== undefined){ putN(n); return; } }
       if(ok === undefined){ rest.push(o); return; }
       const f = refH / rowHs[ok]; rows[ok].push({ ...o, h:o.h * k * f, w:o.w * k * f, g:ok < bookRows.length && !rows[ok].some(it=>!it.book) ? 3 : 1.6 });
     });
-    return { rows, rest };
+    return { rows, nrows, rest };
   };
   // a little smaller first (down to 86 %), then rather above eye level than smaller still, and only then on top of the shelf
   let k = 1, pl = place(1);
@@ -8183,13 +8195,12 @@ function tbRenderLibrary(){
     const oldRow = useOld ? `<div class="shelf-comp shelf-comp-books vit-books" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${VR0[0][0]}%;height:${VR0[0][1] - VR0[0][0]}%">${oldKeys.map(k=>bookHtml(spine(k))).join('')}</div>` : '';
     vitHtml = `<div class="vitrine-img${SV ? ' vit-joined' : ''}"${SV ? ` style="background-image:url(img/${SV.vit.img}.webp);--va:${SV.vit.aspect.toFixed(4)}"` : ''}>${oldRow}${VR.map(([y0, y1], i)=>`<div class="shelf-comp shelf-comp-tro" style="left:${VX[0]}%;width:${VX[1] - VX[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(troHtml).join('')}</div>`).join('')}</div>`;
   }
-  // 28.10.2026 (wish of the user): the clipboard (habit tracker) leans in the middle compartment of the book part – or the next free one below
-  const clipRow = (()=>{ const mid = Math.floor(SHELF_ROWS.length / 2); for(let i = mid; i < SHELF_ROWS.length; i++) if(!(narrowRows[i] || []).length) return i; return -1; })();
+  // 28.10.2026 (wish of the user): the clipboard (habit tracker) leans in the middle compartment of the book part – or the next free one below (clipRow, see place)
   // pictures of the user for A Mystery World and A Gentleman's Study (28.10.2026); A Lady's Conservatory keeps the drawn one until hers comes
   const clipImg = clipName();
   const clipHtml = `<button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipImg ? `<img src="img/${clipImg}.webp" alt="">` : clipboardSvg()}</button>`;
   const narrowHtml = NAR ? `<div class="shelf-img shelf-narrow" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
-      `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${NS.plant ? `<img class="shelf-plant" src="img/${NS.plant.img}.webp" alt="" style="width:${NS.plant.w}%;left:${NS.plant.over - NS.plant.w}%">` : ''}</div>` : '';
+      `<div class="shelf-comp ${(pl.nrows[i] || []).length ? 'shelf-comp-tro' : 'shelf-comp-books'}" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}${(pl.nrows[i] || []).map(troHtml).join('')}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${NS.plant ? `<img class="shelf-plant" src="img/${NS.plant.img}.webp" alt="" style="width:${NS.plant.w}%;left:${NS.plant.over - NS.plant.w}%">` : ''}</div>` : '';
   // 1.87.2: the shelf is as high as in the other designs; where the orchid table does not fit next to it as well (phones),
   // the row starts at the shelf and the table peeks in from the left (scroll left to see it whole)
   setTimeout(()=>document.querySelectorAll('.lib-scroll').forEach(el=>{

@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 5.11.2026 (Version 2.7.0) – zuerst lesen
+## Übergabe – Stand 6.11.2026 (Version 2.7.1) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -54,8 +54,8 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   der Nutzer hat den Skill aufgerufen, aber noch kein Material gegeben.
 - **Offen / wartet auf den Nutzer:**
   - **Weitere laute Stellen** (nicht angefasst): Impulskarte beim Start, Lob bei Gewohnheiten, Stimmungsvergleich, Lebensrad-Erinnerung.
-  - **Ränge entzerrt (2.7.0):** gebaut und getestet (`t270.py`), noch nicht auf dem iPad angesehen. Das Regal mit Vitrine hängt weiter an Rang 6
-    (jetzt nach 2 Jahren statt nach 1) – falls die Nutzerin es früher möchte, an Rang 4 (1 Jahr) hängen (`appLevel() >= 6` in `tbRenderLibrary`).
+  - **Ränge entzerrt (2.7.0/2.7.1):** gebaut und getestet (`t270.py`, `t270b.py`), noch nicht auf dem iPad angesehen. Regal mit Vitrine bleibt an Rang 6
+    (nach 2 Jahren) – Entscheidung der Nutzerin, „wenn alle Trophäen Platz haben“: geprüft, sie haben (2.7.1).
   - **Speicher in IndexedDB (2.6.0):** gebaut und getestet (`t260.py`), auf dem iPad von der Nutzerin geprüft: alle Daten da. localStorage bleibt Sicherung,
     solange die Daten unter 3,5 MB sind. Später, wenn es sich bewährt hat: entscheiden, ob die Kopie in localStorage ganz wegfallen soll.
   - **Weihnachtsbaum (2.5.0):** gebaut. Offen: was ab dem 2. Jahr im Geschenk liegt (heute: ab dem 2. Jahr kein Geschenk, der Stern liegt bei der Deko).
@@ -182,7 +182,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.7.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.7.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1017,6 +1017,11 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     Aufstiegs-Sätze (`levelUp`, `clubUp`, `ladyUp`, de/en) nennen die neuen Zeiten. Alles, was an Stufen hängt (Gold, Efeu/Monstera/Rosentisch ab 3,
     Sterne ab 5, Fuchs und Regal mit Vitrine ab 6), wandert mit den Rängen. Test `t270.py` in `Lebensrad APP/eWolfe-Skripte/` (8 Fälle, Uhr gemockt,
     drei Designs, Chromium + WebKit).
+- **2.7.1 (6.11.2026) Platz für alle Trophäen ohne Vitrine:** Weil das Regal mit Vitrine erst nach 2 Jahren kommt (Wunsch der Nutzerin, wenn alles Platz hat),
+    stellt `place()` in `tbRenderLibrary` Trophäen, die im Trophäenteil keinen Platz finden, in die freien Fächer des Bücherteils (`narrowFree`: ohne Tagebücher,
+    nicht das Klemmbrett-Fach `clipRow`, unten zuerst; über Augenhöhe nur flache Stücke wie im Trophäenteil), erst danach aufs Dach. `pl.nrows` = Trophäen je Fach
+    des Bücherteils, gezeichnet in `narrowHtml`. Test `t270b.py`: alle Trophäen samt Feiertagen dreier Jahre auf Stufe 5 – in allen Designs nichts auf dem Dach
+    (vorher 2–4 Stück, oben angeschnitten).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
