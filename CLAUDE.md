@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 6.11.2026 (Version 2.7.1) – zuerst lesen
+## Übergabe – Stand 8.11.2026 (Version 2.8.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -56,6 +56,11 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   - **Weitere laute Stellen** (nicht angefasst): Impulskarte beim Start, Lob bei Gewohnheiten, Stimmungsvergleich, Lebensrad-Erinnerung.
   - **Ränge entzerrt (2.7.0/2.7.1):** gebaut und getestet (`t270.py`, `t270b.py`), noch nicht auf dem iPad angesehen. Regal mit Vitrine bleibt an Rang 6
     (nach 2 Jahren) – Entscheidung der Nutzerin, „wenn alle Trophäen Platz haben“: geprüft, sie haben (2.7.1).
+  - **Erfolge der Woche neu (2.8.0):** gebaut und getestet (`t280.py`), auf dem iPad noch nicht angesehen. Offen: Seite läuft nicht auf eine zweite Seite
+    weiter (ein volles Feld nimmt nur nichts mehr an); die Nutzerin schrieb einmal „besonders stolz“ statt „am meisten stolz“ – nicht geklärt, Text unverändert.
+  - **Coach-Teilen als nächster großer Schritt (Wunsch der Nutzerin 8.11.):** Pakete bis 5/10/20 Klientinnen mit Code, Preis je Klientin erst über, dann gleich,
+    dann unter dem Einzelabo (Vorschlag 29/49/79 € im Monat). Dazu Idee „Fragen-Kauf“ (Fragen der Coaches als Paket für das Lebensrad alle 1–3 Monate). Erst planen
+    und der Nutzerin zeigen; vorher fragen, ob die Coaches geantwortet haben (Abmachung aus dem Ältestenrat). Details im Handoff vom 08.11.2026.
   - **Speicher in IndexedDB (2.6.0):** gebaut und getestet (`t260.py`), auf dem iPad von der Nutzerin geprüft: alle Daten da. localStorage bleibt Sicherung,
     solange die Daten unter 3,5 MB sind. Später, wenn es sich bewährt hat: entscheiden, ob die Kopie in localStorage ganz wegfallen soll.
   - **Weihnachtsbaum (2.5.0):** gebaut. Offen: was ab dem 2. Jahr im Geschenk liegt (heute: ab dem 2. Jahr kein Geschenk, der Stern liegt bei der Deko).
@@ -182,7 +187,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.7.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.8.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1022,6 +1027,17 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     nicht das Klemmbrett-Fach `clipRow`, unten zuerst; über Augenhöhe nur flache Stücke wie im Trophäenteil), erst danach aufs Dach. `pl.nrows` = Trophäen je Fach
     des Bücherteils, gezeichnet in `narrowHtml`. Test `t270b.py`: alle Trophäen samt Feiertagen dreier Jahre auf Stufe 5 – in allen Designs nichts auf dem Dach
     (vorher 2–4 Stück, oben angeschnitten).
+- **2.8.0 (8.11.2026) Erfolge der Woche neu (Entwurf A2 der Nutzerin, Skizzen im Sammelordner „Erfolge der Woche – Entwurf A2 (07.11.2026)“):**
+    eigene Seite `winsPageHtml` (statt der Lebensbereiche-Seite mit Kopf), gleiche Daten (`page.erfolge.week`, `page.bereiche`). Aufbau: Überschrift in der Schrift des
+    Designs (`--tw-font`: Marcellus / Noto Serif Display schmal / Cormorant), KW, oben rechts kleines Wochen-Rad und Teilen-Knopf; **Tracker** `winsTrackerHtml`
+    (bis 8 tägliche + 3 wöchentliche Gewohnheiten, Namen in Caveat, Kästchen mit gezeichnetem Haken wie auf dem Klemmbrett, `--tw-ink`/`--tw-tick` = `.hb2`-Farben,
+    „n/7“, abhakbar über `tb-habit-cell` wie die Gewohnheiten-Woche); **Bereiche** als Randnotiz (Symbol + Name links, `.tw-label`) mit zwei Schreiblinien
+    (22-px-Takt, `.tw-body .tb-area-text`), wachsen bei wenig Gewohnheiten; die automatische graue Zeile ist weg (Wunsch der Nutzerin; `winsAreaHtml`/`winsAreaAuto`
+    bleiben für den Monatsrückblick); **Stolz** ohne Rahmen, mittig, zwei Zeilen. Mehr Platz als andere Seiten: `.tb-wins2` beginnt 22 px höher und reicht 40 px
+    tiefer (`top`/`bottom` aus `--pt`/`--pb`). Querformat: zwei Spalten (links Tracker, direkt darunter Stolz mit drei Zeilen; rechts Bereiche).
+    **Teilen-Bild** (`winsShareBlob`) im selben Aufbau: Tracker mit Kästchen/Haken, Bereiche mit Text, Stolz mittig. Test `t280.py` in `Lebensrad APP/eWolfe-Skripte/`
+    (Chromium + WebKit, drei Designs, iPad, Handy, Querformat-Buch, 8+3 Gewohnheiten: nichts überlappt, Haken auf der Seite setzbar). Bilder:
+    „Erfolge der Woche – eingebaut 2.8.0 (08.11.2026)“.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
