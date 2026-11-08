@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 8.11.2026 (Version 2.9.0) – zuerst lesen
+## Übergabe – Stand 8.11.2026 (Version 2.9.1) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -59,9 +59,8 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   - **Erfolge der Woche neu (2.8.0):** gebaut und getestet (`t280.py`), auf dem iPad noch nicht angesehen. Entschieden (8.11.): keine Fortsetzungsseite – ein volles
     Feld nimmt einfach nichts mehr an. Text seit 2.9.0 „besonders stolz“ (Entscheidung der Nutzerin).
   - **Notizbücher (2.9.0):** gebaut und getestet (`t290.py`), auf dem iPad noch nicht angesehen. Offen: soll das Buch selbst (Rücken/Cover) ein Datum tragen?
-  - **Lady-Papier und -Klemmbrett schlichter:** Prompts in „Lebensrad APP/Ausgang/17 Lady – Papier und Klemmbrett schlichter“ (Variante A kleine Rosenknospe,
-    B ohne Rosen). Wenn die Bilder kommen: freistellen, Rahmenlage gegen `rt2/paper-p|l` prüfen (die CSS-Ränder `--pt/--pb/--ps` passen nur, wenn der Rahmen
-    an derselben Stelle liegt), Klemmbrett mit `measure.py` messen (`CLIP_GEO.rt2`), neue Dateinamen (`paper2-p|l`, `clipboard3`), Vorher/Nachher zeigen.
+  - **Lady-Papier und -Klemmbrett schlichter:** eingebaut in 2.9.1 (Variante A, kleine Rosenknospen), auf dem iPad noch nicht angesehen.
+  - **Notizbücher anders aussehen lassen:** Vorschlag eigene schlichtere Cover/Rücken je Design (Prompts) – Antwort der Nutzerin steht aus; bisher nur niedriger im Regal (2.9.1).
   - **Coach-Teilen als nächster großer Schritt (Wunsch der Nutzerin 8.11.):** Pakete bis 5/10/20 Klientinnen mit Code, Preis je Klientin erst über, dann gleich,
     dann unter dem Einzelabo (Vorschlag 29/49/79 € im Monat). Dazu Idee „Fragen-Kauf“ (Fragen der Coaches als Paket für das Lebensrad alle 1–3 Monate). Erst planen
     und der Nutzerin zeigen; vorher fragen, ob die Coaches geantwortet haben (Abmachung aus dem Ältestenrat). Details im Handoff vom 08.11.2026.
@@ -191,7 +190,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.9.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.9.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1058,6 +1057,17 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     - **Notizen zählen nicht** für aktive Tage (`appActiveDays`) und Trophäen (Tagebuchseiten). Regal: Notizbücher stehen zwischen den Tagebüchern (nach Schlüssel).
     - Sync: Seiten wie immer (Kopf und Datum sind Seitenfelder, die Stempel greifen); `kind` wird ergänzt, wenn es lokal fehlt.
     - Test `t290.py` in `Lebensrad APP/eWolfe-Skripte/` (Chromium + WebKit, drei Designs, 820/390); `t280.py` läuft weiter fehlerfrei.
+- **2.9.1 (8.11.2026) Wünsche der Nutzerin:**
+    - **Lady-Papier und -Klemmbrett schlichter** (Bilder der Nutzerin aus „Ausgang/17“, Variante A: kleine Rosenknospen statt Rosensträußen): `rt2/paper2-p|l`
+      (Rahmen gemessen: höchstens 1–2 px neben dem alten, CSS-Ränder unverändert), `rt2/clipboard3` (`CLIP_FILE.rt2`, `CLIP_GEO.rt2` neu gemessen, Abweichung < 0,1 %).
+      Klemmbrett: freigestellt mit `cutgreyg.py` (Verlauf), Strichstücke über dem oberen Rahmen neben den Rosen per Inpaint weg, unterer Rahmen samt Rosen 11 px
+      tiefer (Rand wie beim alten Bild; `lady_klemmbrett_fix.py`), Messingbogen über der Kugel stieß an den Bildrand → oben rund abgeschnitten (`lady_klemmbrett_kugel.py`).
+      Alte Bilder in „veraltet/rt2“. Vorher/Nachher: „Lebensrad APP/Lady schlichter – Vorher Nachher (08.11.2026)“.
+    - **Notizbücher im Regal niedriger** als Tagebücher (`NOTES_H` = 0,84 in `tbSpineHtml` und beiden Regal-Ansichten).
+    - **Erfolge der Woche am Sonntag = die Woche, die gerade endet** (`winsWeek()`: sonntags Beginn der Vorwoche, sonst diese Woche; am 8.11.2026 KW 45). Gilt für
+      „Neue Seite → Erfolge der Woche“, den Hinweis und `winsHintSeen`. Gibt es die Seite der Woche im Buch schon, öffnet sie sich statt einer zweiten.
+      Der Hinweis in der Bibliothek kommt jetzt den ganzen Sonntag (nicht erst ab 16 Uhr; „Es ist Sonntag – …“), weiter nur in der Raum-Ansicht.
+    - Tests `t291.py` (Lady-Bilder), `t292.py` (Regal), `t293.py` (Erfolge-Woche mit gestellter Uhr) in `Lebensrad APP/eWolfe-Skripte/`; `t290.py`, `t280.py` laufen weiter.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

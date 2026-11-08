@@ -790,7 +790,7 @@ html.theme-retreat .tb-day-head{ color:var(--rt-sage-d); }
 .tb-page.type-grid:not(.type-titel){ background-image:var(--pat), var(--paper); background-size:auto, auto, 100% 100%; background-position:var(--patp), 0 0; background-repeat:repeat, repeat, no-repeat; background-origin:border-box, border-box, border-box; background-clip:content-box, content-box, border-box; }
 .tb-page.tb-land-page:not(.type-titel){ --pt:calc(84px * var(--tbk)); --pb:calc(84px * var(--tbk)); --ps:calc(64px * var(--tbk)); --paper:url(img/mw2/paper-l.webp); }
 html.theme-biz .tb-page:not(.type-titel){ --paper:url(img/rl2/paper2-p.webp); } html.theme-biz .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rl2/paper2-l.webp); }
-html.theme-retreat .tb-page:not(.type-titel){ --paper:url(img/rt2/paper-p.webp); } html.theme-retreat .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rt2/paper-l.webp); }
+html.theme-retreat .tb-page:not(.type-titel){ --paper:url(img/rt2/paper2-p.webp); } html.theme-retreat .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rt2/paper2-l.webp); } /* 8.11.2026: simpler, small rosebuds */
 /* 31.10.2026 (wish of the user): plain paper as a choice per book – the two lines of the design's frame without the ornaments,
    drawn instead of a picture so they stay sharp. Places, widths and colours measured in the paper pictures (mw2/rl2/rt2). */
 html:root .tb-page.tb-paper-plain:not(.type-titel){ --pp-bg:#faeed2; --pp-o:#a06c22; --pp-i:#a8771f; --pp-ow:1.8px; --pp-iw:1.4px; --paper:linear-gradient(var(--pp-bg), var(--pp-bg)); background-color:var(--pp-bg); }
@@ -2472,7 +2472,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.9.0';
+const APP_VERSION = '2.9.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2554,7 +2554,7 @@ const I18N = {
     evNote:'Ein Ereignis verändert deinen Lebensrad-Wert nicht automatisch. Du entscheidest bei der nächsten Bewertung selbst, ob sich etwas verändert hat.',
     complete:'Fertig', delete:'Löschen',
     wheelHistTitle:'Frühere Lebensräder', noWheelHist:'Noch keine früheren Lebensräder gespeichert.',
-    cmpUp:'Du hast dich weiterentwickelt: In {n} von 5 Bereichen hast du dich verbessert.', cmpUp1:'Du hast dich weiterentwickelt: In einem Bereich hast du dich verbessert.', cmpUpAll:'Du hast dich weiterentwickelt: In allen Bereichen hast du dich verbessert.', cmpDown:'Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.', cmpSame:'Dein Lebensrad ist stabil geblieben.', diaryInsertWheel:'Lebensrad einfügen', diaryAreasPage:'Lebensbereiche', winsPage:'Erfolge der Woche', winsWeek:'KW {n} · {from} – {to}', winsHabits:'Gewohnheiten: {n} von {m} Häkchen', winsWeekly:'Wöchentlich: {n} von {m}', winsGoal:'Ziel erreicht: {g}', winsShare:'Teilen', winsShareText:'Meine Erfolge der Woche in eWolfe', winsShareSaved:'Das Bild deiner Erfolge der Woche wurde gespeichert. Du findest es in deinen Downloads und kannst es von dort teilen.', winsProud:'Worauf bin ich diese Woche besonders stolz?', winsHint:'Sonntagabend – Zeit für deine Erfolge der Woche.', winsHintGo:'Seite anlegen', monthPage:'Monatsrückblick', monthTitle:'Mein Monat', monthStats:'Häkchen: {h} · Ziele erreicht: {g} · Lebensräder: {w}', monthProud:'Besonders stolz', monthFazit:'Mein Fazit', evalClose:'Schließen',
+    cmpUp:'Du hast dich weiterentwickelt: In {n} von 5 Bereichen hast du dich verbessert.', cmpUp1:'Du hast dich weiterentwickelt: In einem Bereich hast du dich verbessert.', cmpUpAll:'Du hast dich weiterentwickelt: In allen Bereichen hast du dich verbessert.', cmpDown:'Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.', cmpSame:'Dein Lebensrad ist stabil geblieben.', diaryInsertWheel:'Lebensrad einfügen', diaryAreasPage:'Lebensbereiche', winsPage:'Erfolge der Woche', winsWeek:'KW {n} · {from} – {to}', winsHabits:'Gewohnheiten: {n} von {m} Häkchen', winsWeekly:'Wöchentlich: {n} von {m}', winsGoal:'Ziel erreicht: {g}', winsShare:'Teilen', winsShareText:'Meine Erfolge der Woche in eWolfe', winsShareSaved:'Das Bild deiner Erfolge der Woche wurde gespeichert. Du findest es in deinen Downloads und kannst es von dort teilen.', winsProud:'Worauf bin ich diese Woche besonders stolz?', winsHint:'Es ist Sonntag – Zeit für deine Erfolge der Woche.', winsHintGo:'Seite anlegen', monthPage:'Monatsrückblick', monthTitle:'Mein Monat', monthStats:'Häkchen: {h} · Ziele erreicht: {g} · Lebensräder: {w}', monthProud:'Besonders stolz', monthFazit:'Mein Fazit', evalClose:'Schließen',
     compareOn:'Vergleichen', compareOff:'Abbrechen', compareShow:'Vergleich anzeigen', cmpWish:'Wunsch', joyFeelQ:'Wie viel Freude hast du an deinem Leben? Nicht an einem einzelnen Tag – denk an die letzten Wochen.', joyExpected:'Nach deinem Lebensrad erwartet: {e} %', joyNone:'noch offen', joyTitle:'Lebensfreude', joyInfo:'Gespürte Lebensfreude: {f}\nNach deinem Lebensrad erwartet: {e} %\n\nDie erwartete Lebensfreude beginnt bei 50 % und wächst mit jedem Lebensrad um so viel, wie deine fünf Bereiche im Durchschnitt gewachsen sind; wachsen alle fünf, kommen 5 Punkte dazu. Die Sonne zeigt, wie viel Freude du selbst an deinem Leben hast – nicht an einem einzelnen Tag, sondern in den letzten Wochen.', joyAhead:'Schön – deine Freude ist dir sogar ein Stück voraus.', joyDeepTitle:'Dein Rad wächst – deine Lebensfreude noch nicht', joyDeepText:'Das darf so sein. Lebensfreude muss nicht automatisch mit dem Lebensrad wachsen, aber sie kann es. Wenn sie es gerade nicht tut, dürfen wir tiefer schauen:', joyDeepQs:['Wächst du in den Bereichen, die dir wirklich wichtig sind – oder in denen, die man „sollte“?', 'Gibt es etwas, das dir Kraft nimmt und im Rad gar nicht vorkommt?', 'Wann hast du zuletzt etwas nur aus Freude getan?'], joyGrowV:['Deine Freude wächst mit deinem Lebensrad – das ist ein Grund zu feiern!', 'Dein Rad wächst und deine Freude wächst mit. Genieß diesen Moment!', 'Mehr Freude als beim letzten Mal – du spürst, dass sich etwas bewegt. Wunderbar!', 'Deine Schritte kommen als Freude zu dir zurück. Feier das ruhig ein bisschen!'], joyAheadV:['Deine Freude ist deinem Lebensrad sogar ein Stück voraus – wie schön!', 'Du spürst mehr Freude, als dein Rad erwarten lässt. Was für ein Geschenk!'], joyToDiary:'Ins Tagebuch', joyCardBtn:'Impuls für Lebensfreude', joyDiaryHead:'Lebensfreude – tiefer schauen ({date})', joyCmp:'Lebensfreude: {a} % → {b} %',
     goalLabel:'Ziel', addMoreGoal:'+ Weiteres Ziel', saveGoals:'Ziele speichern',
     achievedCategory:'Erreichte Ziele', noAchievedGoals:'Noch keine erreichten Ziele in diesem Bereich.', achievedOn:'Erreicht am',
@@ -2605,7 +2605,7 @@ const I18N = {
     evNote:'An event does not automatically change your wheel value. You decide at your next assessment whether something actually changed.',
     complete:'Done', delete:'Delete',
     wheelHistTitle:'Past wheels of life', noWheelHist:'No past wheels of life saved yet.',
-    cmpUp:'You have grown: you improved in {n} of 5 areas.', cmpUp1:'You have grown: you improved in one area.', cmpUpAll:'You have grown: you improved in all areas.', cmpDown:'Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.', cmpSame:'Your wheel of life has stayed steady.', diaryInsertWheel:'Insert wheel of life', diaryAreasPage:'Areas of life', winsPage:'Wins of the week', winsWeek:'Week {n} · {from} – {to}', winsHabits:'Habits: {n} of {m} ticks', winsWeekly:'Weekly: {n} of {m}', winsGoal:'Goal reached: {g}', winsShare:'Share', winsShareText:'My wins of the week in eWolfe', winsShareSaved:'The picture of your wins of the week was saved. You will find it in your downloads and can share it from there.', winsProud:'What am I especially proud of this week?', winsHint:'Sunday evening – time for your wins of the week.', winsHintGo:'Add the page', monthPage:'Month in review', monthTitle:'My month', monthStats:'Ticks: {h} · Goals reached: {g} · Life wheels: {w}', monthProud:'Especially proud of', monthFazit:'My conclusion', evalClose:'Close',
+    cmpUp:'You have grown: you improved in {n} of 5 areas.', cmpUp1:'You have grown: you improved in one area.', cmpUpAll:'You have grown: you improved in all areas.', cmpDown:'Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.', cmpSame:'Your wheel of life has stayed steady.', diaryInsertWheel:'Insert wheel of life', diaryAreasPage:'Areas of life', winsPage:'Wins of the week', winsWeek:'Week {n} · {from} – {to}', winsHabits:'Habits: {n} of {m} ticks', winsWeekly:'Weekly: {n} of {m}', winsGoal:'Goal reached: {g}', winsShare:'Share', winsShareText:'My wins of the week in eWolfe', winsShareSaved:'The picture of your wins of the week was saved. You will find it in your downloads and can share it from there.', winsProud:'What am I especially proud of this week?', winsHint:'It is Sunday – time for your wins of the week.', winsHintGo:'Add the page', monthPage:'Month in review', monthTitle:'My month', monthStats:'Ticks: {h} · Goals reached: {g} · Life wheels: {w}', monthProud:'Especially proud of', monthFazit:'My conclusion', evalClose:'Close',
     compareOn:'Compare', compareOff:'Cancel', compareShow:'Show comparison', cmpWish:'Wish', joyFeelQ:'How much joy do you find in your life? Not on a single day – think of the last few weeks.', joyExpected:'Expected from your wheel of life: {e} %', joyNone:'not yet', joyTitle:'Joy in life', joyInfo:'Joy in life you feel: {f}\nExpected from your wheel of life: {e} %\n\nThe expected joy in life starts at 50 % and with every wheel grows by as much as your five areas have grown on average; if all five grow, 5 points are added. The sun shows how much joy you yourself find in your life – not on a single day, but over the last few weeks.', joyAhead:'Lovely – your joy is even a little ahead of you.', joyDeepTitle:'Your wheel is growing – your joy in life not yet', joyDeepText:'That is all right. Joy in life does not have to grow automatically with the wheel of life, but it can. When it does not right now, we may look deeper:', joyDeepQs:['Are you growing in the areas that truly matter to you – or in the ones you “should”?', 'Is there something that drains your strength and does not appear in the wheel at all?', 'When did you last do something just for joy?'], joyGrowV:['Your joy is growing with your wheel of life – that is a reason to celebrate!', 'Your wheel is growing and your joy grows with it. Enjoy this moment!', 'More joy than last time – you can feel that something is moving. Wonderful!', 'Your steps come back to you as joy. Go ahead and celebrate a little!'], joyAheadV:['Your joy is even a little ahead of your wheel of life – how lovely!', 'You feel more joy than your wheel would lead us to expect. What a gift!'], joyToDiary:'To the diary', joyCardBtn:'Impulse for joy in life', joyDiaryHead:'Joy in life – looking deeper ({date})', joyCmp:'Joy in life: {a} % → {b} %',
     goalLabel:'Goal', addMoreGoal:'+ Another goal', saveGoals:'Save goals',
     achievedCategory:'Achieved goals', noAchievedGoals:'No achieved goals in this area yet.', achievedOn:'Achieved on',
@@ -7490,9 +7490,9 @@ function habitToggleWeek(id, mondayKey){
    a divider, 3 weekly rows with one wide box. The app only writes the title, the days, the names and the ticks onto it, at the
    places measured in each picture (CLIP_GEO, in % of the picture: box columns and rows, name lines [x0, x1, y], wide boxes
    [x0, x1, y0, y1], the line under the head). The same sheet is the week page in the diary. */
-const CLIP_GEO = {"mw2": {"ar": 0.679, "cols": [51.34, 56.39, 61.47, 66.44, 71.36, 76.36, 81.31], "rows": [37.88, 42.08, 46.31, 50.62, 54.9, 59.22, 63.56, 67.93], "box": 3.66, "names": [[17.21, 46.88, 38.99], [17.21, 46.88, 43.15], [17.21, 46.88, 47.38], [17.21, 46.88, 51.68], [17.21, 46.88, 55.98], [17.21, 46.88, 60.31], [17.21, 46.88, 64.64], [17.31, 46.88, 69.07], [17.21, 46.88, 76.86], [17.31, 46.88, 81.63], [17.21, 46.88, 86.53]], "wide": [[49.46, 82.0, 74.01, 77.37], [49.46, 82.0, 78.78, 82.2], [49.46, 82.0, 83.75, 87.11]], "head": 34.08}, "rl2": {"ar": 0.6354, "cols": [52.43, 58.18, 63.86, 69.51, 75.16, 80.85, 86.55], "rows": [33.75, 38.17, 42.56, 46.96, 51.37, 55.86, 60.29, 64.75], "box": 3.9, "names": [[11.71, 47.15, 34.75], [11.71, 47.15, 39.18], [11.71, 47.15, 43.6], [11.71, 47.15, 48.02], [11.71, 47.15, 52.45], [11.71, 47.15, 56.87], [11.71, 47.15, 61.29], [11.71, 47.15, 65.72], [11.71, 47.15, 75.03], [11.71, 47.15, 80.73], [11.71, 47.26, 86.43]], "wide": [[50.21, 88.29, 72.12, 75.94], [50.21, 88.29, 77.68, 81.77], [50.21, 88.29, 83.45, 87.33]], "head": 28.08}, "rt2": {"ar": 0.6275, "cols": [52.19, 58.09, 63.96, 69.73, 75.45, 81.23, 87.06], "rows": [33.52, 37.95, 42.38, 46.74, 51.17, 55.64, 60.1, 64.56], "box": 4.06, "names": [[10.91, 46.31, 34.63], [10.91, 46.31, 38.99], [10.91, 46.31, 43.39], [10.91, 46.31, 47.79], [10.91, 46.31, 52.15], [10.91, 46.31, 56.64], [10.91, 46.31, 61.07], [10.91, 46.31, 65.44], [10.91, 46.2, 74.87], [10.91, 46.2, 80.23], [12.41, 46.2, 85.7]], "wide": [[49.52, 88.88, 71.88, 75.77], [49.52, 88.88, 77.25, 81.14], [49.52, 88.88, 82.82, 86.78]], "head": 28.62}};
+const CLIP_GEO = {"mw2": {"ar": 0.679, "cols": [51.34, 56.39, 61.47, 66.44, 71.36, 76.36, 81.31], "rows": [37.88, 42.08, 46.31, 50.62, 54.9, 59.22, 63.56, 67.93], "box": 3.66, "names": [[17.21, 46.88, 38.99], [17.21, 46.88, 43.15], [17.21, 46.88, 47.38], [17.21, 46.88, 51.68], [17.21, 46.88, 55.98], [17.21, 46.88, 60.31], [17.21, 46.88, 64.64], [17.31, 46.88, 69.07], [17.21, 46.88, 76.86], [17.31, 46.88, 81.63], [17.21, 46.88, 86.53]], "wide": [[49.46, 82.0, 74.01, 77.37], [49.46, 82.0, 78.78, 82.2], [49.46, 82.0, 83.75, 87.11]], "head": 34.08}, "rl2": {"ar": 0.6354, "cols": [52.43, 58.18, 63.86, 69.51, 75.16, 80.85, 86.55], "rows": [33.75, 38.17, 42.56, 46.96, 51.37, 55.86, 60.29, 64.75], "box": 3.9, "names": [[11.71, 47.15, 34.75], [11.71, 47.15, 39.18], [11.71, 47.15, 43.6], [11.71, 47.15, 48.02], [11.71, 47.15, 52.45], [11.71, 47.15, 56.87], [11.71, 47.15, 61.29], [11.71, 47.15, 65.72], [11.71, 47.15, 75.03], [11.71, 47.15, 80.73], [11.71, 47.26, 86.43]], "wide": [[50.21, 88.29, 72.12, 75.94], [50.21, 88.29, 77.68, 81.77], [50.21, 88.29, 83.45, 87.33]], "head": 28.08}, "rt2": {"ar": 0.6273, "cols": [52.32, 58.16, 63.95, 69.78, 75.43, 81.27, 87.11], "rows": [33.54, 37.97, 42.39, 46.78, 51.17, 55.62, 60.08, 64.56], "box": 4.03, "names": [[10.98, 46.32, 34.65], [10.98, 46.32, 39.04], [10.98, 46.32, 43.4], [10.98, 46.32, 47.79], [10.98, 46.32, 52.15], [10.98, 46.32, 56.6], [10.98, 46.32, 61.02], [10.98, 46.32, 65.41], [10.98, 46.32, 74.83], [10.98, 46.32, 80.2], [10.98, 46.32, 85.63]], "wide": [[49.55, 88.92, 71.89, 75.74], [49.55, 88.92, 77.2, 81.11], [49.55, 88.92, 82.82, 86.67]], "head": 28.62}};
 const clipDir = ()=>RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2';
-const CLIP_FILE = { mw2:'clipboard2', rl2:'clipboard3', rt2:'clipboard2' }; // 1.11.2026: new Gentleman clipboard (new name against old caches)
+const CLIP_FILE = { mw2:'clipboard2', rl2:'clipboard3', rt2:'clipboard3' }; // 8.11.2026: simpler lady clipboard; // 1.11.2026: new Gentleman clipboard (new name against old caches)
 const clipName = ()=>clipDir() + '/' + CLIP_FILE[clipDir()];
 const clipSrc = ()=>'img/' + clipName() + '.webp';
 const HB_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13.5l5 5L20.5 5"/></svg>';
@@ -7763,6 +7763,7 @@ const tbBookNo = k=>+(String(k).split('/')[1] || 1);
 function tbBookKeys(){ return Object.keys(state.tagebuch.jahre).sort((a, b)=>(tbBookYear(a) - tbBookYear(b)) || (tbBookNo(a) - tbBookNo(b))); }
 /* 8.11.2026 (wish of the user): notebooks (diary.kind = 'notes') stand among the diaries, but nothing is ever put into them by itself */
 const tbIsNotes = diary=>!!diary && diary.kind === 'notes';
+const NOTES_H = 0.84; // 8.11.2026 (wish of the user): on the shelf the diaries stand a little taller than the notebooks
 function tbLatestBook(year, any){
   year = String(year);
   const all = tbBookKeys().filter(k=>tbBookYear(k) === year), ks = any ? all : all.filter(k=>!tbIsNotes(state.tagebuch.jahre[k]));
@@ -7941,7 +7942,7 @@ function tbSpineHtml(key){
   // the person's paper book spines, chosen by the cover colour (own cover picture or default design: blue)
   const spine = tbCoverName(diary);
   const bg = `background:url(img/${BIZ ? COVER_DIR + '/spine-' + (RL_COVER[spine] || RL_COVER.navy) : 'book-' + spine}.webp) center/100% 100% no-repeat;`;
-  const k = tbShelfScale(), w = Math.round(((land ? 44 : 34) + Math.min(26, pages / 5)) * k), h = Math.round((land ? 104 : 134) * k);
+  const k = tbShelfScale(), w = Math.round(((land ? 44 : 34) + Math.min(26, pages / 5)) * k), h = Math.round((land ? 104 : 134) * k * (tbIsNotes(diary) ? NOTES_H : 1));
   const font = c.titleFont === 'hand' ? "'Caveat',cursive" : "'Marcellus',serif";
   // title and year in ONE vertical line (1.92.1); the letters get smaller when the line would not fit on the spine
   const notes = tbIsNotes(diary), title = c.title || (notes ? d.notesTitle : d.diaryTitle), len = (title + (notes ? '' : ' ' + key)).length;
@@ -8063,7 +8064,7 @@ function tbRenderLibrarySimple(){
   const keys = tbBookKeys(), WALL = 4;
   const cap = i=>{ const r = SHELF_ROWS[Math.min(i, SHELF_ROWS.length - 1)]; return (NS.x[1] - NS.x[0]) / (r[1] - r[0]) * 100 * NS.aspect - 2 * WALL; };
   const books = keys.map(k=>{ const dia = state.tagebuch.jahre[k], land = tbIsLand(dia), pages = dia.seiten.filter(p=>p.type !== 'titel').length;
-    return { key:k, w:((land ? 44 : 34) + Math.min(26, pages / 5)) * 0.62, h:land ? 64 : 86 }; }).concat({ w:27, h:84, plus:true });
+    return { key:k, w:((land ? 44 : 34) + Math.min(26, pages / 5)) * 0.62, h:(land ? 64 : 86) * (tbIsNotes(dia) ? NOTES_H : 1) }; }).concat({ w:27, h:84, plus:true });
   let rows = [], cur = [], used = 0;
   books.forEach(b=>{ const g = cur.length ? (b.plus ? 3 : 0.7) : 0; if(cur.length && used + g + b.w > cap(rows.length)){ rows.push(cur); cur = []; used = 0; } used += (cur.length ? (b.plus ? 3 : 0.7) : 0) + b.w; cur.push(b); });
   if(cur.length) rows.push(cur);
@@ -8092,7 +8093,7 @@ function tbRenderLibrary(){
   const useOld = oldKeys.length >= 2, keys = useOld ? allKeys.filter(k=>!oldKeys.includes(k)) : allKeys;
   // widths in units of the compartment height
   const spine = key=>{ const dia = state.tagebuch.jahre[key], land = tbIsLand(dia), pages = dia.seiten.filter(p=>p.type !== 'titel').length;
-    return { w:((land ? 44 : 34) + Math.min(26, pages / 5)) * 0.62, h:land ? 64 : 86, key }; };
+    return { w:((land ? 44 : 34) + Math.min(26, pages / 5)) * 0.62, h:(land ? 64 : 86) * (tbIsNotes(dia) ? NOTES_H : 1), key }; };
   const books = keys.map(spine).concat({ w:27, h:84, plus:true });
   // after a year (level 6) the display cabinet comes: the feast-day trophies move into it (1.78.0)
   const VIT = appLevel() >= 6, isFeast = x=>/^(easter\d+|nikolaus2?|xmas2?)$/.test(x.id);
@@ -8840,13 +8841,16 @@ function libNewsHtml(){
 }
 function libNewsLook(){ const id = (libFresh || [])[0]; libNewsClose(); if(id) trophyShow(id, true); }
 /* 2.4.0 (idea taken up by the user): on Sunday from 16 o'clock a quiet line in the library – once a week, only while this week has no wins page */
+/* 8.11.2026 (wish of the user): the week begins on Sunday, but on Sunday one looks back – so on a Sunday the wins page is for the week
+   that just ended, and the quiet hint comes the whole Sunday (no longer only from 16 o'clock) */
+function winsWeek(){ const n = new Date(), s = weekStart(n); return dayKey(n.getDay() === 0 ? new Date(s.getFullYear(), s.getMonth(), s.getDate() - 7) : s); }
 function winsHintDue(){
-  const now = new Date(), wk = dayKey(weekStart(now));
-  if(now.getDay() !== 0 || now.getHours() < 16) return false;
+  const now = new Date(), wk = winsWeek();
+  if(now.getDay() !== 0) return false;
   try{ if(localStorage.getItem('ewolfe_wins_hint') === wk) return false; }catch(e){}
   return !Object.values((state.tagebuch && state.tagebuch.jahre) || {}).some(b=>(b.seiten || []).some(p=>p.erfolge && p.erfolge.week === wk));
 }
-function winsHintSeen(){ try{ localStorage.setItem('ewolfe_wins_hint', dayKey(weekStart(new Date()))); }catch(e){} }
+function winsHintSeen(){ try{ localStorage.setItem('ewolfe_wins_hint', winsWeek()); }catch(e){} }
 function winsHintGo(){
   winsHintSeen(); libNewsClose();
   const k = tbLatestBook(tbCurrentYearStr()) || tbCurrentYearStr(); tbOpenYear(k); tbOpenFirstPage();
@@ -9489,7 +9493,11 @@ function tbAddPage(type, areas, day, wins, month){
   }
   const pg = { id:'p'+Date.now(), type, text:'', strokes:[], images:[] };
   if(areas){ pg.bereiche = {}; pg.type = 'blank'; } // a page with the five areas as small headings, each with its own text; lined only (2.3.9)
-  if(wins) pg.erfolge = { week:dayKey(weekStart(new Date())) }; // 2.3.9: the areas page of this week's wins (winsHeadHtml)
+  if(wins){ // 2.3.9: the page of this week's wins; on a Sunday the week that just ended (8.11.2026); a week that already has its page opens it
+    const wk = winsWeek(), have = diary.seiten.findIndex(p=>p.erfolge && p.erfolge.week === wk);
+    if(have >= 0){ tbPageIdx = have; tbRender(); return; }
+    pg.erfolge = { week:wk };
+  }
   if(month){ // 2.4.0: the month in review – in the first week of a month it looks back at the month before
     const n = new Date(), x = n.getDate() <= 7 ? new Date(n.getFullYear(), n.getMonth() - 1, 1) : n;
     pg.bereiche = {}; pg.type = 'blank'; pg.monat = { month:x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') };
