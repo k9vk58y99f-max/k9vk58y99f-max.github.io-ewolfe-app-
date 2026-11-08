@@ -56,8 +56,8 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   - **Weitere laute Stellen** (nicht angefasst): Impulskarte beim Start, Lob bei Gewohnheiten, Stimmungsvergleich, Lebensrad-Erinnerung.
   - **Ränge entzerrt (2.7.0/2.7.1):** gebaut und getestet (`t270.py`, `t270b.py`), noch nicht auf dem iPad angesehen. Regal mit Vitrine bleibt an Rang 6
     (nach 2 Jahren) – Entscheidung der Nutzerin, „wenn alle Trophäen Platz haben“: geprüft, sie haben (2.7.1).
-  - **Erfolge der Woche neu (2.8.0):** gebaut und getestet (`t280.py`), auf dem iPad noch nicht angesehen. Offen: Seite läuft nicht auf eine zweite Seite
-    weiter (ein volles Feld nimmt nur nichts mehr an); die Nutzerin schrieb einmal „besonders stolz“ statt „am meisten stolz“ – nicht geklärt, Text unverändert.
+  - **Erfolge der Woche neu (2.8.0):** gebaut und getestet (`t280.py`), auf dem iPad noch nicht angesehen. Entschieden (8.11.): keine Fortsetzungsseite – ein volles
+    Feld nimmt einfach nichts mehr an; die Nutzerin schrieb einmal „besonders stolz“ statt „am meisten stolz“ – nicht geklärt, Text unverändert.
   - **Coach-Teilen als nächster großer Schritt (Wunsch der Nutzerin 8.11.):** Pakete bis 5/10/20 Klientinnen mit Code, Preis je Klientin erst über, dann gleich,
     dann unter dem Einzelabo (Vorschlag 29/49/79 € im Monat). Dazu Idee „Fragen-Kauf“ (Fragen der Coaches als Paket für das Lebensrad alle 1–3 Monate). Erst planen
     und der Nutzerin zeigen; vorher fragen, ob die Coaches geantwortet haben (Abmachung aus dem Ältestenrat). Details im Handoff vom 08.11.2026.
