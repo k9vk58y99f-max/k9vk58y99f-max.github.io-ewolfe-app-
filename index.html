@@ -804,6 +804,19 @@ html.theme-retreat .tb-page.tb-paper-plain:not(.type-titel){ --pp-bg:#f8eddd; --
 img, svg, canvas{ -webkit-touch-callout:none; -webkit-user-drag:none; user-drag:none; -webkit-user-select:none; user-select:none; }
 .tb-page:not(.type-titel) .tb-page-text{ padding:calc(var(--pt) + 24px * var(--tbk)) calc(var(--ps) + 4px * var(--tbk)) var(--pb); }
 .tb-page:not(.type-titel) .tb-page-text.font-hand{ padding-top:calc(var(--pt) + 19.5px * var(--tbk)); }
+/* 8.11.2026: notebooks – the first two lines of a page belong to the heading and the date, the text begins below */
+.tb-page:not(.type-titel) .tb-page-text.tb-note-text{ padding-top:calc(var(--pt) + 80px * var(--tbk)); }
+.tb-page:not(.type-titel) .tb-page-text.tb-note-text.font-hand{ padding-top:calc(var(--pt) + 75.5px * var(--tbk)); }
+.tb-note-head{ --nh:#9a6a1f; --nf:'Marcellus', serif; --ns:100%; position:absolute; z-index:1; left:calc(var(--ps) + 4px * var(--tbk)); right:calc(var(--ps) + 4px * var(--tbk)); top:calc(var(--pt) + 4px * var(--tbk)); height:calc(48px * var(--tbk)); display:flex; align-items:flex-end; gap:calc(10px * var(--tbk)); }
+html.theme-biz .tb-note-head{ --nh:#8a6a3a; --nf:'Noto Serif Display', 'Marcellus', serif; --ns:62.5%; }
+html.theme-retreat .tb-note-head{ --nh:#7A0B25; --nf:'Cormorant Garamond', serif; --ns:100%; }
+.tb-note-title{ flex:1; min-width:0; background:transparent !important; border:0 !important; outline:0; box-shadow:none !important; padding:0 !important; margin:0; border-radius:0; font-family:var(--nf); font-stretch:var(--ns); font-size:calc(26px * var(--tbk)); line-height:calc(40px * var(--tbk)); height:calc(40px * var(--tbk)); color:var(--nh); }
+.tb-note-title::placeholder{ color:var(--nh); opacity:0.4; }
+.tb-note-title[readonly]{ pointer-events:none; }
+.tb-note-date{ flex:none; display:inline-flex; align-items:center; gap:calc(4px * var(--tbk)); font-family:var(--nf); font-stretch:var(--ns); font-style:italic; font-size:calc(14px * var(--tbk)); color:var(--nh); padding-bottom:calc(8px * var(--tbk)); white-space:nowrap; }
+.tb-note-date-x, .tb-note-date-add{ background:transparent; border:0; padding:0 calc(2px * var(--tbk)); font:inherit; color:var(--nh); cursor:pointer; }
+.tb-note-date-x{ font-style:normal; font-size:calc(18px * var(--tbk)); line-height:1; opacity:0.6; }
+.tb-note-date-add{ flex:none; font-family:var(--nf); font-stretch:var(--ns); font-size:calc(14px * var(--tbk)); opacity:0.55; padding-bottom:calc(8px * var(--tbk)); white-space:nowrap; }
 .tb-page:not(.type-titel) :is(.tb-areas, .tb-day, .tb-collage, .tb-guided){ inset:calc(var(--pt) - 28px * var(--tbk)) calc(var(--ps) - 16px * var(--tbk)) calc(var(--pb) - 28px * var(--tbk)); }
 .tb-page:not(.type-titel) .tb-habitpage{ top:calc(var(--pt) * 0.5); bottom:calc(var(--pb) * 0.5); }
 /* 30.10.2026: the guided page (morning, evening or both), the card page, and the habit page as the design's clipboard */
@@ -2459,7 +2472,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.8.0';
+const APP_VERSION = '2.9.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2541,7 +2554,7 @@ const I18N = {
     evNote:'Ein Ereignis verändert deinen Lebensrad-Wert nicht automatisch. Du entscheidest bei der nächsten Bewertung selbst, ob sich etwas verändert hat.',
     complete:'Fertig', delete:'Löschen',
     wheelHistTitle:'Frühere Lebensräder', noWheelHist:'Noch keine früheren Lebensräder gespeichert.',
-    cmpUp:'Du hast dich weiterentwickelt: In {n} von 5 Bereichen hast du dich verbessert.', cmpUp1:'Du hast dich weiterentwickelt: In einem Bereich hast du dich verbessert.', cmpUpAll:'Du hast dich weiterentwickelt: In allen Bereichen hast du dich verbessert.', cmpDown:'Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.', cmpSame:'Dein Lebensrad ist stabil geblieben.', diaryInsertWheel:'Lebensrad einfügen', diaryAreasPage:'Lebensbereiche', winsPage:'Erfolge der Woche', winsWeek:'KW {n} · {from} – {to}', winsHabits:'Gewohnheiten: {n} von {m} Häkchen', winsWeekly:'Wöchentlich: {n} von {m}', winsGoal:'Ziel erreicht: {g}', winsShare:'Teilen', winsShareText:'Meine Erfolge der Woche in eWolfe', winsShareSaved:'Das Bild deiner Erfolge der Woche wurde gespeichert. Du findest es in deinen Downloads und kannst es von dort teilen.', winsProud:'Worauf bin ich diese Woche am meisten stolz?', winsHint:'Sonntagabend – Zeit für deine Erfolge der Woche.', winsHintGo:'Seite anlegen', monthPage:'Monatsrückblick', monthTitle:'Mein Monat', monthStats:'Häkchen: {h} · Ziele erreicht: {g} · Lebensräder: {w}', monthProud:'Am meisten stolz', monthFazit:'Mein Fazit', evalClose:'Schließen',
+    cmpUp:'Du hast dich weiterentwickelt: In {n} von 5 Bereichen hast du dich verbessert.', cmpUp1:'Du hast dich weiterentwickelt: In einem Bereich hast du dich verbessert.', cmpUpAll:'Du hast dich weiterentwickelt: In allen Bereichen hast du dich verbessert.', cmpDown:'Rückschritte gehören zum Leben dazu. Es ist wie beim Tanzen: Manchmal braucht es zwei Schritte zurück, um drei Schritte voranzukommen.', cmpSame:'Dein Lebensrad ist stabil geblieben.', diaryInsertWheel:'Lebensrad einfügen', diaryAreasPage:'Lebensbereiche', winsPage:'Erfolge der Woche', winsWeek:'KW {n} · {from} – {to}', winsHabits:'Gewohnheiten: {n} von {m} Häkchen', winsWeekly:'Wöchentlich: {n} von {m}', winsGoal:'Ziel erreicht: {g}', winsShare:'Teilen', winsShareText:'Meine Erfolge der Woche in eWolfe', winsShareSaved:'Das Bild deiner Erfolge der Woche wurde gespeichert. Du findest es in deinen Downloads und kannst es von dort teilen.', winsProud:'Worauf bin ich diese Woche besonders stolz?', winsHint:'Sonntagabend – Zeit für deine Erfolge der Woche.', winsHintGo:'Seite anlegen', monthPage:'Monatsrückblick', monthTitle:'Mein Monat', monthStats:'Häkchen: {h} · Ziele erreicht: {g} · Lebensräder: {w}', monthProud:'Besonders stolz', monthFazit:'Mein Fazit', evalClose:'Schließen',
     compareOn:'Vergleichen', compareOff:'Abbrechen', compareShow:'Vergleich anzeigen', cmpWish:'Wunsch', joyFeelQ:'Wie viel Freude hast du an deinem Leben? Nicht an einem einzelnen Tag – denk an die letzten Wochen.', joyExpected:'Nach deinem Lebensrad erwartet: {e} %', joyNone:'noch offen', joyTitle:'Lebensfreude', joyInfo:'Gespürte Lebensfreude: {f}\nNach deinem Lebensrad erwartet: {e} %\n\nDie erwartete Lebensfreude beginnt bei 50 % und wächst mit jedem Lebensrad um so viel, wie deine fünf Bereiche im Durchschnitt gewachsen sind; wachsen alle fünf, kommen 5 Punkte dazu. Die Sonne zeigt, wie viel Freude du selbst an deinem Leben hast – nicht an einem einzelnen Tag, sondern in den letzten Wochen.', joyAhead:'Schön – deine Freude ist dir sogar ein Stück voraus.', joyDeepTitle:'Dein Rad wächst – deine Lebensfreude noch nicht', joyDeepText:'Das darf so sein. Lebensfreude muss nicht automatisch mit dem Lebensrad wachsen, aber sie kann es. Wenn sie es gerade nicht tut, dürfen wir tiefer schauen:', joyDeepQs:['Wächst du in den Bereichen, die dir wirklich wichtig sind – oder in denen, die man „sollte“?', 'Gibt es etwas, das dir Kraft nimmt und im Rad gar nicht vorkommt?', 'Wann hast du zuletzt etwas nur aus Freude getan?'], joyGrowV:['Deine Freude wächst mit deinem Lebensrad – das ist ein Grund zu feiern!', 'Dein Rad wächst und deine Freude wächst mit. Genieß diesen Moment!', 'Mehr Freude als beim letzten Mal – du spürst, dass sich etwas bewegt. Wunderbar!', 'Deine Schritte kommen als Freude zu dir zurück. Feier das ruhig ein bisschen!'], joyAheadV:['Deine Freude ist deinem Lebensrad sogar ein Stück voraus – wie schön!', 'Du spürst mehr Freude, als dein Rad erwarten lässt. Was für ein Geschenk!'], joyToDiary:'Ins Tagebuch', joyCardBtn:'Impuls für Lebensfreude', joyDiaryHead:'Lebensfreude – tiefer schauen ({date})', joyCmp:'Lebensfreude: {a} % → {b} %',
     goalLabel:'Ziel', addMoreGoal:'+ Weiteres Ziel', saveGoals:'Ziele speichern',
     achievedCategory:'Erreichte Ziele', noAchievedGoals:'Noch keine erreichten Ziele in diesem Bereich.', achievedOn:'Erreicht am',
@@ -2592,7 +2605,7 @@ const I18N = {
     evNote:'An event does not automatically change your wheel value. You decide at your next assessment whether something actually changed.',
     complete:'Done', delete:'Delete',
     wheelHistTitle:'Past wheels of life', noWheelHist:'No past wheels of life saved yet.',
-    cmpUp:'You have grown: you improved in {n} of 5 areas.', cmpUp1:'You have grown: you improved in one area.', cmpUpAll:'You have grown: you improved in all areas.', cmpDown:'Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.', cmpSame:'Your wheel of life has stayed steady.', diaryInsertWheel:'Insert wheel of life', diaryAreasPage:'Areas of life', winsPage:'Wins of the week', winsWeek:'Week {n} · {from} – {to}', winsHabits:'Habits: {n} of {m} ticks', winsWeekly:'Weekly: {n} of {m}', winsGoal:'Goal reached: {g}', winsShare:'Share', winsShareText:'My wins of the week in eWolfe', winsShareSaved:'The picture of your wins of the week was saved. You will find it in your downloads and can share it from there.', winsProud:'What am I proudest of this week?', winsHint:'Sunday evening – time for your wins of the week.', winsHintGo:'Add the page', monthPage:'Month in review', monthTitle:'My month', monthStats:'Ticks: {h} · Goals reached: {g} · Life wheels: {w}', monthProud:'Proudest of', monthFazit:'My conclusion', evalClose:'Close',
+    cmpUp:'You have grown: you improved in {n} of 5 areas.', cmpUp1:'You have grown: you improved in one area.', cmpUpAll:'You have grown: you improved in all areas.', cmpDown:'Setbacks are part of life. It is like dancing: sometimes you need two steps back to move three steps forward.', cmpSame:'Your wheel of life has stayed steady.', diaryInsertWheel:'Insert wheel of life', diaryAreasPage:'Areas of life', winsPage:'Wins of the week', winsWeek:'Week {n} · {from} – {to}', winsHabits:'Habits: {n} of {m} ticks', winsWeekly:'Weekly: {n} of {m}', winsGoal:'Goal reached: {g}', winsShare:'Share', winsShareText:'My wins of the week in eWolfe', winsShareSaved:'The picture of your wins of the week was saved. You will find it in your downloads and can share it from there.', winsProud:'What am I especially proud of this week?', winsHint:'Sunday evening – time for your wins of the week.', winsHintGo:'Add the page', monthPage:'Month in review', monthTitle:'My month', monthStats:'Ticks: {h} · Goals reached: {g} · Life wheels: {w}', monthProud:'Especially proud of', monthFazit:'My conclusion', evalClose:'Close',
     compareOn:'Compare', compareOff:'Cancel', compareShow:'Show comparison', cmpWish:'Wish', joyFeelQ:'How much joy do you find in your life? Not on a single day – think of the last few weeks.', joyExpected:'Expected from your wheel of life: {e} %', joyNone:'not yet', joyTitle:'Joy in life', joyInfo:'Joy in life you feel: {f}\nExpected from your wheel of life: {e} %\n\nThe expected joy in life starts at 50 % and with every wheel grows by as much as your five areas have grown on average; if all five grow, 5 points are added. The sun shows how much joy you yourself find in your life – not on a single day, but over the last few weeks.', joyAhead:'Lovely – your joy is even a little ahead of you.', joyDeepTitle:'Your wheel is growing – your joy in life not yet', joyDeepText:'That is all right. Joy in life does not have to grow automatically with the wheel of life, but it can. When it does not right now, we may look deeper:', joyDeepQs:['Are you growing in the areas that truly matter to you – or in the ones you “should”?', 'Is there something that drains your strength and does not appear in the wheel at all?', 'When did you last do something just for joy?'], joyGrowV:['Your joy is growing with your wheel of life – that is a reason to celebrate!', 'Your wheel is growing and your joy grows with it. Enjoy this moment!', 'More joy than last time – you can feel that something is moving. Wonderful!', 'Your steps come back to you as joy. Go ahead and celebrate a little!'], joyAheadV:['Your joy is even a little ahead of your wheel of life – how lovely!', 'You feel more joy than your wheel would lead us to expect. What a gift!'], joyToDiary:'To the diary', joyCardBtn:'Impulse for joy in life', joyDiaryHead:'Joy in life – looking deeper ({date})', joyCmp:'Joy in life: {a} % → {b} %',
     goalLabel:'Goal', addMoreGoal:'+ Another goal', saveGoals:'Save goals',
     achievedCategory:'Achieved goals', noAchievedGoals:'No achieved goals in this area yet.', achievedOn:'Achieved on',
@@ -2818,7 +2831,7 @@ function appActiveDays(){
     AREAS.forEach(a=>(state.ziele[a] || []).forEach(g=>{ const ts = idTs(g.id); if(ts) days.add(achDay(ts)); if(g.achievedAt) days.add(achDay(g.achievedAt)); }));
     (state.ereignisse || []).forEach(e=>{ const ts = idTs(e.id); if(ts) days.add(achDay(ts)); });
     Object.entries((state.habits && state.habits.marks) || {}).forEach(([k, m])=>{ if(m && m.v && m.t) days.add(achDay(m.t)); }); // ticked habits (1.99.2)
-    Object.values(state.tagebuch.jahre || {}).forEach(y=>(y.seiten || []).forEach(p=>{
+    Object.values(state.tagebuch.jahre || {}).filter(y=>!tbIsNotes(y)).forEach(y=>(y.seiten || []).forEach(p=>{ // notebooks do not count (8.11.2026)
       if(p.type === 'titel') return;
       const written = (p.text && p.text.trim()) || (p.strokes && p.strokes.length) || (p.images && p.images.length) || tbAreaTextLen(p);
       const m = /^p(\d{12,})/.exec(p.id || ''); if(written && m) days.add(achDay(+m[1]));
@@ -5500,6 +5513,8 @@ Object.assign(I18N.en, {"impulseIntro": "Tap the card and draw a thought for you
 Object.assign(I18N.de, {"diaryNewBook": "Neues Tagebuch starten", "diaryNewBookText": "In welchem Format möchtest du schreiben? Das gilt für das ganze Buch.", "diaryPortrait": "Hochformat", "diaryLandscape": "Querformat"});
 Object.assign(I18N.en, {"diaryNewBook": "Start a new diary", "diaryNewBookText": "Which format would you like to write in? It applies to the whole book.", "diaryPortrait": "Portrait", "diaryLandscape": "Landscape"});
 Object.assign(I18N.de, {"diaryKindText": "Was für ein Tagebuch möchtest du?\n\nGeführt: jeden Tag eine Seite mit ein paar festen Fragen – morgens, abends oder beides.\nLeer: freie Seiten mit Linien, Punkten, Karo oder ganz leer.\n\nFreie Seiten kannst du auch im geführten Tagebuch jederzeit einfügen.", "diaryGuided": "Geführtes Tagebuch", "diaryFree": "Leeres Tagebuch", "diaryKind": "Art des Tagebuchs", "guidedWhen": "Geführt", "guidedMorning": "Morgens", "guidedEvening": "Abends", "guidedBoth": "Beides", "diaryGuidedPage": "Geführte Seite", "g_dank": "Dafür bin ich dankbar", "g_ziel": "Das macht heute zu einem guten Tag", "g_satz": "Mein Satz für heute", "g_mom": "Drei schöne Momente heute", "g_besser": "Was ich morgen anders mache", "cardsTitle": "Meine Impulskarten", "storageUse": "Speicher auf diesem Gerät: {mb} MB von {max} MB ({p} %).", "storageParts": "Davon Fotos {photos} MB · Impulskarten {cards} MB · Zeichnungen {draw} MB · alles andere {rest} MB", "diaryPaper": "Papier","diaryPaperFancy": "Verziert", "diaryPaperPlain": "Schlicht", "guidedOnePerDay": "Für heute gibt es schon eine geführte Seite. Wenn du mehr schreiben möchtest, füge über „Neue Seite“ eine leere Seite ein."});
+Object.assign(I18N.de, { notesBook:'Notizbuch', notesTitle:'Notizen', notesKindText:'Notizbuch: freie Seiten für Notizen, mit Überschrift und Datum – ohne Sticker und Fotos. Notizen zählen nicht für Trophäen.', notesHeadPh:'Überschrift', notesDateAdd:'+ Datum', notesDateDel:'Datum entfernen' });
+Object.assign(I18N.en, { notesBook:'Notebook', notesTitle:'Notes', notesKindText:'Notebook: free pages for notes, with a heading and a date – no stickers, no photos. Notes do not count for trophies.', notesHeadPh:'Heading', notesDateAdd:'+ Date', notesDateDel:'Remove date' });
 Object.assign(I18N.en, {"diaryKindText": "What kind of diary would you like?\n\nGuided: each day a page with a few fixed questions – in the morning, in the evening or both.\nFree: pages with lines, dots, grid or blank.\n\nYou can add free pages to a guided diary at any time.", "diaryGuided": "Guided diary", "diaryFree": "Free diary", "diaryKind": "Kind of diary", "guidedWhen": "Guided", "guidedMorning": "Morning", "guidedEvening": "Evening", "guidedBoth": "Both", "diaryGuidedPage": "Guided page", "g_dank": "I am grateful for", "g_ziel": "This would make today a good day", "g_satz": "My sentence for today", "g_mom": "Three good moments today", "g_besser": "What I will do differently tomorrow", "cardsTitle": "My impulse cards", "storageUse": "Storage on this device: {mb} MB of {max} MB ({p} %).", "storageParts": "Photos {photos} MB · impulse cards {cards} MB · drawings {draw} MB · everything else {rest} MB", "diaryPaper": "Paper","diaryPaperFancy": "Ornate", "diaryPaperPlain": "Plain", "guidedOnePerDay": "There is already a guided page for today. To write more, add a blank page via “New page”."});
 Object.assign(I18N.de, {"habitDaily": "Täglich", "habitWeekly": "Wöchentlich", "habitStreakW": "{n} Wochen am Stück", "habitWeekFull": "Du hast schon 3 wöchentliche Gewohnheiten. Lösche eine, um eine neue anzulegen.", "habitDayFull": "Du hast schon 8 tägliche Gewohnheiten. Lösche eine, um eine neue anzulegen.", "habitPraiseW4": "Schön! 4 Wochen am Stück: „{h}“ gehört jetzt zu deiner Woche.", "habitPraiseW8": "Großartig! 8 Wochen am Stück: „{h}“ ist fest in deinem Leben angekommen.", "habitPraiseW12": "Wunderbar! 12 Wochen am Stück – ein ganzes Vierteljahr „{h}“. Darauf kannst du stolz sein!"});
 Object.assign(I18N.en, {"habitDaily": "Daily", "habitWeekly": "Weekly", "habitStreakW": "{n} weeks in a row", "habitWeekFull": "You already have 3 weekly habits. Delete one to add a new one.", "habitDayFull": "You already have 8 daily habits. Delete one to add a new one.", "habitPraiseW4": "Lovely! 4 weeks in a row: “{h}” is now part of your week.", "habitPraiseW8": "Great! 8 weeks in a row: “{h}” has truly arrived in your life.", "habitPraiseW12": "Wonderful! 12 weeks in a row – a whole quarter of “{h}”. You can be proud of that!"});
@@ -7516,7 +7531,7 @@ function habitSheetHtml(monday, pageIdx){
 function habitOpen(){
   // since 29.10.2026 the habits are a tool of the library (next to the diary), not a window of their own
   const ov = document.getElementById('tb-overlay');
-  if(!ov.classList.contains('open')){ document.querySelectorAll('.modal-backdrop.open').forEach(m=>{ if(m.id !== 'sync-modal') m.classList.remove('open'); }); tbEnterDiary(tbLatestBook(tbCurrentYearStr())); }
+  if(!ov.classList.contains('open')){ document.querySelectorAll('.modal-backdrop.open').forEach(m=>{ if(m.id !== 'sync-modal') m.classList.remove('open'); }); tbEnterDiary(tbLatestBook(tbCurrentYearStr(), true)); }
   tbSwitchTool('habits');
 }
 function habitClose(){ if(tbView === 'habits'){ tbSwitchTool('diary'); } else closeModal('habit-modal'); }
@@ -7746,10 +7761,14 @@ function tbCurrentYearStr(){ return String(new Date().getFullYear()); }
 const tbBookYear = k=>String(k).split('/')[0];
 const tbBookNo = k=>+(String(k).split('/')[1] || 1);
 function tbBookKeys(){ return Object.keys(state.tagebuch.jahre).sort((a, b)=>(tbBookYear(a) - tbBookYear(b)) || (tbBookNo(a) - tbBookNo(b))); }
-function tbLatestBook(year){
+/* 8.11.2026 (wish of the user): notebooks (diary.kind = 'notes') stand among the diaries, but nothing is ever put into them by itself */
+const tbIsNotes = diary=>!!diary && diary.kind === 'notes';
+function tbLatestBook(year, any){
   year = String(year);
-  const ks = tbBookKeys().filter(k=>tbBookYear(k) === year);
-  return ks.length ? ks[ks.length - 1] : year;
+  const all = tbBookKeys().filter(k=>tbBookYear(k) === year), ks = any ? all : all.filter(k=>!tbIsNotes(state.tagebuch.jahre[k]));
+  if(ks.length) return ks[ks.length - 1];
+  // only notebooks this year: a new diary gets the next free number (tbEnsureYear creates it)
+  return all.length ? year + '/' + (Math.max(...all.map(tbBookNo)) + 1) : year;
 }
 const tbIsLand = diary=>!!diary && diary.format === 'landscape';
 // a new book of the current year in the chosen format; it opens on its cover with the settings
@@ -7758,7 +7777,8 @@ function tbNewBook(format, kind){
   const key = ks.length ? year + '/' + (Math.max(...ks.map(tbBookNo)) + 1) : year;
   const diary = tbEnsureYear(key);
   diary.format = format === 'landscape' ? 'landscape' : 'portrait';
-  tbApplyKind(diary, kind === 'guided' ? 'guided' : 'free');
+  tbApplyKind(diary, kind === 'guided' ? 'guided' : kind === 'notes' ? 'notes' : 'free');
+  if(kind === 'notes'){ diary.defaultPageType = 'lined'; const last = diary.seiten[diary.seiten.length - 1]; if(tbPlainEmpty(last)) last.type = 'lined'; }
   saveState();
   tbYear = key; tbView = 'cover'; tbCoverSettingsOpen = true;
   tbRender();
@@ -7766,9 +7786,9 @@ function tbNewBook(format, kind){
 async function tbNewBookAsk(){
   const d = t();
   // 30.10.2026: first the kind of book – guided (a few fixed questions each day) or free pages
-  const kind = await uiDialog(d.diaryNewBook + '\n\n' + d.diaryKindText, { okText:d.diaryGuided, altText:d.diaryFree, confirm:true });
-  if(kind !== true && kind !== 'alt') return;
-  const k = kind === true ? 'guided' : 'free';
+  const kind = await uiDialog(d.diaryNewBook + '\n\n' + d.diaryKindText + '\n' + d.notesKindText, { okText:d.diaryGuided, altText:d.diaryFree, mergeText:d.notesBook, confirm:true });
+  if(kind !== true && kind !== 'alt' && kind !== 'merge') return;
+  const k = kind === true ? 'guided' : kind === 'merge' ? 'notes' : 'free';
   const phone = Math.min(window.innerWidth, window.innerHeight) < 600;
   const choice = await uiDialog(d.diaryNewBook + '\n\n' + d.diaryNewBookText + (phone ? '\n\n' + d.diaryLandPhone : ''), { okText:d.diaryPortrait, altText:d.diaryLandscape, confirm:true });
   if(choice === true) return tbNewBook('portrait', k);
@@ -7818,7 +7838,7 @@ function tbEnterDiary(year){
   navSync();
   tbRender();
 }
-function openTagebuch(){ tbEnterDiary(tbLatestBook(tbCurrentYearStr())); }
+function openTagebuch(){ tbEnterDiary(tbLatestBook(tbCurrentYearStr(), true)); }
 function closeTagebuch(){
   if(tbTextSaveTimer){ clearTimeout(tbTextSaveTimer); tbTextSaveTimer=null; saveState(); }
   document.getElementById('tb-overlay').classList.remove('open');
@@ -7924,10 +7944,10 @@ function tbSpineHtml(key){
   const k = tbShelfScale(), w = Math.round(((land ? 44 : 34) + Math.min(26, pages / 5)) * k), h = Math.round((land ? 104 : 134) * k);
   const font = c.titleFont === 'hand' ? "'Caveat',cursive" : "'Marcellus',serif";
   // title and year in ONE vertical line (1.92.1); the letters get smaller when the line would not fit on the spine
-  const title = c.title || d.diaryTitle, len = (title + ' ' + key).length;
+  const notes = tbIsNotes(diary), title = c.title || (notes ? d.notesTitle : d.diaryTitle), len = (title + (notes ? '' : ' ' + key)).length;
   const fit = Math.min(1, (land ? 33 : 58) / (len * 0.66 * 7));
-  return `<button class="shelf-book${key === tbYear ? ' current' : ''}" style="width:${w}px;height:${h}px;${bg}--spine-fit:${fit.toFixed(3)};" onclick="tbOpenYear('${key}')" title="${escapeHtml(title)} ${key}" aria-label="${escapeHtml(title)} ${key}">
-    <span class="shelf-band"></span><span class="shelf-title" style="font-family:${font}">${escapeHtml(title)} <span class="shelf-key">${escapeHtml(key)}</span></span><span class="shelf-band low"></span>
+  return `<button class="shelf-book${key === tbYear ? ' current' : ''}" style="width:${w}px;height:${h}px;${bg}--spine-fit:${fit.toFixed(3)};" onclick="tbOpenYear('${key}')" title="${escapeHtml(title)}${notes ? '' : ' ' + key}" aria-label="${escapeHtml(title)}${notes ? '' : ' ' + key}">
+    <span class="shelf-band"></span><span class="shelf-title" style="font-family:${font}">${escapeHtml(title)}${notes ? '' : ` <span class="shelf-key">${escapeHtml(key)}</span>`}</span><span class="shelf-band low"></span>
   </button>`;
 }
 /* The shelf is the person's paper bookshelf (img/shelf.webp, 1254×1254) with five compartments (in % of the picture):
@@ -8314,7 +8334,7 @@ function trophyEvents(){
   }
   const goals = oncePerDay(AREAS.flatMap(a=>(state.ziele[a] || [])).filter(g=>g.status === 'erreicht').map(g=>g.achievedAt || g.ts || 0));
   const pages = [];
-  Object.values(state.tagebuch.jahre || {}).forEach(y=>(y.seiten || []).forEach(p=>{
+  Object.values(state.tagebuch.jahre || {}).filter(y=>!tbIsNotes(y)).forEach(y=>(y.seiten || []).forEach(p=>{ // notebooks do not count (8.11.2026)
     if(p.type === 'titel') return;
     const written = (p.text && p.text.trim()) || (p.strokes && p.strokes.length) || (p.images && p.images.length) || tbAreaTextLen(p);
     if(written){ const m = /^p(\d{12,})/.exec(p.id || ''); pages.push(m ? +m[1] : 0); }
@@ -8864,8 +8884,8 @@ function tbRenderCover(){
       onclick="tbOpenFirstPage()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tbOpenFirstPage();}">
       <div class="tb-cover-bottom">
         <div class="tb-cover-caption">
-          <div class="tb-cover-title" style="font-family:${fontFamily};">${escapeHtml(diary.cover.title || d.diaryTitle)}</div>
-          ${hasCustomTitle ? '' : `<div class="tb-cover-year">${tbYear}</div>`}
+          <div class="tb-cover-title" style="font-family:${fontFamily};">${escapeHtml(diary.cover.title || (tbIsNotes(diary) ? d.notesTitle : d.diaryTitle))}</div>
+          ${hasCustomTitle || tbIsNotes(diary) ? '' : `<div class="tb-cover-year">${tbYear}</div>`}
         </div>
         ${true ? `<div class="tb-cover-actions"><button class="tb-gear-btn" onclick="event.stopPropagation(); tbCoverSettingsOpen=true; tbRender();" title="${d.diarySettings}" aria-label="${d.diarySettings}"><img class="gold-gear" src="img/icons/ico-gear.webp" alt=""></button></div>` : ''}
         <button class="tb-trash-btn" onclick="event.stopPropagation(); tbDeleteBook(tbYear);" title="${d.diaryDeleteBook}" aria-label="${d.diaryDeleteBook}">${ico('trash')}</button>
@@ -8919,17 +8939,18 @@ function tbCoverSettingsHtml(){
   const guided = diary.kind === 'guided';
   const kindChips = [['guided', d.diaryGuided], ['free', d.diaryFree]].map(([k, l])=>`<button class="tb-chip-btn${(guided ? 'guided' : 'free') === k ? ' active' : ''}" onclick="tbSetKind('${k}')">${l}</button>`).join('');
   const whenChips = [['morning', d.guidedMorning], ['evening', d.guidedEvening], ['both', d.guidedBoth]].map(([k, l])=>`<button class="tb-chip-btn${(diary.guided || 'both') === k ? ' active' : ''}" onclick="tbSetGuided('${k}')">${l}</button>`).join('');
-  const typeChips = TB_STYLE_ORDER.concat('areas').map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
+  const notes = tbIsNotes(diary);
+  const typeChips = TB_STYLE_ORDER.concat(notes ? [] : 'areas').map(pt=>`<button class="tb-chip-btn${diary.defaultPageType===pt?' active':''}" onclick="tbSetDefaultPageType('${pt}')">${tbTypeLabel(pt)}</button>`).join('');
   return `<div class="tb-tools-backdrop" onclick="tbCoverSettingsOpen=false; tbRender();"></div>
     <div class="tb-cover-pop" role="dialog">
-      <div class="tb-cover-pop-head"><span><img class="gold-gear" src="img/icons/ico-gear.webp" alt="">${d.diarySettings} · ${tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
+      <div class="tb-cover-pop-head"><span><img class="gold-gear" src="img/icons/ico-gear.webp" alt="">${d.diarySettings}${notes ? '' : ' · ' + tbYear}</span><button class="icon-btn" onclick="tbCoverSettingsOpen=false; tbRender();"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
       <input class="small-input" id="tb-cover-title-input" placeholder="${d.diaryTitlePh}" value="${escapeHtml(c.title||'')}">
       <span class="tb-row-label">${d.diaryCoverPick}</span>
       <div class="tb-cover-choices">${TB_COVERS.map(n=>`<button class="tb-cover-choice${tbCoverName(diary) === n ? ' active' : ''}" onclick="tbSetCover('${n}')" aria-label="${n}"><img src="${coverThumb(n)}" alt=""></button>`).join('')}</div>
       <span class="tb-row-label">${d.diaryFont}</span>
       <div class="tb-chip-row">${fonts}</div>
-      <span class="tb-row-label">${d.diaryKind}</span>
-      <div class="tb-chip-row">${kindChips}</div>
+      ${notes ? '' : `<span class="tb-row-label">${d.diaryKind}</span>
+      <div class="tb-chip-row">${kindChips}</div>`}
       <span class="tb-row-label">${guided ? d.guidedWhen : d.diaryDefaultType}</span>
       <div class="tb-chip-row">${guided ? whenChips : typeChips}</div>
       <span class="tb-row-label">${d.diaryPaper}</span>
@@ -8943,13 +8964,13 @@ async function tbDeleteBook(key){
   const d = t(), diary = state.tagebuch.jahre[key];
   if(!diary) return;
   const n = diary.seiten.filter(p=>p.type !== 'titel').length;
-  const name = (diary.cover && diary.cover.title) || d.diaryTitle;
-  if(!(await uiConfirm(d.diaryDeleteBookConfirm.replace('{name}', name + ' ' + key).replace('{n}', n)))) return;
+  const name = (diary.cover && diary.cover.title) || (tbIsNotes(diary) ? d.notesTitle : d.diaryTitle);
+  if(!(await uiConfirm(d.diaryDeleteBookConfirm.replace('{name}', name + (tbIsNotes(diary) ? '' : ' ' + key)).replace('{n}', n)))) return;
   diary.seiten.forEach(p=>{ if(p.type !== 'titel') delMark('s', p.id); });
   delMark('j', key);
   delete state.tagebuch.jahre[key];
   tbCoverSettingsOpen = false;
-  tbYear = tbBookKeys().length ? tbLatestBook(tbCurrentYearStr()) : null;
+  tbYear = tbBookKeys().length ? tbLatestBook(tbCurrentYearStr(), true) : null;
   if(tbYear && !state.tagebuch.jahre[tbYear]) tbYear = tbBookKeys().slice(-1)[0];
   tbView = 'library';
   saveState();
@@ -9043,10 +9064,11 @@ function tbPagEl(){
   return tbPagText;
 }
 let tbMeasureLand = false; // the diary being paginated is landscape
+let tbMeasureNotes = false; // … or a notebook (two lines for heading and date)
 function tbFitsOffline(text, isHand){
   const el = tbPagEl();
   el.parentElement.className = 'tb-page' + (tbMeasureLand ? ' tb-land-page' : '');
-  el.className = 'tb-page-text' + (isHand ? ' font-hand' : '');
+  el.className = 'tb-page-text' + (isHand ? ' font-hand' : '') + (tbMeasureNotes ? ' tb-note-text' : '');
   // 31.10.2026: measured without the bottom margin, the box ends where the writing area ends. Safari leaves the bottom padding
   // out of scrollHeight, so with the paper's wide margin (2.1.0) text only moved on several lines below the frame.
   el.style.paddingBottom = '0px'; el.style.height = 'calc(100% - var(--pb, 0px))';
@@ -9073,7 +9095,7 @@ function tbSplitForFitOffline(text, isHand){
 // splits every page of a diary that holds more text than visibly fits, pushing the overflow onto
 // the next page (creating one if needed); returns true if anything changed, so the caller can save
 function tbRepaginateDiary(diary){
-  tbMeasureLand = tbIsLand(diary);
+  tbMeasureLand = tbIsLand(diary); tbMeasureNotes = tbIsNotes(diary);
   let changed = false, i = 0;
   while(i < diary.seiten.length){
     const page = diary.seiten[i];
@@ -9099,7 +9121,7 @@ function tbHandleOverflow(idx){
   const diary = tbEnsureYear(tbYear);
   const page = diary.seiten[idx];
   if(!page) return;
-  tbMeasureLand = tbIsLand(diary);
+  tbMeasureLand = tbIsLand(diary); tbMeasureNotes = tbIsNotes(diary);
   if(tbFitsOffline(page.text || '', page.font === 'hand')) return; // measured like the pagination, the same in every browser
   const { fit, rest } = tbSplitForFitOffline(page.text||'', page.font==='hand');
   if(!rest) return;
@@ -9133,8 +9155,8 @@ function tbRenderPageSlot(idx){
     return `<div class="tb-page tb-page-titel${tbIsLand(diary) ? ' tb-land-page' : ''}">
       <img class="tb-page-titel-img" src="${tbCoverUrl(diary)}" alt="">
       <div class="tb-titel-caption">
-        <div class="tb-titel-caption-title">${d.diaryTitle}</div>
-        <div class="tb-titel-caption-year">${tbYear}</div>
+        <div class="tb-titel-caption-title">${tbIsNotes(diary) ? escapeHtml(diary.cover.title || d.notesTitle) : d.diaryTitle}</div>
+        ${tbIsNotes(diary) ? '' : `<div class="tb-titel-caption-year">${tbYear}</div>`}
       </div>
     </div>`;
   }
@@ -9178,7 +9200,7 @@ function tbRenderPageSlot(idx){
           <div class="tb-area-head">${areaIco(a)}${d.bereiche[a]}</div>${page.erfolge ? winsAreaHtml(page.erfolge.week, a) : ''}
           <textarea class="tb-area-text ${page.font==='hand'?'font-hand':''}" data-page-idx="${idx}" data-area="${a}" ${tbEditMode?'':'readonly'}>${escapeHtml(page.bereiche[a]||'')}</textarea>
         </div>`).join('')}</div>`
-    : `<textarea class="tb-page-text ${page.font==='hand'?'font-hand':''} ${inactive}" id="tb-page-text-${idx}" placeholder="" ${tbEditMode?'':'readonly'}
+    : (tbIsNotes(diary) ? noteHeadHtml(page, idx) : '') + `<textarea class="tb-page-text ${page.font==='hand'?'font-hand':''}${tbIsNotes(diary) ? ' tb-note-text' : ''} ${inactive}" id="tb-page-text-${idx}" placeholder="" ${tbEditMode?'':'readonly'}
         >${escapeHtml(page.text||'')}</textarea>`;
   const land = tbIsLand(diary);
   return `<div class="tb-page type-${tbOwnLayout(page) ? 'blank' : page.type}${land ? ' tb-land-page' : ''}${diary.paper === 'plain' ? ' tb-paper-plain' : ''}" data-page-idx="${idx}">
@@ -9187,6 +9209,21 @@ function tbRenderPageSlot(idx){
       ${imgs}
       ${miniTools}
     </div>`;
+}
+/* 8.11.2026: a notebook page has a heading and, if wanted, a date on its first two lines (page.head, page.date = 'YYYY-MM-DD') */
+function noteHeadHtml(page, idx){
+  const d = t(), ed = tbEditMode;
+  const date = page.date ? (()=>{ const [y, m, dd] = page.date.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { day:'numeric', month:'long', year:'numeric' }); })() : '';
+  return `<div class="tb-note-head">
+      <input class="tb-note-title" data-page-idx="${idx}" maxlength="80" placeholder="${ed ? escapeHtml(d.notesHeadPh) : ''}" value="${escapeHtml(page.head || '')}" ${ed ? '' : 'readonly tabindex="-1"'}>
+      ${date ? `<span class="tb-note-date">${escapeHtml(date)}${ed ? `<button class="tb-note-date-x" onclick="tbNoteDate(${idx}, false)" title="${escapeHtml(d.notesDateDel)}" aria-label="${escapeHtml(d.notesDateDel)}">×</button>` : ''}</span>`
+        : ed ? `<button class="tb-note-date-add" onclick="tbNoteDate(${idx}, true)">${escapeHtml(d.notesDateAdd)}</button>` : ''}
+    </div>`;
+}
+function tbNoteDate(idx, on){
+  const page = tbEnsureYear(tbYear).seiten[idx]; if(!page) return;
+  if(on) page.date = dayKey(new Date()); else delete page.date;
+  saveState(); tbRender();
 }
 function tbRenderPage(){
   const d = t();
@@ -9237,19 +9274,19 @@ function tbToolsHtml(){
       </div>` + subRow('font', [['print', d.diaryFontPrint], ['hand', d.diaryFontHand]].map(([f,lab])=>
         `<button class="tb-tools-subitem ${(page.font==='hand') === (f==='hand') ? 'active' : ''} ${f==='hand' ? 'font-hand-label' : ''}" onclick="tbSetFont('${f}')">${lab}</button>`).join(''));
   }).join('');
-  const isTitle = page.type === 'titel';
+  const isTitle = page.type === 'titel', notes = tbIsNotes(tbEnsureYear(tbYear));
   const menu = tbToolsOpen ? `<div class="tb-tools-backdrop" onclick="tbToggleTools(false)"></div>
     <div class="tb-tools-menu">
       ${tools}
       <div class="tb-tools-sep"></div>
       <button class="tb-tools-item ${tbToolsSub==='new'?'active':''}" onclick="tbToolsFold('new')">${ico('plus')}${d.diaryNewPage}${chev('new')}</button>
-      ${subRow('new', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('${pt}')">${tbTypeLabel(pt)}</button>`).join('')
+      ${subRow('new', TB_STYLE_ORDER.map(pt=>`<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('${pt}')">${tbTypeLabel(pt)}</button>`).join('') + (notes ? '' : ``
         + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), true)">${d.diaryAreasPage}</button>`
         + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage(tbTextType(tbEnsureYear(tbYear)), true, false, true)">${d.winsPage}</button>`
         + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('blank', false, false, false, true)">${d.monthPage}</button>`
-        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('guided')">${d.diaryGuidedPage}</button>`)}
+        + `<button class="tb-tools-subitem" onclick="tbToolsOpen=false;tbToolsSub='';tbAddPage('guided')">${d.diaryGuidedPage}</button>`))}
       <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbRender();habitOpen()">${ico('check')}${d.habitTitle}</button>
-      ${isTitle ? '' : `<button class="tb-tools-item ${tbToolsSub==='sticker'?'active':''}" onclick="tbToolsFold('sticker')">${ico('image')}${d.diaryStickers}${chev('sticker')}</button>
+      ${isTitle || notes ? '' : `<button class="tb-tools-item ${tbToolsSub==='sticker'?'active':''}" onclick="tbToolsFold('sticker')">${ico('image')}${d.diaryStickers}${chev('sticker')}</button>
       <label class="tb-tools-item" style="cursor:pointer;">${ico('image')}${d.diaryAddImage}<input type="file" accept="image/*" id="tb-img-input-menu" style="display:none;"></label>
       ${tbToolsSub==='sticker' ? `<div class="tb-sticker-grid">${TB_STICKERS.map((st, i)=>`<button class="tb-sticker-btn${stickerOld(st.k) ? ' st-old' : ''}" onclick="tbInsertSticker(${i})" title="${escapeHtml(d.stickerNames[st.k] || st.k)}" aria-label="${escapeHtml(d.stickerNames[st.k] || st.k)}">${st.src ? `<img src="${st.src}" alt="">` : st.svg()}</button>`).join('')}</div>` : ''}`}
       <button class="tb-tools-item" onclick="tbToolsOpen=false;tbToolsSub='';tbView='pages';tbRender();">${ico('pages')}${d.diaryPagesOverview}</button>
@@ -9441,6 +9478,7 @@ function winsAreaHtml(weekKey, a){
 }
 function tbAddPage(type, areas, day, wins, month){
   const diary = tbEnsureYear(tbYear);
+  if(tbIsNotes(diary)){ if(!TB_STYLE_ORDER.includes(type)) type = tbTextType(diary); areas = day = wins = month = false; }
   if(type === 'areas'){ type = 'blank'; areas = true; } // "Lebensbereiche" chosen as the default page
   if(type === 'day') type = 'guided'; // the old day page became the guided page (30.10.2026)
   if(type === 'guided'){
@@ -9482,7 +9520,7 @@ function tbApplyKind(diary, kind){
     diary.defaultPageType = 'guided';
     if(tbPlainEmpty(last)) diary.seiten[i] = Object.assign(tbGuidedPage(diary), { id:last.id });
   } else {
-    if(diary.defaultPageType === 'guided') diary.defaultPageType = 'blank';
+    if(diary.defaultPageType === 'guided' || (kind === 'notes' && !TB_STYLE_ORDER.includes(diary.defaultPageType))) diary.defaultPageType = 'blank';
     if(tbGuidedEmpty(last)) diary.seiten[i] = { id:last.id, type:'blank', text:'', strokes:[], images:[] };
   }
 }
@@ -9689,6 +9727,8 @@ function tbBindSlot(idx){
     clearTimeout(tbOverflowTimer);
     tbOverflowTimer = setTimeout(()=>tbHandleOverflow(idx), 220);
   });
+  const headEl = document.querySelector(`.tb-note-title[data-page-idx="${idx}"]`);
+  if(headEl) headEl.addEventListener('input', ()=>{ page.head = headEl.value; clearTimeout(tbTextSaveTimer); tbTextSaveTimer = setTimeout(saveState, 500); });
 
   document.querySelectorAll(`.tb-area-text[data-page-idx="${idx}"]`).forEach(el=>{
     el.__last = el.value;
