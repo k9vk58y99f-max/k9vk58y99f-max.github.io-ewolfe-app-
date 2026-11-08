@@ -60,7 +60,10 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
     Feld nimmt einfach nichts mehr an. Text seit 2.9.0 „besonders stolz“ (Entscheidung der Nutzerin).
   - **Notizbücher (2.9.0):** gebaut und getestet (`t290.py`), auf dem iPad noch nicht angesehen. Offen: soll das Buch selbst (Rücken/Cover) ein Datum tragen?
   - **Lady-Papier und -Klemmbrett schlichter:** eingebaut in 2.9.1 (Variante A, kleine Rosenknospen), auf dem iPad noch nicht angesehen.
-  - **Notizbücher anders aussehen lassen:** Vorschlag eigene schlichtere Cover/Rücken je Design (Prompts) – Antwort der Nutzerin steht aus; bisher nur niedriger im Regal (2.9.1).
+  - **Notizbücher anders aussehen lassen:** bisher nur niedriger im Regal (2.9.1). Prompts für eigene Cover/Rücken (je Design 3 Farben × hoch/quer/Rücken; Gentleman
+    Halbleder mit Marmorpapier, Lady geblümter Baumwollstoff mit Leinenschild, Mystery Pergament/Low-Poly mit kleinem Mond; alle mit Gummiband, kein Lotus) in
+    „Lebensrad APP/Ausgang/18 Notizbücher – Cover und Buchrücken – alle Designs“. Wenn die Bilder kommen: eigene Liste der Notizbuch-Farben (statt `TB_COVERS`) für
+    `tbCoverUrl`/`tbSpineHtml`/Einstellungen, wenn `tbIsNotes`.
   - **Coach-Teilen als nächster großer Schritt (Wunsch der Nutzerin 8.11.):** Pakete bis 5/10/20 Klientinnen mit Code, Preis je Klientin erst über, dann gleich,
     dann unter dem Einzelabo (Vorschlag 29/49/79 € im Monat). Dazu Idee „Fragen-Kauf“ (Fragen der Coaches als Paket für das Lebensrad alle 1–3 Monate). Erst planen
     und der Nutzerin zeigen; vorher fragen, ob die Coaches geantwortet haben (Abmachung aus dem Ältestenrat). Details im Handoff vom 08.11.2026.
