@@ -2472,7 +2472,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.9.1';
+const APP_VERSION = '2.9.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -9416,7 +9416,94 @@ function winsPageHtml(page, idx, inactive){
 function winsAreaAuto(weekKey, a){ const m = winsAreaHtml(weekKey, a).match(/<div class="tb-win-auto">([\s\S]*)<\/div>/); return m ? m[1].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'") : ''; }
 // 2.8.0: the picture looks like the page (draft A2): heading, the tracker of the week with handwritten names and ticks, the areas
 // that have text, the answer about pride – no automatic lines any more
-async function winsShareBlob(page){
+/* 8.11.2026 (wish of the user): the shared wins looked different from the page in the book. Now the picture is painted from the page itself,
+   as it stands on the screen: the paper of the design (or the plain paper with its two frame lines), every text at its place in its font and colour,
+   boxes and rules from the borders, ticks, icons and the little wheel (SVG and pictures), the written fields with their lines, and the drawing. */
+const pcDataCache = {};
+async function pcDataUrl(src){ // pictures inside an SVG must be embedded, a picture made from an SVG loads nothing from outside
+  if(!pcDataCache[src]) pcDataCache[src] = fetch(src).then(r=>r.blob()).then(b=>new Promise(res=>{ const f = new FileReader(); f.onload = ()=>res(f.result); f.readAsDataURL(b); })).catch(()=>src);
+  return pcDataCache[src];
+}
+async function pcSvgUrl(svg, w, h){
+  const clone = svg.cloneNode(true), src = [svg, ...svg.querySelectorAll('*')], dst = [clone, ...clone.querySelectorAll('*')];
+  const props = ['fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'opacity', 'fill-opacity', 'stroke-opacity', 'color', 'font-family', 'font-size', 'font-weight'];
+  src.forEach((el, i)=>{ const cs = getComputedStyle(el); dst[i].setAttribute('style', props.map(p=>p + ':' + cs.getPropertyValue(p)).join(';')); });
+  for(const im of clone.querySelectorAll('image')){ const k = im.getAttribute('href') ? 'href' : 'xlink:href', v = im.getAttribute(k); if(v && !/^data:/.test(v)){ im.removeAttribute(k); im.setAttribute('href', await pcDataUrl(v)); } }
+  clone.setAttribute('width', w); clone.setAttribute('height', h); clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  return URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(clone)], { type:'image/svg+xml' }));
+}
+function pcFont(cs, s){ return `${cs.fontStyle} ${cs.fontWeight} ${parseFloat(cs.fontSize) * s}px ${cs.fontFamily}`; }
+function pcAlpha(el, root){ let a = 1; for(let x = el; x && x !== root.parentElement; x = x.parentElement) a *= +getComputedStyle(x).opacity; return a; }
+function pcVisible(el){ const cs = getComputedStyle(el); return cs.display !== 'none' && cs.visibility !== 'hidden'; }
+async function pageCanvas(root, longSide, skipSel){
+  const R = root.getBoundingClientRect(), s = longSide / Math.max(R.width, R.height);
+  const W = Math.round(R.width * s), H = Math.round(R.height * s), c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d'), X = x=>(x - R.left) * s, Y = y=>(y - R.top) * s;
+  try{ await document.fonts.ready; }catch(e){}
+  const rcs = getComputedStyle(root);
+  g.fillStyle = rcs.backgroundColor && rcs.backgroundColor !== 'rgba(0, 0, 0, 0)' ? rcs.backgroundColor : '#fdfaf3'; g.fillRect(0, 0, W, H);
+  const urls = [...rcs.backgroundImage.matchAll(/url\(["']?([^"')]+)["']?\)/g)].map(m=>m[1]);
+  if(urls.length){ try{ g.drawImage(await trophyLoadImg(urls[urls.length - 1]), 0, 0, W, H); }catch(e){} }
+  ['::before', '::after'].forEach(p=>{ // the plain paper draws its two frame lines as pseudo elements
+    const ps = getComputedStyle(root, p), bw = parseFloat(ps.borderTopWidth) || 0;
+    if(ps.content === 'none' || !bw || ps.borderTopStyle === 'none') return;
+    const t = parseFloat(ps.top) || 0, l = parseFloat(ps.left) || 0, r = parseFloat(ps.right) || 0, b = parseFloat(ps.bottom) || 0;
+    g.strokeStyle = ps.borderTopColor; g.lineWidth = bw * s; g.strokeRect((l + bw / 2) * s, (t + bw / 2) * s, W - (l + r + bw) * s, H - (t + b + bw) * s);
+  });
+  const els = [...root.querySelectorAll('*')].filter(el=>!(skipSel && el.closest(skipSel)) && !(el.parentElement && el.parentElement.closest('svg')));
+  for(const el of els){
+    if(!pcVisible(el)) continue;
+    const r = el.getBoundingClientRect(); if(r.width < 0.5 || r.height < 0.5) continue;
+    const cs = getComputedStyle(el), tag = el.tagName.toLowerCase(), x = X(r.left), y = Y(r.top), w = r.width * s, h = r.height * s;
+    g.save(); g.globalAlpha = pcAlpha(el, root);
+    if(cs.backgroundColor && !/rgba\(.*,\s*0\)$/.test(cs.backgroundColor) && cs.backgroundColor !== 'transparent' && tag !== 'textarea'){ g.fillStyle = cs.backgroundColor; g.fillRect(x, y, w, h); }
+    [['Top', x, y, w, 'h'], ['Bottom', x, y + h, w, 'h'], ['Left', x, y, h, 'v'], ['Right', x + w, y, h, 'v']].forEach(([side, sx, sy, len, dir])=>{
+      const bw = parseFloat(cs['border' + side + 'Width']) || 0; if(!bw || cs['border' + side + 'Style'] === 'none') return;
+      g.fillStyle = cs['border' + side + 'Color']; const k = bw * s;
+      if(dir === 'h') g.fillRect(sx, side === 'Top' ? sy : sy - k, len, k); else g.fillRect(side === 'Left' ? sx : sx - k, sy, k, len);
+    });
+    if(tag === 'img' && el.complete && el.naturalWidth){ try{ g.drawImage(el, x, y, w, h); }catch(e){} }
+    else if(tag === 'svg'){ const u = await pcSvgUrl(el, r.width, r.height); try{ g.drawImage(await trophyLoadImg(u), x, y, w, h); }catch(e){} URL.revokeObjectURL(u); }
+    else if(tag === 'canvas'){ try{ g.drawImage(el, x, y, w, h); }catch(e){} }
+    else if(tag === 'textarea'){
+      const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2, pt = parseFloat(cs.paddingTop), pl = parseFloat(cs.paddingLeft), pr = parseFloat(cs.paddingRight);
+      const lc = /repeating-linear-gradient/.test(cs.backgroundImage) ? (cs.backgroundImage.match(/rgba?\([^)]*\)|#[0-9a-f]{3,8}/gi) || []).find(q=>!/,\s*0\)$/.test(q) && q !== 'transparent') : null; // the written lines
+      if(lc){ g.fillStyle = lc; for(let ly = lh; ly <= r.height + 0.5; ly += lh) g.fillRect(x, y + (ly - lh / 22) * s, w, Math.max(1, lh / 22 * s)); }
+      g.beginPath(); g.rect(x, y, w, h); g.clip();
+      g.font = pcFont(cs, s); g.fillStyle = cs.color; g.textBaseline = 'alphabetic';
+      const m = g.measureText('Hg'), asc = m.fontBoundingBoxAscent || parseFloat(cs.fontSize) * s * 0.8, des = m.fontBoundingBoxDescent || parseFloat(cs.fontSize) * s * 0.2;
+      const lines = String(el.value || '').split('\n').flatMap(p=>p.trim() ? canvasWrap(g, p, (r.width - pl - pr) * s) : ['']);
+      const center = cs.textAlign === 'center';
+      lines.forEach((l, i)=>{ const by = y + (pt + i * lh) * s + (lh * s - asc - des) / 2 + asc;
+        if(center){ g.textAlign = 'center'; g.fillText(l, x + (pl + (r.width - pl - pr) / 2) * s, by); } else { g.textAlign = 'left'; g.fillText(l, x + pl * s, by); } });
+    }
+    if(tag !== 'textarea' && tag !== 'svg'){
+      const texts = [...el.childNodes].filter(n=>n.nodeType === 3 && n.textContent.trim());
+      if(texts.length){
+        g.beginPath(); g.rect(x - 2, y - 2, w + 4, h + 4); g.clip();
+        g.font = pcFont(cs, s); g.fillStyle = cs.color; g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+        const put = (str, rr)=>{ const m = g.measureText(str), asc = m.fontBoundingBoxAscent || rr.height * s * 0.8, des = m.fontBoundingBoxDescent || rr.height * s * 0.2;
+          const tw = rr.width * s, sx = m.width > 0 ? tw / m.width : 1; // the width on the screen decides (condensed fonts, letter spacing)
+          g.save(); g.translate(X(rr.left), Y(rr.top) + (rr.height * s - asc - des) / 2 + asc); if(sx > 0.6 && sx < 1.6) g.scale(sx, 1); g.fillText(str, 0, 0); g.restore(); };
+        texts.forEach(n=>{
+          const rg = document.createRange(); rg.selectNodeContents(n); const rects = [...rg.getClientRects()].filter(q=>q.width > 0.5);
+          if(rects.length === 1){ put(n.textContent.trim(), rects[0]); return; }
+          const re = /\S+/g; let mm; while((mm = re.exec(n.textContent))){ rg.setStart(n, mm.index); rg.setEnd(n, mm.index + mm[0].length); const q = rg.getClientRects()[0]; if(q) put(mm[0], q); }
+        });
+      }
+    }
+    g.restore();
+  }
+  return c;
+}
+async function winsShareBlob(page, idx){
+  if(idx === undefined && tbYear) idx = tbEnsureYear(tbYear).seiten.indexOf(page);
+  const root = idx >= 0 ? [...document.querySelectorAll(`.tb-page[data-page-idx="${idx}"]`)].find(el=>el.querySelector('.tb-wins2')) : null;
+  if(root){ try{ const c = await pageCanvas(root, 1440, '.tb-wins-share, .tb-img-del, .tb-img-resize, .tb-conflict');
+    return await new Promise((res, rej)=>c.toBlob(bl=>bl ? res(bl) : rej(new Error('no picture')), 'image/png')); }catch(e){ console.error('eWolfe: page picture failed, drawn instead', e); } }
+  return winsShareBlobDrawn(page);
+}
+async function winsShareBlobDrawn(page){
   const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
   const g = c.getContext('2d'), pal = await shareCanvasBase(g, W, H), d = t(), wk = page.erfolge.week, b = page.bereiche || {};
   const all = habitWeekDays(wk), loc = state.settings.lang === 'de' ? 'de-DE' : 'en-GB', fmt = x=>x.toLocaleDateString(loc, { day:'numeric', month:'numeric' });
@@ -9469,7 +9556,7 @@ async function winsShareBlob(page){
 }
 async function winsShare(idx){
   const d = t(), page = tbEnsureYear(tbYear).seiten[idx]; if(!page || !page.erfolge) return;
-  let blob; try{ blob = await winsShareBlob(page); }catch(e){ console.error('eWolfe: wins picture failed', e); uiNotice(d.trophyShareFail); return; }
+  let blob; try{ blob = await winsShareBlob(page, idx); }catch(e){ console.error('eWolfe: wins picture failed', e); uiNotice(d.trophyShareFail); return; }
   const name = (state.settings.lang === 'en' ? 'ewolfe-wins-' : 'ewolfe-erfolge-') + page.erfolge.week + '.png';
   await shareBlob(blob, name, d.winsShareText, d.winsShareSaved);
 }

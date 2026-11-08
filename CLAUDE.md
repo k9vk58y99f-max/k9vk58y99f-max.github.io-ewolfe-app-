@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 8.11.2026 (Version 2.9.1) – zuerst lesen
+## Übergabe – Stand 8.11.2026 (Version 2.9.2) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -193,7 +193,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.9.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.9.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1071,6 +1071,13 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
       „Neue Seite → Erfolge der Woche“, den Hinweis und `winsHintSeen`. Gibt es die Seite der Woche im Buch schon, öffnet sie sich statt einer zweiten.
       Der Hinweis in der Bibliothek kommt jetzt den ganzen Sonntag (nicht erst ab 16 Uhr; „Es ist Sonntag – …“), weiter nur in der Raum-Ansicht.
     - Tests `t291.py` (Lady-Bilder), `t292.py` (Regal), `t293.py` (Erfolge-Woche mit gestellter Uhr) in `Lebensrad APP/eWolfe-Skripte/`; `t290.py`, `t280.py` laufen weiter.
+- **2.9.2 (8.11.2026) Geteilte Erfolge = die Seite im Buch (Wunsch der Nutzerin):** `winsShareBlob(page, idx)` malt die angezeigte Seite selbst ab
+    (`pageCanvas(root, 1440, skip)`: längere Seite 1440 px, also 1080×1440 hoch bzw. 1440×1080 quer). Papierbild = letzte `url()` im Hintergrund der `.tb-page`, schlichtes
+    Papier: Rahmenlinien aus `::before`/`::after`; je Element Hintergrundfarbe, Ränder (Kästchen, Trennlinie), `<img>`, `<canvas>` (Zeichnung), `<svg>` (Häkchen, Wochen-Rad,
+    Bereichs-Symbole: geklont mit berechneten Stilen, `<image>` per `pcDataUrl` eingebettet, sonst lädt ein SVG-Bild nichts nach), Textknoten an ihrer Stelle (Range-Rechtecke,
+    Breite vom Bildschirm übernommen → schmale Schriften stimmen), Textfelder mit ihren Schreiblinien (Farbe aus dem `repeating-linear-gradient`) und umbrochenem Text.
+    Teilen-Knopf, Lösch-/Größen-Griffe und Konflikt-Hinweis werden ausgelassen. Ist die Seite nicht im Bild, die alte Zeichnung (`winsShareBlobDrawn`).
+    Test `t294.py` (Wochen-Rad, hoch/quer, Emojis) und `t280.py`; Vergleichsbilder: „Lebensrad APP/Erfolge teilen wie im Buch (08.11.2026)“.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
