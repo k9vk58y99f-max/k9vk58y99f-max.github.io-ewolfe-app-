@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 8.11.2026 (Version 2.8.0) – zuerst lesen
+## Übergabe – Stand 8.11.2026 (Version 2.9.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -57,7 +57,11 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   - **Ränge entzerrt (2.7.0/2.7.1):** gebaut und getestet (`t270.py`, `t270b.py`), noch nicht auf dem iPad angesehen. Regal mit Vitrine bleibt an Rang 6
     (nach 2 Jahren) – Entscheidung der Nutzerin, „wenn alle Trophäen Platz haben“: geprüft, sie haben (2.7.1).
   - **Erfolge der Woche neu (2.8.0):** gebaut und getestet (`t280.py`), auf dem iPad noch nicht angesehen. Entschieden (8.11.): keine Fortsetzungsseite – ein volles
-    Feld nimmt einfach nichts mehr an; die Nutzerin schrieb einmal „besonders stolz“ statt „am meisten stolz“ – nicht geklärt, Text unverändert.
+    Feld nimmt einfach nichts mehr an. Text seit 2.9.0 „besonders stolz“ (Entscheidung der Nutzerin).
+  - **Notizbücher (2.9.0):** gebaut und getestet (`t290.py`), auf dem iPad noch nicht angesehen. Offen: soll das Buch selbst (Rücken/Cover) ein Datum tragen?
+  - **Lady-Papier und -Klemmbrett schlichter:** Prompts in „Lebensrad APP/Ausgang/17 Lady – Papier und Klemmbrett schlichter“ (Variante A kleine Rosenknospe,
+    B ohne Rosen). Wenn die Bilder kommen: freistellen, Rahmenlage gegen `rt2/paper-p|l` prüfen (die CSS-Ränder `--pt/--pb/--ps` passen nur, wenn der Rahmen
+    an derselben Stelle liegt), Klemmbrett mit `measure.py` messen (`CLIP_GEO.rt2`), neue Dateinamen (`paper2-p|l`, `clipboard3`), Vorher/Nachher zeigen.
   - **Coach-Teilen als nächster großer Schritt (Wunsch der Nutzerin 8.11.):** Pakete bis 5/10/20 Klientinnen mit Code, Preis je Klientin erst über, dann gleich,
     dann unter dem Einzelabo (Vorschlag 29/49/79 € im Monat). Dazu Idee „Fragen-Kauf“ (Fragen der Coaches als Paket für das Lebensrad alle 1–3 Monate). Erst planen
     und der Nutzerin zeigen; vorher fragen, ob die Coaches geantwortet haben (Abmachung aus dem Ältestenrat). Details im Handoff vom 08.11.2026.
@@ -187,7 +191,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.8.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.9.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1038,6 +1042,22 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     **Teilen-Bild** (`winsShareBlob`) im selben Aufbau: Tracker mit Kästchen/Haken, Bereiche mit Text, Stolz mittig. Test `t280.py` in `Lebensrad APP/eWolfe-Skripte/`
     (Chromium + WebKit, drei Designs, iPad, Handy, Querformat-Buch, 8+3 Gewohnheiten: nichts überlappt, Haken auf der Seite setzbar). Bilder:
     „Erfolge der Woche – eingebaut 2.8.0 (08.11.2026)“.
+- **2.9.0 (8.11.2026) Notizbücher, „besonders stolz“ (Wünsche der Nutzerin):**
+    - Erfolge der Woche / Monatsrückblick: „Worauf bin ich diese Woche besonders stolz?“, „Besonders stolz“ (en „especially proud“).
+    - **Notizbuch** = Buch mit `diary.kind = 'notes'` in `state.tagebuch.jahre` (Schlüssel wie Tagebücher, „2026/3“). Anlegen: beim neuen Buch dritter Knopf
+      „Notizbuch“ (`uiDialog` mit `mergeText`, `notesKindText`), Seiten anfangs liniert. Sieht aus wie ein Tagebuch (Cover, Rücken, Papier), Titel „Notizen“
+      (`notesTitle`, eigener Titel möglich), **ohne Jahreszahl** auf Cover, Titelseite, Rücken, Einstellungen und Löschfrage. Einstellungen ohne „Art des
+      Tagebuchs“, Seitenarten nur Leer/Liniert/Kariert/Gepunktet. Werkzeugmenü: Neue Seite nur die vier Papierarten, keine Sticker, kein „Bild hinzufügen“;
+      Zeichnen/Radierer bleiben. `tbAddPage` macht in Notizbüchern aus allem eine normale Seite.
+    - **Seitenkopf** (`noteHeadHtml`): Überschrift (`page.head`, Eingabefeld in der Schrift des Designs, max. 80 Zeichen) und auf Wunsch ein Datum (`page.date`
+      = `dayKey`, „+ Datum“ setzt heute, × entfernt; `tbNoteDate`). Belegt die ersten zwei Zeilen: Text beginnt 56 px × `--tbk` tiefer (`.tb-note-text`),
+      der Umbruch misst das mit (`tbMeasureNotes` in `tbFitsOffline`), also 16 statt 18 Zeilen im Hochformat. Fortsetzungsseiten haben einen leeren Kopf.
+    - **Nichts landet von selbst im Notizbuch:** `tbLatestBook(year)` überspringt Notizbücher (Dankbarkeit, Impulskarten, Trophäen, Lebensrad, Gewohnheiten,
+      Sonntags-Hinweis); gibt es im Jahr nur Notizbücher, liefert es die nächste freie Nummer (`tbEnsureYear` legt dort ein Tagebuch an). `tbLatestBook(year, true)`
+      = irgendein Buch (nur zum Öffnen der Bibliothek und nach dem Löschen).
+    - **Notizen zählen nicht** für aktive Tage (`appActiveDays`) und Trophäen (Tagebuchseiten). Regal: Notizbücher stehen zwischen den Tagebüchern (nach Schlüssel).
+    - Sync: Seiten wie immer (Kopf und Datum sind Seitenfelder, die Stempel greifen); `kind` wird ergänzt, wenn es lokal fehlt.
+    - Test `t290.py` in `Lebensrad APP/eWolfe-Skripte/` (Chromium + WebKit, drei Designs, 820/390); `t280.py` läuft weiter fehlerfrei.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
