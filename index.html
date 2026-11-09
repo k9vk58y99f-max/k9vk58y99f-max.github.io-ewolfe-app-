@@ -614,7 +614,14 @@ html.theme-retreat .tb-areas.tb-wins2{ --tw-h:#7A0B25; --tw-s:#B81F57; --tw-on:#
 .tw-week{ color:var(--tw-s); font-size:calc(12px * var(--tbk)); margin:calc(3px * var(--tbk)) 0 calc(8px * var(--tbk)); }
 .tw-tools{ position:absolute; right:0; top:0; display:flex; align-items:center; gap:calc(4px * var(--tbk)); color:var(--tw-h); }
 .tw-tools .tb-wins-wheel{ width:calc(28px * var(--tbk)); height:calc(28px * var(--tbk)); }
-.tw-track{ flex:none; display:grid; grid-template-columns:minmax(0, 1fr) repeat(7, calc(20px * var(--tbk))) calc(30px * var(--tbk)); gap:calc(1.5px * var(--tbk)) calc(3px * var(--tbk)); align-items:center; font-size:calc(11.5px * var(--tbk)); line-height:1.2; color:#2a2318; }
+.tw-track{ flex:none; display:flex; align-items:flex-start; gap:calc(18px * var(--tbk)); font-size:calc(11.5px * var(--tbk)); line-height:1.2; color:#2a2318; }
+/* 9.11.2026: the boxes right next to the names, the weekly habits beside them on the right */
+.tw-daily{ flex:none; min-width:0; display:grid; grid-template-columns:auto repeat(7, calc(20px * var(--tbk))) calc(26px * var(--tbk)); gap:calc(1.5px * var(--tbk)) calc(3px * var(--tbk)); align-items:center; }
+.tw-daily .tw-name{ max-width:calc(150px * var(--tbk)); padding-right:calc(4px * var(--tbk)); }
+.tw-weekly{ flex:1; min-width:0; display:grid; grid-template-columns:minmax(0, 1fr) calc(20px * var(--tbk)); gap:calc(4px * var(--tbk)) calc(4px * var(--tbk)); align-items:center; align-content:start; }
+.tw-weekly:only-child{ flex:none; width:calc(240px * var(--tbk)); }
+.tw-weekly .tw-sub{ margin-top:0; }
+.tw-weekly .tw-name{ white-space:normal; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; line-height:0.95; }
 .tw-day{ text-align:center; color:var(--tw-s); font-size:calc(10.5px * var(--tbk)); }
 .tw-day.today{ color:var(--tw-h); font-weight:700; }
 .tw-name{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Caveat', cursive; font-size:calc(15.5px * var(--tbk)); line-height:0.9; color:var(--tw-ink); }
@@ -622,34 +629,30 @@ html.theme-retreat .tb-areas.tb-wins2{ --tw-h:#7A0B25; --tw-s:#B81F57; --tw-on:#
 .tw-sub{ grid-column:1 / -1; font-family:var(--tw-font); font-stretch:var(--tw-st); font-style:italic; color:var(--tw-h); font-size:calc(13px * var(--tbk)); margin-top:calc(4px * var(--tbk)); }
 .tw-box{ pointer-events:auto; justify-self:center; width:calc(13px * var(--tbk)); height:calc(13px * var(--tbk)); padding:0; border:max(1px, calc(1px * var(--tbk))) solid var(--tw-b); border-radius:calc(2px * var(--tbk)); background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; overflow:visible; -webkit-tap-highlight-color:transparent; }
 .tw-box svg{ width:150%; height:150%; flex:none; margin:0 0 30% 15%; fill:none; stroke:var(--tw-tick); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
-.tw-box.tw-wide svg{ width:calc(19px * var(--tbk)); height:calc(19px * var(--tbk)); margin:0 0 calc(4px * var(--tbk)); }
 .tw-box:disabled{ opacity:0.4; cursor:default; }
-.tw-box.tw-wide{ grid-column:2 / span 7; justify-self:stretch; width:auto; }
-.tw-areas{ flex:1; min-height:0; display:flex; flex-direction:column; border-top:1px solid var(--tw-b); margin-top:calc(8px * var(--tbk)); padding-top:calc(2px * var(--tbk)); }
-.tw-area{ flex:1; min-height:calc(46px * var(--tbk)); display:flex; gap:calc(6px * var(--tbk)); }
-.tw-label{ flex:none; width:calc(104px * var(--tbk)); display:flex; align-items:center; gap:calc(5px * var(--tbk)); height:calc(22px * var(--tbk)); margin-top:calc(2px * var(--tbk)); white-space:nowrap; }
-.tw-label .area-ico{ width:calc(15px * var(--tbk)); height:calc(15px * var(--tbk)); margin:0; flex:none; }
-.tw-body .tb-area-text{ min-height:calc(44px * var(--tbk)); line-height:calc(22px * var(--tbk)); background-image:repeating-linear-gradient(transparent 0 calc(21px * var(--tbk)), #d9d0c1 calc(21px * var(--tbk)) calc(22px * var(--tbk))); }
-.tw-body .tb-area-text.font-hand{ font-size:calc(19px * var(--tbk)); line-height:calc(22px * var(--tbk)); }
+.tw-areas{ flex:1; min-height:0; display:flex; flex-direction:column; justify-content:space-evenly; border-top:1px solid var(--tw-b); margin-top:calc(8px * var(--tbk)); padding-top:calc(2px * var(--tbk)); }
+.tw-area{ flex:none; display:flex; gap:calc(6px * var(--tbk)); }
+.tw-label{ flex:none; width:calc(98px * var(--tbk)); display:flex; align-items:center; gap:calc(5px * var(--tbk)); height:calc(18px * var(--tbk)); margin-top:0; white-space:nowrap; }
+.tw-label .area-ico{ width:calc(13px * var(--tbk)); height:calc(13px * var(--tbk)); margin:0; flex:none; }
+.tw-body .tb-area-text{ flex:none; min-height:0; height:calc(54px * var(--tbk)); font-size:calc(12.5px * var(--tbk)); line-height:calc(18px * var(--tbk)); background-image:repeating-linear-gradient(transparent 0 calc(17px * var(--tbk)), #d9d0c1 calc(17px * var(--tbk)) calc(18px * var(--tbk))); }
+.tw-body .tb-area-text.font-hand{ font-size:calc(16.5px * var(--tbk)); line-height:calc(18px * var(--tbk)); }
 .tw-area > .area-ico{ width:calc(17px * var(--tbk)); height:calc(17px * var(--tbk)); margin:calc(3px * var(--tbk)) 0 0; flex:none; }
 .tw-body{ flex:1; min-width:0; display:flex; flex-direction:column; }
 .tw-ahead{ flex:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.15; padding-top:calc(2px * var(--tbk)); }
-/* many habits: the areas keep exactly one line each, the answer about pride one line (otherwise two) */
-.tb-wins2:has(.tw-many) .tw-area{ min-height:calc(46px * var(--tbk)); }
-.tb-wins2:has(.tw-many) .tw-areas{ margin-top:calc(6px * var(--tbk)); }
-.tb-wins2:has(.tw-many) .tw-proud .tb-area-text{ height:calc(44px * var(--tbk)); line-height:calc(22px * var(--tbk)); }
-.tb-wins2:has(.tw-many) .tw-proud{ margin-top:calc(6px * var(--tbk)); }
-.tw-aname{ font-family:var(--tw-font); font-stretch:var(--tw-st); color:var(--tw-h); font-size:calc(13.5px * var(--tbk)); overflow:hidden; text-overflow:ellipsis; }
+.tw-aname{ font-family:var(--tw-font); font-stretch:var(--tw-st); color:var(--tw-h); font-size:calc(12.5px * var(--tbk)); overflow:hidden; text-overflow:ellipsis; }
 .tw-auto{ color:var(--tw-s); font-size:calc(10.5px * var(--tbk)); }
-.tw-proud{ flex:none; text-align:center; margin-top:calc(10px * var(--tbk)); }
+.tw-proud{ flex:none; text-align:center; margin-top:calc(28px * var(--tbk)); }
 .tw-proud-q{ font-family:var(--tw-font); font-stretch:var(--tw-st); font-style:italic; color:var(--tw-h); font-size:calc(15px * var(--tbk)); }
-.tw-proud .tb-area-text{ flex:none; height:calc(48px * var(--tbk)); text-align:center; background-image:none; }
+.tw-proud .tb-area-text{ flex:none; height:calc(54px * var(--tbk)); font-size:calc(12.5px * var(--tbk)); line-height:calc(18px * var(--tbk)); text-align:center; background-image:none; }
+.tw-proud .tb-area-text.font-hand{ font-size:calc(16.5px * var(--tbk)); }
 .tb-land-page .tb-areas.tb-wins2{ display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.2fr); grid-template-rows:auto auto 1fr; column-gap:calc(20px * var(--tbk)); }
 .tb-land-page .tb-wins2 .tw-head{ grid-column:1 / -1; }
-.tb-land-page .tb-wins2 .tw-track{ grid-column:1; grid-row:2; align-self:start; grid-template-columns:minmax(0, 1fr) repeat(7, calc(17px * var(--tbk))) calc(26px * var(--tbk)); column-gap:calc(2px * var(--tbk)); }
+.tb-land-page .tb-wins2 .tw-track{ grid-column:1; grid-row:2; align-self:start; flex-direction:column; gap:calc(8px * var(--tbk)); }
+.tb-land-page .tb-wins2 .tw-daily{ grid-template-columns:auto repeat(7, calc(17px * var(--tbk))) calc(24px * var(--tbk)); column-gap:calc(2px * var(--tbk)); }
+.tb-land-page .tb-wins2 .tw-weekly{ flex:none; width:100%; grid-template-columns:minmax(0, max-content) calc(17px * var(--tbk)); justify-content:start; column-gap:calc(10px * var(--tbk)); }
 .tb-land-page .tb-wins2 .tw-areas{ grid-column:2; grid-row:2 / span 2; margin-top:0; }
-.tb-land-page .tb-wins2 .tw-proud{ grid-column:1; grid-row:3; align-self:start; margin-top:calc(16px * var(--tbk)); }
-.tb-land-page .tb-wins2 .tw-proud .tb-area-text{ height:calc(72px * var(--tbk)) !important; }
+.tb-land-page .tb-wins2 .tw-proud{ grid-column:1; grid-row:3; align-self:start; margin-top:calc(18px * var(--tbk)); }
+.tb-land-page .tb-wins2 .tw-proud .tb-area-text{ height:calc(54px * var(--tbk)) !important; }
 /* 2.4.0: the month in review – a short row per area (two lines at most), then the own conclusion */
 .tb-month-row{ flex:none; display:flex; flex-direction:column; border-bottom:1px solid rgba(42,35,24,0.12); padding-bottom:calc(3px * var(--tbk)); }
 .tb-month-row .tb-area-head{ padding:calc(4px * var(--tbk)) 0 0; font-size:calc(14px * var(--tbk)); }
@@ -2472,7 +2475,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.9.2';
+const APP_VERSION = '2.9.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2534,7 +2537,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-11-08';
+const APP_BUILD = '2026-11-09';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -9390,14 +9393,17 @@ function winsTrackerHtml(weekKey, idx){
   const daily = habitDailyList(H).slice(0, HABIT_MAX), weekly = habitWeeklyList(H).slice(0, HABIT_WEEK_MAX);
   if(!daily.length && !weekly.length) return '';
   const box = (on, fut, attrs, cls)=>`<button class="tw-box tb-habit-cell${cls}${on ? ' on' : ''}" ${fut ? 'disabled' : ''} ${attrs} aria-pressed="${on}">${on ? HB_CHECK : ''}</button>`;
-  let o = '';
+  // 9.11.2026 (wish of the user): the boxes stand right next to the names, the weekly habits beside them on the right (not below),
+  // so the areas get three lines each
+  let dl = '', wk = '';
   if(daily.length){
-    o += `<span></span>${days.map(x=>`<span class="tw-day${dayKey(x) === today ? ' today' : ''}">${escapeHtml(x.toLocaleDateString(lang, { weekday:'narrow' }))}</span>`).join('')}<span></span>`;
-    o += daily.map(h=>`<span class="tw-name">${escapeHtml(h.name)}</span>${days.map(x=>{ const k = dayKey(x); return box(habitOn(h.id, x), k > today, `data-page-idx="${idx}" data-h="${h.id}" data-k="${k}"`, ''); }).join('')}<span class="tw-count">${days.filter(x=>habitOn(h.id, x)).length}/7</span>`).join('');
+    dl = `<span></span>${days.map(x=>`<span class="tw-day${dayKey(x) === today ? ' today' : ''}">${escapeHtml(x.toLocaleDateString(lang, { weekday:'narrow' }))}</span>`).join('')}<span></span>`;
+    dl += daily.map(h=>`<span class="tw-name">${escapeHtml(h.name)}</span>${days.map(x=>{ const k = dayKey(x); return box(habitOn(h.id, x), k > today, `data-page-idx="${idx}" data-h="${h.id}" data-k="${k}"`, ''); }).join('')}<span class="tw-count">${days.filter(x=>habitOn(h.id, x)).length}/7</span>`).join('');
+    dl = `<div class="tw-daily">${dl}</div>`;
   }
-  if(weekly.length) o += `<span class="tw-sub">${escapeHtml(d.habitWeekly)}</span>`
-    + weekly.map(h=>`<span class="tw-name">${escapeHtml(h.name)}</span>${box(habitWeekOn(h.id, weekKey), weekKey > cur, `data-page-idx="${idx}" data-h="${h.id}" data-k="${weekKey}" data-w="1"`, ' tw-wide')}<span class="tw-count"></span>`).join('');
-  return `<div class="tw-track${daily.length + weekly.length > 6 ? ' tw-many' : ''}">${o}</div>`;
+  if(weekly.length) wk = `<div class="tw-weekly"><span class="tw-sub">${escapeHtml(d.habitWeekly)}</span>`
+    + weekly.map(h=>`<span class="tw-name">${escapeHtml(h.name)}</span>${box(habitWeekOn(h.id, weekKey), weekKey > cur, `data-page-idx="${idx}" data-h="${h.id}" data-k="${weekKey}" data-w="1"`, ' tw-wk')}`).join('') + `</div>`;
+  return `<div class="tw-track">${dl}${wk}</div>`;
 }
 function winsPageHtml(page, idx, inactive){
   const d = t(), wk = page.erfolge.week, all = habitWeekDays(wk), from = all[0].getTime(), b = page.bereiche || {};
