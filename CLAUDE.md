@@ -64,7 +64,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
     Halbleder mit Marmorpapier, Lady geblümter Baumwollstoff mit Leinenschild, Mystery Pergament/Low-Poly mit kleinem Mond; alle mit Gummiband, kein Lotus) in
     „Lebensrad APP/Ausgang/18 Notizbücher – Cover und Buchrücken – alle Designs“. Wenn die Bilder kommen: eigene Liste der Notizbuch-Farben (statt `TB_COVERS`) für
     `tbCoverUrl`/`tbSpineHtml`/Einstellungen, wenn `tbIsNotes`.
-  - **Coach-Teilen Stufe 1 gebaut (2.10.0, 13.11.):** noch offen: Betreiber-Konto in `app_admins` eintragen (Nutzerin muss ihr Konto bestätigen), echter Test mit
+  - **Coach-Teilen Stufe 1 gebaut (2.10.0, 13.11.):** Betreiberin (isabel.capek@gmx.de) ist in `app_admins` eingetragen (13.11.). Noch offen: echter Test mit
     zwei Konten auf dem iPad, Bezahlung (Stripe/Paddle), Datenschutz anwaltlich prüfen. Frühere Planung:
   - **Coach-Teilen als nächster großer Schritt (Wunsch der Nutzerin 8.11.):** Pakete bis 5/10/20 Klientinnen mit Code, Preis je Klientin erst über, dann gleich,
     dann unter dem Einzelabo (Vorschlag 29/49/79 € im Monat). Dazu Idee „Fragen-Kauf“ (Fragen der Coaches als Paket für das Lebensrad alle 1–3 Monate). Erst planen
