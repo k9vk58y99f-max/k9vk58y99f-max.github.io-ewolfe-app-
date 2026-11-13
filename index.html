@@ -1961,6 +1961,47 @@ html .lib-simple .shelf-img.lib-simple-shelf{ height:min(calc(100vh - var(--nav-
 @keyframes troNew{ 0%, 100%{ filter:none; } 50%{ filter:drop-shadow(0 0 1.4cqh rgba(var(--gold-rgb), 0.9)); } }
 .acc-del-btn{ color:#d9534f !important; border-color:rgba(217,83,79,0.45) !important; }
 html.theme-retreat .lib-news{ background:#fffdf8; }
+
+/* 13.11.2026: coach sharing */
+.coach-parts{ display:flex; flex-direction:column; gap:6px; margin:6px 0 8px; }
+.coach-check{ display:flex; align-items:flex-start; gap:8px; font-size:var(--fs-text); line-height:1.35; cursor:pointer; text-align:left; }
+.coach-check input{ flex:none; width:18px; height:18px; margin:2px 0 0; accent-color:var(--gold); }
+.coach-consent{ font-size:13px; margin-top:6px; }
+.coach-form{ display:flex; flex-direction:column; gap:8px; text-align:left; margin-top:8px; }
+.coach-form .small-input, #coach-body .small-input{ width:100%; box-sizing:border-box; }
+.coach-small{ font-size:13px; opacity:0.85; }
+.coach-modal{ max-width:760px; }
+#coach-body{ display:flex; flex-direction:column; gap:8px; }
+.coach-slots{ margin:6px 0 0; font-size:var(--fs-text); }
+.coach-h{ display:flex; align-items:center; gap:8px; margin:14px 0 2px; font-size:var(--fs-sub); }
+.coach-h .area-ico{ width:20px; height:20px; margin:0; }
+.coach-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:6px 0; border-bottom:1px solid rgba(128,128,128,0.22); }
+.coach-code{ font-family:ui-monospace, Menlo, monospace; font-size:16px; letter-spacing:0.06em; flex:1 1 auto; }
+.coach-cname{ flex:1 1 160px; display:flex; flex-direction:column; min-width:0; }
+.coach-cname small{ opacity:0.7; font-size:12px; }
+.coach-mini{ padding:6px 12px !important; min-height:0 !important; font-size:13px !important; width:auto !important; }
+.coach-mini.on{ box-shadow:inset 0 0 0 2px var(--gold); }
+.coach-back{ align-self:flex-start; width:auto !important; }
+.coach-tabs{ margin:4px 0; }
+.coach-snaps{ display:flex; flex-wrap:wrap; gap:6px; }
+.coach-wheel{ width:100%; max-width:560px; align-self:center; border-radius:18px; }
+.coach-warn{ border:1px solid #c0392b; border-radius:10px; padding:8px 12px; }
+.coach-goal{ padding:6px 0 6px 10px; border-left:2px solid var(--gold); margin:6px 0; font-size:var(--fs-text); line-height:1.4; }
+.coach-goal span{ opacity:0.7; }
+.coach-done{ color:var(--gold-text, var(--gold)); }
+.coach-sub{ font-size:13px; opacity:0.75; margin-top:8px; }
+.coach-weeknav{ display:flex; align-items:center; justify-content:center; gap:12px; }
+.coach-habits{ width:100%; border-collapse:collapse; font-size:14px; }
+.coach-habits th{ font-weight:400; opacity:0.75; font-size:12px; padding:2px; text-align:center; }
+.coach-habits th:first-child{ text-align:left; }
+.coach-habits th.today{ opacity:1; font-weight:700; }
+.coach-habits td{ text-align:center; padding:3px 2px; border-bottom:1px solid rgba(128,128,128,0.15); }
+.coach-habits td:first-child{ text-align:left; }
+.coach-hname{ display:flex; align-items:center; gap:6px; }
+.coach-hname .area-ico{ width:16px; height:16px; margin:0; flex:none; }
+.coach-box{ display:inline-flex; width:18px; height:18px; border:1px solid var(--gold); border-radius:3px; align-items:center; justify-content:center; font-size:13px; line-height:1; }
+.coach-box.on{ background:var(--gold); color:#fff; }
+.coach-cnt{ font-size:12px; opacity:0.75; }
 </style>
 </head>
 <body data-theme="dark">
@@ -2101,6 +2142,10 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
       <p class="settings-note" id="t-decor-hint"></p>
     </div>
     <div class="settings-section">
+      <div class="settings-head" id="t-set-coach">Coach</div>
+      <div id="settings-coach"></div>
+    </div>
+    <div class="settings-section">
       <div class="settings-head" id="t-set-backup">Backup</div>
       <button class="ghost-btn settings-row" id="export-btn">⬇ <span id="t-export-label">Backup herunterladen</span></button>
       <label class="ghost-btn settings-row" id="import-btn" title="Backup wiederherstellen" style="cursor:pointer;position:relative;overflow:hidden;">⬆ <span id="t-import-label">Backup wiederherstellen</span><input type="file" id="import-file-input" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;"></label>
@@ -2110,6 +2155,17 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
       <div class="settings-head" id="t-set-privacy">Datenschutz</div>
       <div id="settings-privacy"></div>
     </div>
+  </div>
+</div>
+
+<!-- 13.11.2026: coach area (clients, invitations, the client view) and the operator's coach codes -->
+<div class="modal-backdrop" id="coach-modal">
+  <div class="modal coach-modal">
+    <div class="modal-top">
+      <h2 class="modal-title" id="coach-title">Coach</h2>
+      <button class="icon-btn" onclick="closeModal('coach-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
+    </div>
+    <div id="coach-body"></div>
   </div>
 </div>
 
@@ -2475,7 +2531,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.9.3';
+const APP_VERSION = '2.10.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2537,7 +2593,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-11-09';
+const APP_BUILD = '2026-11-13';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -2923,6 +2979,7 @@ function saveState(){
   else storeSavedEarly = true;
   try{ renderOverviewTable(); renderAchievedTable(); renderEventsOverview(); }catch(e){ console.error('eWolfe: overview tables failed to render', e); }
   if(!storeBlocked){ try{ syncOnLocalChange(); }catch(e){} } // what could not be loaded must not be replaced in the account either
+  if(typeof coachLink !== 'undefined' && coachLink && !storeBlocked) coachPushSoon(); // 13.11.2026
 }
 let storageWarnKind = 'full';
 function showStorageWarning(kind){
@@ -10212,6 +10269,7 @@ async function sbSignUp(email, password){
 async function sbSignOut(){
   try{ await sbRequest('/auth/v1/logout?scope=local', { method:'POST' }); }catch(e){}
   sbSaveSession(null);
+  try{ coachReset(); }catch(e){}
 }
 
 
@@ -10456,6 +10514,8 @@ de:`<p class="privacy-draft">Entwurf – vor dem öffentlichen Start rechtlich p
 <h3>3. Ende-zu-Ende-Verschlüsselung</h3>
 <p>Bevor deine Inhalte an den Server gehen, verschlüsselt die App sie auf deinem Gerät mit AES-256-GCM. Der Schlüssel dafür wird auf deinem Gerät erzeugt. Er ist im Konto nur verschlossen hinterlegt: einmal mit deinem Passwort (abgeleitet mit PBKDF2-SHA256 und 600 000 Durchläufen), einmal mit deinem Wiederherstellungs-Code und – wenn du einen einrichtest – mit deinem Passkey. Der Passkey bleibt in deinem Schlüsselbund bzw. Passwort-Manager; wir erhalten davon nur eine Kennung und den damit verschlossenen Schlüssel. Auf dem Server sehen wir deshalb nur deine E-Mail-Adresse, die Zeitpunkte der Speicherung, die Größe und einen unlesbaren Datenblock.</p>
 <p><strong>Wichtig:</strong> Wenn du dein Passwort vergisst und weder deinen Wiederherstellungs-Code noch einen Passkey hast, kann niemand deine Daten im Konto wiederherstellen – auch wir nicht. Bewahre den Code deshalb sicher auf. Du findest ihn in den Einstellungen unter „Datenschutz“.</p>
+<h3>3a. Teilen mit einem Coach (freiwillig)</h3>
+<p>Wenn du mit dem Einladungscode eines Coaches teilst, wählst du selbst, was dein Coach lesen darf: Lebensräder mit Vergleichen, Ziele und/oder Gewohnheiten (die letzten 26 Wochen). Tagebücher, Notizbücher, Dankbarkeit, Übungen, Stimmungen und Trophäen werden nie geteilt. Der geteilte Ausschnitt wird auf deinem Gerät für den Schlüssel deines Coaches verschlüsselt (ECDH P-256 und AES-256-GCM); lesen können ihn nur dein Coach und du, nicht wir. Der Server kennt nur, dass eine Verbindung besteht, und wann sie begonnen und geändert wurde. Rechtsgrundlage ist deine ausdrückliche Einwilligung (Art. 9 Abs. 2 lit. a DSGVO), die du beim Verbinden gibst. Du kannst das Teilen in den Einstellungen unter „Coach“ jederzeit beenden; der geteilte Ausschnitt wird dann gelöscht. Was dein Coach bis dahin gelesen hat, liegt in seiner Verantwortung.</p>
 <h3>4. Speicherung auf deinem Gerät</h3>
 <p>Die App speichert deine Inhalte, deine Einstellungen (Sprache, Design) und deine Anmeldung im Speicher deines Browsers (localStorage) auf deinem Gerät. Das ist für die App technisch notwendig (§ 25 Abs. 2 Nr. 2 TDDDG). Auf dem Gerät selbst liegen die Daten unverschlüsselt. Schütze dein Gerät deshalb mit einer Code-Sperre. Beim Abmelden bleiben die Daten auf dem Gerät erhalten. Du kannst sie entfernen, indem du die Websitedaten im Browser löschst.</p>
 <h3>5. Dienstleister</h3>
@@ -10498,6 +10558,8 @@ en:`<p class="privacy-draft">Draft – to be checked by a lawyer before the publ
 <h3>3. End-to-end encryption</h3>
 <p>Before your content goes to the server, the app encrypts it on your device with AES-256-GCM. The key for this is created on your device. It is only stored in the account in locked form: once with your password (derived with PBKDF2-SHA256 and 600,000 rounds), once with your recovery code and – if you set one up – with your passkey. The passkey stays in your keychain or password manager; we only receive an identifier and the key locked with it. On the server we therefore only see your email address, the times of saving, the size and an unreadable block of data.</p>
 <p><strong>Important:</strong> if you forget your password and have neither your recovery code nor a passkey, nobody can restore the data in your account – not even us. Keep the code in a safe place. You can find it in the settings under “Privacy”.</p>
+<h3>3a. Sharing with a coach (optional)</h3>
+<p>If you share using a coach’s invitation code, you choose what your coach may read: life wheels with comparisons, goals and/or habits (the last 26 weeks). Diaries, notebooks, gratitude, exercises, moods and trophies are never shared. The shared excerpt is encrypted on your device for your coach’s key (ECDH P-256 and AES-256-GCM); only your coach and you can read it, not us. The server only knows that a connection exists and when it began and changed. The legal basis is your explicit consent (Art. 9(2)(a) GDPR), which you give when connecting. You can stop sharing at any time in the settings under “Coach”; the shared excerpt is then deleted. What your coach has read until then is their responsibility.</p>
 <h3>4. Storage on your device</h3>
 <p>The app stores your content, your settings (language, design) and your sign-in in your browser's storage (localStorage) on your device. This is technically necessary for the app (Section 25 (2) no. 2 TDDDG). On the device itself the data is not encrypted, so please protect your device with a passcode. When you sign out, the data stays on the device. You can remove it by deleting the website data in your browser.</p>
 <h3>5. Service providers</h3>
@@ -10810,6 +10872,7 @@ async function syncNow(){
   }
   if(syncConflictNote){ syncConflictNote = 0; uiNotice(t().syncConflictNote); }
   consentCheck();
+  try{ coachAfterSync(); }catch(e){} // 13.11.2026: renew what is shared with a coach
   if(syncAgain){ syncAgain = false; setTimeout(syncNow, 500); }
 }
 function syncOnLocalChange(){
@@ -11207,6 +11270,392 @@ function renderSettingsPrivacy(){
   const del = document.getElementById('pk-del-btn');
   if(del) del.onclick = async ()=>{ if(!(await uiDialog(d.pkRemoveAsk, { confirm:true, okText:d.pkRemove }))) return; e2e.pk = []; e2e.kv = Date.now(); e2eSave(); syncNow(); renderSettingsPrivacy(); };
 }
+/* ===== Coach sharing, stage 1 (13.11.2026, wish of the user) =====
+   The operator (app_admins) makes coach codes (5/10/20 places). Whoever redeems one becomes a coach: an ECDH key pair (P-256) is made on the device,
+   the public key goes to the server, the private key only locked with the coach's own data key (E2E, 1.95.0) – so every unlocked device of the coach
+   can open it, the server never. The coach makes invitation codes for clients (as many as places). A client enters one, chooses what to share
+   (wheels with comparison, goals, habit tracker) and agrees. Her device then keeps an excerpt in coach_shares, sealed for the coach (ECDH with a new
+   key each time + AES-256-GCM), renewed after every change. Never shared: diary, notebooks, gratitude, exercises, moods, trophies.
+   Ending (either side) deletes the excerpt. Tables and functions: coach_codes, coaches, coach_invites, coach_links, coach_shares (RLS). */
+const COACH_TXT = {
+de:{ head:'Coach', needLogin:'Melde dich an, um dich mit einem Coach zu verbinden.', loading:'Wird geladen …', offline:'Gerade keine Verbindung zum Server. Versuche es gleich noch einmal.',
+  intro:'Arbeitest du mit einem Coach? Mit dem Einladungscode deines Coaches kannst du ausgewählte Teile deiner App mit ihm oder ihr teilen – nur zum Lesen. Du kannst das Teilen jederzeit beenden.',
+  connectBtn:'Mit Coach verbinden', connectTitle:'Mit deinem Coach verbinden', codePh:'Einladungscode (z. B. K2AB-CD34)', namePh:'Dein Name für den Coach',
+  nameLabel:'So sieht dich dein Coach:', chooseParts:'Was darf dein Coach sehen?', part_wheels:'Lebensräder und Vergleiche', part_goals:'Ziele', part_habits:'Gewohnheiten (Habit Tracker)',
+  never:'Nie geteilt werden: Tagebücher, Notizbücher, Dankbarkeit, Übungen, Stimmungen und Trophäen.',
+  consent:'Ich willige ein, dass mein Coach die ausgewählten Inhalte lesen kann. Sie können Angaben zu meiner Gesundheit und anderen persönlichen Themen enthalten (Art. 9 DSGVO). Ich kann das jederzeit beenden.',
+  consentNeeded:'Bitte setze das Häkchen bei der Einwilligung, sonst kann nichts geteilt werden.', codeNeeded:'Bitte gib den Einladungscode deines Coaches ein.',
+  connected:'Du bist jetzt mit {name} verbunden. Deine ausgewählten Inhalte werden verschlüsselt geteilt.', yourCoach:'deinem Coach',
+  linked:'Du teilst mit <b>{name}</b> (seit {date}).', endShare:'Teilen beenden', endAsk:'Teilen mit {name} beenden? Dein Coach sieht danach nichts mehr von dir. Für ein neues Teilen brauchst du einen neuen Code.',
+  ended:'Das Teilen ist beendet.', updated:'Zuletzt aktualisiert: {date}',
+  iAmCoach:'Ich bin Coach – Coach-Code eingeben', redeemTitle:'Coach-Zugang freischalten', redeemPh:'Coach-Code (z. B. C7KM-QR3X)', coachNamePh:'Dein Name (so sehen dich deine Klienten)',
+  redeemNeedKey:'Bitte melde dich zuerst an und entsperre deine Daten, damit dein Coach-Schlüssel sicher verschlossen werden kann.',
+  redeemed:'Willkommen als Coach! Du hast {n} Plätze für Klienten. Deinen Coach-Bereich findest du hier in den Einstellungen.',
+  areaBtn:'Coach-Bereich öffnen', areaTitle:'Meine Klienten', yourName:'Dein Name als Coach', slots:'{n} von {max} Plätzen belegt',
+  invite:'Einladungscode erstellen', invitesHead:'Offene Einladungen', inviteHint:'Gib den Code deinem Klienten. Er gibt ihn in seiner App unter Einstellungen → Coach ein. Jeder Code gilt einmal.',
+  copy:'Kopieren', copied:'Kopiert', del:'Löschen', noSlots:'Alle Plätze sind belegt.', clientsHead:'Verbunden', noClients:'Noch niemand verbunden.',
+  client:'Klient', notYet:'Noch keine Daten', view:'Ansehen', end:'Verbindung beenden', endAskCoach:'Verbindung mit {name} beenden? Du siehst danach nichts mehr. Der Platz wird frei.',
+  endedHead:'Beendet', endedOn:'beendet am {date}', back:'‹ Alle Klienten', keyLost:'Dein Coach-Schlüssel passt nicht mehr zu deinen Daten (zum Beispiel nach „Neu beginnen“). Erstelle einen neuen – deine Klienten teilen dann beim nächsten Öffnen ihrer App neu.',
+  rekey:'Neuen Schlüssel erstellen', tab_wheels:'Lebensräder', tab_goals:'Ziele', tab_habits:'Gewohnheiten', notShared:'Nicht geteilt.',
+  noWheels:'Noch kein Lebensrad.', pickWheels:'Wähle bis zu drei Lebensräder zum Vergleichen:', noGoals:'Noch keine Ziele.', active:'Aktiv', achieved:'Erreicht',
+  why:'Warum', steps:'Schritte', due:'Bis', achievedOn:'erreicht am {date}', noHabits:'Noch keine Gewohnheiten.', daily:'Täglich', weekly:'Wöchentlich', week:'KW {n}',
+  adminBtn:'Coach-Codes verwalten', adminTitle:'Coach-Codes', adminNew:'Neuer Code für', places:'{n} Plätze', notePh:'Notiz (z. B. Name des Coaches)', adminNone:'Noch keine Codes.',
+  free:'frei', claimed:'eingelöst {date}', err_no_code:'Diesen Code gibt es nicht oder er wurde schon benutzt.', err_has_coach:'Du teilst schon mit einem Coach. Beende das zuerst.',
+  err_own_code:'Das ist dein eigener Einladungscode.', err_no_slots:'Alle Plätze sind belegt.', err_code_used:'Dieser Coach-Code wurde schon von jemand anderem eingelöst.',
+  err_not_coach:'Dieses Konto ist kein Coach-Konto.', err_not_admin:'Nur für den Betreiber.', err:'Das hat nicht geklappt. Bitte versuche es noch einmal.' },
+en:{ head:'Coach', needLogin:'Sign in to connect with a coach.', loading:'Loading …', offline:'No connection to the server right now. Please try again in a moment.',
+  intro:'Working with a coach? With your coach’s invitation code you can share chosen parts of your app with them – read only. You can stop sharing at any time.',
+  connectBtn:'Connect with coach', connectTitle:'Connect with your coach', codePh:'Invitation code (e.g. K2AB-CD34)', namePh:'Your name for the coach',
+  nameLabel:'How your coach sees you:', chooseParts:'What may your coach see?', part_wheels:'Life wheels and comparisons', part_goals:'Goals', part_habits:'Habits (habit tracker)',
+  never:'Never shared: diaries, notebooks, gratitude, exercises, moods and trophies.',
+  consent:'I agree that my coach can read the chosen content. It may contain information about my health and other personal matters (Art. 9 GDPR). I can stop this at any time.',
+  consentNeeded:'Please tick the consent box, otherwise nothing can be shared.', codeNeeded:'Please enter your coach’s invitation code.',
+  connected:'You are now connected with {name}. Your chosen content is shared encrypted.', yourCoach:'your coach',
+  linked:'You share with <b>{name}</b> (since {date}).', endShare:'Stop sharing', endAsk:'Stop sharing with {name}? Your coach will no longer see anything of yours. To share again you need a new code.',
+  ended:'Sharing has ended.', updated:'Last updated: {date}',
+  iAmCoach:'I am a coach – enter coach code', redeemTitle:'Unlock coach access', redeemPh:'Coach code (e.g. C7KM-QR3X)', coachNamePh:'Your name (as your clients see you)',
+  redeemNeedKey:'Please sign in and unlock your data first, so your coach key can be locked safely.',
+  redeemed:'Welcome as a coach! You have {n} places for clients. Your coach area is here in the settings.',
+  areaBtn:'Open coach area', areaTitle:'My clients', yourName:'Your name as a coach', slots:'{n} of {max} places taken',
+  invite:'Create invitation code', invitesHead:'Open invitations', inviteHint:'Give the code to your client. They enter it in their app under Settings → Coach. Each code works once.',
+  copy:'Copy', copied:'Copied', del:'Delete', noSlots:'All places are taken.', clientsHead:'Connected', noClients:'Nobody connected yet.',
+  client:'Client', notYet:'No data yet', view:'View', end:'End connection', endAskCoach:'End the connection with {name}? You will no longer see anything. The place becomes free.',
+  endedHead:'Ended', endedOn:'ended on {date}', back:'‹ All clients', keyLost:'Your coach key no longer fits your data (e.g. after “Start over”). Create a new one – your clients will share again the next time they open their app.',
+  rekey:'Create new key', tab_wheels:'Life wheels', tab_goals:'Goals', tab_habits:'Habits', notShared:'Not shared.',
+  noWheels:'No life wheel yet.', pickWheels:'Choose up to three life wheels to compare:', noGoals:'No goals yet.', active:'Active', achieved:'Achieved',
+  why:'Why', steps:'Steps', due:'Due', achievedOn:'achieved on {date}', noHabits:'No habits yet.', daily:'Daily', weekly:'Weekly', week:'Week {n}',
+  adminBtn:'Manage coach codes', adminTitle:'Coach codes', adminNew:'New code for', places:'{n} places', notePh:'Note (e.g. name of the coach)', adminNone:'No codes yet.',
+  free:'free', claimed:'redeemed {date}', err_no_code:'This code does not exist or has already been used.', err_has_coach:'You already share with a coach. Stop that first.',
+  err_own_code:'This is your own invitation code.', err_no_slots:'All places are taken.', err_code_used:'This coach code has already been redeemed by someone else.',
+  err_not_coach:'This account is not a coach account.', err_not_admin:'For the operator only.', err:'That did not work. Please try again.' }
+};
+const ct = ()=>COACH_TXT[state.settings.lang === 'en' ? 'en' : 'de'];
+let coachMe = null, coachIsAdmin = false, coachLink = null, coachLoadedFor = '', coachLoadedAt = 0, coachPrivCache = null, coachClients = [], coachView = null, coachKeyOk = true;
+const COACH_HASH_KEY = 'ewolfe_coach_hash';
+const coachEsc = s=>escapeHtml(String(s == null ? '' : s));
+const coachDate = ts=>ts ? new Date(ts).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { day:'2-digit', month:'2-digit', year:'numeric' }) : '';
+function coachErr(e){ const c = ct(), m = String(e && e.message || ''); const k = ['no_code', 'has_coach', 'own_code', 'no_slots', 'code_used', 'not_coach', 'not_admin'].find(x=>m.indexOf(x) >= 0); return k ? c['err_' + k] : e && e.status === 0 ? c.offline : c.err; }
+const coachRpc = (fn, body)=>sbRequest('/rest/v1/rpc/' + fn, { method:'POST', body:body || {} });
+async function coachLoad(){
+  const uid = sbUid(); if(!uid) return false;
+  try{
+    const [me, adm, my] = await Promise.all([
+      sbRequest('/rest/v1/coaches?select=user_id,name,slots,pub,priv&user_id=eq.' + uid),
+      sbRequest('/rest/v1/app_admins?select=user_id&user_id=eq.' + uid),
+      coachRpc('coach_my')
+    ]);
+    coachMe = (me && me[0]) || null; coachIsAdmin = !!(adm && adm.length); coachLink = (my && my[0]) || null;
+    coachLoadedFor = uid; coachLoadedAt = Date.now();
+    return true;
+  }catch(e){ return false; }
+}
+function coachReset(){ coachMe = null; coachIsAdmin = false; coachLink = null; coachLoadedFor = ''; coachPrivCache = null; coachClients = []; coachView = null; }
+// after every good sync (and so once after the start): load the coach state now and then, then renew the shared excerpt when it changed
+function coachAfterSync(){
+  const uid = sbUid(); if(!uid) return;
+  if(coachLoadedFor !== uid || Date.now() - coachLoadedAt > 10 * 60e3) coachLoad().then(ok=>{ if(ok && coachLink) coachPushSoon(800); });
+  else if(coachLink) coachPushSoon(1500);
+}
+
+/* ---- crypto: ECDH P-256, a new key for every seal, AES-256-GCM, gzip like the account data ---- */
+const COACH_ALG = { name:'ECDH', namedCurve:'P-256' };
+const coachJwkPub = j=>({ kty:j.kty, crv:j.crv, x:j.x, y:j.y });
+const coachAes = (priv, pub)=>crypto.subtle.deriveKey({ name:'ECDH', public:pub }, priv, { name:'AES-GCM', length:256 }, false, ['encrypt', 'decrypt']);
+async function coachKeyPair(){
+  const kp = await crypto.subtle.generateKey(COACH_ALG, true, ['deriveKey']);
+  const pub = await crypto.subtle.exportKey('jwk', kp.publicKey), priv = await crypto.subtle.exportKey('jwk', kp.privateKey);
+  const box = await e2eEnc(await e2eDataKey(), new TextEncoder().encode(JSON.stringify(priv)));
+  return { pub:coachJwkPub(pub), priv:JSON.stringify(box) };
+}
+async function coachPriv(){
+  if(coachPrivCache && coachPrivCache.src === coachMe.priv) return coachPrivCache.key;
+  const jwk = JSON.parse(new TextDecoder().decode(await e2eDec(await e2eDataKey(), JSON.parse(coachMe.priv))));
+  const key = await crypto.subtle.importKey('jwk', { kty:jwk.kty, crv:jwk.crv, x:jwk.x, y:jwk.y, d:jwk.d }, COACH_ALG, false, ['deriveKey']);
+  coachPrivCache = { src:coachMe.priv, key }; return key;
+}
+async function coachSeal(pubJwk, obj){
+  const pub = await crypto.subtle.importKey('jwk', coachJwkPub(pubJwk), COACH_ALG, false, []);
+  const eph = await crypto.subtle.generateKey(COACH_ALG, true, ['deriveKey']);
+  let bytes = new TextEncoder().encode(JSON.stringify(obj)); const z = E2E_GZ ? 1 : 0; if(z) bytes = await e2eGz(bytes, true);
+  const epk = coachJwkPub(await crypto.subtle.exportKey('jwk', eph.publicKey));
+  return Object.assign({ v:1, z, epk }, await e2eEnc(await coachAes(eph.privateKey, pub), bytes));
+}
+async function coachUnseal(box){
+  const epk = await crypto.subtle.importKey('jwk', coachJwkPub(box.epk), COACH_ALG, false, []);
+  let bytes = await e2eDec(await coachAes(await coachPriv(), epk), box);
+  if(box.z) bytes = await e2eGz(bytes, false);
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+/* ---- the client: what is shared, and when ---- */
+function coachDefaultName(){ const m = sbSession && sbSession.user && sbSession.user.email || ''; const n = m.split('@')[0].split(/[._-]/)[0]; return n ? n[0].toUpperCase() + n.slice(1) : ''; }
+function coachPayload(){
+  const L = coachLink, o = { name:(state.settings.coachName || coachDefaultName()).slice(0, 40), parts:{ wheels:!!L.share_wheels, goals:!!L.share_goals, habits:!!L.share_habits } };
+  if(L.share_wheels){ o.wheels = {}; AREAS.forEach(a=>{ o.wheels[a] = (state.bewertungen[a] || []).map(e=>({ ts:e.ts, value:e.value, wish:e.wish })); }); }
+  if(L.share_goals){ o.goals = {}; AREAS.forEach(a=>{ o.goals[a] = (state.ziele[a] || []).map(g=>({ id:g.id, title:g.title, grund:g.grund || null, massnahmen:g.massnahmen || null, dueDate:g.dueDate || null, status:g.status, achievedAt:g.achievedAt || null, priority:g.priority })); }); }
+  if(L.share_habits){
+    const H = habitsOf(state), from = dayKey(new Date(Date.now() - 26 * 7 * 864e5));
+    o.habits = { list:H.list.map(h=>({ id:h.id, name:h.name, area:h.area || '', pos:h.pos, freq:h.freq || '' })), marks:{} };
+    Object.keys(H.marks).forEach(k=>{ const m = H.marks[k]; if(k.slice(0, 10) >= from && m && m.v) o.habits.marks[k] = { v:1 }; });
+  }
+  return o;
+}
+function coachHash(s){ let h = 0x811c9dc5; for(let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(16) + '-' + s.length; }
+let coachPushTimer = null, coachPushing = false;
+function coachPushSoon(ms){ if(!coachLink) return; clearTimeout(coachPushTimer); coachPushTimer = setTimeout(()=>coachPush(false), ms == null ? 4000 : ms); }
+async function coachPush(force){
+  if(!coachLink || !sbUid() || storeBlocked) return false;
+  if(coachPushing){ coachPushSoon(3000); return false; }
+  const L = coachLink, p = coachPayload(), h = coachHash(L.link_id + '|' + JSON.stringify(L.pub) + '|' + JSON.stringify(p));
+  let last = ''; try{ last = localStorage.getItem(COACH_HASH_KEY) || ''; }catch(e){}
+  if(!force && last === h) return true;
+  coachPushing = true;
+  try{
+    p.at = Date.now();
+    await sbRequest('/rest/v1/coach_shares?on_conflict=link_id', { method:'POST', headers:{ Prefer:'resolution=merge-duplicates,return=minimal' },
+      body:{ link_id:L.link_id, data:await coachSeal(L.pub, p), updated_at:new Date().toISOString() } });
+    try{ localStorage.setItem(COACH_HASH_KEY, h); }catch(e){}
+    return true;
+  }catch(e){
+    if(e && (e.status === 401 || e.status === 403 || e.status === 404)) coachLoadedAt = 0; // the link may have ended on the other side: look again next time
+    return false;
+  }finally{ coachPushing = false; }
+}
+
+/* ---- settings: the section "Coach" ---- */
+function renderSettingsCoach(){
+  const box = document.getElementById('settings-coach'); if(!box) return;
+  const c = ct(); const hd = document.getElementById('t-set-coach'); if(hd) hd.textContent = c.head;
+  if(!sbUid()){ box.innerHTML = `<p class="settings-note">${c.needLogin}</p>`; return; }
+  if(coachLoadedFor !== sbUid()){
+    box.innerHTML = `<p class="settings-note">${c.loading}</p>`;
+    coachLoad().then(ok=>{ if(ok) renderSettingsCoach(); else box.innerHTML = `<p class="settings-note">${c.offline}</p>`; });
+    return;
+  }
+  let h = '';
+  if(coachLink){
+    const L = coachLink;
+    h += `<p class="settings-note">${c.linked.replace('{name}', coachEsc(L.name || c.yourCoach)).replace('{date}', coachDate(L.since))}</p>
+      <div class="coach-parts">${['wheels', 'goals', 'habits'].map(k=>`<label class="coach-check"><input type="checkbox" data-k="${k}" ${L['share_' + k] ? 'checked' : ''}><span>${c['part_' + k]}</span></label>`).join('')}</div>
+      <p class="settings-note">${c.never}</p>
+      <button class="ghost-btn settings-row" id="coach-end-mine">${c.endShare}</button>`;
+  }else h += `<p class="settings-note">${c.intro}</p><button class="ghost-btn settings-row" id="coach-connect-btn">${c.connectBtn}</button>`;
+  if(coachMe) h += `<button class="primary-btn settings-row" id="coach-area-btn">${c.areaBtn}</button>`;
+  else h += `<button class="ghost-btn settings-row coach-small" id="coach-redeem-btn">${c.iAmCoach}</button>`;
+  if(coachIsAdmin) h += `<button class="ghost-btn settings-row" id="coach-admin-btn">${c.adminBtn}</button>`;
+  box.innerHTML = h;
+  box.querySelectorAll('.coach-parts input').forEach(i=>{ i.onchange = ()=>coachShareToggle(i); });
+  const on = (id, f)=>{ const b = document.getElementById(id); if(b) b.onclick = f; };
+  on('coach-end-mine', coachEndMine); on('coach-connect-btn', ()=>coachConnectOpen()); on('coach-area-btn', coachAreaOpen);
+  on('coach-redeem-btn', coachRedeemOpen); on('coach-admin-btn', coachAdminOpen);
+}
+function coachPartsHtml(v){
+  const c = ct();
+  return `<div class="coach-parts">${['wheels', 'goals', 'habits'].map(k=>`<label class="coach-check"><input type="checkbox" id="cc-${k}" ${v[k] !== false ? 'checked' : ''}><span>${c['part_' + k]}</span></label>`).join('')}</div>`;
+}
+async function coachConnectOpen(prev){
+  const c = ct(), v = prev || { code:'', name:state.settings.coachName || coachDefaultName() };
+  const html = `<div class="coach-form"><input class="small-input" id="cc-code" placeholder="${coachEsc(c.codePh)}" value="${coachEsc(v.code)}" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    <p class="settings-note">${c.nameLabel}</p><input class="small-input" id="cc-name" placeholder="${coachEsc(c.namePh)}" value="${coachEsc(v.name)}" maxlength="40" autocomplete="off">
+    <p class="settings-note">${c.chooseParts}</p>${coachPartsHtml(v)}<p class="settings-note">${c.never}</p>
+    <label class="coach-check coach-consent"><input type="checkbox" id="cc-ok" ${v.ok ? 'checked' : ''}><span>${c.consent}</span></label></div>`;
+  const r = await uiDialog(c.connectTitle, { html, confirm:true, okText:c.connectBtn });
+  if(r !== true) return;
+  const g = id=>document.getElementById(id);
+  const val = { code:g('cc-code').value.trim(), name:g('cc-name').value.trim(), wheels:g('cc-wheels').checked, goals:g('cc-goals').checked, habits:g('cc-habits').checked, ok:g('cc-ok').checked };
+  if(!val.code){ await uiNotice(c.codeNeeded); return coachConnectOpen(val); }
+  if(!val.ok){ await uiNotice(c.consentNeeded); return coachConnectOpen(val); }
+  try{
+    const res = await coachRpc('coach_connect', { p_code:val.code });
+    const L = res && res[0]; if(!L) throw new Error('no_code');
+    await coachRpc('coach_share_set', { p_link:L.link_id, p_wheels:val.wheels, p_goals:val.goals, p_habits:val.habits });
+    state.settings.coachName = val.name; saveState();
+    try{ localStorage.removeItem(COACH_HASH_KEY); }catch(e){}
+    await coachLoad(); await coachPush(true);
+    renderSettingsCoach();
+    uiNotice(c.connected.replace('{name}', L.name || c.yourCoach));
+  }catch(e){ await uiNotice(coachErr(e)); }
+}
+async function coachShareToggle(inp){
+  const L = coachLink; if(!L) return;
+  const k = inp.dataset.k, before = L['share_' + k];
+  L['share_' + k] = inp.checked;
+  try{ await coachRpc('coach_share_set', { p_link:L.link_id, p_wheels:!!L.share_wheels, p_goals:!!L.share_goals, p_habits:!!L.share_habits }); await coachPush(true); }
+  catch(e){ L['share_' + k] = before; inp.checked = before; uiNotice(coachErr(e)); }
+}
+async function coachEndMine(){
+  const c = ct(), L = coachLink; if(!L) return;
+  if(!(await uiDialog(c.endAsk.replace('{name}', L.name || c.yourCoach), { confirm:true, okText:c.endShare }))) return;
+  try{ await coachRpc('coach_link_end', { p_link:L.link_id }); coachLink = null; try{ localStorage.removeItem(COACH_HASH_KEY); }catch(e){} renderSettingsCoach(); uiNotice(c.ended); }
+  catch(e){ uiNotice(coachErr(e)); }
+}
+
+/* ---- becoming a coach ---- */
+async function coachRedeemOpen(){
+  const c = ct();
+  if(!e2eReady()){ uiNotice(c.redeemNeedKey); return; }
+  const html = `<div class="coach-form"><input class="small-input" id="cr-code" placeholder="${coachEsc(c.redeemPh)}" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    <input class="small-input" id="cr-name" placeholder="${coachEsc(c.coachNamePh)}" maxlength="80" autocomplete="off"></div>`;
+  const r = await uiDialog(c.redeemTitle, { html, confirm:true, okText:c.redeemTitle });
+  if(r !== true) return;
+  const code = document.getElementById('cr-code').value.trim(), name = document.getElementById('cr-name').value.trim();
+  if(!code) return;
+  try{
+    const kp = await coachKeyPair();
+    const n = await coachRpc('coach_redeem', { p_code:code, p_name:name, p_pub:kp.pub, p_priv:kp.priv });
+    await coachLoad(); renderSettingsCoach();
+    uiNotice(c.redeemed.replace('{n}', n));
+  }catch(e){ uiNotice(coachErr(e)); }
+}
+async function coachRekey(){
+  try{ const kp = await coachKeyPair(); await coachRpc('coach_rekey', { p_pub:kp.pub, p_priv:kp.priv }); coachPrivCache = null; await coachLoad(); coachAreaRender(); }
+  catch(e){ uiNotice(coachErr(e)); }
+}
+
+/* ---- the coach area: places, invitations, clients ---- */
+function coachAreaOpen(){ coachView = null; openModal('coach-modal'); coachAreaRender(); }
+async function coachAreaRender(){
+  const c = ct(), body = document.getElementById('coach-body'), uid = sbUid();
+  document.getElementById('coach-title').textContent = c.areaTitle;
+  if(!coachMe || !uid){ body.innerHTML = `<p class="settings-note">${c.err_not_coach}</p>`; return; }
+  if(!coachClients.length) body.innerHTML = `<p class="settings-note">${c.loading}</p>`;
+  let links, invites, shares;
+  try{
+    [links, invites, shares] = await Promise.all([
+      sbRequest('/rest/v1/coach_links?select=id,active,created_at,ended_at,share_wheels,share_goals,share_habits&coach_id=eq.' + uid + '&order=created_at.desc'),
+      sbRequest('/rest/v1/coach_invites?select=code,created_at&coach_id=eq.' + uid + '&used_by=is.null&order=created_at.desc'),
+      sbRequest('/rest/v1/coach_shares?select=link_id,data,updated_at')
+    ]);
+  }catch(e){ body.innerHTML = `<p class="settings-note">${coachErr(e)}</p>`; return; }
+  coachKeyOk = true;
+  coachClients = [];
+  for(const l of links || []){
+    const s = (shares || []).find(x=>x.link_id === l.id);
+    let data = null;
+    if(s){ try{ data = await coachUnseal(s.data); }catch(e){ coachKeyOk = false; } }
+    coachClients.push({ link:l, data, at:s ? s.updated_at : null });
+  }
+  if(coachView){ coachClientRender(); return; }
+  const active = coachClients.filter(x=>x.link.active), ended = coachClients.filter(x=>!x.link.active);
+  const used = active.length + (invites || []).length, full = used >= coachMe.slots;
+  const nm = (x, i)=>coachEsc(x.data && x.data.name || c.client + ' ' + (i + 1));
+  let h = (coachKeyOk ? '' : `<div class="coach-warn"><p>${c.keyLost}</p><button class="ghost-btn" id="coach-rekey">${c.rekey}</button></div>`)
+    + `<label class="settings-note" for="coach-myname">${c.yourName}</label><input class="small-input" id="coach-myname" maxlength="80" value="${coachEsc(coachMe.name)}">`
+    + `<p class="coach-slots">${c.slots.replace('{n}', used).replace('{max}', coachMe.slots)}</p>`
+    + `<button class="primary-btn settings-row" id="coach-invite" ${full ? 'disabled' : ''}>${full ? c.noSlots : c.invite}</button>`;
+  if((invites || []).length) h += `<h3 class="coach-h">${c.invitesHead}</h3><p class="settings-note">${c.inviteHint}</p>`
+    + invites.map(v=>`<div class="coach-row"><span class="coach-code">${coachEsc(v.code)}</span><button class="ghost-btn coach-mini" data-copy="${coachEsc(v.code)}">${c.copy}</button><button class="ghost-btn coach-mini" data-delinv="${coachEsc(v.code)}">${c.del}</button></div>`).join('');
+  h += `<h3 class="coach-h">${c.clientsHead}</h3>` + (active.length ? active.map((x, i)=>`<div class="coach-row coach-client"><div class="coach-cname"><b>${nm(x, i)}</b><small>${x.at ? c.updated.replace('{date}', coachDate(x.at)) : c.notYet}</small></div>
+      <button class="ghost-btn coach-mini" data-view="${x.link.id}">${c.view}</button><button class="ghost-btn coach-mini" data-end="${x.link.id}" data-name="${nm(x, i)}">${c.end}</button></div>`).join('') : `<p class="settings-note">${c.noClients}</p>`);
+  if(ended.length) h += `<h3 class="coach-h">${c.endedHead}</h3>` + ended.map(x=>`<p class="settings-note">${c.client} · ${c.endedOn.replace('{date}', coachDate(x.link.ended_at))}</p>`).join('');
+  body.innerHTML = h;
+  const q = s=>body.querySelectorAll(s);
+  const rk = document.getElementById('coach-rekey'); if(rk) rk.onclick = coachRekey;
+  const myn = document.getElementById('coach-myname'); myn.onchange = async ()=>{ try{ await coachRpc('coach_set_name', { p_name:myn.value.trim() }); coachMe.name = myn.value.trim(); }catch(e){ uiNotice(coachErr(e)); } };
+  document.getElementById('coach-invite').onclick = async ()=>{ try{ await coachRpc('coach_invite_create'); coachAreaRender(); }catch(e){ uiNotice(coachErr(e)); } };
+  q('[data-copy]').forEach(b=>{ b.onclick = ()=>{ try{ navigator.clipboard.writeText(b.dataset.copy).then(()=>{ b.textContent = c.copied; }); }catch(e){} }; });
+  q('[data-delinv]').forEach(b=>{ b.onclick = async ()=>{ try{ await coachRpc('coach_invite_delete', { p_code:b.dataset.delinv }); coachAreaRender(); }catch(e){ uiNotice(coachErr(e)); } }; });
+  q('[data-view]').forEach(b=>{ b.onclick = ()=>{ coachView = { id:+b.dataset.view, tab:'wheels', sel:null, week:dayKey(weekStart(new Date())) }; coachClientRender(); }; });
+  q('[data-end]').forEach(b=>{ b.onclick = async ()=>{
+    if(!(await uiDialog(c.endAskCoach.replace('{name}', b.dataset.name), { confirm:true, okText:c.end }))) return;
+    try{ await coachRpc('coach_link_end', { p_link:+b.dataset.end }); coachAreaRender(); }catch(e){ uiNotice(coachErr(e)); }
+  }; });
+}
+
+/* ---- one client: the drawing functions of the app work on `state`, so they run for a moment on the client's excerpt ---- */
+function coachClientState(data){
+  const st = defaultState(); st.settings = state.settings;
+  AREAS.forEach(a=>{ st.bewertungen[a] = ((data.wheels || {})[a] || []).slice(); st.ziele[a] = ((data.goals || {})[a] || []).slice(); });
+  st.habits = { list:(data.habits && data.habits.list) || [], marks:(data.habits && data.habits.marks) || {} };
+  return st;
+}
+function coachWith(st, fn){ const keep = state; state = st; try{ return fn(); }finally{ state = keep; } }
+function coachClientRender(){
+  const c = ct(), d = t(), body = document.getElementById('coach-body'), v = coachView;
+  const x = coachClients.find(k=>k.link.id === v.id);
+  if(!x){ coachView = null; coachAreaRender(); return; }
+  const data = x.data || {}, parts = data.parts || {};
+  const name = data.name || c.client;
+  document.getElementById('coach-title').textContent = name;
+  let h = `<button class="ghost-btn coach-back" id="coach-back">${c.back}</button>`
+    + `<p class="settings-note">${x.at ? c.updated.replace('{date}', coachDate(x.at)) : c.notYet}</p>`
+    + `<div class="seg coach-tabs">${['wheels', 'goals', 'habits'].map(k=>`<button class="seg-btn${v.tab === k ? ' active' : ''}" data-tab="${k}">${c['tab_' + k]}</button>`).join('')}</div><div class="coach-pane">`;
+  const st = coachClientState(data);
+  if(!x.data) h += `<p class="settings-note">${c.notYet}</p>`;
+  else if(!parts[v.tab]) h += `<p class="settings-note">${c.notShared}</p>`;
+  else if(v.tab === 'wheels') h += coachWheelsHtml(st, name);
+  else if(v.tab === 'goals') h += coachGoalsHtml(st);
+  else h += coachHabitsHtml(st);
+  body.innerHTML = h + '</div>';
+  document.getElementById('coach-back').onclick = ()=>{ coachView = null; coachAreaRender(); };
+  body.querySelectorAll('[data-tab]').forEach(b=>{ b.onclick = ()=>{ v.tab = b.dataset.tab; coachClientRender(); }; });
+  body.querySelectorAll('[data-snap]').forEach(b=>{ b.onclick = ()=>{
+    const i = +b.dataset.snap, s = v.sel || [];
+    v.sel = s.includes(i) ? s.filter(k=>k !== i) : s.concat(i).slice(-3);
+    if(!v.sel.length) v.sel = [i];
+    coachClientRender();
+  }; });
+  body.querySelectorAll('[data-wk]').forEach(b=>{ b.onclick = ()=>{ const [y, m, dd] = v.week.split('-').map(Number); v.week = dayKey(new Date(y, m - 1, dd + 7 * (+b.dataset.wk))); coachClientRender(); }; });
+}
+function coachWheelsHtml(st, name){
+  const c = ct(), v = coachView;
+  const snaps = coachWith(st, ()=>getWheelSnapshots()).slice().sort((a, b)=>b.ts - a.ts);
+  if(!snaps.length) return `<p class="settings-note">${c.noWheels}</p>`;
+  if(!v.sel) v.sel = snaps.length > 1 ? [0, 1] : [0];
+  v.sel = v.sel.filter(i=>i < snaps.length);
+  const chosen = v.sel.map(i=>snaps[i]).sort((a, b)=>b.ts - a.ts);
+  const svg = coachWith(st, ()=>comparePictureSvg(chosen)).replace('>' + escapeHtml(t().cmpDiaryTitle) + '<', '>' + coachEsc(name) + '<'); // not "My life wheels": the coach looks at someone else's
+  return `<img class="coach-wheel" alt="" src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}">`
+    + `<p class="settings-note">${c.pickWheels}</p><div class="coach-snaps">${snaps.map((s, i)=>`<button class="ghost-btn coach-mini${v.sel.includes(i) ? ' on' : ''}" data-snap="${i}">${coachDate(s.ts)}</button>`).join('')}</div>`;
+}
+function coachGoalsHtml(st){
+  const c = ct(), d = t();
+  const goal = g=>`<div class="coach-goal"><b>${coachEsc(g.title)}</b>`
+    + (g.grund ? `<div><span>${c.why}:</span> ${coachEsc(g.grund)}</div>` : '')
+    + (g.massnahmen ? `<div><span>${c.steps}:</span> ${coachEsc(g.massnahmen)}</div>` : '')
+    + (g.status === 'erreicht' ? `<div class="coach-done">✓ ${c.achievedOn.replace('{date}', coachDate(g.achievedAt))}</div>` : g.dueDate ? `<div><span>${c.due}:</span> ${coachDate(new Date(g.dueDate + 'T12:00').getTime())}</div>` : '') + `</div>`;
+  let h = '', any = false;
+  AREAS.forEach(a=>{
+    const list = st.ziele[a] || []; if(!list.length) return; any = true;
+    const act = list.filter(g=>g.status !== 'erreicht').sort((p, q)=>(p.priority || 99) - (q.priority || 99)), done = list.filter(g=>g.status === 'erreicht').sort((p, q)=>(q.achievedAt || 0) - (p.achievedAt || 0));
+    h += `<div class="coach-area"><h3 class="coach-h">${areaIco(a)}<span>${coachEsc(d.bereiche[a])}</span></h3>` + act.map(goal).join('')
+      + (done.length ? `<div class="coach-sub">${c.achieved}</div>` + done.map(goal).join('') : '') + `</div>`;
+  });
+  return any ? h : `<p class="settings-note">${c.noGoals}</p>`;
+}
+function coachHabitsHtml(st){
+  const c = ct(), v = coachView, lang = state.settings.lang === 'de' ? 'de-DE' : 'en-GB';
+  return coachWith(st, ()=>{
+    const H = habitsOf(state), daily = habitDailyList(H).slice(0, HABIT_MAX), weekly = habitWeeklyList(H).slice(0, HABIT_WEEK_MAX);
+    if(!daily.length && !weekly.length) return `<p class="settings-note">${c.noHabits}</p>`;
+    const days = habitWeekDays(v.week), today = dayKey(new Date()), f = x=>x.toLocaleDateString(lang, { day:'numeric', month:'numeric' });
+    const cell = on=>`<span class="coach-box${on ? ' on' : ''}">${on ? '✓' : ''}</span>`;
+    let h = `<div class="coach-weeknav"><button class="ghost-btn coach-mini" data-wk="-1">‹</button><span>${c.week.replace('{n}', isoWeek(days[1]))} · ${f(days[0])}–${f(days[6])}</span><button class="ghost-btn coach-mini" data-wk="1" ${v.week >= dayKey(weekStart(new Date())) ? 'disabled' : ''}>›</button></div>`;
+    h += `<table class="coach-habits"><tr><th>${c.daily}</th>${days.map(x=>`<th${dayKey(x) === today ? ' class="today"' : ''}>${escapeHtml(x.toLocaleDateString(lang, { weekday:'narrow' }))}</th>`).join('')}<th></th></tr>`
+      + daily.map(hb=>`<tr><td><span class="coach-hname">${hb.area ? areaIco(hb.area) : ''}${coachEsc(hb.name)}</span></td>${days.map(x=>`<td>${cell(habitOn(hb.id, x))}</td>`).join('')}<td class="coach-cnt">${days.filter(x=>habitOn(hb.id, x)).length}/7</td></tr>`).join('');
+    if(weekly.length) h += `<tr><th>${c.weekly}</th><th colspan="8"></th></tr>` + weekly.map(hb=>`<tr><td><span class="coach-hname">${hb.area ? areaIco(hb.area) : ''}${coachEsc(hb.name)}</span></td><td colspan="7">${cell(habitWeekOn(hb.id, v.week))}</td><td></td></tr>`).join('');
+    return h + `</table>`;
+  });
+}
+
+/* ---- the operator: coach codes ---- */
+async function coachAdminOpen(){ coachView = 'admin'; openModal('coach-modal'); coachAdminRender(); }
+async function coachAdminRender(){
+  const c = ct(), body = document.getElementById('coach-body');
+  document.getElementById('coach-title').textContent = c.adminTitle;
+  let codes;
+  try{ codes = await sbRequest('/rest/v1/coach_codes?select=code,slots,note,created_at,claimed_at&order=created_at.desc'); }
+  catch(e){ body.innerHTML = `<p class="settings-note">${coachErr(e)}</p>`; return; }
+  body.innerHTML = `<input class="small-input" id="ca-note" placeholder="${coachEsc(c.notePh)}" maxlength="120"><p class="settings-note">${c.adminNew}</p>`
+    + `<div class="coach-snaps">${[5, 10, 20].map(n=>`<button class="primary-btn coach-mini" data-slots="${n}">${c.places.replace('{n}', n)}</button>`).join('')}</div>`
+    + (codes.length ? codes.map(k=>`<div class="coach-row"><span class="coach-code">${coachEsc(k.code)}</span><div class="coach-cname"><b>${c.places.replace('{n}', k.slots)}${k.note ? ' · ' + coachEsc(k.note) : ''}</b><small>${k.claimed_at ? c.claimed.replace('{date}', coachDate(k.claimed_at)) : c.free}</small></div>`
+      + (k.claimed_at ? '' : `<button class="ghost-btn coach-mini" data-copy="${coachEsc(k.code)}">${c.copy}</button>`) + `</div>`).join('') : `<p class="settings-note">${c.adminNone}</p>`);
+  body.querySelectorAll('[data-slots]').forEach(b=>{ b.onclick = async ()=>{
+    try{ await coachRpc('admin_coach_code_create', { p_slots:+b.dataset.slots, p_note:document.getElementById('ca-note').value.trim() }); coachAdminRender(); }catch(e){ uiNotice(coachErr(e)); }
+  }; });
+  body.querySelectorAll('[data-copy]').forEach(b=>{ b.onclick = ()=>{ try{ navigator.clipboard.writeText(b.dataset.copy).then(()=>{ b.textContent = c.copied; }); }catch(e){} }; });
+}
+
 function privacyOpen(){ legalOpen('privacy'); }
 /* 29.10.2026: terms and privacy must be accepted once at the start – a tick when the account is created; whoever signs in on a
    device that has not seen it yet (e.g. accounts from before) is asked once. Kept per device (ewolfe_consent_v1, date and version). */
@@ -11298,7 +11747,7 @@ function renderSettingsStorage(){
   const max = storeCeiling(), pct = Math.min(100, Math.round(total / max * 100));
   box.innerHTML = `${escapeHtml(d.storageUse.replace('{mb}', mb(total)).replace('{max}', Math.round(max / 1048576)).replace('{p}', pct))}<br>${escapeHtml(d.storageParts.replace('{photos}', mb(photos)).replace('{cards}', mb(cards)).replace('{draw}', mb(drawings)).replace('{rest}', mb(Math.max(0, total - photos - cards - drawings))))}`;
 }
-function openSettings(){ renderSettingsSync(); renderSettingsPrivacy(); renderSettingsStorage(); renderNotes(); openModal('settings-modal'); }
+function openSettings(){ renderSettingsSync(); renderSettingsPrivacy(); renderSettingsStorage(); renderNotes(); try{ renderSettingsCoach(); }catch(e){ console.error(e); } openModal('settings-modal'); }
 function syncInit(){
   sbLoadSession();
   e2eLoad();

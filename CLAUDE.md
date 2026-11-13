@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 9.11.2026 (Version 2.9.3) – zuerst lesen
+## Übergabe – Stand 13.11.2026 (Version 2.10.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -64,6 +64,8 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
     Halbleder mit Marmorpapier, Lady geblümter Baumwollstoff mit Leinenschild, Mystery Pergament/Low-Poly mit kleinem Mond; alle mit Gummiband, kein Lotus) in
     „Lebensrad APP/Ausgang/18 Notizbücher – Cover und Buchrücken – alle Designs“. Wenn die Bilder kommen: eigene Liste der Notizbuch-Farben (statt `TB_COVERS`) für
     `tbCoverUrl`/`tbSpineHtml`/Einstellungen, wenn `tbIsNotes`.
+  - **Coach-Teilen Stufe 1 gebaut (2.10.0, 13.11.):** noch offen: Betreiber-Konto in `app_admins` eintragen (Nutzerin muss ihr Konto bestätigen), echter Test mit
+    zwei Konten auf dem iPad, Bezahlung (Stripe/Paddle), Datenschutz anwaltlich prüfen. Frühere Planung:
   - **Coach-Teilen als nächster großer Schritt (Wunsch der Nutzerin 8.11.):** Pakete bis 5/10/20 Klientinnen mit Code, Preis je Klientin erst über, dann gleich,
     dann unter dem Einzelabo (Vorschlag 29/49/79 € im Monat). Dazu Idee „Fragen-Kauf“ (Fragen der Coaches als Paket für das Lebensrad alle 1–3 Monate). Erst planen
     und der Nutzerin zeigen; vorher fragen, ob die Coaches geantwortet haben (Abmachung aus dem Ältestenrat). Details im Handoff vom 08.11.2026.
@@ -193,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.9.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.10.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1082,6 +1084,22 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     höchstens 150 px × `--tbk`), die wöchentlichen Gewohnheiten rechts daneben mit je einem kleinen Kästchen (`.tw-weekly`, Name bis zwei Zeilen); im Querformat
     darunter. Bereiche je **drei Zeilen** (18-px-Takt, Schrift 12,5 px × `--tbk`, Feld fest 54 px hoch, Bereiche gleichmäßig verteilt), Stolz eine Zeile tiefer
     und drei Zeilen. `tw-many`/`tw-wide` gibt es nicht mehr. Test `t295.py` in `Lebensrad APP/eWolfe-Skripte/`.
+- **2.10.0 (13.11.2026) Coach-Teilen Stufe 1 (Wunsch der Nutzerin; Entscheidungen: Codes vergibt die Betreiberin, verschlüsselt für den Coach, Coach in derselben App):**
+    **Supabase** (Migrationen `coach_sharing_stage1`, `coach_share_choices`): `app_admins` (Betreiber), `coach_codes` (Coach-Codes `C…-…` mit Plätzen 5/10/20, nur Admins lesen),
+    `coaches` (Name, Plätze, öffentlicher ECDH-Schlüssel `pub`, privater Schlüssel `priv` nur mit dem Datenschlüssel des Coaches verschlüsselt), `coach_invites` (Einladungscodes
+    `K…-…`, einmal gültig), `coach_links` (Coach ↔ Klient, `active`, `share_wheels|goals|habits`; ein aktiver Coach je Klient), `coach_shares` (je Verbindung ein verschlüsselter
+    Ausschnitt). Alles mit RLS; Schreiben nur über Funktionen (security definer, prüfen `auth.uid()`): `admin_coach_code_create`, `coach_redeem`, `coach_rekey`, `coach_set_name`,
+    `coach_invite_create` (Plätze = aktive Verbindungen + offene Einladungen), `coach_invite_delete`, `coach_connect`, `coach_my`, `coach_share_set`, `coach_link_end` (löscht den Ausschnitt).
+    Konto löschen nimmt alles per `on delete cascade` mit. **App** (Abschnitt „Coach sharing, stage 1“ vor `privacyOpen`, Texte `COACH_TXT` de/en, `ct()`): Einstellungen → „Coach“
+    (`renderSettingsCoach`): Klient verbindet sich mit Code, Name für den Coach (`state.settings.coachName`, sonst Teil der E-Mail), wählt Lebensräder/Ziele/Gewohnheiten, Einwilligung
+    (Art. 9 DSGVO) Pflicht; Schalter danach jederzeit, „Teilen beenden“. Nie geteilt: Tagebücher, Notizbücher, Dankbarkeit, Übungen, Stimmungen, Trophäen. Ausschnitt (`coachPayload`:
+    Bewertungen mit Wunsch, Ziele mit Grund/Schritten, Gewohnheiten der letzten 26 Wochen) wird mit `coachSeal` (ECDH P-256 mit neuem Schlüssel je Mal + AES-256-GCM, gzip) für den
+    Coach verschlüsselt und nach jeder Änderung neu hochgeladen (`saveState` → `coachPushSoon`, nach jedem Sync `coachAfterSync`; nur wenn sich der Inhalt geändert hat, `ewolfe_coach_hash`).
+    „Ich bin Coach – Coach-Code eingeben“ (`coachRedeemOpen`, braucht entsperrte Daten) → Coach-Bereich (`#coach-modal`, `coachAreaRender`): eigener Name, „n von m Plätzen“,
+    Einladungscodes erstellen/kopieren/löschen, verbundene Klienten (Name entschlüsselt), „Ansehen“ (`coachClientRender`: Tabs Lebensräder = `comparePictureSvg` mit 1–3 wählbaren
+    Rädern, Ziele je Bereich aktiv/erreicht, Gewohnheiten je Woche) – die Zeichenfunktionen laufen kurz auf dem Ausschnitt (`coachWith` tauscht `state`). Passt der Coach-Schlüssel
+    nicht mehr (nach „Neu beginnen“): „Neuen Schlüssel erstellen“ (`coach_rekey`), Klienten teilen beim nächsten Öffnen neu. Admins: „Coach-Codes verwalten“ (`coachAdminRender`).
+    Datenschutzerklärung Abschnitt 3a (de/en). Test `t2100.py` in `Lebensrad APP/eWolfe-Skripte/` (nachgebautes Supabase, drei Geräte, Chromium + WebKit, 25 Prüfungen).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
