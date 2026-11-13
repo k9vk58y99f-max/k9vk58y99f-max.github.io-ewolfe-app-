@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 13.11.2026 (Version 2.10.0) – zuerst lesen
+## Übergabe – Stand 13.11.2026 (Version 2.11.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.10.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.11.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1100,6 +1100,19 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     Rädern, Ziele je Bereich aktiv/erreicht, Gewohnheiten je Woche) – die Zeichenfunktionen laufen kurz auf dem Ausschnitt (`coachWith` tauscht `state`). Passt der Coach-Schlüssel
     nicht mehr (nach „Neu beginnen“): „Neuen Schlüssel erstellen“ (`coach_rekey`), Klienten teilen beim nächsten Öffnen neu. Admins: „Coach-Codes verwalten“ (`coachAdminRender`).
     Datenschutzerklärung Abschnitt 3a (de/en). Test `t2100.py` in `Lebensrad APP/eWolfe-Skripte/` (nachgebautes Supabase, drei Geräte, Chromium + WebKit, 25 Prüfungen).
+- **2.11.0 (13.11.2026) Persönlichkeitsrad (Wunsch eines Coaches, „Deep Ocean“):** zusätzlich zu den Lebensrädern, Karte unten auf der Seite Bereiche
+    (`personaCardHtml`), Fenster `#persona-modal`. Modell: Big Five mit je zwei Aspekten = 10 Teile (DeYoung, Quilty & Peterson 2007). Fragen: die 100 Items der
+    **Big Five Aspect Scales (BFAS)** aus dem IPIP – gemeinfrei, auch kommerziell frei; deutsche Fassung selbst übersetzt (`PERSONA_RAW`: Schlüssel ±1, en, de).
+    **Nicht** „Deep O.C.E.A.N.“ nachbauen (eigenes Produkt, Name/Fragebogen geschützt) – nie den Namen verwenden. Neurotizismus umgekehrt als „Emotionale Stabilität“
+    (Gelassenheit = umgekehrte Volatilität, Zuversicht = umgekehrter Rückzug, `PERSONA_REV`). Fragebogen 10 Seiten à 10 Aussagen (je eine aller zehn Hälften,
+    `PERSONA_ITEMS`), 5 Stufen, Hinweis bei Lücken, Entwurf je Gerät (`ewolfe_persona_draft`, unterbrechen/weitermachen). Werte 0–100 % = Mittelwert, kein
+    Normvergleich (`personaScore`), Stufen < 40 / 40–60 / > 60 mit eigenem Text je Hälfte (`PERSONA_TXT`). Rad `personaWheelSvg` (10 Keile in `IST_COL`, älteres
+    Ergebnis gestrichelt in `KNOB_GOLD`), Vergleich per Auswahl, Ergebnis löschen (Grabstein `'p:' + id`). Daten `state.persona = [{id, ts, ans, sc}]`, synchronisiert
+    (`personaOf`, `personaMerge` Vereinigung nach id; in `syncPayload`, `syncNormalize`, `syncApplyState`, `mergeBackupInto`, `delApply`, `delReviveAll`).
+    **Coach:** vierter Schalter „Persönlichkeitsrad“ (Supabase-Migration `coach_share_persona`: Spalte `coach_links.share_persona`, `coach_my` liefert sie,
+    `coach_share_set` mit `p_persona default null` = unverändert, ältere App-Versionen laufen weiter); geteilt werden nur die Werte, nie die Antworten; Coach-Tab
+    „Persönlichkeit“ (nur lesen). Datenschutzerklärung 3a ergänzt. Test `t2110.py` in `Lebensrad APP/eWolfe-Skripte/` (40 Prüfungen, Chromium + WebKit, Bilder in
+    drei Designs); `t2100.py` läuft weiter. Offen: Texte vom Coach gegenlesen lassen, auf dem iPad ansehen.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

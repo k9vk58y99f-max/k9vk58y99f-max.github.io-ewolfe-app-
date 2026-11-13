@@ -1962,6 +1962,61 @@ html .lib-simple .shelf-img.lib-simple-shelf{ height:min(calc(100vh - var(--nav-
 .acc-del-btn{ color:#d9534f !important; border-color:rgba(217,83,79,0.45) !important; }
 html.theme-retreat .lib-news{ background:#fffdf8; }
 
+/* 13.11.2026: personality wheel (Big Five aspects) */
+.persona-modal{ max-width:760px; }
+#persona-body, .persona-res{ display:flex; flex-direction:column; gap:10px; padding-bottom:24px; }
+.persona-card{ display:flex; flex-direction:column; gap:10px; margin-top:22px; }
+.persona-card-row{ display:flex; gap:14px; align-items:center; }
+.persona-card-wheel{ flex:0 0 84px; width:84px; color:var(--ew-text); }
+.persona-card-text{ margin:6px 0 0; font-size:var(--fs-text); line-height:1.45; opacity:0.85; }
+.persona-card-btn, .persona-wide{ width:100%; }
+.persona-intro p{ margin:0 0 10px; line-height:1.5; }
+.persona-legend{ display:flex; flex-direction:column; gap:4px; font-size:14px; opacity:0.85; }
+.persona-legend b{ display:inline-block; width:22px; }
+.persona-disc{ font-size:12px; opacity:0.65; line-height:1.4; margin:10px 0 0; }
+.persona-progress{ display:flex; justify-content:space-between; font-size:13px; opacity:0.8; }
+.persona-bar{ height:6px; border-radius:3px; background:rgba(127,127,127,0.25); overflow:hidden; }
+.persona-bar i{ display:block; height:100%; background:var(--gold); transition:width .25s; }
+.persona-items{ display:flex; flex-direction:column; gap:6px; }
+.persona-item{ padding:12px 4px 10px; border-bottom:1px solid var(--ew-line); }
+.persona-item.miss .persona-q{ color:#c0392b; }
+.persona-q{ font-size:var(--fs-text); line-height:1.4; margin-bottom:10px; display:flex; gap:8px; }
+.persona-qn{ opacity:0.5; min-width:24px; font-size:13px; padding-top:1px; }
+.persona-scale{ display:grid; grid-template-columns:repeat(5, 1fr); gap:4px; }
+.persona-opt{ background:none; border:0; padding:4px 0; display:flex; flex-direction:column; align-items:center; gap:4px; color:inherit; cursor:pointer; font:inherit; }
+.persona-opt i{ width:26px; height:26px; border-radius:50%; border:2px solid var(--gold); box-sizing:border-box; transition:background .15s, transform .15s; }
+.persona-opt:nth-child(1) i, .persona-opt:nth-child(5) i{ width:32px; height:32px; }
+.persona-opt:nth-child(3) i{ width:22px; height:22px; }
+.persona-opt.on i{ background:var(--gold); transform:scale(1.08); }
+.persona-opt span{ font-size:11px; opacity:0.75; text-align:center; line-height:1.2; }
+.persona-opt.on span{ opacity:1; }
+.persona-missing{ color:#c0392b; font-size:14px; margin:0; }
+.persona-nav{ display:flex; gap:10px; justify-content:space-between; margin-top:6px; }
+.persona-nav > button{ flex:1; }
+.persona-nav2 > button{ flex:0 1 auto; }
+.persona-head{ display:flex; flex-direction:column; gap:8px; }
+.persona-dates{ display:flex; flex-wrap:wrap; gap:6px; }
+.persona-cmp{ font-size:14px; display:flex; gap:8px; align-items:center; }
+.persona-cmp select{ font:inherit; padding:4px 8px; border-radius:8px; }
+.persona-wheel{ color:var(--ew-text); max-width:520px; width:100%; align-self:center; }
+.persona-svg{ width:100%; height:auto; display:block; overflow:visible; }
+.persona-key{ display:flex; gap:8px; align-items:center; justify-content:center; font-size:13px; flex-wrap:wrap; }
+.persona-key span{ display:inline-block; width:22px; height:10px; border-radius:3px; }
+.persona-key .pk-now{ background:var(--pc, var(--gold)); opacity:0.8; }
+.persona-key .pk-old{ border-top:2px dashed var(--gold); height:0; margin-left:10px; }
+.persona-howread{ font-size:14px; line-height:1.45; opacity:0.85; margin:0; }
+.persona-trait{ margin:0; }
+.persona-trait-h{ display:flex; gap:10px; align-items:center; font-size:var(--fs-sub); }
+.persona-letter{ width:28px; height:28px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; border:1.5px solid var(--gold); font-size:14px; flex:none; }
+.persona-trait-t{ font-size:14px; opacity:0.8; margin:6px 0 8px; line-height:1.4; }
+.persona-asp{ margin:10px 0 0; }
+.persona-asp-h{ display:flex; justify-content:space-between; gap:8px; font-size:var(--fs-text); flex-wrap:wrap; }
+.persona-asp-h em{ font-style:normal; font-size:13px; }
+.persona-asp-h em.up{ color:#3fae6a; } .persona-asp-h em.down{ color:#d0574b; }
+.persona-meter{ position:relative; height:8px; border-radius:4px; background:rgba(127,127,127,0.22); margin:6px 0; }
+.persona-meter i{ display:block; height:100%; border-radius:4px; background:var(--pc, var(--gold)); }
+.persona-meter u{ position:absolute; top:-3px; width:2px; height:14px; margin-left:-1px; background:currentColor; opacity:0.7; }
+.persona-asp p{ margin:0; font-size:14px; line-height:1.45; opacity:0.9; }
 /* 13.11.2026: coach sharing */
 .coach-parts{ display:flex; flex-direction:column; gap:6px; margin:6px 0 8px; }
 .coach-check{ display:flex; align-items:flex-start; gap:8px; font-size:var(--fs-text); line-height:1.35; cursor:pointer; text-align:left; }
@@ -2166,6 +2221,17 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
       <button class="icon-btn" onclick="closeModal('coach-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
     </div>
     <div id="coach-body"></div>
+  </div>
+</div>
+
+<!-- 2.11.0: personality wheel (Big Five aspects): questionnaire and result -->
+<div class="modal-backdrop" id="persona-modal">
+  <div class="modal persona-modal">
+    <div class="modal-top">
+      <h2 class="modal-title" id="persona-title">Persönlichkeitsrad</h2>
+      <button class="icon-btn" onclick="closeModal('persona-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button>
+    </div>
+    <div id="persona-body"></div>
   </div>
 </div>
 
@@ -2531,7 +2597,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.10.0';
+const APP_VERSION = '2.11.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2729,6 +2795,7 @@ function normalizeState(st){
   if(!st.settings) st.settings = { lang:'de', theme:'dark' };
   AREAS.forEach(a=>{ if(!Array.isArray(st.bewertungen[a])) st.bewertungen[a] = []; if(!Array.isArray(st.ziele[a])) st.ziele[a] = []; }); // e.g. 'freude' (1.77.0)
   ensureBuiltInMeditations(st);
+  personaOf(st); // 2.11.0: personality wheel
   return st;
 }
 function loadState(){
@@ -5188,6 +5255,7 @@ function delApply(st){
   st.ereignisse = (st.ereignisse || []).filter(e=>!gone('e', e.id));
   st.meditationen = (st.meditationen || []).filter(m=>!gone('m', m.id));
   if(st.habits && Array.isArray(st.habits.list)) st.habits.list = st.habits.list.filter(h=>!gone('h', h.id)); // 1.99.2
+  if(Array.isArray(st.persona)) st.persona = st.persona.filter(r=>!gone('p', r.id)); // 2.11.0
   Object.values((st.tagebuch && st.tagebuch.jahre) || {}).forEach(y=>{
     if(Array.isArray(y.seiten)) y.seiten = y.seiten.filter(p=>p.type==='titel' || !gone('s', p.id));
   });
@@ -5206,6 +5274,7 @@ function delReviveAll(st){
   AREAS.forEach(a=>((st.bewertungen && st.bewertungen[a]) || []).forEach(e=>revive('b', a + ':' + e.ts)));
   (st.ereignisse || []).forEach(e=>revive('e', e.id));
   (st.meditationen || []).forEach(m=>revive('m', m.id));
+  (st.persona || []).forEach(r=>revive('p', r.id));
   Object.values((st.tagebuch && st.tagebuch.jahre) || {}).forEach(y=>(y.seiten || []).forEach(p=>revive('s', p.id)));
   Object.keys((st.tagebuch && st.tagebuch.jahre) || {}).forEach(k=>revive('j', k));
 }
@@ -5353,6 +5422,7 @@ function mergeBackupInto(cur, inc, mode){
   // habit tracker (1.99.2): habits by id (the one changed last wins), ticks by day and habit (the latest tick or untick wins)
   out.habits = habitsMerge(habitsOf(out), habitsOf(inc));
   out.xmasTree = xmasMerge(xmasOf(out), xmasOf(inc)); // 2.5.0
+  out.persona = personaMerge(personaOf(out), personaOf(inc)); // 2.11.0
   // diary: whole years that are missing are added; inside a shared year missing pages are added
   const score = pg=>((pg.text||'').length) + tbAreaTextLen(pg) + ((pg.strokes||[]).length*10) + ((pg.images||[]).length*50);
   const written = pg=>pg.type!=='titel' && score(pg)>0;
@@ -6701,7 +6771,8 @@ function renderAreasPage(){
     <div class="areas-wheel-wrap" id="areas-wheel">${areasWheelSvg()}</div>
     ${AREAS.map(card).join('')}
     <button class="primary-btn areas-cta" onclick="areasSave()">${first ? d.areasSaveFirst : d.areasSave}</button>
-    ${first ? `<button class="ghost-btn areas-restore" onclick="document.getElementById('import-file-input').click()">${d.restoreFromBackup}</button>` : ''}`;
+    ${first ? `<button class="ghost-btn areas-restore" onclick="document.getElementById('import-file-input').click()">${d.restoreFromBackup}</button>` : ''}
+    ${personaCardHtml()}`;
 }
 // Freude on the Bereiche page (1.85.0): five suns to tap instead of sliders, and what the wheel leads us to expect
 function areasJoyHtml(){
@@ -10515,7 +10586,7 @@ de:`<p class="privacy-draft">Entwurf – vor dem öffentlichen Start rechtlich p
 <p>Bevor deine Inhalte an den Server gehen, verschlüsselt die App sie auf deinem Gerät mit AES-256-GCM. Der Schlüssel dafür wird auf deinem Gerät erzeugt. Er ist im Konto nur verschlossen hinterlegt: einmal mit deinem Passwort (abgeleitet mit PBKDF2-SHA256 und 600 000 Durchläufen), einmal mit deinem Wiederherstellungs-Code und – wenn du einen einrichtest – mit deinem Passkey. Der Passkey bleibt in deinem Schlüsselbund bzw. Passwort-Manager; wir erhalten davon nur eine Kennung und den damit verschlossenen Schlüssel. Auf dem Server sehen wir deshalb nur deine E-Mail-Adresse, die Zeitpunkte der Speicherung, die Größe und einen unlesbaren Datenblock.</p>
 <p><strong>Wichtig:</strong> Wenn du dein Passwort vergisst und weder deinen Wiederherstellungs-Code noch einen Passkey hast, kann niemand deine Daten im Konto wiederherstellen – auch wir nicht. Bewahre den Code deshalb sicher auf. Du findest ihn in den Einstellungen unter „Datenschutz“.</p>
 <h3>3a. Teilen mit einem Coach (freiwillig)</h3>
-<p>Wenn du mit dem Einladungscode eines Coaches teilst, wählst du selbst, was dein Coach lesen darf: Lebensräder mit Vergleichen, Ziele und/oder Gewohnheiten (die letzten 26 Wochen). Tagebücher, Notizbücher, Dankbarkeit, Übungen, Stimmungen und Trophäen werden nie geteilt. Der geteilte Ausschnitt wird auf deinem Gerät für den Schlüssel deines Coaches verschlüsselt (ECDH P-256 und AES-256-GCM); lesen können ihn nur dein Coach und du, nicht wir. Der Server kennt nur, dass eine Verbindung besteht, und wann sie begonnen und geändert wurde. Rechtsgrundlage ist deine ausdrückliche Einwilligung (Art. 9 Abs. 2 lit. a DSGVO), die du beim Verbinden gibst. Du kannst das Teilen in den Einstellungen unter „Coach“ jederzeit beenden; der geteilte Ausschnitt wird dann gelöscht. Was dein Coach bis dahin gelesen hat, liegt in seiner Verantwortung.</p>
+<p>Wenn du mit dem Einladungscode eines Coaches teilst, wählst du selbst, was dein Coach lesen darf: Lebensräder mit Vergleichen, Ziele, Gewohnheiten (die letzten 26 Wochen) und/oder die Ergebnisse deines Persönlichkeitsrads (nur die Werte, nicht deine einzelnen Antworten). Tagebücher, Notizbücher, Dankbarkeit, Übungen, Stimmungen und Trophäen werden nie geteilt. Der geteilte Ausschnitt wird auf deinem Gerät für den Schlüssel deines Coaches verschlüsselt (ECDH P-256 und AES-256-GCM); lesen können ihn nur dein Coach und du, nicht wir. Der Server kennt nur, dass eine Verbindung besteht, und wann sie begonnen und geändert wurde. Rechtsgrundlage ist deine ausdrückliche Einwilligung (Art. 9 Abs. 2 lit. a DSGVO), die du beim Verbinden gibst. Du kannst das Teilen in den Einstellungen unter „Coach“ jederzeit beenden; der geteilte Ausschnitt wird dann gelöscht. Was dein Coach bis dahin gelesen hat, liegt in seiner Verantwortung.</p>
 <h3>4. Speicherung auf deinem Gerät</h3>
 <p>Die App speichert deine Inhalte, deine Einstellungen (Sprache, Design) und deine Anmeldung im Speicher deines Browsers (localStorage) auf deinem Gerät. Das ist für die App technisch notwendig (§ 25 Abs. 2 Nr. 2 TDDDG). Auf dem Gerät selbst liegen die Daten unverschlüsselt. Schütze dein Gerät deshalb mit einer Code-Sperre. Beim Abmelden bleiben die Daten auf dem Gerät erhalten. Du kannst sie entfernen, indem du die Websitedaten im Browser löschst.</p>
 <h3>5. Dienstleister</h3>
@@ -10559,7 +10630,7 @@ en:`<p class="privacy-draft">Draft – to be checked by a lawyer before the publ
 <p>Before your content goes to the server, the app encrypts it on your device with AES-256-GCM. The key for this is created on your device. It is only stored in the account in locked form: once with your password (derived with PBKDF2-SHA256 and 600,000 rounds), once with your recovery code and – if you set one up – with your passkey. The passkey stays in your keychain or password manager; we only receive an identifier and the key locked with it. On the server we therefore only see your email address, the times of saving, the size and an unreadable block of data.</p>
 <p><strong>Important:</strong> if you forget your password and have neither your recovery code nor a passkey, nobody can restore the data in your account – not even us. Keep the code in a safe place. You can find it in the settings under “Privacy”.</p>
 <h3>3a. Sharing with a coach (optional)</h3>
-<p>If you share using a coach’s invitation code, you choose what your coach may read: life wheels with comparisons, goals and/or habits (the last 26 weeks). Diaries, notebooks, gratitude, exercises, moods and trophies are never shared. The shared excerpt is encrypted on your device for your coach’s key (ECDH P-256 and AES-256-GCM); only your coach and you can read it, not us. The server only knows that a connection exists and when it began and changed. The legal basis is your explicit consent (Art. 9(2)(a) GDPR), which you give when connecting. You can stop sharing at any time in the settings under “Coach”; the shared excerpt is then deleted. What your coach has read until then is their responsibility.</p>
+<p>If you share using a coach’s invitation code, you choose what your coach may read: life wheels with comparisons, goals, habits (the last 26 weeks) and/or the results of your personality wheel (only the scores, not your individual answers). Diaries, notebooks, gratitude, exercises, moods and trophies are never shared. The shared excerpt is encrypted on your device for your coach’s key (ECDH P-256 and AES-256-GCM); only your coach and you can read it, not us. The server only knows that a connection exists and when it began and changed. The legal basis is your explicit consent (Art. 9(2)(a) GDPR), which you give when connecting. You can stop sharing at any time in the settings under “Coach”; the shared excerpt is then deleted. What your coach has read until then is their responsibility.</p>
 <h3>4. Storage on your device</h3>
 <p>The app stores your content, your settings (language, design) and your sign-in in your browser's storage (localStorage) on your device. This is technically necessary for the app (Section 25 (2) no. 2 TDDDG). On the device itself the data is not encrypted, so please protect your device with a passcode. When you sign out, the data stays on the device. You can remove it by deleting the website data in your browser.</p>
 <h3>5. Service providers</h3>
@@ -10666,7 +10737,7 @@ Object.assign(I18N.en, { legal_privacy:'Privacy', legal_imprint:'Imprint', legal
 /* ---- what is synced, and how to tell whether it changed ---- */
 function syncPayload(st){
   // 1.99.0: the mindfulness log (exercises, moods, gratitude) travels too – before, it stayed on the device where it was made
-  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {}, achtsamkeit:{ log:(st.achtsamkeit && Array.isArray(st.achtsamkeit.log)) ? st.achtsamkeit.log : [] }, habits:habitsOf(st), xmasTree:xmasOf(st) };
+  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {}, achtsamkeit:{ log:(st.achtsamkeit && Array.isArray(st.achtsamkeit.log)) ? st.achtsamkeit.log : [] }, habits:habitsOf(st), xmasTree:xmasOf(st), persona:personaOf(st) };
 }
 function syncHash(st){
   const s = JSON.stringify(syncPayload(st));
@@ -10691,6 +10762,7 @@ function syncNormalize(d){
   if(!Array.isArray(o.achtsamkeit.log)) o.achtsamkeit.log = [];
   xmasOf(o); // 2.5.0: the Christmas tree one decorates oneself
   habitsOf(o); // 1.99.2: the habit tracker (an account from an older app has none)
+  personaOf(o); // 2.11.0: the personality wheel
   return o;
 }
 // all mindfulness entries of both sides, by id; a mood given later wins (the log is only ever added to)
@@ -10712,13 +10784,14 @@ function localIsPristine(){
     && (state.meditationen || []).every(m=>String(m.id).startsWith('seed-'))
     && !((state.achtsamkeit && state.achtsamkeit.log) || []).length
     && !habitsOf(state).list.length && !Object.keys(habitsOf(state).marks).length
+    && !personaOf(state).length
     && backupSummary(state).diaryPages === 0;
 }
 function syncEditorOpen(){
   // never swap the data out from under something the person is in the middle of editing
   if(document.getElementById('tb-overlay').classList.contains('open')) return true;
   const pristine = localIsPristine();
-  const viewOnly = ['sync-modal', 'goals-page', 'medi-modal', 'settings-modal', 'breath-modal', 'medi-player-modal', 'areas-page'];
+  const viewOnly = ['sync-modal', 'goals-page', 'medi-modal', 'settings-modal', 'breath-modal', 'medi-player-modal', 'areas-page', 'persona-modal'];
   return [...document.querySelectorAll('.modal-backdrop.open')].some(m=> !viewOnly.includes(m.id) && !(pristine && m.id === 'eval-modal'));
 }
 function syncMerge(local, remote){
@@ -10739,6 +10812,7 @@ function syncApplyState(newState){
     newState.achtsamkeit = Object.assign({}, newState.achtsamkeit || {}, { log:achUnion(state.achtsamkeit && state.achtsamkeit.log, newState.achtsamkeit && newState.achtsamkeit.log) });
     newState.habits = habitsMerge(habitsOf(state), habitsOf(newState)); // the same for the habit tracker (1.99.2)
     newState.xmasTree = xmasMerge(xmasOf(state), xmasOf(newState)); // and for the Christmas tree (2.5.0)
+    newState.persona = personaMerge(personaOf(state), personaOf(newState)); // and the personality wheel (2.11.0)
     delApply(newState);
     state = newState;
     saveState();
@@ -10820,11 +10894,11 @@ async function syncNow(){
       if(pristine || (metaOk && !shrunk && localHash === meta.hash)){
         remote.geloescht = delUnion(state.geloescht, remote.geloescht); // e.g. a sample meditation removed before signing in
         delApply(remote);
-        const remoteAch = remote.achtsamkeit.log.length, remoteHab = JSON.stringify(habitsOf(remote)) + JSON.stringify(xmasOf(remote));
+        const remoteAch = remote.achtsamkeit.log.length, remoteHab = JSON.stringify(habitsOf(remote)) + JSON.stringify(xmasOf(remote)) + JSON.stringify(personaOf(remote));
         syncApplyState(remote); // this device has nothing newer of its own: just receive
         syncFpRefresh(); // what just arrived is not an edit of this device
         // mindfulness entries / habits the account did not have (e.g. written by an app before 1.99.0) go back up in the next round
-        const achGrew = state.achtsamkeit.log.length > remoteAch || JSON.stringify(habitsOf(state)) + JSON.stringify(xmasOf(state)) !== remoteHab;
+        const achGrew = state.achtsamkeit.log.length > remoteAch || JSON.stringify(habitsOf(state)) + JSON.stringify(xmasOf(state)) + JSON.stringify(personaOf(state)) !== remoteHab;
         // remember the locks as they are in the account: if this device has newer ones (a new password), the next round writes them
         syncRemember(uid, full.revision, achGrew ? 'ach' : syncHash(state), syncCounts(state), remoteEnc ? full.data.kv || 0 : 0);
         if(!metaOk) firstPairing = 'pulled';
@@ -11270,6 +11344,273 @@ function renderSettingsPrivacy(){
   const del = document.getElementById('pk-del-btn');
   if(del) del.onclick = async ()=>{ if(!(await uiDialog(d.pkRemoveAsk, { confirm:true, okText:d.pkRemove }))) return; e2e.pk = []; e2e.kv = Date.now(); e2eSave(); syncNow(); renderSettingsPrivacy(); };
 }
+/* ===== Persönlichkeitsrad (2.11.0, wish of a coach) =====
+   The Big Five with two aspects each = ten parts (DeYoung, Quilty & Peterson 2007: "Between facets and domains: 10 aspects of the
+   Big Five"). Questions: the 100 items of the Big Five Aspect Scales (BFAS) from the International Personality Item Pool – public
+   domain, free for any use, also commercial (ipip.ori.org). German wording our own. NOT "Deep O.C.E.A.N." (a product of its own,
+   name and questionnaire may be protected). Results are no norm comparison: 0–100 % = how much the statements apply on average.
+   state.persona = [{ id, ts, ans:{ '<aspect><n>':1..5 }, sc:{ aspect:0..100 } }] – synced (union by id, deletion 'p:' + id).
+   The questionnaire in progress stays on the device (ewolfe_persona_draft). Neuroticism is shown reversed as emotional stability:
+   the items of "calm" measure volatility, those of "confident" withdrawal (PERSONA_REV), so high is good everywhere, as in the wheel. */
+const PERSONA_TRAITS = [['O', ['intellect', 'openness']], ['C', ['industrious', 'orderly']], ['E', ['enthusiasm', 'assert']], ['A', ['compassion', 'polite']], ['S', ['calm', 'confident']]];
+const PERSONA_ASPECTS = PERSONA_TRAITS.reduce((a, t)=>a.concat(t[1]), []);
+const PERSONA_REV = { calm:1, confident:1 };
+// [keyed (+1 / -1), English, German]
+const PERSONA_RAW = {
+  intellect:[[1,"I am quick to understand things.","Ich verstehe Dinge schnell."],[1,"I can handle a lot of information.","Ich kann viele Informationen auf einmal verarbeiten."],[1,"I like to solve complex problems.","Ich löse gern schwierige Probleme."],[1,"I have a rich vocabulary.","Ich habe einen großen Wortschatz."],[1,"I think quickly.","Ich denke schnell."],[1,"I formulate ideas clearly.","Ich kann meine Gedanken klar ausdrücken."],[-1,"I have difficulty understanding abstract ideas.","Abstrakte Gedanken verstehe ich nur schwer."],[-1,"I avoid philosophical discussions.","Philosophischen Gesprächen gehe ich aus dem Weg."],[-1,"I avoid difficult reading material.","Schwierige Texte lese ich lieber nicht."],[-1,"I learn things slowly.","Ich lerne Dinge langsam."]],
+  openness:[[1,"I enjoy the beauty of nature.","Ich genieße die Schönheit der Natur."],[1,"I believe in the importance of art.","Kunst ist für mich wichtig."],[1,"I love to reflect on things.","Ich denke gern über Dinge nach."],[1,"I get deeply immersed in music.","Ich kann tief in Musik versinken."],[1,"I see beauty in things that others might not notice.","Ich sehe Schönes, das anderen vielleicht entgeht."],[1,"I need a creative outlet.","Ich brauche etwas, bei dem ich kreativ sein kann."],[-1,"I do not like poetry.","Gedichte mag ich nicht."],[-1,"I seldom get lost in thought.","Ich bin selten in Gedanken versunken."],[-1,"I seldom daydream.","Ich träume selten mit offenen Augen."],[-1,"I seldom notice the emotional aspects of paintings and pictures.","Die Stimmung in Bildern und Gemälden fällt mir selten auf."]],
+  industrious:[[1,"I carry out my plans.","Ich setze meine Pläne um."],[1,"I finish what I start.","Was ich anfange, bringe ich zu Ende."],[1,"I get things done quickly.","Ich erledige Dinge zügig."],[1,"I always know what I am doing.","Ich weiß immer, was ich tue."],[-1,"I waste my time.","Ich vertrödle meine Zeit."],[-1,"I find it difficult to get down to work.","Es fällt mir schwer, mit der Arbeit anzufangen."],[-1,"I mess things up.","Ich vermassle Dinge."],[-1,"I don't put my mind on the task at hand.","Ich bin mit den Gedanken nicht bei der Sache."],[-1,"I postpone decisions.","Ich schiebe Entscheidungen auf."],[-1,"I am easily distracted.","Ich lasse mich leicht ablenken."]],
+  orderly:[[1,"I like order.","Ich mag Ordnung."],[1,"I keep things tidy.","Ich halte meine Sachen ordentlich."],[1,"I follow a schedule.","Ich halte mich an einen Zeitplan."],[1,"I want everything to be just right.","Ich will, dass alles genau stimmt."],[1,"I see that rules are observed.","Ich achte darauf, dass Regeln eingehalten werden."],[1,"I want every detail taken care of.","Ich will, dass jede Kleinigkeit erledigt ist."],[-1,"I leave my belongings around.","Ich lasse meine Sachen herumliegen."],[-1,"I am not bothered by messy people.","Unordentliche Menschen stören mich nicht."],[-1,"I am not bothered by disorder.","Unordnung stört mich nicht."],[-1,"I dislike routine.","Ich mag keine Routine."]],
+  enthusiasm:[[1,"I make friends easily.","Ich finde leicht Freunde."],[1,"I warm up quickly to others.","Ich werde schnell warm mit anderen."],[1,"I show my feelings when I'm happy.","Wenn ich glücklich bin, zeige ich es."],[1,"I have a lot of fun.","Ich habe viel Spaß."],[1,"I laugh a lot.","Ich lache viel."],[-1,"I am hard to get to know.","Man lernt mich nur schwer kennen."],[-1,"I keep others at a distance.","Ich halte andere auf Abstand."],[-1,"I reveal little about myself.","Ich gebe wenig von mir preis."],[-1,"I rarely get caught up in the excitement.","Ich lasse mich selten von Begeisterung mitreißen."],[-1,"I am not a very enthusiastic person.","Ich bin kein besonders begeisterungsfähiger Mensch."]],
+  assert:[[1,"I take charge.","Ich übernehme die Führung."],[1,"I have a strong personality.","Ich habe eine starke Persönlichkeit."],[1,"I know how to captivate people.","Ich kann Menschen für mich einnehmen."],[1,"I see myself as a good leader.","Ich sehe mich als gute Führungspersönlichkeit."],[1,"I can talk others into doing things.","Ich kann andere zu etwas überreden."],[1,"I am the first to act.","Ich ergreife als Erstes die Initiative."],[-1,"I do not have an assertive personality.","Durchsetzungsstark bin ich nicht."],[-1,"I lack the talent for influencing people.","Mir fehlt das Talent, andere zu beeinflussen."],[-1,"I wait for others to lead the way.","Ich warte, bis andere vorangehen."],[-1,"I hold back my opinions.","Ich halte mit meiner Meinung zurück."]],
+  compassion:[[1,"I feel others' emotions.","Ich spüre, wie es anderen geht."],[1,"I inquire about others' well-being.","Ich frage andere, wie es ihnen geht."],[1,"I sympathize with others' feelings.","Ich fühle mit anderen mit."],[1,"I take an interest in other people's lives.","Ich interessiere mich für das Leben anderer Menschen."],[1,"I like to do things for others.","Ich tue gern etwas für andere."],[-1,"I am not interested in other people's problems.","Die Probleme anderer interessieren mich nicht."],[-1,"I can't be bothered with others' needs.","Mit den Bedürfnissen anderer mag ich mich nicht befassen."],[-1,"I am indifferent to the feelings of others.","Die Gefühle anderer sind mir gleichgültig."],[-1,"I take no time for others.","Ich nehme mir keine Zeit für andere."],[-1,"I don't have a soft side.","Eine weiche Seite habe ich nicht."]],
+  polite:[[1,"I respect authority.","Ich respektiere Autoritäten."],[1,"I hate to seem pushy.","Ich will auf keinen Fall aufdringlich wirken."],[1,"I avoid imposing my will on others.","Ich vermeide es, anderen meinen Willen aufzuzwingen."],[1,"I rarely put people under pressure.","Ich setze andere selten unter Druck."],[-1,"I insult people.","Ich beleidige andere."],[-1,"I believe that I am better than others.","Ich halte mich für besser als andere."],[-1,"I take advantage of others.","Ich nutze andere aus."],[-1,"I seek conflict.","Ich suche Streit."],[-1,"I love a good fight.","Ein richtiger Streit gefällt mir."],[-1,"I am out for my own personal gain.","Ich bin auf meinen eigenen Vorteil aus."]],
+  calm:[[1,"I get angry easily.","Ich werde schnell wütend."],[1,"I get upset easily.","Ich rege mich schnell auf."],[1,"I change my mood a lot.","Meine Stimmung wechselt oft."],[1,"I am a person whose moods go up and down easily.","Meine Laune geht leicht rauf und runter."],[1,"I get easily agitated.","Ich gerate leicht in Aufregung."],[1,"I can be stirred up easily.","Ich lasse mich leicht aufwühlen."],[-1,"I rarely get irritated.","Ich bin selten gereizt."],[-1,"I keep my emotions under control.","Ich habe meine Gefühle im Griff."],[-1,"I rarely lose my composure.","Ich verliere selten die Fassung."],[-1,"I am not easily annoyed.","Mich ärgert so schnell nichts."]],
+  confident:[[1,"I am filled with doubts about things.","Ich bin oft voller Zweifel."],[1,"I feel threatened easily.","Ich fühle mich schnell bedroht."],[1,"I worry about things.","Ich mache mir viele Sorgen."],[1,"I am easily discouraged.","Ich lasse mich leicht entmutigen."],[1,"I become overwhelmed by events.","Ereignisse überwältigen mich leicht."],[1,"I am afraid of many things.","Ich habe vor vielem Angst."],[-1,"I seldom feel blue.","Ich bin selten niedergeschlagen."],[-1,"I feel comfortable with myself.","Ich fühle mich wohl mit mir selbst."],[-1,"I rarely feel depressed.","Ich fühle mich selten bedrückt."],[-1,"I am not embarrassed easily.","Mir ist selten etwas peinlich."]]
+};
+// the order of the questionnaire: every page of ten has one statement of each aspect, the aspects in changing order
+const PERSONA_ITEMS = (()=>{
+  const out = [];
+  for(let n = 0; n < 10; n++) for(let j = 0; j < 10; j++){
+    const a = PERSONA_ASPECTS[(j * 3 + n * 7) % 10], r = PERSONA_RAW[a][n];
+    out.push({ id:a + n, a, k:r[0], en:r[1], de:r[2] });
+  }
+  return out;
+})();
+const PERSONA_PER_PAGE = 10, PERSONA_DRAFT_KEY = 'ewolfe_persona_draft';
+const PERSONA_TXT = {
+de:{ title:'Persönlichkeitsrad', cardTitle:'Mein Persönlichkeitsrad',
+  cardText:'Zusätzlich zu deinem Lebensrad: Wie bist du? Fünf Grundzüge der Persönlichkeit, jeder in zwei Hälften – zehn Teile. 100 kurze Aussagen, etwa 12 Minuten. Du kannst jederzeit unterbrechen.',
+  start:'Test starten', resume:'Weitermachen ({n} von 100)', show:'Ergebnis ansehen', again:'Test wiederholen',
+  introText:'Lies jede Aussage und tippe an, wie sehr sie auf dich zutrifft. Denk nicht lange nach – der erste Eindruck ist meist der richtige. Es gibt kein richtig oder falsch: Jede Ausprägung hat ihre Stärken.\n\nDein Fortschritt wird gespeichert. Du kannst jederzeit aufhören und später weitermachen.',
+  scale:['trifft gar nicht zu', 'trifft eher nicht zu', 'teils, teils', 'trifft eher zu', 'trifft voll zu'],
+  scaleShort:['gar nicht', 'eher nicht', 'teils', 'eher', 'voll'],
+  page:'Seite {p} von {n}', back:'Zurück', next:'Weiter', finish:'Auswerten', missing:'Bitte beantworte noch alle Aussagen auf dieser Seite.',
+  restartAsk:'Neu beginnen? Deine bisherigen Antworten in diesem Durchgang werden gelöscht.', restart:'Neu beginnen', later:'Später weitermachen',
+  resultOf:'Ergebnis vom {date}', compare:'Vergleichen mit', none:'–', del:'Ergebnis löschen', delAsk:'Dieses Ergebnis löschen? Das lässt sich nicht rückgängig machen.',
+  low:'eher niedrig', mid:'mittel', high:'eher hoch',
+  howRead:'So liest du das Rad: Jeder Grundzug hat zwei Hälften. Je länger ein Teil, desto mehr treffen die Aussagen dazu auf dich zu (0–100 %). Das ist kein Vergleich mit anderen Menschen und keine Bewertung – jede Ausprägung hat Stärken. Mach den Test etwa einmal im Jahr; Persönlichkeit verändert sich langsam.',
+  disclaimer:'Kein psychologischer Test im klinischen Sinn und keine Diagnose. Fragen: Big Five Aspect Scales (DeYoung, Quilty & Peterson, 2007) aus dem International Personality Item Pool (gemeinfrei), deutsche Fassung eWolfe.',
+  traits:{ O:'Offenheit', C:'Gewissenhaftigkeit', E:'Extraversion', A:'Verträglichkeit', S:'Emotionale Stabilität' },
+  traitsShort:{ O:'Offenheit', C:'Gewissenhaft.', E:'Extraversion', A:'Verträglichkeit', S:'Stabilität' },
+  traitText:{ O:'Wie neugierig du auf Ideen, Kunst und neue Erfahrungen bist.', C:'Wie du Aufgaben anpackst, planst und zu Ende bringst.', E:'Wie viel Energie du aus Menschen, Freude und Handeln ziehst.', A:'Wie du anderen begegnest: mitfühlend und rücksichtsvoll.', S:'Wie ruhig und zuversichtlich du mit Stress und Gefühlen umgehst (in der Forschung umgekehrt „Neurotizismus“).' },
+  aspects:{ intellect:'Intellekt', openness:'Kreative Offenheit', industrious:'Fleiß', orderly:'Ordnungsliebe', enthusiasm:'Begeisterung', assert:'Durchsetzung', compassion:'Mitgefühl', polite:'Höflichkeit', calm:'Gelassenheit', confident:'Zuversicht' },
+  aspectText:{
+    intellect:['Du denkst gern praktisch und konkret. Was sich bewährt hat, ist dir lieber als lange Theorie – das macht dich bodenständig und zuverlässig.', 'Du denkst gern nach, wenn es dich wirklich interessiert, und bleibst dabei gut auf dem Boden.', 'Du liebst es, Dinge zu verstehen, und gehst gern schwierigen Fragen nach. Komplexe Ideen sind für dich eher Spiel als Mühe.'],
+    openness:['Du magst das Vertraute und Klare. Gefühle und Stimmungen nimmst du eher nüchtern – das gibt dir einen ruhigen, sachlichen Blick.', 'Schönheit, Musik und Fantasie berühren dich, ohne dass du dich darin verlierst.', 'Du hast einen feinen Sinn für Schönheit, Kunst und Stimmungen und brauchst Raum, um kreativ zu sein.'],
+    industrious:['Du arbeitest gern in deinem eigenen Rhythmus und lässt dich nicht hetzen. Kleine, klare Schritte helfen dir, Pläne umzusetzen.', 'Du bringst Dinge voran, wenn sie dir wichtig sind, und gönnst dir auch Pausen.', 'Du setzt Pläne tatkräftig um, bleibst dran und bringst zu Ende, was du anfängst.'],
+    orderly:['Du bist flexibel und kannst gut mit Unordnung und Überraschungen leben. Feste Abläufe brauchst du kaum.', 'Ordnung ist dir wichtig, wo sie hilft – an anderen Stellen bist du entspannt.', 'Du liebst Ordnung, Struktur und Sorgfalt. Auf Details und Regeln kann man sich bei dir verlassen.'],
+    enthusiasm:['Du bist eher zurückhaltend und lässt Menschen langsam an dich heran. Deine Freude ist leise und tief.', 'Du kannst gesellig und fröhlich sein und genießt genauso Zeit für dich.', 'Du gehst leicht auf Menschen zu, zeigst deine Freude offen und steckst andere mit deiner Begeisterung an.'],
+    assert:['Du überlässt gern anderen die Bühne und hörst lieber zu. Das macht dich zu einem angenehmen, aufmerksamen Gegenüber.', 'Du kannst führen, wenn es nötig ist, und dich auch gut einordnen.', 'Du übernimmst gern die Führung, vertrittst deine Meinung und kannst andere überzeugen.'],
+    compassion:['Du bleibst auch bei den Sorgen anderer sachlich und kannst gut Grenzen ziehen.', 'Du nimmst Anteil an anderen und achtest zugleich auf dich selbst.', 'Du spürst, wie es anderen geht, fühlst mit und hilfst gern.'],
+    polite:['Du sagst offen, was du denkst, und scheust dich nicht vor einer Auseinandersetzung. Regeln hinterfragst du gern.', 'Du bist rücksichtsvoll und kannst trotzdem für dich einstehen.', 'Du begegnest anderen respektvoll und rücksichtsvoll und vermeidest es, Druck zu machen.'],
+    calm:['Deine Gefühle sind stark und schnell da – du erlebst viel und intensiv. Kurze Pausen und Atemübungen können dir helfen, wieder zur Ruhe zu kommen.', 'Meist bleibst du ruhig; manchmal bringt dich etwas aus dem Gleichgewicht.', 'Dich bringt so schnell nichts aus der Ruhe. Du behältst auch in angespannten Momenten die Fassung.'],
+    confident:['Du denkst Dinge gründlich durch und nimmst Sorgen ernst. Freundlichkeit mit dir selbst und kleine Erfolge stärken deine Zuversicht.', 'Du kennst Zweifel, findest aber meist gut zu dir zurück.', 'Du fühlst dich wohl mit dir selbst, lässt dich nicht leicht entmutigen und gehst zuversichtlich durchs Leben.']
+  },
+  fromCoach:'Persönlichkeitsrad', noPersona:'Noch kein Persönlichkeitsrad.' },
+en:{ title:'Personality wheel', cardTitle:'My personality wheel',
+  cardText:'In addition to your life wheel: what are you like? Five basic traits of personality, each in two halves – ten parts. 100 short statements, about 12 minutes. You can pause at any time.',
+  start:'Start the test', resume:'Continue ({n} of 100)', show:'See result', again:'Take the test again',
+  introText:'Read each statement and tap how well it describes you. Do not think too long – your first impression is usually right. There is no right or wrong: every trait level has its strengths.\n\nYour progress is saved. You can stop at any time and continue later.',
+  scale:['very inaccurate', 'moderately inaccurate', 'neither', 'moderately accurate', 'very accurate'],
+  scaleShort:['not at all', 'rather not', 'partly', 'rather', 'fully'],
+  page:'Page {p} of {n}', back:'Back', next:'Next', finish:'Show result', missing:'Please answer all statements on this page.',
+  restartAsk:'Start over? Your answers so far in this round will be deleted.', restart:'Start over', later:'Continue later',
+  resultOf:'Result of {date}', compare:'Compare with', none:'–', del:'Delete result', delAsk:'Delete this result? This cannot be undone.',
+  low:'rather low', mid:'medium', high:'rather high',
+  howRead:'How to read the wheel: each trait has two halves. The longer a part, the more the statements about it apply to you (0–100 %). This is no comparison with other people and no judgement – every level has its strengths. Take the test about once a year; personality changes slowly.',
+  disclaimer:'Not a clinical psychological test and no diagnosis. Items: Big Five Aspect Scales (DeYoung, Quilty & Peterson, 2007) from the International Personality Item Pool (public domain).',
+  traits:{ O:'Openness', C:'Conscientiousness', E:'Extraversion', A:'Agreeableness', S:'Emotional stability' },
+  traitsShort:{ O:'Openness', C:'Conscientious.', E:'Extraversion', A:'Agreeableness', S:'Stability' },
+  traitText:{ O:'How curious you are about ideas, art and new experiences.', C:'How you approach, plan and finish tasks.', E:'How much energy you draw from people, joy and action.', A:'How you meet others: with compassion and consideration.', S:'How calmly and confidently you deal with stress and feelings (in research the reverse, “neuroticism”).' },
+  aspects:{ intellect:'Intellect', openness:'Openness', industrious:'Industriousness', orderly:'Orderliness', enthusiasm:'Enthusiasm', assert:'Assertiveness', compassion:'Compassion', polite:'Politeness', calm:'Calm', confident:'Confidence' },
+  aspectText:{
+    intellect:['You like to think practically and concretely. What has proven itself suits you better than long theory – that makes you down to earth and reliable.', 'You enjoy thinking things through when they really interest you, and you stay grounded.', 'You love to understand things and like to pursue difficult questions. Complex ideas are play rather than effort for you.'],
+    openness:['You like what is familiar and clear. You take feelings and moods rather soberly – that gives you a calm, matter-of-fact view.', 'Beauty, music and imagination touch you without you losing yourself in them.', 'You have a fine sense for beauty, art and moods and need room to be creative.'],
+    industrious:['You like to work at your own pace and do not let yourself be rushed. Small, clear steps help you put plans into action.', 'You move things forward when they matter to you, and you allow yourself breaks.', 'You put plans into action with energy, stay with it and finish what you start.'],
+    orderly:['You are flexible and live well with mess and surprises. You hardly need fixed routines.', 'Order matters to you where it helps – elsewhere you are relaxed.', 'You love order, structure and care. People can rely on you for details and rules.'],
+    enthusiasm:['You are rather reserved and let people come close slowly. Your joy is quiet and deep.', 'You can be sociable and cheerful and enjoy time for yourself just as much.', 'You approach people easily, show your joy openly and inspire others with your enthusiasm.'],
+    assert:['You like to leave the stage to others and prefer to listen. That makes you a pleasant, attentive counterpart.', 'You can lead when needed and also fit in well.', 'You like to take the lead, stand up for your opinion and can convince others.'],
+    compassion:['You stay matter-of-fact even with other people’s worries and are good at setting boundaries.', 'You care about others and look after yourself at the same time.', 'You sense how others are doing, feel with them and like to help.'],
+    polite:['You say openly what you think and do not shy away from an argument. You like to question rules.', 'You are considerate and can still stand up for yourself.', 'You meet others with respect and consideration and avoid putting pressure on them.'],
+    calm:['Your feelings are strong and come quickly – you experience a lot, and intensely. Short breaks and breathing exercises can help you find calm again.', 'Mostly you stay calm; sometimes something throws you off balance.', 'Hardly anything upsets you. You keep your composure even in tense moments.'],
+    confident:['You think things through carefully and take worries seriously. Kindness to yourself and small successes strengthen your confidence.', 'You know doubts, but usually find your way back to yourself.', 'You feel comfortable with yourself, are not easily discouraged and go through life with confidence.']
+  },
+  fromCoach:'Personality wheel', noPersona:'No personality wheel yet.' }
+};
+function pt(){ return PERSONA_TXT[state.settings.lang === 'en' ? 'en' : 'de']; }
+function personaOf(st){ if(!Array.isArray(st.persona)) st.persona = []; return st.persona; }
+function personaMerge(a, b){
+  const out = [], seen = {};
+  [a, b].forEach(list=>(Array.isArray(list) ? list : []).forEach(r=>{ if(r && r.id && !seen[r.id]){ seen[r.id] = 1; out.push(JSON.parse(JSON.stringify(r))); } }));
+  return out.sort((x, y)=>(x.ts || 0) - (y.ts || 0));
+}
+function personaScore(ans){
+  const sc = {};
+  PERSONA_ASPECTS.forEach(a=>{
+    let sum = 0, n = 0;
+    PERSONA_RAW[a].forEach((r, i)=>{ const v = ans[a + i]; if(v >= 1 && v <= 5){ sum += r[0] > 0 ? v : 6 - v; n++; } });
+    let p = n ? Math.round((sum / n - 1) / 4 * 100) : 50;
+    if(PERSONA_REV[a]) p = 100 - p; // volatility / withdrawal → calm / confidence
+    sc[a] = p;
+  });
+  return sc;
+}
+function personaBand(v){ return v < 40 ? 0 : v > 60 ? 2 : 1; }
+function personaDraft(){ try{ const d = JSON.parse(localStorage.getItem(PERSONA_DRAFT_KEY) || 'null'); if(d && d.ans) return d; }catch(e){} return null; }
+function personaDraftSave(d){ try{ if(d) localStorage.setItem(PERSONA_DRAFT_KEY, JSON.stringify(d)); else localStorage.removeItem(PERSONA_DRAFT_KEY); }catch(e){} }
+function personaDraftCount(d){ return d ? PERSONA_ITEMS.filter(it=>d.ans[it.id]).length : 0; }
+function personaList(){ return personaOf(state).slice().sort((a, b)=>b.ts - a.ts); }
+function personaDate(ts){ return new Date(ts).toLocaleDateString(state.settings.lang === 'en' ? 'en-GB' : 'de-DE', { day:'numeric', month:'long', year:'numeric' }); }
+
+/* ---- the card on the Bereiche page ---- */
+function personaCardHtml(){
+  const p = pt(), d = personaDraft(), n = personaDraftCount(d), has = personaOf(state).length > 0;
+  const btns = (n ? `<button class="primary-btn persona-card-btn" onclick="personaOpen('quiz')">${p.resume.replace('{n}', n)}</button>` : '')
+    + (has ? `<button class="${n ? 'ghost-btn' : 'primary-btn'} persona-card-btn" onclick="personaOpen('result')">${p.show}</button>` : '')
+    + (!n && !has ? `<button class="primary-btn persona-card-btn" onclick="personaOpen('intro')">${p.start}</button>` : '');
+  const last = has ? personaList()[0] : null;
+  return `<div class="area-card persona-card"><div class="persona-card-row">${last ? `<div class="persona-card-wheel">${personaWheelSvg(last.sc, null, { mini:true })}</div>` : ''}
+    <div><div class="area-card-name">${p.cardTitle}</div><p class="persona-card-text">${p.cardText}</p></div></div>${btns}</div>`;
+}
+
+/* ---- the window ---- */
+let personaView = { mode:'intro', page:0, sel:'', cmp:'' };
+function personaOpen(mode){
+  const d = personaDraft();
+  personaView = { mode, page:d ? (d.page || 0) : 0, sel:'', cmp:'' };
+  personaRender();
+  openModal('persona-modal');
+  const m = document.querySelector('#persona-modal .modal'); if(m) m.scrollTop = 0;
+}
+function personaRender(){
+  const p = pt(), v = personaView, body = document.getElementById('persona-body');
+  document.getElementById('persona-title').textContent = p.title;
+  if(v.mode === 'intro'){
+    body.innerHTML = `<div class="persona-intro">${p.introText.split('\n\n').map(x=>`<p>${x}</p>`).join('')}</div>
+      <div class="persona-legend">${p.scale.map((s, i)=>`<span><b>${i + 1}</b> ${s}</span>`).join('')}</div>
+      <button class="primary-btn persona-wide" id="persona-go">${p.start}</button><p class="persona-disc">${p.disclaimer}</p>`;
+    document.getElementById('persona-go').onclick = ()=>{ personaDraftSave({ ans:{}, page:0, at:Date.now() }); v.mode = 'quiz'; v.page = 0; personaRender(); };
+    return;
+  }
+  if(v.mode === 'quiz') return personaQuizRender();
+  body.innerHTML = personaResultHtml(personaList(), v, false);
+  personaBind(body, v, personaRender, false);
+}
+function personaQuizRender(){
+  const p = pt(), v = personaView, body = document.getElementById('persona-body'), lang = state.settings.lang === 'en' ? 'en' : 'de';
+  let d = personaDraft(); if(!d){ d = { ans:{}, page:0, at:Date.now() }; personaDraftSave(d); }
+  const pages = Math.ceil(PERSONA_ITEMS.length / PERSONA_PER_PAGE), pg = Math.max(0, Math.min(pages - 1, v.page));
+  const items = PERSONA_ITEMS.slice(pg * PERSONA_PER_PAGE, (pg + 1) * PERSONA_PER_PAGE), done = personaDraftCount(d);
+  body.innerHTML = `<div class="persona-progress"><span>${p.page.replace('{p}', pg + 1).replace('{n}', pages)}</span><span>${done} / 100</span></div>
+    <div class="persona-bar"><i style="width:${done}%"></i></div>
+    <div class="persona-items">${items.map((it, i)=>`<div class="persona-item" data-id="${it.id}"><div class="persona-q"><span class="persona-qn">${pg * PERSONA_PER_PAGE + i + 1}</span>${escapeHtml(it[lang])}</div>
+      <div class="persona-scale">${[1, 2, 3, 4, 5].map(n=>`<button class="persona-opt${d.ans[it.id] === n ? ' on' : ''}" data-v="${n}" aria-label="${escapeHtml(p.scale[n - 1])}"><i></i><span>${p.scaleShort[n - 1]}</span></button>`).join('')}</div></div>`).join('')}</div>
+    <p class="persona-missing" id="persona-missing" hidden>${p.missing}</p>
+    <div class="persona-nav"><button class="ghost-btn" id="persona-back" ${pg === 0 ? 'disabled' : ''}>‹ ${p.back}</button>
+      <button class="primary-btn" id="persona-next">${pg === pages - 1 ? p.finish : p.next + ' ›'}</button></div>
+    <div class="persona-nav persona-nav2"><button class="ghost-btn coach-small" id="persona-later">${p.later}</button><button class="ghost-btn coach-small" id="persona-restart">${p.restart}</button></div>`;
+  body.querySelectorAll('.persona-item').forEach(row=>{
+    row.querySelectorAll('.persona-opt').forEach(b=>{ b.onclick = ()=>{
+      const dd = personaDraft() || { ans:{}, page:pg }; dd.ans[row.dataset.id] = +b.dataset.v; dd.page = pg; personaDraftSave(dd);
+      row.querySelectorAll('.persona-opt').forEach(x=>x.classList.toggle('on', x === b)); row.classList.remove('miss');
+      const n = personaDraftCount(dd); body.querySelector('.persona-bar i').style.width = n + '%'; body.querySelector('.persona-progress span:last-child').textContent = n + ' / 100';
+      const next = row.nextElementSibling; // move on to the next statement when this one sits low on the screen
+      if(next && next.getBoundingClientRect().bottom > window.innerHeight - 80) next.scrollIntoView({ block:'center', behavior:'smooth' });
+    }; });
+  });
+  const go = np=>{ v.page = np; const dd = personaDraft(); if(dd){ dd.page = np; personaDraftSave(dd); } personaRender(); const m = document.querySelector('#persona-modal .modal'); if(m) m.scrollTop = 0; };
+  document.getElementById('persona-back').onclick = ()=>go(pg - 1);
+  document.getElementById('persona-next').onclick = ()=>{
+    const dd = personaDraft() || { ans:{} }, miss = items.filter(it=>!dd.ans[it.id]);
+    if(miss.length){
+      document.getElementById('persona-missing').hidden = false;
+      miss.forEach(it=>{ const r = body.querySelector(`.persona-item[data-id="${it.id}"]`); if(r) r.classList.add('miss'); });
+      const r = body.querySelector('.persona-item.miss'); if(r) r.scrollIntoView({ block:'center', behavior:'smooth' });
+      return;
+    }
+    if(pg < pages - 1) return go(pg + 1);
+    personaFinish();
+  };
+  document.getElementById('persona-later').onclick = ()=>{ closeModal('persona-modal'); personaRefreshCard(); };
+  document.getElementById('persona-restart').onclick = async ()=>{
+    if(!(await uiDialog(p.restartAsk, { confirm:true, okText:p.restart }))) return;
+    personaDraftSave({ ans:{}, page:0, at:Date.now() }); go(0);
+  };
+}
+function personaFinish(){
+  const d = personaDraft(); if(!d) return;
+  if(PERSONA_ITEMS.some(it=>!d.ans[it.id])){ // should not happen: go to the first page with a gap
+    const i = PERSONA_ITEMS.findIndex(it=>!d.ans[it.id]); personaView.page = Math.floor(i / PERSONA_PER_PAGE); return personaRender();
+  }
+  const ts = Date.now(), r = { id:'p' + ts.toString(36) + Math.random().toString(36).slice(2, 6), ts, ans:Object.assign({}, d.ans), sc:personaScore(d.ans) };
+  personaOf(state).push(r);
+  personaDraftSave(null);
+  saveState();
+  personaView = { mode:'result', page:0, sel:r.id, cmp:'' };
+  personaRender(); personaRefreshCard();
+  const m = document.querySelector('#persona-modal .modal'); if(m) m.scrollTop = 0;
+}
+function personaRefreshCard(){ const el = document.getElementById('areas-body'); if(el && document.getElementById('areas-page').classList.contains('open')) renderAreasPage(); }
+
+/* ---- the result (also used for the coach, read only) ---- */
+function personaResultHtml(list, v, readOnly){
+  const p = pt();
+  if(!list.length) return `<p class="settings-note">${p.noPersona}</p>`;
+  if(!list.some(r=>r.id === v.sel)) v.sel = list[0].id;
+  const cur = list.find(r=>r.id === v.sel), cmp = v.cmp ? list.find(r=>r.id === v.cmp && r.id !== cur.id) : null;
+  let h = `<div class="persona-head"><div class="persona-dates">${list.map(r=>`<button class="ghost-btn coach-mini${r.id === cur.id ? ' on' : ''}" data-psel="${r.id}">${personaDate(r.ts)}</button>`).join('')}</div>`
+    + (list.length > 1 ? `<label class="persona-cmp">${p.compare} <select data-pcmp><option value="">${p.none}</option>${list.filter(r=>r.id !== cur.id).map(r=>`<option value="${r.id}"${cmp && cmp.id === r.id ? ' selected' : ''}>${personaDate(r.ts)}</option>`).join('')}</select></label>` : '') + `</div>`;
+  h += `<div class="persona-wheel">${personaWheelSvg(cur.sc, cmp && cmp.sc, {})}</div>`;
+  if(cmp) h += `<div class="persona-key"><span class="pk-now"></span>${personaDate(cur.ts)}<span class="pk-old"></span>${personaDate(cmp.ts)}</div>`;
+  h += `<p class="persona-howread">${p.howRead}</p>`;
+  h += PERSONA_TRAITS.map(([T, asp], ti)=>`<div class="area-card persona-trait"><div class="persona-trait-h"><span class="persona-letter pl-${ti}">${T === 'S' ? 'S' : T}</span><b>${p.traits[T]}</b></div>
+    <p class="persona-trait-t">${p.traitText[T]}</p>${asp.map(a=>{
+      const val = cur.sc[a], b = personaBand(val), old = cmp ? cmp.sc[a] : null, dd = old === null ? 0 : val - old;
+      return `<div class="persona-asp"><div class="persona-asp-h"><span>${p.aspects[a]}</span><span><b>${val} %</b> · ${[p.low, p.mid, p.high][b]}${old !== null && dd ? ` <em class="${dd > 0 ? 'up' : 'down'}">${dd > 0 ? '+' : '−'}${Math.abs(dd)}</em>` : ''}</span></div>
+        <div class="persona-meter"><i style="width:${val}%"></i>${old !== null ? `<u style="left:${old}%"></u>` : ''}</div><p>${p.aspectText[a][b]}</p></div>`;
+    }).join('')}</div>`).join('');
+  if(!readOnly) h += `<div class="persona-nav"><button class="primary-btn" id="persona-again">${p.again}</button><button class="ghost-btn" id="persona-del">${p.del}</button></div>`;
+  return `<div class="persona-res" style="--pc:${IST_COL}">` + h + `<p class="persona-disc">${p.disclaimer}</p></div>`;
+}
+function personaBind(root, v, rerender, readOnly){
+  root.querySelectorAll('[data-psel]').forEach(b=>{ b.onclick = ()=>{ v.sel = b.dataset.psel; if(v.cmp === v.sel) v.cmp = ''; rerender(); }; });
+  const s = root.querySelector('[data-pcmp]'); if(s) s.onchange = ()=>{ v.cmp = s.value; rerender(); };
+  if(readOnly) return;
+  const again = document.getElementById('persona-again'), del = document.getElementById('persona-del');
+  if(again) again.onclick = ()=>{ if(!personaDraft()) personaDraftSave({ ans:{}, page:0, at:Date.now() }); v.mode = 'quiz'; v.page = (personaDraft() || {}).page || 0; personaRender(); };
+  if(del) del.onclick = async ()=>{
+    const p = pt(); if(!(await uiDialog(p.delAsk, { confirm:true, okText:p.del }))) return;
+    state.persona = personaOf(state).filter(r=>r.id !== v.sel);
+    delMark('p', v.sel, true);
+    saveState(); v.sel = ''; v.cmp = '';
+    if(!state.persona.length){ closeModal('persona-modal'); personaRefreshCard(); return; }
+    rerender(); personaRefreshCard();
+  };
+}
+// the wheel: five traits, each split into two halves (ten wedges); an older result as a dashed outline
+function personaWheelSvg(sc, old, o){
+  const p = pt(), mini = o && o.mini, W = mini ? 120 : 480, H = mini ? 120 : 400, cx = W / 2, cy = mini ? 60 : 200, R = mini ? 56 : 128;
+  const pt2 = (deg, r)=>{ const a = deg * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
+  const f = n=>n.toFixed(1), wedge = (a0, a1, r)=>{ const [x0, y0] = pt2(a0, r), [x1, y1] = pt2(a1, r); return `M${f(cx)} ${f(cy)}L${f(x0)} ${f(y0)}A${f(r)} ${f(r)} 0 0 1 ${f(x1)} ${f(y1)}Z`; };
+  const col = IST_COL, gold = KNOB_GOLD, rr = v=>Math.max(2, R * Math.max(0, Math.min(100, v)) / 100);
+  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" class="persona-svg" role="img" aria-label="${p.title}">`;
+  [1, 0.75, 0.5, 0.25].forEach((k, i)=>{ s += `<circle cx="${cx}" cy="${cy}" r="${f(R * k)}" fill="none" stroke="currentColor" stroke-opacity="${i ? 0.18 : 0.35}" stroke-width="${mini ? 0.6 : 1}"${i ? ' stroke-dasharray="3 4"' : ''}/>`; });
+  PERSONA_ASPECTS.forEach((a, i)=>{ s += `<path d="${wedge(-90 + i * 36, -54 + i * 36, rr(sc[a]))}" fill="${col}" fill-opacity="${i % 2 ? 0.45 : 0.85}"/>`; });
+  if(old){
+    let d = '';
+    PERSONA_ASPECTS.forEach((a, i)=>{ const r = rr(old[a]), [x0, y0] = pt2(-90 + i * 36, r), [x1, y1] = pt2(-54 + i * 36, r); d += `${i ? 'L' : 'M'}${f(x0)} ${f(y0)}A${f(r)} ${f(r)} 0 0 1 ${f(x1)} ${f(y1)}`; });
+    s += `<path d="${d}Z" fill="none" stroke="${gold}" stroke-width="2.2" stroke-dasharray="5 4"/>`;
+  }
+  for(let i = 0; i < 5; i++){ const [x, y] = pt2(-90 + i * 72, R + (mini ? 2 : 6)); s += `<line x1="${cx}" y1="${cy}" x2="${f(x)}" y2="${f(y)}" stroke="currentColor" stroke-opacity="0.55" stroke-width="${mini ? 0.8 : 1.4}"/>`; }
+  if(!mini) PERSONA_TRAITS.forEach(([T], i)=>{
+    const deg = -54 + i * 72, [x, y] = pt2(deg, R + 22), c = Math.cos(deg * Math.PI / 180);
+    const anchor = Math.abs(c) < 0.3 ? 'middle' : c > 0 ? 'start' : 'end';
+    s += `<text x="${f(x)}" y="${f(y + (deg === 90 ? 10 : 4))}" text-anchor="${anchor}" font-size="15" fill="currentColor" font-family="inherit">${escapeHtml(p.traitsShort[T])}</text>`;
+  });
+  return s + `</svg>`;
+}
+
 /* ===== Coach sharing, stage 1 (13.11.2026, wish of the user) =====
    The operator (app_admins) makes coach codes (5/10/20 places). Whoever redeems one becomes a coach: an ECDH key pair (P-256) is made on the device,
    the public key goes to the server, the private key only locked with the coach's own data key (E2E, 1.95.0) – so every unlocked device of the coach
@@ -11281,7 +11622,7 @@ const COACH_TXT = {
 de:{ head:'Coach', needLogin:'Melde dich an, um dich mit einem Coach zu verbinden.', loading:'Wird geladen …', offline:'Gerade keine Verbindung zum Server. Versuche es gleich noch einmal.',
   intro:'Arbeitest du mit einem Coach? Mit dem Einladungscode deines Coaches kannst du ausgewählte Teile deiner App mit ihm oder ihr teilen – nur zum Lesen. Du kannst das Teilen jederzeit beenden.',
   connectBtn:'Mit Coach verbinden', connectTitle:'Mit deinem Coach verbinden', codePh:'Einladungscode (z. B. K2AB-CD34)', namePh:'Dein Name für den Coach',
-  nameLabel:'So sieht dich dein Coach:', chooseParts:'Was darf dein Coach sehen?', part_wheels:'Lebensräder und Vergleiche', part_goals:'Ziele', part_habits:'Gewohnheiten (Habit Tracker)',
+  nameLabel:'So sieht dich dein Coach:', chooseParts:'Was darf dein Coach sehen?', part_wheels:'Lebensräder und Vergleiche', part_goals:'Ziele', part_habits:'Gewohnheiten (Habit Tracker)', part_persona:'Persönlichkeitsrad',
   never:'Nie geteilt werden: Tagebücher, Notizbücher, Dankbarkeit, Übungen, Stimmungen und Trophäen.',
   consent:'Ich willige ein, dass mein Coach die ausgewählten Inhalte lesen kann. Sie können Angaben zu meiner Gesundheit und anderen persönlichen Themen enthalten (Art. 9 DSGVO). Ich kann das jederzeit beenden.',
   consentNeeded:'Bitte setze das Häkchen bei der Einwilligung, sonst kann nichts geteilt werden.', codeNeeded:'Bitte gib den Einladungscode deines Coaches ein.',
@@ -11296,7 +11637,7 @@ de:{ head:'Coach', needLogin:'Melde dich an, um dich mit einem Coach zu verbinde
   copy:'Kopieren', copied:'Kopiert', del:'Löschen', noSlots:'Alle Plätze sind belegt.', clientsHead:'Verbunden', noClients:'Noch niemand verbunden.',
   client:'Klient', notYet:'Noch keine Daten', view:'Ansehen', end:'Verbindung beenden', endAskCoach:'Verbindung mit {name} beenden? Du siehst danach nichts mehr. Der Platz wird frei.',
   endedHead:'Beendet', endedOn:'beendet am {date}', back:'‹ Alle Klienten', keyLost:'Dein Coach-Schlüssel passt nicht mehr zu deinen Daten (zum Beispiel nach „Neu beginnen“). Erstelle einen neuen – deine Klienten teilen dann beim nächsten Öffnen ihrer App neu.',
-  rekey:'Neuen Schlüssel erstellen', tab_wheels:'Lebensräder', tab_goals:'Ziele', tab_habits:'Gewohnheiten', notShared:'Nicht geteilt.',
+  rekey:'Neuen Schlüssel erstellen', tab_wheels:'Lebensräder', tab_goals:'Ziele', tab_habits:'Gewohnheiten', tab_persona:'Persönlichkeit', notShared:'Nicht geteilt.',
   noWheels:'Noch kein Lebensrad.', pickWheels:'Wähle bis zu drei Lebensräder zum Vergleichen:', noGoals:'Noch keine Ziele.', active:'Aktiv', achieved:'Erreicht',
   why:'Warum', steps:'Schritte', due:'Bis', achievedOn:'erreicht am {date}', noHabits:'Noch keine Gewohnheiten.', daily:'Täglich', weekly:'Wöchentlich', week:'KW {n}',
   adminBtn:'Coach-Codes verwalten', adminTitle:'Coach-Codes', adminNew:'Neuer Code für', places:'{n} Plätze', notePh:'Notiz (z. B. Name des Coaches)', adminNone:'Noch keine Codes.',
@@ -11306,7 +11647,7 @@ de:{ head:'Coach', needLogin:'Melde dich an, um dich mit einem Coach zu verbinde
 en:{ head:'Coach', needLogin:'Sign in to connect with a coach.', loading:'Loading …', offline:'No connection to the server right now. Please try again in a moment.',
   intro:'Working with a coach? With your coach’s invitation code you can share chosen parts of your app with them – read only. You can stop sharing at any time.',
   connectBtn:'Connect with coach', connectTitle:'Connect with your coach', codePh:'Invitation code (e.g. K2AB-CD34)', namePh:'Your name for the coach',
-  nameLabel:'How your coach sees you:', chooseParts:'What may your coach see?', part_wheels:'Life wheels and comparisons', part_goals:'Goals', part_habits:'Habits (habit tracker)',
+  nameLabel:'How your coach sees you:', chooseParts:'What may your coach see?', part_wheels:'Life wheels and comparisons', part_goals:'Goals', part_habits:'Habits (habit tracker)', part_persona:'Personality wheel',
   never:'Never shared: diaries, notebooks, gratitude, exercises, moods and trophies.',
   consent:'I agree that my coach can read the chosen content. It may contain information about my health and other personal matters (Art. 9 GDPR). I can stop this at any time.',
   consentNeeded:'Please tick the consent box, otherwise nothing can be shared.', codeNeeded:'Please enter your coach’s invitation code.',
@@ -11321,7 +11662,7 @@ en:{ head:'Coach', needLogin:'Sign in to connect with a coach.', loading:'Loadin
   copy:'Copy', copied:'Copied', del:'Delete', noSlots:'All places are taken.', clientsHead:'Connected', noClients:'Nobody connected yet.',
   client:'Client', notYet:'No data yet', view:'View', end:'End connection', endAskCoach:'End the connection with {name}? You will no longer see anything. The place becomes free.',
   endedHead:'Ended', endedOn:'ended on {date}', back:'‹ All clients', keyLost:'Your coach key no longer fits your data (e.g. after “Start over”). Create a new one – your clients will share again the next time they open their app.',
-  rekey:'Create new key', tab_wheels:'Life wheels', tab_goals:'Goals', tab_habits:'Habits', notShared:'Not shared.',
+  rekey:'Create new key', tab_wheels:'Life wheels', tab_goals:'Goals', tab_habits:'Habits', tab_persona:'Personality', notShared:'Not shared.',
   noWheels:'No life wheel yet.', pickWheels:'Choose up to three life wheels to compare:', noGoals:'No goals yet.', active:'Active', achieved:'Achieved',
   why:'Why', steps:'Steps', due:'Due', achievedOn:'achieved on {date}', noHabits:'No habits yet.', daily:'Daily', weekly:'Weekly', week:'Week {n}',
   adminBtn:'Manage coach codes', adminTitle:'Coach codes', adminNew:'New code for', places:'{n} places', notePh:'Note (e.g. name of the coach)', adminNone:'No codes yet.',
@@ -11390,7 +11731,8 @@ async function coachUnseal(box){
 /* ---- the client: what is shared, and when ---- */
 function coachDefaultName(){ const m = sbSession && sbSession.user && sbSession.user.email || ''; const n = m.split('@')[0].split(/[._-]/)[0]; return n ? n[0].toUpperCase() + n.slice(1) : ''; }
 function coachPayload(){
-  const L = coachLink, o = { name:(state.settings.coachName || coachDefaultName()).slice(0, 40), parts:{ wheels:!!L.share_wheels, goals:!!L.share_goals, habits:!!L.share_habits } };
+  const L = coachLink, o = { name:(state.settings.coachName || coachDefaultName()).slice(0, 40), parts:{ wheels:!!L.share_wheels, goals:!!L.share_goals, habits:!!L.share_habits, persona:!!L.share_persona } };
+  if(L.share_persona) o.persona = personaOf(state).map(r=>({ id:r.id, ts:r.ts, sc:r.sc })); // 2.11.0: the results only, not the answers
   if(L.share_wheels){ o.wheels = {}; AREAS.forEach(a=>{ o.wheels[a] = (state.bewertungen[a] || []).map(e=>({ ts:e.ts, value:e.value, wish:e.wish })); }); }
   if(L.share_goals){ o.goals = {}; AREAS.forEach(a=>{ o.goals[a] = (state.ziele[a] || []).map(g=>({ id:g.id, title:g.title, grund:g.grund || null, massnahmen:g.massnahmen || null, dueDate:g.dueDate || null, status:g.status, achievedAt:g.achievedAt || null, priority:g.priority })); }); }
   if(L.share_habits){
@@ -11436,7 +11778,7 @@ function renderSettingsCoach(){
   if(coachLink){
     const L = coachLink;
     h += `<p class="settings-note">${c.linked.replace('{name}', coachEsc(L.name || c.yourCoach)).replace('{date}', coachDate(L.since))}</p>
-      <div class="coach-parts">${['wheels', 'goals', 'habits'].map(k=>`<label class="coach-check"><input type="checkbox" data-k="${k}" ${L['share_' + k] ? 'checked' : ''}><span>${c['part_' + k]}</span></label>`).join('')}</div>
+      <div class="coach-parts">${['wheels', 'goals', 'habits', 'persona'].map(k=>`<label class="coach-check"><input type="checkbox" data-k="${k}" ${L['share_' + k] ? 'checked' : ''}><span>${c['part_' + k]}</span></label>`).join('')}</div>
       <p class="settings-note">${c.never}</p>
       <button class="ghost-btn settings-row" id="coach-end-mine">${c.endShare}</button>`;
   }else h += `<p class="settings-note">${c.intro}</p><button class="ghost-btn settings-row" id="coach-connect-btn">${c.connectBtn}</button>`;
@@ -11451,7 +11793,7 @@ function renderSettingsCoach(){
 }
 function coachPartsHtml(v){
   const c = ct();
-  return `<div class="coach-parts">${['wheels', 'goals', 'habits'].map(k=>`<label class="coach-check"><input type="checkbox" id="cc-${k}" ${v[k] !== false ? 'checked' : ''}><span>${c['part_' + k]}</span></label>`).join('')}</div>`;
+  return `<div class="coach-parts">${['wheels', 'goals', 'habits', 'persona'].map(k=>`<label class="coach-check"><input type="checkbox" id="cc-${k}" ${v[k] !== false ? 'checked' : ''}><span>${c['part_' + k]}</span></label>`).join('')}</div>`;
 }
 async function coachConnectOpen(prev){
   const c = ct(), v = prev || { code:'', name:state.settings.coachName || coachDefaultName() };
@@ -11462,13 +11804,13 @@ async function coachConnectOpen(prev){
   const r = await uiDialog(c.connectTitle, { html, confirm:true, okText:c.connectBtn });
   if(r !== true) return;
   const g = id=>document.getElementById(id);
-  const val = { code:g('cc-code').value.trim(), name:g('cc-name').value.trim(), wheels:g('cc-wheels').checked, goals:g('cc-goals').checked, habits:g('cc-habits').checked, ok:g('cc-ok').checked };
+  const val = { code:g('cc-code').value.trim(), name:g('cc-name').value.trim(), wheels:g('cc-wheels').checked, goals:g('cc-goals').checked, habits:g('cc-habits').checked, persona:g('cc-persona').checked, ok:g('cc-ok').checked };
   if(!val.code){ await uiNotice(c.codeNeeded); return coachConnectOpen(val); }
   if(!val.ok){ await uiNotice(c.consentNeeded); return coachConnectOpen(val); }
   try{
     const res = await coachRpc('coach_connect', { p_code:val.code });
     const L = res && res[0]; if(!L) throw new Error('no_code');
-    await coachRpc('coach_share_set', { p_link:L.link_id, p_wheels:val.wheels, p_goals:val.goals, p_habits:val.habits });
+    await coachRpc('coach_share_set', { p_link:L.link_id, p_wheels:val.wheels, p_goals:val.goals, p_habits:val.habits, p_persona:val.persona });
     state.settings.coachName = val.name; saveState();
     try{ localStorage.removeItem(COACH_HASH_KEY); }catch(e){}
     await coachLoad(); await coachPush(true);
@@ -11480,7 +11822,7 @@ async function coachShareToggle(inp){
   const L = coachLink; if(!L) return;
   const k = inp.dataset.k, before = L['share_' + k];
   L['share_' + k] = inp.checked;
-  try{ await coachRpc('coach_share_set', { p_link:L.link_id, p_wheels:!!L.share_wheels, p_goals:!!L.share_goals, p_habits:!!L.share_habits }); await coachPush(true); }
+  try{ await coachRpc('coach_share_set', { p_link:L.link_id, p_wheels:!!L.share_wheels, p_goals:!!L.share_goals, p_habits:!!L.share_habits, p_persona:!!L.share_persona }); await coachPush(true); }
   catch(e){ L['share_' + k] = before; inp.checked = before; uiNotice(coachErr(e)); }
 }
 async function coachEndMine(){
@@ -11579,15 +11921,17 @@ function coachClientRender(){
   document.getElementById('coach-title').textContent = name;
   let h = `<button class="ghost-btn coach-back" id="coach-back">${c.back}</button>`
     + `<p class="settings-note">${x.at ? c.updated.replace('{date}', coachDate(x.at)) : c.notYet}</p>`
-    + `<div class="seg coach-tabs">${['wheels', 'goals', 'habits'].map(k=>`<button class="seg-btn${v.tab === k ? ' active' : ''}" data-tab="${k}">${c['tab_' + k]}</button>`).join('')}</div><div class="coach-pane">`;
+    + `<div class="seg coach-tabs">${['wheels', 'goals', 'habits', 'persona'].map(k=>`<button class="seg-btn${v.tab === k ? ' active' : ''}" data-tab="${k}">${c['tab_' + k]}</button>`).join('')}</div><div class="coach-pane">`;
   const st = coachClientState(data);
   if(!x.data) h += `<p class="settings-note">${c.notYet}</p>`;
   else if(!parts[v.tab]) h += `<p class="settings-note">${c.notShared}</p>`;
   else if(v.tab === 'wheels') h += coachWheelsHtml(st, name);
   else if(v.tab === 'goals') h += coachGoalsHtml(st);
+  else if(v.tab === 'persona') h += personaResultHtml((data.persona || []).slice().sort((a, b)=>b.ts - a.ts), v.pv || (v.pv = { sel:'', cmp:'' }), true);
   else h += coachHabitsHtml(st);
   body.innerHTML = h + '</div>';
   document.getElementById('coach-back').onclick = ()=>{ coachView = null; coachAreaRender(); };
+  if(v.tab === 'persona') personaBind(body, v.pv, coachClientRender, true);
   body.querySelectorAll('[data-tab]').forEach(b=>{ b.onclick = ()=>{ v.tab = b.dataset.tab; coachClientRender(); }; });
   body.querySelectorAll('[data-snap]').forEach(b=>{ b.onclick = ()=>{
     const i = +b.dataset.snap, s = v.sel || [];
