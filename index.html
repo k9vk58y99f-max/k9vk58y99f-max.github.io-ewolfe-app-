@@ -2597,7 +2597,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.11.0';
+const APP_VERSION = '2.11.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -11389,7 +11389,7 @@ de:{ title:'Persönlichkeitsrad', cardTitle:'Mein Persönlichkeitsrad',
   restartAsk:'Neu beginnen? Deine bisherigen Antworten in diesem Durchgang werden gelöscht.', restart:'Neu beginnen', later:'Später weitermachen',
   resultOf:'Ergebnis vom {date}', compare:'Vergleichen mit', none:'–', del:'Ergebnis löschen', delAsk:'Dieses Ergebnis löschen? Das lässt sich nicht rückgängig machen.',
   low:'eher niedrig', mid:'mittel', high:'eher hoch',
-  howRead:'So liest du das Rad: Jeder Grundzug hat zwei Hälften. Je länger ein Teil, desto mehr treffen die Aussagen dazu auf dich zu (0–100 %). Das ist kein Vergleich mit anderen Menschen und keine Bewertung – jede Ausprägung hat Stärken. Mach den Test etwa einmal im Jahr; Persönlichkeit verändert sich langsam.',
+  howRead:'So liest du das Rad: Jeder Grundzug hat zwei Hälften, links und rechts seiner Linie. Je weiter ein Punkt nach außen reicht, desto mehr treffen die Aussagen dazu auf dich zu (0–100 %). Das ist kein Vergleich mit anderen Menschen und keine Bewertung – jede Ausprägung hat Stärken. Mach den Test etwa einmal im Jahr; Persönlichkeit verändert sich langsam.',
   disclaimer:'Kein psychologischer Test im klinischen Sinn und keine Diagnose. Fragen: Big Five Aspect Scales (DeYoung, Quilty & Peterson, 2007) aus dem International Personality Item Pool (gemeinfrei), deutsche Fassung eWolfe.',
   traits:{ O:'Offenheit', C:'Gewissenhaftigkeit', E:'Extraversion', A:'Verträglichkeit', S:'Emotionale Stabilität' },
   traitsShort:{ O:'Offenheit', C:'Gewissenhaft.', E:'Extraversion', A:'Verträglichkeit', S:'Stabilität' },
@@ -11418,7 +11418,7 @@ en:{ title:'Personality wheel', cardTitle:'My personality wheel',
   restartAsk:'Start over? Your answers so far in this round will be deleted.', restart:'Start over', later:'Continue later',
   resultOf:'Result of {date}', compare:'Compare with', none:'–', del:'Delete result', delAsk:'Delete this result? This cannot be undone.',
   low:'rather low', mid:'medium', high:'rather high',
-  howRead:'How to read the wheel: each trait has two halves. The longer a part, the more the statements about it apply to you (0–100 %). This is no comparison with other people and no judgement – every level has its strengths. Take the test about once a year; personality changes slowly.',
+  howRead:'How to read the wheel: each trait has two halves, left and right of its line. The further out a point, the more the statements about it apply to you (0–100 %). This is no comparison with other people and no judgement – every level has its strengths. Take the test about once a year; personality changes slowly.',
   disclaimer:'Not a clinical psychological test and no diagnosis. Items: Big Five Aspect Scales (DeYoung, Quilty & Peterson, 2007) from the International Personality Item Pool (public domain).',
   traits:{ O:'Openness', C:'Conscientiousness', E:'Extraversion', A:'Agreeableness', S:'Emotional stability' },
   traitsShort:{ O:'Openness', C:'Conscientious.', E:'Extraversion', A:'Agreeableness', S:'Stability' },
@@ -11589,22 +11589,28 @@ function personaBind(root, v, rerender, readOnly){
   };
 }
 // the wheel: five traits, each split into two halves (ten wedges); an older result as a dashed outline
+let personaGid = 0;
+// 2.11.1 (wish of the user): drawn like the life wheels – a connected shape over a ten-cornered grid, a point on every value
 function personaWheelSvg(sc, old, o){
   const p = pt(), mini = o && o.mini, W = mini ? 120 : 480, H = mini ? 120 : 400, cx = W / 2, cy = mini ? 60 : 200, R = mini ? 56 : 128;
-  const pt2 = (deg, r)=>{ const a = deg * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
-  const f = n=>n.toFixed(1), wedge = (a0, a1, r)=>{ const [x0, y0] = pt2(a0, r), [x1, y1] = pt2(a1, r); return `M${f(cx)} ${f(cy)}L${f(x0)} ${f(y0)}A${f(r)} ${f(r)} 0 0 1 ${f(x1)} ${f(y1)}Z`; };
-  const col = IST_COL, gold = KNOB_GOLD, rr = v=>Math.max(2, R * Math.max(0, Math.min(100, v)) / 100);
-  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" class="persona-svg" role="img" aria-label="${p.title}">`;
-  [1, 0.75, 0.5, 0.25].forEach((k, i)=>{ s += `<circle cx="${cx}" cy="${cy}" r="${f(R * k)}" fill="none" stroke="currentColor" stroke-opacity="${i ? 0.18 : 0.35}" stroke-width="${mini ? 0.6 : 1}"${i ? ' stroke-dasharray="3 4"' : ''}/>`; });
-  PERSONA_ASPECTS.forEach((a, i)=>{ s += `<path d="${wedge(-90 + i * 36, -54 + i * 36, rr(sc[a]))}" fill="${col}" fill-opacity="${i % 2 ? 0.45 : 0.85}"/>`; });
-  if(old){
-    let d = '';
-    PERSONA_ASPECTS.forEach((a, i)=>{ const r = rr(old[a]), [x0, y0] = pt2(-90 + i * 36, r), [x1, y1] = pt2(-54 + i * 36, r); d += `${i ? 'L' : 'M'}${f(x0)} ${f(y0)}A${f(r)} ${f(r)} 0 0 1 ${f(x1)} ${f(y1)}`; });
-    s += `<path d="${d}Z" fill="none" stroke="${gold}" stroke-width="2.2" stroke-dasharray="5 4"/>`;
-  }
-  for(let i = 0; i < 5; i++){ const [x, y] = pt2(-90 + i * 72, R + (mini ? 2 : 6)); s += `<line x1="${cx}" y1="${cy}" x2="${f(x)}" y2="${f(y)}" stroke="currentColor" stroke-opacity="0.55" stroke-width="${mini ? 0.8 : 1.4}"/>`; }
+  const f = n=>n.toFixed(1), N = PERSONA_ASPECTS.length, gid = 'pgw' + (++personaGid);
+  const ang = i=>(-72 + i * 36) * Math.PI / 180; // each aspect in the middle of its half; a trait's two aspects sit left and right of its axis
+  const at = (i, v)=>{ const r = R * Math.max(2, Math.min(100, v)) / 100; return [cx + r * Math.cos(ang(i)), cy + r * Math.sin(ang(i))]; };
+  const poly = vals=>vals.map((v, i)=>at(i, v).map(f).join(',')).join(' ');
+  const line = RETREAT ? 'rgba(41,39,35,' : 'rgba(243,234,214,', sw = mini ? 0.7 : 1;
+  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" class="persona-svg" role="img" aria-label="${p.title}">`
+    + `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>`
+    + `<stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient></defs>`;
+  [25, 50, 75, 100].forEach(r=>{ s += `<polygon points="${poly(PERSONA_ASPECTS.map(()=>r))}" fill="none" stroke="${line}${r === 100 ? (RETREAT ? 0.39 : 0.45) : (RETREAT ? 0.24 : 0.16)})" stroke-width="${sw}"/>`; });
+  PERSONA_ASPECTS.forEach((a, i)=>{ const [x, y] = at(i, 100); s += `<line x1="${cx}" y1="${cy}" x2="${f(x)}" y2="${f(y)}" stroke="${line}${RETREAT ? 0.24 : 0.16})" stroke-width="${sw}"/>`; });
+  // the five traits: a stronger line between their two halves
+  for(let i = 0; i < 5; i++){ const a = (-90 + i * 72) * Math.PI / 180, r = R * (mini ? 1.04 : 1.08); s += `<line x1="${cx}" y1="${cy}" x2="${f(cx + r * Math.cos(a))}" y2="${f(cy + r * Math.sin(a))}" stroke="currentColor" stroke-opacity="0.5" stroke-width="${mini ? 0.8 : 1.4}"/>`; }
+  if(old) s += `<polygon points="${poly(PERSONA_ASPECTS.map(a=>old[a]))}" fill="none" stroke="${KNOB_GOLD}" stroke-width="${mini ? 1.4 : 2.4}" stroke-dasharray="5 4" stroke-linejoin="round"/>`;
+  s += `<polygon points="${poly(PERSONA_ASPECTS.map(a=>sc[a]))}" fill="url(#${gid})" stroke="${IST_COL}" stroke-width="${mini ? 1.6 : 3}" stroke-linejoin="round"/>`;
+  if(!mini) PERSONA_ASPECTS.forEach((a, i)=>{ const [x, y] = at(i, sc[a]); s += `<circle cx="${f(x)}" cy="${f(y)}" r="5.5" fill="${IST_COL}"/>`; });
+  if(old && !mini) PERSONA_ASPECTS.forEach((a, i)=>{ const [x, y] = at(i, old[a]); s += `<circle cx="${f(x)}" cy="${f(y)}" r="3.5" fill="${KNOB_GOLD}"/>`; });
   if(!mini) PERSONA_TRAITS.forEach(([T], i)=>{
-    const deg = -54 + i * 72, [x, y] = pt2(deg, R + 22), c = Math.cos(deg * Math.PI / 180);
+    const deg = -54 + i * 72, a = deg * Math.PI / 180, x = cx + (R + 22) * Math.cos(a), y = cy + (R + 22) * Math.sin(a), c = Math.cos(a);
     const anchor = Math.abs(c) < 0.3 ? 'middle' : c > 0 ? 'start' : 'end';
     s += `<text x="${f(x)}" y="${f(y + (deg === 90 ? 10 : 4))}" text-anchor="${anchor}" font-size="15" fill="currentColor" font-family="inherit">${escapeHtml(p.traitsShort[T])}</text>`;
   });
