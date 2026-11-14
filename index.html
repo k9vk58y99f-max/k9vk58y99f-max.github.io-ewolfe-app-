@@ -2597,7 +2597,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.11.1';
+const APP_VERSION = '2.11.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -11591,29 +11591,47 @@ function personaBind(root, v, rerender, readOnly){
 // the wheel: five traits, each split into two halves (ten wedges); an older result as a dashed outline
 let personaGid = 0;
 // 2.11.1 (wish of the user): drawn like the life wheels – a connected shape over a ten-cornered grid, a point on every value
+// 2.11.1 (wish of the user): drawn like the life wheels – a connected shape over a ten-cornered grid, a point on every value
+// 2.11.2 (wish of the user): the names around the wheel – the five traits curved along a ring, the ten halves outside at their corners
 function personaWheelSvg(sc, old, o){
-  const p = pt(), mini = o && o.mini, W = mini ? 120 : 480, H = mini ? 120 : 400, cx = W / 2, cy = mini ? 60 : 200, R = mini ? 56 : 128;
+  const p = pt(), mini = o && o.mini, W = mini ? 120 : 480, H = mini ? 120 : 380, cx = W / 2, cy = mini ? 60 : 192, R = mini ? 56 : 108;
   const f = n=>n.toFixed(1), N = PERSONA_ASPECTS.length, gid = 'pgw' + (++personaGid);
   const ang = i=>(-72 + i * 36) * Math.PI / 180; // each aspect in the middle of its half; a trait's two aspects sit left and right of its axis
   const at = (i, v)=>{ const r = R * Math.max(2, Math.min(100, v)) / 100; return [cx + r * Math.cos(ang(i)), cy + r * Math.sin(ang(i))]; };
   const poly = vals=>vals.map((v, i)=>at(i, v).map(f).join(',')).join(' ');
-  const line = RETREAT ? 'rgba(41,39,35,' : 'rgba(243,234,214,', sw = mini ? 0.7 : 1;
+  const line = RETREAT ? 'rgba(41,39,35,' : 'rgba(243,234,214,', sw = mini ? 0.7 : 1, ring = R + 15;
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" class="persona-svg" role="img" aria-label="${p.title}">`
     + `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>`
-    + `<stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient></defs>`;
+    + `<stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient>`;
+  if(!mini) PERSONA_TRAITS.forEach((tr, i)=>{
+    // an arc for the trait name, drawn so the text always reads left to right (the lower arcs run the other way round)
+    const mid = -54 + i * 72, a0 = (mid - 34) * Math.PI / 180, a1 = (mid + 34) * Math.PI / 180, low = Math.sin(mid * Math.PI / 180) > 0.2;
+    const r = low ? ring + 9 : ring, P0 = [cx + r * Math.cos(a0), cy + r * Math.sin(a0)], P1 = [cx + r * Math.cos(a1), cy + r * Math.sin(a1)];
+    s += `<path id="${gid}t${i}" fill="none" d="${low ? `M${f(P1[0])} ${f(P1[1])}A${r} ${r} 0 0 0 ${f(P0[0])} ${f(P0[1])}` : `M${f(P0[0])} ${f(P0[1])}A${r} ${r} 0 0 1 ${f(P1[0])} ${f(P1[1])}`}"/>`;
+  });
+  s += `</defs>`;
   [25, 50, 75, 100].forEach(r=>{ s += `<polygon points="${poly(PERSONA_ASPECTS.map(()=>r))}" fill="none" stroke="${line}${r === 100 ? (RETREAT ? 0.39 : 0.45) : (RETREAT ? 0.24 : 0.16)})" stroke-width="${sw}"/>`; });
   PERSONA_ASPECTS.forEach((a, i)=>{ const [x, y] = at(i, 100); s += `<line x1="${cx}" y1="${cy}" x2="${f(x)}" y2="${f(y)}" stroke="${line}${RETREAT ? 0.24 : 0.16})" stroke-width="${sw}"/>`; });
-  // the five traits: a stronger line between their two halves
-  for(let i = 0; i < 5; i++){ const a = (-90 + i * 72) * Math.PI / 180, r = R * (mini ? 1.04 : 1.08); s += `<line x1="${cx}" y1="${cy}" x2="${f(cx + r * Math.cos(a))}" y2="${f(cy + r * Math.sin(a))}" stroke="currentColor" stroke-opacity="0.5" stroke-width="${mini ? 0.8 : 1.4}"/>`; }
+  // the five traits: a stronger line between their two halves, out through the ring of names
+  for(let i = 0; i < 5; i++){ const a = (-90 + i * 72) * Math.PI / 180, r = mini ? R * 1.04 : ring + 12; s += `<line x1="${cx}" y1="${cy}" x2="${f(cx + r * Math.cos(a))}" y2="${f(cy + r * Math.sin(a))}" stroke="currentColor" stroke-opacity="0.5" stroke-width="${mini ? 0.8 : 1.4}"/>`; }
   if(old) s += `<polygon points="${poly(PERSONA_ASPECTS.map(a=>old[a]))}" fill="none" stroke="${KNOB_GOLD}" stroke-width="${mini ? 1.4 : 2.4}" stroke-dasharray="5 4" stroke-linejoin="round"/>`;
   s += `<polygon points="${poly(PERSONA_ASPECTS.map(a=>sc[a]))}" fill="url(#${gid})" stroke="${IST_COL}" stroke-width="${mini ? 1.6 : 3}" stroke-linejoin="round"/>`;
-  if(!mini) PERSONA_ASPECTS.forEach((a, i)=>{ const [x, y] = at(i, sc[a]); s += `<circle cx="${f(x)}" cy="${f(y)}" r="5.5" fill="${IST_COL}"/>`; });
-  if(old && !mini) PERSONA_ASPECTS.forEach((a, i)=>{ const [x, y] = at(i, old[a]); s += `<circle cx="${f(x)}" cy="${f(y)}" r="3.5" fill="${KNOB_GOLD}"/>`; });
-  if(!mini) PERSONA_TRAITS.forEach(([T], i)=>{
-    const deg = -54 + i * 72, a = deg * Math.PI / 180, x = cx + (R + 22) * Math.cos(a), y = cy + (R + 22) * Math.sin(a), c = Math.cos(a);
-    const anchor = Math.abs(c) < 0.3 ? 'middle' : c > 0 ? 'start' : 'end';
-    s += `<text x="${f(x)}" y="${f(y + (deg === 90 ? 10 : 4))}" text-anchor="${anchor}" font-size="15" fill="currentColor" font-family="inherit">${escapeHtml(p.traitsShort[T])}</text>`;
-  });
+  if(!mini) PERSONA_ASPECTS.forEach((a, i)=>{ const [x, y] = at(i, sc[a]); s += `<circle cx="${f(x)}" cy="${f(y)}" r="5" fill="${IST_COL}"/>`; });
+  if(old && !mini) PERSONA_ASPECTS.forEach((a, i)=>{ const [x, y] = at(i, old[a]); s += `<circle cx="${f(x)}" cy="${f(y)}" r="3.2" fill="${KNOB_GOLD}"/>`; });
+  if(!mini){
+    const tcol = RETREAT ? 'var(--rt-sage-d, #B81F57)' : 'var(--gold-text, #e8b84a)';
+    PERSONA_TRAITS.forEach(([T], i)=>{
+      s += `<text font-size="12.5" fill="${tcol}" font-family="inherit" letter-spacing="0.4"><textPath href="#${gid}t${i}" startOffset="50%" text-anchor="middle">${escapeHtml(p.traits[T])}</textPath></text>`;
+    });
+    // the ten halves outside, each at its corner, long names on two lines
+    PERSONA_ASPECTS.forEach((a, i)=>{
+      const g = ang(i), c = Math.cos(g), sn = Math.sin(g), r = ring + 26, x = cx + r * c, y = cy + r * sn;
+      const anchor = Math.abs(c) < 0.35 ? 'middle' : c > 0 ? 'start' : 'end', name = p.aspects[a];
+      const lines = name.length > 12 && name.includes(' ') ? name.split(' ') : [name], lh = 15;
+      const y0 = y + 4.5 - (lines.length - 1) * lh / 2 + (Math.abs(c) < 0.35 ? (sn < 0 ? -(lines.length - 1) * lh / 2 - 2 : (lines.length - 1) * lh / 2 + 6) : 0);
+      s += `<text text-anchor="${anchor}" font-size="13" fill="currentColor" font-family="inherit">${lines.map((l, k)=>`<tspan x="${f(x)}" y="${f(y0 + k * lh)}">${escapeHtml(l)}</tspan>`).join('')}</text>`;
+    });
+  }
   return s + `</svg>`;
 }
 

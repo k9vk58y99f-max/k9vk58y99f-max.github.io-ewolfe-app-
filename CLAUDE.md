@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 14.11.2026 (Version 2.11.1) – zuerst lesen
+## Übergabe – Stand 14.11.2026 (Version 2.11.2) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.11.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.11.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1117,6 +1117,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     verbundene Fläche über einem zehneckigen Gitter (25/50/75/100 %, Linien und Farben wie `areasWheelSvg`, Füllung mit dem Verlauf der Lebensräder, eigene
     Verlaufs-Id je Bild `personaGid`), Punkt auf jedem Wert, die fünf Grundzüge als kräftigere Linien zwischen ihren zwei Hälften; älteres Ergebnis als
     gestrichelte Fläche in `KNOB_GOLD` mit kleinen Punkten. „So liest du das Rad“ angepasst. Test `t2110.py` (40 Prüfungen) und `t2100.py` laufen.
+- **2.11.2 (14.11.2026) Namen um das Persönlichkeitsrad (Wunsch der Nutzerin, wie beim Rad des Coaches):** die fünf Grundzüge stehen gebogen auf einem Ring direkt um
+    das Rad (`textPath` je Grundzug, untere Bögen andersherum gezeichnet, damit man sie lesen kann; Farbe `--gold-text` bzw. Lady `--rt-sage-d`), die zehn Hälften
+    außen an ihren Ecken (lange Namen zweizeilig). Die kräftigen Linien der Grundzüge reichen durch den Ring. viewBox 480×380, R 108. Test `t2110.py`/`t2100.py` laufen.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
