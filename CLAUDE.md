@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 14.11.2026 (Version 2.11.3) – zuerst lesen
+## Übergabe – Stand 14.11.2026 (Version 2.11.4) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.11.3`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.11.4`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1129,6 +1129,10 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     **Lady nur Farben der Farbkarte:** Offenheit Himbeere #D62C68, Extraversion Karmesin #C90016, Stabilität Waldgrün #1B4D2A, Verträglichkeit Burgund #7A0B25,
     Gewissenhaftigkeit Seladon #79B8A7 + Salbei #87A994; auf hellen Feldern dunkle Schrift (`personaInk`). Balken und Buchstaben unten in der Farbe ihres Grundzugs
     (`personaTraitCol`). „So liest du das Rad“ angepasst. Test `t2110.py` (40) und `t2100.py` laufen.
+- **2.11.4 (14.11.2026) Edlere Schrift (Wunsch der Nutzerin):** Namen der Gewohnheiten (Klemmbrett `.hb2-name`, Wochenseite `.tb-hw-name`, Erfolge `.tw-name`) und der
+    eigene Text auf der Erfolge-Seite (Bereiche, Stolz – auch bei Handschrift-Einstellung) in der Überschrift-Schrift des Designs (`--hd-font`/`--hd-st`, Größe je Design
+    `--hd-k`: Marcellus 1, Noto Serif Display schmal 1,12, Cormorant 1,18), Farbe fast schwarz `--hd-ink` #1f1b16 (nicht die Überschriftfarbe). „+ Täglich“ bleibt Inter.
+    Teilen-Ersatzzeichnung ebenso. Bilder: `t2114.py` (Klemmbrett, drei Designs), `t295.py` läuft.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

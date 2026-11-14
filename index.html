@@ -653,6 +653,18 @@ html.theme-retreat .tb-areas.tb-wins2{ --tw-h:#7A0B25; --tw-s:#B81F57; --tw-on:#
 .tb-land-page .tb-wins2 .tw-areas{ grid-column:2; grid-row:2 / span 2; margin-top:0; }
 .tb-land-page .tb-wins2 .tw-proud{ grid-column:1; grid-row:3; align-self:start; margin-top:calc(18px * var(--tbk)); }
 .tb-land-page .tb-wins2 .tw-proud .tb-area-text{ height:calc(54px * var(--tbk)) !important; }
+/* 2.11.4 (wish of the user: nobler): habit names and the own writing on the habit tracker and the wins page in the heading font of the design,
+   in near-black ink (not the colour of the headings). Sizes per design, because the fonts are of different widths. */
+:root{ --hd-font:'Marcellus', serif; --hd-st:100%; --hd-k:1; --hd-ink:#1f1b16; }
+html.theme-biz{ --hd-font:'Noto Serif Display', 'Marcellus', serif; --hd-st:62.5%; --hd-k:1.12; }
+html.theme-retreat{ --hd-font:'Cormorant Garamond', serif; --hd-st:100%; --hd-k:1.18; }
+.tb-areas.tb-wins2 .tw-name{ font-family:var(--hd-font); font-stretch:var(--hd-st); font-size:calc(11.5px * var(--hd-k) * var(--tbk)); line-height:1.05; color:var(--hd-ink); }
+.tb-areas.tb-wins2 .tw-weekly .tw-name{ line-height:1.05; }
+.tb-areas.tb-wins2 .tw-body .tb-area-text, .tb-areas.tb-wins2 .tw-body .tb-area-text.font-hand,
+.tb-areas.tb-wins2 .tw-proud .tb-area-text, .tb-areas.tb-wins2 .tw-proud .tb-area-text.font-hand{ font-family:var(--hd-font); font-stretch:var(--hd-st); font-size:calc(12px * var(--hd-k) * var(--tbk)); color:var(--hd-ink); }
+.hb2 .hb2-name{ font-family:var(--hd-font); font-stretch:var(--hd-st); font-size:calc(3.3cqw * var(--hd-k)); color:var(--hd-ink); padding-bottom:0.7cqw; }
+.hb2 .hb2-name.hb2-plus{ font-family:'Inter', sans-serif; font-size:2.8cqw; color:var(--ink); }
+.tb-hw-name{ font-family:var(--hd-font); font-stretch:var(--hd-st); font-size:calc(14px * var(--hd-k) * var(--tbk)); color:var(--hd-ink); }
 /* 2.4.0: the month in review – a short row per area (two lines at most), then the own conclusion */
 .tb-month-row{ flex:none; display:flex; flex-direction:column; border-bottom:1px solid rgba(42,35,24,0.12); padding-bottom:calc(3px * var(--tbk)); }
 .tb-month-row .tb-area-head{ padding:calc(4px * var(--tbk)) 0 0; font-size:calc(14px * var(--tbk)); }
@@ -2599,7 +2611,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.11.3';
+const APP_VERSION = '2.11.4';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -9667,13 +9679,13 @@ async function winsShareBlobDrawn(page){
   if(daily.length){
     g.fillStyle = pal.dim; g.font = body(24); g.textAlign = 'center';
     all.forEach((x, i)=>g.fillText(x.toLocaleDateString(loc, { weekday:'narrow' }), CX0 + i * CW + CW / 2, y + 24)); y += 34;
-    daily.forEach(h=>{ g.textAlign = 'left'; g.fillStyle = pal.text; g.font = `${Math.round(RH * 0.95)}px "Caveat", cursive`; g.fillText(h.name, X, y + RH * 0.72, CX0 - X - 16);
+    daily.forEach(h=>{ g.textAlign = 'left'; g.fillStyle = pal.text; g.font = `${Math.round(RH * 0.7)}px "${pal.head}", Georgia, serif`; g.fillText(h.name, X, y + RH * 0.72, CX0 - X - 16);
       all.forEach((x, i)=>box(CX0 + i * CW + (CW - BOX) / 2, y + (RH - BOX) / 2, BOX, habitOn(h.id, x) && dayKey(x) <= today));
       g.textAlign = 'right'; g.fillStyle = pal.dim; g.font = body(24); g.fillText(all.filter(x=>habitOn(h.id, x)).length + '/7', W - X, y + RH * 0.68); y += RH; });
   }
   if(weekly.length){
     g.textAlign = 'left'; g.fillStyle = pal.title; g.font = `italic 28px "${pal.head}", Georgia, serif`; g.fillText(d.habitWeekly, X, y + 30); y += 40;
-    weekly.forEach(h=>{ g.fillStyle = pal.text; g.font = `${Math.round(RH * 0.95)}px "Caveat", cursive`; g.fillText(h.name, X, y + RH * 0.72, CX0 - X - 16);
+    weekly.forEach(h=>{ g.fillStyle = pal.text; g.font = `${Math.round(RH * 0.7)}px "${pal.head}", Georgia, serif`; g.fillText(h.name, X, y + RH * 0.72, CX0 - X - 16);
       box(CX0 + (CW - BOX) / 2, y + (RH - BOX) / 2, 7 * CW - (CW - BOX), habitWeekOn(h.id, wk)); y += RH; });
   }
   if(n){ y += 14; g.strokeStyle = pal.line; g.lineWidth = 1.5; g.beginPath(); g.moveTo(X, y); g.lineTo(W - X, y); g.stroke(); y += 10; }
