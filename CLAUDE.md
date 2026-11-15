@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 15.11.2026 (Version 2.16.0) – zuerst lesen
+## Übergabe – Stand 15.11.2026 (Version 2.16.1) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.16.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.16.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1198,6 +1198,10 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     `impulseCardImage(c, true)` liefert die Karte in voller Größe, PNG über `shareBlob`). Sticker: angetippter Sticker auf einer Tagebuchseite hat oben links einen grünen
     Teilen-Knopf (`.tb-img-share`, nur bei `img.sticker`; `stickerShare`: 1080×1080 auf dem Hintergrund des Designs, `shareCanvasBase`). Texte `shareBtn`, `shareSaved` (de/en).
     Ohne Teilen-Menü (Rechner) wird das Bild heruntergeladen. Test `t2160.py` in `eWolfe-Skripte` (drei Designs, Chromium + WebKit).
+- **2.16.1 (15.11.2026, Video der Nutzerin `Eingang 15.11.2026/IMG_1269.mov`):** Auf dem iPhone quer und im Zoom ließ sich nicht nach unten scrollen: `.tb-body.tb-body-page`
+    hatte `overflow:hidden !important` und `touch-action:pan-x pinch-zoom` (kein senkrechtes Wischen). Jetzt im Zoom und bei Handy quer `overflow:auto`, `touch-action:pan-x pan-y`;
+    im Tracker scrollt im Zoom die ganze Fläche (der innere Rahmen `.tb-habits-wrap` hat dann keine feste Höhe). Getestet mit echten Touch-Gesten per CDP (`touchtest.py` →
+    `eWolfe-Skripte/t2161.py`): Wischen scrollt, Zoom bleibt nach dem Loslassen. Wichtig für Tests: programmatisches `scrollTop` geht auch bei `overflow:hidden` – immer mit Touch prüfen.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
