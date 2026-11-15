@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 14.11.2026 (Version 2.11.4) – zuerst lesen
+## Übergabe – Stand 15.11.2026 (Version 2.12.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -20,7 +20,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
   dann neu anlegen: `python3 -m venv …; pip install playwright pillow numpy scipy opencv-python-headless; python -m playwright install chromium webkit`).
   App über `python3 -m http.server 8765` laden, nicht `file://`. **Immer auch in WebKit (Safari) testen** – der Nutzer arbeitet auf iPad/iPhone,
   mehrere Fehler (Umbruch, Kartengröße, Lebensrad-Text) gab es nur in Safari.
-- **Sammelordner** (seit 1.11.2026 in iCloud): `~/Library/Mobile Documents/com~apple~CloudDocs/Claude/Claude Code/Lebensrad APP/` – darin `eWolfe-Skripte/` (Bild-Skripte), `eWolfe-Präsentationen/` (Präsentation, Ordner `veraltet/`), `Skripte (29.10.2026)/` (cutclip, measure …), Eingangsordner mit ChatGPT-Bildern. Übergaben (Handoffs): `…/Claude Code/HandOff/`.
+- **Sammelordner** (seit 1.11.2026 in iCloud): `~/Library/Mobile Documents/com~apple~CloudDocs/Claude/Claude Code/Lebensrad APP/` – seit 15.11.2026 liegen alle Eingänge in `Eingang/` (`Eingang/Eingang <Datum> …`, je Tag ein Ordner) und alle Ausgänge in `Ausgang/` (alte Themenordner plus `Ausgang/Ausgang <Datum>`); ältere Pfadangaben „Eingang 24.10.2026“ usw. meinen jetzt `Eingang/Eingang 24.10.2026 …`. Darin außerdem `eWolfe-Skripte/` (Bild-Skripte), `eWolfe-Präsentationen/` (Präsentation, Ordner `veraltet/`), `Skripte (29.10.2026)/` (cutclip, measure …), Eingangsordner mit ChatGPT-Bildern. Übergaben (Handoffs): `…/Claude Code/HandOff/`.
 - **Skripte** für Bilder: `Lebensrad APP/eWolfe-Skripte/` (`shoescale.py`, `align2.py`, `shadows.py`, `dresses.py` – siehe 2.2.4/2.2.5 unten).
 - **Diese Sitzung erledigt (2.2.0–2.2.5):** eine geführte Seite pro Tag, Umbruch nach 18 Zeilen auch in Safari, schlichtes Papier mit Doppellinie,
   Gewohnheiten-Woche im Tagebuch ohne Klemmbrett, Woche ab Sonntag, Impulskarten klein gespeichert (Ursache „Tagebuch voll“: Safari-PNGs à 1,1–1,6 MB),
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.11.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.12.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1133,6 +1133,15 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     eigene Text auf der Erfolge-Seite (Bereiche, Stolz – auch bei Handschrift-Einstellung) in der Überschrift-Schrift des Designs (`--hd-font`/`--hd-st`, Größe je Design
     `--hd-k`: Marcellus 1, Noto Serif Display schmal 1,12, Cormorant 1,18), Farbe fast schwarz `--hd-ink` #1f1b16 (nicht die Überschriftfarbe). „+ Täglich“ bleibt Inter.
     Teilen-Ersatzzeichnung ebenso. Bilder: `t2114.py` (Klemmbrett, drei Designs), `t295.py` läuft.
+- **2.12.0 (15.11.2026) Wünsche der Nutzerin (Foto/Video in `Eingang/Eingang 15.11.2026`):**
+    - **Bibliothek öffnet das zuletzt beschriebene Buch** (`tbLastWrittenBook`, statt des neuesten): je Gerät die Zeit des letzten eigenen Schreibens je Buch
+      (`ewolfe_book_written`, gesetzt in `saveState` → `tbNoteWrite`, wenn sich der Inhalt des offenen Buchs ändert; Vergleich über `tbBookSig`), dazu die
+      Änderungsstempel `mt` der Seiten (Schreiben auf anderen Geräten). Ohne beides wie bisher das neueste Buch. Gilt auch fürs Klemmbrett (`habitOpen`).
+    - **Start direkt auf der zuletzt offenen Seite:** wenn `navRestoreTarget()` eine andere Seite liefert, keine Sperre nötig ist und die Bereiche-Einführung
+      gesehen wurde (`navRestoreEarly`), wird das Rad ohne Intro gezeichnet, die Intro-Fläche ausgeblendet und die Seite sofort geöffnet. Sonst wie bisher.
+    - **Kein Zoomen beim Schreiben im Tagebuch:** Viewport im Tagebuch jetzt mit `maximum-scale=1` (Safari zoomt dann nicht mehr ins Feld, Fingerzoom bleibt,
+      weil iOS die Grenze für Finger ignoriert). Nur auf dem echten iPhone/iPad prüfbar – die Nutzerin testet.
+    - Test `t2120.py` in `Lebensrad APP/eWolfe-Skripte/` (Chromium + WebKit, drei Designs); `t290.py`, `t280.py` laufen weiter.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

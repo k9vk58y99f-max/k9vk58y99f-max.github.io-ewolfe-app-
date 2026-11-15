@@ -2611,7 +2611,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.11.4';
+const APP_VERSION = '2.12.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2673,7 +2673,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-11-13';
+const APP_BUILD = '2026-11-15';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -3054,6 +3054,7 @@ let levelTimer = null;
 function saveState(){
   clearTimeout(levelTimer); levelTimer = setTimeout(()=>{ try{ applyLevel(); }catch(e){} }, 800);
   if(typeof trophyCheck === 'function') setTimeout(trophyCheck, 0);
+  if(typeof tbNoteWrite === 'function' && document.getElementById('tb-overlay').classList.contains('open')) try{ tbNoteWrite(); }catch(e){}
   // before storeBoot() has looked into IndexedDB nothing is written – it may hold newer data (2.6.0)
   if(storeReady){ try{ storeWrite(JSON.stringify(state)); }catch(e){ console.error('eWolfe: saving failed', e); storeSaveFailed(); } }
   else if(storeBlocked) showStorageWarning('load');
@@ -6048,12 +6049,22 @@ function navActive(){
    that was open last time (per device, ewolfe_last_nav). Before that it always starts with the wheel. Nothing is remembered
    until the start has looked at it (navRestored), so the start itself never overwrites it with "home". */
 let navRestored = false;
+function navRestoreTarget(){
+  let last = ''; try{ last = localStorage.getItem('ewolfe_last_nav') || ''; }catch(e){}
+  if(!last || last === 'home' || !NAV_ORDER.includes(last)) return '';
+  if(isFirstRun() || !AREAS.some(a=>(state.ziele[a] || []).length)) return '';
+  return last;
+}
 function navRestore(){
   navRestored = true;
-  let last = ''; try{ last = localStorage.getItem('ewolfe_last_nav') || ''; }catch(e){}
-  if(!last || last === 'home' || !NAV_ORDER.includes(last)) return;
-  if(isFirstRun() || !AREAS.some(a=>(state.ziele[a] || []).length)) return;
+  const last = navRestoreTarget(); if(!last) return;
   const b = document.getElementById(last + '-btn'); if(b) b.click();
+}
+/* 2.12.0 (wish of the user): if the app will open on another page anyway, it goes there at once – no monogram on the wheel first */
+function navRestoreEarly(){
+  if(!navRestoreTarget() || syncGateNeeded()) return false;
+  try{ if(!localStorage.getItem(AREAS_SEEN_KEY)) return false; }catch(e){ return false; }
+  return true;
 }
 function navSync(){
   if(hp && !document.getElementById('breath-modal').classList.contains('open')) hpStop(); // music only while the exercise is open
@@ -6066,7 +6077,7 @@ function navSync(){
   if(document.documentElement.classList.contains('zoom-ok') !== zoom){
     document.documentElement.classList.toggle('zoom-ok', zoom);
     document.getElementById('viewport-meta').setAttribute('content', zoom
-      ? 'width=device-width, initial-scale=1, viewport-fit=cover'
+      ? 'width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover' // 2.12.0: maximum-scale stops Safari zooming into the field you write in; pinching still zooms (iOS ignores the limit for fingers)
       : 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
   }
 }
@@ -7676,7 +7687,7 @@ function habitSheetHtml(monday, pageIdx){
 function habitOpen(){
   // since 29.10.2026 the habits are a tool of the library (next to the diary), not a window of their own
   const ov = document.getElementById('tb-overlay');
-  if(!ov.classList.contains('open')){ document.querySelectorAll('.modal-backdrop.open').forEach(m=>{ if(m.id !== 'sync-modal') m.classList.remove('open'); }); tbEnterDiary(tbLatestBook(tbCurrentYearStr(), true)); }
+  if(!ov.classList.contains('open')){ document.querySelectorAll('.modal-backdrop.open').forEach(m=>{ if(m.id !== 'sync-modal') m.classList.remove('open'); }); tbEnterDiary(tbLastWrittenBook()); }
   tbSwitchTool('habits');
 }
 function habitClose(){ if(tbView === 'habits'){ tbSwitchTool('diary'); } else closeModal('habit-modal'); }
@@ -7976,6 +7987,7 @@ function tbEnterDiary(year){
   const diary = tbEnsureYear(year);
   if(tbRepaginateDiary(diary)) saveState(); // a page written before pagination existed may be too long
   tbYear = year;
+  tbWriteSig = { key:year, sig:tbBookSig(diary) };
   tbView = 'cover'; // shown first and stays — nothing auto-advances until the user opens it themselves
   // a new, still empty diary (also the very first one, created automatically) shows its settings with the covers (1.74.1)
   tbCoverSettingsOpen = tbCoverSetupOpen(diary);
@@ -7984,7 +7996,38 @@ function tbEnterDiary(year){
   navSync();
   tbRender();
 }
-function openTagebuch(){ tbEnterDiary(tbLatestBook(tbCurrentYearStr(), true)); }
+/* 2.12.0 (wish of the user): the library opens the book written in last – not simply the newest one. Per device the time of the
+   last own writing per book is remembered (ewolfe_book_written, set in saveState when the open book's content changes); the change
+   stamps of the pages (mt, from the sync) bring in writing done on other devices. Without either: the newest book as before. */
+const TB_WRITTEN_KEY = 'ewolfe_book_written';
+let tbWriteSig = { key:null, sig:null };
+function tbBookSig(diary){
+  if(!diary || !diary.seiten) return '';
+  let n = 0;
+  diary.seiten.forEach(p=>{ if(p.type === 'titel') return; n += (p.text || '').length + tbAreaTextLen(p) + (p.head || '').length + (p.strokes || []).length * 7 + (p.images || []).length * 13; });
+  return diary.seiten.length + ':' + n;
+}
+function tbWrittenLoad(){ try{ return JSON.parse(localStorage.getItem(TB_WRITTEN_KEY) || '{}') || {}; }catch(e){ return {}; } }
+function tbNoteWrite(){
+  if(!tbYear || !state.tagebuch || !state.tagebuch.jahre[tbYear]) return;
+  const sig = tbBookSig(state.tagebuch.jahre[tbYear]);
+  if(tbWriteSig.key !== tbYear){ tbWriteSig = { key:tbYear, sig }; return; } // just opened: nothing written yet
+  if(sig === tbWriteSig.sig) return;
+  tbWriteSig.sig = sig;
+  const m = tbWrittenLoad(); m[tbYear] = Date.now();
+  try{ localStorage.setItem(TB_WRITTEN_KEY, JSON.stringify(m)); }catch(e){}
+}
+function tbLastWrittenBook(){
+  const m = tbWrittenLoad(); let best = null, bt = 0;
+  tbBookKeys().forEach(k=>{
+    const diary = state.tagebuch.jahre[k];
+    let tm = +m[k] || 0;
+    (diary.seiten || []).forEach(p=>{ if(p.type !== 'titel' && p.mt > tm) tm = p.mt; });
+    if(tm > bt){ bt = tm; best = k; }
+  });
+  return best || tbLatestBook(tbCurrentYearStr(), true);
+}
+function openTagebuch(){ tbEnterDiary(tbLastWrittenBook()); }
 function closeTagebuch(){
   if(tbTextSaveTimer){ clearTimeout(tbTextSaveTimer); tbTextSaveTimer=null; saveState(); }
   document.getElementById('tb-overlay').classList.remove('open');
@@ -12197,7 +12240,10 @@ function init(){
     renderScene(true, ()=> setTimeout(()=>{ if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()) openEvalModal(); }, 200));
   } else {
     // returning user: play the intro every time the app opens, then reveal last time's wheel (and ask to sign in if needed)
-    renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()){ navRestore(); maybeAskWishes().then(asked=>{ if(!asked) maybeWheelReminder().then(shown=>{ if(!shown) maybeShowImpulseCard(); }); }); } });
+    if(navRestoreEarly()){
+      renderScene(false); const io = document.getElementById('intro-overlay'); if(io) io.style.display = 'none'; navRestore();
+      maybeAskWishes().then(asked=>{ if(!asked) maybeWheelReminder().then(shown=>{ if(!shown) maybeShowImpulseCard(); }); });
+    } else renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()){ navRestore(); maybeAskWishes().then(asked=>{ if(!asked) maybeWheelReminder().then(shown=>{ if(!shown) maybeShowImpulseCard(); }); }); } });
     renderPanels();
   }
 }
