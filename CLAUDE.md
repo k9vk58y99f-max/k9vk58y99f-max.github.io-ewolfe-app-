@@ -1191,7 +1191,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     beim Schreiben nichts. Stattdessen `tbZoom` (1–3): zwei Finger auf `#tb-body` (Touch-Handler mit `capture`, Mittelpunkt bleibt unter den Fingern), am Rechner
     Strg + Mausrad/Trackpad. Seite: CSS `zoom` auf `.tb-page-wrap` (Umbruch und Linien bleiben gleich); Tracker: `--hw` von `.tb-stack-habits` wird breiter (das Brett ist in
     `cqw` gebaut, CSS-Zoom würde dort den Text doppelt vergrößern). `.tb-zoomed` erlaubt Scrollen in alle Richtungen; Knopf „100 %“ oben (`#tb-zoom-reset`) stellt zurück.
-    Wechsel der Ansicht und Schließen des Tagebuchs setzen auf 100 %. Wischen ist im Zoom gesperrt. Test `t2150.py` in `eWolfe-Skripte` (: Fingergeste per CDP in Chromium, WebKit
+    Wechsel der Ansicht und Schließen des Tagebuchs setzen auf 100 %. Wischen ist im Zoom gesperrt. Test `t2150.py` in `eWolfe-Skripte` (Fingergeste per CDP in Chromium, WebKit
     über `tbZoomSet`, Schreiben im Zoom, Zurück-Knopf, Tracker). Auf dem echten iPhone/iPad noch nicht geprüft.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
