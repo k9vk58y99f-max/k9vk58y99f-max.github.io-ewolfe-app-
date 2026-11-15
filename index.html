@@ -549,6 +549,13 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-body.tb-zoomed{ overflow:auto !important; touch-action:pan-x pan-y; }
 .tb-body.tb-zoomed .tb-page-wrap{ width:max-content; margin:0 auto; }
 .tb-body.tb-zoomed.tb-body-cover{ display:block; }
+/* 15.11.2026 (wish of the user): an iPhone held sideways – the habit tracker as wide as fits, and one scrolls down it */
+@media (orientation:landscape) and (max-height:600px){
+  .tb-body.tb-body-habits{ overflow-y:auto !important; display:block; }
+  .tb-body.tb-body-habits .tb-cover-wrap.tb-habits-wrap{ height:auto; min-height:0; overflow:visible; container-type:inline-size; display:block; }
+  .tb-body.tb-body-habits .tb-habits-wrap > .tb-stack-habits{ --hw:min(620px, 100cqw); }
+  .tb-body.tb-body-habits .hb-v2 .hb2{ width:100%; }
+}
 .tb-zoom-reset{ position:fixed !important; z-index:130 !important; left:50% !important; right:auto !important; bottom:auto !important; transform:translateX(-50%); top:calc(var(--safe-t, 0px) + 74px) !important; margin:0 !important; padding:7px 14px; border-radius:20px; border:1px solid var(--gold, #c9a463);
   background:rgba(10,14,31,0.85); color:#f3ead6; font-size:14px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.35); }
 html.theme-retreat .tb-zoom-reset{ background:rgba(248,241,229,0.95); color:#262622; }
@@ -2666,7 +2673,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.15.0';
+const APP_VERSION = '2.15.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -8251,6 +8258,7 @@ function tbRender(){
   const body = document.getElementById('tb-body');
   body.classList.toggle('tb-body-cover', tbView==='cover' || tbView==='habits');
   body.classList.toggle('tb-body-page', tbView==='page'); // the cover fills the screen, nothing to scroll
+  body.classList.toggle('tb-body-habits', tbView==='habits');
   if(tbView !== 'library'){ libFresh = null; libLevel = 0; }
   if(tbView==='library') body.innerHTML = tbRenderLibrary();
   else if(tbView==='habits'){ body.innerHTML = tbRenderHabits(); habitRender(); const host = document.getElementById('tb-habit-host'); if(host) host.appendChild(document.querySelector('#habit-modal .habit-board')); }
