@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 15.11.2026 (Version 2.16.1) – zuerst lesen
+## Übergabe – Stand 15.11.2026 (Version 2.17.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.16.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.17.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1202,6 +1202,19 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     hatte `overflow:hidden !important` und `touch-action:pan-x pinch-zoom` (kein senkrechtes Wischen). Jetzt im Zoom und bei Handy quer `overflow:auto`, `touch-action:pan-x pan-y`;
     im Tracker scrollt im Zoom die ganze Fläche (der innere Rahmen `.tb-habits-wrap` hat dann keine feste Höhe). Getestet mit echten Touch-Gesten per CDP (`touchtest.py` →
     `eWolfe-Skripte/t2161.py`): Wischen scrollt, Zoom bleibt nach dem Loslassen. Wichtig für Tests: programmatisches `scrollTop` geht auch bei `overflow:hidden` – immer mit Touch prüfen.
+- **2.17.0 (15.11.2026) Neue Designs „CCA · Dunkel“ und „CCA · Hell“ (Wunsch der Nutzerin, Vorlage: CCA-Wachstums-Assessment, `Eingang/Eingang 15.11.2026/…pdf`;
+    die Cash Club Academy hat der Nutzung von Logo und Name zugestimmt – Aussage der Nutzerin 15.11.2026):**
+    - **Nur für Betreiberinnen:** `ewolfe_design` = `cca` | `ccalight` gilt nur, wenn `ewolfe_cca_ok` = '1' (sonst A Gentleman's Study, Kopf-Skript). Der Merker wird in
+      `coachLoad` aus `app_admins` gesetzt/gelöscht (`ccaSetAllowed`; verliert ein Gerät die Berechtigung, springt es auf `biz` zurück). Die Knöpfe (`DESIGNS_CCA`) stehen nur in
+      den Einstellungen und nur mit Merker, nie in der ersten Auswahl. Keine E-Mail im Code.
+    - **Aufbau:** `CCA`/`CCA_LIGHT`, `BIZ` ist auch wahr (Bilder, Trophäen usw. von A Gentleman's Study, bis eigene kommen); Klassen `theme-biz theme-cca` (+ `theme-cca-light`).
+      CSS-Block „the CCA designs“ am Ende des CSS: Variablen (Dunkel: #0a0a0a, Panels #141414, Text #f4f2ec, Gold #c8a04a/#d9bc5f, Verlauf `--cca-gold`; Hell: #f4f2ec, Weiß,
+      Text #141414, Gold #a8822e/#8a6a24), Überschriften Manrope 800 in normaler Schreibung, Unterüberschriften kleine gesperrte Großbuchstaben in Gold, Hauptknopf
+      Goldverlauf, Daten/Fußzeilen JetBrains Mono. Die Didot-Regel von AGS gilt nicht in CCA (`:not(.theme-cca)`). Rad-, Vergleichs-, Teilen- und Persönlichkeitsrad-Farben
+      haben einen CCA-Zweig. Intro zeigt das CCA-Logo `img/cca/logo.webp` (aus dem PDF freigestellt).
+    - **Bibliothek nur schlicht** (`libSimple()` immer wahr, Umschalter und Einstellungs-Abschnitt ausgeblendet); Trophäen, Ränge usw. zählen wie immer im Hintergrund.
+    - Schriften lokal: `fonts/Manrope-latin(ext).woff2`, `fonts/JetBrainsMono-latin.woff2`, Lizenzen in `fonts/LICENSES/`.
+    - **Offen:** eigene Bilder (Achtsamkeit, Impulskarten, schlichtes Regal, Klemmbrett, Papier, Cover) – Prompts: `Ausgang/Ausgang 15.11.2026/CCA-Design – Bild-Prompts …md`.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

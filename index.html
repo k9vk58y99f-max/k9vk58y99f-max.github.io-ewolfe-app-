@@ -20,15 +20,19 @@
 (function(){
   var d = null;
   try{ d = localStorage.getItem('ewolfe_design'); if(!d){ d = localStorage.getItem('ewolfe_data_v1') ? 'classic' : 'biz'; localStorage.setItem('ewolfe_design', d); } }catch(e){ d = 'biz'; }
-  window.EW_DESIGN = d === 'classic' || d === 'retreat' ? d : 'biz';
+  // 15.11.2026: the CCA designs (dark 'cca', light 'ccalight') – only on a device where an operator (app_admins) has signed in (ewolfe_cca_ok)
+  var ccaOk = false; try{ ccaOk = localStorage.getItem('ewolfe_cca_ok') === '1'; }catch(e){}
+  window.EW_DESIGN = d === 'classic' || d === 'retreat' || ((d === 'cca' || d === 'ccalight') && ccaOk) ? d : 'biz';
+  if(window.EW_DESIGN === 'cca' || window.EW_DESIGN === 'ccalight') document.documentElement.classList.add('theme-cca');
+  if(window.EW_DESIGN === 'ccalight') document.documentElement.classList.add('theme-cca-light');
   // A Lady's Conservatory (1.84.0, key 'retreat') builds on A Gentleman's Study (same pictures until its own come) with a light look on top
   if(window.EW_DESIGN !== 'classic') document.documentElement.classList.add('theme-biz');
   if(window.EW_DESIGN === 'retreat') document.documentElement.classList.add('theme-retreat');
   // 2.3.9 (wish of the user): the monogram of A Gentleman's Study is the logo of every design (home screen, tab, Windows/Android)
   // 1.99.0: the colour behind the page (iPhone: below the bar, when a page is pulled) is the design's own, never white
-  var bg = window.EW_DESIGN === 'retreat' ? '#f2e1e0' : window.EW_DESIGN === 'biz' ? '#0a0e1f' : '#0b1026';
+  var bg = window.EW_DESIGN === 'retreat' ? '#f2e1e0' : window.EW_DESIGN === 'ccalight' ? '#f4f2ec' : window.EW_DESIGN === 'cca' ? '#0a0a0a' : window.EW_DESIGN === 'biz' ? '#0a0e1f' : '#0b1026';
   document.documentElement.style.backgroundColor = bg;
-  var tc = document.querySelector('meta[name=theme-color]'); if(tc) tc.content = window.EW_DESIGN === 'retreat' ? '#f8f1e5' : window.EW_DESIGN === 'biz' ? '#0c1226' : '#080b28';
+  var tc = document.querySelector('meta[name=theme-color]'); if(tc) tc.content = window.EW_DESIGN === 'retreat' ? '#f8f1e5' : window.EW_DESIGN === 'ccalight' ? '#f4f2ec' : window.EW_DESIGN === 'cca' ? '#0a0a0a' : window.EW_DESIGN === 'biz' ? '#0c1226' : '#080b28';
 })();
 </script>
 <style>
@@ -1995,9 +1999,9 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 .lib-row .lib-dress-spot .lib-dress-wrap{ margin-left:0 !important; margin-right:0 !important; }
 /* 15.11.2026 (choice of the user): A Gentleman's Study has ONE font – GFS Didot for headings (in capitals, as before) and for all text.
    The narrow Noto Serif Display was too thin to read. The diary pages keep the writing font chosen in the book (print/hand). */
-html.theme-biz:not(.theme-retreat) body, html.theme-biz:not(.theme-retreat) body *:not(.tb-page *):not(.tb-page):not(.font-hand){ font-family:'GFS Didot', Georgia, serif !important; font-stretch:100% !important; }
+html.theme-biz:not(.theme-retreat):not(.theme-cca) body, html.theme-biz:not(.theme-retreat):not(.theme-cca) body *:not(.tb-page *):not(.tb-page):not(.font-hand){ font-family:'GFS Didot', Georgia, serif !important; font-stretch:100% !important; }
 /* GFS Didot runs smaller than Inter (lower small letters): text and subheadings one step larger, the bar a little larger */
-:root.theme-biz:not(.theme-retreat){ --fs-text:16px; --fs-sub:18px; }
+:root.theme-biz:not(.theme-retreat):not(.theme-cca){ --fs-text:16px; --fs-sub:18px; }
 html.theme-biz:not(.theme-retreat) .nav-item span{ font-size:12px; }
 html.theme-biz:not(.theme-retreat) .tb-page :is(.tb-g-head, .tb-g-part-h, .tb-day-date, .tw-label, .tb-area-head, .tb-note-title){ font-family:'GFS Didot', Georgia, serif !important; font-stretch:100% !important; }
 /* 2.12.1 (wish of the user): real sizes. The bookcase is about 2.12 m high (the sitting dog of A Gentleman's Study, 34 % of it, is right for a
@@ -2137,6 +2141,64 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 .coach-box{ display:inline-flex; width:18px; height:18px; border:1px solid var(--gold); border-radius:3px; align-items:center; justify-content:center; font-size:13px; line-height:1; }
 .coach-box.on{ background:var(--gold); color:#fff; }
 .coach-cnt{ font-size:12px; opacity:0.75; }
+
+/* ===== 15.11.2026: the CCA designs – dark (theme-cca) and light (theme-cca theme-cca-light), like the CCA growth assessment:
+   near-black or warm white, gold in a gradient, Manrope for everything (bold headings in normal writing, small spaced capitals in gold
+   above them), JetBrains Mono for dates and small numbers. Built on A Gentleman's Study (its pictures until the CCA ones come).
+   Only for operators (app_admins), only the simple library. ===== */
+:root.theme-biz.theme-cca{
+  --ew-text:#f4f2ec; --ew-text-dim:rgba(244,242,236,0.66); --ew-line:rgba(244,242,236,0.10); --ew-uv-lilac:#f4f2ec; --ew-uv-lilac-soft:rgba(244,242,236,0.5);
+  --gold:#c8a04a; --gold-text:#d9bc5f; --gold-rgb:200,160,74; --ew-turquoise:#c8a04a;
+  --ew-panel:#141414; --ew-panel-2:#1b1b1b; --ew-radius:12px; --ew-navy:#0a0a0a; --ew-navy-2:#121212; --ew-uv-navy:#0a0a0a; --ew-uv-navy-2:#141414; --ew-uv-violet:#1a1712; --ew-violet:#1a1712;
+  --biz-display:'Manrope', -apple-system, Helvetica, sans-serif; --hd-font:'Manrope', sans-serif; --hd-st:100%; --hd-k:1; --cca-gold:linear-gradient(100deg, #f1d98a 0%, #d9bc5f 35%, #b8892f 75%, #e2c46e 100%);
+}
+:root.theme-biz.theme-cca.theme-cca-light{
+  --ew-text:#141414; --ew-text-dim:rgba(20,20,20,0.62); --ew-line:rgba(20,20,20,0.12); --ew-uv-lilac:#141414; --ew-uv-lilac-soft:rgba(20,20,20,0.4);
+  --gold:#a8822e; --gold-text:#8a6a24; --gold-rgb:168,130,46; --ew-turquoise:#a8822e;
+  --ew-panel:#ffffff; --ew-panel-2:#f7f5f0; --ew-navy:#f4f2ec; --ew-navy-2:#ffffff; --ew-uv-navy:#f4f2ec; --ew-uv-navy-2:#ffffff; --ew-uv-violet:#ece6d6; --ew-violet:#ece6d6;
+  --cca-gold:linear-gradient(100deg, #c9a04a 0%, #a8822e 45%, #8a6a24 100%);
+}
+html.theme-biz.theme-cca body, html.theme-biz.theme-cca .page-modal, html.theme-biz.theme-cca .tb-overlay{ background:radial-gradient(120% 60% at 50% 0%, #1d1a13 0%, #0d0d0d 45%, #0a0a0a 100%) fixed !important; color:var(--ew-text); }
+html.theme-biz.theme-cca.theme-cca-light body, html.theme-biz.theme-cca.theme-cca-light .page-modal, html.theme-biz.theme-cca.theme-cca-light .tb-overlay{ background:radial-gradient(120% 60% at 50% 0%, #fbf7ec 0%, #f4f2ec 50%, #efece4 100%) fixed !important; }
+html.theme-biz.theme-cca::before{ background:#0a0a0a; } html.theme-biz.theme-cca.theme-cca-light::before{ background:#f4f2ec; }
+/* one font: Manrope; dates and small numbers in JetBrains Mono; the diary pages keep the writing font of the book */
+html.theme-biz.theme-cca:not(.theme-retreat) body, html.theme-biz.theme-cca:not(.theme-retreat) body *:not(.tb-page *):not(.tb-page):not(.font-hand){ font-family:'Manrope', -apple-system, Helvetica, sans-serif !important; font-stretch:100% !important; }
+html.theme-biz.theme-cca :is(.page-footer, .app-footer, .tb-day-date, .persona-dates .ghost-btn, .wh-date, .tb-pagenum, #last-eval-hint){ font-family:'JetBrains Mono', ui-monospace, monospace !important; letter-spacing:0.04em; }
+/* headings: bold, normal writing; subheadings: small spaced capitals in gold (like "ÜBER DIESES ASSESSMENT") */
+html.theme-biz.theme-cca :is(.modal-title, .scene-head h1, .tb-topbar h2, #t-scene-title, .modal-top h2){ font-weight:800 !important; text-transform:none !important; letter-spacing:-0.01em !important; color:var(--ew-text) !important; }
+html.theme-biz.theme-cca :is(h3, h4, .goal-table-card-h, .areas-how, .area-card-name, .medi-card-title, .settings-head, .panel h3, .tb-cover-pop-head, .trophy-title, .ev-ov-title, .area-q-title, .area-more summary, .areas-why summary, .ground-label, .mood-cmp-lab){
+  font-weight:700 !important; text-transform:uppercase !important; letter-spacing:0.16em !important; color:var(--gold-text) !important; }
+html.theme-biz.theme-cca .area-acc-sum, html.theme-biz.theme-cca .area-sl-lab b{ font-family:'JetBrains Mono', ui-monospace, monospace !important; text-transform:none !important; letter-spacing:0 !important; font-weight:500 !important; }
+/* buttons: the main one in gold with dark writing, the others with a gold line */
+html.theme-biz.theme-cca :is(.primary-btn, .ghost-btn, .seg-btn, .mini-btn, .medi-start-btn, .chip, .tb-chip-btn, .timer-chips button, .tb-del-book, .home-goals-btn, .areas-cta){ font-weight:700 !important; letter-spacing:0.12em !important; text-transform:uppercase !important; border-radius:10px !important; }
+html.theme-biz.theme-cca .primary-btn{ background:var(--cca-gold) !important; color:#0a0a0a !important; border:none !important; box-shadow:0 6px 18px rgba(200,160,74,0.18) !important; }
+html.theme-biz.theme-cca.theme-cca-light .primary-btn{ color:#ffffff !important; }
+html.theme-biz.theme-cca :is(.ghost-btn, .seg-btn, .mini-btn, .chip, .tb-chip-btn, .timer-chips button){ background:transparent !important; border:1px solid rgba(var(--gold-rgb),0.45) !important; color:var(--gold-text) !important; }
+html.theme-biz.theme-cca :is(.seg-btn.active, .tb-chip-btn.active, .chip.active){ background:rgba(var(--gold-rgb),0.16) !important; color:var(--ew-text) !important; border-color:var(--gold) !important; }
+/* cards and panels: dark grey with a hairline (light: white with a soft shadow) */
+html.theme-biz.theme-cca :is(.area-card, .goal-table-card, .panel, .medi-card, .medi-streak, .imp-mini, .persona-trait, .settings-section, .tb-cover-pop, .wheel-hist-home){ background:var(--ew-panel) !important; border:1px solid var(--ew-line) !important; border-radius:14px !important; box-shadow:none !important; }
+html.theme-biz.theme-cca.theme-cca-light :is(.area-card, .goal-table-card, .panel, .medi-card, .medi-streak, .imp-mini, .persona-trait, .settings-section, .tb-cover-pop, .wheel-hist-home){ box-shadow:0 2px 14px rgba(20,20,20,0.06) !important; }
+html.theme-biz.theme-cca :is(input:not([type=range]):not([type=checkbox]), textarea, select):not(.tb-page *){ background:rgba(255,255,255,0.04) !important; border:1px solid var(--ew-line) !important; color:var(--ew-text) !important; border-radius:10px !important; }
+html.theme-biz.theme-cca.theme-cca-light :is(input:not([type=range]):not([type=checkbox]), textarea, select):not(.tb-page *){ background:#ffffff !important; }
+/* the bar at the bottom and the bar at the top */
+html.theme-biz.theme-cca .bottom-nav{ background:rgba(10,10,10,0.94) !important; border-top:1px solid var(--ew-line) !important; }
+html.theme-biz.theme-cca.theme-cca-light .bottom-nav{ background:rgba(255,255,255,0.95) !important; }
+html.theme-biz.theme-cca .nav-item.active{ color:var(--gold-text) !important; }
+html.theme-biz.theme-cca .topbar{ background:linear-gradient(180deg, rgba(10,10,10,0.92), rgba(10,10,10,0.5)) !important; }
+html.theme-biz.theme-cca.theme-cca-light .topbar{ background:linear-gradient(180deg, rgba(244,242,236,0.95), rgba(244,242,236,0.6)) !important; }
+/* line icons: gold on dark; dark on light (like A Lady's Conservatory) */
+html.theme-biz.theme-cca:not(.theme-cca-light) :is(svg image[href*="icons-rl/"], img[src*="icons-rl/"]):not(.tb-page *):not(#goals-page *){ filter:sepia(1) saturate(2.2) hue-rotate(-8deg) brightness(0.92) !important; }
+html.theme-biz.theme-cca.theme-cca-light :is(.gold-gear, .tb-lib-ico, svg image[href*="icons-rl/"], img[src*="icons-rl/"]){ filter:brightness(0.2) !important; }
+html.theme-biz.theme-cca.theme-cca-light .nav-item.active img[src*="icons-rl/"]{ filter:sepia(1) saturate(2) brightness(0.6) !important; }
+html.theme-biz.theme-cca.theme-cca-light :is(.modal, .tb-topbar){ color:var(--ew-text); }
+html.theme-biz.theme-cca .lib-view-section{ display:none !important; } /* only the simple library */
+html.theme-biz.theme-cca .tb-topbar{ background:linear-gradient(180deg, rgba(10,10,10,0.95), rgba(10,10,10,0.6)) !important; }
+html.theme-biz.theme-cca.theme-cca-light .tb-topbar{ background:linear-gradient(180deg, rgba(244,242,236,0.97), rgba(244,242,236,0.7)) !important; }
+html.theme-biz.theme-cca.theme-cca-light .tb-switch{ background:rgba(20,20,20,0.06) !important; } html.theme-biz.theme-cca.theme-cca-light .tb-switch button{ color:var(--ew-text-dim) !important; }
+html.theme-biz.theme-cca .tb-switch button.on{ background:var(--cca-gold) !important; color:#0a0a0a !important; } html.theme-biz.theme-cca.theme-cca-light .tb-switch button.on{ color:#ffffff !important; }
+html.theme-biz.theme-cca :is(.tb-tools-fab, .tb-del-fab){ background:var(--cca-gold) !important; border:none !important; color:#0a0a0a !important; }
+html.theme-biz.theme-cca :is(.tb-tools-fab, .tb-del-fab) img, html.theme-biz.theme-cca :is(.tb-tools-fab, .tb-del-fab) svg{ filter:brightness(0) !important; }
+html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) svg{ filter:brightness(0) invert(1) !important; }
 </style>
 </head>
 <body data-theme="dark">
@@ -2267,7 +2329,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
         <button class="seg-btn" id="lang-en-btn">English</button>
       </div>
     </div>
-    <div class="settings-section">
+    <div class="settings-section lib-view-section">
       <div class="settings-head" id="t-set-libview">Bibliothek</div>
       <div class="seg lib-view-seg" id="libview-seg"></div>
       <p class="settings-note" id="t-libview-hint"></p>
@@ -2681,13 +2743,15 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.16.1';
+const APP_VERSION = '2.17.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
 // red placeholder note), so BIZ is true there too and RETREAT only changes the colours.
 const RETREAT = window.EW_DESIGN === 'retreat';
-const BIZ = window.EW_DESIGN === 'biz' || RETREAT;
+// 15.11.2026: the CCA designs build on A Gentleman's Study (its pictures until their own come), with the colours, fonts and logo of the CCA assessment
+const CCA = window.EW_DESIGN === 'cca' || window.EW_DESIGN === 'ccalight', CCA_LIGHT = window.EW_DESIGN === 'ccalight';
+const BIZ = window.EW_DESIGN === 'biz' || RETREAT || CCA;
 const DESIGN_KEY = 'ewolfe_design';
 const ICO_SEL = 'img[src*="img/icons/ico-"], image[href*="img/icons/ico-"]';
 // 2.3.9: on cream paper (diary pages, goals page, clipboard) the six area symbols are drawn in bronze #ab8b54 (choice of the user) – files of their
@@ -5964,7 +6028,7 @@ function joyImpulse(){
 function joyRenderDeep(){ const el = document.getElementById('joy-deep-wrap'); if(el) el.innerHTML = joyDeepHtml(); }
 /* The band between "now" and "wish" (1.76.0): per area the gap = wish − now; the largest gap glows in the violet of the
    main button, the smallest in gold, and from one area to the next a soft gradient. Returns defs + shapes. */
-const GAP_VIOLET = RETREAT ? [214, 44, 104] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = RETREAT ? [121, 184, 167] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = RETREAT ? '#D62C68' : BIZ ? '#d3b681' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
+const GAP_VIOLET = CCA ? [200, 160, 74] : RETREAT ? [214, 44, 104] : BIZ ? [201, 164, 99] : [168, 61, 207], GAP_GOLD = CCA ? (CCA_LIGHT ? [232, 222, 196] : [58, 48, 26]) : RETREAT ? [121, 184, 167] : BIZ ? [14, 74, 58] : [242, 170, 24], KNOB_GOLD = CCA ? (CCA_LIGHT ? '#a8822e' : '#d9bc5f') : RETREAT ? '#D62C68' : BIZ ? '#d3b681' : '#f2aa18'; // gold = the colour of the folded-paper knob; Business: largest gap cognac, smallest green
 // Since 1.84.4 every knob (sliders, the Box Breathing dot, the wish corners in every wheel) is KNOB_PX wide on the screen,
 // whatever the size of the drawing: `s` is only the first guess, knobFix() sets the real size once the drawing is shown.
 const KNOB_PX = 18; // 1.84.5: 30 % smaller than before
@@ -5988,7 +6052,7 @@ function knobFix(root){
 }
 new MutationObserver(()=>{ if(!knobFix.__q){ knobFix.__q = 1; setTimeout(()=>{ knobFix.__q = 0; knobFix(); }, 0); } })
   .observe(document.documentElement, { childList:true, subtree:true });
-const IST_COL = RETREAT ? '#1B4D2A' : BIZ ? '#ece7d8' : '#b8a4ff';
+const IST_COL = CCA ? (CCA_LIGHT ? '#141414' : '#f4f2ec') : RETREAT ? '#1B4D2A' : BIZ ? '#ece7d8' : '#b8a4ff';
 function wheelGapSvg(P, pt, ist, wish){
   const gaps = ist.map((v, i)=>Math.max(0, wish[i] - v)), mx = Math.max(...gaps), mn = Math.min(...gaps);
   // all gaps equal: the colour in between
@@ -6122,13 +6186,18 @@ document.getElementById('lang-de-btn').onclick = ()=>setLang('de');
 // the two designs: their own names in both languages; a small sample of each (colours and type) on its button
 const DESIGNS = [['biz', "A Gentleman's Study"], ['retreat', "A Lady's Conservatory"], ['classic', 'A Mystery World']];
 const DESIGN_SUB = { biz:['ruhig · Navy · Cognac', 'calm · navy · cognac'], retreat:['hell · Waldgrün · Creme', 'light · forest green · cream'], classic:['Gold · Papier · Zauber', 'gold · paper · magic'] };
+// the CCA designs: only shown on a device where an operator (app_admins) is signed in – nobody else sees the buttons
+const DESIGNS_CCA = [['cca', 'CCA · Dunkel'], ['ccalight', 'CCA · Hell']];
+DESIGN_SUB.cca = ['Schwarz · Gold · Manrope', 'black · gold · Manrope']; DESIGN_SUB.ccalight = ['Hell · Gold · Manrope', 'light · gold · Manrope'];
+function ccaAllowed(){ try{ return localStorage.getItem('ewolfe_cca_ok') === '1'; }catch(e){ return false; } }
 function designBtns(cur, fn){
-  return DESIGNS.map(([k, name])=>`<button class="seg-btn design-btn design-${k}${cur === k ? ' active' : ''}" onclick="${fn}('design','${k}')"><span class="design-name">${name}</span><span class="design-sub">${DESIGN_SUB[k][state.settings.lang === 'en' ? 1 : 0]}</span></button>`).join('');
+  return DESIGNS.concat(fn === 'designSettingsSet' && ccaAllowed() ? DESIGNS_CCA : []).map(([k, name])=>`<button class="seg-btn design-btn design-${k}${cur === k ? ' active' : ''}" onclick="${fn}('design','${k}')"><span class="design-name">${name}</span><span class="design-sub">${DESIGN_SUB[k][state.settings.lang === 'en' ? 1 : 0]}</span></button>`).join('');
 }
 function designSettingsSet(k, v){ setDesign(v); }
 function renderDesignSettings(){
   const el = document.getElementById('design-seg'); if(!el) return;
   el.innerHTML = designBtns(window.EW_DESIGN, 'designSettingsSet');
+  if(typeof sbSession !== 'undefined' && sbSession && typeof coachLoad === 'function' && !coachLoadedFor) coachLoad();
   document.getElementById('t-design-hint').textContent = t().designHint;
 }
 const decorOn = ()=>!BIZ && state.settings.decor !== false; // Business: no animals and paper decoration at the shelf
@@ -6659,7 +6728,7 @@ function renderScene(animate, onIntroDone){
     </linearGradient>
     <linearGradient id="gradWheel" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="${CCA ? '#c8a04a' : RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
   `; // (1.78.0) no own background any more: the wheel sits on the page like on Bereiche
@@ -6692,7 +6761,7 @@ function renderScene(animate, onIntroDone){
   }
 
   svg.innerHTML = bg + grid +
-    `<g id="data-polygon" opacity="0">${wishSvg}<polygon points="${dataPts}" fill="${hasWishes() ? (RETREAT ? 'rgba(255,253,248,0.9)' : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)') : 'url(#gradWheel)'}" stroke="${IST_COL}" stroke-width="3"/>${typeof wishTop === 'string' ? wishTop : ''}</g>` +
+    `<g id="data-polygon" opacity="0">${wishSvg}<polygon points="${dataPts}" fill="${hasWishes() ? (RETREAT ? 'rgba(255,253,248,0.9)' : CCA ? (CCA_LIGHT ? 'rgba(255,255,255,0.94)' : 'rgba(20,20,20,0.9)') : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)') : 'url(#gradWheel)'}" stroke="${IST_COL}" stroke-width="3"/>${typeof wishTop === 'string' ? wishTop : ''}</g>` +
     labels + joySunSvg();
   wheelLabelsFit(svg);
 
@@ -6793,7 +6862,7 @@ function miniWheelSvg(values){
   return `<svg width="90" height="90" viewBox="0 0 90 90">
     <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="${CCA ? '#c8a04a' : RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.85"/>
     </linearGradient></defs>
     ${grid}<polygon points="${dataPts}" fill="url(#${gid})" stroke="${IST_COL}" stroke-width="1.5"/>
   </svg>`;
@@ -6864,7 +6933,7 @@ function areasWheelSvg(){
   [25, 50, 75, 100].forEach(r=>{ g += poly(WHEEL_AREAS.map(()=>r), `fill="none" stroke="${RETREAT ? 'rgba(41,39,35,' + (r === 100 ? 0.39 : 0.24) + ')' : 'rgba(243,234,214,' + (r === 100 ? 0.45 : 0.16) + ')'}" stroke-width="1"`); });
   WHEEL_AREAS.forEach((a, i)=>{ const p = pt(i, 100), q = pt(i, 121); g += `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="${RETREAT ? 'rgba(41,39,35,0.24)' : 'rgba(243,234,214,0.16)'}"/><image href="img/icons/ico-${a}.webp" x="${(q.x - 10).toFixed(1)}" y="${(q.y - 10).toFixed(1)}" width="20" height="20"/>`; });
   return `<svg class="areas-wheel" viewBox="0 0 260 248" aria-hidden="true"><defs>${gap.defs}</defs>${g}${gap.shapes}`
-    + poly(ist, `fill="${RETREAT ? 'rgba(255,253,248,0.9)' : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)'}" stroke="${IST_COL}" stroke-width="1.6"`)
+    + poly(ist, `fill="${RETREAT ? 'rgba(255,253,248,0.9)' : CCA ? (CCA_LIGHT ? 'rgba(255,255,255,0.94)' : 'rgba(20,20,20,0.9)') : BIZ ? 'rgba(14,30,48,0.88)' : 'rgba(36,24,90,0.82)'}" stroke="${IST_COL}" stroke-width="1.6"`)
     + poly(wish, `fill="none" stroke="${KNOB_GOLD}" stroke-width="2.6" stroke-linejoin="round"`)
     + wish.map((v, i)=>{ const p = pt(i, v); return wishKnob(p.x, p.y, 12, 0.7); }).join('') + `</svg>`; // 1.87.3: smaller than in the big wheel (wish of the user)
 }
@@ -6982,7 +7051,7 @@ function maybeShowAreasIntro(){
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
 let compareSelection = [];
-const COMPARE_COLORS = RETREAT ? ['#1B4D2A', '#D62C68', '#79B8A7'] : BIZ ? ['#ece7d8', '#d3b681', '#7fae97'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
+const COMPARE_COLORS = CCA ? (CCA_LIGHT ? ['#141414', '#a8822e', '#807d77'] : ['#f4f2ec', '#d9bc5f', '#807d77']) : RETREAT ? ['#1B4D2A', '#D62C68', '#79B8A7'] : BIZ ? ['#ece7d8', '#d3b681', '#7fae97'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
 const COMPARE_FILL_OPACITY = [0.34, 0.34, 0.34]; // all three equally transparent; only draw order (newest in front) differs
 document.getElementById('compare-toggle-btn').onclick = ()=>{
   compareMode = !compareMode;
@@ -7178,7 +7247,7 @@ function openWheelSnapshot(idx){
     </linearGradient>
     <linearGradient id="gradWheelSnap" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/>
-      <stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="${CCA ? '#c8a04a' : RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="800" height="${vbH}" fill="url(#uvBgSnap)"/>`;
@@ -7278,7 +7347,7 @@ function playIntroSequence(onComplete){
   if(!overlay || !icon){ done(); return; }
   overlay.style.display = 'flex'; overlay.style.transition = 'none'; overlay.style.opacity = '1';
   if(shatterBox) shatterBox.style.display = 'none';
-  icon.src = 'img/rl/app-icon.png'; icon.style.display = 'block'; icon.style.borderRadius = '22%';
+  icon.src = CCA ? 'img/cca/logo.webp' : 'img/rl/app-icon.png'; icon.style.display = 'block'; icon.style.borderRadius = CCA ? '0' : '22%'; if(CCA){ icon.style.objectFit = 'contain'; icon.style.boxShadow = 'none'; }
   icon.classList.remove('grown', 'popped');
   const poly = document.getElementById('data-polygon');
   if(poly){ poly.style.transition = 'none'; poly.style.opacity = '0'; }
@@ -8405,13 +8474,14 @@ const RL_DOG_READY = true; // true as soon as img/rl/dog.webp and img/rl/dog-lyi
 /* 2.3.0 (wish of the user, after the council of elders): the library can be "simple" – only the book part of the bookcase of the design
    with the diaries and the clipboard, no room, trophies, dress, animals, decoration, plaque or rank. Trophies and levels go on counting
    quietly; switching back to the room shows everything. Per device (state.settings.libView, settings are not synced). */
-const libSimple = ()=>state.settings.libView === 'simple';
+const libSimple = ()=>CCA || state.settings.libView === 'simple'; // 15.11.2026: the CCA designs only have the simple library (no room)
 function setLibView(v){
   state.settings.libView = v === 'simple' ? 'simple' : 'room'; saveState(); renderLibViewSettings();
   libFresh = null; libLevel = 0; // back in the room: what came in the meantime is news again
   if(document.getElementById('tb-overlay').classList.contains('open') && tbView === 'library') tbRender();
 }
 function libViewSegHtml(){
+  if(CCA) return '';
   const d = t(), s = libSimple();
   return `<div class="seg lib-view-seg"><button class="seg-btn${s ? '' : ' active'}" onclick="setLibView('room')">${d.libViewRoom}</button><button class="seg-btn${s ? ' active' : ''}" onclick="setLibView('simple')">${d.libViewSimple}</button></div>`;
 }
@@ -9124,6 +9194,8 @@ function canvasWrap(ctx, text, maxW){
 }
 // share pictures (trophies, wins of the week): colours and fonts of the design, gradient and double frame
 function sharePal(){
+  if(CCA) return CCA_LIGHT ? { a:'#ffffff', b:'#efece4', line:'#b8913f', title:'#8a6a24', text:'#141414', dim:'#524f4a', head:'Manrope', body:'Manrope' }
+    : { a:'#1a1a1a', b:'#0a0a0a', line:'#c8a04a', title:'#d9bc5f', text:'#f4f2ec', dim:'#b8b5ad', head:'Manrope', body:'Manrope' };
   return RETREAT ? { a:'#fffdf8', b:'#f2e1e0', line:'#b08d57', title:'#7A0B25', text:'#262622', dim:'#625e55', head:'Cormorant Garamond', body:'Jost' }
     : BIZ ? { a:'#13233a', b:'#0a0e1f', line:'#c9a463', title:'#e3c99d', text:'#ece7d8', dim:'#b9b2a0', head:'GFS Didot', body:'GFS Didot' }
     : { a:'#3d10c9', b:'#080b28', line:'#e8b84a', title:'#f3d27a', text:'#f3ead6', dim:'#cdbdff', head:'Marcellus', body:'Inter' };
@@ -10084,7 +10156,7 @@ function wheelPictureSvg(){
   const font = 'Inter, -apple-system, Helvetica, Arial, sans-serif';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 ${h}" width="800" height="${h}">`
     + `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${RETREAT ? '#fffdf8' : '#080b28'}"/><stop offset="45%" stop-color="${RETREAT ? '#f7f3ea' : '#0d0f3a'}"/><stop offset="100%" stop-color="${RETREAT ? '#f6e3e8' : BIZ ? '#13233a' : '#3d10c9'}"/></linearGradient>`
-    + `<linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/><stop offset="100%" stop-color="${RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient></defs>`
+    + `<linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${IST_COL}" stop-opacity="${BIZ ? 0.3 : 0.6}"/><stop offset="100%" stop-color="${CCA ? '#c8a04a' : RETREAT ? '#1B4D2A' : BIZ ? '#0e4a3a' : '#5a2bef'}" stop-opacity="0.8"/></linearGradient></defs>`
     + `<rect width="800" height="${h}" rx="44" fill="url(#bg)"/>`
     + `<text x="44" y="78" font-family="${font}" font-size="40" font-weight="700" fill="${RETREAT ? '#7A0B25' : '#ffffff'}">${escapeHtml(d.navHome)}</text>`
     + `<text x="756" y="78" text-anchor="end" font-family="${font}" font-size="32" fill="${RETREAT ? '#86683a' : '#e8b84a'}">${ds}</text>`
@@ -11904,7 +11976,7 @@ function personaWheelSvg(sc, old, o){
   const segA = i=>-126 + i * 36, angOf = a=>segA(PERSONA_RING.indexOf(a)) + 18;
   const at = (a, v)=>P(angOf(a), R * Math.max(0, Math.min(100, v)) / 100);
   const poly = vals=>PERSONA_RING.map(a=>at(a, vals[a]).map(f).join(',')).join(' ');
-  const line = RETREAT ? 'rgba(41,39,35,' : 'rgba(243,234,214,', bg = RETREAT ? '#fffdf8' : BIZ ? '#101a2e' : '#1a1440';
+  const line = RETREAT || CCA_LIGHT ? 'rgba(41,39,35,' : 'rgba(243,234,214,', bg = RETREAT ? '#fffdf8' : CCA ? (CCA_LIGHT ? '#ffffff' : '#141414') : BIZ ? '#101a2e' : '#1a1440';
   const arc = (d0, d1, r, rev)=>{ const [x0, y0] = P(rev ? d1 : d0, r), [x1, y1] = P(rev ? d0 : d1, r); return `M${f(x0)} ${f(y0)}A${r} ${r} 0 0 ${rev ? 0 : 1} ${f(x1)} ${f(y1)}`; };
   let defs = '', s = '';
   // the coloured ring
@@ -12020,9 +12092,16 @@ async function coachLoad(){
       coachRpc('coach_my')
     ]);
     coachMe = (me && me[0]) || null; coachIsAdmin = !!(adm && adm.length); coachLink = (my && my[0]) || null;
+    ccaSetAllowed(coachIsAdmin);
     coachLoadedFor = uid; coachLoadedAt = Date.now();
     return true;
   }catch(e){ return false; }
+}
+function ccaSetAllowed(ok){
+  const was = ccaAllowed();
+  try{ if(ok) localStorage.setItem('ewolfe_cca_ok', '1'); else localStorage.removeItem('ewolfe_cca_ok'); }catch(e){}
+  if(!ok && CCA){ try{ localStorage.setItem(DESIGN_KEY, 'biz'); }catch(e){} location.reload(); return; } // not (any more) an operator: back to A Gentleman's Study
+  if(ok !== was && typeof renderDesignSettings === 'function') renderDesignSettings();
 }
 function coachReset(){ coachMe = null; coachIsAdmin = false; coachLink = null; coachLoadedFor = ''; coachPrivCache = null; coachClients = []; coachView = null; }
 // after every good sync (and so once after the start): load the coach state now and then, then renew the shared excerpt when it changed
