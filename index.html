@@ -180,6 +180,13 @@ html.lvl-1 :is(#sync-btn, #acct-float).has-note::after{ background:#e8b84a; box-
 .scene-head p{ margin:0; font-size:13px; color:rgba(216,206,255,0.65); }
 .scene-stage{ position:relative; }
 #scene-svg{ display:block; width:100%; height:auto; }
+/* 15.11.2026 (wish of the user): the wheel of life zooms with two fingers like the diary – the stage keeps its size and scrolls */
+.scene-stage.home-zoomed{ overflow:auto; touch-action:pan-x pan-y; -webkit-overflow-scrolling:touch; }
+.scene-stage.home-zoomed #scene-svg{ max-width:none; }
+.home-zoom-reset{ position:fixed; z-index:45; left:50%; transform:translateX(-50%); top:calc(var(--safe-t, 0px) + 70px); padding:7px 14px; border-radius:20px;
+  border:1px solid var(--gold, #c9a463); background:rgba(10,14,31,0.85); color:#f3ead6; font-size:14px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.35); }
+html.theme-retreat .home-zoom-reset, html.theme-cca-light .home-zoom-reset{ background:rgba(255,255,255,0.95); color:#262622; }
+.home-zoom-reset[hidden]{ display:none; }
 .bereich-label{ font-family:'Inter',sans-serif; font-weight:400; fill:#fff; }
 .bereich-value{ font-family:'Inter',sans-serif; font-weight:400; fill:var(--ew-uv-lilac); }
 .bereich-delta{ font-family:'Inter',sans-serif; font-weight:600; }
@@ -2151,14 +2158,22 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
    above them), JetBrains Mono for dates and small numbers. Built on A Gentleman's Study (its pictures until the CCA ones come).
    Only for operators (app_admins), only the simple library. ===== */
 :root.theme-biz.theme-cca{
-  --ew-text:#f4f2ec; --ew-text-dim:rgba(244,242,236,0.66); --ew-line:rgba(244,242,236,0.10); --ew-uv-lilac:#f4f2ec; --ew-uv-lilac-soft:rgba(244,242,236,0.5);
+  --ew-text:#f4f2ec; --ew-text-dim:rgba(244,242,236,0.74); --ew-line:rgba(244,242,236,0.10); --ew-uv-lilac:#f4f2ec; --ew-uv-lilac-soft:rgba(244,242,236,0.5);
   --gold:#c8a04a; --gold-text:#d9bc5f; --gold-rgb:200,160,74; --ew-turquoise:#c8a04a;
   --ew-panel:#141414; --ew-panel-2:#1b1b1b; --ew-radius:12px; --ew-navy:#0a0a0a; --ew-navy-2:#121212; --ew-uv-navy:#0a0a0a; --ew-uv-navy-2:#141414; --ew-uv-violet:#1a1712; --ew-violet:#1a1712;
   --biz-display:'Manrope', -apple-system, Helvetica, sans-serif; --hd-font:'Manrope', sans-serif; --hd-st:100%; --hd-k:1; --cca-gold:linear-gradient(100deg, #f1d98a 0%, #d9bc5f 35%, #b8892f 75%, #e2c46e 100%);
 }
+/* 15.11.2026 contrast pass (measured, at least 4.5 : 1 for text): */
+html.theme-biz.theme-cca.theme-cca-light :is(.compare-text, .mood-opt, .mood-cmp-one, .ground-num, .timer-chips button, #breath-phase, .trophy-box, #wheel-compare-legend, .design-sub, .page-footer, .settings-note, .modal-sub){ color:var(--ew-text) !important; }
+html.theme-biz.theme-cca.theme-cca-light #wheel-compare-legend{ font-weight:600; }
+html.theme-biz.theme-cca.theme-cca-light .design-sub, html.theme-biz.theme-cca.theme-cca-light .page-footer, html.theme-biz.theme-cca.theme-cca-light .settings-note{ opacity:0.82; }
+html.theme-biz.theme-cca.theme-cca :is(th.rowlabel, .rowlabel){ color:#6b4f17 !important; } /* bronze on the cream goal pages was 2.8 : 1 */
+html.theme-biz.theme-cca.theme-cca-light .tb-tools-item{ color:var(--gold-text) !important; }
+html.theme-biz.theme-cca .design-sub{ color:var(--ew-text-dim) !important; }
+html.theme-biz.theme-cca.theme-cca-light .tb-switch button:not(.on){ color:#3a3833 !important; }
 :root.theme-biz.theme-cca.theme-cca-light{
-  --ew-text:#141414; --ew-text-dim:rgba(20,20,20,0.62); --ew-line:rgba(20,20,20,0.12); --ew-uv-lilac:#141414; --ew-uv-lilac-soft:rgba(20,20,20,0.4);
-  --gold:#a8822e; --gold-text:#8a6a24; --gold-rgb:168,130,46; --ew-turquoise:#a8822e;
+  --ew-text:#141414; --ew-text-dim:rgba(20,20,20,0.72); --ew-line:rgba(20,20,20,0.12); --ew-uv-lilac:#141414; --ew-uv-lilac-soft:rgba(20,20,20,0.4);
+  --gold:#8f6d26; --gold-text:#6f5419; --gold-rgb:143,109,38; --ew-turquoise:#8f6d26; /* darker gold on light ground: text at least 4.5 : 1 */
   --ew-panel:#ffffff; --ew-panel-2:#f7f5f0; --ew-navy:#f4f2ec; --ew-navy-2:#ffffff; --ew-uv-navy:#f4f2ec; --ew-uv-navy-2:#ffffff; --ew-uv-violet:#ece6d6; --ew-violet:#ece6d6;
   --cca-gold:linear-gradient(100deg, #c9a04a 0%, #a8822e 45%, #8a6a24 100%);
 }
@@ -2176,7 +2191,7 @@ html.theme-biz.theme-cca .area-acc-sum, html.theme-biz.theme-cca .area-sl-lab b{
 /* buttons: the main one in gold with dark writing, the others with a gold line */
 html.theme-biz.theme-cca :is(.primary-btn, .ghost-btn, .seg-btn, .mini-btn, .medi-start-btn, .chip, .tb-chip-btn, .timer-chips button, .tb-del-book, .home-goals-btn, .areas-cta){ font-weight:700 !important; letter-spacing:0.12em !important; text-transform:uppercase !important; border-radius:10px !important; }
 html.theme-biz.theme-cca .primary-btn{ background:var(--cca-gold) !important; color:#0a0a0a !important; border:none !important; box-shadow:0 6px 18px rgba(200,160,74,0.18) !important; }
-html.theme-biz.theme-cca.theme-cca-light .primary-btn{ color:#ffffff !important; }
+html.theme-biz.theme-cca.theme-cca-light .primary-btn{ color:#141414 !important; } /* dark writing on gold in both designs (white on gold was too weak) */
 html.theme-biz.theme-cca :is(.ghost-btn, .seg-btn, .mini-btn, .chip, .tb-chip-btn, .timer-chips button){ background:transparent !important; border:1px solid rgba(var(--gold-rgb),0.45) !important; color:var(--gold-text) !important; }
 html.theme-biz.theme-cca :is(.seg-btn.active, .tb-chip-btn.active, .chip.active){ background:rgba(var(--gold-rgb),0.16) !important; color:var(--ew-text) !important; border-color:var(--gold) !important; }
 /* cards and panels: dark grey with a hairline (light: white with a soft shadow) */
@@ -2199,7 +2214,7 @@ html.theme-biz.theme-cca .lib-view-section{ display:none !important; } /* only t
 html.theme-biz.theme-cca .tb-topbar{ background:linear-gradient(180deg, rgba(10,10,10,0.95), rgba(10,10,10,0.6)) !important; }
 html.theme-biz.theme-cca.theme-cca-light .tb-topbar{ background:linear-gradient(180deg, rgba(244,242,236,0.97), rgba(244,242,236,0.7)) !important; }
 html.theme-biz.theme-cca.theme-cca-light .tb-switch{ background:rgba(20,20,20,0.06) !important; } html.theme-biz.theme-cca.theme-cca-light .tb-switch button{ color:var(--ew-text-dim) !important; }
-html.theme-biz.theme-cca .tb-switch button.on{ background:var(--cca-gold) !important; color:#0a0a0a !important; } html.theme-biz.theme-cca.theme-cca-light .tb-switch button.on{ color:#ffffff !important; }
+html.theme-biz.theme-cca .tb-switch button.on{ background:var(--cca-gold) !important; color:#0a0a0a !important; }
 html.theme-biz.theme-cca :is(.tb-tools-fab, .tb-del-fab){ background:var(--cca-gold) !important; border:none !important; color:#0a0a0a !important; }
 html.theme-biz.theme-cca :is(.tb-tools-fab, .tb-del-fab) img, html.theme-biz.theme-cca :is(.tb-tools-fab, .tb-del-fab) svg{ filter:brightness(0) !important; }
 html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) svg{ filter:brightness(0) invert(1) !important; }
@@ -2747,7 +2762,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.17.1';
+const APP_VERSION = '2.18.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6242,6 +6257,7 @@ function navRestoreEarly(){
   return !!navRestoreTarget() && !syncGateNeeded();
 }
 function navSync(){
+  if(typeof homeZoom !== 'undefined' && homeZoom !== 1 && navActive() !== 'home') homeZoomSet(1);
   if(hp && !document.getElementById('breath-modal').classList.contains('open')) hpStop(); // music only while the exercise is open
   if(mediAudio && !document.getElementById('medi-player-modal').classList.contains('open')) mediPlayerStop(true);
   const active = navActive();
@@ -6720,6 +6736,7 @@ const ICON_FULL = 'img/rl/app-icon.png'; // 2.3.9: the monogram in every design 
 let animRunning = false;
 
 function renderScene(animate, onIntroDone){
+  if(typeof homeZoom !== 'undefined' && homeZoom !== 1) homeZoomSet(1); // the wheel is measured at its normal size
   const d = t();
   const svg = document.getElementById('scene-svg');
   const vbH = wheelGeo(svg, false, true);
@@ -6805,6 +6822,44 @@ function joySunSvg(){
     <image href="img/icons/ico-freude.webp" x="${(CX - sz / 2).toFixed(1)}" y="${(cy - sz / 2).toFixed(1)}" width="${sz.toFixed(1)}" height="${sz.toFixed(1)}"/>
     <text x="${CX}" y="${(cy + sz / 2 + 16 * k).toFixed(1)}" text-anchor="middle" font-size="${(14 * k).toFixed(1)}" fill="${col}">${v} %</text></g>`;
 }
+
+/* ---- 15.11.2026: pinch zoom on the wheel of life (home page), like in the diary. Two fingers on the wheel make it bigger (up to 3×);
+   zoomed in, the wheel scrolls inside its place with one finger; "100 %" or two fingers go back. Taps on the areas still work. ---- */
+let homeZoom = 1;
+function homeZoomSet(z, cx, cy){
+  const st = document.querySelector('.scene-stage'), svg = document.getElementById('scene-svg'); if(!st || !svg) return;
+  z = Math.max(1, Math.min(3, z)); if(Math.abs(z - 1) < 0.04) z = 1;
+  const z0 = homeZoom;
+  if(z0 === 1 && z > 1){ const r = st.getBoundingClientRect(); st.dataset.w = r.width; st.dataset.h = r.height; }
+  const W = +st.dataset.w || st.clientWidth, H = +st.dataset.h || st.clientHeight;
+  const r = st.getBoundingClientRect(), ox = cx == null ? r.width / 2 : cx - r.left, oy = cy == null ? r.height / 2 : cy - r.top;
+  const px = st.scrollLeft + ox, py = st.scrollTop + oy;
+  homeZoom = z;
+  if(z > 1){ st.classList.add('home-zoomed'); st.style.height = H + 'px'; svg.style.width = (W * z) + 'px'; st.scrollLeft = px * z / z0 - ox; st.scrollTop = py * z / z0 - oy; }
+  else { st.classList.remove('home-zoomed'); st.style.height = ''; svg.style.width = ''; st.scrollLeft = 0; st.scrollTop = 0; }
+  let btn = document.getElementById('home-zoom-reset');
+  if(!btn){ btn = document.createElement('button'); btn.id = 'home-zoom-reset'; btn.className = 'home-zoom-reset'; btn.textContent = '100 %'; btn.onclick = ()=>homeZoomSet(1); document.body.appendChild(btn); }
+  btn.hidden = z === 1;
+}
+(function(){
+  let pinch = null;
+  const dist = t=>Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  const onHome = ()=>typeof navActive === 'function' && navActive() === 'home' && !document.querySelector('.modal-backdrop.open:not(.page-modal)');
+  document.addEventListener('touchstart', e=>{
+    if(e.touches.length !== 2 || !onHome() || !e.target.closest || !e.target.closest('.scene-stage')) return;
+    pinch = { d0:dist(e.touches), z0:homeZoom };
+  }, { passive:true, capture:true });
+  document.addEventListener('touchmove', e=>{
+    if(!pinch || e.touches.length !== 2) return;
+    e.preventDefault(); e.stopPropagation();
+    homeZoomSet(pinch.z0 * dist(e.touches) / pinch.d0, (e.touches[0].clientX + e.touches[1].clientX) / 2, (e.touches[0].clientY + e.touches[1].clientY) / 2);
+  }, { passive:false, capture:true });
+  document.addEventListener('touchend', e=>{ if(e.touches.length < 2) pinch = null; }, { capture:true });
+  document.addEventListener('wheel', e=>{
+    if(!e.ctrlKey || !onHome() || !e.target.closest || !e.target.closest('.scene-stage')) return;
+    e.preventDefault(); homeZoomSet(homeZoom * Math.exp(-e.deltaY * 0.01), e.clientX, e.clientY);
+  }, { passive:false });
+})();
 function revealWheel(instant){
   const poly = document.getElementById('data-polygon');
   if(!poly) return;
@@ -7055,7 +7110,7 @@ function maybeShowAreasIntro(){
 /* ---- Compare mode: overlay up to three past Lebensräder ---- */
 let compareMode = false;
 let compareSelection = [];
-const COMPARE_COLORS = CCA ? (CCA_LIGHT ? ['#141414', '#a8822e', '#807d77'] : ['#f4f2ec', '#d9bc5f', '#807d77']) : RETREAT ? ['#1B4D2A', '#D62C68', '#79B8A7'] : BIZ ? ['#ece7d8', '#d3b681', '#7fae97'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
+const COMPARE_COLORS = CCA ? (CCA_LIGHT ? ['#141414', '#a8822e', '#b4552a'] : ['#f4f2ec', '#d9bc5f', '#d2753a']) : RETREAT ? ['#1B4D2A', '#D62C68', '#79B8A7'] : BIZ ? ['#ece7d8', '#d3b681', '#7fae97'] : ['#b8a4ff', '#e8b84a', '#d06cf5']; // newest: standard wheel color; 2nd: the blue from this popup's bottom-right corner; oldest: the turquoise of the Bewertung button
 const COMPARE_FILL_OPACITY = [0.34, 0.34, 0.34]; // all three equally transparent; only draw order (newest in front) differs
 document.getElementById('compare-toggle-btn').onclick = ()=>{
   compareMode = !compareMode;
