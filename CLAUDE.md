@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 15.11.2026 (Version 2.17.0) – zuerst lesen
+## Übergabe – Stand 15.11.2026 (Version 2.17.1) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.17.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.17.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1215,6 +1215,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     - **Bibliothek nur schlicht** (`libSimple()` immer wahr, Umschalter und Einstellungs-Abschnitt ausgeblendet); Trophäen, Ränge usw. zählen wie immer im Hintergrund.
     - Schriften lokal: `fonts/Manrope-latin(ext).woff2`, `fonts/JetBrainsMono-latin.woff2`, Lizenzen in `fonts/LICENSES/`.
     - **Offen:** eigene Bilder (Achtsamkeit, Impulskarten, schlichtes Regal, Klemmbrett, Papier, Cover) – Prompts: `Ausgang/Ausgang 15.11.2026/CCA-Design – Bild-Prompts …md`.
+- **2.17.1 (15.11.2026, Video `IMG_1270.mov`):** Tracker-Zoom hochkant: das Brett (`.hb-v2 .hb2`) war an die Bildschirmhöhe gebunden, im Zoom wuchs nur der Rahmen samt dem Tagebuch dahinter – es sah aus, als scrolle das Tagebuch. Jetzt im Zoom `.hb2` 100 % breit, das hervorlugende Tagebuch ausgeblendet. Test `hz.py` (CDP-Touch): Brett wird groß, scrollt bis „KW“.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

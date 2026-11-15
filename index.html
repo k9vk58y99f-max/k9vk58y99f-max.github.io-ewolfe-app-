@@ -1440,6 +1440,10 @@ body{ padding:40px 30px 0; box-sizing:border-box; }
 /* 15.11.2026: a page that is bigger than the screen (zoomed in, or a phone held sideways) scrolls with one finger in every direction */
 html .tb-body.tb-body-page.tb-zoomed, html .tb-body.tb-body-habits.tb-zoomed{ overflow:auto !important; touch-action:pan-x pan-y !important; }
 html .tb-body.tb-body-habits.tb-zoomed .tb-cover-wrap.tb-habits-wrap{ height:auto; min-height:0; overflow:visible; display:block; container-type:normal; }
+/* zoomed in, only the clipboard: the diary peeking out behind it would fill the whole background and look as if the diary scrolled (video of the user 15.11.2026) */
+html .tb-body.tb-body-habits.tb-zoomed .tb-stack-habits > .tb-peek{ display:none !important; }
+html .tb-body.tb-body-habits.tb-zoomed .tb-habits-wrap > .tb-stack-habits{ padding-top:12px !important; margin-top:0 !important; }
+html .tb-body.tb-body-habits.tb-zoomed .hb-v2 .hb2{ width:100% !important; } /* the board itself grows (it was bound to the screen height, so only the frame around it grew) */
 @media (orientation:landscape) and (max-height:600px){ html .tb-body.tb-body-page{ overflow-y:auto !important; touch-action:pan-x pan-y !important; } }
 .tb-overlay{ overscroll-behavior:none; }
 /* the top under the status bar stays plain dark, so the iPhone's soft edge does not look like fog */
@@ -2743,7 +2747,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.17.0';
+const APP_VERSION = '2.17.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
