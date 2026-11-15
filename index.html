@@ -809,6 +809,8 @@ html.theme-retreat .tb-day-head{ color:var(--rt-sage-d); }
    heading or date keep their layout. 15.11.2026: in notebooks heading and date sit in the first row and the text follows right below (no empty row). */
 .tb-page:not(.type-titel):not(.tb-own){ --pt:calc(56px * var(--tbk)); --pb:calc(56px * var(--tbk)); }
 .tb-page.tb-land-page:not(.type-titel):not(.tb-own){ --pt:calc(56px * var(--tbk)); --pb:calc(56px * var(--tbk)); }
+/* 15.11.2026 (wish of the user): no ruled lines behind heading and date of a notebook page – the pattern (clipped to the content box) starts below them */
+.tb-page.tb-notes:not(.type-titel):not(.tb-own){ padding-top:calc(var(--pt) + 58px * var(--tbk)); }
 html.theme-biz .tb-page:not(.type-titel){ --paper:url(img/rl2/paper2-p.webp); } html.theme-biz .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rl2/paper2-l.webp); }
 html.theme-retreat .tb-page:not(.type-titel){ --paper:url(img/rt2/paper2-p.webp); } html.theme-retreat .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rt2/paper2-l.webp); } /* 8.11.2026: simpler, small rosebuds */
 /* 31.10.2026 (wish of the user): plain paper as a choice per book – the two lines of the design's frame without the ornaments,
@@ -2645,7 +2647,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.13.1';
+const APP_VERSION = '2.13.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -8106,12 +8108,14 @@ function tbSizeVars(){
   const avail = window.innerHeight - navH - 64 - 28 - (window.innerWidth > window.innerHeight ? 56 : 80); // header, frame and a little air
   // 15.11.2026 (wish of the user): only a slim edge left and right (was 42 px each side); A Mystery World keeps clear of its frame
   const side = 2 * (BIZ ? 14 : 24);
+  // 15.11.2026 (wish of the user): a phone held sideways shows the page as wide as the screen – one scrolls down the page
+  const phoneSide = Math.min(window.innerWidth, window.innerHeight) < 600 && window.innerWidth > window.innerHeight;
   if(w >= 640){
-    const pw = Math.max(320, Math.min(1200, w - side, Math.floor(avail * 0.75)));
+    const pw = Math.max(320, Math.min(1200, w - side, phoneSide ? Infinity : Math.floor(avail * 0.75)));
     root.setProperty('--tb-page-w', pw + 'px'); root.setProperty('--tbk', (pw / 560).toFixed(4));
   } else { const pw = Math.min(560, w - side); root.setProperty('--tb-page-w', pw + 'px'); root.setProperty('--tbk', (pw / 560).toFixed(4)); }
   // landscape books (4:3): as wide as fits, everything in proportion to a 746 px wide page
-  const lw = w >= 640 ? Math.max(360, Math.min(1500, w - side, Math.floor(avail * 4 / 3))) : Math.min(746, w - side);
+  const lw = w >= 640 ? Math.max(360, Math.min(1500, w - side, phoneSide ? Infinity : Math.floor(avail * 4 / 3))) : Math.min(746, w - side);
   root.setProperty('--tb-page-wl', lw + 'px'); root.setProperty('--tbk-l', (lw / 746).toFixed(4));
 }
 tbSizeVars(); window.addEventListener('resize', tbSizeVars);
@@ -9470,7 +9474,7 @@ function tbRenderPageSlot(idx){
     : (tbIsNotes(diary) ? noteHeadHtml(page, idx) : '') + `<textarea class="tb-page-text ${page.font==='hand'?'font-hand':''}${tbIsNotes(diary) ? ' tb-note-text' : ''} ${inactive}" id="tb-page-text-${idx}" placeholder="" ${tbEditMode?'':'readonly'}
         >${escapeHtml(page.text||'')}</textarea>`;
   const land = tbIsLand(diary);
-  return `<div class="tb-page type-${tbOwnLayout(page) ? 'blank tb-own' : page.type}${tbIsNotes(diary) && tbNoteHeaded(page) ? ' tb-note-headed' : ''}${land ? ' tb-land-page' : ''}${diary.paper === 'plain' ? ' tb-paper-plain' : ''}" data-page-idx="${idx}">
+  return `<div class="tb-page type-${tbOwnLayout(page) ? 'blank tb-own' : page.type}${tbIsNotes(diary) ? ' tb-notes' : ''}${land ? ' tb-land-page' : ''}${diary.paper === 'plain' ? ' tb-paper-plain' : ''}" data-page-idx="${idx}">
       ${textPart}
       <canvas class="tb-page-canvas ${(tbMode!=='text'&&tbEditMode)?'active':''}" id="tb-page-canvas-${idx}" width="${land ? 746 : 560}" height="${land ? 560 : 746}"></canvas>
       ${imgs}
