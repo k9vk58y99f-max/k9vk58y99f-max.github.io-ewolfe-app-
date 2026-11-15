@@ -806,10 +806,9 @@ html.theme-retreat .tb-day-head{ color:var(--rt-sage-d); }
 .tb-page.tb-land-page:not(.type-titel){ --pt:calc(84px * var(--tbk)); --pb:calc(84px * var(--tbk)); --ps:calc(64px * var(--tbk)); --paper:url(img/mw2/paper-l.webp); }
 /* 15.11.2026 (wish of the user): written pages use more of the paper – one row more at the top, two more at the bottom in portrait
    (21 instead of 18 rows), one more at each end in landscape. Pages with a layout of their own (tb-own) and notebook pages with a
-   heading or date (tb-note-headed: the heading keeps its place under the frame) keep the old top; tb-own keeps the old bottom too. */
+   heading or date keep their layout. 15.11.2026: in notebooks heading and date sit in the first row and the text follows right below (no empty row). */
 .tb-page:not(.type-titel):not(.tb-own){ --pt:calc(56px * var(--tbk)); --pb:calc(56px * var(--tbk)); }
 .tb-page.tb-land-page:not(.type-titel):not(.tb-own){ --pt:calc(56px * var(--tbk)); --pb:calc(56px * var(--tbk)); }
-.tb-page.tb-note-headed:not(.type-titel):not(.tb-own){ --pt:calc(84px * var(--tbk)); }
 html.theme-biz .tb-page:not(.type-titel){ --paper:url(img/rl2/paper2-p.webp); } html.theme-biz .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rl2/paper2-l.webp); }
 html.theme-retreat .tb-page:not(.type-titel){ --paper:url(img/rt2/paper2-p.webp); } html.theme-retreat .tb-page.tb-land-page:not(.type-titel){ --paper:url(img/rt2/paper2-l.webp); } /* 8.11.2026: simpler, small rosebuds */
 /* 31.10.2026 (wish of the user): plain paper as a choice per book – the two lines of the design's frame without the ornaments,
@@ -826,8 +825,8 @@ img, svg, canvas{ -webkit-touch-callout:none; -webkit-user-drag:none; user-drag:
 .tb-page:not(.type-titel) .tb-page-text{ padding:calc(var(--pt) + 24px * var(--tbk)) calc(var(--ps) + 4px * var(--tbk)) var(--pb); }
 .tb-page:not(.type-titel) .tb-page-text.font-hand{ padding-top:calc(var(--pt) + 19.5px * var(--tbk)); }
 /* 8.11.2026: notebooks – the first two lines of a page belong to the heading and the date, the text begins below */
-.tb-page:not(.type-titel) .tb-page-text.tb-note-text{ padding-top:calc(var(--pt) + 80px * var(--tbk)); }
-.tb-page:not(.type-titel) .tb-page-text.tb-note-text.font-hand{ padding-top:calc(var(--pt) + 75.5px * var(--tbk)); }
+.tb-page:not(.type-titel) .tb-page-text.tb-note-text{ padding-top:calc(var(--pt) + 52px * var(--tbk)); }
+.tb-page:not(.type-titel) .tb-page-text.tb-note-text.font-hand{ padding-top:calc(var(--pt) + 47.5px * var(--tbk)); }
 .tb-note-head{ --nh:#9a6a1f; --nf:'Marcellus', serif; --ns:100%; position:absolute; z-index:1; left:calc(var(--ps) + 4px * var(--tbk)); right:calc(var(--ps) + 4px * var(--tbk)); top:calc(var(--pt) + 4px * var(--tbk)); height:calc(48px * var(--tbk)); display:flex; align-items:flex-end; gap:calc(10px * var(--tbk)); }
 html.theme-biz .tb-note-head{ --nh:#8a6a3a; --nf:'Noto Serif Display', 'Marcellus', serif; --ns:62.5%; }
 html.theme-retreat .tb-note-head{ --nh:#7A0B25; --nf:'Cormorant Garamond', serif; --ns:100%; }
@@ -2646,7 +2645,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.13.0';
+const APP_VERSION = '2.13.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
