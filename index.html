@@ -232,6 +232,8 @@ html.lvl-1 :is(#sync-btn, #acct-float).has-note::after{ background:#e8b84a; box-
 #sync-modal.gate{ z-index:500; background:var(--ew-navy); align-items:center; bottom:0; }
 #sync-modal.gate .gate-hide{ display:none; }
 .gate-link{ background:none; border:none; color:var(--ew-turquoise); font:inherit; font-size:14px; cursor:pointer; padding:10px 4px; width:100%; text-align:center; }
+.gate-link.consent-link{ width:auto; padding:0; display:inline; text-align:left; text-decoration:underline; } /* 15.11.2026: inside the sentence, not as its own line */
+.medi-streak{ flex-wrap:wrap; } .medi-streak > div:first-child{ flex:1 1 150px; min-width:0; } /* 15.11.2026: the text beside the reminder button is not squeezed into a narrow column */
 .lang-pick{ display:flex; flex-direction:column; gap:12px; margin:8px 0 6px; }
 .lang-pick .primary-btn{ width:100%; padding:14px 18px; font-size:16px; }
 .gate-lang{ background:none; border:1px solid var(--ew-line); color:var(--ew-text-dim); font:inherit; font-size:12px; border-radius:999px; padding:4px 10px; cursor:pointer; }
@@ -604,7 +606,7 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 /* 2.8.0: the wins page, draft A2 (winsPageHtml) – colours and heading font of the design */
 .tb-page:not(.type-titel) .tb-areas.tb-wins2{ top:calc(var(--pt) - 22px * var(--tbk)); bottom:calc(var(--pb) - 40px * var(--tbk)); padding-top:0; padding-bottom:0; }
 .tb-areas.tb-wins2{ --tw-h:#9a6a1f; --tw-s:#8a7650; --tw-on:#b8862b; --tw-b:#c9a35a; --tw-font:'Marcellus', serif; --tw-st:100%; gap:0; }
-html.theme-biz .tb-areas.tb-wins2{ --tw-h:#8a6a3a; --tw-s:#8a7a5c; --tw-on:#ab8b54; --tw-b:#ab8b54; --tw-font:'Noto Serif Display', 'Marcellus', serif; --tw-st:62.5%; }
+html.theme-biz .tb-areas.tb-wins2{ --tw-h:#8a6a3a; --tw-s:#8a7a5c; --tw-on:#ab8b54; --tw-b:#ab8b54; --tw-font:'GFS Didot', Georgia, serif; --tw-st:100%; }
 html.theme-retreat .tb-areas.tb-wins2{ --tw-h:#7A0B25; --tw-s:#B81F57; --tw-on:#1B4D2A; --tw-b:#b8954e; --tw-font:'Cormorant Garamond', serif; --tw-st:100%; }
 /* boxes, ticks and names like on the habit tracker's clipboard (.hb2: --ink, --tick) */
 .tb-areas.tb-wins2{ --tw-ink:#5b3a12; --tw-tick:#2f7a3a; } html.theme-biz .tb-areas.tb-wins2{ --tw-ink:#3f2a17; --tw-tick:#2c5e3a; } html.theme-retreat .tb-areas.tb-wins2{ --tw-ink:#1B4D2A; --tw-tick:#1B4D2A; }
@@ -656,7 +658,7 @@ html.theme-retreat .tb-areas.tb-wins2{ --tw-h:#7A0B25; --tw-s:#B81F57; --tw-on:#
 /* 2.11.4 (wish of the user: nobler): habit names and the own writing on the habit tracker and the wins page in the heading font of the design,
    in near-black ink (not the colour of the headings). Sizes per design, because the fonts are of different widths. */
 :root{ --hd-font:'Marcellus', serif; --hd-st:100%; --hd-k:1; --hd-ink:#1f1b16; }
-html.theme-biz{ --hd-font:'Noto Serif Display', 'Marcellus', serif; --hd-st:62.5%; --hd-k:1.12; }
+html.theme-biz{ --hd-font:'GFS Didot', Georgia, serif; --hd-st:100%; --hd-k:1.05; }
 html.theme-retreat{ --hd-font:'Cormorant Garamond', serif; --hd-st:100%; --hd-k:1.18; }
 .tb-areas.tb-wins2 .tw-name{ font-family:var(--hd-font); font-stretch:var(--hd-st); font-size:calc(11.5px * var(--hd-k) * var(--tbk)); line-height:1.05; color:var(--hd-ink); }
 .tb-areas.tb-wins2 .tw-weekly .tw-name{ line-height:1.05; }
@@ -830,7 +832,7 @@ img, svg, canvas{ -webkit-touch-callout:none; -webkit-user-drag:none; user-drag:
 .tb-page:not(.type-titel) .tb-page-text.tb-note-text{ padding-top:calc(var(--pt) + 52px * var(--tbk)); }
 .tb-page:not(.type-titel) .tb-page-text.tb-note-text.font-hand{ padding-top:calc(var(--pt) + 47.5px * var(--tbk)); }
 .tb-note-head{ --nh:#9a6a1f; --nf:'Marcellus', serif; --ns:100%; position:absolute; z-index:1; left:calc(var(--ps) + 4px * var(--tbk)); right:calc(var(--ps) + 4px * var(--tbk)); top:calc(var(--pt) + 4px * var(--tbk)); height:calc(48px * var(--tbk)); display:flex; align-items:flex-end; gap:calc(10px * var(--tbk)); }
-html.theme-biz .tb-note-head{ --nh:#8a6a3a; --nf:'Noto Serif Display', 'Marcellus', serif; --ns:62.5%; }
+html.theme-biz .tb-note-head{ --nh:#8a6a3a; --nf:'GFS Didot', Georgia, serif; --ns:100%; }
 html.theme-retreat .tb-note-head{ --nh:#7A0B25; --nf:'Cormorant Garamond', serif; --ns:100%; }
 .tb-note-title{ flex:1; min-width:0; background:transparent !important; border:0 !important; outline:0; box-shadow:none !important; padding:0 !important; margin:0; border-radius:0; font-family:var(--nf); font-stretch:var(--ns); font-size:calc(26px * var(--tbk)); line-height:calc(40px * var(--tbk)); height:calc(40px * var(--tbk)); color:var(--nh); }
 .tb-note-title::placeholder{ color:var(--nh); opacity:0.4; }
@@ -888,7 +890,7 @@ html.theme-biz .habit-week-h td{ color:#ab8b54; border-color:#ab8b54 !important;
 .hb2 > div, .hb2 > button{ position:absolute; }
 .hb2-title{ left:0; right:0; text-align:center; font-family:'Marcellus', serif; font-size:5.4cqw; line-height:1; color:var(--ink); }
 .hb2-week{ left:0; right:0; text-align:center; font-size:3cqw; line-height:1; color:var(--ink); opacity:0.8; }
-html.theme-biz .hb2-title{ font-family:'Noto Serif Display', Georgia, serif; font-stretch:62.5%; text-transform:uppercase; letter-spacing:0.06em; }
+html.theme-biz .hb2-title{ font-family:'GFS Didot', Georgia, serif; font-stretch:100%; text-transform:uppercase; letter-spacing:0.06em; }
 html.theme-retreat .hb2-title{ font-family:'Cormorant Garamond', Georgia, serif; font-size:6.4cqw; text-transform:none; letter-spacing:0; color:var(--rt-burgundy, #7A0B25); }
 .hb2-day{ transform:translate(-50%, -50%); font-size:2.7cqw; font-weight:600; line-height:1; color:var(--ink); opacity:0.75; }
 .hb2-day.today{ opacity:1; color:var(--tick); font-weight:800; }
@@ -1530,7 +1532,7 @@ body > .home-veil{ position:fixed !important; left:4px; right:4px; top:calc(4px 
   --ew-text:#dcd4b8; --ew-text-dim:rgba(220,212,184,0.62); --ew-line:rgba(220,212,184,0.12);
   --gold:#c9a463; --gold-text:#d9b679; --gold-rgb:201,164,99; --ew-turquoise:#c9a463;
   --ew-panel:#121a30; --ew-panel-2:#18213b; --ew-radius:4px;
-  --biz-display:'Noto Serif Display', 'Marcellus', serif;
+  --biz-display:'GFS Didot', Georgia, serif; /* 15.11.2026 (choice of the user): GFS Didot, like the monogram – before: Noto Serif Display narrow */
 }
 /* 1.87.3: A Gentleman's Study 20 % more contrast (WCAG against #0c1226 × 1.2: linen 12.5 → 15, bronze 7.9 → 9.5, light bronze 9.7 → 11.6) */
 :root.theme-biz:not(.theme-retreat){ --ew-text:#ece7d8; --ew-text-dim:rgba(236,231,216,0.70); --ew-line:rgba(236,231,216,0.17); --ew-uv-lilac:#ece7d8; --ew-uv-lilac-soft:rgba(236,231,216,0.6);
@@ -1702,7 +1704,7 @@ html.theme-biz.theme-biz :is(#goals-page, .tb-page, .habit-board) .area-ico imag
 .design-btn{ display:flex; flex-direction:column; align-items:center; gap:3px; padding:12px 8px !important; border:1px solid var(--ew-line) !important; }
 .design-btn .design-name{ font-size:15px; }
 .design-btn .design-sub{ font-family:Inter, sans-serif; font-size:11px; opacity:.7; text-transform:none; letter-spacing:0.02em; }
-.design-btn.design-biz .design-name{ font-family:'Noto Serif Display', serif; font-stretch:62.5%; text-transform:uppercase; letter-spacing:0.12em; }
+.design-btn.design-biz .design-name{ font-family:'GFS Didot', serif; font-stretch:100%; text-transform:uppercase; letter-spacing:0.12em; }
 .design-btn.design-classic .design-name{ font-family:'Marcellus', serif; }
 .design-btn.design-retreat .design-name{ font-family:'Cormorant Garamond', serif !important; font-size:18px; font-weight:500 !important; text-transform:none; letter-spacing:0.02em; }
 .design-seg{ flex-direction:column; }
@@ -1916,7 +1918,7 @@ html.theme-retreat #xmas-modal{ background:linear-gradient(#f8f1e5, #f1e2da); co
 html body > #xmas-modal{ position:fixed !important; inset:0 !important; z-index:310 !important; width:auto !important; height:auto !important; margin:0 !important; box-sizing:border-box; } /* the page rule for the body's children must not hold it */
 .xm-head{ width:100%; max-width:720px; display:flex; align-items:center; gap:12px; padding:4px 16px 0; box-sizing:border-box; }
 .xm-title{ font-size:var(--fs-h, 22px); flex:1; }
-html.theme-biz:not(.theme-retreat) .xm-title{ font-family:'Noto Serif Display', serif; font-stretch:62.5%; text-transform:uppercase; letter-spacing:0.04em; }
+html.theme-biz:not(.theme-retreat) .xm-title{ font-family:'GFS Didot', serif; font-stretch:100%; text-transform:uppercase; letter-spacing:0.04em; }
 html.theme-retreat .xm-title{ font-family:'Cormorant Garamond', serif; color:#7A0B25; font-weight:600; }
 html:not(.theme-biz) .xm-title{ font-family:'Marcellus', serif; color:#e9c46a; }
 .xm-count{ font-size:var(--fs-text, 15px); opacity:0.8; }
@@ -1966,6 +1968,13 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 .lib-row .lib-dress-spot{ flex:none; position:relative; display:flex; justify-content:center; align-items:flex-end; width:calc(var(--lh) * 0.40); align-self:stretch;
   margin-left:calc(var(--lh) * -0.04); z-index:3; }
 .lib-row .lib-dress-spot .lib-dress-wrap{ margin-left:0 !important; margin-right:0 !important; }
+/* 15.11.2026 (choice of the user): A Gentleman's Study has ONE font – GFS Didot for headings (in capitals, as before) and for all text.
+   The narrow Noto Serif Display was too thin to read. The diary pages keep the writing font chosen in the book (print/hand). */
+html.theme-biz:not(.theme-retreat) body, html.theme-biz:not(.theme-retreat) body *:not(.tb-page *):not(.tb-page):not(.font-hand){ font-family:'GFS Didot', Georgia, serif !important; font-stretch:100% !important; }
+/* GFS Didot runs smaller than Inter (lower small letters): text and subheadings one step larger, the bar a little larger */
+:root.theme-biz:not(.theme-retreat){ --fs-text:16px; --fs-sub:18px; }
+html.theme-biz:not(.theme-retreat) .nav-item span{ font-size:12px; }
+html.theme-biz:not(.theme-retreat) .tb-page :is(.tb-g-head, .tb-g-part-h, .tb-day-date, .tw-label, .tb-area-head, .tb-note-title){ font-family:'GFS Didot', Georgia, serif !important; font-stretch:100% !important; }
 /* 2.12.1 (wish of the user): real sizes. The bookcase is about 2.12 m high (the sitting dog of A Gentleman's Study, 34 % of it, is right for a
    16 kg dog: head about 72 cm). Lady: 1.72 m, shoes size 38 – shoulder to floor 140 cm, the picture is 158 cm high (0.745 of the bookcase).
    Gentleman: 1.90 m – shoulder at 1.55 m, picture 179 cm (0.845). The back foot of the stand (--bf, measured per picture) stands 1 % of the
@@ -2647,7 +2656,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.13.3';
+const APP_VERSION = '2.14.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4667,14 +4676,14 @@ async function impulseCardImage(c){
   else { const ps = Math.min(ww, wh) * CARD_WIN.fill; g.drawImage(pic, wx + (ww - ps) / 2, wy + (wh - ps) / 2, ps, ps); }
   g.drawImage(frame, 0, 0, W, H);
   const fs = W * (BIZ ? 0.054 : 0.05), lh = fs * (BIZ ? 1.3 : 1.38), maxW = W * 0.74, words = txt.split(/\s+/), lines = []; let line = '';
-  const FONT = BIZ ? `300 ${fs}px 'Noto Serif Display', Georgia, serif` : `600 ${fs}px Inter, -apple-system, Helvetica, Arial, sans-serif`;
+  const FONT = BIZ ? (RETREAT ? `300 ${fs}px 'Noto Serif Display', Georgia, serif` : `400 ${fs}px 'GFS Didot', Georgia, serif`) : `600 ${fs}px Inter, -apple-system, Helvetica, Arial, sans-serif`;
   g.font = FONT; if(BIZ && 'fontStretch' in g) g.fontStretch = 'extra-condensed';
   words.forEach(w=>{ const tl = line ? line + ' ' + w : w; if(g.measureText(tl).width > maxW && line){ lines.push(line); line = w; } else line = tl; });
   if(line) lines.push(line);
   const total = lines.length * lh + (by ? lh * 0.95 : 0), top = H * (RETREAT ? 0.655 : BIZ ? 0.82 : 0.845) - total / 2 + lh * 0.75;
   g.fillStyle = BIZ ? '#2a2318' : '#ffffff'; g.textAlign = 'center';
   lines.forEach((l, i)=>g.fillText(l, W / 2, top + i * lh));
-  if(by){ g.font = BIZ ? `400 ${fs * 0.72}px 'Noto Serif Display', Georgia, serif` : `italic 400 ${fs * 0.82}px Inter, -apple-system, Helvetica, Arial, sans-serif`; g.fillStyle = BIZ ? '#ab8b54' : '#e8c27a'; g.fillText('– ' + by, W / 2, top + lines.length * lh + lh * 0.2); }
+  if(by){ g.font = BIZ ? `400 ${fs * 0.72}px ${RETREAT ? "'Noto Serif Display'" : "'GFS Didot'"}, Georgia, serif` : `italic 400 ${fs * 0.82}px Inter, -apple-system, Helvetica, Arial, sans-serif`; g.fillStyle = BIZ ? '#ab8b54' : '#e8c27a'; g.fillText('– ' + by, W / 2, top + lines.length * lh + lh * 0.2); }
   return cardDataUrl(cv, W, H);
 }
 /* 31.10.2026: a card in the diary is stored small (480 px wide; shown at most half a page wide). Safari cannot write WebP and
@@ -9015,7 +9024,7 @@ function canvasWrap(ctx, text, maxW){
 // share pictures (trophies, wins of the week): colours and fonts of the design, gradient and double frame
 function sharePal(){
   return RETREAT ? { a:'#fffdf8', b:'#f2e1e0', line:'#b08d57', title:'#7A0B25', text:'#262622', dim:'#625e55', head:'Cormorant Garamond', body:'Jost' }
-    : BIZ ? { a:'#13233a', b:'#0a0e1f', line:'#c9a463', title:'#e3c99d', text:'#ece7d8', dim:'#b9b2a0', head:'Noto Serif Display', body:'Inter' }
+    : BIZ ? { a:'#13233a', b:'#0a0e1f', line:'#c9a463', title:'#e3c99d', text:'#ece7d8', dim:'#b9b2a0', head:'GFS Didot', body:'GFS Didot' }
     : { a:'#3d10c9', b:'#080b28', line:'#e8b84a', title:'#f3d27a', text:'#f3ead6', dim:'#cdbdff', head:'Marcellus', body:'Inter' };
 }
 async function shareCanvasBase(g, W, H){
