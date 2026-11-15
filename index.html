@@ -1530,6 +1530,9 @@ html.theme-biz body{ padding:6px 14px 0; }
 html.theme-biz .page-modal > .modal{ left:14px !important; right:14px !important; top:calc(8px + var(--safe-t)) !important; bottom:4px !important; } /* the page window itself already ends above the bar */
 html.theme-biz .tb-overlay > .tb-topbar{ margin:calc(6px + var(--safe-t)) 12px 0 !important; padding-top:6px !important; }
 html.theme-biz .tb-overlay > .tb-body{ margin:0 10px 10px !important; }
+/* 15.11.2026: slim edge beside the diary page (tbSizeVars: 14 px each side, A Mystery World 24 px inside its frame) */
+html .tb-overlay > .tb-body{ padding-left:4px !important; padding-right:4px !important; }
+html:not(.theme-biz) .tb-overlay > .tb-body{ margin-left:20px !important; margin-right:20px !important; }
 html.theme-biz .tb-tools-fab{ right:18px !important; bottom:calc(var(--nav-h) + 16px) !important; }
 html.theme-biz .tb-del-fab{ left:18px !important; bottom:calc(var(--nav-h) + 20px) !important; }
 /* headings: narrow serif, capitals, a little air between the letters; titles in linen, subheadings in cognac */
@@ -1837,6 +1840,9 @@ html .shelf-comp .shelf-trophy:is(:hover, :active){ transform:scale(1.06); }
 .shelf-plant{ position:absolute; top:0; height:100%; z-index:3; pointer-events:none; }
 html .lib-row .shelf-narrow{ background-size:100% 100% !important; margin-right:0 !important; }
 html .lib-row .shelf-narrow + .shelf-img .club-plaque, html .lib-row .shelf-img .club-plaque{ left:19% !important; top:94.2% !important; width:58% !important; height:3.3% !important; }
+/* 2.12.1: the plaque on the plinth of the book part (room and simple view); A Mystery World keeps it under the bookcase (its plinth is gold) */
+html .shelf-img.shelf-narrow .club-plaque{ left:var(--pql) !important; width:var(--pqw) !important; top:var(--pqt, 94.4%) !important; height:var(--pqh, 3.4%) !important; z-index:4; }
+html:not(.theme-biz) .shelf-img.shelf-narrow .club-plaque{ top:calc(100% + 0.8%) !important; height:3.96% !important; }
 html.theme-retreat .tb-spine:first-child::after{ display:none; }
 html.theme-retreat :is(.goal-table-card, .imp-mini, .panel){ box-shadow:0 2px 14px rgba(90,80,60,0.08) !important; }
 html.theme-retreat .imp-card{ filter:drop-shadow(0 12px 22px rgba(90,80,60,0.2)); }
@@ -1946,6 +1952,18 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 .lib-row .lib-dress-spot{ flex:none; position:relative; display:flex; justify-content:center; align-items:flex-end; width:calc(var(--lh) * 0.40); align-self:stretch;
   margin-left:calc(var(--lh) * -0.04); z-index:3; }
 .lib-row .lib-dress-spot .lib-dress-wrap{ margin-left:0 !important; margin-right:0 !important; }
+/* 2.12.1 (wish of the user): real sizes. The bookcase is about 2.12 m high (the sitting dog of A Gentleman's Study, 34 % of it, is right for a
+   16 kg dog: head about 72 cm). Lady: 1.72 m, shoes size 38 – shoulder to floor 140 cm, the picture is 158 cm high (0.745 of the bookcase).
+   Gentleman: 1.90 m – shoulder at 1.55 m, picture 179 cm (0.845). The back foot of the stand (--bf, measured per picture) stands 1 % of the
+   bookcase below its plinth line, so nothing floats. */
+html .lib-row .lib-dress-wrap{ --lhh:calc(var(--sw) / var(--sa, 0.39)); }
+html.theme-retreat .lib-row .lib-dress-wrap{ --dh:calc(var(--lhh) * 0.745); margin-bottom:calc(var(--lhh) * 0.01 - var(--dh) * (1 - var(--bf, 0.86))) !important; }
+html.theme-biz:not(.theme-retreat) .lib-row .lib-dress-wrap{ --dh:calc(var(--lhh) * 0.845); margin-bottom:calc(var(--lhh) * 0.01 - var(--dh) * 0.067) !important; }
+/* the dogs: sitting and lying the same dog – measured by the eyes and the paws (gentleman: 34 % / 12.5 % already match).
+   the head counts more than the paws (wish of the user): Lady lying (head up) 20 %; A Mystery World 10 % bigger in both (37 % / 14 %, heads match) */
+html.theme-retreat .shelf-dog-lying{ height:20%; }
+html:not(.theme-biz) .shelf-dog{ height:37%; }
+html:not(.theme-biz) .shelf-dog-lying{ height:14%; }
 .lib-row .lib-fox{ height:calc(var(--lh) * 0.31); width:auto; margin-bottom:calc(var(--lh) * -0.06); filter:drop-shadow(0 6px 8px rgba(0,0,0,0.4)); pointer-events:none; }
 /* scroll arrows that work (25.10.2026): real buttons on both sides instead of a picture of an arrow */
 .lib-wrap.more::after{ display:none !important; }
@@ -2611,7 +2629,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.12.0';
+const APP_VERSION = '2.12.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -3008,10 +3026,21 @@ function clubProgressText(){
   if(x.days > x.wait) return d.clubProgress.replace('{n}', n).replace('{m}', x.days).replace('{r}', r);
   return d.clubProgressTime.replace('{n}', n).replace('{m}', Math.max(1, x.wait)).replace('{r}', r);
 }
-function clubPlaqueHtml(){
+/* 2.12.1 (wish of the user): the plaque sits on the plinth of the book part – the dog no longer hides it, and the simple view shows it too.
+   x0 = where the front board of the plinth begins in each picture (measured); the plaque runs from x0 + 5 % to 95 %. */
+const PLQ_X0 = { 'rt2/shelf3-narrow':5.2, 'rl2/shelf-narrow':2.7, 'rl2/shelf-plant-narrow':1.2, 'mw2/shelf-narrow':2.4, 'mw2/shelf-ivy-narrow':3.9, 'mw2/shelf-dusty-narrow':2.4,
+  'rt2/shelf-simple2':4.5, 'rl2/shelf-simple2':2.4, 'mw2/shelf-simple2':2.1, 'rt2/sv2-narrow':6.2, 'rl2/sv-narrow':35.6, 'mw2/sv-narrow':10.9 };
+// 15.11.2026 (wish of the user): 10 % smaller, in the middle of the front board – also between its top and bottom edge (measured: PLQ_MID)
+const PLQ_MID = { 'rt2/shelf3-narrow':97.3, 'rt2/shelf-simple2':97.3, 'rt2/sv2-narrow':96.5, 'rl2/sv-narrow':96.5, 'mw2/sv-narrow':96.5 };
+function plaqueStyle(img, right, tp){
+  const a = (PLQ_X0[img] || 3) + 5, b = right || 95, w = (b - a) * 0.9, x0 = (a + b) / 2 - w / 2;
+  const h = (tp ? tp[1] : 3.4) * 0.9, mid = PLQ_MID[img] || 97.2;
+  return `--pql:${x0.toFixed(1)}%;--pqw:${w.toFixed(1)}%;--pqt:${(mid - h / 2).toFixed(2)}%;--pqh:${h.toFixed(2)}%`;
+}
+function clubPlaqueHtml(style){
   const d = t(), lv = Math.max(1, appLevel());
   const rank = rankNames(d)[lv] || '', fit = Math.min(1, 9 / Math.max(1, rank.length)); // long names (Ehrenmitglied) a little smaller
-  return `<div class="club-plaque" title="${escapeHtml(d.clubRankLabel)}"><span class="club-rank" style="font-size:${(62 * fit).toFixed(1)}cqh">${escapeHtml(rank)}</span><span class="club-dia">${'◆'.repeat(lv)}<i>${'◆'.repeat(6 - lv)}</i></span></div>`;
+  return `<div class="club-plaque" title="${escapeHtml(d.clubRankLabel)}"${style ? ` style="${style}"` : ''}><span class="club-rank" style="font-size:${(62 * fit).toFixed(1)}cqh">${escapeHtml(rank)}</span><span class="club-dia">${'◆'.repeat(lv)}<i>${'◆'.repeat(6 - lv)}</i></span></div>`;
 }
 // the level the old rules gave up to LEVEL_OLD_UNTIL – from the data, so it is the same on every device
 function levelKept(){
@@ -8050,15 +8079,28 @@ function tbSizeVars(){
   const w = window.innerWidth, root = document.documentElement.style;
   const nav = document.getElementById('bottom-nav'), navH = nav ? nav.offsetHeight : 70;
   const avail = window.innerHeight - navH - 64 - 28 - (window.innerWidth > window.innerHeight ? 56 : 80); // header, frame and a little air
+  // 15.11.2026 (wish of the user): only a slim edge left and right (was 42 px each side); A Mystery World keeps clear of its frame
+  const side = 2 * (BIZ ? 14 : 24);
   if(w >= 640){
-    const pw = Math.max(320, Math.min(1200, w - 84, Math.floor(avail * 0.75)));
+    const pw = Math.max(320, Math.min(1200, w - side, Math.floor(avail * 0.75)));
     root.setProperty('--tb-page-w', pw + 'px'); root.setProperty('--tbk', (pw / 560).toFixed(4));
-  } else { const pw = Math.min(560, w - 84); root.setProperty('--tb-page-w', pw + 'px'); root.setProperty('--tbk', (pw / 560).toFixed(4)); }
+  } else { const pw = Math.min(560, w - side); root.setProperty('--tb-page-w', pw + 'px'); root.setProperty('--tbk', (pw / 560).toFixed(4)); }
   // landscape books (4:3): as wide as fits, everything in proportion to a 746 px wide page
-  const lw = w >= 640 ? Math.max(360, Math.min(1500, w - 84, Math.floor(avail * 4 / 3))) : Math.min(746, w - 84);
+  const lw = w >= 640 ? Math.max(360, Math.min(1500, w - side, Math.floor(avail * 4 / 3))) : Math.min(746, w - side);
   root.setProperty('--tb-page-wl', lw + 'px'); root.setProperty('--tbk-l', (lw / 746).toFixed(4));
 }
 tbSizeVars(); window.addEventListener('resize', tbSizeVars);
+/* 15.11.2026 (wish of the user): Enter in a one-line field of a diary page (guided page, heading of a notebook page) jumps to the next line
+   of the page – the next field below, like a new line on paper. Fields with several lines (textarea) keep Enter for a new line. */
+document.addEventListener('keydown', e=>{
+  if(e.key !== 'Enter' || e.isComposing || e.shiftKey) return;
+  const el = e.target; if(!el || el.tagName !== 'INPUT' || el.readOnly) return;
+  const page = el.closest && el.closest('.tb-page'); if(!page || !/^(text|search|)$/.test(el.type || '')) return;
+  e.preventDefault();
+  const fields = [...page.querySelectorAll('input:not([readonly]):not([type=range]):not([type=number]):not([type=checkbox]), textarea:not([readonly])')].filter(f=>f.offsetParent);
+  const next = fields[fields.indexOf(el) + 1];
+  if(next){ next.focus(); try{ const n = next.value.length; next.setSelectionRange(n, n); }catch(err){} } else el.blur();
+});
 /* Page number tapped: pick any page directly (slider + number), so a book with hundreds of pages is quick to get around */
 let tbPagePickOpen = false;
 function tbPagePickHtml(){
@@ -8263,7 +8305,7 @@ function tbRenderLibrarySimple(){
   const clipImg = clipName();
   const clipHtml = `<button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipImg ? `<img src="img/${clipImg}.webp" alt="">` : clipboardSvg()}</button>`;
   return `<div class="lib-simple"><div class="shelf-img shelf-narrow lib-simple-shelf" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
-      `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}</div></div>
+      `<div class="shelf-comp shelf-comp-books" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(rows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${clubPlaqueHtml(plaqueStyle(NS.img, { rt2:89.9, rl2:92.1, mw2:92.7 }[dir]))}</div></div>
     ${libViewSegHtml()}
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}</p>
     <p class="page-footer">eWolfe · Version ${APP_VERSION}</p>
@@ -8433,7 +8475,7 @@ function tbRenderLibrary(){
   const half = Math.ceil(roof.length / 2);
   const roofHtml = roof.length ? `<div class="shelf-comp shelf-roof" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${SH.roof - rh}%;height:${rh}%">
       <div class="shelf-roof-side">${roof.slice(0, half).map(troHtml).join('')}</div><div class="shelf-roof-side right">${roof.slice(half).map(troHtml).join('')}</div></div>` : '';
-  const shelfHtml = `<div class="shelf-img${SH.plaque ? ' sv' : ''}" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%;aspect-ratio:${(SH.aspect || 1).toFixed(4)}${SH.plaque ? `;--plt:${SH.plaque[0]}%;--plh:${SH.plaque[1]}%` : ''}">${clubPlaqueHtml()}${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
+  const shelfHtml = `<div class="shelf-img${SH.plaque ? ' sv' : ''}" style="background-image:url(img/${SH.img}.webp);--roof:${SH.roof}%;aspect-ratio:${(SH.aspect || 1).toFixed(4)}${SH.plaque ? `;--plt:${SH.plaque[0]}%;--plh:${SH.plaque[1]}%` : ''}">${NAR ? '' : clubPlaqueHtml()}${animals}${roofHtml}${SHELF_ROWS.map(([y0, y1], i)=>{
       const row = rowsAll[i];
       return `<div class="shelf-comp${row && row.kind === 'tro' ? ' shelf-comp-tro' : row ? ' shelf-comp-books' : ''}${row && row.r.spread ? ' tro-spread' : ''}" style="left:${SHELF_X[0]}%;width:${SHELF_X[1] - SHELF_X[0]}%;top:${y0}%;height:${y1 - y0}%">${row ? row.r.map(it=>it.book ? bookHtml(it) : troHtml(it)).join('') : ''}</div>`;
     }).join('')}${SH.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${SH.fronts}.webp)"></div>` : ''}</div>`;
@@ -8458,7 +8500,7 @@ function tbRenderLibrary(){
   const clipImg = clipName();
   const clipHtml = `<button class="lib-clipboard" onclick="habitOpen()" title="${escapeHtml(d.habitTitle)}" aria-label="${escapeHtml(d.habitTitle)}">${clipImg ? `<img src="img/${clipImg}.webp" alt="">` : clipboardSvg()}</button>`;
   const narrowHtml = NAR ? `<div class="shelf-img shelf-narrow" style="background-image:url(img/${NS.img}.webp);aspect-ratio:${NS.aspect.toFixed(4)}">${SHELF_ROWS.map(([y0, y1], i)=>
-      `<div class="shelf-comp ${(pl.nrows[i] || []).length ? 'shelf-comp-tro' : 'shelf-comp-books'}" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}${(pl.nrows[i] || []).map(troHtml).join('')}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${NS.plant ? `<img class="shelf-plant" src="img/${NS.plant.img}.webp" alt="" style="width:${NS.plant.w}%;left:${NS.plant.over - NS.plant.w}%">` : ''}</div>` : '';
+      `<div class="shelf-comp ${(pl.nrows[i] || []).length ? 'shelf-comp-tro' : 'shelf-comp-books'}" style="left:${NS.x[0]}%;width:${NS.x[1] - NS.x[0]}%;top:${y0}%;height:${y1 - y0}%">${(narrowRows[i] || []).map(bookHtml).join('')}${i === clipRow ? clipHtml : ''}${(pl.nrows[i] || []).map(troHtml).join('')}</div>`).join('')}${NS.fronts ? `<div class="shelf-fronts" aria-hidden="true" style="background-image:url(img/${NS.fronts}.webp)"></div>` : ''}${NS.plant ? `<img class="shelf-plant" src="img/${NS.plant.img}.webp" alt="" style="width:${NS.plant.w}%;left:${NS.plant.over - NS.plant.w}%">` : ''}${clubPlaqueHtml(plaqueStyle(NS.img, 95, SV && SV.shelf.plaque))}</div>` : '';
   // 1.87.2: the shelf is as high as in the other designs; where the orchid table does not fit next to it as well (phones),
   // the row starts at the shelf and the table peeks in from the left (scroll left to see it whole)
   setTimeout(()=>document.querySelectorAll('.lib-scroll').forEach(el=>{
@@ -8481,7 +8523,7 @@ function tbRenderLibrary(){
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
   return `<div class="lib-wrap">${libNewsHtml()}<button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${NAR && clipRow >= 0 ? '' : clipHtml}${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? xmasTreeHtml('shelf-orchid shelf-xmas') : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + (RT_DRESS_FILE[dressKind] || dressKind)) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal${(libFresh || []).includes(m.id) ? ' is-new' : ''}" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${NAR && clipRow >= 0 ? '' : clipHtml}${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? xmasTreeHtml('shelf-orchid shelf-xmas') : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}" style="--bf:${dressBf(dressKind)}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + (RT_DRESS_FILE[dressKind] || dressKind)) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal${(libFresh || []).includes(m.id) ? ' is-new' : ''}" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${libViewSegHtml()}
@@ -8845,6 +8887,11 @@ function ladyDressKind(now){
 }
 // 25.10.2026 (wish of the user): the gentleman's dress form – the tuxedo from Christmas Eve to New Year's Day, on Epiphany and on
 // Easter Sunday and Monday; the navy double-breasted waistcoat on all other feast days; otherwise the green velvet riding coat
+// 2.12.1: where the back foot of each Lady stand ends (share of the picture height, measured); long gowns reach the floor
+const DRESS_BF = { 'blouse-green2':0.868, 'blouse-navy':0.86, 'blouse-navy3':0.836, 'blouse-pink':0.855, 'bow-green':0.806, 'bow-slingback2':0.868, burgundy:0.845,
+  'carpet-halter':0.888, 'carpet-sweater':0.864, celadon:0.99, celadon2:0.99, 'embroidered-cardigan':0.861, 'embroidered-white':0.852, emerald:0.99, emerald2:0.99,
+  military:0.836, 'paisley-green':0.892, pentecost2:0.874, plaid:0.99, 'red-cardigan':0.865, 'red-sleeveless':0.885, 'sailor-jeans':0.82, shoes:0.894 };
+function dressBf(kind){ if(!RETREAT) return 0.933; const f = kind === 'wide' ? 'shoes' : (RT_DRESS_FILE[kind] || kind); return DRESS_BF[f] || 0.86; }
 function gentDressKind(now){
   now = now || new Date(); const m = now.getMonth(), d = now.getDate(), k = holidayKey(now);
   if((m === 11 && d >= 24) || (m === 0 && (d === 1 || d === 6)) || k === 'easter' || k === 'eastermon') return 'tux';
@@ -9407,7 +9454,7 @@ function noteHeadHtml(page, idx){
   const d = t(), ed = tbEditMode;
   const date = page.date ? (()=>{ const [y, m, dd] = page.date.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { day:'numeric', month:'long', year:'numeric' }); })() : '';
   return `<div class="tb-note-head">
-      <input class="tb-note-title" data-page-idx="${idx}" maxlength="80" placeholder="${ed ? escapeHtml(d.notesHeadPh) : ''}" value="${escapeHtml(page.head || '')}" ${ed ? '' : 'readonly tabindex="-1"'}>
+      <input class="tb-note-title" enterkeyhint="next" data-page-idx="${idx}" maxlength="80" placeholder="${ed ? escapeHtml(d.notesHeadPh) : ''}" value="${escapeHtml(page.head || '')}" ${ed ? '' : 'readonly tabindex="-1"'}>
       ${date ? `<span class="tb-note-date">${escapeHtml(date)}${ed ? `<button class="tb-note-date-x" onclick="tbNoteDate(${idx}, false)" title="${escapeHtml(d.notesDateDel)}" aria-label="${escapeHtml(d.notesDateDel)}">×</button>` : ''}</span>`
         : ed ? `<button class="tb-note-date-add" onclick="tbNoteDate(${idx}, true)">${escapeHtml(d.notesDateAdd)}</button>` : ''}
     </div>`;
@@ -9824,7 +9871,7 @@ function guidedPageHtml(page, idx, inactive){
   const d = t(), g = page.guided, mode = g.mode || 'both', ro = tbEditMode ? '' : 'readonly', hand = page.font === 'hand' ? ' font-hand' : '';
   const [y, m, dd] = (g.date || dayKey(new Date())).split('-').map(Number);
   const date = new Date(y, m - 1, dd).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-  const lines = (base, label)=>`<div class="tb-g-block"><div class="tb-g-head">${escapeHtml(label)}</div>${[0, 1, 2].map(i=>`<div class="tb-g-row"><span class="tb-g-no">${i + 1}.</span><input class="tb-g-in tb-g-line${hand}" data-page-idx="${idx}" data-k="${base + i}" maxlength="90" value="${escapeHtml(g[base + i] || '')}" ${ro}></div>`).join('')}</div>`;
+  const lines = (base, label)=>`<div class="tb-g-block"><div class="tb-g-head">${escapeHtml(label)}</div>${[0, 1, 2].map(i=>`<div class="tb-g-row"><span class="tb-g-no">${i + 1}.</span><input class="tb-g-in tb-g-line${hand}" enterkeyhint="next" data-page-idx="${idx}" data-k="${base + i}" maxlength="90" value="${escapeHtml(g[base + i] || '')}" ${ro}></div>`).join('')}</div>`;
   const box = (k, label)=>`<div class="tb-g-block tb-g-boxblock"><div class="tb-g-head">${escapeHtml(label)}</div><textarea class="tb-g-in tb-g-box${hand}" data-page-idx="${idx}" data-k="${k}" ${ro}>${escapeHtml(g[k] || '')}</textarea></div>`;
   const morning = mode !== 'evening' ? `<div class="tb-g-part"><div class="tb-g-part-h">${G_SUN}${escapeHtml(d.guidedMorning)}</div>${lines('dank', d.g_dank)}${lines('ziel', d.g_ziel)}${box('satz', d.g_satz)}</div>` : '';
   const evening = mode !== 'morning' ? `<div class="tb-g-part"><div class="tb-g-part-h">${G_MOON}${escapeHtml(d.guidedEvening)}</div>${lines('mom', d.g_mom)}${box('besser', d.g_besser)}</div>` : '';

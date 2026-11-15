@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 15.11.2026 (Version 2.12.0) – zuerst lesen
+## Übergabe – Stand 15.11.2026 (Version 2.12.1) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.12.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.12.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1142,6 +1142,19 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     - **Kein Zoomen beim Schreiben im Tagebuch:** Viewport im Tagebuch jetzt mit `maximum-scale=1` (Safari zoomt dann nicht mehr ins Feld, Fingerzoom bleibt,
       weil iOS die Grenze für Finger ignoriert). Nur auf dem echten iPhone/iPad prüfbar – die Nutzerin testet.
     - Test `t2120.py` in `Lebensrad APP/eWolfe-Skripte/` (Chromium + WebKit, drei Designs); `t290.py`, `t280.py` laufen weiter.
+- **2.12.1 (15.11.2026) Bibliothek in echten Größen, Plakette, Tagebuchseite breiter, Enter (Wünsche der Nutzerin):**
+    - **Maßstab:** Regal ≈ 2,12 m (der sitzende Herrenhund, 34 % der Regalhöhe = Kopf ≈ 72 cm, war richtig). Lady = 1,72 m, Schuhgröße 38: Bild 158 cm
+      (Schulter–Boden 140 cm) = `--dh` 0,745 × Regalhöhe (`--lhh`); Gentleman = 1,90 m: Schulter 1,55 m, Bild 179 cm = 0,845. Vorher waren die Lady-Büsten
+      ≈ 2 m groß. **Nichts schwebt:** der hintere Fuß des Ständers (`--bf`, je Bild gemessen in `DRESS_BF`/`dressBf`, Herren 0,933) steht 1 % der Regalhöhe
+      unter der Sockellinie (`margin-bottom` aus `--bf`). Broschen/Medaillen wachsen über `--dh` mit.
+    - **Hunde** nach dem Kopf gemessen (Augenabstand; Wunsch: Kopf wichtiger als Pfoten): Herren 34 %/12,5 % passten; Lady liegend 12,5 → 20 %; Mystery
+      sitzend 37 %, liegend 14 % (vorher 34/12,5).
+    - **Plakette auf dem Sockel des Bücherteils** (auch in der schlichten Ansicht und mit Vitrine): `clubPlaqueHtml(style)`, `plaqueStyle(img, rechts, [top,h])`;
+      Sockelbeginn je Bild `PLQ_X0`, senkrechte Mitte des Sockelbretts `PLQ_MID` (sonst 97,2 %), 10 % kleiner, waagerecht mittig. Mystery: unter dem Bücherteil.
+    - **Tagebuchseite breiter:** schmaler Rand (`tbSizeVars`: 14 px je Seite, Mystery 24 px innerhalb des Rahmens; vorher 42 px). Der Umbruch bleibt (18 Zeilen),
+      weil alles mit `--tbk` wächst.
+    - **Enter** in einzeiligen Feldern einer Tagebuchseite (geführte Seite, Überschrift im Notizbuch) springt ins nächste Feld (`enterkeyhint="next"`).
+    - Bilder: Vorher/Nachher im Scratchpad; `t270b.py` läuft (nichts aufs Dach).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
