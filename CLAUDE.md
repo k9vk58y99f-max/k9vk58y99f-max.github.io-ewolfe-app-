@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 15.11.2026 (Version 2.12.1) – zuerst lesen
+## Übergabe – Stand 15.11.2026 (Version 2.13.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.12.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.13.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1155,6 +1155,22 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
       weil alles mit `--tbk` wächst.
     - **Enter** in einzeiligen Feldern einer Tagebuchseite (geführte Seite, Überschrift im Notizbuch) springt ins nächste Feld (`enterkeyhint="next"`).
     - Bilder: Vorher/Nachher im Scratchpad; `t270b.py` läuft (nichts aufs Dach).
+- **2.13.0 (15.11.2026) Bereiche auf der Lebensrad-Seite, neue Seite „Persönlichkeit“, mehr Zeilen (Wünsche der Nutzerin):**
+    - **Leiste:** Persönlichkeit · Lebensrad · Ziele · Bibliothek · Achtsamkeit (`NAV_ORDER`; man geht der Reihe nach durch). Die Seite Bereiche gibt es nicht mehr;
+      `ewolfe_last_nav` = 'areas' wird zu 'persona'. Kein Knopf „Ziele bearbeiten“ mehr auf der Startseite.
+    - **Lebensrad-Seite:** `renderAreasPage()` zeichnet die Bereiche in `#home-areas` (unter „Frühere Lebensräder“, Titel „Neues Lebensrad“, Bereiche zugeklappt bis man
+      einen antippt: `areasTouched`). Beim allerersten Rad (`html.first-wheel`) ist nur dieser Block zu sehen („Dein erstes Lebensrad“, Gesundheit offen).
+      `openEvalModal()` scrollt dorthin; `maybeShowAreasIntro()` öffnet nichts mehr. Nach dem Speichern nach oben zum neuen Rad.
+    - **Seite Persönlichkeit** (`#persona-page`, `renderPersonaPage`, `personaPageView`, `personaPageDel`): ohne Ergebnis Text + „Test starten“; mit Ergebnis oben das Rad mit
+      Datum/Vergleich und den Grundzügen (`personaResultHtml` nur lesen), unten „Neuer Test“ (Weitermachen / Test wiederholen) und „Ergebnis löschen“. Der Test läuft
+      weiter im Fenster `#persona-modal`; beim Schließen wird die Seite neu gezeichnet. Texte `pt().navLabel/pageTitle/newTitle`. Nie „Deep Ocean“ nennen.
+    - **Symbole:** Persönlichkeit = Kopf im Profil mit Stern (`img/icons-rl/ico-persona.svg`, für AMW vorerst golden `img/icons/ico-persona.svg`); AMW Achtsamkeit vorerst
+      goldener Lotus `img/icons/ico-lotus.svg` (in `navInit`) statt der meditierenden Figur. Prompts für die AMW-Bilder: `Ausgang/Ausgang 15.11.2026/Symbole A Mystery World …md`.
+      `designSwapEl` tauscht jetzt auch `img/icons/ico-*.svg`.
+    - **Mehr Zeilen:** freie Seiten oben eine, unten zwei Zeilen mehr (`--pt`/`--pb` 56 statt 84/112 hoch; quer 56/56): hoch 21 statt 18 Zeilen, quer 15 statt 13.
+      Seiten mit eigenem Aufbau (`tb-own`) behalten die alten Ränder. Notizbuchseiten mit Überschrift oder Datum (`tb-note-headed`, `tbNoteHeaded`) behalten oben ihren
+      Platz (18 Zeilen), ohne Überschrift 19; der Umbruch misst das je Seite (`tbMeasureFor`).
+    - Tests: `t2110.py` an die neue Seite angepasst, `t290.py` (Zeilengrenze 19), `t2120.py`, `t280.py` laufen.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
