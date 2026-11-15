@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 15.11.2026 (Version 2.14.2) – zuerst lesen
+## Übergabe – Stand 15.11.2026 (Version 2.15.0) – zuerst lesen
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
@@ -195,7 +195,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.14.2`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.15.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1186,6 +1186,13 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     „Datenschutzerklärung“ in der Zustimmungszeile stehen im Satz (`.consent-link`), der Kasten „Tage in Folge“ bricht um statt den Text zu quetschen.
 - **2.14.1 (15.11.2026):** Oben auf der Lebensrad-Seite kein Monogramm und kein „eWolfe“ mehr (alle Designs, `.topbar .logo` unsichtbar, Element bleibt für den Code); das Konto-Symbol bleibt rechts. Antippen des Logos spielt damit auch keine Animation mehr.
 - **2.14.2 (15.11.2026):** A Mystery World: Leisten-Symbole aus den Bildern der Nutzerin (Prompts vom 15.11.): Persönlichkeit = goldener Low-Poly-Kopf mit Stern `img/icons/ico-persona.webp`, Achtsamkeit = Lotus über Wasser `img/icons/ico-lotus.webp` (ersetzt die meditierende Figur `ico-medi.webp` in der Leiste; der Lotus ohne Wasser bleibt das Symbol von Spiritualität `ico-sinn`). Freigestellt vom Grau mit `cutgold.py` (Sättigung → Alpha, Löcher in der Form gefüllt; in `eWolfe-Skripte/`). Die goldenen SVG-Zwischenlösungen sind entfernt; AGS/LC nutzen weiter `img/icons-rl/ico-persona.svg` bzw. `ico-medi.svg`.
+- **2.15.0 (15.11.2026) Eigener Zoom in Tagebuch, Notizbuch und Tracker (Wunsch der Nutzerin: vergrößern, scrollen, wieder verkleinern):**
+    Der Browser zoomt nie mehr (Viewport immer `maximum-scale=1, user-scalable=no`, `gesturestart` überall blockiert; `zoom-ok` wird nicht mehr gesetzt) – damit springt
+    beim Schreiben nichts. Stattdessen `tbZoom` (1–3): zwei Finger auf `#tb-body` (Touch-Handler mit `capture`, Mittelpunkt bleibt unter den Fingern), am Rechner
+    Strg + Mausrad/Trackpad. Seite: CSS `zoom` auf `.tb-page-wrap` (Umbruch und Linien bleiben gleich); Tracker: `--hw` von `.tb-stack-habits` wird breiter (das Brett ist in
+    `cqw` gebaut, CSS-Zoom würde dort den Text doppelt vergrößern). `.tb-zoomed` erlaubt Scrollen in alle Richtungen; Knopf „100 %“ oben (`#tb-zoom-reset`) stellt zurück.
+    Wechsel der Ansicht und Schließen des Tagebuchs setzen auf 100 %. Wischen ist im Zoom gesperrt. Test `t2150.py` in `eWolfe-Skripte` (: Fingergeste per CDP in Chromium, WebKit
+    über `tbZoomSet`, Schreiben im Zoom, Zurück-Knopf, Tracker). Auf dem echten iPhone/iPad noch nicht geprüft.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

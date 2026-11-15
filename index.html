@@ -545,6 +545,14 @@ html:not(.zoom-ok), html:not(.zoom-ok) body, html:not(.zoom-ok) body *:not(input
 .tb-cover-actions{ align-items:center; }
 /* Cover view (since 1.34.0): the book fills the space between the header and the bar, the buttons sit on the book itself */
 .tb-body.tb-body-cover{ overflow:hidden; display:flex; padding:14px 18px 18px; }
+/* 15.11.2026 (wish of the user): own pinch zoom for the diary, notebooks and habit tracker – zoom in, scroll around, zoom out again */
+.tb-body.tb-zoomed{ overflow:auto !important; touch-action:pan-x pan-y; }
+.tb-body.tb-zoomed .tb-page-wrap{ width:max-content; margin:0 auto; }
+.tb-body.tb-zoomed.tb-body-cover{ display:block; }
+.tb-zoom-reset{ position:fixed !important; z-index:130 !important; left:50% !important; right:auto !important; bottom:auto !important; transform:translateX(-50%); top:calc(var(--safe-t, 0px) + 74px) !important; margin:0 !important; padding:7px 14px; border-radius:20px; border:1px solid var(--gold, #c9a463);
+  background:rgba(10,14,31,0.85); color:#f3ead6; font-size:14px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.35); }
+html.theme-retreat .tb-zoom-reset{ background:rgba(248,241,229,0.95); color:#262622; }
+.tb-zoom-reset[hidden]{ display:none; }
 .tb-body-cover .tb-cover-wrap{ flex:1; min-height:0; }
 .tb-body-cover .tb-cover{ width:min(440px,100%); height:100%; aspect-ratio:auto; }
 .tb-cover-tap{ cursor:pointer; -webkit-tap-highlight-color:transparent; transition:transform .15s ease; }
@@ -2658,7 +2666,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.14.2';
+const APP_VERSION = '2.15.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -6132,7 +6140,7 @@ function navSync(){
   if(navRestored) try{ localStorage.setItem('ewolfe_last_nav', active); }catch(e){}
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active', b.dataset.nav === active));
   // zooming is only allowed in the diary
-  const zoom = active === 'diary';
+  const zoom = false; // 15.11.2026: the browser never zooms (also not in the diary) – the diary, notebooks and habit tracker have their own pinch zoom (tbZoom)
   if(document.documentElement.classList.contains('zoom-ok') !== zoom){
     document.documentElement.classList.toggle('zoom-ok', zoom);
     document.getElementById('viewport-meta').setAttribute('content', zoom
@@ -6177,6 +6185,7 @@ function swipeBlocked(target){
   if(document.querySelector('.modal-backdrop.open:not(.page-modal), .dialog-backdrop.open')) return true;
   if(document.getElementById('intro-overlay') && document.getElementById('intro-overlay').classList.contains('playing')) return true;
   if(window.visualViewport && window.visualViewport.scale > 1.05) return true; // zoomed into the diary
+  if(typeof tbZoom !== 'undefined' && tbZoom > 1.001) return true; // 15.11.2026: own zoom
   if(target && target.closest && target.closest('input[type=range], select, canvas.active, .tb-img-box, .tb-tools-menu, .tb-cover-pop, .tb-pagepick')) return true;
   return false;
 }
@@ -8095,7 +8104,60 @@ function tbLastWrittenBook(){
   return best || tbLatestBook(tbCurrentYearStr(), true);
 }
 function openTagebuch(){ tbEnterDiary(tbLastWrittenBook()); }
+/* ---- 15.11.2026 (wish of the user): pinch zoom in the diary, notebooks and the habit tracker. Two fingers make the page bigger
+   (up to 3×) or smaller again; zoomed in, one finger scrolls the page in every direction. A button "100 %" goes straight back.
+   The browser itself never zooms (the viewport stays fixed), so writing never zooms by itself. CSS zoom keeps the layout
+   (text, lines and page breaks stay the same, only bigger). Trackpad: pinch = ctrl + wheel. ---- */
+let tbZoom = 1, tbZoomView = '';
+const TB_ZOOM_MAX = 3;
+// the habit board is built in container units (cqw): there CSS zoom would scale the text twice – it is made wider instead (--hw)
+function tbZoomTarget(){ return document.querySelector(tbView === 'habits' ? '#tb-body .tb-stack-habits' : '#tb-body .tb-page-wrap'); }
+function tbZoomApply(){
+  if(tbView !== tbZoomView){ tbZoomView = tbView; if(tbZoom !== 1){ tbZoom = 1; } }
+  const body = document.getElementById('tb-body'), el = (tbView === 'page' || tbView === 'habits') ? tbZoomTarget() : null;
+  if(el && tbView === 'habits'){
+    if(tbZoom > 1.001){ if(!el.dataset.base) el.dataset.base = el.getBoundingClientRect().width; el.style.setProperty('--hw', (+el.dataset.base * tbZoom) + 'px'); }
+    else { el.style.removeProperty('--hw'); delete el.dataset.base; }
+  } else if(el) el.style.zoom = tbZoom > 1.001 ? String(tbZoom) : '';
+  if(body) body.classList.toggle('tb-zoomed', !!el && tbZoom > 1.001);
+  let btn = document.getElementById('tb-zoom-reset');
+  if(!btn){ btn = document.createElement('button'); btn.id = 'tb-zoom-reset'; btn.className = 'tb-zoom-reset'; btn.textContent = '100 %'; btn.onclick = ()=>tbZoomSet(1);
+    const ov = document.getElementById('tb-overlay'); if(ov) ov.appendChild(btn); }
+  btn.hidden = !(el && tbZoom > 1.001);
+}
+function tbZoomSet(z, cx, cy){
+  const body = document.getElementById('tb-body');
+  z = Math.max(1, Math.min(TB_ZOOM_MAX, z));
+  if(Math.abs(z - 1) < 0.04) z = 1;
+  const z0 = tbZoom; if(z === z0 && z !== 1) return;
+  // keep the point under the fingers where it is
+  let px = 0, py = 0, ox = 0, oy = 0;
+  if(body){ const r = body.getBoundingClientRect(); ox = (cx == null ? r.width / 2 : cx - r.left); oy = (cy == null ? r.height / 2 : cy - r.top); px = body.scrollLeft + ox; py = body.scrollTop + oy; }
+  tbZoom = z; tbZoomApply();
+  if(body){ body.scrollLeft = z === 1 ? 0 : px * z / z0 - ox; body.scrollTop = py * z / z0 - oy; }
+}
+(function(){
+  let pinch = null;
+  const dist = t=>Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  const on = ()=>document.getElementById('tb-overlay').classList.contains('open') && (tbView === 'page' || tbView === 'habits');
+  document.addEventListener('touchstart', e=>{
+    if(e.touches.length !== 2 || !on() || !e.target.closest || !e.target.closest('#tb-body')) return;
+    pinch = { d0:dist(e.touches), z0:tbZoom };
+  }, { passive:true, capture:true });
+  document.addEventListener('touchmove', e=>{
+    if(!pinch || e.touches.length !== 2) return;
+    e.preventDefault(); e.stopPropagation();
+    const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2, cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    tbZoomSet(pinch.z0 * dist(e.touches) / pinch.d0, cx, cy);
+  }, { passive:false, capture:true });
+  document.addEventListener('touchend', e=>{ if(e.touches.length < 2) pinch = null; }, { capture:true });
+  document.addEventListener('wheel', e=>{
+    if(!e.ctrlKey || !on() || !e.target.closest || !e.target.closest('#tb-body')) return;
+    e.preventDefault(); tbZoomSet(tbZoom * Math.exp(-e.deltaY * 0.01), e.clientX, e.clientY);
+  }, { passive:false });
+})();
 function closeTagebuch(){
+  tbZoomSet(1);
   if(tbTextSaveTimer){ clearTimeout(tbTextSaveTimer); tbTextSaveTimer=null; saveState(); }
   document.getElementById('tb-overlay').classList.remove('open');
   libFresh = null; libLevel = 0; // the news of the library were seen
@@ -8196,6 +8258,7 @@ function tbRender(){
   else if(tbView==='pages') body.innerHTML = tbRenderPagesOverview();
   else body.innerHTML = tbRenderPage() + tbPagePickHtml();
   tbBindHandlers();
+  tbZoomApply();
 }
 // Deliberately no window "resize" listener here: spread vs. single-page layout now depends only
 // on the view/edit mode toggle (not window width), and a resize-triggered full re-render used to
