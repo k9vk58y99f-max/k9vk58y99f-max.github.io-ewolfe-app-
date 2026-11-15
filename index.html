@@ -701,6 +701,9 @@ html.theme-retreat{ --hd-font:'Cormorant Garamond', serif; --hd-st:100%; --hd-k:
 .tb-img-box.sel .tb-img-del, .tb-img-box.sel .tb-img-resize{ display:flex; }
 .tb-img-del{ top:-17px; right:-17px; border:none; background:#e5484d; color:#f3ead6; cursor:pointer; padding:0; }
 .tb-img-del svg{ width:18px; height:18px; }
+.tb-img-share{ display:none; position:absolute; top:-17px; left:-17px; width:34px; height:34px; border-radius:50%; border:none; padding:0; cursor:pointer; align-items:center; justify-content:center;
+  background:#2f7a5a; color:#f3ead6; box-shadow:0 3px 10px rgba(0,0,0,0.35); } /* 15.11.2026: share a sticker */
+.tb-img-box.sel .tb-img-share{ display:flex; } .tb-img-share svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; }
 .tb-img-resize{ right:-17px; bottom:-17px; background:var(--ew-turquoise); cursor:nwse-resize; touch-action:none; }
 .tb-img-resize::before{ content:''; width:12px; height:12px; border-right:2.5px solid var(--ew-uv-navy); border-bottom:2.5px solid var(--ew-uv-navy); }
 .tb-page-nav{ display:flex; align-items:center; gap:16px; }
@@ -1201,6 +1204,7 @@ html:not(.theme-retreat) .lib-row{ padding-left:max(8px, calc((100cqw - var(--sw
 @keyframes impBackOut{ 0%{ opacity:1; transform:scaleX(-1); } 68%{ opacity:0; } }
 .imp-diary-btn{ position:absolute; right:9cqw; bottom:7cqw; width:9cqw; height:9cqw; border-radius:50%; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.08); color:#f3ead6; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; }
 .imp-diary-btn .ui-ico{ width:18px; height:18px; margin:0; }
+.imp-diary-btn.imp-share-btn{ right:20cqw; } html.theme-biz .imp-diary-btn.imp-share-btn{ right:17cqw; } .imp-share-btn svg{ stroke:currentColor; fill:none; stroke-width:2; } html.theme-biz .imp-share-btn{ color:#3a3024; }
 .imp-hint{ margin-top:14px; color:rgba(255,255,255,0.55); font-size:13px; text-align:center; }
 .imp-top{ display:flex; align-items:center; gap:14px; }
 .imp-mini-btn{ flex:none; width:74px; padding:0; border:none; background:none; cursor:pointer; }
@@ -2673,7 +2677,7 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.15.1';
+const APP_VERSION = '2.16.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4624,7 +4628,7 @@ function impulseCardHtml(c, mini){
     <div class="imp-win${BIZ && !cardHasRl(c) ? ' ph-note' : ''}">${impulsePicHtml(c)}</div>
     <img class="imp-frame" src="${CARD_FRONT}" alt="" draggable="false">
     <div class="imp-words"><p class="imp-text${(en ? c.en : c.de).length > 75 ? ' long' : ''}">${escapeHtml(en ? c.en : c.de)}</p>${by ? `<div class="imp-by">– ${escapeHtml(by)}</div>` : ''}</div>
-    ${impulseMode === 'start' ? '' : `<button class="imp-diary-btn" onclick="event.stopPropagation(); impulseToDiary()" title="${d.impulseToDiary}" aria-label="${d.impulseToDiary}">${ico('book')}</button>`}
+    ${impulseMode === 'start' ? '' : `<button class="imp-diary-btn imp-share-btn" onclick="event.stopPropagation(); impulseShare()" title="${d.shareBtn}" aria-label="${d.shareBtn}">${ico('share')}</button><button class="imp-diary-btn" onclick="event.stopPropagation(); impulseToDiary()" title="${d.impulseToDiary}" aria-label="${d.impulseToDiary}">${ico('book')}</button>`}
   </div>`;
 }
 // the card that was drawn last (stays available: the mini card on the mindfulness page opens it again)
@@ -4680,7 +4684,7 @@ function maybeShowImpulseCard(){
 /* The card as a picture (an SVG with everything written in), so the real card lands in the diary – like the wheel */
 const loadImg = src=>new Promise((res, rej)=>{ const im = new Image(); im.onload = ()=>res(im); im.onerror = rej; im.src = src; });
 // the card as one picture (frame, picture, words), so the real card lands in the diary – like the wheel
-async function impulseCardImage(c){
+async function impulseCardImage(c, raw){
   const en = state.settings.lang === 'en', by = en ? c.byEn : c.by, txt = en ? c.en : c.de;
   const [frame, pic] = await Promise.all([loadImg(CARD_FRONT), loadImg('img/' + cardImg(c) + '.webp').catch(()=>loadImg('img/stickers/star.webp'))]);
   const W = frame.naturalWidth, H = frame.naturalHeight, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
@@ -4701,6 +4705,7 @@ async function impulseCardImage(c){
   g.fillStyle = BIZ ? '#2a2318' : '#ffffff'; g.textAlign = 'center';
   lines.forEach((l, i)=>g.fillText(l, W / 2, top + i * lh));
   if(by){ g.font = BIZ ? `400 ${fs * 0.72}px ${RETREAT ? "'Noto Serif Display'" : "'GFS Didot'"}, Georgia, serif` : `italic 400 ${fs * 0.82}px Inter, -apple-system, Helvetica, Arial, sans-serif`; g.fillStyle = BIZ ? '#ab8b54' : '#e8c27a'; g.fillText('– ' + by, W / 2, top + lines.length * lh + lh * 0.2); }
+  if(raw) return cv; // 15.11.2026: full size for sharing
   return cardDataUrl(cv, W, H);
 }
 /* 31.10.2026: a card in the diary is stored small (480 px wide; shown at most half a page wide). Safari cannot write WebP and
@@ -4723,6 +4728,23 @@ function shrinkCardUrl(src){
     img.onload = ()=>{ try{ const out = cardDataUrl(img, img.naturalWidth, img.naturalHeight); resolve(out && out.length < src.length ? out : src); }catch(e){ resolve(src); } };
     img.src = src;
   });
+}
+// 15.11.2026 (wish of the user): an impulse card can be shared – the whole card as a picture, in full size
+async function impulseShare(){
+  const c = impulseCur; if(!c) return;
+  let cv; try{ cv = await impulseCardImage(c, true); }catch(e){ return; }
+  const blob = await new Promise(r=>cv.toBlob(r, 'image/png')); if(!blob) return;
+  await shareBlob(blob, 'ewolfe-impulskarte.png', '', t().shareSaved);
+}
+// … and a sticker from a diary page: on the background of the design, square
+async function stickerShare(src){
+  const W = 1080, H = 1080, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const g = cv.getContext('2d'); await shareCanvasBase(g, W, H);
+  let im; try{ im = await trophyLoadImg(src); }catch(e){ return; }
+  const box = 760, k = Math.min(box / im.naturalWidth, box / im.naturalHeight), iw = im.naturalWidth * k, ih = im.naturalHeight * k;
+  g.drawImage(im, (W - iw) / 2, (H - ih) / 2, iw, ih);
+  const blob = await new Promise(r=>cv.toBlob(r, 'image/png')); if(!blob) return;
+  await shareBlob(blob, 'ewolfe-sticker.png', '', t().shareSaved);
 }
 async function impulseToDiary(){
   const c = impulseCur; if(!c) return;
@@ -5746,7 +5768,9 @@ Object.assign(I18N.de, { diaryLandPhone:'Tipp: Auf dem Handy ist das Hochformat 
 Object.assign(I18N.de, { diaryLandPhoneWarn:'Querformat auf dem Handy?\n\nAuf dem Handy wird eine Querformat-Seite sehr klein: die Schrift ist winzig und Schreiben und Zeichnen sind mühsam. Das Format gilt für das ganze Buch und lässt sich später nicht ändern.\n\nWenn du vor allem am Handy schreibst, nimm lieber das Hochformat.', diaryLandKeep:'Trotzdem Querformat' });
 Object.assign(I18N.en, { diaryLandPhoneWarn:'Landscape on a phone?\n\nOn a phone a landscape page becomes very small: the text is tiny and writing and drawing are fiddly. The format applies to the whole book and cannot be changed later.\n\nIf you mostly write on your phone, portrait is the better choice.', diaryLandKeep:'Landscape anyway' });
 Object.assign(I18N.en, { diaryLandPhone:'Tip: on a phone the portrait format is more comfortable. Landscape suits tablets and computers better.' });
+Object.assign(I18N.de, { shareBtn:"Teilen", shareSaved:"Das Bild wurde gespeichert. Du findest es in deinen Downloads und kannst es von dort teilen." });
 Object.assign(I18N.de, {"broochWear": "Am Kleid tragen", "broochWorn": "Diese Brosche trägt das Kleid", "trophyToDiary": "Ins Tagebuch", "wheelToDiary": "Lebensrad ins Tagebuch", "wheelDiaryHead": "Mein Lebensrad vom {date}", "wheelDiarySaved": "Dein Lebensrad steht jetzt in deinem Tagebuch.", "trophyDiaryHead": "★ Trophäe vom {date}:", "trophySaved": "Die Trophäe steht jetzt in deinem Tagebuch."});
+Object.assign(I18N.en, { shareBtn:"Share", shareSaved:"The picture was saved. You will find it in your downloads and can share it from there." });
 Object.assign(I18N.en, {"broochWear": "Wear on the dress", "broochWorn": "The dress wears this brooch", "trophyToDiary": "Add to diary", "wheelToDiary": "Wheel of life to diary", "wheelDiaryHead": "My wheel of life from {date}", "wheelDiarySaved": "Your wheel of life is now in your diary.", "trophyDiaryHead": "★ Trophy from {date}:", "trophySaved": "The trophy is now in your diary."});
 Object.assign(I18N.de, { designHint:'Die App startet danach kurz neu. Deine Daten bleiben, wie sie sind.' });
 Object.assign(I18N.en, { designHint:'The app restarts briefly. Your data stays as it is.' });
@@ -9525,7 +9549,7 @@ function tbRenderPageSlot(idx){
     const sel = tbSelImg && tbSelImg.page===idx && tbSelImg.i===i;
     return `<div class="tb-img-box${sel?' sel':''}" data-page-idx="${idx}" data-idx="${i}" style="left:${img.xPct}%;top:${img.yPct}%;width:${img.wPct}%;">
       <img class="tb-page-img${img.sticker ? ' is-sticker' : ''}${tbIsTrophyImg(img.src) ? ' is-trophy' : ''}${tbIsRlTrophyImg(img.src) ? ' is-trophy is-trophy-rl' : ''}" src="${img.src}" draggable="false" alt="">
-      <button class="tb-img-del" title="${d.diaryImgDelete}" aria-label="${d.diaryImgDelete}">${ico('trash')}</button>
+      <button class="tb-img-del" title="${d.diaryImgDelete}" aria-label="${d.diaryImgDelete}">${ico('trash')}</button>${img.sticker ? `<button class="tb-img-share" title="${d.shareBtn}" aria-label="${d.shareBtn}">${ico('share')}</button>` : ''}
       <span class="tb-img-resize" title="${d.diaryImgResize}" aria-label="${d.diaryImgResize}"></span>
     </div>`;
   }).join('');
@@ -10285,6 +10309,8 @@ function tbBindSlot(idx){
   document.querySelectorAll(`.tb-img-box[data-page-idx="${idx}"]`).forEach(imgEl=>{
     const imgIdx = parseInt(imgEl.dataset.idx,10);
     imgEl.querySelector('.tb-img-del').addEventListener('pointerdown', e=>{ e.stopPropagation(); e.preventDefault(); });
+    const shareEl = imgEl.querySelector('.tb-img-share');
+    if(shareEl){ shareEl.addEventListener('pointerdown', e=>{ e.stopPropagation(); e.preventDefault(); }); shareEl.addEventListener('click', e=>{ e.stopPropagation(); const im = page.images[imgIdx]; if(im) stickerShare(im.src); }); }
     imgEl.querySelector('.tb-img-del').addEventListener('click', async e=>{
       e.stopPropagation();
       if(!(await uiConfirm(t().diaryImgDeleteConfirm))) return;
