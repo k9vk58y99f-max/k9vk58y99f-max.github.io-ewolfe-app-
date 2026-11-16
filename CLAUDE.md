@@ -11,7 +11,8 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 16.11.2026 (Version 2.19.0) – zuerst lesen
+## Übergabe – Stand 16.11.2026 (Version 2.19.0, live und gepusht) – zuerst lesen
+- **Zuletzt (2.19.0):** Persönlichkeitstest mit sechs Antworten ohne Mitte; alte Ergebnisse/Entwürfe mit fünf bleiben gültig (`steps`). Handoff-Nachtrag vom 16.11.2026.
 - **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
   Leiste neu (Persönlichkeit · Lebensrad · Ziele · Bibliothek · Achtsamkeit), Bereiche auf der Lebensrad-Seite; AGS nur noch GFS Didot; Bibliothek
   in echten Größen (Lady 1,72 m, Gentleman 1,90 m, Hunde nach dem Kopf), Plakette auf dem Bücherteil; Tagebuch breiter, mehr Zeilen, Enter, eigener
