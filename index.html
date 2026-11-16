@@ -1906,7 +1906,7 @@ html .lib-row .shelf-narrow{ background-size:100% 100% !important; margin-right:
 html .lib-row .shelf-narrow + .shelf-img .club-plaque, html .lib-row .shelf-img .club-plaque{ left:19% !important; top:94.2% !important; width:58% !important; height:3.3% !important; }
 /* 2.12.1: the plaque on the plinth of the book part (room and simple view); A Mystery World keeps it under the bookcase (its plinth is gold) */
 html .shelf-img.shelf-narrow .club-plaque{ left:var(--pql) !important; width:var(--pqw) !important; top:var(--pqt, 94.4%) !important; height:var(--pqh, 3.4%) !important; z-index:4; }
-html:not(.theme-biz) .shelf-img.shelf-narrow .club-plaque{ top:calc(100% + 0.8%) !important; height:3.96% !important; }
+/* 16.11.2026 (wish of the user): A Mystery World's plaque no longer lies on the floor under the bookcase, it sits on the plinth like in the other designs */
 html.theme-retreat .tb-spine:first-child::after{ display:none; }
 html.theme-retreat :is(.goal-table-card, .imp-mini, .panel){ box-shadow:0 2px 14px rgba(90,80,60,0.08) !important; }
 html.theme-retreat .imp-card{ filter:drop-shadow(0 12px 22px rgba(90,80,60,0.2)); }
@@ -2016,6 +2016,10 @@ html:not(.theme-biz) .shelf-dog-lying{ height:12.5%; }
 .lib-row .lib-dress-spot{ flex:none; position:relative; display:flex; justify-content:center; align-items:flex-end; width:calc(var(--lh) * 0.40); align-self:stretch;
   margin-left:calc(var(--lh) * -0.04); z-index:3; }
 .lib-row .lib-dress-spot .lib-dress-wrap{ margin-left:0 !important; margin-right:0 !important; }
+/* 16.11.2026: the dog sits between the bookcase and the bust – the bust (or the fox) moves right by about the dog's width */
+.lib-row.has-dog .lib-dress-spot{ margin-left:calc(var(--lh) * 0.10); }
+.lib-row.has-dog-lying .lib-dress-spot{ margin-left:calc(var(--lh) * 0.12); }
+html.theme-retreat .lib-row.has-dog-lying .lib-dress-spot{ margin-left:calc(var(--lh) * 0.18); }
 /* 15.11.2026 (choice of the user): A Gentleman's Study has ONE font – GFS Didot for headings (in capitals, as before) and for all text.
    The narrow Noto Serif Display was too thin to read. The diary pages keep the writing font chosen in the book (print/hand). */
 html.theme-biz:not(.theme-retreat):not(.theme-cca) body, html.theme-biz:not(.theme-retreat):not(.theme-cca) body *:not(.tb-page *):not(.tb-page):not(.font-hand){ font-family:'GFS Didot', Georgia, serif !important; font-stretch:100% !important; }
@@ -2028,13 +2032,21 @@ html.theme-biz:not(.theme-retreat) .tb-page :is(.tb-g-head, .tb-g-part-h, .tb-da
    Gentleman: 1.90 m – shoulder at 1.55 m, picture 179 cm (0.845). The back foot of the stand (--bf, measured per picture) stands 1 % of the
    bookcase below its plinth line, so nothing floats. */
 html .lib-row .lib-dress-wrap{ --lhh:calc(var(--sw) / var(--sa, 0.39)); }
-html.theme-retreat .lib-row .lib-dress-wrap{ --dh:calc(var(--lhh) * 0.745); margin-bottom:calc(var(--lhh) * 0.01 - var(--dh) * (1 - var(--bf, 0.86))) !important; }
+html.theme-retreat .lib-row .lib-dress-wrap{ --dh:calc(var(--lhh) * 0.767); /* 16.11.2026: 1.77 m instead of 1.72 m (wish of the user) */ margin-bottom:calc(var(--lhh) * 0.01 - var(--dh) * (1 - var(--bf, 0.86))) !important; }
 html.theme-biz:not(.theme-retreat) .lib-row .lib-dress-wrap{ --dh:calc(var(--lhh) * 0.845); margin-bottom:calc(var(--lhh) * 0.01 - var(--dh) * 0.067) !important; }
 /* the dogs: sitting and lying the same dog – measured by the eyes and the paws (gentleman: 34 % / 12.5 % already match).
    the head counts more than the paws (wish of the user): Lady lying (head up) 20 %; A Mystery World 10 % bigger in both (37 % / 14 %, heads match) */
 html.theme-retreat .shelf-dog-lying{ height:20%; }
 html:not(.theme-biz) .shelf-dog{ height:37%; }
 html:not(.theme-biz) .shelf-dog-lying{ height:14%; }
+/* 16.11.2026 (wish of the user): the dog sits beside the bookcase (and the cabinet), never in front of it, and is 15 % smaller:
+   about 16 kg, slim, medium-sized – sitting head about 60 cm on a 2.12 m bookcase (before about 72 cm) */
+html .lib-row .shelf-unit > .shelf-animal.shelf-dog, html .lib-row .shelf-unit > .shelf-animal.shelf-dog-lying{ left:100% !important; right:auto !important; margin-left:calc(var(--sw) * 0.03); }
+html .lib-row .shelf-unit > .shelf-dog{ height:28.9% !important; }
+html .lib-row .shelf-unit > .shelf-dog-lying{ height:10.6% !important; }
+html.theme-retreat .lib-row .shelf-unit > .shelf-dog-lying{ height:17% !important; }
+html:not(.theme-biz) .lib-row .shelf-unit > .shelf-dog{ height:31.5% !important; }
+html:not(.theme-biz) .lib-row .shelf-unit > .shelf-dog-lying{ height:11.9% !important; }
 .lib-row .lib-fox{ height:calc(var(--lh) * 0.31); width:auto; margin-bottom:calc(var(--lh) * -0.06); filter:drop-shadow(0 6px 8px rgba(0,0,0,0.4)); pointer-events:none; }
 /* scroll arrows that work (25.10.2026): real buttons on both sides instead of a picture of an arrow */
 .lib-wrap.more::after{ display:none !important; }
@@ -2779,7 +2791,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.20.1';
+const APP_VERSION = '2.20.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -8754,7 +8766,9 @@ function tbRenderLibrary(){
   // 2.3.6: at Easter (Palm Sunday to a week after) an Easter basket of the design stands in front of the shelf, every year, then it goes again
   // the rabbit of the design's stickers sits beside it
   const basket = isEasterTime() ? animal(RETREAT ? 'rt2/stickers/rabbit' : BIZ ? 'rl/stickers/rabbit2' : 'stickers/rabbit', 'shelf-rabbit') + animal((RETREAT ? 'rt2' : BIZ ? 'rl2' : 'mw2') + '/easter-basket', 'shelf-eggs') : '';
-  const animals = BIZ ? bizDog + basket : !decorOn() ? '' : dogSpot /* the cat no longer sits on top (1.87.2): it will get another place later */
+  // 16.11.2026 (wish of the user): the dog sits beside the whole bookcase (and the cabinet), not in front of it: own element in .shelf-unit
+  const dogHtml = BIZ ? bizDog : decorOn() ? dogSpot : '';
+  const animals = BIZ ? basket : !decorOn() ? '' : '' /* the cat no longer sits on top (1.87.2): it will get another place later */
     + /* the fox stands on the dress spot since 1.97.2 (foxSpot) */ basket
     + (isNikolausTime() ? animal('nikolaus', 'shelf-nikolaus') + `<img class="shelf-animal shelf-boot" src="img/trophy-boot.webp" alt="">` : '')
     // Advent: the wreath on top of the shelf, one candle more every Sunday; Christmas: the tree beside it and snow
@@ -8811,8 +8825,8 @@ function tbRenderLibrary(){
   const cribHtml = cribFront ? `<button class="shelf-crib-side is-tro" onclick="trophyShow('${cribFront.id}')" title="${escapeHtml(cribFront.title)}" aria-label="${escapeHtml(cribFront.title)}"><img src="img/${trophyRl(cribFront).img}.webp" alt=""></button>` : ''; // A Mystery World: the crib with our dog in front of the tree
   const orchid = RETREAT && (lv >= 3 || xmasTree);
   // one row that scrolls sideways (1.81.0, both designs): the shelf (with the narrow one), then the cabinet and later more
-  return `<div class="lib-wrap">${libNewsHtml()}<button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
-      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${NAR && clipRow >= 0 ? '' : clipHtml}${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? xmasTreeHtml('shelf-orchid shelf-xmas') : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}" style="--bf:${dressBf(dressKind)}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + (RT_DRESS_FILE[dressKind] || dressKind)) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal${(libFresh || []).includes(m.id) ? ' is-new' : ''}" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
+  return `<div class="lib-wrap">${libNewsHtml()}<button class="lib-arrow lib-arrow-l" onclick="libArrow(this,-1)" aria-label="‹">‹</button><button class="lib-arrow lib-arrow-r" onclick="libArrow(this,1)" aria-label="›">›</button><div class="lib-scroll" onscroll="libScrollHint(this)"><div class="lib-row has-left${dogHtml ? (wkend ? ' has-dog-lying' : ' has-dog') : ''}${orchid ? ' has-orchid' : ''}${xmasTree || xmasOther ? ' has-xmas' : ''}" style="background-image:url(${roomPicture()});--nk:${NAR ? NS.k : 0};--nov:${NAR ? NS.ov : 0};--sa:${(SH.aspect || 0.5).toFixed(4)}">
+      <div class="shelf-unit${NAR ? ' has-narrow' : ''}">${NAR && clipRow >= 0 ? '' : clipHtml}${isChristmasTime() && decorOn() ? '<div class="shelf-snow" aria-hidden="true"></div>' : ''}${xmasOtherHtml}${cribHtml}${orchid ? (xmasTree ? xmasTreeHtml('shelf-orchid shelf-xmas') : '<img class="shelf-orchid" src="img/rt2/rose-table.webp" alt="">') : ''}${narrowHtml}${shelfHtml}${SV ? vitHtml : ''}${dogHtml}</div>${DRESS ? `<div class="lib-dress-spot"><div class="lib-dress-wrap${dressKind ? (RETREAT ? ' dress-' : ' gent-') + dressKind : ''}" style="--bf:${dressBf(dressKind)}"><img class="lib-dress" src="img/${RETREAT ? (dressKind === 'wide' ? 'rt2/dress-shoes' : 'rt2/dress-' + (RT_DRESS_FILE[dressKind] || dressKind)) : 'rl2/dress-' + dressKind}.webp" alt="">${dressWatch ? `<button class="dress-watch" onclick="trophyShow('${dressWatch.id}')" title="${escapeHtml(dressWatch.title)}"><img src="img/${dressWatch.img}.webp" alt=""></button>` : ''}${worn ? `<button class="dress-brooch" data-kind="${dressKind || ''}"${broochPosStyle(dressKind)} onclick="if(!broochDragged) trophyShow('${worn.id}')" title="${escapeHtml(worn.title)}" aria-label="${escapeHtml(worn.title)}"><img src="img/${trophyRl(worn).img}.webp" alt=""></button>` : ''}${RETREAT ? '' : `<div class="dress-medals">${medals.map(m=>`<button class="dress-medal${(libFresh || []).includes(m.id) ? ' is-new' : ''}" onclick="trophyShow('${m.id}')" title="${escapeHtml(m.title)}" aria-label="${escapeHtml(m.title)}"><img src="img/${m.img}.webp" alt=""></button>`).join('')}</div>`}</div></div>` : foxSpot}${SV ? '' : vitHtml}</div></div></div>
     <p class="shelf-hint">${keys.length ? d.shelfHint : ''}${next ? `<br>${d.trophyNextLabel} <strong>${escapeHtml(next.title)}</strong> (${next.have}/${next.need})` : ''}</p>
     <p class="shelf-hint shelf-level">${levelProgressText()}</p>
     ${libViewSegHtml()}

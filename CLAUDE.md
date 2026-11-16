@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 16.11.2026 (Version 2.20.1, committet, Push steht aus) – zuerst lesen
+## Übergabe – Stand 16.11.2026 (Version 2.20.2, committet, Push steht aus) – zuerst lesen
 - **Zuletzt (2.20.0):** Lebensfreude als Regler mit der Sonne als Knopf (siehe Versionseintrag).
 - **Davor (2.19.0):** Persönlichkeitstest mit sechs Antworten ohne Mitte; alte Ergebnisse/Entwürfe mit fünf bleiben gültig (`steps`). Handoff-Nachtrag vom 16.11.2026.
 - **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
@@ -212,7 +212,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.20.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.20.2`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1160,7 +1160,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
       weil iOS die Grenze für Finger ignoriert). Nur auf dem echten iPhone/iPad prüfbar – die Nutzerin testet.
     - Test `t2120.py` in `Lebensrad APP/eWolfe-Skripte/` (Chromium + WebKit, drei Designs); `t290.py`, `t280.py` laufen weiter.
 - **2.12.1 (15.11.2026) Bibliothek in echten Größen, Plakette, Tagebuchseite breiter, Enter (Wünsche der Nutzerin):**
-    - **Maßstab:** Regal ≈ 2,12 m (der sitzende Herrenhund, 34 % der Regalhöhe = Kopf ≈ 72 cm, war richtig). Lady = 1,72 m, Schuhgröße 38: Bild 158 cm
+    - **Maßstab:** Regal ≈ 2,12 m (der sitzende Herrenhund, 34 % der Regalhöhe = Kopf ≈ 72 cm, war richtig). Lady = 1,72 m (seit 2.20.2: 1,77 m), Schuhgröße 38: Bild 158 cm
       (Schulter–Boden 140 cm) = `--dh` 0,745 × Regalhöhe (`--lhh`); Gentleman = 1,90 m: Schulter 1,55 m, Bild 179 cm = 0,845. Vorher waren die Lady-Büsten
       ≈ 2 m groß. **Nichts schwebt:** der hintere Fuß des Ständers (`--bf`, je Bild gemessen in `DRESS_BF`/`dressBf`, Herren 0,933) steht 1 % der Regalhöhe
       unter der Sockellinie (`margin-bottom` aus `--bf`). Broschen/Medaillen wachsen über `--dh` mit.
@@ -1256,6 +1256,12 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     (`.untouched`, Deckkraft 0,45) beim erwarteten Wert und zählt nicht; erst Bewegen setzt die gespürte Freude. Zurücknehmen geht nicht mehr (früher: Sonne nochmal
     antippen). `JOY_SUNS` wird nicht mehr benutzt. Test `t2200.py` in `eWolfe-Skripte` (drei Designs, Chromium + WebKit, 820/390).
     **2.20.1:** Freude-Text (`areasText.freude`) ohne „Regler“: „Sie lässt sich nicht einfach herbeiführen – …“ (en „made to happen“), Wahl der Nutzerin.
+- **2.20.2 (16.11.2026) Hunde, Plakette, Lady-Größe (Wünsche der Nutzerin, Vorher/Nachher `vorschlag/hunde-*.png`):** Der Hund ist ein eigenes Element in
+    `.shelf-unit` (`dogHtml`, nicht mehr in `animals` im Trophäenteil) und sitzt/liegt **rechts neben** dem ganzen Möbel (auch neben der Vitrine ab Stufe 6), nie davor
+    (`.shelf-unit > .shelf-dog` `left:100%`). 15 % kleiner (16 kg, schlank, mittelgroß: Kopf sitzend ≈ 60 cm statt 72): sitzend 28,9 % (Mystery 31,5 %), liegend 10,6 %
+    (Lady 17 %, Mystery 11,9 %) der Regalhöhe. Büste bzw. Fuchs rücken nach rechts (`.lib-row.has-dog|has-dog-lying .lib-dress-spot` margin-left 0,10/0,12, Lady liegend 0,18 `--lh`).
+    **A Mystery World:** Plakette nicht mehr unter dem Regal auf dem Boden, sondern auf dem Sockel des Bücherteils wie in den anderen Designs (`plaqueStyle`, `PLQ_MID`).
+    **Lady 1,77 m statt 1,72 m:** `--dh` 0,767 statt 0,745 × Regalhöhe. Test `t2202-hunde.py` in `eWolfe-Skripte` (WebKit, drei Designs, Stufe 5/6, Mo/Sa).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
