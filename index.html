@@ -1497,6 +1497,14 @@ html.first-wheel :is(.scene-wrap, #joy-deep-wrap, #home-new-wrap, #home-goals-wr
 .joy-sun-btn{ background:none; border:none; padding:4px; cursor:pointer; opacity:0.3; transition:opacity .2s, transform .2s; }
 .joy-sun-btn img{ width:34px; height:34px; display:block; }
 .joy-sun-btn.on{ opacity:1; transform:scale(1.08); }
+/* 2.20.0: the joy slider, its knob is the sun; it grows with the value, pale until touched */
+input[type=range].range-joy{ margin:24px 0; --ks:calc(38px + var(--n, 50) * 0.18px); }
+input[type=range].range-joy::-webkit-slider-thumb{ width:var(--ks); height:var(--ks); border-radius:50%; background:url(img/icons/ico-freude.webp) center/100% 100% no-repeat !important; border:none !important; box-shadow:none; }
+input[type=range].range-joy::-moz-range-thumb{ width:var(--ks); height:var(--ks); border-radius:50%; background:url(img/icons/ico-freude.webp) center/100% 100% no-repeat !important; border:none !important; box-shadow:none; }
+html.theme-biz input[type=range].range-joy::-webkit-slider-thumb{ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dca54a' stroke-width='2.1' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4.2' fill='%23dca54a'/%3E%3Cpath d='M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8'/%3E%3C/svg%3E") center/100% no-repeat, #ece7d8 !important; }
+html.theme-biz input[type=range].range-joy::-moz-range-thumb{ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dca54a' stroke-width='2.1' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4.2' fill='%23dca54a'/%3E%3Cpath d='M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8'/%3E%3C/svg%3E") center/100% no-repeat, #ece7d8 !important; }
+input[type=range].range-joy.untouched::-webkit-slider-thumb{ opacity:.45; }
+input[type=range].range-joy.untouched::-moz-range-thumb{ opacity:.45; }
 .joy-expected{ text-align:center; color:var(--ew-text-dim); margin:4px 0 0; }
 #dialog-msg{ white-space:pre-line; }
 .joy-deep{ margin:6px 10px 14px; }
@@ -2771,7 +2779,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.19.0';
+const APP_VERSION = '2.20.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2835,7 +2843,7 @@ function ensureBuiltInMeditations(st){
   return st;
 }
 function isBuiltInMeditation(id){ return DEFAULT_MEDITATIONEN.some(m=>m.builtIn && m.id === id); }
-const APP_BUILD = '2026-11-15';
+const APP_BUILD = '2026-11-16';
 /* ================= i18n ================= */
 const I18N = {
   de:{ appName:'eWolfe', navAreas:'Bereiche', areasTitle:'Lebensbereiche', areasIntro:'Dein Lebensrad besteht aus fünf Bereichen. Zusammen zeigen sie dir, wie ausgeglichen dein Leben gerade ist – und aus ihnen wächst die Lebensfreude.', areasText:{ gesundheit:'Deine körperliche und mentale Fitness, dein Energielevel, deine Ernährung, dein Schlaf und erholsame Pausen.', beziehungen:'Die Beziehung zu dir selbst, deine Partnerschaft, Familie, Freundschaften und sozialen Kontakte.', finanzen:'Deine finanzielle Sicherheit, deine Rücklagen, dein Konsumverhalten und wie du mit Geld umgehst.', berufung:'Erfüllung im Beruf, Karriere und persönliche Weiterentwicklung – und das Gefühl, etwas Sinnvolles zu tun, statt nur Geld zu verdienen.', sinn:'Innerer Frieden, Achtsamkeit, deine Werte und der Sinn, den du findest – die Verbindung zu dir selbst oder zu etwas Größerem.', freude:'Lebensfreude ist nicht die Laune eines Tages, sondern die Freude an deinem Leben als Ganzem. Du stellst sie nicht mit einem Regler ein – sie wächst aus den anderen fünf Bereichen. Wenn sie wachsen, wächst oft auch die Lebensfreude. Das muss nicht so sein, aber es kann so sein. Darum fragen wir dich, wie viel Freude du an deinem Leben hast, und vergleichen das mit dem, was dein Rad erwarten lässt. Wächst die Lebensfreude nicht mit, ist das kein Fehler, sondern eine Einladung, tiefer zu schauen.' }, areasHowTitle:'So erstellst du dein Lebensrad', areasStep1Title:'Bewerten', areasStep1:'Geh die fünf Bereiche nacheinander durch und schieb den Regler auf den Wert von 1 bis 100, der deinen aktuellen Stand am ehrlichsten beschreibt.', areasStep2Title:'Das Ergebnis', areasStep2:'Je runder dein Rad, desto ausgeglichener ist dein Leben. Zacken und Dellen zeigen dir auf einen Blick, wo du gerade Energie verlierst – und wo es sich lohnt anzusetzen.', areasStartFirst:'Erstes Lebensrad erstellen', areasContinue:'Mit vorhandenen Lebensrädern fortfahren', goalsEdit:'Ziele bearbeiten', navGoals:'Ziele', newWheel:'Neues Lebensrad erstellen', goalsTitle:'Ziele', setNotes:'Mitteilungen', noteUpdate:'Es gibt eine neue Version von eWolfe ({v}). Aktualisiere, um sie zu nutzen – deine Daten bleiben erhalten.', noteUpdateBtn:'Jetzt aktualisieren', noteSyncErr:'Die Synchronisation hat nicht geklappt.', noteSyncRetry:'Erneut versuchen', noteNone:'', wheelDelete:'Löschen', wheelDeleteConfirm:'Das Lebensrad vom {date} wirklich löschen? Das kann nicht rückgängig gemacht werden.', tblEvTitle:'Ereignisse im Überblick', tblEvNone:'Noch keine Ereignisse. Tippe im Lebensrad auf einen Bereich, um eines anzulegen.', tblEvHint:'Neueste oben. Tippe auf ein Ereignis, um den Bereich zu öffnen.', navHome:'Lebensrad', navHistory:'Verlauf', navNew:'Bewerten', navDiary:'Bibliothek', navMedi:'Achtsamkeit', accountTitle:'Konto & Einstellungen', settingsTitle:'Einstellungen', setAccount:'Konto & Cloud-Sync', setLang:'Sprache', setBackup:'Backup', setReplay:'Animation abspielen', sceneTitle:'Dein Lebensrad', sceneSub:'Aus dem eWolfe-Zeichen entsteht dein Lebensrad.',
@@ -7048,15 +7056,19 @@ function areasJoyHtml(){
   // the expected joy if the wheel were saved like this
   const snaps = getWheelSnapshots(), draft = { ts:Date.now(), values:Object.assign({}, areasDraft.ist) };
   const sr = joySeries(isFirstRun() ? [draft] : [draft].concat(snaps)), e = sr[sr.length - 1].expected;
+  // 2.20.0: the sun is the knob of a slider (wish of the user); untouched it rests pale at the expected value
+  const v = sel !== null ? sel : Math.max(1, Math.min(100, Math.round(e)));
   return `<div class="area-q-title">${escapeHtml(d.joyFeelQ)}</div>
-    <div class="joy-suns">${JOY_SUNS.map(v=>`<button class="joy-sun-btn${sel !== null && v <= sel ? ' on' : ''}" onclick="areasJoy(${v})" aria-label="${v} %"><img src="img/icons/ico-freude.webp" alt=""></button>`).join('')}</div>
+    <div class="area-sl"><div class="area-sl-lab"><span>${escapeHtml(d.joyTitle)}</span><b id="ajoy">${sel !== null ? sel + ' %' : '–'}</b></div>
+      <input type="range" class="range-ist range-joy${sel === null ? ' untouched' : ''}" min="1" max="100" value="${v}" style="--v:${v}%;--n:${v}" aria-label="${escapeHtml(d.joyTitle)}" oninput="areasJoy(this)"></div>
     <p class="joy-expected">${escapeHtml(d.joyExpected.replace('{e}', e))}</p>`;
 }
-function areasJoy(v){
-  areasDraft.joy = areasDraft.joy === v ? null : v; // tapping the chosen sun again takes it back
-  const top = window.scrollY;
-  renderAreasPage();
-  window.scrollTo(0, top);
+function areasJoy(el){
+  const v = parseInt(el.value, 10);
+  areasDraft.joy = v; el.classList.remove('untouched');
+  el.style.setProperty('--v', v + '%'); el.style.setProperty('--n', v);
+  const o = document.getElementById('ajoy'); if(o) o.textContent = v + ' %';
+  const s = document.getElementById('asum-freude'); if(s) s.textContent = v + ' %';
 }
 function areasToggle(a){
   areasTouched = true;

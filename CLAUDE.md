@@ -11,8 +11,9 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 16.11.2026 (Version 2.19.0, live und gepusht) – zuerst lesen
-- **Zuletzt (2.19.0):** Persönlichkeitstest mit sechs Antworten ohne Mitte; alte Ergebnisse/Entwürfe mit fünf bleiben gültig (`steps`). Handoff-Nachtrag vom 16.11.2026.
+## Übergabe – Stand 16.11.2026 (Version 2.20.0, committet, Push steht aus) – zuerst lesen
+- **Zuletzt (2.20.0):** Lebensfreude als Regler mit der Sonne als Knopf (siehe Versionseintrag).
+- **Davor (2.19.0):** Persönlichkeitstest mit sechs Antworten ohne Mitte; alte Ergebnisse/Entwürfe mit fünf bleiben gültig (`steps`). Handoff-Nachtrag vom 16.11.2026.
 - **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
   Leiste neu (Persönlichkeit · Lebensrad · Ziele · Bibliothek · Achtsamkeit), Bereiche auf der Lebensrad-Seite; AGS nur noch GFS Didot; Bibliothek
   in echten Größen (Lady 1,72 m, Gentleman 1,90 m, Hunde nach dem Kopf), Plakette auf dem Bücherteil; Tagebuch breiter, mehr Zeilen, Enter, eigener
@@ -211,7 +212,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.19.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.20.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1248,6 +1249,13 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     gerechnet ((Mittel − 1) / (steps − 1)). Neue Tests (`personaNewDraft`) starten mit sechs. `.persona-scale.s6`: größte Kreise außen, kleinste in der Mitte.
     Hinweis: Die BFAS-Fragen sind für eine Fünferskala entwickelt; Prozentwerte sind zwischen beiden Skalen vergleichbar, aber nicht völlig gleich.
     Tests `t2110.py` (auf sechs umgestellt) und ein Rückwärts-Test (alter Entwurf mit fünf Antworten → 5 Knöpfe, richtige Werte).
+- **2.20.0 (16.11.2026) Lebensfreude als Regler (Wunsch der Nutzerin, Vorschau `vorschlag/regler.html`, nicht im Commit):** statt der fünf Sonnen zum Antippen
+    ein Regler 1–100 (`areasJoyHtml`, `areasJoy(el)`, Klasse `range-joy`, Wert in `areasDraft.joy` wie bisher). Der Knopf ist die Sonne, ohne Rand und ohne Schein,
+    wächst mit dem Wert (`--ks` = 38 px + 0,18 px je Prozent, über `--n`). A Mystery World: die goldene Sonne `img/icons/ico-freude.webp`; alle `theme-biz`-Designs
+    (Gentleman, Lady, CCA): Sonne in Goldbronze #dca54a mit gefülltem Mittelkreis (Daten-URL im CSS) auf einem Leinen-Kreis #ece7d8. Unberührt steht der Regler blass
+    (`.untouched`, Deckkraft 0,45) beim erwarteten Wert und zählt nicht; erst Bewegen setzt die gespürte Freude. Zurücknehmen geht nicht mehr (früher: Sonne nochmal
+    antippen). `JOY_SUNS` wird nicht mehr benutzt. Test `t2200.py` in `eWolfe-Skripte` (drei Designs, Chromium + WebKit, 820/390). Hinweis: der Freude-Text
+    (`areasText.freude`) sagt „lässt sich nicht einfach mit einem Regler einstellen“ – passt jetzt weniger gut, Nutzerin fragen.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
