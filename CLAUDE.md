@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 16.11.2026 (Version 2.18.1, live und gepusht) – zuerst lesen
+## Übergabe – Stand 16.11.2026 (Version 2.19.0) – zuerst lesen
 - **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
   Leiste neu (Persönlichkeit · Lebensrad · Ziele · Bibliothek · Achtsamkeit), Bereiche auf der Lebensrad-Seite; AGS nur noch GFS Didot; Bibliothek
   in echten Größen (Lady 1,72 m, Gentleman 1,90 m, Hunde nach dem Kopf), Plakette auf dem Bücherteil; Tagebuch breiter, mehr Zeilen, Enter, eigener
@@ -210,7 +210,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.18.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.19.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1241,6 +1241,12 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     - **Zoom auf dem Lebensrad** (alle Designs, `homeZoom`, `homeZoomSet`): zwei Finger auf `.scene-stage` (bis 3×), die Bühne behält ihre Höhe und scrollt (`.home-zoomed`),
       Knopf „100 %“ (`#home-zoom-reset`), Strg + Mausrad; `renderScene` und Seitenwechsel stellen zurück. Test `t2180-radzoom.py` (CDP-Touch, fünf Designs).
 - **2.18.1 (16.11.2026):** CCA: Tagebuch immer auf dem schlichten Papier von A Gentleman's Study (`tb-paper-plain` bei `CCA`, Papierwahl in den Buch-Einstellungen ausgeblendet); Tracker nur das Papier des Gentleman-Klemmbretts (`.hb2-img` per `clip-path` auf die Papierfläche 19,7/6,2/5,6/6,1 % geschnitten, Brett, Klammer und Tagebuch dahinter weg); Leiste unten deckend.
+- **2.19.0 (16.11.2026) Persönlichkeitstest mit sechs statt fünf Antworten (Wunsch der Nutzerin: bei fünf weicht man in die Mitte aus):**
+    `PERSONA_STEPS` = 6 (gar nicht · nicht · eher nicht · eher · ja · voll; `scale6`/`scaleShort6` de/en), keine Mitte. Jeder Entwurf und jedes Ergebnis merkt sich
+    seine Skala (`steps`, fehlt = 5): alte Ergebnisse und ein mit fünf Antworten begonnener Test bleiben gültig und werden mit `personaScore(ans, steps)` auf 0–100 %
+    gerechnet ((Mittel − 1) / (steps − 1)). Neue Tests (`personaNewDraft`) starten mit sechs. `.persona-scale.s6`: größte Kreise außen, kleinste in der Mitte.
+    Hinweis: Die BFAS-Fragen sind für eine Fünferskala entwickelt; Prozentwerte sind zwischen beiden Skalen vergleichbar, aber nicht völlig gleich.
+    Tests `t2110.py` (auf sechs umgestellt) und ein Rückwärts-Test (alter Entwurf mit fünf Antworten → 5 Knöpfe, richtige Werte).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
