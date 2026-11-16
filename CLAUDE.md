@@ -11,7 +11,22 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 15.11.2026 (Version 2.18.1) – zuerst lesen
+## Übergabe – Stand 16.11.2026 (Version 2.18.1, live und gepusht) – zuerst lesen
+- **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
+  Leiste neu (Persönlichkeit · Lebensrad · Ziele · Bibliothek · Achtsamkeit), Bereiche auf der Lebensrad-Seite; AGS nur noch GFS Didot; Bibliothek
+  in echten Größen (Lady 1,72 m, Gentleman 1,90 m, Hunde nach dem Kopf), Plakette auf dem Bücherteil; Tagebuch breiter, mehr Zeilen, Enter, eigener
+  Zoom (Tagebuch, Notizbuch, Tracker, Lebensrad), Handy quer scrollbar; Karten/Sticker teilen; **neue Designs „CCA · Dunkel/Hell“** (nur für
+  Betreiberinnen, `ewolfe_cca_ok` aus `app_admins`), Kontraste gemessen (`t2180-kontrast.py`).
+- **Ordner seit 15.11.2026:** alle Eingänge in `Lebensrad APP/Eingang/Eingang <Datum>`, alle Ausgänge in `Lebensrad APP/Ausgang/` (Themenordner +
+  `Ausgang <Datum>`). Übergaben weiter in `…/Claude Code/HandOff/Handoff-Lebensrad-App_001.md` (Eintrag 16.11.2026).
+- **CCA-Partnerschaft (16.11.2026):** Präsentationen in `Lebensrad APP/eWolfe-Präsentationen/2026-11-16-cca-1…4` (.pptx + PDF, zum Teilen mit der CCA,
+  Mail-Link im Abschlussknopf) und interne Use Cases `2026-11-16-usecase-1…3`, Gesamtpräsentation `2026-11-16-ewolfe-gesamt-v10`. Haltung der
+  Nutzerin (Tausch Umbau ↔ dauerhafte Fragen-Lizenz, laufender Betrag mit Sockel, Deep O.C.E.A.N. nur mit Lizenz der CCA, Pilot 2–3 Coaches mit je 5
+  Coachees) steht im Gedächtnis (`cca-partnerschaft`). PowerPoint-Skill geändert: Rauten-Aufzählung als Zeichen + Tab, „eWOLFE“ mit kleinem e in
+  Versalien (Sicherung `build_deck.py.bak-2026-11-16`). **Nutzerin kommentiert Präsentationen im PDF** – vor jedem Neubau erst die Kommentare auslesen.
+- **Offen aus dieser Sitzung:** auf dem iPhone/iPad prüfen (Zoom, Scrollen quer, Didot, CCA); CCA-Bilder (Prompts im `Ausgang/Ausgang 15.11.2026`);
+  Fragebogen-Modus für CCA-Fragen und Freischaltung des CCA-Designs für CCA-Mitglieder (erst nach Lizenz); Regal mit Vitrine (`SHELF_SV`) wie
+  `SHELF_ROWS2` auf die Bodenmitte prüfen; Gesamt-/Use-Case-Präsentationen nutzen noch die Skill-Schriften (nicht Didot).
 - **Neuer Rechner (seit 31.10.2026):** Repo liegt in `~/Documents/GitHub/k9vk58y99f-max.github.io-ewolfe-app-`, Branch `main`, Git-Name
   `k9vk58y99f-max`, E-Mail `k9vk58y99f@privaterelay.appleid.com` (global). **Claude kann von hier nicht pushen** (keine GitHub-Anmeldung im
   Terminal): committen, dann bittet man den Nutzer, in **GitHub Desktop** (liegt auf dem Schreibtisch) auf „Push origin“ zu klicken. Danach prüfen:
