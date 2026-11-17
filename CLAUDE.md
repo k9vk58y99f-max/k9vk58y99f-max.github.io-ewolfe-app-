@@ -1262,6 +1262,11 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     (Lady 17 %, Mystery 11,9 %) der Regalhöhe. Büste bzw. Fuchs rücken nach rechts (`.lib-row.has-dog|has-dog-lying .lib-dress-spot` margin-left 0,10/0,12, Lady liegend 0,18 `--lh`).
     **A Mystery World:** Plakette nicht mehr unter dem Regal auf dem Boden, sondern auf dem Sockel des Bücherteils wie in den anderen Designs (`plaqueStyle`, `PLQ_MID`).
     **Lady 1,77 m statt 1,72 m:** `--dh` 0,767 statt 0,745 × Regalhöhe. Test `t2202-hunde.py` in `eWolfe-Skripte` (WebKit, drei Designs, Stufe 5/6, Mo/Sa).
+- **2.20.3 (17.11.2026) Teilen-Bild und alle Lady-Broschen neu:** Trophäe teilen (`trophyShareBlob`): Bild und Text als ein Block mittig zwischen Rahmen
+    oben und Datum (längster Text: 2 Zeilen Titel, 3 Zeilen Beschreibung). **Alle sechs Lady-Broschen neu** (`rt2/brooch-q1…q6`, Bilder der Nutzerin von ChatGPT,
+    je Brosche ein Bild 1254 px; 1–5 echtes durchsichtiges PNG, 6 vor Grün, freigestellt mit `keyprep.py` in `eWolfe-Skripte`, 700 px, Veilchen nur in Lila =
+    Wahl der Nutzerin). Die alten `brooch-n*` bleiben für Tagebuchseiten. **Regel für neue Bilder:** zuerst ein echtes PNG mit Durchsichtigkeit bestellen, sonst
+    einen kräftigen Farbgrund (Grün/Cyan/Magenta), nie Grau bei Silber, Glas, Perlen. Prompts: `Ausgang/Ausgang 16.11.2026/Broschen … – Prompts mit durchsichtigem Hintergrund.md`.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
