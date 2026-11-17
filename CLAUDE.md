@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 17.11.2026 (Version 2.20.4 auf `main`, Push steht aus; Coach-„Gespräch“ auf Branch `coach-gespraech`) – zuerst lesen
+## Übergabe – Stand 17.11.2026 (Version 2.21.0 auf `main`, Push steht aus) – zuerst lesen
 - **Zuletzt (2.20.0):** Lebensfreude als Regler mit der Sonne als Knopf (siehe Versionseintrag).
 - **Davor (2.19.0):** Persönlichkeitstest mit sechs Antworten ohne Mitte; alte Ergebnisse/Entwürfe mit fünf bleiben gültig (`steps`). Handoff-Nachtrag vom 16.11.2026.
 - **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
@@ -212,7 +212,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.20.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.21.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1267,7 +1267,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     je Brosche ein Bild 1254 px; 1, 2, 4, 5 echtes durchsichtiges PNG, 6 vor Grün; 3 (Rosenkörbchen mit Diamant in der Schleife, 2.20.4) vor Schwarz, freigestellt mit `keyblack.py`, freigestellt mit `keyprep.py` in `eWolfe-Skripte`, 700 px, Veilchen nur in Lila =
     Wahl der Nutzerin). Die alten `brooch-n*` bleiben für Tagebuchseiten. **Regel für neue Bilder:** zuerst ein echtes PNG mit Durchsichtigkeit bestellen, sonst
     einen kräftigen Farbgrund (Grün/Cyan/Magenta), nie Grau bei Silber, Glas, Perlen. Prompts: `Ausgang/Ausgang 16.11.2026/Broschen … – Prompts mit durchsichtigem Hintergrund.md`.
-- **Coach-Bereich „Gespräch“ (17.11.2026, Branch `coach-gespraech`, Versionsnummer bewusst nicht erhöht – das macht der Partner beim Zusammenführen):**
+- **2.21.0 (17.11.2026) Coach-Bereich „Gespräch“** (auf Branch `coach-gespraech` gebaut, auf Wunsch der Nutzerin direkt in `main` übernommen, ohne Pull Request):
     Fünfter Reiter beim Klienten (`coachClientRender`, `coachTalkHtml`, `coachTalkBind`; en „Session“), mit Zahl der offenen Themen am Reiter (`coachOpenCount`, `.coach-badge`).
     Hinweis „Nur für dich sichtbar. {Name} sieht deine Notizen nicht.“; Themen mit Kästchen („✓ angesprochen am …“, „x von y angesprochen“), bearbeiten (✎, Dialog) und löschen (✕);
     „Eigenes Thema …“ mit Plus oder Enter; Notiz zum Gespräch mit Datum (speichert beim Tippen); „Gespräch speichern“ legt Notiz + abgehakte Themen unter „Frühere Gespräche“
