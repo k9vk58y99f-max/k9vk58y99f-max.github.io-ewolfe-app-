@@ -1267,6 +1267,22 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     je Brosche ein Bild 1254 px; 1, 2, 4, 5 echtes durchsichtiges PNG, 6 vor Grün; 3 (Rosenkörbchen mit Diamant in der Schleife, 2.20.4) vor Schwarz, freigestellt mit `keyblack.py`, freigestellt mit `keyprep.py` in `eWolfe-Skripte`, 700 px, Veilchen nur in Lila =
     Wahl der Nutzerin). Die alten `brooch-n*` bleiben für Tagebuchseiten. **Regel für neue Bilder:** zuerst ein echtes PNG mit Durchsichtigkeit bestellen, sonst
     einen kräftigen Farbgrund (Grün/Cyan/Magenta), nie Grau bei Silber, Glas, Perlen. Prompts: `Ausgang/Ausgang 16.11.2026/Broschen … – Prompts mit durchsichtigem Hintergrund.md`.
+- **Coach-Bereich „Gespräch“ (17.11.2026, Branch `coach-gespraech`, Versionsnummer bewusst nicht erhöht – das macht der Partner beim Zusammenführen):**
+    Fünfter Reiter beim Klienten (`coachClientRender`, `coachTalkHtml`, `coachTalkBind`; en „Session“), mit Zahl der offenen Themen am Reiter (`coachOpenCount`, `.coach-badge`).
+    Hinweis „Nur für dich sichtbar. {Name} sieht deine Notizen nicht.“; Themen mit Kästchen („✓ angesprochen am …“, „x von y angesprochen“), bearbeiten (✎, Dialog) und löschen (✕);
+    „Eigenes Thema …“ mit Plus oder Enter; Notiz zum Gespräch mit Datum (speichert beim Tippen); „Gespräch speichern“ legt Notiz + abgehakte Themen unter „Frühere Gespräche“
+    (aufklappbar, neueste oben, einzeln löschbar), nicht abgehakte bleiben. **„＋ Als Thema merken“** (`coachMarkBtn`/`coachMarkBind`, Meldung `coachToast`) bei jedem Bereich des
+    neuesten Lebensrads (`coachWheelMarksHtml`, Ist/Wunsch in %), jedem Ziel (aktiv und erreicht), jeder Gewohnheit (Tage der angezeigten Woche) und jedem der fünf Grundzüge
+    (`coachPersonaMarksHtml`, nur die Werte). Schlüssel je Herkunft (`w:`/`g:`/`h:`/`p:`) verhindern Doppeltes: ein offenes Thema zeigt „✓ Gemerkt“; nach dem Speichern kann man neu merken.
+    **Daten:** `state.coachNotes = { [link id]: { who, topics, note, sessions, kept } }` in den eigenen Daten des Coaches (`coachNotesOf`, `coachNotesMerge`: je Liste nach id, neueres `mt`
+    gewinnt) – synchronisiert und verschlüsselt wie alles (`syncPayload`, `syncNormalize`, `syncApplyState`, `mergeBackupInto`, `localIsPristine`, `delApply`, `delReviveAll`), nie im
+    Ausschnitt des Klienten (`coachPayload` unverändert), keine neue Supabase-Tabelle, `syncNow()` unverändert. Grabsteine `ct:` Thema, `cs:` Gespräch, `cn:` alle Notizen einer Verbindung.
+    Beim Löschen aller Notizen bleibt ein leerer Platzhalter, sonst gälte ein Coach ohne andere Daten als „leeres Gerät“ und lüde die Löschung nie hoch (Regel 2); `delApply` räumt ihn weg.
+    **Teilen beendet (Variante C, Entscheidung der Nutzerin):** beim nächsten Öffnen des Coach-Bereichs fragt die App je Klient einmal „Behalten“ / „Löschen“ (`coachNotesAskEnded`,
+    Löschen mit zweiter Rückfrage); behaltene stehen unter „Notizen zu beendeten Verbindungen“ zum Lesen (`coachEndedRender`) mit „Notizen löschen“. Der Name kommt aus `who`
+    (gemerkt beim Ansehen, weil der Ausschnitt beim Beenden gelöscht wird). Reiter brechen auf dem Handy um (fünf passen nicht in eine Zeile).
+    Test `t-coach-gespraech.py` in `eWolfe-Skripte` (nachgebautes Supabase, Admin + Coach mit zwei Geräten + Klientin, Chromium + WebKit, 34 Prüfungen, Bilder in drei Designs).
+    Hinweis Test: Solange das Coach-Fenster offen ist, gleicht ein Gerät nicht ab (Regel 4) – erst beim Schließen.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

@@ -2176,6 +2176,47 @@ html.theme-retreat .lib-news{ background:#fffdf8; }
 .coach-box.on{ background:var(--gold); color:#fff; }
 .coach-cnt{ font-size:12px; opacity:0.75; }
 
+/* 17.11.2026: the coach's session notes (tab "Session") and "+ Keep as topic" */
+.coach-tabs .seg-btn{ position:relative; }
+#coach-body .coach-tabs{ flex-wrap:wrap; overflow:visible; } /* five tabs: they wrap on a phone instead of running out of the window */
+#coach-body .coach-tabs .seg-btn{ flex:1 1 auto; white-space:nowrap; }
+.coach-h2{ flex-wrap:wrap; row-gap:2px; }
+.coach-h2 small{ white-space:nowrap; }
+.coach-badge{ display:inline-block; min-width:18px; margin-left:5px; padding:0 5px; border-radius:9px; background:var(--gold); color:#1a1405; font-size:11px; font-weight:700; line-height:18px; text-align:center; vertical-align:1px; }
+html.theme-retreat .coach-badge{ color:#fff; }
+.coach-badge.pop{ animation:coachPop .4s ease; }
+@keyframes coachPop{ 50%{ transform:scale(1.35); } }
+.coach-lock{ font-size:13px; line-height:1.4; padding:8px 12px; border-radius:10px; background:rgba(128,128,128,0.14); }
+.coach-h2{ justify-content:space-between; }
+.coach-h2 small, .coach-hsmall{ font-size:12px; opacity:0.75; font-weight:400; }
+.coach-topics{ display:flex; flex-direction:column; }
+.coach-topic{ display:flex; align-items:flex-start; gap:6px; padding:8px 0; border-bottom:1px solid rgba(128,128,128,0.22); }
+.coach-topic .coach-check{ flex:1 1 auto; min-width:0; }
+.coach-topic .coach-check > span{ display:flex; flex-direction:column; gap:2px; min-width:0; overflow-wrap:anywhere; }
+.ct-src{ font-size:12px; opacity:0.72; }
+.ct-when{ font-size:12px; color:var(--gold-text, var(--gold)); }
+.coach-topic.done .ct-txt{ text-decoration:line-through; opacity:0.65; }
+.coach-icon{ padding:4px 10px !important; flex:none; }
+.coach-add{ display:flex; gap:8px; align-items:center; }
+.coach-add .small-input{ flex:1 1 auto; min-width:0; width:auto !important; }
+.coach-add .primary-btn{ flex:none; font-size:18px !important; padding:6px 14px !important; }
+#coach-body textarea.coach-note{ min-height:110px; resize:vertical; font:inherit; font-size:var(--fs-text); line-height:1.45; }
+.coach-session{ border-bottom:1px solid rgba(128,128,128,0.22); padding:6px 0; }
+.coach-session summary{ cursor:pointer; font-size:var(--fs-text); padding:4px 0; }
+.coach-snote{ margin:6px 0; font-size:var(--fs-text); line-height:1.45; overflow-wrap:anywhere; }
+.coach-stopics{ margin:4px 0 8px; padding-left:18px; font-size:14px; line-height:1.45; }
+.coach-stopics small{ opacity:0.7; }
+.coach-goal-m{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+.coach-gtxt{ flex:1 1 auto; min-width:0; }
+.coach-mrow{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:6px 0; border-bottom:1px solid rgba(128,128,128,0.22); font-size:var(--fs-text); }
+.coach-mrow .coach-hname{ flex:1 1 140px; min-width:0; }
+.coach-mrow .coach-hname .area-ico{ width:18px; height:18px; }
+.coach-mark{ flex:none; }
+.coach-mark:disabled{ opacity:0.7; cursor:default; }
+#coach-toast{ position:fixed; left:50%; bottom:calc(96px + env(safe-area-inset-bottom, 0px)); transform:translateX(-50%); z-index:2000; background:rgba(20,20,20,0.92); color:#fff; padding:8px 16px; border-radius:999px; font-size:14px; opacity:0; transition:opacity .25s; pointer-events:none; white-space:nowrap; }
+#coach-toast.show{ opacity:1; }
+@media (prefers-reduced-motion: reduce){ .coach-badge.pop{ animation:none; } }
+
 /* ===== 15.11.2026: the CCA designs – dark (theme-cca) and light (theme-cca theme-cca-light), like the CCA growth assessment:
    near-black or warm white, gold in a gradient, Manrope for everything (bold headings in normal writing, small spaced capitals in gold
    above them), JetBrains Mono for dates and small numbers. Built on A Gentleman's Study (its pictures until the CCA ones come).
@@ -2992,6 +3033,7 @@ function normalizeState(st){
   AREAS.forEach(a=>{ if(!Array.isArray(st.bewertungen[a])) st.bewertungen[a] = []; if(!Array.isArray(st.ziele[a])) st.ziele[a] = []; }); // e.g. 'freude' (1.77.0)
   ensureBuiltInMeditations(st);
   personaOf(st); // 2.11.0: personality wheel
+  coachNotesOf(st); // 17.11.2026: the coach's session notes
   return st;
 }
 function loadState(){
@@ -5482,6 +5524,12 @@ function delApply(st){
   st.meditationen = (st.meditationen || []).filter(m=>!gone('m', m.id));
   if(st.habits && Array.isArray(st.habits.list)) st.habits.list = st.habits.list.filter(h=>!gone('h', h.id)); // 1.99.2
   if(Array.isArray(st.persona)) st.persona = st.persona.filter(r=>!gone('p', r.id)); // 2.11.0
+  if(st.coachNotes && typeof st.coachNotes === 'object') Object.keys(st.coachNotes).forEach(k=>{ // 17.11.2026: the coach's session notes
+    if(gone('cn', k)){ delete st.coachNotes[k]; return; }
+    const n = st.coachNotes[k] || {};
+    if(Array.isArray(n.topics)) n.topics = n.topics.filter(x=>!gone('ct', x.id));
+    if(Array.isArray(n.sessions)) n.sessions = n.sessions.filter(x=>!gone('cs', x.id));
+  });
   Object.values((st.tagebuch && st.tagebuch.jahre) || {}).forEach(y=>{
     if(Array.isArray(y.seiten)) y.seiten = y.seiten.filter(p=>p.type==='titel' || !gone('s', p.id));
   });
@@ -5501,6 +5549,7 @@ function delReviveAll(st){
   (st.ereignisse || []).forEach(e=>revive('e', e.id));
   (st.meditationen || []).forEach(m=>revive('m', m.id));
   (st.persona || []).forEach(r=>revive('p', r.id));
+  Object.keys(st.coachNotes || {}).forEach(k=>{ const n = st.coachNotes[k] || {}; revive('cn', k); (n.topics || []).forEach(x=>revive('ct', x.id)); (n.sessions || []).forEach(x=>revive('cs', x.id)); });
   Object.values((st.tagebuch && st.tagebuch.jahre) || {}).forEach(y=>(y.seiten || []).forEach(p=>revive('s', p.id)));
   Object.keys((st.tagebuch && st.tagebuch.jahre) || {}).forEach(k=>revive('j', k));
 }
@@ -5649,6 +5698,7 @@ function mergeBackupInto(cur, inc, mode){
   out.habits = habitsMerge(habitsOf(out), habitsOf(inc));
   out.xmasTree = xmasMerge(xmasOf(out), xmasOf(inc)); // 2.5.0
   out.persona = personaMerge(personaOf(out), personaOf(inc)); // 2.11.0
+  out.coachNotes = coachNotesMerge(coachNotesOf(out), coachNotesOf(inc)); // 17.11.2026
   // diary: whole years that are missing are added; inside a shared year missing pages are added
   const score = pg=>((pg.text||'').length) + tbAreaTextLen(pg) + ((pg.strokes||[]).length*10) + ((pg.images||[]).length*50);
   const written = pg=>pg.type!=='titel' && score(pg)>0;
@@ -11156,7 +11206,7 @@ Object.assign(I18N.en, { legal_privacy:'Privacy', legal_imprint:'Imprint', legal
 /* ---- what is synced, and how to tell whether it changed ---- */
 function syncPayload(st){
   // 1.99.0: the mindfulness log (exercises, moods, gratitude) travels too – before, it stayed on the device where it was made
-  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {}, achtsamkeit:{ log:(st.achtsamkeit && Array.isArray(st.achtsamkeit.log)) ? st.achtsamkeit.log : [] }, habits:habitsOf(st), xmasTree:xmasOf(st), persona:personaOf(st) };
+  return { bewertungen:st.bewertungen, ziele:st.ziele, ereignisse:st.ereignisse, meditationen:st.meditationen || [], tagebuch:st.tagebuch, geloescht:st.geloescht || {}, achtsamkeit:{ log:(st.achtsamkeit && Array.isArray(st.achtsamkeit.log)) ? st.achtsamkeit.log : [] }, habits:habitsOf(st), xmasTree:xmasOf(st), persona:personaOf(st), coachNotes:coachNotesOf(st) };
 }
 function syncHash(st){
   const s = JSON.stringify(syncPayload(st));
@@ -11182,6 +11232,7 @@ function syncNormalize(d){
   xmasOf(o); // 2.5.0: the Christmas tree one decorates oneself
   habitsOf(o); // 1.99.2: the habit tracker (an account from an older app has none)
   personaOf(o); // 2.11.0: the personality wheel
+  coachNotesOf(o); // 17.11.2026: the coach's session notes
   return o;
 }
 // all mindfulness entries of both sides, by id; a mood given later wins (the log is only ever added to)
@@ -11204,6 +11255,7 @@ function localIsPristine(){
     && !((state.achtsamkeit && state.achtsamkeit.log) || []).length
     && !habitsOf(state).list.length && !Object.keys(habitsOf(state).marks).length
     && !personaOf(state).length
+    && !Object.keys(coachNotesOf(state)).length
     && backupSummary(state).diaryPages === 0;
 }
 function syncEditorOpen(){
@@ -11232,6 +11284,7 @@ function syncApplyState(newState){
     newState.habits = habitsMerge(habitsOf(state), habitsOf(newState)); // the same for the habit tracker (1.99.2)
     newState.xmasTree = xmasMerge(xmasOf(state), xmasOf(newState)); // and for the Christmas tree (2.5.0)
     newState.persona = personaMerge(personaOf(state), personaOf(newState)); // and the personality wheel (2.11.0)
+    newState.coachNotes = coachNotesMerge(coachNotesOf(state), coachNotesOf(newState)); // and the coach's session notes (17.11.2026)
     delApply(newState);
     state = newState;
     saveState();
@@ -11313,11 +11366,11 @@ async function syncNow(){
       if(pristine || (metaOk && !shrunk && localHash === meta.hash)){
         remote.geloescht = delUnion(state.geloescht, remote.geloescht); // e.g. a sample meditation removed before signing in
         delApply(remote);
-        const remoteAch = remote.achtsamkeit.log.length, remoteHab = JSON.stringify(habitsOf(remote)) + JSON.stringify(xmasOf(remote)) + JSON.stringify(personaOf(remote));
+        const remoteAch = remote.achtsamkeit.log.length, remoteHab = JSON.stringify(habitsOf(remote)) + JSON.stringify(xmasOf(remote)) + JSON.stringify(personaOf(remote)) + JSON.stringify(coachNotesOf(remote));
         syncApplyState(remote); // this device has nothing newer of its own: just receive
         syncFpRefresh(); // what just arrived is not an edit of this device
         // mindfulness entries / habits the account did not have (e.g. written by an app before 1.99.0) go back up in the next round
-        const achGrew = state.achtsamkeit.log.length > remoteAch || JSON.stringify(habitsOf(state)) + JSON.stringify(xmasOf(state)) + JSON.stringify(personaOf(state)) !== remoteHab;
+        const achGrew = state.achtsamkeit.log.length > remoteAch || JSON.stringify(habitsOf(state)) + JSON.stringify(xmasOf(state)) + JSON.stringify(personaOf(state)) + JSON.stringify(coachNotesOf(state)) !== remoteHab;
         // remember the locks as they are in the account: if this device has newer ones (a new password), the next round writes them
         syncRemember(uid, full.revision, achGrew ? 'ach' : syncHash(state), syncCounts(state), remoteEnc ? full.data.kv || 0 : 0);
         if(!metaOk) firstPairing = 'pulled';
@@ -12160,7 +12213,19 @@ de:{ head:'Coach', needLogin:'Melde dich an, um dich mit einem Coach zu verbinde
   adminBtn:'Coach-Codes verwalten', adminTitle:'Coach-Codes', adminNew:'Neuer Code für', places:'{n} Plätze', notePh:'Notiz (z. B. Name des Coaches)', adminNone:'Noch keine Codes.',
   free:'frei', claimed:'eingelöst {date}', err_no_code:'Diesen Code gibt es nicht oder er wurde schon benutzt.', err_has_coach:'Du teilst schon mit einem Coach. Beende das zuerst.',
   err_own_code:'Das ist dein eigener Einladungscode.', err_no_slots:'Alle Plätze sind belegt.', err_code_used:'Dieser Coach-Code wurde schon von jemand anderem eingelöst.',
-  err_not_coach:'Dieses Konto ist kein Coach-Konto.', err_not_admin:'Nur für den Betreiber.', err:'Das hat nicht geklappt. Bitte versuche es noch einmal.' },
+  err_not_coach:'Dieses Konto ist kein Coach-Konto.', err_not_admin:'Nur für den Betreiber.', err:'Das hat nicht geklappt. Bitte versuche es noch einmal.',
+  tab_talk:'Gespräch', talkPrivate:'Nur für dich sichtbar. {name} sieht deine Notizen nicht.', talkTopics:'Themen fürs nächste Gespräch', talkCount:'{n} von {m} angesprochen',
+  talkNone:'Noch keine Themen. Merke dir in den anderen Reitern Themen mit „＋ Als Thema merken“ oder schreib unten ein eigenes.', talkDoneOn:'✓ angesprochen am {date}',
+  talkOwnPh:'Eigenes Thema …', talkAdd:'Thema hinzufügen', talkOwn:'eigenes Thema', talkNote:'Notiz zum Gespräch', talkNotePh:'Was wurde besprochen? Was ist vereinbart?',
+  talkSave:'Gespräch speichern', talkSaved:'Gespräch gespeichert', talkNothing:'Hake ein Thema ab oder schreib eine Notiz – dann lässt sich das Gespräch speichern.',
+  talkEarlier:'Frühere Gespräche', talkTopicsN:'{n} angesprochen', talkDelSession:'Gespräch löschen', talkDelAsk:'Dieses Gespräch löschen? Das lässt sich nicht rückgängig machen.',
+  talkEdit:'Thema bearbeiten', tEdit:'Bearbeiten', tDel:'Löschen', tSave:'Speichern', markTopic:'＋ Als Thema merken', marked:'✓ Gemerkt', markedToast:'Thema gemerkt',
+  markHead:'Als Thema merken', srcWheels:'aus Lebensräder', srcGoals:'aus Ziele · {area}', srcHabits:'aus Gewohnheiten', srcPersona:'aus Persönlichkeit',
+  mWheel:'{area}: Ist {ist} %, Wunsch {wish} % – woran liegt der Abstand?', mWheel1:'{area}: {ist} % – darüber sprechen', mGoal:'Ziel „{t}“: Wie läuft es?',
+  mGoalDone:'Erreichtes Ziel „{t}“ würdigen', mHabit:'Gewohnheit „{name}“: {n} von 7 Tagen', mHabitW:'Wöchentliche Gewohnheit „{name}“: diese Woche {s}', habitWYes:'erledigt', habitWNo:'noch offen',
+  mPersona:'{trait}: {v} % – darüber sprechen', talkEnded:'{name} hat das Teilen beendet. Deine Notizen kannst du nur noch lesen.',
+  notesAsk:'{name} hat das Teilen beendet. Was soll mit deinen Gesprächsnotizen passieren?', notesKeep:'Behalten', notesDel:'Löschen',
+  notesDelAsk:'Alle Gesprächsnotizen zu {name} löschen? Das lässt sich nicht rückgängig machen.', notesView:'Notizen ansehen', notesDelete:'Notizen löschen', notesHead:'Notizen zu beendeten Verbindungen' },
 en:{ head:'Coach', needLogin:'Sign in to connect with a coach.', loading:'Loading …', offline:'No connection to the server right now. Please try again in a moment.',
   intro:'Working with a coach? With your coach’s invitation code you can share chosen parts of your app with them – read only. You can stop sharing at any time.',
   connectBtn:'Connect with coach', connectTitle:'Connect with your coach', codePh:'Invitation code (e.g. K2AB-CD34)', namePh:'Your name for the coach',
@@ -12185,7 +12250,19 @@ en:{ head:'Coach', needLogin:'Sign in to connect with a coach.', loading:'Loadin
   adminBtn:'Manage coach codes', adminTitle:'Coach codes', adminNew:'New code for', places:'{n} places', notePh:'Note (e.g. name of the coach)', adminNone:'No codes yet.',
   free:'free', claimed:'redeemed {date}', err_no_code:'This code does not exist or has already been used.', err_has_coach:'You already share with a coach. Stop that first.',
   err_own_code:'This is your own invitation code.', err_no_slots:'All places are taken.', err_code_used:'This coach code has already been redeemed by someone else.',
-  err_not_coach:'This account is not a coach account.', err_not_admin:'For the operator only.', err:'That did not work. Please try again.' }
+  err_not_coach:'This account is not a coach account.', err_not_admin:'For the operator only.', err:'That did not work. Please try again.',
+  tab_talk:'Session', talkPrivate:'Only visible to you. {name} does not see your notes.', talkTopics:'Topics for the next session', talkCount:'{n} of {m} discussed',
+  talkNone:'No topics yet. Keep topics in the other tabs with “＋ Keep as topic”, or write your own below.', talkDoneOn:'✓ discussed on {date}',
+  talkOwnPh:'Your own topic …', talkAdd:'Add topic', talkOwn:'own topic', talkNote:'Session note', talkNotePh:'What was discussed? What was agreed?',
+  talkSave:'Save session', talkSaved:'Session saved', talkNothing:'Tick a topic or write a note – then the session can be saved.',
+  talkEarlier:'Earlier sessions', talkTopicsN:'{n} discussed', talkDelSession:'Delete session', talkDelAsk:'Delete this session? This cannot be undone.',
+  talkEdit:'Edit topic', tEdit:'Edit', tDel:'Delete', tSave:'Save', markTopic:'＋ Keep as topic', marked:'✓ Kept', markedToast:'Topic kept',
+  markHead:'Keep as topic', srcWheels:'from Life wheels', srcGoals:'from Goals · {area}', srcHabits:'from Habits', srcPersona:'from Personality',
+  mWheel:'{area}: now {ist} %, wish {wish} % – what is behind the gap?', mWheel1:'{area}: {ist} % – talk about it', mGoal:'Goal “{t}”: how is it going?',
+  mGoalDone:'Achieved goal “{t}”: celebrate it', mHabit:'Habit “{name}”: {n} of 7 days', mHabitW:'Weekly habit “{name}”: this week {s}', habitWYes:'done', habitWNo:'still open',
+  mPersona:'{trait}: {v} % – talk about it', talkEnded:'{name} has stopped sharing. You can only read your notes now.',
+  notesAsk:'{name} has stopped sharing. What should happen to your session notes?', notesKeep:'Keep', notesDel:'Delete',
+  notesDelAsk:'Delete all session notes about {name}? This cannot be undone.', notesView:'View notes', notesDelete:'Delete notes', notesHead:'Notes on ended connections' }
 };
 const ct = ()=>COACH_TXT[state.settings.lang === 'en' ? 'en' : 'de'];
 let coachMe = null, coachIsAdmin = false, coachLink = null, coachLoadedFor = '', coachLoadedAt = 0, coachPrivCache = null, coachClients = [], coachView = null, coachKeyOk = true;
@@ -12414,7 +12491,16 @@ async function coachAreaRender(){
   h += `<h3 class="coach-h">${c.clientsHead}</h3>` + (active.length ? active.map((x, i)=>`<div class="coach-row coach-client"><div class="coach-cname"><b>${nm(x, i)}</b><small>${x.at ? c.updated.replace('{date}', coachDate(x.at)) : c.notYet}</small></div>
       <button class="ghost-btn coach-mini" data-view="${x.link.id}">${c.view}</button><button class="ghost-btn coach-mini" data-end="${x.link.id}" data-name="${nm(x, i)}">${c.end}</button></div>`).join('') : `<p class="settings-note">${c.noClients}</p>`);
   if(ended.length) h += `<h3 class="coach-h">${c.endedHead}</h3>` + ended.map(x=>`<p class="settings-note">${c.client} · ${c.endedOn.replace('{date}', coachDate(x.link.ended_at))}</p>`).join('');
+  // 17.11.2026: notes of connections that are no longer active – kept ones can be read and deleted, undecided ones are asked about (variant C)
+  const N = coachNotesOf(state), activeIds = new Set(active.map(x=>String(x.link.id)));
+  const off = Object.keys(N).filter(k=>!activeIds.has(k) && coachNotesHas(N[k]));
+  const kept = off.filter(k=>N[k].kept && N[k].kept.v), ask = off.filter(k=>!(N[k].kept && N[k].kept.v));
+  if(kept.length) h += `<h3 class="coach-h">${c.notesHead}</h3>` + kept.map(k=>{ const L = (links || []).find(l=>String(l.id) === k), nm = coachEsc((N[k].who && N[k].who.name) || c.client);
+    return `<div class="coach-row"><div class="coach-cname"><b>${nm}</b><small>${L && L.ended_at ? c.endedOn.replace('{date}', coachDate(L.ended_at)) : ''}</small></div><button class="ghost-btn coach-mini" data-notes="${coachEsc(k)}">${c.notesView}</button><button class="ghost-btn coach-mini" data-notesdel="${coachEsc(k)}">${c.notesDelete}</button></div>`; }).join('');
   body.innerHTML = h;
+  body.querySelectorAll('[data-notes]').forEach(b=>{ b.onclick = ()=>{ coachView = { id:b.dataset.notes, ended:true }; coachEndedRender(); }; });
+  body.querySelectorAll('[data-notesdel]').forEach(b=>{ b.onclick = ()=>coachNotesDeleteAsk(b.dataset.notesdel); });
+  if(ask.length) setTimeout(()=>coachNotesAskEnded(ask), 50);
   const q = s=>body.querySelectorAll(s);
   const rk = document.getElementById('coach-rekey'); if(rk) rk.onclick = coachRekey;
   const myn = document.getElementById('coach-myname'); myn.onchange = async ()=>{ try{ await coachRpc('coach_set_name', { p_name:myn.value.trim() }); coachMe.name = myn.value.trim(); }catch(e){ uiNotice(coachErr(e)); } };
@@ -12438,22 +12524,30 @@ function coachClientState(data){
 function coachWith(st, fn){ const keep = state; state = st; try{ return fn(); }finally{ state = keep; } }
 function coachClientRender(){
   const c = ct(), d = t(), body = document.getElementById('coach-body'), v = coachView;
+  if(v.ended){ coachEndedRender(); return; } // 17.11.2026: kept notes of an ended connection, read only
   const x = coachClients.find(k=>k.link.id === v.id);
   if(!x){ coachView = null; coachAreaRender(); return; }
   const data = x.data || {}, parts = data.parts || {};
   const name = data.name || c.client;
+  // 17.11.2026: remember the client's name with the notes – after the sharing ends, the excerpt (and the name in it) is gone
+  const n0 = coachNotesOf(state)[v.id];
+  if(data.name && !(n0 && n0.who && n0.who.name === data.name)){ coachNotesFor(v.id).who = { name:data.name, mt:Date.now() }; saveState(); }
   document.getElementById('coach-title').textContent = name;
+  const open = coachOpenCount(v.id);
   let h = `<button class="ghost-btn coach-back" id="coach-back">${c.back}</button>`
     + `<p class="settings-note">${x.at ? c.updated.replace('{date}', coachDate(x.at)) : c.notYet}</p>`
-    + `<div class="seg coach-tabs">${['wheels', 'goals', 'habits', 'persona'].map(k=>`<button class="seg-btn${v.tab === k ? ' active' : ''}" data-tab="${k}">${c['tab_' + k]}</button>`).join('')}</div><div class="coach-pane">`;
+    + `<div class="seg coach-tabs">${['wheels', 'goals', 'habits', 'persona', 'talk'].map(k=>`<button class="seg-btn${v.tab === k ? ' active' : ''}" data-tab="${k}">${c['tab_' + k]}${k === 'talk' ? `<span class="coach-badge"${open ? '' : ' hidden'}>${open}</span>` : ''}</button>`).join('')}</div><div class="coach-pane">`;
   const st = coachClientState(data);
-  if(!x.data) h += `<p class="settings-note">${c.notYet}</p>`;
+  if(v.tab === 'talk') h += coachTalkHtml(v.id, name, false);
+  else if(!x.data) h += `<p class="settings-note">${c.notYet}</p>`;
   else if(!parts[v.tab]) h += `<p class="settings-note">${c.notShared}</p>`;
   else if(v.tab === 'wheels') h += coachWheelsHtml(st, name);
   else if(v.tab === 'goals') h += coachGoalsHtml(st);
-  else if(v.tab === 'persona') h += personaResultHtml((data.persona || []).slice().sort((a, b)=>b.ts - a.ts), v.pv || (v.pv = { sel:'', cmp:'' }), true);
+  else if(v.tab === 'persona') h += personaResultHtml((data.persona || []).slice().sort((a, b)=>b.ts - a.ts), v.pv || (v.pv = { sel:'', cmp:'' }), true) + coachPersonaMarksHtml(data);
   else h += coachHabitsHtml(st);
   body.innerHTML = h + '</div>';
+  if(v.tab === 'talk') coachTalkBind(body, v.id, coachClientRender);
+  coachMarkBind(body);
   document.getElementById('coach-back').onclick = ()=>{ coachView = null; coachAreaRender(); };
   if(v.tab === 'persona') personaBind(body, v.pv, coachClientRender, true);
   body.querySelectorAll('[data-tab]').forEach(b=>{ b.onclick = ()=>{ v.tab = b.dataset.tab; coachClientRender(); }; });
@@ -12474,20 +12568,31 @@ function coachWheelsHtml(st, name){
   const chosen = v.sel.map(i=>snaps[i]).sort((a, b)=>b.ts - a.ts);
   const svg = coachWith(st, ()=>comparePictureSvg(chosen)).replace('>' + escapeHtml(t().cmpDiaryTitle) + '<', '>' + coachEsc(name) + '<'); // not "My life wheels": the coach looks at someone else's
   return `<img class="coach-wheel" alt="" src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}">`
-    + `<p class="settings-note">${c.pickWheels}</p><div class="coach-snaps">${snaps.map((s, i)=>`<button class="ghost-btn coach-mini${v.sel.includes(i) ? ' on' : ''}" data-snap="${i}">${coachDate(s.ts)}</button>`).join('')}</div>`;
+    + `<p class="settings-note">${c.pickWheels}</p><div class="coach-snaps">${snaps.map((s, i)=>`<button class="ghost-btn coach-mini${v.sel.includes(i) ? ' on' : ''}" data-snap="${i}">${coachDate(s.ts)}</button>`).join('')}</div>`
+    + coachWheelMarksHtml(snaps[0]);
+}
+// 17.11.2026: the areas of the newest wheel, each with "+ Keep as topic"
+function coachWheelMarksHtml(last){
+  const c = ct(), d = t(); if(!last) return '';
+  return `<h3 class="coach-h">${c.markHead} <small class="coach-hsmall">${coachDate(last.ts)}</small></h3>` + WHEEL_AREAS.map(a=>{
+    const ist = Math.round(last.values[a]), w = last.wishes && last.wishes[a] !== undefined && last.wishes[a] !== null ? Math.round(last.wishes[a]) : null, nm = d.bereiche[a];
+    const text = w !== null ? c.mWheel.replace('{area}', nm).replace('{ist}', ist).replace('{wish}', w) : c.mWheel1.replace('{area}', nm).replace('{ist}', ist);
+    return `<div class="coach-mrow"><span class="coach-hname">${areaIco(a)}${coachEsc(nm)}</span><span class="coach-cnt">${ist} %${w !== null ? ' → ' + w + ' %' : ''}</span>${coachMarkBtn('w:' + a, text, c.srcWheels)}</div>`;
+  }).join('');
 }
 function coachGoalsHtml(st){
   const c = ct(), d = t();
-  const goal = g=>`<div class="coach-goal"><b>${coachEsc(g.title)}</b>`
+  const goal = (g, a)=>`<div class="coach-goal coach-goal-m"><div class="coach-gtxt"><b>${coachEsc(g.title)}</b>`
     + (g.grund ? `<div><span>${c.why}:</span> ${coachEsc(g.grund)}</div>` : '')
     + (g.massnahmen ? `<div><span>${c.steps}:</span> ${coachEsc(g.massnahmen)}</div>` : '')
-    + (g.status === 'erreicht' ? `<div class="coach-done">✓ ${c.achievedOn.replace('{date}', coachDate(g.achievedAt))}</div>` : g.dueDate ? `<div><span>${c.due}:</span> ${coachDate(new Date(g.dueDate + 'T12:00').getTime())}</div>` : '') + `</div>`;
+    + (g.status === 'erreicht' ? `<div class="coach-done">✓ ${c.achievedOn.replace('{date}', coachDate(g.achievedAt))}</div>` : g.dueDate ? `<div><span>${c.due}:</span> ${coachDate(new Date(g.dueDate + 'T12:00').getTime())}</div>` : '') + `</div>`
+    + coachMarkBtn('g:' + g.id, (g.status === 'erreicht' ? c.mGoalDone : c.mGoal).replace('{t}', g.title), c.srcGoals.replace('{area}', d.bereiche[a])) + `</div>`;
   let h = '', any = false;
   AREAS.forEach(a=>{
     const list = st.ziele[a] || []; if(!list.length) return; any = true;
     const act = list.filter(g=>g.status !== 'erreicht').sort((p, q)=>(p.priority || 99) - (q.priority || 99)), done = list.filter(g=>g.status === 'erreicht').sort((p, q)=>(q.achievedAt || 0) - (p.achievedAt || 0));
-    h += `<div class="coach-area"><h3 class="coach-h">${areaIco(a)}<span>${coachEsc(d.bereiche[a])}</span></h3>` + act.map(goal).join('')
-      + (done.length ? `<div class="coach-sub">${c.achieved}</div>` + done.map(goal).join('') : '') + `</div>`;
+    h += `<div class="coach-area"><h3 class="coach-h">${areaIco(a)}<span>${coachEsc(d.bereiche[a])}</span></h3>` + act.map(g=>goal(g, a)).join('')
+      + (done.length ? `<div class="coach-sub">${c.achieved}</div>` + done.map(g=>goal(g, a)).join('') : '') + `</div>`;
   });
   return any ? h : `<p class="settings-note">${c.noGoals}</p>`;
 }
@@ -12502,8 +12607,171 @@ function coachHabitsHtml(st){
     h += `<table class="coach-habits"><tr><th>${c.daily}</th>${days.map(x=>`<th${dayKey(x) === today ? ' class="today"' : ''}>${escapeHtml(x.toLocaleDateString(lang, { weekday:'narrow' }))}</th>`).join('')}<th></th></tr>`
       + daily.map(hb=>`<tr><td><span class="coach-hname">${hb.area ? areaIco(hb.area) : ''}${coachEsc(hb.name)}</span></td>${days.map(x=>`<td>${cell(habitOn(hb.id, x))}</td>`).join('')}<td class="coach-cnt">${days.filter(x=>habitOn(hb.id, x)).length}/7</td></tr>`).join('');
     if(weekly.length) h += `<tr><th>${c.weekly}</th><th colspan="8"></th></tr>` + weekly.map(hb=>`<tr><td><span class="coach-hname">${hb.area ? areaIco(hb.area) : ''}${coachEsc(hb.name)}</span></td><td colspan="7">${cell(habitWeekOn(hb.id, v.week))}</td><td></td></tr>`).join('');
-    return h + `</table>`;
+    // 17.11.2026: each habit (in the week shown) with "+ Keep as topic"
+    h += `</table><h3 class="coach-h">${c.markHead}</h3>`
+      + daily.map(hb=>{ const n = days.filter(x=>habitOn(hb.id, x)).length;
+          return `<div class="coach-mrow"><span class="coach-hname">${hb.area ? areaIco(hb.area) : ''}${coachEsc(hb.name)}</span><span class="coach-cnt">${n}/7</span>${coachMarkBtn('h:' + hb.id, c.mHabit.replace('{name}', hb.name).replace('{n}', n), c.srcHabits)}</div>`; }).join('')
+      + weekly.map(hb=>{ const on = habitWeekOn(hb.id, v.week);
+          return `<div class="coach-mrow"><span class="coach-hname">${hb.area ? areaIco(hb.area) : ''}${coachEsc(hb.name)}</span><span class="coach-cnt">${on ? '✓' : '–'}</span>${coachMarkBtn('h:' + hb.id, c.mHabitW.replace('{name}', hb.name).replace('{s}', on ? c.habitWYes : c.habitWNo), c.srcHabits)}</div>`; }).join('');
+    return h;
   });
+}
+
+/* ---- 17.11.2026 (wish of the user): the coach's own session notes per client – topics for the next session, a note, earlier sessions ----
+   state.coachNotes = { [link id]: { who:{ name, mt }, topics:[{ id, key, text, src, at, done (time or 0), mt }], note:{ text, mt },
+                                    sessions:[{ id, at, note, topics:[{ text, src, done }], mt }], kept:{ v, mt } } }
+   The coach's own data: synced and encrypted with everything else, never part of the excerpt a client shares (coachPayload).
+   Deleted: a topic 'ct:' + id, a session 'cs:' + id, all notes of a connection 'cn:' + link id (delApply). */
+let coachNoteT = 0, coachAsking = false;
+function coachNotesOf(st){ if(!st.coachNotes || typeof st.coachNotes !== 'object' || Array.isArray(st.coachNotes)) st.coachNotes = {}; return st.coachNotes; }
+function coachNotesMerge(a, b){
+  // per connection: topics and sessions by id (the newer change wins), note / name / decision: the newer one
+  const newer = (x, y)=>!x ? y : !y ? x : ((y.mt || 0) > (x.mt || 0) ? y : x), cp = o=>JSON.parse(JSON.stringify(o));
+  const out = {};
+  new Set(Object.keys(a || {}).concat(Object.keys(b || {}))).forEach(k=>{
+    const A = (a || {})[k] || {}, B = (b || {})[k] || {};
+    const list = f=>{ const m = {}; [A[f], B[f]].forEach(l=>(Array.isArray(l) ? l : []).forEach(x=>{ if(x && x.id) m[x.id] = newer(m[x.id], x); })); return Object.values(m).map(cp); };
+    const o = { topics:list('topics').sort((x, y)=>(x.at || 0) - (y.at || 0)), sessions:list('sessions').sort((x, y)=>(y.at || 0) - (x.at || 0)) };
+    ['note', 'who', 'kept'].forEach(f=>{ const v = newer(A[f], B[f]); if(v) o[f] = cp(v); });
+    out[k] = o;
+  });
+  return out;
+}
+function coachNotesFor(id){ const N = coachNotesOf(state); if(!N[id]) N[id] = { topics:[], sessions:[] }; if(!Array.isArray(N[id].topics)) N[id].topics = []; if(!Array.isArray(N[id].sessions)) N[id].sessions = []; return N[id]; }
+function coachNotesHas(n){ return !!n && !!((n.topics || []).length || (n.sessions || []).length || (n.note && n.note.text)); }
+function coachOpenCount(id){ const n = coachNotesOf(state)[id]; return n ? (n.topics || []).filter(x=>!x.done).length : 0; }
+function coachNewId(p){ return p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function coachTopicAdd(id, key, text, src){
+  const n = coachNotesFor(id), t0 = Date.now();
+  n.topics.push({ id:coachNewId('t'), key:key || '', text, src:src || '', at:t0, done:0, mt:t0 });
+  saveState();
+}
+function coachToast(msg){
+  let el = document.getElementById('coach-toast');
+  if(!el){ el = document.createElement('div'); el.id = 'coach-toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
+  el.textContent = msg; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+// "+ Keep as topic": an open topic with the same key shows "✓ Kept" instead, so nothing comes twice
+function coachMarkBtn(key, text, src){
+  const c = ct(), n = coachNotesOf(state)[coachView.id], has = !!n && (n.topics || []).some(x=>x.key === key && !x.done);
+  return `<button class="ghost-btn coach-mini coach-mark${has ? ' on' : ''}" ${has ? 'disabled' : ''} data-mark="${coachEsc(key)}" data-mtext="${coachEsc(text)}" data-msrc="${coachEsc(src)}">${has ? c.marked : c.markTopic}</button>`;
+}
+function coachMarkBind(body){
+  const c = ct(), v = coachView;
+  body.querySelectorAll('[data-mark]').forEach(b=>{ b.onclick = ()=>{
+    if(b.disabled) return;
+    coachTopicAdd(v.id, b.dataset.mark, b.dataset.mtext, b.dataset.msrc);
+    b.disabled = true; b.classList.add('on'); b.textContent = c.marked;
+    const bd = body.querySelector('.coach-badge'), n = coachOpenCount(v.id);
+    if(bd){ bd.textContent = n; bd.hidden = !n; bd.classList.remove('pop'); void bd.offsetWidth; bd.classList.add('pop'); }
+    coachToast(c.markedToast);
+  }; });
+}
+// personality: the five traits of the newest result (values only – the coach never sees answers)
+function coachPersonaMarksHtml(data){
+  const c = ct(), P = pt(), list = (data.persona || []).slice().sort((a, b)=>b.ts - a.ts), r = list[0];
+  if(!r || !r.sc) return '';
+  return `<h3 class="coach-h">${c.markHead} <small class="coach-hsmall">${coachDate(r.ts)}</small></h3>` + PERSONA_TRAITS.map(([T])=>{
+    const val = personaTraitScore(r.sc, T), nm = P.traits[T];
+    return `<div class="coach-mrow"><span class="coach-hname">${coachEsc(nm)}</span><span class="coach-cnt">${val} %</span>${coachMarkBtn('p:' + T, c.mPersona.replace('{trait}', nm).replace('{v}', val), c.srcPersona)}</div>`;
+  }).join('');
+}
+function coachTalkHtml(id, name, ended){
+  const c = ct(), n = coachNotesFor(id), T = n.topics, done = T.filter(x=>x.done).length, S = n.sessions;
+  let h = `<div class="coach-lock">🔒 ${c.talkPrivate.replace('{name}', coachEsc(name))}</div>`;
+  if(ended) h += `<p class="settings-note">${c.talkEnded.replace('{name}', coachEsc(name))}</p>`;
+  if(!ended || T.length) h += `<h3 class="coach-h coach-h2"><span>${c.talkTopics}</span>${T.length ? `<small>${c.talkCount.replace('{n}', done).replace('{m}', T.length)}</small>` : ''}</h3>`
+    + (T.length ? `<div class="coach-topics">${T.map(x=>`<div class="coach-topic${x.done ? ' done' : ''}"><label class="coach-check"><input type="checkbox" data-tdone="${x.id}" ${x.done ? 'checked' : ''} ${ended ? 'disabled' : ''}>`
+      + `<span><span class="ct-txt">${coachEsc(x.text)}</span>${x.src ? `<small class="ct-src">${coachEsc(x.src)}</small>` : ''}${x.done ? `<small class="ct-when">${c.talkDoneOn.replace('{date}', coachDate(x.done))}</small>` : ''}</span></label>`
+      + (ended ? '' : `<button class="ghost-btn coach-mini coach-icon" data-tedit="${x.id}" aria-label="${c.tEdit}" title="${c.tEdit}">✎</button><button class="ghost-btn coach-mini coach-icon" data-tdel="${x.id}" aria-label="${c.tDel}" title="${c.tDel}">✕</button>`)
+      + `</div>`).join('')}</div>` : `<p class="settings-note">${c.talkNone}</p>`);
+  if(!ended){
+    h += `<div class="coach-add"><input class="small-input" id="ct-new" maxlength="200" placeholder="${coachEsc(c.talkOwnPh)}" enterkeyhint="done" autocomplete="off"><button class="primary-btn coach-mini" id="ct-add" aria-label="${c.talkAdd}" title="${c.talkAdd}">+</button></div>`
+      + `<h3 class="coach-h coach-h2"><span>${c.talkNote}</span><small>${coachDate(Date.now())}</small></h3>`
+      + `<textarea class="small-input coach-note" id="ct-note" rows="5" placeholder="${coachEsc(c.talkNotePh)}">${coachEsc((n.note && n.note.text) || '')}</textarea>`
+      + `<button class="primary-btn settings-row" id="ct-save">${c.talkSave}</button>`;
+  }
+  if(S.length) h += `<h3 class="coach-h">${c.talkEarlier}</h3>` + S.map(s=>`<details class="coach-session"><summary>${coachDate(s.at)}${(s.topics || []).length ? ` · ${c.talkTopicsN.replace('{n}', s.topics.length)}` : ''}</summary>`
+    + (s.note ? `<p class="coach-snote">${coachEsc(s.note).replace(/\n/g, '<br>')}</p>` : '')
+    + ((s.topics || []).length ? `<ul class="coach-stopics">${s.topics.map(x=>`<li>✓ ${coachEsc(x.text)}${x.src ? ` <small>${coachEsc(x.src)}</small>` : ''}</li>`).join('')}</ul>` : '')
+    + (ended ? '' : `<button class="ghost-btn coach-mini" data-sdel="${s.id}">${c.talkDelSession}</button>`) + `</details>`).join('');
+  if(ended) h += `<button class="ghost-btn settings-row" id="ct-delall">${c.notesDelete}</button>`;
+  return h;
+}
+function coachTalkBind(body, id, rerender){
+  const c = ct(), n = coachNotesFor(id), find = tid=>n.topics.find(x=>x.id === tid);
+  const g = s=>body.querySelector(s);
+  body.querySelectorAll('[data-tdone]').forEach(i=>{ i.onchange = ()=>{ const x = find(i.dataset.tdone); if(!x) return; x.done = i.checked ? Date.now() : 0; x.mt = Date.now(); saveState(); rerender(); }; });
+  body.querySelectorAll('[data-tedit]').forEach(b=>{ b.onclick = async ()=>{
+    const x = find(b.dataset.tedit); if(!x) return;
+    const r = await uiDialog(c.talkEdit, { html:`<input class="small-input" id="ct-edit" maxlength="200" value="${coachEsc(x.text)}" style="width:100%;box-sizing:border-box">`, confirm:true, okText:c.tSave });
+    const el = document.getElementById('ct-edit'), val = r === true && el ? el.value.trim() : '';
+    if(!val || val === x.text) return;
+    x.text = val; x.mt = Date.now(); saveState(); rerender();
+  }; });
+  body.querySelectorAll('[data-tdel]').forEach(b=>{ b.onclick = ()=>{ n.topics = n.topics.filter(x=>x.id !== b.dataset.tdel); delMark('ct', b.dataset.tdel); saveState(); rerender(); }; });
+  body.querySelectorAll('[data-sdel]').forEach(b=>{ b.onclick = async ()=>{
+    if(!(await uiDialog(c.talkDelAsk, { confirm:true, okText:c.tDel }))) return;
+    n.sessions = n.sessions.filter(x=>x.id !== b.dataset.sdel); delMark('cs', b.dataset.sdel); saveState(); rerender();
+  }; });
+  const inp = g('#ct-new');
+  if(inp){
+    const add = ()=>{ const s = inp.value.trim(); if(!s) return; coachTopicAdd(id, '', s, c.talkOwn); rerender(); const i2 = document.getElementById('ct-new'); if(i2) i2.focus(); };
+    g('#ct-add').onclick = add;
+    inp.onkeydown = e=>{ if(e.key === 'Enter'){ e.preventDefault(); add(); } };
+  }
+  const note = g('#ct-note');
+  if(note) note.oninput = ()=>{ n.note = { text:note.value, mt:Date.now() }; clearTimeout(coachNoteT); coachNoteT = setTimeout(saveState, 600); };
+  const sv = g('#ct-save');
+  if(sv) sv.onclick = ()=>{
+    clearTimeout(coachNoteT);
+    const doneT = n.topics.filter(x=>x.done), text = ((n.note && n.note.text) || '').trim();
+    if(!doneT.length && !text){ uiNotice(c.talkNothing); return; }
+    const t0 = Date.now();
+    // the session keeps the note and the ticked topics; topics not ticked stay for the next session
+    n.sessions = [{ id:coachNewId('s'), at:t0, note:text, topics:doneT.map(x=>({ text:x.text, src:x.src || '', done:x.done })), mt:t0 }].concat(n.sessions);
+    doneT.forEach(x=>delMark('ct', x.id));
+    n.topics = n.topics.filter(x=>!x.done);
+    n.note = { text:'', mt:t0 };
+    saveState(); rerender(); coachToast(c.talkSaved);
+  };
+  const da = g('#ct-delall'); if(da) da.onclick = ()=>coachNotesDeleteAsk(id);
+}
+// 17.11.2026 (decision of the user, variant C): when a client has stopped sharing, the coach is asked once – keep the notes (read only) or delete them
+async function coachNotesDeleteAsk(id){
+  const c = ct(), n = coachNotesOf(state)[id], nm = (n && n.who && n.who.name) || c.client;
+  if(!(await uiDialog(c.notesDelAsk.replace('{name}', nm), { confirm:true, okText:c.tDel }))) return false;
+  // an empty shell instead of nothing: a coach whose only data are these notes would otherwise count as a device without data of its own,
+  // and such a device never uploads (safety rule 2 in syncNow) – the deletion would not travel. delApply removes the shell with the next merge.
+  coachNotesOf(state)[id] = { topics:[], sessions:[] }; delMark('cn', String(id)); saveState();
+  coachToast(c.tDel + ' ✓');
+  if(coachView && String(coachView.id) === String(id)) coachView = null;
+  coachAreaRender();
+  return true;
+}
+async function coachNotesAskEnded(ids){
+  if(coachAsking) return; coachAsking = true;
+  const c = ct(), N = coachNotesOf(state);
+  try{
+    for(const k of ids){
+      if(!N[k]) continue;
+      const nm = (N[k].who && N[k].who.name) || c.client;
+      const r = await uiDialog(c.notesAsk.replace('{name}', nm), { confirm:true, okText:c.notesKeep, cancelText:c.notesDel });
+      if(r === true){ N[k].kept = { v:1, mt:Date.now() }; saveState(); }
+      else if(r === false){ const gone = await uiDialog(c.notesDelAsk.replace('{name}', nm), { confirm:true, okText:c.tDel });
+        if(gone){ N[k] = { topics:[], sessions:[] }; delMark('cn', String(k)); saveState(); } } // empty shell, see coachNotesDeleteAsk
+    }
+  }finally{ coachAsking = false; }
+  if(!coachView && document.getElementById('coach-modal').classList.contains('open')) coachAreaRender();
+}
+function coachEndedRender(){
+  const c = ct(), body = document.getElementById('coach-body'), v = coachView, n = coachNotesOf(state)[v.id];
+  if(!n){ coachView = null; coachAreaRender(); return; }
+  const name = (n.who && n.who.name) || c.client;
+  document.getElementById('coach-title').textContent = name;
+  body.innerHTML = `<button class="ghost-btn coach-back" id="coach-back">${c.back}</button>` + coachTalkHtml(v.id, name, true);
+  document.getElementById('coach-back').onclick = ()=>{ coachView = null; coachAreaRender(); };
+  coachTalkBind(body, v.id, coachEndedRender);
 }
 
 /* ---- the operator: coach codes ---- */
