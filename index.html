@@ -2215,6 +2215,28 @@ html.theme-retreat .coach-badge{ color:#fff; }
 .coach-mark:disabled{ opacity:0.7; cursor:default; }
 #coach-toast{ position:fixed; left:50%; bottom:calc(96px + env(safe-area-inset-bottom, 0px)); transform:translateX(-50%); z-index:2000; background:rgba(20,20,20,0.92); color:#fff; padding:8px 16px; border-radius:999px; font-size:14px; opacity:0; transition:opacity .25s; pointer-events:none; white-space:nowrap; }
 #coach-toast.show{ opacity:1; }
+/* 18.11.2026: coach licence */
+.coach-lic{ margin:2px 0 0; }
+.coach-warn-soft{ border-color:var(--gold); }
+.coach-admin-coach{ align-items:flex-start; }
+.coach-admin-coach .coach-cname small + small{ margin-top:1px; }
+.coach-admin-warn{ color:#c0392b; opacity:1 !important; font-weight:600; }
+.coach-admin-coach.soon .coach-admin-warn{ color:var(--gold-text, var(--gold)); }
+.coach-code-claimed, .coach-code-revoked, .coach-code-expired{ opacity:0.7; }
+.coach-code-revoked .coach-code, .coach-code-expired .coach-code{ text-decoration:line-through; }
+/* 18.11.2026: profile and next appointment */
+.coach-next{ margin:2px 0; font-size:var(--fs-text); color:var(--gold-text, var(--gold)); }
+.coach-card{ border:1px solid rgba(128,128,128,0.25); border-radius:12px; padding:8px 12px; }
+.coach-card summary{ cursor:pointer; font-size:var(--fs-text); padding:4px 0; }
+.coach-card[open] summary{ margin-bottom:6px; }
+.coach-lab{ display:flex; flex-direction:column; gap:4px; font-size:13px; margin:6px 0; min-width:0; }
+.coach-lab > span:first-child{ opacity:0.8; }
+#coach-body .coach-lab .small-input{ width:100%; box-sizing:border-box; min-width:0; }
+.coach-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 10px; }
+.coach-grid3{ grid-template-columns:1.4fr 1fr 1fr; }
+@media (max-width:480px){ .coach-grid3{ grid-template-columns:1fr 1fr; } .coach-grid3 .coach-lab:first-child{ grid-column:1 / -1; } }
+.coach-of{ display:flex; align-items:center; gap:6px; }
+#coach-body .coach-of .small-input{ width:4.2em; flex:none; text-align:center; }
 @media (prefers-reduced-motion: reduce){ .coach-badge.pop{ animation:none; } }
 
 /* ===== 15.11.2026: the CCA designs – dark (theme-cca) and light (theme-cca theme-cca-light), like the CCA growth assessment:
@@ -2549,6 +2571,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
   <div class="modal">
     <div class="modal-top"><h2 class="modal-title" id="remind-title"></h2><button class="icon-btn" onclick="closeModal('remind-modal')"><img class="gold-x" src="img/icons/ico-close.webp" alt="✕"></button></div>
     <p class="modal-sub" id="remind-text"></p>
+    <label class="remind-label"><span id="remind-name-label"></span><input type="text" class="small-input" id="remind-name" maxlength="80" autocomplete="off"></label>
     <label class="remind-label"><span id="remind-time-label"></span><input type="time" class="small-input" id="remind-time" value="20:00"></label>
     <button class="primary-btn" style="width:100%;padding:13px;" id="remind-add" onclick="remindAdd()"></button>
   </div>
@@ -2832,7 +2855,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.21.0';
+const APP_VERSION = '2.22.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -5202,6 +5225,24 @@ function timerStop(already){
   timerUi();
 }
 
+/* ---- calendar files (18.11.2026): one helper for all – the title is what the person chose (no "eWolfe" in front), the file is named after it ---- */
+function icsEsc(s){ return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/([,;])/g, '\\$1'); }
+function icsLocal(dt){ const pad = n=>String(n).padStart(2, '0'); return dt.getFullYear() + pad(dt.getMonth() + 1) + pad(dt.getDate()) + 'T' + pad(dt.getHours()) + pad(dt.getMinutes()) + '00'; }
+function icsDownload(title, start, minutes, opts){
+  opts = opts || {};
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//eWolfe//App//DE', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT',
+    'UID:' + (opts.uid || 'ewolfe-' + Date.now()) + '@ewolfe', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''),
+    'DTSTART:' + icsLocal(start), 'DTEND:' + icsLocal(new Date(start.getTime() + minutes * 60000))];
+  if(opts.rrule) L.push('RRULE:' + opts.rrule);
+  L.push('SUMMARY:' + icsEsc(title));
+  if(opts.url) L.push('URL:' + opts.url, 'DESCRIPTION:' + icsEsc(opts.url));
+  L.push('BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + icsEsc(title), 'TRIGGER:' + (opts.alarm || 'PT0M'), 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([L.join('\r\n')], { type:'text/calendar;charset=utf-8' }));
+  a.download = (String(title).replace(/[\\/:*?"<>|\r\n]+/g, ' ').trim().slice(0, 60) || 'Termin') + '.ics';
+  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+  return L.join('\r\n');
+}
 /* ---- daily reminder as a calendar event (works without a server: the phone's calendar reminds) ---- */
 function remindOpen(){
   const d = t();
@@ -5210,27 +5251,20 @@ function remindOpen(){
   document.getElementById('remind-time-label').textContent = d.remindTime;
   document.getElementById('remind-add').textContent = d.remindAdd;
   try{ const v = localStorage.getItem('ewolfe_remind_time'); if(v) document.getElementById('remind-time').value = v; }catch(e){}
+  // 18.11.2026 (wish of the user): the title of the calendar entry can be chosen – no "eWolfe" in front; this device remembers an own title
+  document.getElementById('remind-name-label').textContent = d.remindName;
+  let own = ''; try{ own = localStorage.getItem('ewolfe_remind_title') || ''; }catch(e){}
+  document.getElementById('remind-name').value = own || d.remindEvent;
   openModal('remind-modal');
 }
 function remindAdd(){
   const d = t(), time = document.getElementById('remind-time').value || '20:00';
-  try{ localStorage.setItem('ewolfe_remind_time', time); }catch(e){}
+  const title = (document.getElementById('remind-name').value || '').trim() || d.remindEvent;
+  try{ localStorage.setItem('ewolfe_remind_time', time); if(title === d.remindEvent) localStorage.removeItem('ewolfe_remind_title'); else localStorage.setItem('ewolfe_remind_title', title); }catch(e){}
   const [hh, mm] = time.split(':').map(x=>parseInt(x, 10) || 0);
   const start = new Date(); start.setHours(hh, mm, 0, 0);
   if(start < new Date()) start.setDate(start.getDate() + 1);
-  const pad = n=>String(n).padStart(2, '0');
-  const loc = dt=>dt.getFullYear() + pad(dt.getMonth()+1) + pad(dt.getDate()) + 'T' + pad(dt.getHours()) + pad(dt.getMinutes()) + '00';
-  const end = new Date(start.getTime() + 10 * 60000);
-  const url = syncAppUrl() || location.href.split('#')[0];
-  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//eWolfe//Achtsamkeit//DE','CALSCALE:GREGORIAN','BEGIN:VEVENT',
-    'UID:ewolfe-reminder-' + Date.now() + '@ewolfe', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,''),
-    'DTSTART:' + loc(start), 'DTEND:' + loc(end), 'RRULE:FREQ=DAILY', 'SUMMARY:' + d.remindEvent, 'URL:' + url, 'DESCRIPTION:' + url,
-    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:' + d.remindEvent,'TRIGGER:PT0M','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
-  const blob = new Blob([ics], { type:'text/calendar;charset=utf-8' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob); a.download = 'ewolfe-erinnerung.ics';
-  document.body.appendChild(a); a.click();
-  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+  icsDownload(title, start, 10, { rrule:'FREQ=DAILY', url:syncAppUrl() || location.href.split('#')[0], uid:'ewolfe-reminder-' + Date.now() });
   closeModal('remind-modal');
   uiNotice(d.remindDone);
 }
@@ -5866,7 +5900,7 @@ Object.assign(I18N.de, {
   moodStatTitle:'Deine Stimmung', moodStat:'Nach deinen Übungen fühlst du dich im Schnitt um {d} Stufen ruhiger (aus {n} Übungen).', moodStat1:'Nach deiner Übung hast du dich um {d} Stufen ruhiger gefühlt.', moodStatWorse:'Nach deinen Übungen fühlst du dich im Schnitt etwas angespannter. Probier ruhig auch eine andere Übung aus.',
   moodStatBest:'Am besten tut dir gerade: {x}.', moodStatNone:'Nach deinen Übungen bleibt deine Stimmung im Schnitt gleich (aus {n} Übungen).',
   streakDays:'{n} Tage in Folge', streakDay1:'1 Tag in Folge', streakNone:'Starte heute deine erste Übung', streakTotal:'{n} Übungen insgesamt',
-  remindBtn:'Tägliche Erinnerung', remindTitle:'Tägliche Erinnerung', remindText:'Wähle eine Uhrzeit. eWolfe legt dafür einen täglichen Termin in deinem Kalender an, der dich an deine Achtsamkeits-Übung erinnert.', remindTime:'Uhrzeit', remindAdd:'Zum Kalender hinzufügen', remindEvent:'eWolfe: Zeit für Achtsamkeit', remindDone:'Die Kalenderdatei wurde erstellt. Öffne sie und tippe auf „Hinzufügen“, dann erinnert dich dein Kalender jeden Tag.',
+  remindBtn:'Tägliche Erinnerung', remindTitle:'Tägliche Erinnerung', remindText:'Wähle eine Uhrzeit. eWolfe legt dafür einen täglichen Termin in deinem Kalender an, der dich an deine Achtsamkeits-Übung erinnert.', remindTime:'Uhrzeit', remindAdd:'Zum Kalender hinzufügen', remindEvent:'Zeit für Achtsamkeit', remindName:'Titel im Kalender', calTitleAsk:'Wie soll der Termin in deinem Kalender heißen?', calAdd:'In den Kalender', remindDone:'Die Kalenderdatei wurde erstellt. Öffne sie und tippe auf „Hinzufügen“, dann erinnert dich dein Kalender jeden Tag.',
   impulseTitle:'Impuls für heute', impulseFor:'Dein Bereich mit dem meisten Potenzial: {a} ({v} %)', impulseOther:'Anderer Impuls',
   impulses:{
     gesundheit:['Geh heute 15 Minuten an der frischen Luft spazieren, ohne Handy in der Hand.','Trink heute bewusst 6 Gläser Wasser über den Tag verteilt.','Geh heute 30 Minuten früher schlafen als sonst.','Mach heute 5 Minuten Dehnübungen nach dem Aufstehen.'],
@@ -5891,7 +5925,7 @@ Object.assign(I18N.en, {
   moodStatTitle:'Your mood', moodStat:'After your exercises you feel {d} steps calmer on average (from {n} exercises).', moodStat1:'After your exercise you felt {d} steps calmer.', moodStatWorse:'After your exercises you feel a little more tense on average. Feel free to try another exercise too.',
   moodStatBest:'What helps you most right now: {x}.', moodStatNone:'After your exercises your mood stays the same on average (from {n} exercises).',
   streakDays:'{n} days in a row', streakDay1:'1 day in a row', streakNone:'Start your first exercise today', streakTotal:'{n} exercises in total',
-  remindBtn:'Daily reminder', remindTitle:'Daily reminder', remindText:'Choose a time. eWolfe creates a daily event in your calendar that reminds you of your mindfulness exercise.', remindTime:'Time', remindAdd:'Add to calendar', remindEvent:'eWolfe: time for mindfulness', remindDone:'The calendar file has been created. Open it and tap "Add", then your calendar will remind you every day.',
+  remindBtn:'Daily reminder', remindTitle:'Daily reminder', remindText:'Choose a time. eWolfe creates a daily event in your calendar that reminds you of your mindfulness exercise.', remindTime:'Time', remindAdd:'Add to calendar', remindEvent:'Time for mindfulness', remindName:'Title in your calendar', calTitleAsk:'What should the event be called in your calendar?', calAdd:'Add to calendar', remindDone:'The calendar file has been created. Open it and tap "Add", then your calendar will remind you every day.',
   impulseTitle:'Impulse for today', impulseFor:'Your area with the most potential: {a} ({v} %)', impulseOther:'Another impulse',
   impulses:{
     gesundheit:['Take a 15-minute walk outside today, without your phone in your hand.','Drink 6 glasses of water today, spread over the day.','Go to bed 30 minutes earlier than usual tonight.','Do 5 minutes of stretching after getting up today.'],
@@ -6038,8 +6072,8 @@ Object.assign(I18N.en.areasText, {"gesundheit": "Your health is the foundation f
 // 24.10.2026: the user's text for Berufung
 I18N.de.areasText.berufung = "Deine Berufung bedeutet, deine Stärken und Talente zu entfalten, dich persönlich weiterzuentwickeln und einen Sinn in dem zu finden, was du tust. Es geht nicht nur um beruflichen Erfolg oder finanzielle Sicherheit, sondern auch darum, mit Freude und Überzeugung deinen eigenen Weg zu gehen."; I18N.de.areaQuestions.berufung = ["Erfüllt dich das, womit du den größten Teil deines Tages verbringst?", "Kannst du deine Stärken und Talente in deine Arbeit einbringen?", "Fühlst du dich gefordert, ohne dauerhaft überfordert zu sein?", "Hast du eine Vorstellung davon, wohin du dich entwickeln möchtest?"]; I18N.de.areaMore.berufung = {"belongs": "Beruf, Ausbildung, persönliche Stärken, Talente, Weiterentwicklung und das Gefühl, mit dem eigenen Tun etwas Sinnvolles zu bewirken.", "high": "Du kannst deine Fähigkeiten entfalten, lernst regelmäßig Neues und gehst überwiegend mit Freude an deine Aufgaben. Du empfindest deine Tätigkeit als sinnvoll und hast das Gefühl, dich persönlich und beruflich weiterzuentwickeln.", "step": "Nimm dir heute einen Moment Zeit und notiere eine Stärke, die du eingesetzt hast. Erkenne bewusst an, was du bereits kannst und bewirkst."};
 I18N.en.areasText.berufung = "Your purpose means developing your strengths and talents, growing as a person and finding meaning in what you do. It is not only about professional success or financial security, but also about following your own path with joy and conviction."; I18N.en.areaQuestions.berufung = ["Does what you spend most of your day on fulfil you?", "Can you bring your strengths and talents into your work?", "Do you feel challenged without being constantly overwhelmed?", "Do you have an idea of where you would like to grow?"]; I18N.en.areaMore.berufung = {"belongs": "Work, training, personal strengths, talents, growth and the feeling of achieving something meaningful through what you do.", "high": "You can develop your abilities, learn new things regularly and mostly approach your tasks with joy. You find your work meaningful and feel that you are growing personally and professionally.", "step": "Take a moment today and note one strength you used. Consciously acknowledge what you can already do and achieve."};
-Object.assign(I18N.de, {"wheelRemind": "Dein letztes Lebensrad ist {m} Monate alt.\n\nZeit für ein neues? Nimm dir ein paar Minuten und schau, wo du heute stehst. Mit „Vergleichen“ siehst du danach, wie du gewachsen bist.", "wheelRemindNow": "Jetzt ausfüllen", "wheelRemindCal": "Im Kalender erinnern", "wheelRemindLater": "Später", "wheelRemindEvent": "eWolfe: Zeit für ein neues Lebensrad", "wheelRemindCalDone": "Die Kalenderdatei wurde erstellt. Öffne sie und tippe auf „Hinzufügen“, dann erinnert dich dein Kalender alle drei Monate an ein neues Lebensrad.", "noteWheel": "Dein letztes Lebensrad ist drei Monate oder älter – Zeit für ein neues."});
-Object.assign(I18N.en, {"wheelRemind": "Your last wheel of life is {m} months old.\n\nTime for a new one? Take a few minutes to see where you stand today. Afterwards “Compare” shows you how you have grown.", "wheelRemindNow": "Fill it in now", "wheelRemindCal": "Remind me in my calendar", "wheelRemindLater": "Later", "wheelRemindEvent": "eWolfe: time for a new wheel of life", "wheelRemindCalDone": "The calendar file has been created. Open it and tap “Add”, then your calendar will remind you every three months to fill in a new wheel of life.", "noteWheel": "Your last wheel of life is three months old or older – time for a new one."});
+Object.assign(I18N.de, {"wheelRemind": "Dein letztes Lebensrad ist {m} Monate alt.\n\nZeit für ein neues? Nimm dir ein paar Minuten und schau, wo du heute stehst. Mit „Vergleichen“ siehst du danach, wie du gewachsen bist.", "wheelRemindNow": "Jetzt ausfüllen", "wheelRemindCal": "Im Kalender erinnern", "wheelRemindLater": "Später", "wheelRemindEvent": "Zeit für ein neues Lebensrad", "wheelRemindCalDone": "Die Kalenderdatei wurde erstellt. Öffne sie und tippe auf „Hinzufügen“, dann erinnert dich dein Kalender alle drei Monate an ein neues Lebensrad.", "noteWheel": "Dein letztes Lebensrad ist drei Monate oder älter – Zeit für ein neues."});
+Object.assign(I18N.en, {"wheelRemind": "Your last wheel of life is {m} months old.\n\nTime for a new one? Take a few minutes to see where you stand today. Afterwards “Compare” shows you how you have grown.", "wheelRemindNow": "Fill it in now", "wheelRemindCal": "Remind me in my calendar", "wheelRemindLater": "Later", "wheelRemindEvent": "Time for a new wheel of life", "wheelRemindCalDone": "The calendar file has been created. Open it and tap “Add”, then your calendar will remind you every three months to fill in a new wheel of life.", "noteWheel": "Your last wheel of life is three months old or older – time for a new one."});
 Object.assign(I18N.de, { clubRanks:['', 'Gast', 'Anwärter', 'Mitglied', 'Ratsmitglied', 'Vorstand', 'Ehrenmitglied'], clubRankLabel:'Dein Rang',
   ladyRanks:['', 'Die Suchende', 'Die Träumerin', 'Die Entdeckerin', 'Die Visionärin', 'Die Weise', 'Die Lichtgestalt'], /* 1.11.2026: new ranks of the user */ glowRanks:['', 'Funke', 'Glut', 'Flamme', 'Stern', 'Komet', 'Sonne'],
   ladyUp:['', 'Du bist jetzt die Träumerin. Drei Monate – du hast begonnen, dein Leben neu zu erträumen.', 'Du bist jetzt die Entdeckerin. Ein halbes Jahr – du entdeckst, was alles in dir steckt.', 'Du bist jetzt die Visionärin. Ein ganzes Jahr – du siehst klar, wohin du wachsen möchtest.', 'Du bist jetzt die Weise. Anderthalb Jahre bleibst du dir treu – deine Erfahrung trägt dich.', 'Du bist jetzt die Lichtgestalt. Zwei Jahre mit dir selbst – dein Licht strahlt weit.'],
@@ -11472,18 +11506,15 @@ async function maybeWheelReminder(){
   if(r === true) openEvalModal(); else if(r === 'alt') wheelRemindCalendar();
   return true;
 }
-function wheelRemindCalendar(){
-  const d = t(), pad = n=>String(n).padStart(2, '0');
+async function wheelRemindCalendar(){
+  const d = t(); let own = ''; try{ own = localStorage.getItem('ewolfe_wheel_remind_title') || ''; }catch(e){}
+  // 18.11.2026: the title can be chosen first (no "eWolfe" in front)
+  const r = await uiDialog(d.calTitleAsk, { html:`<input class="small-input" id="cal-title" maxlength="80" autocomplete="off" value="${escapeHtml(own || d.wheelRemindEvent)}" style="width:100%;box-sizing:border-box">`, confirm:true, okText:d.calAdd });
+  if(r !== true) return;
+  const el = document.getElementById('cal-title'), title = ((el && el.value) || '').trim() || d.wheelRemindEvent;
+  try{ if(title === d.wheelRemindEvent) localStorage.removeItem('ewolfe_wheel_remind_title'); else localStorage.setItem('ewolfe_wheel_remind_title', title); }catch(e){}
   const start = new Date(Math.max(Date.now() + 864e5, (lastWheelTs() || Date.now()) + WHEEL_REMIND_DAYS * 864e5)); start.setHours(19, 0, 0, 0);
-  const loc = dt=>dt.getFullYear() + pad(dt.getMonth() + 1) + pad(dt.getDate()) + 'T' + pad(dt.getHours()) + pad(dt.getMinutes()) + '00';
-  const end = new Date(start.getTime() + 30 * 60000), url = syncAppUrl() || location.href.split('#')[0];
-  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//eWolfe//Lebensrad//DE', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT',
-    'UID:ewolfe-wheel-' + Date.now() + '@ewolfe', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''),
-    'DTSTART:' + loc(start), 'DTEND:' + loc(end), 'RRULE:FREQ=MONTHLY;INTERVAL=3', 'SUMMARY:' + d.wheelRemindEvent, 'URL:' + url, 'DESCRIPTION:' + url,
-    'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + d.wheelRemindEvent, 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([ics], { type:'text/calendar;charset=utf-8' })); a.download = 'ewolfe-lebensrad-erinnerung.ics';
-  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+  icsDownload(title, start, 30, { rrule:'FREQ=MONTHLY;INTERVAL=3', url:syncAppUrl() || location.href.split('#')[0], uid:'ewolfe-wheel-' + Date.now() });
   uiNotice(d.wheelRemindCalDone);
 }
 /* ---- Notifications: the dot at the account icon only shows when there is something for the person to do ---- */
@@ -12225,7 +12256,21 @@ de:{ head:'Coach', needLogin:'Melde dich an, um dich mit einem Coach zu verbinde
   mGoalDone:'Erreichtes Ziel „{t}“ würdigen', mHabit:'Gewohnheit „{name}“: {n} von 7 Tagen', mHabitW:'Wöchentliche Gewohnheit „{name}“: diese Woche {s}', habitWYes:'erledigt', habitWNo:'noch offen',
   mPersona:'{trait}: {v} % – darüber sprechen', talkEnded:'{name} hat das Teilen beendet. Deine Notizen kannst du nur noch lesen.',
   notesAsk:'{name} hat das Teilen beendet. Was soll mit deinen Gesprächsnotizen passieren?', notesKeep:'Behalten', notesDel:'Löschen',
-  notesDelAsk:'Alle Gesprächsnotizen zu {name} löschen? Das lässt sich nicht rückgängig machen.', notesView:'Notizen ansehen', notesDelete:'Notizen löschen', notesHead:'Notizen zu beendeten Verbindungen' },
+  notesDelAsk:'Alle Gesprächsnotizen zu {name} löschen? Das lässt sich nicht rückgängig machen.', notesView:'Notizen ansehen', notesDelete:'Notizen löschen', notesHead:'Notizen zu beendeten Verbindungen',
+  profileHead:'Steckbrief und nächster Termin', pTopic:'Anliegen / Auftrag', pStart:'Beginn', pSessions:'Sitzungen bisher', pOf:'von', pTopicLine:'Anliegen: {t}',
+  nextLine:'Nächstes Gespräch: {date}', nextHead:'Nächster Termin', nDate:'Datum', nTime:'Uhrzeit', nDur:'Dauer', nMin:'{n} Min.', nTitle:'Titel im Kalender',
+  nDefault:'{name} Coaching', nAdd:'In meinen Kalender', nNeedDate:'Bitte wähle zuerst ein Datum.', nAdded:'Termin für deinen Kalender erstellt',
+  licLine:'Lizenz: {n} Plätze · bezahlt bis {date}', licNoLimit:'Lizenz: {n} Plätze · ohne Ablauf', licSoon:'Deine Lizenz läuft am {date} ab. Bitte verlängere sie rechtzeitig.',
+  licGrace:'Deine Lizenz ist am {date} abgelaufen. Bis {grace} kannst du noch wie gewohnt arbeiten – danach sind neue Einladungen und das Ansehen deiner Klienten gesperrt, bis sie verlängert ist.',
+  licOver:'Deine Lizenz ist am {date} abgelaufen. Neue Einladungen und das Ansehen deiner Klienten sind gesperrt, bis sie verlängert ist. Deine Notizen und die Daten deiner Klienten bleiben erhalten.',
+  err_license_expired:'Deine Lizenz ist abgelaufen. Bitte verlängere sie.', err_coach_expired:'Die Lizenz deines Coaches ist abgelaufen. Bitte sprich mit deinem Coach.',
+  err_code_expired:'Dieser Code ist abgelaufen. Bitte frag nach einem neuen.', err_code_revoked:'Dieser Code wurde gesperrt.',
+  adForName:'Für (Name des Coaches)', adForEmail:'E-Mail des Coaches', adMonths:'Laufzeit der Lizenz', adMonthsN:'{n} Monate', adMonth1:'1 Monat', adPlaces:'Plätze',
+  adCreate:'Code erstellen', adCodesHead:'Codes', adCoachesHead:'Coaches', adNoCoaches:'Noch keine Coaches.', adExpiryHint:'Ein Code ist 30 Tage einlösbar. Die Lizenz läuft ab dem Einlösen.',
+  stCreated:'erstellt {date}', stSent:'verschickt {date}', stClaimed:'eingelöst {date}', stRevoked:'gesperrt {date}', stExpired:'abgelaufen {date}', stValid:'einlösbar bis {date}',
+  adRevoke:'Sperren', adRevokeAsk:'Code {code} sperren? Er lässt sich dann nicht mehr einlösen.', adPaid:'bezahlt bis {date}', adNoLimit:'ohne Ablauf', adUsed:'{n} von {m} Plätzen belegt',
+  adExt1:'+1 Monat', adExt12:'+1 Jahr', adExtDate:'Datum …', adExtAsk:'Bezahlt bis:', adSlots:'Plätze …', adSlotsAsk:'Wie viele Plätze?', adSoon:'läuft bald ab', adOver:'abgelaufen',
+  adGrace:'Schonfrist bis {date}', adLic:'{n} Monate Lizenz', adSaved:'Gespeichert' },
 en:{ head:'Coach', needLogin:'Sign in to connect with a coach.', loading:'Loading …', offline:'No connection to the server right now. Please try again in a moment.',
   intro:'Working with a coach? With your coach’s invitation code you can share chosen parts of your app with them – read only. You can stop sharing at any time.',
   connectBtn:'Connect with coach', connectTitle:'Connect with your coach', codePh:'Invitation code (e.g. K2AB-CD34)', namePh:'Your name for the coach',
@@ -12262,20 +12307,34 @@ en:{ head:'Coach', needLogin:'Sign in to connect with a coach.', loading:'Loadin
   mGoalDone:'Achieved goal “{t}”: celebrate it', mHabit:'Habit “{name}”: {n} of 7 days', mHabitW:'Weekly habit “{name}”: this week {s}', habitWYes:'done', habitWNo:'still open',
   mPersona:'{trait}: {v} % – talk about it', talkEnded:'{name} has stopped sharing. You can only read your notes now.',
   notesAsk:'{name} has stopped sharing. What should happen to your session notes?', notesKeep:'Keep', notesDel:'Delete',
-  notesDelAsk:'Delete all session notes about {name}? This cannot be undone.', notesView:'View notes', notesDelete:'Delete notes', notesHead:'Notes on ended connections' }
+  notesDelAsk:'Delete all session notes about {name}? This cannot be undone.', notesView:'View notes', notesDelete:'Delete notes', notesHead:'Notes on ended connections',
+  profileHead:'Profile and next appointment', pTopic:'Concern / assignment', pStart:'Start', pSessions:'Sessions so far', pOf:'of', pTopicLine:'Concern: {t}',
+  nextLine:'Next session: {date}', nextHead:'Next appointment', nDate:'Date', nTime:'Time', nDur:'Duration', nMin:'{n} min', nTitle:'Title in your calendar',
+  nDefault:'{name} coaching', nAdd:'Add to my calendar', nNeedDate:'Please choose a date first.', nAdded:'Calendar event created',
+  licLine:'Licence: {n} places · paid until {date}', licNoLimit:'Licence: {n} places · no expiry', licSoon:'Your licence runs out on {date}. Please renew it in time.',
+  licGrace:'Your licence ran out on {date}. Until {grace} you can work as usual – after that, new invitations and viewing your clients are locked until it is renewed.',
+  licOver:'Your licence ran out on {date}. New invitations and viewing your clients are locked until it is renewed. Your notes and your clients’ data are kept.',
+  err_license_expired:'Your licence has run out. Please renew it.', err_coach_expired:'Your coach’s licence has run out. Please talk to your coach.',
+  err_code_expired:'This code has expired. Please ask for a new one.', err_code_revoked:'This code has been blocked.',
+  adForName:'For (name of the coach)', adForEmail:'Email of the coach', adMonths:'Licence period', adMonthsN:'{n} months', adMonth1:'1 month', adPlaces:'Places',
+  adCreate:'Create code', adCodesHead:'Codes', adCoachesHead:'Coaches', adNoCoaches:'No coaches yet.', adExpiryHint:'A code can be redeemed for 30 days. The licence runs from redeeming.',
+  stCreated:'created {date}', stSent:'sent {date}', stClaimed:'redeemed {date}', stRevoked:'blocked {date}', stExpired:'expired {date}', stValid:'redeemable until {date}',
+  adRevoke:'Block', adRevokeAsk:'Block code {code}? It can then no longer be redeemed.', adPaid:'paid until {date}', adNoLimit:'no expiry', adUsed:'{n} of {m} places taken',
+  adExt1:'+1 month', adExt12:'+1 year', adExtDate:'Date …', adExtAsk:'Paid until:', adSlots:'Places …', adSlotsAsk:'How many places?', adSoon:'runs out soon', adOver:'expired',
+  adGrace:'grace until {date}', adLic:'{n} months licence', adSaved:'Saved' }
 };
 const ct = ()=>COACH_TXT[state.settings.lang === 'en' ? 'en' : 'de'];
 let coachMe = null, coachIsAdmin = false, coachLink = null, coachLoadedFor = '', coachLoadedAt = 0, coachPrivCache = null, coachClients = [], coachView = null, coachKeyOk = true;
 const COACH_HASH_KEY = 'ewolfe_coach_hash';
 const coachEsc = s=>escapeHtml(String(s == null ? '' : s));
 const coachDate = ts=>ts ? new Date(ts).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { day:'2-digit', month:'2-digit', year:'numeric' }) : '';
-function coachErr(e){ const c = ct(), m = String(e && e.message || ''); const k = ['no_code', 'has_coach', 'own_code', 'no_slots', 'code_used', 'not_coach', 'not_admin'].find(x=>m.indexOf(x) >= 0); return k ? c['err_' + k] : e && e.status === 0 ? c.offline : c.err; }
+function coachErr(e){ const c = ct(), m = String(e && e.message || ''); const k = ['no_code', 'has_coach', 'own_code', 'no_slots', 'code_used', 'not_coach', 'not_admin', 'license_expired', 'coach_expired', 'code_expired', 'code_revoked'].find(x=>m.indexOf(x) >= 0); return k ? c['err_' + k] : e && e.status === 0 ? c.offline : c.err; }
 const coachRpc = (fn, body)=>sbRequest('/rest/v1/rpc/' + fn, { method:'POST', body:body || {} });
 async function coachLoad(){
   const uid = sbUid(); if(!uid) return false;
   try{
     const [me, adm, my] = await Promise.all([
-      sbRequest('/rest/v1/coaches?select=user_id,name,slots,pub,priv&user_id=eq.' + uid),
+      sbRequest('/rest/v1/coaches?select=user_id,name,slots,pub,priv,paid_until&user_id=eq.' + uid), // paid_until since 18.11.2026
       sbRequest('/rest/v1/app_admins?select=user_id&user_id=eq.' + uid),
       coachRpc('coach_my')
     ]);
@@ -12456,7 +12515,7 @@ async function coachRekey(){
 }
 
 /* ---- the coach area: places, invitations, clients ---- */
-function coachAreaOpen(){ coachView = null; openModal('coach-modal'); coachAreaRender(); }
+function coachAreaOpen(){ coachView = null; openModal('coach-modal'); coachAreaRender(); coachLoad().then(ok=>{ if(ok && !coachView && document.getElementById('coach-modal').classList.contains('open')) coachAreaRender(); }); } // 18.11.2026: fresh licence date
 async function coachAreaRender(){
   const c = ct(), body = document.getElementById('coach-body'), uid = sbUid();
   document.getElementById('coach-title').textContent = c.areaTitle;
@@ -12484,8 +12543,8 @@ async function coachAreaRender(){
   const nm = (x, i)=>coachEsc(x.data && x.data.name || c.client + ' ' + (i + 1));
   let h = (coachKeyOk ? '' : `<div class="coach-warn"><p>${c.keyLost}</p><button class="ghost-btn" id="coach-rekey">${c.rekey}</button></div>`)
     + `<label class="settings-note" for="coach-myname">${c.yourName}</label><input class="small-input" id="coach-myname" maxlength="80" value="${coachEsc(coachMe.name)}">`
-    + `<p class="coach-slots">${c.slots.replace('{n}', used).replace('{max}', coachMe.slots)}</p>`
-    + `<button class="primary-btn settings-row" id="coach-invite" ${full ? 'disabled' : ''}>${full ? c.noSlots : c.invite}</button>`;
+    + `<p class="coach-slots">${c.slots.replace('{n}', used).replace('{max}', coachMe.slots)}</p>` + coachLicHtml(coachMe)
+    + `<button class="primary-btn settings-row" id="coach-invite" ${full || coachLicState(coachMe).s === 'over' ? 'disabled' : ''}>${full ? c.noSlots : c.invite}</button>`;
   if((invites || []).length) h += `<h3 class="coach-h">${c.invitesHead}</h3><p class="settings-note">${c.inviteHint}</p>`
     + invites.map(v=>`<div class="coach-row"><span class="coach-code">${coachEsc(v.code)}</span><button class="ghost-btn coach-mini" data-copy="${coachEsc(v.code)}">${c.copy}</button><button class="ghost-btn coach-mini" data-delinv="${coachEsc(v.code)}">${c.del}</button></div>`).join('');
   h += `<h3 class="coach-h">${c.clientsHead}</h3>` + (active.length ? active.map((x, i)=>`<div class="coach-row coach-client"><div class="coach-cname"><b>${nm(x, i)}</b><small>${x.at ? c.updated.replace('{date}', coachDate(x.at)) : c.notYet}</small></div>
@@ -12505,7 +12564,7 @@ async function coachAreaRender(){
   const rk = document.getElementById('coach-rekey'); if(rk) rk.onclick = coachRekey;
   const myn = document.getElementById('coach-myname'); myn.onchange = async ()=>{ try{ await coachRpc('coach_set_name', { p_name:myn.value.trim() }); coachMe.name = myn.value.trim(); }catch(e){ uiNotice(coachErr(e)); } };
   document.getElementById('coach-invite').onclick = async ()=>{ try{ await coachRpc('coach_invite_create'); coachAreaRender(); }catch(e){ uiNotice(coachErr(e)); } };
-  q('[data-copy]').forEach(b=>{ b.onclick = ()=>{ try{ navigator.clipboard.writeText(b.dataset.copy).then(()=>{ b.textContent = c.copied; }); }catch(e){} }; });
+  q('[data-copy]').forEach(b=>{ b.onclick = ()=>{ try{ navigator.clipboard.writeText(b.dataset.copy).then(()=>{ b.textContent = c.copied; }).catch(()=>{}); }catch(e){} }; });
   q('[data-delinv]').forEach(b=>{ b.onclick = async ()=>{ try{ await coachRpc('coach_invite_delete', { p_code:b.dataset.delinv }); coachAreaRender(); }catch(e){ uiNotice(coachErr(e)); } }; });
   q('[data-view]').forEach(b=>{ b.onclick = ()=>{ coachView = { id:+b.dataset.view, tab:'wheels', sel:null, week:dayKey(weekStart(new Date())) }; coachClientRender(); }; });
   q('[data-end]').forEach(b=>{ b.onclick = async ()=>{
@@ -12619,7 +12678,8 @@ function coachHabitsHtml(st){
 
 /* ---- 17.11.2026 (wish of the user): the coach's own session notes per client – topics for the next session, a note, earlier sessions ----
    state.coachNotes = { [link id]: { who:{ name, mt }, topics:[{ id, key, text, src, at, done (time or 0), mt }], note:{ text, mt },
-                                    sessions:[{ id, at, note, topics:[{ text, src, done }], mt }], kept:{ v, mt } } }
+                                    sessions:[{ id, at, note, topics:[{ text, src, done }], mt }], kept:{ v, mt },
+                                    profile:{ topic, start, count, total, mt }, next:{ date, time, dur, title, mt } } }   (profile/next since 18.11.2026)
    The coach's own data: synced and encrypted with everything else, never part of the excerpt a client shares (coachPayload).
    Deleted: a topic 'ct:' + id, a session 'cs:' + id, all notes of a connection 'cn:' + link id (delApply). */
 let coachNoteT = 0, coachAsking = false;
@@ -12632,13 +12692,13 @@ function coachNotesMerge(a, b){
     const A = (a || {})[k] || {}, B = (b || {})[k] || {};
     const list = f=>{ const m = {}; [A[f], B[f]].forEach(l=>(Array.isArray(l) ? l : []).forEach(x=>{ if(x && x.id) m[x.id] = newer(m[x.id], x); })); return Object.values(m).map(cp); };
     const o = { topics:list('topics').sort((x, y)=>(x.at || 0) - (y.at || 0)), sessions:list('sessions').sort((x, y)=>(y.at || 0) - (x.at || 0)) };
-    ['note', 'who', 'kept'].forEach(f=>{ const v = newer(A[f], B[f]); if(v) o[f] = cp(v); });
+    ['note', 'who', 'kept', 'profile', 'next'].forEach(f=>{ const v = newer(A[f], B[f]); if(v) o[f] = cp(v); });
     out[k] = o;
   });
   return out;
 }
 function coachNotesFor(id){ const N = coachNotesOf(state); if(!N[id]) N[id] = { topics:[], sessions:[] }; if(!Array.isArray(N[id].topics)) N[id].topics = []; if(!Array.isArray(N[id].sessions)) N[id].sessions = []; return N[id]; }
-function coachNotesHas(n){ return !!n && !!((n.topics || []).length || (n.sessions || []).length || (n.note && n.note.text)); }
+function coachNotesHas(n){ return !!n && !!((n.topics || []).length || (n.sessions || []).length || (n.note && n.note.text) || (n.profile && (n.profile.topic || n.profile.total || n.profile.count)) || (n.next && n.next.date)); }
 function coachOpenCount(id){ const n = coachNotesOf(state)[id]; return n ? (n.topics || []).filter(x=>!x.done).length : 0; }
 function coachNewId(p){ return p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 function coachTopicAdd(id, key, text, src){
@@ -12680,6 +12740,7 @@ function coachTalkHtml(id, name, ended){
   const c = ct(), n = coachNotesFor(id), T = n.topics, done = T.filter(x=>x.done).length, S = n.sessions;
   let h = `<div class="coach-lock">🔒 ${c.talkPrivate.replace('{name}', coachEsc(name))}</div>`;
   if(ended) h += `<p class="settings-note">${c.talkEnded.replace('{name}', coachEsc(name))}</p>`;
+  h += coachPlanHtml(n, name, ended); // 18.11.2026: profile and next appointment
   if(!ended || T.length) h += `<h3 class="coach-h coach-h2"><span>${c.talkTopics}</span>${T.length ? `<small>${c.talkCount.replace('{n}', done).replace('{m}', T.length)}</small>` : ''}</h3>`
     + (T.length ? `<div class="coach-topics">${T.map(x=>`<div class="coach-topic${x.done ? ' done' : ''}"><label class="coach-check"><input type="checkbox" data-tdone="${x.id}" ${x.done ? 'checked' : ''} ${ended ? 'disabled' : ''}>`
       + `<span><span class="ct-txt">${coachEsc(x.text)}</span>${x.src ? `<small class="ct-src">${coachEsc(x.src)}</small>` : ''}${x.done ? `<small class="ct-when">${c.talkDoneOn.replace('{date}', coachDate(x.done))}</small>` : ''}</span></label>`
@@ -12698,8 +12759,53 @@ function coachTalkHtml(id, name, ended){
   if(ended) h += `<button class="ghost-btn settings-row" id="ct-delall">${c.notesDelete}</button>`;
   return h;
 }
+// 18.11.2026 (wish of the user): a short profile per coachee and the next appointment, which goes into the coach's own calendar as a file –
+// no connection to Google/Outlook, no server; the title is the coach's to choose ("Anna Coaching 3/10")
+function coachDefTitle(name, P){ const c = ct(); P = P || {}; return c.nDefault.replace('{name}', name) + (P.total ? ' ' + ((+P.count || 0) + 1) + '/' + P.total : ''); }
+function coachDateTime(ts){ return new Date(ts).toLocaleString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
+function coachNextTs(X){ return X && X.date ? new Date(X.date + 'T' + (X.time || '09:00')).getTime() : 0; }
+function coachPlanHtml(n, name, ended){
+  const c = ct(), P = n.profile || {}, X = n.next || {}, ts = coachNextTs(X);
+  let h = ts && ts > Date.now() - 2 * 3600000 ? `<p class="coach-next">📅 ${coachEsc(c.nextLine.replace('{date}', coachDateTime(ts)))}</p>` : '';
+  if(ended) return h + (P.topic ? `<p class="settings-note">${coachEsc(c.pTopicLine.replace('{t}', P.topic))}</p>` : '');
+  const filled = !!(P.topic || P.total || X.date);
+  h += `<details class="coach-card"${filled ? '' : ' open'}><summary>${c.profileHead}</summary>`
+    + `<label class="coach-lab"><span>${c.pTopic}</span><textarea class="small-input" id="cp-topic" rows="2" maxlength="400">${coachEsc(P.topic || '')}</textarea></label>`
+    + `<div class="coach-grid"><label class="coach-lab"><span>${c.pStart}</span><input type="date" class="small-input" id="cp-start" value="${coachEsc(P.start || '')}"></label>`
+    + `<label class="coach-lab"><span>${c.pSessions}</span><span class="coach-of"><input type="number" inputmode="numeric" min="0" max="999" class="small-input" id="cp-count" value="${+P.count || 0}"><span>${c.pOf}</span><input type="number" inputmode="numeric" min="0" max="999" class="small-input" id="cp-total" value="${P.total || ''}"></span></label></div>`
+    + `<h3 class="coach-h">${c.nextHead}</h3>`
+    + `<div class="coach-grid coach-grid3"><label class="coach-lab"><span>${c.nDate}</span><input type="date" class="small-input" id="cn-date" value="${coachEsc(X.date || '')}"></label>`
+    + `<label class="coach-lab"><span>${c.nTime}</span><input type="time" class="small-input" id="cn-time" value="${coachEsc(X.time || '18:00')}"></label>`
+    + `<label class="coach-lab"><span>${c.nDur}</span><select class="small-input" id="cn-dur">${[30, 45, 60, 90].map(m=>`<option value="${m}"${(+X.dur || 60) === m ? ' selected' : ''}>${c.nMin.replace('{n}', m)}</option>`).join('')}</select></label></div>`
+    + `<label class="coach-lab"><span>${c.nTitle}</span><input class="small-input" id="cn-title" maxlength="80" autocomplete="off" value="${coachEsc(X.title || coachDefTitle(name, P))}"></label>`
+    + `<button class="ghost-btn settings-row" id="cn-ics">📅 ${c.nAdd}</button></details>`;
+  return h;
+}
+function coachPlanBind(body, n, name){
+  const c = ct(), g = s=>body.querySelector(s); if(!g('#cp-topic')) return;
+  const P = ()=>n.profile || (n.profile = {}), X = ()=>n.next || (n.next = {});
+  const later = ()=>{ clearTimeout(coachNoteT); coachNoteT = setTimeout(saveState, 600); };
+  const retitle = ()=>{ if(!(n.next && n.next.title)) g('#cn-title').value = coachDefTitle(name, n.profile); };
+  g('#cp-topic').oninput = ()=>{ P().topic = g('#cp-topic').value; P().mt = Date.now(); later(); };
+  g('#cp-start').onchange = ()=>{ P().start = g('#cp-start').value; P().mt = Date.now(); saveState(); };
+  ['#cp-count', '#cp-total'].forEach(k=>{ g(k).oninput = ()=>{ P().count = Math.max(0, parseInt(g('#cp-count').value, 10) || 0); P().total = Math.max(0, parseInt(g('#cp-total').value, 10) || 0); P().mt = Date.now(); retitle(); later(); }; });
+  g('#cn-date').onchange = ()=>{ X().date = g('#cn-date').value; X().mt = Date.now(); saveState(); };
+  g('#cn-time').onchange = ()=>{ X().time = g('#cn-time').value; X().mt = Date.now(); saveState(); };
+  g('#cn-dur').onchange = ()=>{ X().dur = +g('#cn-dur').value; X().mt = Date.now(); saveState(); };
+  g('#cn-title').oninput = ()=>{ const v = g('#cn-title').value.trim(); X().title = v === coachDefTitle(name, n.profile) ? '' : v; X().mt = Date.now(); later(); };
+  g('#cn-ics').onclick = ()=>{
+    const date = g('#cn-date').value; if(!date){ uiNotice(c.nNeedDate); return; }
+    const time = g('#cn-time').value || '18:00', start = new Date(date + 'T' + time);
+    const title = g('#cn-title').value.trim() || coachDefTitle(name, n.profile);
+    Object.assign(X(), { date, time, dur:+g('#cn-dur').value || 60, mt:Date.now() }); saveState();
+    icsDownload(title, start, +g('#cn-dur').value || 60, { uid:'ewolfe-coach-' + Date.now(), alarm:'-PT15M' }); // nothing else about the client goes into the entry
+    coachToast(c.nAdded);
+  };
+}
 function coachTalkBind(body, id, rerender){
   const c = ct(), n = coachNotesFor(id), find = tid=>n.topics.find(x=>x.id === tid);
+  const cl = coachClients.find(k=>String(k.link.id) === String(id));
+  coachPlanBind(body, n, (cl && cl.data && cl.data.name) || (n.who && n.who.name) || c.client);
   const g = s=>body.querySelector(s);
   body.querySelectorAll('[data-tdone]').forEach(i=>{ i.onchange = ()=>{ const x = find(i.dataset.tdone); if(!x) return; x.done = i.checked ? Date.now() : 0; x.mt = Date.now(); saveState(); rerender(); }; });
   body.querySelectorAll('[data-tedit]').forEach(b=>{ b.onclick = async ()=>{
@@ -12733,6 +12839,9 @@ function coachTalkBind(body, id, rerender){
     doneT.forEach(x=>delMark('ct', x.id));
     n.topics = n.topics.filter(x=>!x.done);
     n.note = { text:'', mt:t0 };
+    // 18.11.2026: one session more; the appointment is past – the next one gets a new date and title (time and duration stay)
+    n.profile = Object.assign({}, n.profile || {}, { count:((n.profile && +n.profile.count) || 0) + 1, mt:t0 });
+    n.next = { time:(n.next && n.next.time) || '', dur:(n.next && n.next.dur) || 0, mt:t0 };
     saveState(); rerender(); coachToast(c.talkSaved);
   };
   const da = g('#ct-delall'); if(da) da.onclick = ()=>coachNotesDeleteAsk(id);
@@ -12776,20 +12885,80 @@ function coachEndedRender(){
 
 /* ---- the operator: coach codes ---- */
 async function coachAdminOpen(){ coachView = 'admin'; openModal('coach-modal'); coachAdminRender(); }
+// 18.11.2026: the licence belongs to the coach account (paid_until; null = no expiry). 14 days of grace, then new invitations and
+// reading the clients' excerpts are locked on the server (ew_coach_ok) – nothing is deleted.
+const COACH_GRACE_DAYS = 14, COACH_SOON_DAYS = 30;
+function coachLicState(me){
+  if(!me || !me.paid_until) return { s:'none' };
+  const until = new Date(me.paid_until).getTime(), grace = until + COACH_GRACE_DAYS * 864e5, now = Date.now();
+  return { s:now > grace ? 'over' : now > until ? 'grace' : until - now < COACH_SOON_DAYS * 864e5 ? 'soon' : 'ok', until, grace };
+}
+function coachLicHtml(me){
+  const c = ct(), L = coachLicState(me);
+  let h = `<p class="settings-note coach-lic">${L.s === 'none' ? c.licNoLimit.replace('{n}', me.slots) : c.licLine.replace('{n}', me.slots).replace('{date}', coachDate(L.until))}</p>`;
+  if(L.s === 'soon') h += `<div class="coach-warn coach-warn-soft"><p>${c.licSoon.replace('{date}', coachDate(L.until))}</p></div>`;
+  if(L.s === 'grace') h += `<div class="coach-warn"><p>${c.licGrace.replace('{date}', coachDate(L.until)).replace('{grace}', coachDate(L.grace))}</p></div>`;
+  if(L.s === 'over') h += `<div class="coach-warn"><p>${c.licOver.replace('{date}', coachDate(L.until))}</p></div>`;
+  return h;
+}
+let coachAdminForm = { slots:5, months:12, name:'', email:'' };
 async function coachAdminRender(){
-  const c = ct(), body = document.getElementById('coach-body');
+  const c = ct(), body = document.getElementById('coach-body'), F = coachAdminForm;
   document.getElementById('coach-title').textContent = c.adminTitle;
-  let codes;
-  try{ codes = await sbRequest('/rest/v1/coach_codes?select=code,slots,note,created_at,claimed_at&order=created_at.desc'); }
-  catch(e){ body.innerHTML = `<p class="settings-note">${coachErr(e)}</p>`; return; }
-  body.innerHTML = `<input class="small-input" id="ca-note" placeholder="${coachEsc(c.notePh)}" maxlength="120"><p class="settings-note">${c.adminNew}</p>`
-    + `<div class="coach-snaps">${[5, 10, 20].map(n=>`<button class="primary-btn coach-mini" data-slots="${n}">${c.places.replace('{n}', n)}</button>`).join('')}</div>`
-    + (codes.length ? codes.map(k=>`<div class="coach-row"><span class="coach-code">${coachEsc(k.code)}</span><div class="coach-cname"><b>${c.places.replace('{n}', k.slots)}${k.note ? ' · ' + coachEsc(k.note) : ''}</b><small>${k.claimed_at ? c.claimed.replace('{date}', coachDate(k.claimed_at)) : c.free}</small></div>`
-      + (k.claimed_at ? '' : `<button class="ghost-btn coach-mini" data-copy="${coachEsc(k.code)}">${c.copy}</button>`) + `</div>`).join('') : `<p class="settings-note">${c.adminNone}</p>`);
-  body.querySelectorAll('[data-slots]').forEach(b=>{ b.onclick = async ()=>{
-    try{ await coachRpc('admin_coach_code_create', { p_slots:+b.dataset.slots, p_note:document.getElementById('ca-note').value.trim() }); coachAdminRender(); }catch(e){ uiNotice(coachErr(e)); }
-  }; });
-  body.querySelectorAll('[data-copy]').forEach(b=>{ b.onclick = ()=>{ try{ navigator.clipboard.writeText(b.dataset.copy).then(()=>{ b.textContent = c.copied; }); }catch(e){} }; });
+  let codes, coaches;
+  try{
+    [codes, coaches] = await Promise.all([
+      sbRequest('/rest/v1/coach_codes?select=code,slots,note,created_at,claimed_at,for_name,for_email,months,expires_at,sent_at,revoked_at&order=created_at.desc'),
+      coachRpc('admin_coach_list')
+    ]);
+  }catch(e){ body.innerHTML = `<p class="settings-note">${coachErr(e)}</p>`; return; }
+  const now = Date.now(), st = k=>k.claimed_at ? ['claimed', c.stClaimed.replace('{date}', coachDate(k.claimed_at))]
+    : k.revoked_at ? ['revoked', c.stRevoked.replace('{date}', coachDate(k.revoked_at))]
+    : k.expires_at && new Date(k.expires_at).getTime() < now ? ['expired', c.stExpired.replace('{date}', coachDate(k.expires_at))]
+    : ['open', (k.sent_at ? c.stSent.replace('{date}', coachDate(k.sent_at)) + ' · ' : '') + (k.expires_at ? c.stValid.replace('{date}', coachDate(k.expires_at)) : c.free)];
+  let h = `<h3 class="coach-h">${c.adCreate}</h3>`
+    + `<div class="coach-grid"><label class="coach-lab"><span>${c.adForName}</span><input class="small-input" id="ca-name" maxlength="80" autocomplete="off" value="${coachEsc(F.name)}"></label>`
+    + `<label class="coach-lab"><span>${c.adForEmail}</span><input class="small-input" id="ca-email" type="email" maxlength="120" autocomplete="off" value="${coachEsc(F.email)}"></label></div>`
+    + `<div class="coach-grid"><label class="coach-lab"><span>${c.adPlaces}</span><select class="small-input" id="ca-slots">${[5, 10, 20, 40].map(n=>`<option value="${n}"${F.slots === n ? ' selected' : ''}>${n}</option>`).join('')}</select></label>`
+    + `<label class="coach-lab"><span>${c.adMonths}</span><select class="small-input" id="ca-months">${[1, 3, 6, 12, 24].map(n=>`<option value="${n}"${F.months === n ? ' selected' : ''}>${n === 1 ? c.adMonth1 : c.adMonthsN.replace('{n}', n)}</option>`).join('')}</select></label></div>`
+    + `<input class="small-input" id="ca-note" placeholder="${coachEsc(c.notePh)}" maxlength="120">`
+    + `<p class="settings-note">${c.adExpiryHint}</p><button class="primary-btn settings-row" id="ca-create">${c.adCreate}</button>`;
+  // the coaches with their licence
+  h += `<h3 class="coach-h">${c.adCoachesHead}</h3>` + ((coaches || []).length ? coaches.map(k=>{
+      const L = coachLicState(k), warn = L.s === 'soon' ? c.adSoon : L.s === 'grace' ? c.adOver + ' · ' + c.adGrace.replace('{date}', coachDate(L.grace)) : L.s === 'over' ? c.adOver : '';
+      return `<div class="coach-row coach-admin-coach${L.s === 'over' || L.s === 'grace' ? ' over' : L.s === 'soon' ? ' soon' : ''}"><div class="coach-cname"><b>${coachEsc(k.name || k.email || '–')}</b>`
+        + `<small>${coachEsc(k.email || '')}</small><small>${c.places.replace('{n}', k.slots)} · ${c.adUsed.replace('{n}', k.used).replace('{m}', k.slots)} · ${L.s === 'none' ? c.adNoLimit : c.adPaid.replace('{date}', coachDate(L.until))}</small>`
+        + (warn ? `<small class="coach-admin-warn">${warn}</small>` : '') + `</div>`
+        + `<div class="coach-snaps"><button class="ghost-btn coach-mini" data-ext="${k.user_id}" data-m="1">${c.adExt1}</button><button class="ghost-btn coach-mini" data-ext="${k.user_id}" data-m="12">${c.adExt12}</button>`
+        + `<button class="ghost-btn coach-mini" data-extd="${k.user_id}" data-cur="${k.paid_until ? dayKey(new Date(k.paid_until)) : ''}">${c.adExtDate}</button><button class="ghost-btn coach-mini" data-slots="${k.user_id}" data-cur="${k.slots}">${c.adSlots}</button></div></div>`;
+    }).join('') : `<p class="settings-note">${c.adNoCoaches}</p>`);
+  // the codes with their state
+  h += `<h3 class="coach-h">${c.adCodesHead}</h3>` + (codes.length ? codes.map(k=>{ const [s, txt] = st(k);
+      return `<div class="coach-row coach-code-${s}"><span class="coach-code">${coachEsc(k.code)}</span><div class="coach-cname"><b>${coachEsc(k.for_name || k.note || '–')}${k.for_email ? ' · ' + coachEsc(k.for_email) : ''}</b>`
+        + `<small>${c.places.replace('{n}', k.slots)} · ${c.adLic.replace('{n}', k.months || 12)}${k.note && k.for_name ? ' · ' + coachEsc(k.note) : ''}</small><small>${c.stCreated.replace('{date}', coachDate(k.created_at))} · ${txt}</small></div>`
+        + (s === 'open' ? `<button class="ghost-btn coach-mini" data-copy="${coachEsc(k.code)}">${c.copy}</button><button class="ghost-btn coach-mini" data-revoke="${coachEsc(k.code)}">${c.adRevoke}</button>` : '') + `</div>`; }).join('')
+    : `<p class="settings-note">${c.adminNone}</p>`);
+  body.innerHTML = h;
+  const g = id=>document.getElementById(id), q = sel=>body.querySelectorAll(sel);
+  const keep = ()=>{ F.name = g('ca-name').value; F.email = g('ca-email').value; F.slots = +g('ca-slots').value; F.months = +g('ca-months').value; };
+  ['ca-name', 'ca-email', 'ca-slots', 'ca-months'].forEach(id=>{ g(id).onchange = keep; });
+  g('ca-create').onclick = async ()=>{ keep();
+    try{ await coachRpc('admin_coach_code_create', { p_slots:F.slots, p_note:g('ca-note').value.trim(), p_for_name:F.name.trim(), p_for_email:F.email.trim(), p_months:F.months });
+      coachAdminForm = { slots:F.slots, months:F.months, name:'', email:'' }; coachAdminRender(); }catch(e){ uiNotice(coachErr(e)); } };
+  // copying marks the code as sent (with the date) – it stays redeemable for the right coach
+  q('[data-copy]').forEach(b=>{ b.onclick = ()=>{ try{ navigator.clipboard.writeText(b.dataset.copy).then(()=>{ b.textContent = c.copied; }).catch(()=>{}); }catch(e){}
+    coachRpc('admin_code_mark_sent', { p_code:b.dataset.copy }).then(()=>setTimeout(coachAdminRender, 900)).catch(()=>{}); }; });
+  q('[data-revoke]').forEach(b=>{ b.onclick = async ()=>{ if(!(await uiDialog(c.adRevokeAsk.replace('{code}', b.dataset.revoke), { confirm:true, okText:c.adRevoke }))) return;
+    try{ await coachRpc('admin_code_revoke', { p_code:b.dataset.revoke }); coachAdminRender(); }catch(e){ uiNotice(coachErr(e)); } }; });
+  q('[data-ext]').forEach(b=>{ b.onclick = async ()=>{ try{ await coachRpc('admin_coach_extend', { p_user:b.dataset.ext, p_months:+b.dataset.m }); coachToast(c.adSaved); coachAdminRender(); }catch(e){ uiNotice(coachErr(e)); } }; });
+  q('[data-extd]').forEach(b=>{ b.onclick = async ()=>{
+    const r = await uiDialog(c.adExtAsk, { html:`<input class="small-input" id="ca-until" type="date" value="${coachEsc(b.dataset.cur)}" style="width:100%;box-sizing:border-box">`, confirm:true, okText:c.tSave });
+    const v = r === true && g('ca-until') ? g('ca-until').value : ''; if(!v) return;
+    try{ await coachRpc('admin_coach_extend', { p_user:b.dataset.extd, p_until:v }); coachToast(c.adSaved); coachAdminRender(); }catch(e){ uiNotice(coachErr(e)); } }; });
+  q('[data-slots]').forEach(b=>{ b.onclick = async ()=>{
+    const r = await uiDialog(c.adSlotsAsk, { html:`<input class="small-input" id="ca-newslots" type="number" inputmode="numeric" min="1" max="200" value="${coachEsc(b.dataset.cur)}" style="width:100%;box-sizing:border-box">`, confirm:true, okText:c.tSave });
+    const v = r === true && g('ca-newslots') ? parseInt(g('ca-newslots').value, 10) : 0; if(!v) return;
+    try{ await coachRpc('admin_coach_slots', { p_user:b.dataset.slots, p_slots:v }); coachToast(c.adSaved); coachAdminRender(); }catch(e){ uiNotice(coachErr(e)); } }; });
 }
 
 function privacyOpen(){ legalOpen('privacy'); }

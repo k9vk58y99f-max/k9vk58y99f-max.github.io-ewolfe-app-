@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 17.11.2026 (Version 2.21.0 auf `main`, Push steht aus) – zuerst lesen
+## Übergabe – Stand 18.11.2026 (Version 2.22.0 auf `main`, Push steht aus; Supabase-Migration `coach_license` ist schon live) – zuerst lesen
 - **Zuletzt (2.20.0):** Lebensfreude als Regler mit der Sonne als Knopf (siehe Versionseintrag).
 - **Davor (2.19.0):** Persönlichkeitstest mit sechs Antworten ohne Mitte; alte Ergebnisse/Entwürfe mit fünf bleiben gültig (`steps`). Handoff-Nachtrag vom 16.11.2026.
 - **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
@@ -212,7 +212,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.21.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.22.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1283,6 +1283,24 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     (gemerkt beim Ansehen, weil der Ausschnitt beim Beenden gelöscht wird). Reiter brechen auf dem Handy um (fünf passen nicht in eine Zeile).
     Test `t-coach-gespraech.py` in `eWolfe-Skripte` (nachgebautes Supabase, Admin + Coach mit zwei Geräten + Klientin, Chromium + WebKit, 34 Prüfungen, Bilder in drei Designs).
     Hinweis Test: Solange das Coach-Fenster offen ist, gleicht ein Gerät nicht ab (Regel 4) – erst beim Schließen.
+- **2.22.0 (18.11.2026) Kalender-Titel, Steckbrief und Termin, Coach-Lizenz (Wünsche der Nutzerin):**
+    - **Kalendereinträge ohne „eWolfe“, selbst benennbar:** ein Helfer für alle (`icsDownload(title, start, minuten, { rrule, url, uid, alarm })`, `icsEsc`, Dateiname = Titel).
+      Tägliche Erinnerung: Feld „Titel im Kalender“ im Fenster (`#remind-name`, vorausgefüllt „Zeit für Achtsamkeit“, eigener Titel je Gerät `ewolfe_remind_title`);
+      Lebensrad alle drei Monate: erst Frage nach dem Titel (`wheelRemindCalendar` ist jetzt async, `ewolfe_wheel_remind_title`). Der Link zur App bleibt im Eintrag.
+    - **Coach: Steckbrief und nächster Termin** im Reiter „Gespräch“ (`coachPlanHtml`/`coachPlanBind`, aufklappbar „Steckbrief und nächster Termin“): Anliegen/Auftrag, Beginn,
+      Sitzungen bisher „n von m“; Termin mit Datum, Uhrzeit, Dauer 30/45/60/90 und „Titel im Kalender“ (vorausgefüllt `coachDefTitle` = „Anna Coaching 3/10“, frei änderbar, ein eigener
+      Titel bleibt beim Zählen), „In meinen Kalender“ = .ics mit Erinnerung 15 Min. vorher, sonst nichts über den Coachee (kein Anliegen, kein Link). Oben „📅 Nächstes Gespräch: …“.
+      „Gespräch speichern“ zählt die Sitzungen +1 und leert Datum und Titel (Uhrzeit/Dauer bleiben). Daten in `coachNotes[link].profile` / `.next` (neueres `mt` gewinnt). Kein Google/Outlook-Anschluss (bewusst: Server, OAuth, E2E).
+    - **Coach-Lizenz** (Supabase-Migration `coach_license`, live seit 18.11.2026): Der Code schaltet nur frei, die Lizenz hängt am Coach-Konto: `coaches.paid_until` (null = ohne Ablauf).
+      `coach_codes` neu: `for_name`, `for_email`, `months` (Laufzeit ab Einlösen, 1–24 in der App), `expires_at` (30 Tage einlösbar), `sent_at` (beim Kopieren, `admin_code_mark_sent`),
+      `revoked_at` (`admin_code_revoke`, nur nicht eingelöste). `coach_redeem`: gesperrt → `code_revoked`, abgelaufen → `code_expired`, setzt `paid_until` = jetzt + Monate (zweiter Code eines
+      Coaches verlängert und stuft die Plätze um; derselbe Code noch einmal verlängert nicht). **14 Tage Schonfrist** (`ew_coach_ok`): danach keine neuen Einladungen (`license_expired`),
+      Klienten können sich nicht verbinden (`coach_expired`), und die Leserechte des Coaches auf `coach_shares` sind per RLS gesperrt – nichts wird gelöscht, nach Verlängerung geht es weiter.
+      Admin („Coach-Codes verwalten“, `coachAdminRender`): Code erstellen mit Name, E-Mail, Plätzen 5/10/20/40, Laufzeit; Liste der Coaches (`admin_coach_list`: Name, E-Mail, Plätze, belegt,
+      bezahlt bis, Warnung bald/abgelaufen) mit +1 Monat, +1 Jahr, Datum … (`admin_coach_extend`) und Plätze … (`admin_coach_slots`); Codes mit Status (erstellt, verschickt, einlösbar bis,
+      eingelöst, gesperrt, abgelaufen). Coach-Bereich zeigt „Lizenz: n Plätze · bezahlt bis …“ und Hinweise (`coachLicState`, `coachLicHtml`: bald ab 30 Tage vorher, Schonfrist, gesperrt).
+      **Später Stripe/Paddle:** die Zahlung setzt nur `paid_until` (z. B. per Webhook/Edge Function), die App muss nichts weiter wissen.
+    - Tests in `eWolfe-Skripte`: `t-lizenz.py` (17 Prüfungen je Browser; braucht daneben `tlic.py`, denselben Inhalt – `t-coach-gespraech.py` lädt daraus das nachgebaute Supabase), `t-coach-gespraech.py` (erweitert um Kalender und Steckbrief), `t2110.py` an die neue Admin-Seite angepasst.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
