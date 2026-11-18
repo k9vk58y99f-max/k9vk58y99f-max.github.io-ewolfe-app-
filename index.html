@@ -2446,6 +2446,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
       <div class="settings-head" id="t-set-libview">Bibliothek</div>
       <div class="seg lib-view-seg" id="libview-seg"></div>
       <p class="settings-note" id="t-libview-hint"></p>
+      <label class="coach-check settings-row" style="margin-top:8px"><input type="checkbox" id="set-startnews" onchange="startNewsSet(this.checked)"><span id="t-startnews"></span></label>
     </div>
     <div class="settings-section">
       <div class="settings-head" id="t-set-decor">Tiere &amp; Feiertagsschmuck</div>
@@ -2857,7 +2858,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.22.1';
+const APP_VERSION = '2.23.0';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -4854,12 +4855,42 @@ function impulseBindSwipe(){
   el.addEventListener('pointercancel', ()=>{ x0 = null; });
 }
 // once a day, on the first start of the app, a card greets the person
+/* 18.11.2026 (feedback, wish of the user): new trophies and a new rank come to the front again – at the next opening of the app, one per
+   opening (several: the oldest first, the next one at the next opening); without news the impulse card comes. Switch in the settings
+   (Library). Own list of what was shown at the start (ewolfe_trophies_start), so the quiet line in the library does not take them away. */
+Object.assign(I18N.de, { startNewsSetting:'Neue Trophäen und Ränge beim Öffnen der App zeigen', startRankHead:'Neuer Rang' });
+Object.assign(I18N.en, { startNewsSetting:'Show new trophies and ranks when the app opens', startRankHead:'New rank' });
+const TROPHY_START_KEY = 'ewolfe_trophies_start', LEVEL_START_KEY = 'ewolfe_level_start';
+function startNewsOn(){ return state.settings.startNews !== false; }
+function startNewsSet(on){ state.settings.startNews = !!on; saveState(); }
+function startNewsShow(){
+  if(isFirstRun() || syncGateNeeded() || !startNewsOn()) return false;
+  const lv = appLevel(); let shownLv = 0, shown = null;
+  try{ shownLv = +(localStorage.getItem(LEVEL_START_KEY) || 0); shown = JSON.parse(localStorage.getItem(TROPHY_START_KEY) || 'null'); }catch(e){}
+  const got = trophyGotIds();
+  // the very first time (also after this update): everything there is counts as shown – no flood of old trophies
+  if(!shown || !shownLv){ try{ if(!shown) localStorage.setItem(TROPHY_START_KEY, JSON.stringify(got)); if(!shownLv) localStorage.setItem(LEVEL_START_KEY, String(lv)); }catch(e){} return false; }
+  const d = t();
+  if(lv > shownLv){ // a new rank first: it is the bigger news
+    try{ localStorage.setItem(LEVEL_START_KEY, String(lv)); }catch(e){}
+    const rank = ((RETREAT ? d.ladyUp : BIZ ? d.clubUp : d.levelUp) || [])[lv - 1] || '';
+    if(rank){ uiDialog(rank, { okText:d.dialogOk }); return true; }
+  }
+  const list = trophyList(), fresh = got.filter(id=>!shown.includes(id)).map(id=>list.find(x=>x.id === id)).filter(Boolean).sort((a, b)=>(a.at || 0) - (b.at || 0));
+  if(!fresh.length) return false;
+  const x = fresh[0]; // one per opening, the oldest first
+  shown.push(x.id); try{ localStorage.setItem(TROPHY_START_KEY, JSON.stringify(shown)); }catch(e){}
+  libGlow.add(x.id); // and it glows in the library, too
+  trophyShow(x.id, true);
+  return true;
+}
+let libGlow = new Set();
 function maybeShowImpulseCard(){
   if(isFirstRun() || syncGateNeeded()) return false;
   const today = new Date().toISOString().slice(0, 10);
   let last = '';
   try{ last = localStorage.getItem(IMPULSE_DAY_KEY) || ''; }catch(e){}
-  if(last === today) return false;
+  // 18.11.2026 (wish of the user): the card comes at every opening – unless a new trophy or rank comes first (startNewsShow)
   try{ localStorage.setItem(IMPULSE_DAY_KEY, today); }catch(e){}
   impulseShow(impulseDraw(), 'start');
   return true;
@@ -8668,6 +8699,7 @@ function renderLibViewSettings(){
   document.getElementById('t-set-libview').textContent = d.setLibView;
   el.outerHTML = libViewSegHtml().replace('class="seg lib-view-seg"', 'class="seg lib-view-seg" id="libview-seg"');
   document.getElementById('t-libview-hint').textContent = d.libViewHint;
+  const sn = document.getElementById('set-startnews'); if(sn){ sn.checked = startNewsOn(); document.getElementById('t-startnews').textContent = d.startNewsSetting; }
 }
 function tbRenderLibrarySimple(){
   // 2.3.2/2.3.3 (wishes of the user): book part + trophy part with the middle taken out (middle post and most of the trophy compartment),
@@ -8835,7 +8867,7 @@ function tbRenderLibrary(){
   const rowsAll = packed.slice(0, SHELF_ROWS.length).map(r=>({ kind:r.every(it=>!it.book) ? 'tro' : 'books', r }));
   const bookHtml = b=>b.plus ? `<button class="shelf-book shelf-new" style="width:${b.w}cqh;height:${b.h}cqh" onclick="tbNewBookAsk()" title="${d.diaryNewBook}" aria-label="${d.diaryNewBook}">${ico('plus')}</button>`
     : tbSpineHtml(b.key).replace(/style="width:\d+px;height:\d+px;/, `style="width:${b.w.toFixed(1)}cqh;height:${b.h}cqh;`);
-  const troHtml = o=>`<button class="shelf-trophy${trophyPh(o.x) ? ' ph-note ph-note-s' : ''}${(libFresh || []).includes(o.x.id) ? ' is-new' : ''}" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh${TRO_LIFT[o.x.img] ? `;transform:translateY(${TRO_LIFT[o.x.img]}%)` : ''}" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
+  const troHtml = o=>`<button class="shelf-trophy${trophyPh(o.x) ? ' ph-note ph-note-s' : ''}${(libFresh || []).includes(o.x.id) || libGlow.has(o.x.id) ? ' is-new' : ''}" style="height:${o.h.toFixed(1)}cqh;width:${o.w.toFixed(1)}cqh${TRO_LIFT[o.x.img] ? `;transform:translateY(${TRO_LIFT[o.x.img]}%)` : ''}" onclick="trophyShow('${o.x.id}')" title="${escapeHtml(o.x.title)}" aria-label="${escapeHtml(o.x.title)}">${trophySvg(o.x, 'sh' + o.x.id)}</button>`;
   // the animals come one by one: the dog after 15 active days (since 1.73.9), the cat on top from level 4 (100 days), the fox (as big as
   // the dog, on the floor left) after a year (level 6). The rabbit only visits at Easter, in front of the shelf with eggs.
   // A missing picture (cat, eggs not there yet) simply stays away.
@@ -8940,9 +8972,18 @@ function oncePerDay(list, keyOf){
   const seen = new Set();
   return list.slice().sort((a, b)=>(a.ts || a) - (b.ts || b)).filter(x=>{ const k = (keyOf ? keyOf(x) + '|' : '') + achDay(x.ts || x); if(seen.has(k)) return false; seen.add(k); return true; });
 }
+function gratDiaryTs(){
+  const out = [];
+  Object.values((state.tagebuch && state.tagebuch.jahre) || {}).forEach(book=>{
+    if(!book || book.kind === 'notes' || !Array.isArray(book.seiten)) return; // notebooks never count
+    book.seiten.forEach(p=>{ const g = p && p.guided; if(g && g.date && ['dank0', 'dank1', 'dank2'].some(k=>String(g[k] || '').trim())) out.push(new Date(g.date + 'T12:00').getTime()); });
+  });
+  return out;
+}
 function trophyEvents(){
   const log = achLog(), done = oncePerDay(log.filter(e=>e.kind === 'done').map(e=>({ ts:e.ts, ex:e.ex })), e=>e.ex);
-  const grat = oncePerDay(log.filter(e=>e.kind === 'grat').map(e=>e.ts));
+  // 18.11.2026 (wish of the user): gratitude written in a guided diary (the three lines „Dafür bin ich dankbar“) counts like the exercise – once a day
+  const grat = oncePerDay(log.filter(e=>e.kind === 'grat').map(e=>e.ts).concat(gratDiaryTs()));
   // wheels: every assessment adds one value to each area – the n-th wheel is the n-th value of the first area
   const first = state.bewertungen[AREAS[0]] || [];
   const wheels = oncePerDay(first.map(x=>x.ts));
@@ -13090,8 +13131,8 @@ function init(){
     // returning user: play the intro every time the app opens, then reveal last time's wheel (and ask to sign in if needed)
     if(navRestoreEarly()){
       renderScene(false); const io = document.getElementById('intro-overlay'); if(io) io.style.display = 'none'; navRestore();
-      maybeAskWishes().then(asked=>{ if(!asked) maybeWheelReminder().then(shown=>{ if(!shown) maybeShowImpulseCard(); }); });
-    } else renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()){ navRestore(); maybeAskWishes().then(asked=>{ if(!asked) maybeWheelReminder().then(shown=>{ if(!shown) maybeShowImpulseCard(); }); }); } });
+      maybeAskWishes().then(asked=>{ if(!asked) maybeWheelReminder().then(shown=>{ if(!shown && !startNewsShow()) maybeShowImpulseCard(); }); });
+    } else renderScene(true, ()=>{ revealWheel(false); if(syncGateNeeded()) syncShowGate(); else if(!maybeShowAreasIntro()){ navRestore(); maybeAskWishes().then(asked=>{ if(!asked) maybeWheelReminder().then(shown=>{ if(!shown && !startNewsShow()) maybeShowImpulseCard(); }); }); } });
     renderPanels();
   }
 }

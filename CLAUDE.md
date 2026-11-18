@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 18.11.2026 (Version 2.22.1 auf `main`, Push steht aus; Supabase-Migration `coach_license` ist schon live) – zuerst lesen
+## Übergabe – Stand 18.11.2026 (Version 2.23.0 auf `main`, Push steht aus; Supabase-Migration `coach_license` ist schon live) – zuerst lesen
 - **Zuletzt (2.20.0):** Lebensfreude als Regler mit der Sonne als Knopf (siehe Versionseintrag).
 - **Davor (2.19.0):** Persönlichkeitstest mit sechs Antworten ohne Mitte; alte Ergebnisse/Entwürfe mit fünf bleiben gültig (`steps`). Handoff-Nachtrag vom 16.11.2026.
 - **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
@@ -212,7 +212,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.22.1`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.23.0`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1304,6 +1304,14 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
 - **2.22.1 (18.11.2026):** A Lady's Conservatory: auf den Tagebuchseiten das dunkle Rot der App (Burgund #7A0B25) statt Pink/Himbeere (`html.theme-retreat .tb-page`
     setzt `--rt-sage-d` und `--gold` auf Burgund; Erfolge `--tw-s`), Wunsch der Nutzerin: Pink war auf dem Papier zu hell. Vorher/Nachher `vorschlag/lady-tagebuch-rot.png`.
     Übung „Dankbarkeit am Abend“ heißt jetzt „Dankbarkeit“ (en „Gratitude“, `exGratTitle`), weil man sie auch morgens machen kann.
+- **2.23.0 (18.11.2026) Trophäen wieder im Vordergrund, Impulskarte bei jedem Öffnen, Dankbarkeit im Tagebuch zählt (Feedback und Wünsche der Nutzerin):**
+    Beim Öffnen der App kommt **genau eine Sache** nach vorn (`startNewsShow` vor `maybeShowImpulseCard` in der Startfolge): ein neuer Rang (Aufstiegs-Satz als Meldung),
+    sonst eine neue Trophäe groß im Trophäen-Fenster („Neue Trophäe!“, Ins Tagebuch, Teilen) – bei mehreren **eine pro Öffnen, die älteste zuerst** –, sonst die Impulskarte,
+    die jetzt **bei jedem Öffnen** kommt (nicht mehr einmal am Tag; der Merker `ewolfe_impulse_day` sperrt nicht mehr). Eigene Listen, was beim Start schon gezeigt wurde:
+    `ewolfe_trophies_start`, `ewolfe_level_start` (beim ersten Mal nach dem Update gilt alles Vorhandene als gezeigt – keine Flut). Die leise Zeile in der Bibliothek bleibt;
+    die beim Start gezeigte Trophäe leuchtet dort (`libGlow`). Schalter in den Einstellungen → Bibliothek: „Neue Trophäen und Ränge beim Öffnen der App zeigen“ (`state.settings.startNews`, je Gerät).
+    **Dankbarkeit im geführten Tagebuch** (die drei Zeilen „Dafür bin ich dankbar“, `page.guided.dank0–2`, nicht in Notizbüchern) zählt für die Dankbarkeits-Trophäen wie die Übung,
+    höchstens einmal am Tag (`gratDiaryTs` in `trophyEvents`); gilt rückwirkend. Test `t2230-start.py` in `eWolfe-Skripte` (Chromium + WebKit, 10 Prüfungen).
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
