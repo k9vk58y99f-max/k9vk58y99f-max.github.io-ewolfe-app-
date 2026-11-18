@@ -635,7 +635,7 @@ html.theme-retreat .tb-zoom-reset{ background:rgba(248,241,229,0.95); color:#262
 .tb-page:not(.type-titel) .tb-areas.tb-wins2{ top:calc(var(--pt) - 22px * var(--tbk)); bottom:calc(var(--pb) - 40px * var(--tbk)); padding-top:0; padding-bottom:0; }
 .tb-areas.tb-wins2{ --tw-h:#9a6a1f; --tw-s:#8a7650; --tw-on:#b8862b; --tw-b:#c9a35a; --tw-font:'Marcellus', serif; --tw-st:100%; gap:0; }
 html.theme-biz .tb-areas.tb-wins2{ --tw-h:#8a6a3a; --tw-s:#8a7a5c; --tw-on:#ab8b54; --tw-b:#ab8b54; --tw-font:'GFS Didot', Georgia, serif; --tw-st:100%; }
-html.theme-retreat .tb-areas.tb-wins2{ --tw-h:#7A0B25; --tw-s:#B81F57; --tw-on:#1B4D2A; --tw-b:#b8954e; --tw-font:'Cormorant Garamond', serif; --tw-st:100%; }
+html.theme-retreat .tb-areas.tb-wins2{ --tw-h:#7A0B25; --tw-s:#7A0B25; --tw-on:#1B4D2A; --tw-b:#b8954e; --tw-font:'Cormorant Garamond', serif; --tw-st:100%; }
 /* boxes, ticks and names like on the habit tracker's clipboard (.hb2: --ink, --tick) */
 .tb-areas.tb-wins2{ --tw-ink:#5b3a12; --tw-tick:#2f7a3a; } html.theme-biz .tb-areas.tb-wins2{ --tw-ink:#3f2a17; --tw-tick:#2c5e3a; } html.theme-retreat .tb-areas.tb-wins2{ --tw-ink:#1B4D2A; --tw-tick:#1B4D2A; }
 .tw-head{ position:relative; flex:none; text-align:center; }
@@ -2215,6 +2215,8 @@ html.theme-retreat .coach-badge{ color:#fff; }
 .coach-mark:disabled{ opacity:0.7; cursor:default; }
 #coach-toast{ position:fixed; left:50%; bottom:calc(96px + env(safe-area-inset-bottom, 0px)); transform:translateX(-50%); z-index:2000; background:rgba(20,20,20,0.92); color:#fff; padding:8px 16px; border-radius:999px; font-size:14px; opacity:0; transition:opacity .25s; pointer-events:none; white-space:nowrap; }
 #coach-toast.show{ opacity:1; }
+/* 18.11.2026 (wish of the user): in A Lady's Conservatory the diary pages use the dark red of the app (burgundy), the pink was too light on the paper */
+html.theme-retreat .tb-page{ --rt-sage-d:#7A0B25; --gold:#7A0B25; }
 /* 18.11.2026: coach licence */
 .coach-lic{ margin:2px 0 0; }
 .coach-warn-soft{ border-color:var(--gold); }
@@ -2855,7 +2857,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.22.0';
+const APP_VERSION = '2.22.1';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -2897,7 +2899,7 @@ const DEFAULT_MEDITATIONEN = [
   { id:'seed-lemon', title:'Lemonmeditation', titleKey:'exLemonTitle', url:null, notes:null, notesKey:'mediLemonNote', media:null, audio:'audio/lemonmeditation.m4a', ts:3, builtIn:true },
   { id:'seed-478', title:'4-7-8-Atmung', titleKey:'ex478Title', url:null, notes:null, notesKey:'ex478Note', media:null, tool:'b478', ts:5, builtIn:true },
   { id:'seed-54321', title:'5-4-3-2-1', titleKey:'exGroundTitle', url:null, notes:null, notesKey:'exGroundNote', media:null, tool:'ground', ts:7, builtIn:true },
-  { id:'seed-dank', title:'Dankbarkeit am Abend', titleKey:'exGratTitle', url:null, notes:null, notesKey:'exGratNote', media:null, tool:'grat', ts:8, builtIn:true },
+  { id:'seed-dank', title:'Dankbarkeit', titleKey:'exGratTitle', url:null, notes:null, notesKey:'exGratNote', media:null, tool:'grat', ts:8, builtIn:true },
   { id:'seed-stille', title:'Stille Meditation', titleKey:'exTimerTitle', url:null, notes:null, notesKey:'exTimerNote', media:null, tool:'timer', ts:9, builtIn:true },
 ];
 // order of the built-in exercises on the page
@@ -5893,7 +5895,7 @@ Object.assign(I18N.en, {
 Object.assign(I18N.de, {
   ex478Title:'4-7-8-Atmung', ex478Note:'Zum Runterkommen und Einschlafen: 4 Sekunden einatmen, 7 Sekunden halten, 8 Sekunden langsam ausatmen. Mit jedem Atemzug öffnen sich die Kirschblüten.',
   exGroundTitle:'5-4-3-2-1', exGroundNote:'Hilft bei Stress und Gedankenkreisen: Du holst dich mit deinen Sinnen ins Hier und Jetzt zurück. Dauert nur 2 bis 3 Minuten.',
-  exGratTitle:'Dankbarkeit am Abend', exGratNote:'Schreib drei Dinge auf, für die du heute dankbar bist, ob groß oder klein. Auf Wunsch landen sie direkt in deinem Tagebuch.',
+  exGratTitle:'Dankbarkeit', exGratNote:'Schreib drei Dinge auf, für die du heute dankbar bist, ob groß oder klein. Auf Wunsch landen sie direkt in deinem Tagebuch.',
   exTimerTitle:'Stille Meditation', exTimerNote:'Ein Timer für deine eigene Meditation: ein sanfter Gong zu Beginn und am Ende, auf Wunsch mit leiser Handpan-Musik.',
   moodBefore:'Wie fühlst du dich gerade?', moodAfter:'Und wie fühlst du dich jetzt?', moodSkip:'Überspringen',
   moods:['Sehr angespannt','Angespannt','Neutral','Ruhig','Sehr ruhig'],
@@ -5918,7 +5920,7 @@ Object.assign(I18N.de, {
 Object.assign(I18N.en, {
   ex478Title:'4-7-8 breathing', ex478Note:'To calm down and fall asleep: breathe in for 4 seconds, hold for 7, breathe out slowly for 8. With every breath the cherry blossoms open.',
   exGroundTitle:'5-4-3-2-1', exGroundNote:'Helps with stress and racing thoughts: your senses bring you back to the here and now. Takes only 2 to 3 minutes.',
-  exGratTitle:'Evening gratitude', exGratNote:'Write down three things you are grateful for today, big or small. If you like, they go straight into your diary.',
+  exGratTitle:'Gratitude', exGratNote:'Write down three things you are grateful for today, big or small. If you like, they go straight into your diary.',
   exTimerTitle:'Silent meditation', exTimerNote:'A timer for your own meditation: a gentle gong at the start and at the end, with soft handpan music if you like.',
   moodBefore:'How do you feel right now?', moodAfter:'And how do you feel now?', moodSkip:'Skip',
   moods:['Very tense','Tense','Neutral','Calm','Very calm'],
