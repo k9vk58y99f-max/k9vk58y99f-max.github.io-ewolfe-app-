@@ -12241,7 +12241,7 @@ de:{ head:'Coach', needLogin:'Melde dich an, um dich mit einem Coach zu verbinde
   rekey:'Neuen Schlüssel erstellen', tab_wheels:'Lebensräder', tab_goals:'Ziele', tab_habits:'Gewohnheiten', tab_persona:'Persönlichkeit', notShared:'Nicht geteilt.',
   noWheels:'Noch kein Lebensrad.', pickWheels:'Wähle bis zu drei Lebensräder zum Vergleichen:', noGoals:'Noch keine Ziele.', active:'Aktiv', achieved:'Erreicht',
   why:'Warum', steps:'Schritte', due:'Bis', achievedOn:'erreicht am {date}', noHabits:'Noch keine Gewohnheiten.', daily:'Täglich', weekly:'Wöchentlich', week:'KW {n}',
-  adminBtn:'Coach-Codes verwalten', adminTitle:'Coach-Codes', adminNew:'Neuer Code für', places:'{n} Plätze', notePh:'Notiz (z. B. Name des Coaches)', adminNone:'Noch keine Codes.',
+  adminBtn:'Coach-Codes verwalten', adminTitle:'Coach-Codes', adminNew:'Neuer Code für', places:'{n} Plätze', notePh:'Notiz (z. B. Absprache, Rechnung)', adminNone:'Noch keine Codes.',
   free:'frei', claimed:'eingelöst {date}', err_no_code:'Diesen Code gibt es nicht oder er wurde schon benutzt.', err_has_coach:'Du teilst schon mit einem Coach. Beende das zuerst.',
   err_own_code:'Das ist dein eigener Einladungscode.', err_no_slots:'Alle Plätze sind belegt.', err_code_used:'Dieser Coach-Code wurde schon von jemand anderem eingelöst.',
   err_not_coach:'Dieses Konto ist kein Coach-Konto.', err_not_admin:'Nur für den Betreiber.', err:'Das hat nicht geklappt. Bitte versuche es noch einmal.',
@@ -12292,7 +12292,7 @@ en:{ head:'Coach', needLogin:'Sign in to connect with a coach.', loading:'Loadin
   rekey:'Create new key', tab_wheels:'Life wheels', tab_goals:'Goals', tab_habits:'Habits', tab_persona:'Personality', notShared:'Not shared.',
   noWheels:'No life wheel yet.', pickWheels:'Choose up to three life wheels to compare:', noGoals:'No goals yet.', active:'Active', achieved:'Achieved',
   why:'Why', steps:'Steps', due:'Due', achievedOn:'achieved on {date}', noHabits:'No habits yet.', daily:'Daily', weekly:'Weekly', week:'Week {n}',
-  adminBtn:'Manage coach codes', adminTitle:'Coach codes', adminNew:'New code for', places:'{n} places', notePh:'Note (e.g. name of the coach)', adminNone:'No codes yet.',
+  adminBtn:'Manage coach codes', adminTitle:'Coach codes', adminNew:'New code for', places:'{n} places', notePh:'Note (e.g. agreement, invoice)', adminNone:'No codes yet.',
   free:'free', claimed:'redeemed {date}', err_no_code:'This code does not exist or has already been used.', err_has_coach:'You already share with a coach. Stop that first.',
   err_own_code:'This is your own invitation code.', err_no_slots:'All places are taken.', err_code_used:'This coach code has already been redeemed by someone else.',
   err_not_coach:'This account is not a coach account.', err_not_admin:'For the operator only.', err:'That did not work. Please try again.',
@@ -12327,7 +12327,7 @@ const ct = ()=>COACH_TXT[state.settings.lang === 'en' ? 'en' : 'de'];
 let coachMe = null, coachIsAdmin = false, coachLink = null, coachLoadedFor = '', coachLoadedAt = 0, coachPrivCache = null, coachClients = [], coachView = null, coachKeyOk = true;
 const COACH_HASH_KEY = 'ewolfe_coach_hash';
 const coachEsc = s=>escapeHtml(String(s == null ? '' : s));
-const coachDate = ts=>ts ? new Date(ts).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { day:'2-digit', month:'2-digit', year:'numeric' }) : '';
+const coachDate = ts=>ts && !isNaN(new Date(ts)) ? new Date(ts).toLocaleDateString(state.settings.lang === 'de' ? 'de-DE' : 'en-GB', { day:'2-digit', month:'2-digit', year:'numeric' }) : '';
 function coachErr(e){ const c = ct(), m = String(e && e.message || ''); const k = ['no_code', 'has_coach', 'own_code', 'no_slots', 'code_used', 'not_coach', 'not_admin', 'license_expired', 'coach_expired', 'code_expired', 'code_revoked'].find(x=>m.indexOf(x) >= 0); return k ? c['err_' + k] : e && e.status === 0 ? c.offline : c.err; }
 const coachRpc = (fn, body)=>sbRequest('/rest/v1/rpc/' + fn, { method:'POST', body:body || {} });
 async function coachLoad(){
