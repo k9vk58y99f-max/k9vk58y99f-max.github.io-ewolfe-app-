@@ -2859,7 +2859,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.23.2';
+const APP_VERSION = '2.23.3';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -9313,7 +9313,7 @@ function ladyDressKind(now){
   // autumn and winter, in spring both. The feast-day dresses above stay as they are. The bow blouse now with green slingbacks.
   // 1.11.2026 (wish of the user): out are the red dress with cardigan, green paisley, carpet skirt with sweater, red sleeveless and the carpet halter
   const SUMMER = ['burgundy', 'blouse-green', 'blouse-navy2']; // 20.11.2026: embroidered-white only at Pentecost // 28.10.2026: new blouse outfits, the pink one is gone
-  const WINTER = ['embroidered-cardigan', 'military']; // 20.11.2026 (wish of the user): bow blouse and sailor jeans are out
+  const WINTER = ['embroidered-cardigan']; // 20.11.2026 (wish of the user): bow blouse, sailor jeans and military are out
   const sn = roomSeason(now), list = sn === 'summer' ? SUMMER : sn === 'spring' ? SUMMER.concat(WINTER) : WINTER;
   return list[Math.floor(Date.UTC(now.getFullYear(), m, d) / 864e5) % list.length];
 }
