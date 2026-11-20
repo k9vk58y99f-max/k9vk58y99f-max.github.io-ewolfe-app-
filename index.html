@@ -1715,6 +1715,7 @@ html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
 .lib-dress-wrap.dress-embroidered-cardigan{ --bx:64%; --by:14%; }
 .lib-dress-wrap.dress-sailor-jeans{ --bx:61%; --by:14%; }
 .lib-dress-wrap.dress-military{ --bx:66%; --by:14%; }
+.lib-dress-wrap.dress-advent{ --bx:66%; --by:14%; }
 .lib-dress-wrap.dress-carpet-sweater{ --bx:60%; --by:15%; }
 .lib-dress-wrap.dress-bow-slingback{ --bx:56%; --by:12.5%; } /* at the bottom of the V between the cups (marked by the user) */
 .lib-dress-wrap.dress-emerald .dress-watch, .lib-dress-wrap.dress-celadon .dress-watch{ left:30%; top:25.5%; }
@@ -2858,7 +2859,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.23.1';
+const APP_VERSION = '2.23.2';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -9304,13 +9305,14 @@ function ladyDressKind(now){
   now = now || new Date(); const m = now.getMonth(), d = now.getDate();
   if((m === 11 && d >= 24 && d <= 30) || (m === 0 && d === 6)) return 'plaid';
   if((m === 11 && d === 31) || (m === 0 && d === 1)) return 'celadon2';
+  if(m === 11 && d <= 23) return 'advent'; // 20.11.2026: Advent = red jacket with green velvet skirt (picture of the user)
   const e = easterSunday(now.getFullYear()), is = add=>{ const x = new Date(e.getFullYear(), e.getMonth(), e.getDate() + add); return x.getMonth() === m && x.getDate() === d; }; // calendar days (no trouble with summer time)
   if(is(0) || is(1)) return 'emerald2';
-  // 20.11.2026 (wish of the user): no own Pentecost dress any more – Pentecost wears the everyday outfit
+  if(is(49) || is(50)) return 'embroidered-white'; // 20.11.2026 (wish of the user): the white embroidered dress only at Pentecost
   // everyday: one outfit each day, in turn. Since 1.99.0 by season (wish of the user): short sleeves or none in summer, long sleeves in
   // autumn and winter, in spring both. The feast-day dresses above stay as they are. The bow blouse now with green slingbacks.
   // 1.11.2026 (wish of the user): out are the red dress with cardigan, green paisley, carpet skirt with sweater, red sleeveless and the carpet halter
-  const SUMMER = ['burgundy', 'blouse-green', 'blouse-navy2', 'embroidered-white']; // 28.10.2026: new blouse outfits, the pink one is gone
+  const SUMMER = ['burgundy', 'blouse-green', 'blouse-navy2']; // 20.11.2026: embroidered-white only at Pentecost // 28.10.2026: new blouse outfits, the pink one is gone
   const WINTER = ['embroidered-cardigan', 'military']; // 20.11.2026 (wish of the user): bow blouse and sailor jeans are out
   const sn = roomSeason(now), list = sn === 'summer' ? SUMMER : sn === 'spring' ? SUMMER.concat(WINTER) : WINTER;
   return list[Math.floor(Date.UTC(now.getFullYear(), m, d) / 864e5) % list.length];
@@ -9320,7 +9322,7 @@ function ladyDressKind(now){
 // 2.12.1: where the back foot of each Lady stand ends (share of the picture height, measured); long gowns reach the floor
 const DRESS_BF = { 'blouse-green2':0.868, 'blouse-navy':0.86, 'blouse-navy3':0.836, 'blouse-pink':0.855, 'bow-green':0.806, 'bow-slingback2':0.868, burgundy:0.845,
   'carpet-halter':0.888, 'carpet-sweater':0.864, celadon:0.99, celadon2:0.99, 'embroidered-cardigan':0.861, 'embroidered-white':0.852, emerald:0.99, emerald2:0.99,
-  military:0.836, 'paisley-green':0.892, pentecost2:0.874, plaid:0.99, 'red-cardigan':0.865, 'red-sleeveless':0.885, 'sailor-jeans':0.82, shoes:0.894 };
+  military:0.836, advent:0.84, 'paisley-green':0.892, pentecost2:0.874, plaid:0.99, 'red-cardigan':0.865, 'red-sleeveless':0.885, 'sailor-jeans':0.82, shoes:0.894 };
 function dressBf(kind){ if(!RETREAT) return 0.933; const f = kind === 'wide' ? 'shoes' : (RT_DRESS_FILE[kind] || kind); return DRESS_BF[f] || 0.86; }
 function gentDressKind(now){
   now = now || new Date(); const m = now.getMonth(), d = now.getDate(), k = holidayKey(now);
