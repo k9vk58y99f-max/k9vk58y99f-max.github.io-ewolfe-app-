@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 18.11.2026 (Version 2.23.0 auf `main`, Push steht aus; Supabase-Migration `coach_license` ist schon live) – zuerst lesen
+## Übergabe – Stand 18.11.2026 (Version 2.23.1 auf `main`, Push steht aus; Supabase-Migration `coach_license` ist schon live) – zuerst lesen
 - **Zuletzt (2.20.0):** Lebensfreude als Regler mit der Sonne als Knopf (siehe Versionseintrag).
 - **Davor (2.19.0):** Persönlichkeitstest mit sechs Antworten ohne Mitte; alte Ergebnisse/Entwürfe mit fünf bleiben gültig (`steps`). Handoff-Nachtrag vom 16.11.2026.
 - **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
@@ -212,7 +212,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.23.0`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.23.1`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1312,6 +1312,9 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     die beim Start gezeigte Trophäe leuchtet dort (`libGlow`). Schalter in den Einstellungen → Bibliothek: „Neue Trophäen und Ränge beim Öffnen der App zeigen“ (`state.settings.startNews`, je Gerät).
     **Dankbarkeit im geführten Tagebuch** (die drei Zeilen „Dafür bin ich dankbar“, `page.guided.dank0–2`, nicht in Notizbüchern) zählt für die Dankbarkeits-Trophäen wie die Übung,
     höchstens einmal am Tag (`gratDiaryTs` in `trophyEvents`); gilt rückwirkend. Test `t2230-start.py` in `eWolfe-Skripte` (Chromium + WebKit, 10 Prüfungen).
+- **2.23.1 (20.11.2026) Lady-Kleider aussortiert (Wunsch der Nutzerin, Übersicht `vorschlag/lady-kleider-alle.png`):** aus dem Wechsel (`ladyDressKind`) genommen:
+    Schluppenbluse (`bow-slingback2`), Matrosen-Jeans (`sailor-jeans`) und das Pfingstkleid (`pentecost2`; Pfingsten trägt jetzt das Alltagsoutfit). Herbst/Winter
+    nur noch `embroidered-cardigan`, `military`. Military soll neu kommen (Rock mindestens 25 % weniger weit; Prompt im Chat vom 20.11.2026). Bilder bleiben im Ordner.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 
