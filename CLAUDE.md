@@ -11,7 +11,7 @@ Der Nutzer ist kein Entwickler. Erkläre Schritte einfach und auf Deutsch.
 eWolfe ist **kein Ein-Personen-Projekt**: Die Nutzerin hatte beim Bau große Hilfe (Betreiber: eWolfe GbR). Nie als Werk einer einzelnen
 Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen); wer zum Team gehört, nicht raten.
 
-## Übergabe – Stand 18.11.2026 (Version 2.23.4 auf `main`, Push steht aus; Supabase-Migration `coach_license` ist schon live) – zuerst lesen
+## Übergabe – Stand 21.11.2026 (Version 2.23.5 auf `main`, Push steht aus; Supabase-Migration `coach_license` ist schon live) – zuerst lesen
 - **Zuletzt (2.20.0):** Lebensfreude als Regler mit der Sonne als Knopf (siehe Versionseintrag).
 - **Davor (2.19.0):** Persönlichkeitstest mit sechs Antworten ohne Mitte; alte Ergebnisse/Entwürfe mit fünf bleiben gültig (`steps`). Handoff-Nachtrag vom 16.11.2026.
 - **Sitzung 14.–16.11.2026 (2.11.1 → 2.18.1), Kurzfassung – Einzelheiten in den Versionseinträgen unten:** Persönlichkeitsrad rund mit Ring;
@@ -212,7 +212,7 @@ Person beschreiben (auch nicht im Ältestenrat, in Analysen oder Präsentationen
 - Veröffentlicht über **GitHub Pages** aus diesem Repository (Branch `main`, Ordner `/`):
   https://k9vk58y99f-max.github.io/k9vk58y99f-max.github.io-ewolfe-app-/
 - Ein Commit + Push auf `main` ist die Veröffentlichung; nach 1–2 Minuten ist es live.
-- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.23.4`) und `APP_BUILD` anpassen.
+- Bei jeder Änderung `APP_VERSION` erhöhen (aktuell `2.23.5`) und `APP_BUILD` anpassen.
   Die Version steht unten in der App.
 
 ## Neu seit 1.55.0 (iPad, Wischen, Tagebuch, Sticker, Impulskarten)
@@ -1321,6 +1321,7 @@ Vor jedem Push: Syntax prüfen und die betroffenen Abläufe testen. Daten des Nu
     Versuche, Kleider per Prompt in den 50er-Jahre-Stil zu bringen, hat die Nutzerin verworfen. Bild: `vorschlag/lady-advent-pfingsten.png`.
 - **2.23.3 (20.11.2026):** Military (`military`) aus dem Wechsel (Wunsch der Nutzerin). Herbst/Winter-Alltag nur noch Bestickt mit Strickjacke (`embroidered-cardigan`), Frühling dazu die drei Sommer-Outfits.
 - **2.23.4 (20.11.2026) Lange Lady-Kleider gleich groß wie der Alltag (Hinweis der Nutzerin):** Kariert, Seladon, Smaragd reichen bis zum Boden (`--bf` 0,99), die Figur war dadurch ~15 % größer (Kopf des Ständers 66 px höher). Jetzt `--dh` × 0,86 für `dress-plaid|celadon2|emerald2|celadon|emerald`; Kopf auf gleicher Höhe, Hund passt sitzend und liegend. Neue Kleider immer an der Höhe des Ständerkopfs prüfen. Bild `vorschlag/lady-lange-kleider.png`.
+- **2.23.5 (21.11.2026) Alle Lady-Schneiderbüsten gleich (Hinweis der Nutzerin: „alle haben andere Proportionen“):** In den Bildern steckten zwei Büsten-Größen (Blusen, Advent, Seladon, Smaragd ~20 % größer auf kürzerem Ständer). Alle neun Outfits neu als `rt2/dress-<datei>-p.webp` (`RT_DRESS_FILE` per `Object.assign`): Hals gleich breit (46 px), Ständerkopf gleich hoch, Füße auf derselben Linie (y 930); zu kurz → Holzstab verlängert, zu lang → Rock gestaucht (höchstens 10 % der Höhe), Schuhe unverändert. Kariert steht ~2 % höher (sonst zu stark gestaucht), Grau an den Schuhen entfernt. `DRESS_BF` je `-p`-Bild (0,845, Kariert 0,891), die Regel `--dh` × 0,86 von 2.23.4 entfällt. Broschen neu gesetzt (`.dress-<art>` `--bx/--by`); von Hand verschobene Broschen merken sich ihre Lage jetzt je Bild (`broochKey`), starten also neu. Skripte `norm.py` (Angleichen), `degrey.py` (Grau an Schuhen) in `Lebensrad APP/eWolfe-Skripte/`. Bild `vorschlag/lady-bueste-gleich.png`.
 - **Noch offen (Datenschutz):** Speicher-Erinnerung (80 %/90 %), verschlüsseltes Backup + monatliche Erinnerung, Fotos einzeln
   im Supabase-Speicher; Platzhalter der Datenschutzerklärung füllen und rechtlich prüfen lassen; AVV und SMTP bei Supabase.
 

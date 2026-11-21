@@ -1716,6 +1716,16 @@ html.theme-retreat .dress-medal img{ height:calc(var(--dh) * 0.026); }
 .lib-dress-wrap.dress-sailor-jeans{ --bx:61%; --by:14%; }
 .lib-dress-wrap.dress-military{ --bx:66%; --by:14%; }
 .lib-dress-wrap.dress-advent{ --bx:66%; --by:14%; }
+/* 20.11.2026: brooch places on the '-p' pictures (same dress forms) */
+.lib-dress-wrap.dress-burgundy{ --bx:50.3%; --by:10.4%; }
+.lib-dress-wrap.dress-blouse-green{ --bx:62.3%; --by:10.9%; }
+.lib-dress-wrap.dress-blouse-navy2{ --bx:62.1%; --by:11.3%; }
+.lib-dress-wrap.dress-embroidered-cardigan{ --bx:63.8%; --by:14.6%; }
+.lib-dress-wrap.dress-embroidered-white{ --bx:62.2%; --by:13.1%; }
+.lib-dress-wrap.dress-advent{ --bx:66.2%; --by:11.9%; }
+.lib-dress-wrap.dress-plaid{ --bx:50.1%; --by:16.0%; }
+.lib-dress-wrap.dress-celadon2{ --bx:51.3%; --by:13.8%; }
+.lib-dress-wrap.dress-emerald2{ --bx:50.4%; --by:18.1%; }
 .lib-dress-wrap.dress-carpet-sweater{ --bx:60%; --by:15%; }
 .lib-dress-wrap.dress-bow-slingback{ --bx:56%; --by:12.5%; } /* at the bottom of the V between the cups (marked by the user) */
 .lib-dress-wrap.dress-emerald .dress-watch, .lib-dress-wrap.dress-celadon .dress-watch{ left:30%; top:25.5%; }
@@ -2034,9 +2044,7 @@ html.theme-biz:not(.theme-retreat) .tb-page :is(.tb-g-head, .tb-g-part-h, .tb-da
    bookcase below its plinth line, so nothing floats. */
 html .lib-row .lib-dress-wrap{ --lhh:calc(var(--sw) / var(--sa, 0.39)); }
 html.theme-retreat .lib-row .lib-dress-wrap{ --dh:calc(var(--lhh) * 0.767); /* 16.11.2026: 1.77 m instead of 1.72 m (wish of the user) */ margin-bottom:calc(var(--lhh) * 0.01 - var(--dh) * (1 - var(--bf, 0.86))) !important; }
-/* 20.11.2026 (wish of the user): the long gowns reach the floor (no stand foot showing, --bf 0.99), so at full height the figure was about 15 % taller
-   than in the everyday outfits, whose stand foot is at 0.84–0.87 of the picture. Same height of the figure: 0.86 of the height. */
-html.theme-retreat .lib-row .lib-dress-wrap:is(.dress-plaid, .dress-celadon2, .dress-emerald2, .dress-celadon, .dress-emerald){ --dh:calc(var(--lhh) * 0.767 * 0.86); }
+/* 20.11.2026: the long gowns no longer need their own height – all outfits in use have the same dress form ('-p' pictures) */
 html.theme-biz:not(.theme-retreat) .lib-row .lib-dress-wrap{ --dh:calc(var(--lhh) * 0.845); margin-bottom:calc(var(--lhh) * 0.01 - var(--dh) * 0.067) !important; }
 /* the dogs: sitting and lying the same dog – measured by the eyes and the paws (gentleman: 34 % / 12.5 % already match).
    the head counts more than the paws (wish of the user): Lady lying (head up) 20 %; A Mystery World 10 % bigger in both (37 % / 14 %, heads match) */
@@ -2862,7 +2870,7 @@ html.theme-biz.theme-cca.theme-cca-light :is(.tb-tools-fab, .tb-del-fab) img, ht
 
 <script>
 /* Bump on every published update, so it's visible at a glance whether the newest version is loaded. */
-const APP_VERSION = '2.23.4';
+const APP_VERSION = '2.23.5';
 /* Design (since 1.80.0, see the small script in <head>): in "Business" (BIZ) the gold paper icons are swapped for plain line
    icons (img/icons-rl/*.svg) wherever they appear – also in everything drawn later – so the rest of the code stays as it is. */
 // A Lady's Conservatory (1.84.0, named so since 1.86.1; key 'retreat' and RETREAT stay): light, cream and forest green; until its own pictures come it uses those of A Gentleman's Study (with the
@@ -9304,6 +9312,9 @@ let trophyCur = null;
 // 3.11.2026 (wish of the user): every Lady bust has the copper finial – the two blouse outfits had a gold one (recoloured, new files),
 // Nr. 1 (bow-slingback) and Nr. 17 (pentecost, now mid-calf) are new pictures of the user; the kind (brooch place) stays the same
 const RT_DRESS_FILE = { 'blouse-green':'blouse-green2', 'blouse-navy2':'blouse-navy3', 'bow-slingback':'bow-slingback2', 'pentecost':'pentecost2' };
+// 20.11.2026 (wish of the user: all dress forms alike): the outfits in use as '-p' pictures – the same bust (neck 46 px), the top of the stand at the
+// top, the floor at 0.845 of the picture; for this the stand pole was lengthened or the skirt shortened a little (script norm.py in eWolfe-Skripte)
+Object.assign(RT_DRESS_FILE, {"burgundy": "burgundy-p", "blouse-green": "blouse-green2-p", "blouse-navy2": "blouse-navy3-p", "embroidered-cardigan": "embroidered-cardigan-p", "embroidered-white": "embroidered-white-p", "advent": "advent-p", "plaid": "plaid-p", "celadon2": "celadon2-p", "emerald2": "emerald2-p"});
 function ladyDressKind(now){
   now = now || new Date(); const m = now.getMonth(), d = now.getDate();
   if((m === 11 && d >= 24 && d <= 30) || (m === 0 && d === 6)) return 'plaid';
@@ -9325,7 +9336,7 @@ function ladyDressKind(now){
 // 2.12.1: where the back foot of each Lady stand ends (share of the picture height, measured); long gowns reach the floor
 const DRESS_BF = { 'blouse-green2':0.868, 'blouse-navy':0.86, 'blouse-navy3':0.836, 'blouse-pink':0.855, 'bow-green':0.806, 'bow-slingback2':0.868, burgundy:0.845,
   'carpet-halter':0.888, 'carpet-sweater':0.864, celadon:0.99, celadon2:0.99, 'embroidered-cardigan':0.861, 'embroidered-white':0.852, emerald:0.99, emerald2:0.99,
-  military:0.836, advent:0.84, 'paisley-green':0.892, pentecost2:0.874, plaid:0.99, 'red-cardigan':0.865, 'red-sleeveless':0.885, 'sailor-jeans':0.82, shoes:0.894 };
+  military:0.836, advent:0.84, 'burgundy-p':0.845, 'blouse-green2-p':0.845, 'blouse-navy3-p':0.845, 'embroidered-cardigan-p':0.845, 'embroidered-white-p':0.845, 'advent-p':0.845, 'plaid-p':0.891, 'celadon2-p':0.845, 'emerald2-p':0.845, 'paisley-green':0.892, pentecost2:0.874, plaid:0.99, 'red-cardigan':0.865, 'red-sleeveless':0.885, 'sailor-jeans':0.82, shoes:0.894 };
 function dressBf(kind){ if(!RETREAT) return 0.933; const f = kind === 'wide' ? 'shoes' : (RT_DRESS_FILE[kind] || kind); return DRESS_BF[f] || 0.86; }
 function gentDressKind(now){
   now = now || new Date(); const m = now.getMonth(), d = now.getDate(), k = holidayKey(now);
@@ -9338,8 +9349,9 @@ function broochesReached(){ return trophyList().filter(x=>x.group === 'ex' && x.
 function broochWorn(){ const got = broochesReached(); return got.find(x=>x.id === state.settings.brooch) || got[got.length - 1] || null; }
 /* 1.99.0: the brooch can be moved on the dress with a finger or the mouse; the place is kept per outfit on this device */
 let broochDragged = false;
+function broochKey(kind){ return kind && RETREAT ? (RT_DRESS_FILE[kind] || kind) : kind; } // per picture: a new picture of an outfit starts at its own place
 function broochPosStyle(kind){
-  const p = kind && state.settings.broochPos && state.settings.broochPos[kind];
+  kind = broochKey(kind); const p = kind && state.settings.broochPos && state.settings.broochPos[kind];
   return p ? ` style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}%"` : '';
 }
 document.addEventListener('pointerdown', e=>{
@@ -9362,7 +9374,7 @@ document.addEventListener('pointerdown', e=>{
     b.classList.remove('dragging');
     if(broochDragged){
       const kind = b.dataset.kind || 'x';
-      state.settings.broochPos = Object.assign({}, state.settings.broochPos || {}, { [kind]:{ x:parseFloat(b.style.left), y:parseFloat(b.style.top) } });
+      state.settings.broochPos = Object.assign({}, state.settings.broochPos || {}, { [broochKey(kind)]:{ x:parseFloat(b.style.left), y:parseFloat(b.style.top) } });
       saveState();
       setTimeout(()=>{ broochDragged = false; }, 50); // the click that follows the drag does not open the trophy
     }
